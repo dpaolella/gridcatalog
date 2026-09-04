@@ -1,0 +1,136 @@
+# Local production-shaped stack. `make up`.
+#
+# The application does not require any of these to run: the default backends are
+# in-process (ADR-0002). Bring this up when you want to exercise the production
+# path — Fuseki's TDB2 behaviour, OpenSearch's analyzers, Postgres dialect.
+
+name: opengrid-datahub
+
+services:
+  fuseki:
+    image: stain/jena-fuseki:5.1.0
+    environment:
+      ADMIN_PASSWORD: ${FUSEKI_PASSWORD:-admin}
+      JVM_ARGS: -Xmx2g
+      FUSEKI_DATASET_1: datahub
+    ports: ["3030:3030"]
+    volumes:
+      - fuseki-data:/fuseki
+      - ./fuseki/config.ttl:/fuseki/config.ttl:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3030/$/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  opensearch:
+    image: opensearchproject/opensearch:2.17.1
+    environment:
+      discovery.type: single-node
+      DISABLE_SECURITY_PLUGIN: "true"
+      OPENSEARCH_JAVA_OPTS: -Xms1g -Xmx1g
+      bootstrap.memory_lock: "true"
+    ulimits:
+      memlock: { soft: -1, hard: -1 }
+      nofile: { soft: 65536, hard: 65536 }
+    ports: ["9200:9200"]
+    volumes: [opensearch-data:/usr/share/opensearch/data]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-datahub}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-datahub}
+      POSTGRES_DB: ${POSTGRES_DB:-datahub}
+    ports: ["5432:5432"]
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-datahub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--appendonly", "no"]
+    ports: ["6379:6379"]
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ..
+      dockerfile: ops/Dockerfile
+    command: ["uvicorn", "datahub.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      DATAHUB_GRAPH_BACKEND: fuseki
+      DATAHUB_SEARCH_BACKEND: opensearch
+      DATAHUB_QUEUE_BACKEND: celery
+      DATAHUB_FUSEKI_URL: http://fuseki:3030
+      DATAHUB_FUSEKI_USER: admin
+      DATAHUB_FUSEKI_PASSWORD: ${FUSEKI_PASSWORD:-admin}
+      DATAHUB_OPENSEARCH_URL: http://opensearch:9200
+      DATAHUB_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-datahub}:${POSTGRES_PASSWORD:-datahub}@postgres:5432/${POSTGRES_DB:-datahub}
+      DATAHUB_REDIS_URL: redis://redis:6379/0
+    ports: ["8000:8000"]
+    depends_on:
+      fuseki: { condition: service_healthy }
+      opensearch: { condition: service_healthy }
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+
+  worker:
+    build:
+      context: ..
+      dockerfile: ops/Dockerfile
+    command: ["celery", "-A", "datahub.worker.app", "worker", "-l", "info", "-Q", "harvest,projector,probe,semantic"]
+    environment:
+      DATAHUB_GRAPH_BACKEND: fuseki
+      DATAHUB_SEARCH_BACKEND: opensearch
+      DATAHUB_QUEUE_BACKEND: celery
+      DATAHUB_FUSEKI_URL: http://fuseki:3030
+      DATAHUB_FUSEKI_USER: admin
+      DATAHUB_FUSEKI_PASSWORD: ${FUSEKI_PASSWORD:-admin}
+      DATAHUB_OPENSEARCH_URL: http://opensearch:9200
+      DATAHUB_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-datahub}:${POSTGRES_PASSWORD:-datahub}@postgres:5432/${POSTGRES_DB:-datahub}
+      DATAHUB_REDIS_URL: redis://redis:6379/0
+    depends_on:
+      api: { condition: service_started }
+
+  beat:
+    build:
+      context: ..
+      dockerfile: ops/Dockerfile
+    command: ["celery", "-A", "datahub.worker.app", "beat", "-l", "info"]
+    environment:
+      DATAHUB_QUEUE_BACKEND: celery
+      DATAHUB_REDIS_URL: redis://redis:6379/0
+      DATAHUB_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-datahub}:${POSTGRES_PASSWORD:-datahub}@postgres:5432/${POSTGRES_DB:-datahub}
+    depends_on:
+      redis: { condition: service_healthy }
+
+  web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
+      DATAHUB_API_INTERNAL_URL: http://api:8000
+    ports: ["3000:3000"]
+    depends_on:
+      api: { condition: service_started }
+
+volumes:
+  fuseki-data:
+  opensearch-data:
+  postgres-data:
+  redis-data:

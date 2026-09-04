@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Node / Next.js
+node_modules/
+web/.next/
+web/out/
+web/.turbo/
+*.tsbuildinfo
+.npm/
+
+# Local state
+*.db
+*.sqlite
+*.sqlite3
+.env
+.env.local
+.env.*.local
+var/
+data/local/
+ops/fuseki/databases/
+ops/fuseki/run/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Playwright
+test-results/
+playwright-report/
+blob-report/

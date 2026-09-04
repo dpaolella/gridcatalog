@@ -1,0 +1,951 @@
+# OpenGrid Data Hub 1.0 - Catalog Acquisition Seed
+#
+# Two sections:
+#   harvest_sources : machine-readable catalogs the harvester crawls to get breadth.
+#   seed_datasets   : hand-curated anchor datasets per data domain, used to bootstrap
+#                     the catalog and to act as the golden set for harvester QA.
+#
+# Provenance of the DD1/DD5/DD8/DD9 entries: OpenGrid Tier 1/2/3 feasibility analysis
+# (Notion, "What data domains will OpenGrid cover"). Those entries are marked
+# verified: true.
+#
+# Provenance of the DD2/DD3/DD4/DD6/DD7/DD10 entries: assembled for this PRD. They have
+# NOT been through the same license and access-path review. Every one carries
+# verified: false and MUST go through the review queue before it is published to the
+# catalog. Do not treat the license or tier fields on unverified rows as authoritative.
+
+schema_version: "0.1.0"
+
+# ---------------------------------------------------------------------------
+# 1. HARVEST SOURCES
+# ---------------------------------------------------------------------------
+# The catalog gets breadth from harvesting, not from hand-authoring. Each source
+# below already publishes structured metadata. The harvester pulls it, the
+# normalizer maps it onto the OpenGrid metadata schema, an LLM drafts the missing
+# fields, and a human confirms. See README section 7.
+
+harvest_sources:
+
+  - id: oedi
+    name: Open Energy Data Initiative / OpenEI
+    adapter: ckan
+    endpoint: https://data.openei.org/api/3
+    scale_estimate: 2100
+    domains: [DD1, DD2, DD4, DD5, DD6, DD9, DD10]
+    license_field: license_id
+    notes: >
+      Highest-value single source. ~2,100 datasets, ~227 providers, DOE and national-lab
+      output including NSRDB, WIND Toolkit, ResStock/ComStock, Cambium, ATB.
+      Confirm the CKAN base path at build time; OpenEI has both a wiki and a CKAN
+      surface and the API root has moved before.
+    priority: 1
+
+  - id: aws_open_data
+    name: AWS Registry of Open Data
+    adapter: yaml_repo
+    endpoint: https://github.com/awslabs/open-data-registry
+    path_glob: "datasets/*.yaml"
+    scale_estimate: 400
+    domains: [DD5, DD10]
+    notes: >
+      Every dataset is a YAML file with Description, Documentation, License,
+      Resources (bucket, region, type). Resources map almost one-to-one onto our
+      Distribution object. Filter to energy/climate/weather/geospatial tags.
+      Also the route to AWS Open Data Sponsorship for anything OpenGrid hosts.
+    priority: 1
+
+  - id: zenodo
+    name: Zenodo
+    adapter: zenodo_api
+    endpoint: https://zenodo.org/api/records
+    queries:
+      - communities=pypsa
+      - q=power+system+model+data&type=dataset
+      - q=energy+system+model&type=dataset
+      - q=transmission+network+dataset&type=dataset
+    scale_estimate: 300
+    domains: [DD1, DD2, DD5, DD9]
+    notes: >
+      Where the modeling community actually publishes. DOIs, explicit licenses,
+      version chains that map directly onto og:supersedes / og:supersededBy.
+      Zenodo concept-DOI vs version-DOI distinction maps to D1.
+    priority: 1
+
+  - id: energydata_info
+    name: World Bank energydata.info
+    adapter: ckan
+    endpoint: https://energydata.info/api/3
+    scale_estimate: 1000
+    domains: [DD1, DD2, DD5, DD10]
+    notes: Strong non-OECD coverage, which is exactly where DD1 is thinnest.
+    priority: 1
+
+  - id: open_energy_platform
+    name: Open Energy Platform (OEP)
+    adapter: oep_api
+    endpoint: https://openenergyplatform.org/api/v0
+    scale_estimate: 400
+    domains: [DD1, DD2, DD5, DD8]
+    notes: >
+      German/EU focus. Already uses the Open Energy Ontology (OEO), so its concept
+      annotations are a direct input to our SKOS crosswalk rather than something to
+      re-derive. Highest-value source for controlled-vocabulary bootstrapping.
+    priority: 1
+
+  - id: eu_open_data_portal
+    name: data.europa.eu
+    adapter: dcat_sparql
+    endpoint: https://data.europa.eu/sparql
+    scale_estimate: 800
+    domains: [DD2, DD4, DD8, DD10]
+    notes: Native DCAT-AP. Lowest normalization cost of any source here.
+    priority: 2
+
+  - id: data_gov
+    name: data.gov
+    adapter: ckan
+    endpoint: https://catalog.data.gov/api/3
+    scale_estimate: 600
+    domains: [DD2, DD3, DD4, DD8, DD10]
+    notes: >
+      Filter by organization (EIA, EPA, FERC, DOE, USGS, NREL) and by energy tags.
+      Check availability and completeness at build time; federal catalog coverage
+      has been volatile and some records now point at dead endpoints. Treat
+      link-health probing as mandatory on this source, not optional.
+    priority: 2
+
+  - id: pangeo_forge_stac
+    name: Pangeo / Planetary Computer STAC
+    adapter: stac
+    endpoint: https://planetarycomputer.microsoft.com/api/stac/v1
+    scale_estimate: 130
+    domains: [DD5, DD10]
+    notes: >
+      STAC collections carry bbox, temporal extent, and asset-level media types.
+      Maps cleanly onto D14/D15 and onto the partial-read metadata in FR8 of
+      Ingestion. Use STAC as the geospatial normalization target.
+    priority: 2
+
+  - id: earth_search_stac
+    name: Element 84 Earth Search STAC
+    adapter: stac
+    endpoint: https://earth-search.aws.element84.com/v1
+    scale_estimate: 20
+    domains: [DD10]
+    priority: 3
+
+  - id: copernicus_cds
+    name: Copernicus Climate Data Store
+    adapter: cds_catalogue
+    endpoint: https://cds.climate.copernicus.eu/api
+    scale_estimate: 100
+    domains: [DD5]
+    notes: ERA5 and friends. Account-gated, so most entries land Tier 2 on the access gate.
+    priority: 2
+
+  - id: datacite
+    name: DataCite
+    adapter: datacite_api
+    endpoint: https://api.datacite.org/dois
+    queries:
+      - "query=subject:(energy AND power AND grid)&resource-type-id=dataset"
+    scale_estimate: 500
+    domains: [DD1, DD2, DD5, DD9]
+    notes: Backstop for academic datasets not on Zenodo. High noise, aggressive filtering needed.
+    priority: 3
+
+# ---------------------------------------------------------------------------
+# 2. SEED DATASETS
+# ---------------------------------------------------------------------------
+
+seed_datasets:
+
+  # =========================================================================
+  # DD1 - Network topology and parameters
+  # =========================================================================
+  DD1:
+    domain_name: Network topology & parameters
+    structural_note: >
+      Investment-grade US transmission network data is CEII-designated and permanently
+      out of reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic
+      topology. State this in the domain page rather than letting users discover it.
+    datasets:
+      - name: Global Transmission Database (Brinkerink et al. 2024)
+        tier: 1
+        license: CC-BY-4.0
+        provenance: curated
+        access: https://zenodo.org/records/15527469
+        doi: 10.1016/j.dib.2024.110420
+        format: CSV
+        anonymous: true
+        bulk: true
+        note: Zonal MW transfer limits by country and voltage class. No bus-branch, no impedance.
+        verified: true
+      - name: OpenStreetMap power infrastructure (via earth-osm)
+        tier: 2
+        license: ODbL-1.0
+        provenance: osm-derived
+        access: https://pypi.org/project/earth-osm
+        secondary_access: https://overpass-api.de
+        format: CSV, GeoJSON
+        anonymous: true
+        bulk: true
+        note: Share-alike obligation propagates to anything OpenGrid hosts downstream.
+        verified: true
+      - name: PyPSA-Eur Grid Dataset (pre-built OSM network)
+        tier: 2
+        license: MIT (code), ODbL-1.0 (data)
+        provenance: osm-derived + curated
+        access: https://zenodo.org/records/13358976
+        format: CSV (buses, lines, links, transformers, substations)
+        anonymous: true
+        bulk: true
+        note: Electrical parameters estimated from voltage-class lookup, not measured. Flag as C6 modeled.
+        verified: true
+      - name: PyPSA-Earth Global Grid Dataset
+        tier: 2
+        license: MIT (code), ODbL-1.0 (data)
+        provenance: osm-derived
+        access: https://github.com/pypsa-meets-earth/pypsa-earth
+        format: PyPSA standard
+        anonymous: true
+        note: ~193 countries. Coverage quality varies with OSM completeness and is not documented per country.
+        verified: true
+      - name: TAMU Synthetic Grid Data
+        tier: 2
+        license: open access, no formal license stated
+        provenance: synthetic
+        access: https://electricgrids.engr.tamu.edu/electric-grid-test-cases/
+        format: PSSE RAW, MATPOWER
+        anonymous: true
+        bulk: true
+        verified: true
+      - name: WECC / FERC CEII Transmission Data
+        tier: 3
+        license: CEII-designated (18 CFR 388.113)
+        access_barrier: restricted
+        pointer_rationale: NDA plus FERC clearance. Permanently out of reach. Catalog as a documented gap.
+        verified: true
+      - name: HIFLD
+        tier: 3
+        license: US Government public domain
+        pointer_rationale: >
+          Access surface has changed. Verify current endpoint and whether the power
+          infrastructure layers are still public before cataloging.
+        verified: true
+      - name: NREL ReEDS Transmission Network
+        tier: 3
+        verified: true
+      - name: ENTSO-E Grid Map
+        tier: 3
+        pointer_rationale: PDF only, positions not geographically accurate.
+        verified: true
+      - name: PLEXOS-World 2015
+        tier: 3
+        license: CC0
+        pointer_rationale: Stale vintage.
+        verified: true
+      - name: GridKit
+        tier: 3
+        pointer_rationale: 2016 vintage, superseded by PyPSA-Eur OSM extraction.
+        verified: true
+      - name: SciGRID (German HV Tx Network)
+        tier: 3
+        pointer_rationale: 2017 vintage, superseded.
+        verified: true
+      # --- additions beyond the four-domain analysis ---
+      - name: PowerGridLib / pglib-opf
+        tier: 1
+        license: CC-BY-4.0
+        provenance: curated benchmark
+        access: https://github.com/power-grid-lib/pglib-opf
+        format: MATPOWER
+        anonymous: true
+        bulk: true
+        note: >
+          The AC-OPF benchmark corpus. High value as a validation and benchmarking
+          anchor and as a worked example of a versioned, community-governed artifact.
+        verified: false
+      - name: Sienna / SiennaGridDB reference systems
+        tier: 1
+        license: BSD-3-Clause
+        access: https://github.com/NREL-Sienna
+        note: OpenGrid's own hub schema. Catalog it so the schema and its artifacts are discoverable together.
+        verified: false
+      - name: MATPOWER case archive
+        tier: 2
+        license: BSD-3-Clause
+        access: https://matpower.org
+        verified: false
+      - name: Open Energy Ontology / OEP grid tables
+        tier: 2
+        license: varies per table
+        access: https://openenergyplatform.org
+        verified: false
+
+  # =========================================================================
+  # DD2 - Generator fleet
+  # =========================================================================
+  DD2:
+    domain_name: Generator fleet
+    structural_note: >
+      Unit-level global coverage is genuinely good here, unlike DD1. The binding
+      constraint is entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS
+      codes and ENTSO-E EIC codes, not availability. This domain is the strongest
+      argument for the identifier-reconciliation work.
+    datasets:
+      - name: EIA-860 (Annual Electric Generator Report)
+        tier: 1
+        license: US Government public domain
+        provenance: primary
+        access: https://www.eia.gov/electricity/data/eia860/
+        api: https://api.eia.gov/v2
+        format: XLSX, CSV, API
+        anonymous: true
+        bulk: true
+        verified: false
+      - name: EIA-923 (Power Plant Operations Report)
+        tier: 1
+        license: US Government public domain
+        access: https://www.eia.gov/electricity/data/eia923/
+        verified: false
+      - name: EPA eGRID
+        tier: 1
+        license: US Government public domain
+        access: https://www.epa.gov/egrid
+        note: Emission rates by plant and by eGRID subregion. Annual, lagged ~2 years.
+        verified: false
+      - name: EPA CAMD Clean Air Markets (CAMPD)
+        tier: 1
+        license: US Government public domain
+        access: https://campd.epa.gov
+        api: https://api.epa.gov/easey
+        note: Hourly unit-level emissions and heat input. Best US source for heat-rate curves.
+        verified: false
+      - name: PUDL (Catalyst Cooperative)
+        tier: 1
+        license: CC-BY-4.0
+        access: https://data.catalyst.coop
+        note: >
+          Already does the EIA/FERC/EPA entity reconciliation OpenGrid needs. Treat as
+          both a dataset and a reference implementation for identifier crosswalks.
+        verified: true
+      - name: Global Energy Monitor Global Integrated Power Tracker
+        tier: 2
+        license: CC-BY-4.0
+        provenance: curated
+        access: https://globalenergymonitor.org/projects/global-integrated-power-tracker/download-data/
+        format: XLSX
+        anonymous: false
+        note: >
+          Form-gated download, so it fails the anonymous-access criterion and lands Tier 2
+          despite being otherwise model-ready. Unit-level global coverage across eight
+          technology trackers. Commercial-use exemption process exists separately.
+        verified: false
+      - name: ENTSO-E Transparency Platform (installed capacity, unit outages)
+        tier: 2
+        license: ENTSO-E Open Data Licence
+        access: https://transparency.entsoe.eu
+        anonymous: false
+        note: Free account required.
+        verified: true
+      - name: JRC Open Power Plants Database (JRC-PPDB-OPEN)
+        tier: 2
+        license: CC-BY-4.0
+        access: https://data.jrc.ec.europa.eu
+        verified: false
+      - name: Climate TRACE power sector
+        tier: 2
+        license: CC-BY-4.0
+        access: https://climatetrace.org/data
+        verified: false
+      - name: WRI Global Power Plant Database
+        tier: 3
+        license: CC-BY-4.0
+        pointer_rationale: >
+          v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT. Catalog as a
+          Tier 3 pointer with an explicit og:supersededBy link, which also exercises the
+          Currency & Maintenance grade end to end.
+        verified: false
+      - name: NERC GADS (Generating Availability Data System)
+        tier: 3
+        access_barrier: restricted
+        pointer_rationale: >
+          Membership-restricted. Unit outage rates are the single most requested
+          unavailable parameter in PCM work. Document the gap explicitly.
+        verified: false
+      - name: IBR inverter control models
+        tier: 3
+        access_barrier: proprietary
+        pointer_rationale: Vendor-proprietary. No open alternative exists.
+        verified: false
+
+  # =========================================================================
+  # DD3 - Interconnection queue & project pipeline
+  # =========================================================================
+  DD3:
+    domain_name: IC queue & project pipeline
+    structural_note: >
+      US-only in practice. No comparable international source exists. Every ISO
+      publishes its own schema, so this domain is entirely a Tier 2 normalization
+      problem. LBNL has already solved it once; do not re-solve it.
+    datasets:
+      - name: LBNL Queued Up (interconnection queue dataset)
+        tier: 1
+        license: CC-BY-4.0
+        provenance: curated
+        access: https://emp.lbl.gov/queues
+        format: XLSX, CSV
+        anonymous: true
+        bulk: true
+        note: >
+          Already harmonizes all seven US ISO/RTO queues plus non-ISO utilities into one
+          schema. This is the DD3 anchor. Annual refresh.
+        verified: false
+      - name: LBNL Utility-Scale Solar / Land-Based Wind Market Reports data
+        tier: 1
+        license: CC-BY-4.0
+        access: https://emp.lbl.gov/utility-scale-solar
+        verified: false
+      - name: CAISO interconnection queue
+        tier: 2
+        license: free, ISO terms
+        access: https://www.caiso.com/generation-transmission/interconnection-process
+        verified: false
+      - name: PJM Serial Service Requests / Cycle queue
+        tier: 2
+        access: https://www.pjm.com/planning/service-requests
+        verified: false
+      - name: MISO Generator Interconnection Queue
+        tier: 2
+        access: https://www.misoenergy.org/planning/generator-interconnection/GI_Queue/
+        verified: false
+      - name: ERCOT Generation Interconnection Status (GIS) report
+        tier: 2
+        access: https://www.ercot.com/gridinfo/resource
+        verified: false
+      - name: SPP Generator Interconnection Queue
+        tier: 2
+        access: https://www.spp.org/engineering/generator-interconnection/
+        verified: false
+      - name: ISO-NE Interconnection Request Queue
+        tier: 2
+        access: https://www.iso-ne.com/system-planning/transmission-planning/interconnection-request-queue
+        verified: false
+      - name: NYISO Interconnection Queue
+        tier: 2
+        access: https://www.nyiso.com/interconnections
+        verified: false
+      - name: GridStatus.io ISO data
+        tier: 2
+        license: mixed, verify per feed
+        access: https://www.gridstatus.io
+        note: >
+          Open-source python client plus a commercial API tier. Verify which feeds are
+          openly licensed before cataloging. Good candidate for a data-partner conversation
+          rather than a scrape.
+        verified: false
+      - name: Prior interconnection study results and upgrade cost allocations
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: >
+          PDF study reports, per-project, no consistent schema, frequently redacted.
+          Real demand exists but extraction cost is high. Defer past v1.
+        verified: false
+
+  # =========================================================================
+  # DD4 - Load & demand
+  # =========================================================================
+  DD4:
+    domain_name: Load & demand
+    structural_note: >
+      Hourly system-level load is well covered and openly licensed. Substation-level
+      and behind-the-meter data is not available anywhere at any price. Data-center
+      load projections are the fastest-moving gap and have no authoritative source.
+    datasets:
+      - name: EIA-930 Hourly Electric Grid Monitor
+        tier: 1
+        license: US Government public domain
+        provenance: primary
+        access: https://www.eia.gov/electricity/gridmonitor/
+        api: https://api.eia.gov/v2/electricity/rto
+        format: CSV, API
+        anonymous: true
+        bulk: true
+        note: Hourly demand, generation by fuel, and interchange by balancing authority. DD4 anchor for the US.
+        verified: false
+      - name: FERC Form 714 (hourly load by planning area)
+        tier: 2
+        license: US Government public domain
+        access: https://www.ferc.gov/industries-data/electric/general-information/electric-industry-forms/form-no-714-annual-electric/data
+        note: Available cleaned via PUDL. Prefer the PUDL distribution over the raw filing.
+        verified: false
+      - name: ENTSO-E Transparency Platform (actual total load, forecast load)
+        tier: 2
+        license: ENTSO-E Open Data Licence
+        access: https://transparency.entsoe.eu
+        anonymous: false
+        verified: true
+      - name: NREL ResStock / ComStock end-use load profiles
+        tier: 1
+        license: CC-BY-4.0
+        access: https://data.openei.org/submissions/4520
+        note: >
+          Also on the OEDI data lake in Parquet on anonymous S3. Strong partial-read
+          candidate and a good early test of the range-request access path.
+        verified: false
+      - name: EIA Residential / Commercial Energy Consumption Surveys (RECS, CBECS)
+        tier: 2
+        license: US Government public domain
+        access: https://www.eia.gov/consumption/
+        verified: false
+      - name: Open Power System Data time series
+        tier: 3
+        license: MIT
+        pointer_rationale: Last release 2020. Superseded by ENTSO-E direct and by newer aggregations.
+        verified: true
+      - name: Substation metered demand
+        tier: 3
+        access_barrier: restricted
+        pointer_rationale: Utility-confidential everywhere. No path.
+        verified: false
+      - name: Data center load projections
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: >
+          No authoritative open source. Currently scattered across consultancy reports and
+          utility IRP filings with mutually inconsistent assumptions. A documented gap and a
+          strong candidate for Data Hub 2.0 dataset generation.
+        verified: false
+
+  # =========================================================================
+  # DD5 - Renewable resource & weather
+  # =========================================================================
+  DD5:
+    domain_name: Renewable resource & weather
+    structural_note: >
+      The only domain where data volume, not availability, is the constraint. Broker to
+      existing cloud-native copies. Do not re-host the ERA5 archive.
+    datasets:
+      - name: ECMWF ERA5
+        tier: 1
+        license: Copernicus Licence v1.2
+        provenance: reanalysis
+        access: https://cds.climate.copernicus.eu
+        format: Zarr, NetCDF, GRIB
+        anonymous: true
+        bulk: true
+        note: CF-compliant Zarr on anonymous S3. Directly ingestible by atlite and xarray.
+        verified: true
+      - name: NASA MERRA-2
+        tier: 1
+        license: US Government public domain
+        access: https://disc.gsfc.nasa.gov
+        verified: true
+      - name: NREL NSRDB
+        tier: 1
+        license: CC-BY-3.0
+        access: https://data.openei.org/submissions/57
+        api: https://developer.nrel.gov/api/nsrdb
+        verified: true
+      - name: NREL WIND Toolkit
+        tier: 1
+        license: CC-BY-3.0
+        access: https://data.openei.org/submissions/54
+        verified: true
+      - name: PyPSA-Eur weather cutouts
+        tier: 1
+        license: CC-BY-4.0
+        access: https://zenodo.org/records/14936211
+        verified: true
+      - name: Global Solar Atlas
+        tier: 2
+        license: CC-BY-4.0
+        access: https://globalsolaratlas.info/download
+        note: Annual GHI averages in GeoTIFF. Needs a PV simulation step before any CEM can use it.
+        verified: true
+      - name: Global Wind Atlas
+        tier: 2
+        license: CC-BY-4.0
+        access: https://globalwindatlas.info/download
+        verified: true
+      - name: ENTSO-E Transparency Platform (renewable generation)
+        tier: 2
+        license: ENTSO-E Open Data Licence
+        access: https://transparency.entsoe.eu
+        anonymous: false
+        verified: true
+      - name: NREL PVWatts
+        tier: 3
+        pointer_rationale: Calculator, not an ingestible artifact.
+        verified: true
+      - name: Renewables.ninja
+        tier: 3
+        license: CC-BY-4.0
+        pointer_rationale: No bulk download path at scale.
+        verified: true
+      - name: PyPSA-Earth weather cutouts
+        tier: 3
+        verified: true
+      - name: OPSD (Open Power System Data)
+        tier: 3
+        pointer_rationale: 2020 vintage, unmaintained.
+        verified: true
+      - name: GridPath RA Toolkit (weather component)
+        tier: 3
+        pointer_rationale: License unresolved.
+        verified: true
+      - name: USGS Resource Maps
+        tier: 3
+        verified: true
+      - name: 4C Offshore Wind Database
+        tier: 3
+        access_barrier: commercial-paywall
+        verified: true
+      - name: Wood Mackenzie Wind/Solar
+        tier: 3
+        access_barrier: commercial-paywall
+        verified: true
+
+  # =========================================================================
+  # DD6 - Emerging technology parameters
+  # =========================================================================
+  DD6:
+    domain_name: Emerging technology parameters
+    structural_note: >
+      Almost no primary data. This domain is dominated by modeled and elicited
+      parameter sets, which makes the Provenance facet (grade B, derived and traced)
+      the norm rather than the exception. Say so on the domain page.
+    datasets:
+      - name: NREL ATB (storage and emerging technology tables)
+        tier: 1
+        license: CC-BY-4.0
+        access: https://atb.nrel.gov
+        note: Same source as DD9 cost data, different table subset. Model as one dataset with domain facets, not two records.
+        verified: true
+      - name: PNNL Energy Storage Cost and Performance Database
+        tier: 1
+        license: US Government public domain
+        access: https://www.pnnl.gov/ESGC-cost-performance
+        note: The most complete open source for LDES capex, RTE, degradation and cycle life.
+        verified: false
+      - name: DOE Global Energy Storage Database (Sandia)
+        tier: 2
+        license: US Government public domain
+        access: https://sandia.gov/ess-ssl/gesdb/public/
+        note: Verify the endpoint is still live. This database has had availability gaps.
+        verified: false
+      - name: NREL Storage Futures Study data
+        tier: 2
+        license: CC-BY-4.0
+        access: https://www.nrel.gov/analysis/storage-futures.html
+        verified: false
+      - name: IEA Global Hydrogen Review / Hydrogen Projects Database
+        tier: 2
+        license: custom IEA terms
+        access: https://www.iea.org/data-and-statistics/data-product/hydrogen-projects-database
+        verified: false
+      - name: ELCC studies by ISO
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: >
+          Published per-ISO as PDF study reports with incompatible methodologies.
+          Extraction is possible but the resulting values are not comparable across ISOs,
+          which is a modeling hazard rather than a service.
+        verified: false
+      - name: V2G parameters
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: Research-paper-level only. No canonical dataset.
+        verified: false
+
+  # =========================================================================
+  # DD7 - Fuel & commodity
+  # =========================================================================
+  DD7:
+    domain_name: Fuel & commodity
+    structural_note: >
+      Historical prices are open. Forward curves are uniformly commercial and will
+      remain so. Do not promise forward price coverage.
+    datasets:
+      - name: EIA Natural Gas prices and Short-Term Energy Outlook
+        tier: 1
+        license: US Government public domain
+        access: https://www.eia.gov/naturalgas/
+        api: https://api.eia.gov/v2/natural-gas
+        verified: false
+      - name: EIA Annual Energy Outlook (AEO)
+        tier: 1
+        license: US Government public domain
+        access: https://www.eia.gov/outlooks/aeo/
+        note: Full scenario tables available via API v2. High value as a scenario/assumption artifact.
+        verified: false
+      - name: World Bank Pink Sheet (commodity price data)
+        tier: 2
+        license: CC-BY-4.0
+        access: https://www.worldbank.org/en/research/commodity-markets
+        format: XLSX
+        note: Monthly XLSX, trivially convertible. Global coverage.
+        verified: true
+      - name: EU ETS / EEA EUTL
+        tier: 1
+        license: EEA re-use policy (CC-BY equivalent)
+        access: https://www.eea.europa.eu/en/datahub
+        verified: true
+      - name: RGGI auction results
+        tier: 2
+        license: free with attribution
+        access: https://www.rggi.org/auctions/auction-results
+        verified: false
+      - name: California / WCI cap-and-trade auction results
+        tier: 2
+        license: free with attribution
+        access: https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program/auction-information
+        verified: false
+      - name: ENTSOG Transparency Platform (gas pipeline capacity and flows)
+        tier: 2
+        license: ENTSOG terms
+        access: https://transparency.entsog.eu
+        verified: false
+      - name: EIA-176 / pipeline capacity data
+        tier: 2
+        license: US Government public domain
+        access: https://www.eia.gov/naturalgas/data.php
+        verified: false
+      - name: ICE / Platts / Argus forward curves
+        tier: 3
+        access_barrier: commercial-paywall
+        pointer_rationale: Redistribution prohibited. Permanent gap for forward-price modeling.
+        verified: false
+
+  # =========================================================================
+  # DD8 - Policy & regulatory
+  # =========================================================================
+  DD8:
+    domain_name: Policy & regulatory
+    structural_note: >
+      The only domain where the binding constraint is format, not license. NERC
+      standards, FERC orders and ISO capacity market rules are all freely accessible
+      and bulk-downloadable as PDFs. They fail only on model-readiness. Structured
+      extraction here is high-effort and high-value, and is the strongest argument
+      for an LLM-assisted extraction pipeline.
+    datasets:
+      - name: Ember Global Electricity Review + Renewable Target Tracker
+        tier: 1
+        license: CC-BY-4.0
+        access: https://ember-energy.org/data
+        api: https://api.ember-energy.org
+        verified: true
+      - name: ENTSO-E TYNDP Scenarios
+        tier: 1
+        license: CC-BY-4.0
+        access: https://2024.entsos-tyndp-scenarios.eu/download/
+        doi: 10.5281/zenodo.14230568
+        verified: true
+      - name: EU ETS / EEA EUTL
+        tier: 1
+        license: EEA re-use policy
+        access: https://www.eea.europa.eu/en/datahub
+        verified: true
+      - name: NERC Reliability Standards (TPL-001, MOD-032, FAC-001, FAC-008)
+        tier: 2
+        license: NERC copyright, free to access, redistribution restricted
+        access: https://www.nerc.com/pa/stand/pages/reliabilitystandards.aspx
+        format: PDF
+        note: >
+          Redistribution restriction means OpenGrid can publish extracted structured
+          parameters with citation but cannot mirror the PDFs. Confirm with counsel before
+          shipping the extraction.
+        verified: true
+      - name: FERC Orders (1920, 2023, 881, 2222, 1000, 2000)
+        tier: 2
+        license: US Government public domain
+        access: https://www.ferc.gov/media/orders
+        format: PDF
+        verified: true
+      - name: ISO/RTO capacity market publications
+        tier: 2
+        license: varies by ISO
+        access: https://www.pjm.com/markets-and-operations/rpm
+        verified: true
+      - name: DSIRE
+        tier: 2
+        license: CC-BY-SA-4.0
+        access: https://www.dsireusa.org
+        api: https://www.dsireusa.org/dsire-api/
+        note: Share-alike. Any OpenGrid derivative inherits the SA obligation.
+        verified: true
+      - name: National Energy and Climate Plans (NECPs)
+        tier: 2
+        license: EU re-use policy
+        access: https://commission.europa.eu/energy-climate-change-environment/implementation-eu-countries/energy-and-climate-governance-and-reporting/national-energy-and-climate-plans_en
+        verified: false
+      - name: IEA Policies and Measures Database (PAMS)
+        tier: 3
+        pointer_rationale: No bulk download path regardless of cost.
+        verified: true
+      - name: Sustainable Views Policy Tracker
+        tier: 3
+        access_barrier: commercial-paywall
+        verified: true
+
+  # =========================================================================
+  # DD9 - Cost & financial
+  # =========================================================================
+  DD9:
+    domain_name: Cost & financial
+    structural_note: >
+      US technology cost data is excellent. International cost data is thin and mostly
+      aggregate. WACC and discount rates are almost entirely absent from open sources,
+      which is a large and underappreciated gap.
+    datasets:
+      - name: NREL ATB (Annual Technology Baseline)
+        tier: 1
+        license: CC-BY-4.0
+        access: https://data.openei.org/submissions/6006
+        secondary_access: https://atb.nrel.gov/electricity/2024/data
+        note: The canonical US cost stack. Also the best worked example of a well-documented assumption set.
+        verified: true
+      - name: NREL Cambium
+        tier: 1
+        license: CC-BY-4.0
+        access: https://scenarioviewer.nrel.gov
+        verified: true
+      - name: PUDL / FERC Form 1
+        tier: 1
+        license: CC-BY-4.0 (PUDL output)
+        access: https://data.catalyst.coop
+        verified: true
+      - name: EIA-860 construction costs
+        tier: 1
+        license: US Government public domain
+        access: https://www.eia.gov/electricity/generatorcosts/
+        verified: true
+      - name: IRENA Renewable Cost Data
+        tier: 2
+        license: IRENA terms, free with attribution
+        access: https://www.irena.org/Data
+        verified: true
+      - name: World Bank Pink Sheet
+        tier: 2
+        license: CC-BY-4.0
+        access: https://www.worldbank.org/en/research/commodity-markets
+        verified: true
+      - name: IEA WEO Free Dataset
+        tier: 2
+        license: CC-BY-NC-SA-4.0
+        access: https://www.iea.org/data-and-statistics/data-product/world-energy-outlook-2024-free-dataset
+        note: >
+          Non-commercial only. This is the one seed dataset whose license restricts a class of
+          downstream user, so it is the natural test case for surfacing redistribution flags
+          prominently rather than burying them.
+        verified: true
+      - name: FERC Form 1 (raw)
+        tier: 3
+        pointer_rationale: Use the PUDL distribution instead.
+        verified: true
+      - name: Lazard LCOE+
+        tier: 3
+        pointer_rationale: Free to read, no open license, PDF only.
+        verified: true
+      - name: Aurora, BNEF, LevelTen, ACER AEGIS
+        tier: 3
+        access_barrier: commercial-paywall
+        verified: true
+      - name: NREL ORBIT
+        tier: 3
+        pointer_rationale: Parametric model, not a dataset.
+        verified: true
+      - name: Decarb America
+        tier: 3
+        pointer_rationale: Terms not specified.
+        verified: true
+
+  # =========================================================================
+  # DD10 - Geospatial & siting
+  # =========================================================================
+  DD10:
+    domain_name: Geospatial & siting
+    structural_note: >
+      Global base layers are excellent and openly licensed. The gap is everything
+      jurisdiction-specific: permitting status, parcel ownership, ROW. Those are
+      county-level in the US and have no global analogue. Scope DD10 v1 to global
+      base layers and exclusion masks; do not attempt parcel data.
+    datasets:
+      - name: Protected Planet / World Database on Protected Areas (WDPA)
+        tier: 2
+        license: custom WDPA terms, attribution required, commercial restricted
+        access: https://www.protectedplanet.net
+        format: Shapefile, GeoPackage, File Geodatabase
+        note: Commercial-use restriction. Flag redistribution constraints clearly.
+        verified: false
+      - name: ESA WorldCover
+        tier: 1
+        license: CC-BY-4.0
+        access: https://esa-worldcover.org
+        format: COG
+        note: 10m global land cover, cloud-optimized. Strong partial-read exemplar.
+        verified: false
+      - name: Copernicus CORINE Land Cover
+        tier: 1
+        license: free with attribution
+        access: https://land.copernicus.eu/en/products/corine-land-cover
+        verified: false
+      - name: Copernicus GLO-30 DEM
+        tier: 1
+        license: free with attribution
+        access: https://registry.opendata.aws/copernicus-dem/
+        format: COG on anonymous S3
+        note: Terrain and slope for siting exclusion. Already on AWS Open Data.
+        verified: false
+      - name: USGS PAD-US (Protected Areas Database of the US)
+        tier: 1
+        license: US Government public domain
+        access: https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download
+        verified: false
+      - name: USGS National Land Cover Database (NLCD)
+        tier: 1
+        license: US Government public domain
+        access: https://www.mrlc.gov
+        verified: false
+      - name: Natural Earth
+        tier: 1
+        license: public domain
+        access: https://www.naturalearthdata.com
+        note: Administrative boundaries. Low analytical value, high utility as a join key layer.
+        verified: false
+      - name: GADM administrative boundaries
+        tier: 2
+        license: free for academic and non-commercial use only
+        access: https://gadm.org
+        note: Non-commercial restriction is easy to miss. Flag it.
+        verified: false
+      - name: OpenStreetMap (land use, infrastructure, boundaries)
+        tier: 2
+        license: ODbL-1.0
+        access: https://download.geofabrik.de
+        verified: false
+      - name: Global Forest Watch / Hansen forest change
+        tier: 2
+        license: CC-BY-4.0
+        access: https://www.globalforestwatch.org
+        verified: false
+      - name: FEMA National Flood Hazard Layer
+        tier: 2
+        license: US Government public domain
+        access: https://www.fema.gov/flood-maps/national-flood-hazard-layer
+        verified: false
+      - name: Parcel ownership and permitting status
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: >
+          County-level in the US, mostly commercial aggregators, no global analogue.
+          Out of reach at any reasonable effort. Document as a permanent gap.
+        verified: false
+      - name: Tribal boundaries and setbacks
+        tier: 3
+        access_barrier: fragmented
+        pointer_rationale: >
+          BIA publishes boundaries but setback rules are jurisdiction-specific and
+          unstructured. Handle with care; consult before publishing derived layers.
+        verified: false

@@ -1,0 +1,127 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opengrid-datahub"
+version = "1.0.0.dev0"
+description = "OpenGrid Data Hub 1.0 — discovery and routing layer for grid-modeling data"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+authors = [{ name = "OpenGrid" }]
+keywords = ["energy", "grid", "catalog", "dcat", "rdf", "metadata"]
+
+dependencies = [
+  # RDF / semantics
+  "rdflib>=7.1",
+  "pyshacl>=0.29",
+  "SPARQLWrapper>=2.0",
+  # API
+  "fastapi>=0.115",
+  "uvicorn[standard]>=0.32",
+  "pydantic>=2.9",
+  "pydantic-settings>=2.6",
+  "httpx>=0.27",
+  # Operational store
+  "SQLAlchemy>=2.0",
+  "alembic>=1.14",
+  # Config / data
+  "PyYAML>=6.0",
+  "python-dateutil>=2.9",
+  "orjson>=3.10",
+  # Auth
+  "authlib>=1.3",
+  "python-jose[cryptography]>=3.3",
+  "itsdangerous>=2.2",
+  # CLI / logging
+  "typer>=0.15",
+  "rich>=13.9",
+  "structlog>=24.4",
+]
+
+[project.optional-dependencies]
+opensearch = ["opensearch-py>=2.7"]
+postgres = ["psycopg[binary]>=3.2"]
+queue = ["celery>=5.4", "redis>=5.2"]
+mcp = ["fastmcp>=2.0"]
+llm = ["anthropic>=0.40"]
+dev = [
+  "pytest>=8.3",
+  "pytest-asyncio>=0.24",
+  "pytest-cov>=6.0",
+  "ruff>=0.8",
+  "mypy>=1.13",
+  "types-PyYAML",
+  "respx>=0.21",
+]
+all = ["opengrid-datahub[opensearch,postgres,queue,mcp,llm,dev]"]
+
+[project.scripts]
+datahub = "datahub.cli:app"
+
+[tool.setuptools]
+package-dir = { "datahub" = "services" }
+
+packages = [
+  "datahub",
+  "datahub.api",
+  "datahub.api.broker",
+  "datahub.api.entitlement",
+  "datahub.api.models",
+  "datahub.api.routers",
+  "datahub.api.search",
+  "datahub.graph",
+  "datahub.harvest",
+  "datahub.harvest.adapters",
+  "datahub.harvest.enrich",
+  "datahub.harvest.filters",
+  "datahub.harvest.normalizers",
+  "datahub.harvest.normalizers.mappings",
+  "datahub.harvest.validate",
+  "datahub.linksvc",
+  "datahub.mcp",
+  "datahub.projector",
+  "datahub.semantic",
+  "datahub.semantic.queries",
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.rq", "*.yaml", "*.yml", "*.ttl", "*.jsonld", "*.json", "*.sparql"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["web", ".venv", "ops/migrations/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "RUF", "ARG", "PTH"]
+ignore = [
+  "E501",    # line length is handled by the formatter
+  "B008",    # FastAPI Depends() in defaults is the framework idiom
+  "RUF012",  # ClassVar annotations on pydantic/SQLAlchemy config dicts
+  "N818",    # error names read better without a forced "Error" suffix
+  "B027",    # optional no-op hooks on an ABC are deliberate (flush/close/refresh)
+  "RUF002",  # en dashes in prose docstrings are intentional
+  "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ARG", "N806"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+markers = [
+  "integration: requires external services (fuseki, opensearch, postgres)",
+  "network: requires outbound network access to third-party sources",
+  "slow: long-running test",
+]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_unused_ignores = true
+ignore_missing_imports = true
+files = ["services", "sdk/python"]

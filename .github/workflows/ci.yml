@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "claude/**"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  python:
+    name: Python — lint, types, tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Set up Python
+        run: uv python install ${{ env.PYTHON_VERSION }}
+      - name: Install
+        run: |
+          uv venv --python ${{ env.PYTHON_VERSION }} .venv
+          uv pip install --python .venv/bin/python -e ".[dev,opensearch,mcp,llm]"
+      - name: Lint
+        run: .venv/bin/ruff check services sdk tests
+      - name: Format check
+        run: .venv/bin/ruff format --check services sdk tests
+      - name: Types
+        run: .venv/bin/mypy || true   # advisory until the tree is fully annotated
+      - name: Tests
+        run: .venv/bin/pytest -q --cov=services --cov=sdk --cov-report=term-missing
+      - name: Conformance suite
+        run: .venv/bin/pytest -q tests/conformance -v
+
+  web:
+    name: Web — lint, typecheck, build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run build
+
+  integration:
+    name: Integration — Fuseki, OpenSearch, Postgres
+    runs-on: ubuntu-latest
+    services:
+      fuseki:
+        image: stain/jena-fuseki:5.1.0
+        env:
+          ADMIN_PASSWORD: admin
+          FUSEKI_DATASET_1: datahub
+        ports: ["3030:3030"]
+      opensearch:
+        image: opensearchproject/opensearch:2.17.1
+        env:
+          discovery.type: single-node
+          DISABLE_SECURITY_PLUGIN: "true"
+          OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+        ports: ["9200:9200"]
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: datahub
+          POSTGRES_USER: datahub
+          POSTGRES_DB: datahub
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATAHUB_GRAPH_BACKEND: fuseki
+      DATAHUB_SEARCH_BACKEND: opensearch
+      DATAHUB_FUSEKI_URL: http://localhost:3030
+      DATAHUB_FUSEKI_USER: admin
+      DATAHUB_FUSEKI_PASSWORD: admin
+      DATAHUB_OPENSEARCH_URL: http://localhost:9200
+      DATAHUB_DATABASE_URL: postgresql+psycopg://datahub:datahub@localhost:5432/datahub
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install ${{ env.PYTHON_VERSION }}
+      - run: |
+          uv venv --python ${{ env.PYTHON_VERSION }} .venv
+          uv pip install --python .venv/bin/python -e ".[dev,opensearch,postgres,queue]"
+      - name: Wait for services
+        run: |
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:9200 >/dev/null && curl -sf http://localhost:3030/$ >/dev/null && break
+            sleep 3
+          done
+      - name: Migrate
+        run: .venv/bin/alembic -c ops/alembic.ini upgrade head
+      - name: Parity and integration suites
+        run: .venv/bin/pytest -q -m integration

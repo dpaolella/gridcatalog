@@ -1,0 +1,42 @@
+# Inter-dataset link strength (PRD §F6). In config, not code: these will change
+# as they are tuned against the golden set.
+#
+# strength = Σ(weight × signal) with the shared-origin penalty subtracted, then
+# mapped onto a 5-point scale. The penalty REDUCES a pairing; it never zeroes or
+# hides one, because hiding it would remove exactly the information the user
+# needs (PRD §F6.9).
+
+version: 1
+
+weights:
+  concept_overlap: 0.30
+  geographic_overlap: 0.20
+  temporal_overlap: 0.15
+  joinable_key_present: 0.15
+  workflow_tag_overlap: 0.10
+  quality_contribution: 0.10
+  shared_origin_penalty: -0.15
+
+# The penalised score is floored here so a correlated pair can never fall out of
+# the ranking entirely (PRD §F6.9, open question §12.8 — fixed penalty first,
+# tune against the golden set before considering a cap).
+shared_origin_floor_tier: 1
+
+# Score → 5-point tier boundaries. Inclusive lower bound.
+tiers:
+  1: 0.00
+  2: 0.20
+  3: 0.40
+  4: 0.60
+  5: 0.80
+
+# Candidate generation stops here before ranking; ranking then returns top_n.
+max_candidates_per_dataset: 200
+top_n: 12
+
+# Tie-break order when strengths are equal, applied left to right.
+tie_break:
+  - concept_overlap
+  - quality_contribution
+  - inbound_link_count
+  - dataset_id
