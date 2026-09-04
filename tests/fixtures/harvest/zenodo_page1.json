@@ -1,0 +1,60 @@
+{
+  "hits": {
+    "total": 2,
+    "hits": [
+      {
+        "id": 3601881,
+        "conceptrecid": "3517949",
+        "doi": "10.5281/zenodo.3601881",
+        "conceptdoi": "10.5281/zenodo.3517949",
+        "created": "2020-01-14T10:00:00+00:00",
+        "updated": "2024-06-01T08:00:00+00:00",
+        "links": {
+          "self": "https://zenodo.org/api/records/3601881",
+          "latest": "https://zenodo.org/api/records/3601881",
+          "self_html": "https://zenodo.org/records/3601881"
+        },
+        "metadata": {
+          "title": "PyPSA-Eur: An open optimisation model of the European transmission system",
+          "description": "<p>Pre-built networks and cutouts for the PyPSA-Eur workflow, with transmission line topology compiled from OpenStreetMap.</p>",
+          "publication_date": "2024-05-30",
+          "version": "0.10.0",
+          "access_right": "open",
+          "license": {"id": "CC-BY-4.0"},
+          "keywords": ["power systems", "transmission network", "energy system model"],
+          "relations": {"version": [{"index": 9, "is_last": true, "count": 10}]}
+        },
+        "files": [
+          {
+            "key": "networks.zip",
+            "size": 8400000,
+            "checksum": "md5:0123456789abcdef0123456789abcdef",
+            "links": {"self": "https://zenodo.org/api/records/3601881/files/networks.zip/content"}
+          }
+        ]
+      },
+      {
+        "id": 3517950,
+        "conceptrecid": "3517949",
+        "doi": "10.5281/zenodo.3517950",
+        "conceptdoi": "10.5281/zenodo.3517949",
+        "updated": "2019-11-01T08:00:00+00:00",
+        "links": {
+          "self": "https://zenodo.org/api/records/3517950",
+          "latest": "https://zenodo.org/api/records/3601881",
+          "self_html": "https://zenodo.org/records/3517950"
+        },
+        "metadata": {
+          "title": "PyPSA-Eur: An open optimisation model of the European transmission system",
+          "description": "An earlier release.",
+          "publication_date": "2019-11-01",
+          "version": "0.1.0",
+          "access_right": "open",
+          "license": {"id": "CC-BY-4.0"},
+          "relations": {"version": [{"index": 0, "is_last": false, "count": 10}]}
+        },
+        "files": []
+      }
+    ]
+  }
+}

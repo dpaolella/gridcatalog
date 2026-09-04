@@ -1,0 +1,59 @@
+# Copernicus Climate Data Store — https://cds.climate.copernicus.eu/api
+#
+# The seed file: "ERA5 and friends. Account-gated, so most entries land Tier 2
+# on the access gate." That gate is the interesting part of this mapping: every
+# CDS dataset requires an account and accepting per-dataset licence terms, so
+# `anonymousAccess: false` and the account-required restriction are defaults
+# here rather than something the harvester has to detect per record.
+
+notes: >-
+  CDS licences are per-dataset acceptances layered on Copernicus Licence v1.2.
+  The identifier is recorded as the Copernicus LicenseRef; the acceptance
+  requirement is an access restriction, not a licence term, and the two are kept
+  apart deliberately — a dataset can be openly licensed and still gated.
+
+identity:
+  title: title
+  slug_from: [id, name]
+
+fields:
+  description:
+    path: abstract|description
+    transform: [strip_html]
+  keyword:
+    path: keywords
+    transform: [names]
+  modified:
+    path: update_date|publication_date
+    transform: [datetime]
+  license:
+    path: _license
+    transform: [text]
+  landingPage:
+    path: _landing_page
+    transform: [iri]
+  documentation:
+    path: documentation.url
+    transform: [list]
+  timeResolution:
+    path: _time_resolution
+    transform: [text]
+
+defaults:
+  documentationStatus: external-standard-only
+  anonymousAccess: false
+  accessRestriction: https://schema.opengrid.org/concept/access-restriction/accountRequired
+  credentialRequirement: A free CDS account and per-dataset licence acceptance.
+
+distributions:
+  path: _endpoints
+  accessURL: url
+  fields:
+    formatLabel:
+      path: format
+      transform: [text]
+    subsettingProtocol:
+      path: protocol
+      transform: [text]
+    anonymousAccess:
+      const: false

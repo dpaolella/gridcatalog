@@ -1,0 +1,19 @@
+{
+  "head": {"vars": ["dataset", "accessURL", "mediaType", "format", "byteSize"]},
+  "results": {
+    "bindings": [
+      {
+        "dataset": {"type": "uri", "value": "http://data.europa.eu/88u/dataset/entsoe-transparency"},
+        "accessURL": {"type": "uri", "value": "https://web-api.tp.entsoe.eu/api"},
+        "mediaType": {"type": "literal", "value": "application/xml"},
+        "format": {"type": "literal", "value": "XML"}
+      },
+      {
+        "dataset": {"type": "uri", "value": "http://data.europa.eu/88u/dataset/entsoe-transparency"},
+        "accessURL": {"type": "uri", "value": "https://transparency.entsoe.eu/content/static_content/download"},
+        "format": {"type": "literal", "value": "CSV"},
+        "byteSize": {"type": "literal", "value": "1048576"}
+      }
+    ]
+  }
+}

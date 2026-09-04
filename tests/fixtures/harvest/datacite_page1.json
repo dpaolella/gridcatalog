@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "id": "10.5281/zenodo.9999001",
+      "type": "dois",
+      "attributes": {
+        "doi": "10.5281/zenodo.9999001",
+        "suffix": "zenodo.9999001",
+        "titles": [
+          {"title": "Synthetic electric grid test cases for the Texas interconnection", "lang": "en"},
+          {"title": "Synthetische Netzmodelle", "lang": "de"}
+        ],
+        "descriptions": [
+          {"description": "A synthetic power system that is statistically representative of the real network while corresponding to no real asset.", "descriptionType": "Abstract"}
+        ],
+        "subjects": [{"subject": "power systems"}, {"subject": "transmission"}],
+        "publicationYear": 2023,
+        "published": "2023",
+        "updated": "2024-02-10T00:00:00Z",
+        "version": "1.2",
+        "url": "https://example.org/synthetic-grid",
+        "contentUrl": ["https://example.org/synthetic-grid/data.zip"],
+        "rightsList": [
+          {"rights": "Creative Commons Attribution 4.0 International"},
+          {"rights": "CC-BY-4.0", "rightsIdentifier": "CC-BY-4.0"}
+        ]
+      }
+    }
+  ],
+  "links": {"next": "https://api.datacite.org/dois?page%5Bcursor%5D=Mg&page%5Bsize%5D=100"},
+  "meta": {"total": 1}
+}

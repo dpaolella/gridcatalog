@@ -650,9 +650,122 @@ def harvest_list() -> None:
     """The adapters that can be run."""
     from datahub.harvest.adapters.curated import CuratedAdapter
 
-    typer.echo("curated  (data/seed-sources.yaml, no network)")
+    typer.echo(f"{'curated':<24} (data/seed-sources.yaml, no network)")
     for source in CuratedAdapter().harvest_sources():
-        typer.echo(f"{source['id']:<24} {source['adapter']}")
+        typer.echo(
+            f"{source['id']:<24} {source['adapter']:<14} p{source.get('priority', '?')}  "
+            f"~{source.get('scale_estimate', 0)} records"
+        )
+
+
+@harvest_app.command("run")
+def harvest_run(
+    source: Annotated[
+        list[str] | None, typer.Option("--source", "-s", help="Source id. Repeatable.")
+    ] = None,
+    priority: Annotated[
+        int | None, typer.Option("--priority", "-p", help="Run sources at priority N or better.")
+    ] = None,
+    limit: Annotated[int | None, typer.Option(help="Stop each source after N records.")] = None,
+    no_resume: Annotated[bool, typer.Option("--no-resume", help="Ignore the checkpoint.")] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Harvest one or more sources.
+
+    Refuses to run with no selection: the default would be an eleven-source
+    crawl of several thousand records against third parties, started by someone
+    finding out what the command does.
+    """
+    from datahub.graph.loader import bootstrap
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.harvest.runner import run_sources
+
+    if not source and priority is None:
+        err("nothing to do: pass --source or --priority (see `datahub harvest list`)")
+        raise typer.Exit(2)
+
+    _require_schema()
+    with make_store() as store:
+        bootstrap(store)
+        results = run_sources(
+            RecordStore(store),
+            source_ids=source,
+            limit=limit,
+            max_priority=priority,
+            resume=not no_resume,
+        )
+
+    _emit(
+        [
+            {
+                "source": r.source_id,
+                "seen": r.seen,
+                "accepted": r.accepted,
+                "rejected": r.rejected,
+                "unchanged": r.unchanged,
+                "queued": r.queued,
+                "flagged": r.flagged,
+                "conflicted": r.conflicted,
+                "errors": r.errors,
+            }
+            for r in results
+        ],
+        "\n".join(r.summary for r in results),
+        as_json=json_out,
+    )
+    if all(r.errors for r in results):
+        raise typer.Exit(1)
+
+
+@harvest_app.command("audit")
+def harvest_audit(
+    source: Annotated[str | None, typer.Option("--source", "-s")] = None,
+    stage: Annotated[str | None, typer.Option(help="keyword, vocabulary or llm.")] = None,
+    limit: Annotated[int, typer.Option()] = 25,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """The recall audit: what the relevance filter threw away, and why.
+
+    PRD §7.2 requires every rejection to be logged with its reason *so recall
+    can be audited* — which only means anything if somebody can read them. This
+    is that command. A wrongly excluded dataset is invisible by construction:
+    nobody searches for a record that was never created, so this list is the
+    only place the mistake can be found.
+    """
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    _require_schema()
+    with session_scope() as session:
+        repos = Repositories(session)
+        rates = repos.relevance.rates()
+        rejections = [
+            {
+                "source": row.source_id,
+                "stage": row.stage,
+                "score": row.score,
+                "reason": row.reason,
+                "matched": row.matched_terms,
+            }
+            for row in repos.relevance.rejections(source_id=source, stage=stage, limit=limit)
+        ]
+
+    if json_out:
+        _emit({"rates": rates, "rejections": rejections}, "", as_json=True)
+        return
+
+    for stage_name, counts in sorted(rates.items()):
+        total = counts["accepted"] + counts["rejected"]
+        share = counts["accepted"] / total if total else 0
+        typer.echo(
+            f"{stage_name:<12} {counts['accepted']:>6} accepted  "
+            f"{counts['rejected']:>6} rejected  ({share:.0%} kept)"
+        )
+    if rejections:
+        typer.echo(f"\nmost recent {len(rejections)} rejections:")
+    for row in rejections:
+        typer.echo(f"  [{row['source']}/{row['stage']}] {row['reason']}")
 
 
 # ---------------------------------------------------------------------------

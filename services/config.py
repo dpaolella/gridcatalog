@@ -89,6 +89,10 @@ class Settings(BaseSettings):
         "contact: data@opengrid.org)"
     )
     harvest_default_rate_per_s: float = 1.0
+    #: Where adapters that clone or download keep their working copies. Under
+    #: var/ rather than a temp dir so a shallow clone survives between runs —
+    #: re-cloning 400 registry files daily is rude to a source we do not own.
+    harvest_work_dir: Path = REPO_ROOT / "var" / "harvest"
     harvest_timeout_s: float = 30.0
     harvest_max_retries: int = 3
 

@@ -1,0 +1,21 @@
+{
+  "head": {"vars": ["dataset", "identifier", "title", "description", "issued", "modified", "license", "landingPage", "publisher", "accrualPeriodicity", "accessRights", "keywords", "spatialLabel"]},
+  "results": {
+    "bindings": [
+      {
+        "dataset": {"type": "uri", "value": "http://data.europa.eu/88u/dataset/entsoe-transparency"},
+        "identifier": {"type": "literal", "value": "entsoe-transparency"},
+        "title": {"type": "literal", "xml:lang": "en", "value": "ENTSO-E Transparency Platform"},
+        "description": {"type": "literal", "xml:lang": "en", "value": "Actual load, generation per production type and cross-border flows per bidding zone, as reported by the operator under mandatory reporting."},
+        "modified": {"type": "literal", "value": "2025-01-15T00:00:00Z"},
+        "license": {"type": "uri", "value": "https://creativecommons.org/licenses/by/4.0/"},
+        "landingPage": {"type": "uri", "value": "https://transparency.entsoe.eu/"},
+        "publisher": {"type": "uri", "value": "http://data.europa.eu/agent/entsoe"},
+        "accrualPeriodicity": {"type": "literal", "value": "PT15M"},
+        "accessRights": {"type": "uri", "value": "http://publications.europa.eu/resource/authority/access-right/PUBLIC"},
+        "keywords": {"type": "literal", "value": "electricity|transmission|load"},
+        "spatialLabel": {"type": "literal", "value": "European Union"}
+      }
+    ]
+  }
+}

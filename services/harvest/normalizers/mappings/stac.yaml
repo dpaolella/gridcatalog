@@ -1,0 +1,78 @@
+# STAC collections — Planetary Computer, Earth Search
+#
+# PRD §7.3: STAC sources "normalize almost losslessly", and the seed file says
+# to "use STAC as the geospatial normalization target". A STAC collection
+# carries bbox, temporal extent and asset-level media types, which is D14, D15
+# and D11 with nothing left over — so a STAC record can legitimately reach
+# level 2 straight out of the harvester, unlike a CKAN one.
+
+notes: >-
+  `extent.spatial.bbox` is a list of boxes, the first being the overall extent;
+  it maps to the four scalar bbox terms rather than to a list, because an
+  rdf:List of coordinates cannot be serialised back out of the store (ADR-0008).
+  Extraction of the four scalars is done by the STAC adapter, which is the only
+  place that knows the ordering convention, so this mapping reads them as
+  already-separated fields.
+
+identity:
+  title: title|id
+  slug_from: [id]
+
+fields:
+  description:
+    path: description
+    transform: [strip_html]
+  keyword:
+    path: keywords
+    transform: [names]
+  license: license
+  landingPage:
+    path: links.href
+    transform: [first, iri]
+  bboxMinLon:
+    path: _bbox_min_lon
+    transform: [number]
+  bboxMinLat:
+    path: _bbox_min_lat
+    transform: [number]
+  bboxMaxLon:
+    path: _bbox_max_lon
+    transform: [number]
+  bboxMaxLat:
+    path: _bbox_max_lat
+    transform: [number]
+  geospatialPrimary:
+    const: true
+  nativeCRS:
+    path: _crs
+    transform: [text]
+  # Derived by the adapter rather than assumed here. A STAC API being public
+  # does not make its assets public: Planetary Computer assets need a SAS
+  # token, Earth Search assets do not, and both speak the same STAC. The
+  # adapter sets `_anonymous` only where the catalog documents its own answer;
+  # where it does not, nothing is claimed and the record fails level 1 until
+  # the prober or a steward settles it.
+  anonymousAccess:
+    path: _anonymous
+    transform: [boolean]
+  accessRestriction:
+    path: _access_restriction
+    transform: [iri]
+
+defaults:
+  documentationStatus: external-standard-only
+  spatialGranularity: gridded
+
+distributions:
+  path: _assets
+  accessURL: href
+  fields:
+    mediaType:
+      path: type
+      transform: [text]
+    formatLabel:
+      path: _format
+      transform: [text]
+    supportsRangeRequests:
+      path: _range
+      transform: [boolean]

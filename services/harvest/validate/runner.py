@@ -241,22 +241,49 @@ class ValidationRunner:
     ) -> ValidationReport:
         """Validate a record supplied as JSON-LD.
 
-        The record's own ``@context`` is used when it has one; otherwise the
-        project context is injected. A record referring to the context by URL is
-        resolved locally rather than fetched, so validation never depends on a
-        network round trip to schema.opengrid.org.
+        **No context is ever fetched.** A URL context is replaced with the local
+        copy and a context this project does not publish is rejected outright.
+        Two reasons, and the second is the serious one:
+
+        * Validation that makes a network call fails in every sandbox and CI
+          runner, and is slow everywhere else.
+        * A record is untrusted input. Following its ``@context`` would let a
+          harvested payload name any URL and have the validator fetch it —
+          server-side request forgery through a metadata field — and a context
+          the attacker controls can also remap every term in the record, so
+          the shapes would then be checking something other than what the
+          record says.
         """
         import json
 
         document = json.loads(record) if isinstance(record, str) else dict(record)
         declared = document.get("@context")
-        if declared is None or (
-            isinstance(declared, str) and declared.startswith("https://schema.opengrid.org")
-        ):
+        if declared is None or (isinstance(declared, str) and self._is_own_context(declared)):
             document["@context"] = self.context["@context"]
+        elif isinstance(declared, str):
+            raise ValueError(
+                f"refusing to fetch a remote JSON-LD context: {declared!r}. Records are "
+                "validated against the project context; supply the context inline or use "
+                "the project's own context URL."
+            )
         graph = Graph()
         graph.parse(data=json.dumps(document), format="json-ld")
         return self.validate(graph, target_level)
+
+    def _is_own_context(self, url: str) -> bool:
+        """Whether a context URL is one this project publishes.
+
+        Both hosts, because the schema is served from ``schema.opengrid.org``
+        and records mint their context reference against the catalog's own base
+        URL — which is configurable, so a deployment on another host still
+        recognises its own records.
+        """
+        own = (
+            "https://schema.opengrid.org",
+            f"{self.settings.catalog_base_url.rstrip('/')}/context/",
+            f"{self.settings.api_base_url.rstrip('/')}/context/",
+        )
+        return url.startswith(own)
 
     def level_of(self, record: dict[str, Any]) -> int:
         """The level a record claims, defaulting to 1."""

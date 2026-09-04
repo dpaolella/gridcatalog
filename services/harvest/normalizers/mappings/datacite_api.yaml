@@ -1,0 +1,47 @@
+# DataCite — https://api.datacite.org/dois
+#
+# JSON:API, so everything of interest is under `attributes`. The seed file's own
+# note: "Backstop for academic datasets not on Zenodo. High noise, aggressive
+# filtering needed." The noise is handled by the relevance filter, not here.
+
+notes: >-
+  DataCite `rightsList` entries carry both a free-text `rights` and a
+  `rightsIdentifier` (often an SPDX id). The identifier is preferred; where only
+  the free text exists it goes through the same licence table as every other
+  source, and an unrecognised string becomes a LicenseRef.
+
+identity:
+  title: attributes.titles.title|attributes.titles
+  slug_from: [attributes.suffix, id]
+
+fields:
+  description:
+    path: attributes.descriptions.description
+    transform: [first, strip_html]
+  keyword:
+    path: attributes.subjects
+    transform: [names]
+  issued:
+    path: attributes.published|attributes.publicationYear
+    transform: [year]
+  modified:
+    path: attributes.updated
+    transform: [datetime]
+  version: attributes.version
+  license: attributes.rightsList.rightsIdentifier|attributes.rightsList.rights
+  persistentId:
+    path: attributes.doi|id
+    transform: [doi]
+  versionDoi:
+    path: attributes.doi|id
+    transform: [doi]
+  landingPage:
+    path: attributes.url
+    transform: [iri]
+
+defaults:
+  documentationStatus: external-standard-only
+
+distributions:
+  path: attributes.contentUrl
+  accessURL: .

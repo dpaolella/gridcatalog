@@ -1,0 +1,41 @@
+{
+  "collections": [
+    {
+      "id": "esa-worldcover",
+      "type": "Collection",
+      "title": "ESA WorldCover",
+      "description": "Global land cover map at 10m resolution, suitable for renewable siting analysis and exclusion-zone construction.",
+      "license": "CC-BY-4.0",
+      "keywords": ["land cover", "siting", "global"],
+      "extent": {
+        "spatial": {"bbox": [[-180.0, -60.0, 180.0, 82.75]]},
+        "temporal": {"interval": [["2020-01-01T00:00:00Z", "2021-12-31T23:59:59Z"]]}
+      },
+      "assets": {
+        "map": {
+          "href": "https://example.blob.core.windows.net/worldcover/map.tif",
+          "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+          "title": "Cloud-optimised GeoTIFF"
+        },
+        "thumbnail": {
+          "href": "https://example.blob.core.windows.net/worldcover/thumb.png",
+          "type": "image/png"
+        },
+        "schema-only": {"type": "application/json"}
+      },
+      "item_assets": {"map": {"type": "image/tiff"}},
+      "links": [
+        {"rel": "self", "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/esa-worldcover"}
+      ]
+    },
+    {
+      "id": "era5-pds",
+      "title": "ERA5 reanalysis",
+      "description": "Hourly reanalysis of wind speed, temperature and irradiance on a global grid.",
+      "license": "proprietary",
+      "extent": {"spatial": {"bbox": [[-180, -90, 180, 90]]}},
+      "assets": {},
+      "links": []
+    }
+  ]
+}

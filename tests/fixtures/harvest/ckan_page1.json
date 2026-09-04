@@ -1,0 +1,74 @@
+{
+  "success": true,
+  "result": {
+    "count": 3,
+    "results": [
+      {
+        "id": "8f1b3c5a-0000-4a1e-9f00-000000000001",
+        "name": "nrel-wind-toolkit",
+        "title": "NREL Wind Integration National Dataset (WIND) Toolkit",
+        "notes": "<p>Modeled wind speed, power output and forecast time series at 2km/5min resolution for the continental United States, produced with the WRF mesoscale model.</p>",
+        "license_id": "CC-BY-4.0",
+        "license_title": "Creative Commons Attribution 4.0",
+        "metadata_created": "2019-03-04T12:00:00.000000",
+        "metadata_modified": "2024-11-02T09:14:00.000000",
+        "version": "3.0",
+        "private": false,
+        "url": "https://www.nrel.gov/grid/wind-toolkit.html",
+        "organization": {"name": "nrel", "title": "National Renewable Energy Laboratory"},
+        "tags": [
+          {"name": "wind", "display_name": "wind"},
+          {"name": "renewable energy", "display_name": "renewable energy"},
+          {"name": "time series", "display_name": "time series"}
+        ],
+        "extras": [
+          {"key": "doi", "value": "10.7799/1350003"},
+          {"key": "frequency", "value": "P1Y"},
+          {"key": "spatial_text", "value": "Continental United States"}
+        ],
+        "resources": [
+          {
+            "id": "r1",
+            "url": "https://oedi-data-lake.s3.amazonaws.com/wtk/v1/",
+            "format": "HDF5",
+            "mimetype": "application/x-hdf5",
+            "size": 500000000000,
+            "hash": "sha256:abc123"
+          },
+          {
+            "id": "r2",
+            "url": "https://developer.nrel.gov/api/wind-toolkit/v2/wind/wtk_download",
+            "format": "API",
+            "mimetype": "application/json"
+          }
+        ]
+      },
+      {
+        "id": "8f1b3c5a-0000-4a1e-9f00-000000000002",
+        "name": "nrel-cambium",
+        "title": "NREL Cambium scenario data",
+        "notes": "Hourly marginal and average emissions and cost data from capacity expansion model scenario output.",
+        "license_id": "CC-BY-4.0",
+        "metadata_modified": "2024-09-18T00:00:00.000000",
+        "private": false,
+        "tags": [{"name": "emissions"}, {"name": "scenario"}],
+        "extras": [],
+        "resources": [
+          {"url": "https://scenarioviewer.nrel.gov/downloads/cambium2023.zip", "format": "CSV"}
+        ]
+      },
+      {
+        "id": "8f1b3c5a-0000-4a1e-9f00-000000000003",
+        "name": "county-library-hours",
+        "title": "County library opening hours",
+        "notes": "Opening hours and loan records for county libraries.",
+        "license_id": "notspecified",
+        "metadata_modified": "2023-01-05T00:00:00.000000",
+        "private": false,
+        "tags": [{"name": "libraries"}],
+        "extras": [],
+        "resources": [{"url": "https://example.gov/libraries.csv", "format": "CSV"}]
+      }
+    ]
+  }
+}

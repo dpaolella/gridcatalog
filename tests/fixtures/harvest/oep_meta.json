@@ -1,0 +1,28 @@
+{
+  "name": "grid_lines_de",
+  "title": "German transmission lines",
+  "description": "Transmission line topology and electrical parameters for the German extra-high-voltage network, compiled from operator publications.",
+  "keywords": ["grid", "transmission network", "germany"],
+  "publicationDate": "2024-03-01",
+  "licenses": [
+    {"name": "ODbL-1.0", "title": "Open Database License", "attribution": "© OEP contributors"}
+  ],
+  "spatial": {"location": "Germany", "resolution": "national"},
+  "temporal": {"resolution": "static"},
+  "resources": [
+    {
+      "name": "grid_lines_de",
+      "path": "https://openenergyplatform.org/api/v0/schema/model_draft/tables/grid_lines_de/rows",
+      "format": "PostgreSQL",
+      "mediatype": "application/json",
+      "schema": {
+        "fields": [
+          {"name": "line_id", "description": "Unique line identifier", "type": "text"},
+          {"name": "voltage", "description": "Nominal voltage", "type": "integer", "unit": "kV"},
+          {"name": "length", "description": "Circuit length", "type": "float", "unit": "km"},
+          {"name": "r_ohm_per_km", "description": "Resistance per kilometre", "type": "float", "unit": "ohm/km"}
+        ]
+      }
+    }
+  ]
+}

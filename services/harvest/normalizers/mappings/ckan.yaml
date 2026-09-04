@@ -1,0 +1,84 @@
+# CKAN — data.openei.org, energydata.info, catalog.data.gov
+#
+# PRD §7.3: "CKAN sources map cleanly at dataset level and carry almost nothing
+# at field level." That is exactly what this mapping reflects: dataset identity,
+# licence, publisher, tags and resources map one-to-one; there is no field-level
+# schema in a CKAN package, so a CKAN record starts at level 1 and stays there
+# until enrichment or a steward adds structure.
+#
+# Shape reference: CKAN 2.x `package_show` / `package_search` result objects.
+
+notes: >-
+  CKAN's `license_id` is a free-text-ish field in practice: instances configure
+  their own licence register, so the same licence appears as `cc-by`, `CC-BY-4.0`
+  and `Creative Commons Attribution`. Unrecognised values become a LicenseRef
+  with the original text rather than a guess.
+
+identity:
+  title: title|name
+  # `name` is CKAN's URL slug and is stable across title edits; using it means a
+  # corrected typo in a title does not mint a second record.
+  slug_from: [name]
+
+fields:
+  description:
+    path: notes
+    transform: [strip_html]
+  keyword:
+    path: tags
+    transform: [names]
+  issued:
+    path: metadata_created
+    transform: [datetime]
+  modified:
+    path: metadata_modified
+    transform: [datetime]
+  version: version
+  license: license_id|license_title
+  landingPage:
+    path: url
+    transform: [iri]
+  persistentId:
+    path: extras.doi|doi
+    transform: [doi]
+  updateCadence:
+    path: extras.frequency|frequency
+    transform: [text]
+  spatialLabel:
+    path: extras.spatial_text|extras.spatial-text
+    transform: [list]
+  # A CKAN package returned by the public search API with `private: false` is a
+  # statement by the instance that the record is openly readable. It is about
+  # the *record*, not about every resource URL on it — a resource can still 403
+  # — so the prober re-establishes this per distribution and may overwrite it.
+  # Absent the flag nothing is claimed, and the record fails level 1, which is
+  # the honest outcome rather than a guess.
+  anonymousAccess:
+    path: _public
+    transform: [boolean]
+  accessRestriction:
+    path: _public
+    transform: [boolean]
+    values:
+      "True": https://schema.opengrid.org/concept/access-restriction/none
+      "False": https://schema.opengrid.org/concept/access-restriction/accountRequired
+
+defaults:
+  documentationStatus: external-standard-only
+
+distributions:
+  path: resources
+  accessURL: url
+  fields:
+    formatLabel:
+      path: format
+      transform: [text]
+    mediaType:
+      path: mimetype
+      transform: [text]
+    byteSize:
+      path: size
+      transform: [integer]
+    checksum:
+      path: hash
+      transform: [text]

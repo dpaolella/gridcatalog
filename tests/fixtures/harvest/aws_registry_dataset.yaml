@@ -1,0 +1,24 @@
+Name: NREL Wind Integration National Dataset (WIND) Toolkit
+Description: >-
+  Modeled wind speed and power output time series covering the continental
+  United States at 2km spatial and 5-minute temporal resolution.
+Documentation: https://nrel.github.io/rev/misc/examples.running_locally.html
+Contact: https://www.nrel.gov/contact.html
+ManagedBy: National Renewable Energy Laboratory
+UpdateFrequency: Not updated
+License: CC-BY-4.0
+Tags:
+  - aws-pds
+  - energy
+  - wind
+  - renewable energy
+Resources:
+  - Description: WIND Toolkit HDF5 files
+    ARN: arn:aws:s3:::nrel-pds-wtk/conus/v1.0.0/
+    Region: us-west-2
+    Type: S3 Bucket
+  - Description: Requester-pays mirror
+    ARN: arn:aws:s3:::nrel-pds-wtk-mirror/conus/
+    Region: eu-west-1
+    Type: S3 Bucket
+    RequesterPays: true

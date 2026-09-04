@@ -1,0 +1,89 @@
+# Zenodo — https://zenodo.org/api/records
+#
+# PRD §7.3: "Zenodo carries excellent identity and versioning but weak coverage
+# facets." The identity half is why this source matters: the concept DOI names
+# the dataset across versions and the version DOI names one release, which is
+# exactly the D1 distinction the schema draws. Conflating them is the trap the
+# PRD calls out by name, so they map to separate terms.
+
+notes: >-
+  `conceptdoi` is the version-independent DOI and `doi` is the specific version.
+  `relations.version[].is_last` says whether this is the current release;
+  supersession chains come from `metadata.related_identifiers` and are resolved
+  by the link service, not here, because the other end may not be catalogued yet.
+
+identity:
+  title: metadata.title|title
+  slug_from: [conceptrecid]
+
+fields:
+  description:
+    path: metadata.description
+    transform: [strip_html]
+  keyword:
+    path: metadata.keywords|metadata.subjects
+    transform: [names]
+  issued:
+    path: metadata.publication_date
+    transform: [datetime]
+  modified:
+    path: updated|modified
+    transform: [datetime]
+  version: metadata.version
+  license: metadata.license.id|metadata.license|metadata.rights
+  # The version DOI: this exact release.
+  versionDoi:
+    path: doi|metadata.doi
+    transform: [doi]
+  # The concept DOI: the dataset across all its versions.
+  conceptDoi:
+    path: conceptdoi|metadata.conceptdoi
+    transform: [doi]
+  persistentId:
+    path: doi|metadata.doi
+    transform: [doi]
+  landingPage:
+    path: links.self_html|links.html
+    transform: [iri]
+  versionNotes:
+    path: metadata.notes
+    transform: [strip_html]
+
+  # Zenodo states this per record: `open` means the files download without an
+  # account, `restricted` and `embargoed` mean they do not. The source's own
+  # access model, not an assumption about the platform.
+  anonymousAccess:
+    path: metadata.access_right|access_right
+    values:
+      open: true
+      embargoed: false
+      restricted: false
+      closed: false
+  accessRestriction:
+    path: metadata.access_right|access_right
+    values:
+      open: https://schema.opengrid.org/concept/access-restriction/none
+      embargoed: https://schema.opengrid.org/concept/access-restriction/embargoed
+      restricted: https://schema.opengrid.org/concept/access-restriction/accountRequired
+      closed: https://schema.opengrid.org/concept/access-restriction/accountRequired
+
+defaults:
+  documentationStatus: external-standard-only
+
+distributions:
+  path: files
+  accessURL: links.self|links.download
+  fields:
+    formatLabel:
+      path: type|key
+      transform: [text]
+    byteSize:
+      path: size|filesize
+      transform: [integer]
+    checksum:
+      path: checksum
+      transform: [text]
+    bulkDownload:
+      const: true
+    anonymousAccess:
+      const: true

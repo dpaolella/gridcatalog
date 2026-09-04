@@ -1,0 +1,71 @@
+# Open Energy Platform — https://openenergyplatform.org/api/v0
+#
+# The seed file calls this the "highest-value source for controlled-vocabulary
+# bootstrapping": OEP tables already carry Open Energy Ontology annotations, so
+# their concept terms are a direct input to the SKOS crosswalk rather than
+# something to re-derive.
+#
+# OEP is also the one source in the set with a real field-level schema, so an
+# OEP record can carry hasField and reach level 2 from the harvester.
+
+notes: >-
+  OEP's metadata is the OEMetadata JSON schema. `resources[0].schema.fields` is
+  a field list with name, description, type and unit — the closest thing any
+  source here has to C1/C2/C3. The units are strings, not IRIs, so they land in
+  `unitAsStated` and the semantic layer resolves them later; writing a guessed
+  QUDT IRI here would be a level 3 claim made by a normaliser.
+
+identity:
+  title: title|name
+  slug_from: [name, id]
+
+fields:
+  description:
+    path: description
+    transform: [strip_html]
+  keyword:
+    path: keywords
+    transform: [names]
+  issued:
+    path: publicationDate
+    transform: [datetime]
+  modified:
+    path: metaMetadata.metadataVersion|publicationDate
+    transform: [datetime]
+  license: licenses.name|licenses.title
+  landingPage:
+    path: id
+    transform: [iri]
+  spatialLabel:
+    path: spatial.location|spatial.extent
+    transform: [list]
+  spatialResolution:
+    path: spatial.resolution
+    transform: [text]
+  timeResolution:
+    path: temporal.resolution
+    transform: [text]
+  attribution:
+    path: licenses.attribution
+    transform: [first, text]
+  # OEP tables published through the public API are readable without an
+  # account; a property of the platform stated in its own terms of use, not an
+  # inference from the record.
+  anonymousAccess:
+    const: true
+  accessRestriction:
+    const: https://schema.opengrid.org/concept/access-restriction/none
+
+defaults:
+  documentationStatus: partial
+
+distributions:
+  path: resources
+  accessURL: path
+  fields:
+    formatLabel:
+      path: format
+      transform: [text]
+    mediaType:
+      path: mediatype
+      transform: [text]

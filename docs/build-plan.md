@@ -30,13 +30,13 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-2.4 | Projector: CONSTRUCT, indexer, one-command reindex | M2 | WP-2.1 | done |
 | WP-2.5 | Curated seed loader (`data/seed-sources.yaml` → catalog) | M2 | WP-2.1, WP-1.3 | done |
 | WP-2.6 | Operations CLI (`datahub`) | M2 | WP-2.3, WP-2.4, WP-2.5 | done |
-| WP-3.1 | Harvest framework: runs, checkpoints, rate limiting | M3 | WP-2.3 | todo |
-| WP-3.2 | Adapters: ckan, zenodo, datacite | M3 | WP-3.1 | todo |
-| WP-3.3 | Adapters: stac, yaml_repo, dcat_sparql, oep, curated | M3 | WP-3.1 | todo |
-| WP-3.4 | Grid-relevance filter (keyword + vocabulary + LLM stage) | M3 | WP-1.2 | todo |
-| WP-3.5 | Normalizers and per-source YAML mappings | M3 | WP-3.2, WP-3.3, WP-2.1 | todo |
-| WP-3.6 | LLM enricher with field allow-list and basis tagging | M3 | WP-3.5 | todo |
-| WP-3.7 | Validation runner and review-queue model | M3 | WP-1.3, WP-2.3 | todo |
+| WP-3.1 | Harvest framework: runs, checkpoints, rate limiting | M3 | WP-2.3 | done |
+| WP-3.2 | Adapters: ckan, zenodo, datacite | M3 | WP-3.1 | done |
+| WP-3.3 | Adapters: stac, yaml_repo, dcat_sparql, oep, cds, curated | M3 | WP-3.1 | done |
+| WP-3.4 | Grid-relevance filter (keyword + vocabulary + LLM stage) | M3 | WP-1.2 | done |
+| WP-3.5 | Normalizers and per-source YAML mappings | M3 | WP-3.2, WP-3.3, WP-2.1 | done |
+| WP-3.6 | LLM enricher with field allow-list and basis tagging | M3 | WP-3.5 | done |
+| WP-3.7 | Validation runner and review-queue model | M3 | WP-1.3, WP-2.3 | done |
 | WP-4.1 | Search backend protocol + in-memory + OpenSearch | M4 | WP-0.2 | todo |
 | WP-4.2 | Query builder, facets, entitlement injection | M4 | WP-4.1 | todo |
 | WP-4.3 | REST read endpoints and OpenAPI 3.1 | M4 | WP-4.2, WP-2.1 | todo |
@@ -168,6 +168,42 @@ PRD §7.
 
 **Milestone done when:** 2,000+ candidate records harvested, normalized and
 validated, with a per-source recall audit.
+
+**Where M3 landed.** The pipeline is complete and tested end to end; the volume
+criterion is **not met and cannot be met from this build environment**, because
+outbound access to all eleven harvest sources is denied by policy. What that
+changes, precisely:
+
+- The eight adapters are tested against recorded fixtures in
+  `tests/fixtures/harvest/`, **written from each API's published response schema
+  rather than captured from a live service**. They test paging, cursors,
+  checkpoints, deduplication and every derived field — everything on this side
+  of the boundary. They cannot test whether a source still returns that shape.
+- `tests/harvest/test_live_sources.py` closes that gap and is skipped by
+  default (`-m network`). Four assertions per source: it answers, the fields the
+  mapping reads are still present, a live record normalises, and we are not
+  being rate-limited. Run these first when a harvest starts returning less than
+  it did last week.
+- The recall audit the criterion asks for is built and runnable now:
+  `datahub harvest audit` reports accept/reject rates per stage and the most
+  recent rejections with their reasons. Against real sources it is the first
+  thing to read.
+
+Two design decisions worth recording, both about what the pipeline refuses to
+invent:
+
+- **Data domain is inferred; provenance class is not.** A domain is a filing
+  decision — wrong means a record is in the wrong drawer, a steward fixes it in
+  seconds — so it is derived from term signatures and marked
+  `og:inferredAssignment` with a basis. A provenance class caps the Provenance
+  grade, so a wrong one is the catalog asserting something false about how the
+  numbers came to exist. It is set only where the source's own words determine
+  it, and otherwise left absent, which costs the record level 1 and sends it to
+  a steward.
+- **The enricher's allow-list is enforced after the model answers, not in the
+  prompt** (ADR-0005). `tests/harvest/test_enrich.py` uses a model that
+  deliberately returns licences, access URLs, byte sizes and identifiers, and
+  asserts that none of them reaches a record.
 
 ---
 

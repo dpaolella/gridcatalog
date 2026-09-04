@@ -1,0 +1,66 @@
+# AWS Registry of Open Data — one YAML file per dataset
+#
+# The seed file: "Every dataset is a YAML file with Description, Documentation,
+# License, Resources (bucket, region, type). Resources map almost one-to-one
+# onto our Distribution object."
+
+notes: >-
+  `Resources[].ARN` is an S3 ARN, not a URL. The adapter converts it to an https
+  endpoint before this mapping runs, because the conversion needs the region and
+  the bucket-name rules, which are adapter knowledge rather than field mapping.
+  `RequesterPays` is carried through: a bucket the caller pays to read is an
+  access barrier the broker has to know about before it plans a download.
+
+identity:
+  title: Name
+  slug_from: [Slug, Name]
+
+fields:
+  description:
+    path: Description
+    transform: [strip_html]
+  keyword:
+    path: Tags
+    transform: [names]
+  license: License
+  documentation:
+    path: Documentation
+    transform: [list]
+  updateCadence:
+    path: UpdateFrequency
+    transform: [text]
+  landingPage:
+    path: _landing_page
+    transform: [iri]
+  # The AWS Registry of Open Data is, by the programme's own definition, data
+  # readable anonymously. RequesterPays is the documented exception, surfaced
+  # per dataset by the adapter; where set, the caller pays to read, which is a
+  # commercial barrier rather than open access.
+  anonymousAccess:
+    path: _anonymous
+    transform: [boolean]
+  accessRestriction:
+    path: _anonymous
+    transform: [boolean]
+    values:
+      "True": https://schema.opengrid.org/concept/access-restriction/none
+      "False": https://schema.opengrid.org/concept/access-restriction/commercialPaywall
+
+defaults:
+  documentationStatus: external-standard-only
+
+distributions:
+  path: Resources
+  accessURL: _url
+  fields:
+    formatLabel:
+      path: Type
+      transform: [text]
+    requesterPays:
+      path: RequesterPays
+      transform: [boolean]
+    bulkDownload:
+      const: true
+    anonymousAccess:
+      path: _anonymous
+      transform: [boolean]

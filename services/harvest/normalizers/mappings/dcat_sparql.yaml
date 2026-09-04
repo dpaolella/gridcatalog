@@ -1,0 +1,76 @@
+# data.europa.eu — native DCAT-AP over SPARQL
+#
+# PRD §7.3: "Lowest normalization cost of any source here." The adapter's
+# SELECT already names its columns after our terms, so this mapping is almost
+# an identity function — which is the point: where a source speaks the same
+# vocabulary, the mapping should be visibly trivial rather than dressed up.
+
+notes: >-
+  The adapter binds one row per dataset with distributions aggregated into
+  `_distributions`. Language selection happens in the SPARQL (FILTER on
+  langMatches), not here, because picking a language after the fact would mean
+  transferring every translation of every description.
+
+identity:
+  title: title
+  slug_from: [identifier, dataset]
+
+fields:
+  description:
+    path: description
+    transform: [strip_html]
+  keyword:
+    path: keywords
+    transform: [list]
+  issued:
+    path: issued
+    transform: [datetime]
+  modified:
+    path: modified
+    transform: [datetime]
+  license:
+    path: license
+    transform: [text]
+  landingPage:
+    path: landingPage
+    transform: [iri]
+  publisher:
+    path: publisher
+    transform: [iri]
+  updateCadence:
+    path: accrualPeriodicity
+    transform: [text]
+  spatialLabel:
+    path: spatialLabel
+    transform: [list]
+  # DCAT-AP's dct:accessRights where the publisher supplied it. Most do not,
+  # and where it is absent nothing is claimed.
+  anonymousAccess:
+    path: accessRights
+    values:
+      http://publications.europa.eu/resource/authority/access-right/PUBLIC: true
+      http://publications.europa.eu/resource/authority/access-right/RESTRICTED: false
+      http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC: false
+  accessRestriction:
+    path: accessRights
+    values:
+      http://publications.europa.eu/resource/authority/access-right/PUBLIC: https://schema.opengrid.org/concept/access-restriction/none
+      http://publications.europa.eu/resource/authority/access-right/RESTRICTED: https://schema.opengrid.org/concept/access-restriction/accountRequired
+      http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC: https://schema.opengrid.org/concept/access-restriction/accountRequired
+
+defaults:
+  documentationStatus: external-standard-only
+
+distributions:
+  path: _distributions
+  accessURL: accessURL
+  fields:
+    mediaType:
+      path: mediaType
+      transform: [text]
+    formatLabel:
+      path: format
+      transform: [text]
+    byteSize:
+      path: byteSize
+      transform: [integer]
