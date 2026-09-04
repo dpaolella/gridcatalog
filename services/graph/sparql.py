@@ -98,6 +98,18 @@ def bind(template: str, params: Mapping[str, Any] | None = None) -> str:
         value = params[name]
         if isinstance(value, URIRef):
             return iri(value)
+        if isinstance(value, str) and value.startswith(("http://", "https://", "urn:")):
+            # Loud, because the alternative is silent and expensive. A string
+            # that looks like an IRI binds as a literal, every join against it
+            # fails to match, and the query returns an empty result that is
+            # indistinguishable from "there is nothing there" — which is what
+            # an empty concept scheme, an empty domain list and an empty
+            # crosswalk all look like too.
+            raise TypeError(
+                f"parameter {name!r} looks like an IRI but is a str, so it would bind as a "
+                f"literal and match nothing: {value!r}. Wrap it in URIRef(), or pass "
+                "Literal() if a string literal really is what you meant."
+            )
         return n3(value)
 
     out = _PLACEHOLDER.sub(_sub, template)

@@ -1,0 +1,142 @@
+"""Turning a request into an :class:`Entitlement` (WP-4.3, extended in M6).
+
+ADR-0006: **entitlement is compiled into the query, never applied to its
+results.** This module is the one place a caller's identity becomes the
+predicate that gets compiled. Everything downstream takes an ``Entitlement`` and
+has no way to ask who the caller is — which is deliberate, because a handler
+that could ask would eventually decide.
+
+The identity sources here are bearer tokens and nothing else. Federated login,
+sessions and the custodian API are M6; the seam is this function's signature,
+which does not change when they arrive.
+
+**A bad token is anonymous, not an error.** A caller presenting an expired token
+to a public search gets the public results, the same as a caller presenting
+none. Returning 401 instead would leak that the token was once valid, and would
+break the common case of a stale token in a script that only reads public data.
+The audit log records the presentation; the response does not.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import hmac
+from dataclasses import dataclass
+from typing import Any
+
+from datahub.api.models.repositories import Repositories
+from datahub.api.search.backend import Entitlement
+from datahub.config import Settings, get_settings
+from datahub.logging import get_logger
+
+log = get_logger(__name__)
+
+#: Presented tokens look like ``og_pat_<32 bytes base64url>``. The prefix is
+#: stored alongside the hash so a user can identify which token to revoke
+#: without the token itself being recoverable.
+TOKEN_PREFIX = "og_pat_"
+
+
+@dataclass(frozen=True, slots=True)
+class Caller:
+    """Who is asking, and what they may see.
+
+    Both, because the audit log needs the identity and the query needs the
+    predicate, and deriving one from the other at two call sites is how they
+    come apart.
+    """
+
+    entitlement: Entitlement
+    principal_id: str | None = None
+    email: str | None = None
+    role: str = "anonymous"
+    token_id: str | None = None
+    is_agent: bool = False
+
+    @property
+    def is_anonymous(self) -> bool:
+        return self.principal_id is None
+
+    @property
+    def client_kind(self) -> str:
+        return "agent" if self.is_agent else ("user" if self.principal_id else "anonymous")
+
+
+def hash_token(token: str, settings: Settings | None = None) -> str:
+    """Hash a presented token for lookup.
+
+    Keyed HMAC rather than a bare digest: the tokens are high-entropy so a
+    rainbow table is not the threat, but a keyed hash means a leaked database
+    alone does not let an attacker confirm a guessed token offline.
+    """
+    settings = settings or get_settings()
+    return hmac.new(
+        settings.secret_key.encode("utf-8"), token.encode("utf-8"), hashlib.sha256
+    ).hexdigest()
+
+
+def anonymous() -> Caller:
+    return Caller(entitlement=Entitlement.anonymous())
+
+
+def resolve(
+    authorization: str | None,
+    session: Any = None,
+    settings: Settings | None = None,
+) -> Caller:
+    """The caller behind a request.
+
+    ``session`` is a SQLAlchemy session or None. None means no operational
+    store is reachable, which resolves to anonymous — a catalog whose database
+    is down should still serve public search rather than 500 on every request.
+    """
+    settings = settings or get_settings()
+    token = _bearer(authorization)
+    if not token or session is None:
+        return anonymous()
+
+    repos = Repositories(session)
+    row = repos.tokens.by_hash(hash_token(token, settings))
+    if row is None:
+        # Not an error. A stale token in a script that only reads public data
+        # should keep working, and a 401 would confirm the token was once real.
+        log.info("unrecognised bearer token presented", prefix=token[:12])
+        return anonymous()
+
+    user = repos.users.get(row.user_id)
+    if user is None or not user.is_active:
+        return anonymous()
+
+    repos.tokens.mark_used(row.id)
+    # Allow-list membership is NOT resolved here. It is projected onto each
+    # search document as `entitled_principals`, so the predicate is evaluated
+    # inside the query rather than against its results (ADR-0006). Resolving it
+    # here would mean either a second pass over the hits — which leaks
+    # existence through counts — or an IN clause the length of the user's
+    # grants.
+    custodian_of = repos.custodians.custodian_iris_for(user.id)
+
+    return Caller(
+        entitlement=Entitlement(
+            principal_id=user.id,
+            custodian_of=frozenset(custodian_of),
+            is_steward=user.role in ("steward", "admin"),
+        ),
+        principal_id=user.id,
+        email=user.email,
+        role=user.role,
+        token_id=row.id,
+        is_agent=user.is_agent,
+    )
+
+
+def _bearer(authorization: str | None) -> str | None:
+    if not authorization:
+        return None
+    scheme, _, value = authorization.partition(" ")
+    if scheme.lower() != "bearer" or not value.strip():
+        return None
+    return value.strip()
+
+
+__all__ = ["TOKEN_PREFIX", "Caller", "anonymous", "hash_token", "resolve"]

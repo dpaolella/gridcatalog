@@ -37,10 +37,10 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-3.5 | Normalizers and per-source YAML mappings | M3 | WP-3.2, WP-3.3, WP-2.1 | done |
 | WP-3.6 | LLM enricher with field allow-list and basis tagging | M3 | WP-3.5 | done |
 | WP-3.7 | Validation runner and review-queue model | M3 | WP-1.3, WP-2.3 | done |
-| WP-4.1 | Search backend protocol + in-memory + OpenSearch | M4 | WP-0.2 | todo |
-| WP-4.2 | Query builder, facets, entitlement injection | M4 | WP-4.1 | todo |
-| WP-4.3 | REST read endpoints and OpenAPI 3.1 | M4 | WP-4.2, WP-2.1 | todo |
-| WP-4.4 | Concepts, domains, submissions, reports endpoints | M4 | WP-4.3 | todo |
+| WP-4.1 | Search backend protocol + in-memory + OpenSearch | M4 | WP-0.2 | done |
+| WP-4.2 | Query builder, facets, entitlement injection | M4 | WP-4.1 | done |
+| WP-4.3 | REST read endpoints and OpenAPI 3.1 | M4 | WP-4.2, WP-2.1 | done |
+| WP-4.4 | Concepts, domains, submissions, reports endpoints | M4 | WP-4.3 | done |
 | WP-5.1 | Access-plan model and path selection | M5 | WP-2.2 | todo |
 | WP-5.2 | Byte-range and subsetting-protocol planning | M5 | WP-5.1 | todo |
 | WP-5.3 | Link-health prober, auto-heal, sibling fallback | M5 | WP-2.2 | todo |
@@ -218,6 +218,33 @@ PRD §F8, §F3.
 
 **Milestone done when:** a search across all ten domains returns correctly
 faceted results within the latency budget at catalog scale.
+
+**Where M4 landed.** Fourteen paths, OpenAPI 3.1, RFC 9457 problem details from
+one handler. `datahub serve` runs it; `datahub openapi` emits the contract
+without starting a server, so a client build or a CI contract check does not
+need a running service.
+
+Three things worth recording:
+
+- **Entitlement is the index's job, not the handler's.** Every read — detail,
+  schema, quality, distributions, download — goes through the search index with
+  the caller's predicate compiled in, and only then reads the record. Handlers
+  have no way to ask who the caller is, which is the point: a handler that
+  could ask would eventually decide.
+- **The corpus grew two records** (`caiso-nodal-lmp-restricted`,
+  `utility-load-shapes-allowlisted`). Until M4 the fixtures contained no
+  restricted-visibility record at all, so the three visibility levels of PRD
+  §F8 were untested end to end — the most security-sensitive rule in the
+  system, exercised by nothing. `restricted-metadata` now appears in search as
+  a marked stub; `allowlisted-existence` returns the same 404 as an absent
+  record, field for field.
+- **The index carries no access URLs, deliberately.** A search response should
+  not haul every URL in the catalog to a client that wanted ten titles, so
+  `/distributions` and `/download` read the record once entitlement is
+  established — the same split `/schema` uses.
+
+Deferred with their milestones, and asserted absent so the gap stays
+deliberate: `/access-plan` (M5), `/links` (M8), `/allowlists` (M6).
 
 ---
 

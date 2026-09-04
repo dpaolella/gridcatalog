@@ -1,0 +1,457 @@
+"""``/v1/datasets`` — search and read (WP-4.3).
+
+PRD §F8's dataset endpoints. Two rules run through all of them.
+
+**Entitlement is compiled in, never applied afterwards** (ADR-0006). Every read
+goes through the search index with the caller's entitlement in the query, so a
+record the caller may not see contributes to no count and appears in no page.
+Filtering results after the fact leaks existence through the total, and a total
+is enough to confirm a dataset exists.
+
+**A refusal on an allow-listed-existence record is a 404, not a 403.** A 403
+says "this exists and you cannot have it", which for a record whose *existence*
+is restricted is the disclosure itself. The audit log records the real outcome;
+the caller cannot tell the two apart, which is the point.
+
+The detail endpoints read the *record* rather than the index once entitlement
+has been established, because the index is a flattened projection and a caller
+asking for a dataset's schema wants the schema, not the summary of it.
+"""
+
+from __future__ import annotations
+
+from typing import Annotated, Any
+
+from datahub.api.deps import CallerDep, RecordsDep, SearchDep, SessionDep
+from datahub.api.entitlement import Caller
+from datahub.api.schemas import (
+    DatasetDetail,
+    DatasetSummary,
+    DistributionDetail,
+    FacetBucket,
+    QualityResponse,
+    SchemaResponse,
+    SearchResponseModel,
+)
+from datahub.api.search.backend import SearchBackend
+from datahub.api.search.document import SearchDocument
+from datahub.api.search.query import SearchParams, build, build_for_ids
+from datahub.errors import NotFound, NoUsableDistribution
+from datahub.logging import get_logger
+from fastapi import APIRouter, Path, Query, Request, Response, status
+from fastapi.responses import RedirectResponse
+
+log = get_logger(__name__)
+
+router = APIRouter(tags=["datasets"])
+
+DatasetId = Annotated[
+    str,
+    Path(
+        description=(
+            "The dataset's slug, which is the last segment of its IRI — "
+            "`ecmwf-era5` for `https://catalog.opengrid.org/ds/ecmwf-era5`. A caller "
+            "holding the IRI takes its last segment; a full IRI is not accepted in the "
+            "path, because its slashes are indistinguishable from the sub-resource "
+            "paths (`/schema`, `/quality`) that follow it."
+        ),
+        examples=["ecmwf-era5"],
+    ),
+]
+
+
+# ---------------------------------------------------------------------------
+# Search
+# ---------------------------------------------------------------------------
+
+
+@router.get(
+    "/datasets",
+    response_model=SearchResponseModel,
+    summary="Search, filter, facet and paginate the catalog",
+)
+def search_datasets(
+    caller: CallerDep,
+    backend: SearchDep,
+    q: Annotated[
+        str | None, Query(description="Free text. Prefix-matched on the last token.")
+    ] = None,
+    data_domain: Annotated[
+        list[str] | None, Query(description="DD1-DD10, or the concept IRI.")
+    ] = None,
+    provenance_class: Annotated[list[str] | None, Query()] = None,
+    license_id: Annotated[list[str] | None, Query()] = None,
+    spatial_granularity: Annotated[list[str] | None, Query()] = None,
+    format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
+    completeness_level: Annotated[list[int] | None, Query()] = None,
+    anonymous_access: Annotated[bool | None, Query()] = None,
+    bbox: Annotated[str | None, Query(description="west,south,east,north in WGS 84.")] = None,
+    temporal_start: Annotated[str | None, Query(description="ISO 8601.")] = None,
+    temporal_end: Annotated[str | None, Query(description="ISO 8601.")] = None,
+    sort: Annotated[
+        str | None,
+        Query(description="Comma-separated fields; a leading `-` is descending, e.g. `-modified`."),
+    ] = None,
+    facets: Annotated[str | None, Query(description="Comma-separated facet fields.")] = None,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    # ge=0, not ge=1: "give me the facet counts and no results" is how a
+    # filter panel is populated, and making the caller ask for a row they
+    # discard costs a projection per query for nothing.
+    limit: Annotated[int, Query(ge=0, le=200)] = 20,
+    include_unconfirmed: Annotated[bool, Query(description="Stewards only.")] = False,
+) -> SearchResponseModel:
+    """Search the catalog.
+
+    Search-while-typing is the intended interaction (PRD §F3), so the last token
+    of ``q`` is prefix-expanded and there is no submit step. Facets come back
+    with the results rather than from a second call: a UI that had to ask twice
+    would show counts that disagree with the list for as long as the second
+    call is in flight.
+    """
+    params = SearchParams(
+        q=q,
+        filters=_filters(
+            data_domain=data_domain,
+            provenance_class=provenance_class,
+            license_id=license_id,
+            spatial_granularity=spatial_granularity,
+            format=format,
+            completeness_level=completeness_level,
+            anonymous_access=anonymous_access,
+        ),
+        bbox=_bbox(bbox),
+        temporal_start=_when(temporal_start, "temporal_start"),
+        temporal_end=_when(temporal_end, "temporal_end"),
+        sort=sort,
+        facets=tuple(f.strip() for f in facets.split(",") if f.strip()) if facets else None,
+        offset=offset,
+        limit=limit,
+        include_unconfirmed=include_unconfirmed,
+    )
+    response = backend.search(build(params, caller.entitlement))
+
+    return SearchResponseModel(
+        total=response.total,
+        offset=offset,
+        limit=limit,
+        results=[
+            DatasetSummary.from_document(hit.document, full=hit.full_metadata)
+            for hit in response.hits
+        ],
+        facets={
+            name: [FacetBucket(value=v.value, count=v.count, label=v.label) for v in values]
+            for name, values in response.facets.items()
+        },
+        took_ms=response.took_ms,
+    )
+
+
+# ---------------------------------------------------------------------------
+# One dataset
+# ---------------------------------------------------------------------------
+
+
+@router.get("/datasets/{dataset_id}", response_model=DatasetDetail, summary="One record")
+def get_dataset(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    response: Response,
+) -> DatasetDetail:
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        # A stub: the caller may know it exists and no more. Not cached
+        # publicly, because the response depends on who asked.
+        response.headers["Cache-Control"] = "private, max-age=0"
+    return DatasetDetail.from_document(document, full=full)
+
+
+@router.get(
+    "/datasets/{dataset_id}/schema",
+    response_model=SchemaResponse,
+    summary="Field-level metadata",
+)
+def get_schema(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+) -> SchemaResponse:
+    """The record's fields, with units and concepts where they resolve.
+
+    Read from the graph rather than the index: the index carries a field
+    *count* because that is what a list view needs, and this endpoint exists
+    for the caller who wants the fields themselves.
+    """
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        raise _absent(dataset_id)
+    record = records.get(document.iri)
+    return SchemaResponse.from_record(record, document, labels=_labels(record, records))
+
+
+@router.get(
+    "/datasets/{dataset_id}/quality",
+    response_model=QualityResponse,
+    summary="The three quality facets",
+)
+def get_quality(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+) -> QualityResponse:
+    """Currency, provenance and documentation, graded independently.
+
+    There is deliberately no composite score (ADR-0007). A dataset can be
+    perfectly current and completely unprovenanced, and averaging those into
+    one number destroys the only information a user could act on.
+    """
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        raise _absent(dataset_id)
+    return QualityResponse.from_document(document)
+
+
+@router.get(
+    "/datasets/{dataset_id}/distributions",
+    response_model=list[DistributionDetail],
+    summary="Access paths, with capabilities and link health",
+)
+def get_distributions(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+) -> list[DistributionDetail]:
+    """Every way to get the data, and what is known about each.
+
+    Read from the record, not the index: the index carries only enough of a
+    distribution to filter and render a list row, and deliberately no access
+    URLs — a search response should not haul every URL in the catalog to a
+    client that wanted ten titles.
+
+    Unhealthy paths are included and marked. A dead link a user can see is a
+    reportable fact; a dead link silently removed is a dataset that appears to
+    have no access path at all.
+    """
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        raise _absent(dataset_id)
+    return DistributionDetail.from_record(records.get(document.iri))
+
+
+@router.get(
+    "/datasets/{dataset_id}/download",
+    status_code=status.HTTP_302_FOUND,
+    summary="Redirect to the source. The API never serves bytes.",
+    responses={302: {"description": "Redirect to the best available access URL."}},
+)
+def download(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+    session: SessionDep,
+    request: Request,
+) -> RedirectResponse:
+    """The human-facing path: click, and end up at the source.
+
+    A redirect rather than a proxy, and that is a design decision rather than
+    an optimisation. Proxying would make OpenGrid an egress bill, a bandwidth
+    bottleneck and a party to every licence it does not hold. The redirect also
+    means the source sees its own traffic, which is what keeps a data publisher
+    willing to be catalogued.
+    """
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        raise _absent(dataset_id)
+
+    target = _best_distribution(DistributionDetail.from_record(records.get(document.iri)))
+    if target is None:
+        # 409 rather than 404: the record exists and this endpoint cannot
+        # serve it, which is a different thing from the record being absent
+        # and needs a different response from the client.
+        raise NoUsableDistribution(
+            f"{document.id} has no distribution a browser can follow",
+            hint=(
+                "Its access paths are object-store URIs or protocol endpoints. "
+                f"Use POST /v1/datasets/{document.id}/access-plan, which returns "
+                "instructions for reading them."
+            ),
+            dataset_id=document.id,
+        )
+
+    _audit(session, caller, request, document, target)
+    return RedirectResponse(url=target.access_url, status_code=status.HTTP_302_FOUND)
+
+
+def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, str]:
+    """Display labels for every concept and unit IRI the record mentions.
+
+    One query for all of them rather than one per field: a record with ninety
+    fields would otherwise be ninety round trips to render one page, and the
+    labels all live in the same graph.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import dataset_node
+
+    try:
+        node = dataset_node(record)
+    except Exception:
+        return {}
+
+    fields = node.get("hasField") or []
+    if isinstance(fields, dict):
+        fields = [fields]
+    iris = {
+        str(value)
+        for field in fields
+        if isinstance(field, dict)
+        for key in ("concept", "unit")
+        if isinstance(value := field.get(key), str)
+    }
+    if not iris:
+        return {}
+
+    from datahub.graph.sparql import values_clause
+    from rdflib import URIRef
+
+    rows = records.store.select(
+        f"""
+        SELECT ?iri ?label WHERE {{
+          GRAPH ??vocab {{ ?iri ?p ?label }}
+          {values_clause("iri", [URIRef(i) for i in sorted(iris)])}
+          VALUES ?p {{ skos:prefLabel rdfs:label qudt:symbol }}
+        }}
+        """,
+        {"vocab": NamedGraph.VOCAB.uri()},
+    )
+    return {str(row["iri"]): str(row["label"]) for row in rows}
+
+
+# ---------------------------------------------------------------------------
+# Entitlement
+# ---------------------------------------------------------------------------
+
+
+def _entitled_document(
+    dataset_id: str, caller: Caller, backend: SearchBackend
+) -> tuple[SearchDocument, bool]:
+    """Fetch a record through the entitlement predicate.
+
+    Through the index rather than the graph, because the index is where the
+    predicate is compiled. Reading the graph first and checking afterwards
+    would be the post-filter ADR-0006 forbids, and the check would live in
+    every handler rather than in one place.
+    """
+    slug = dataset_id.rsplit("/", 1)[-1]
+    response = backend.search(build_for_ids((slug,), caller.entitlement))
+    if not response.hits:
+        raise _absent(dataset_id)
+    hit = response.hits[0]
+    return hit.document, hit.full_metadata
+
+
+def _absent(dataset_id: str) -> NotFound:
+    """The same 404 whether the record is missing or withheld.
+
+    A 403 would say "this exists and you cannot have it", which on a record
+    whose existence is the restricted part *is* the disclosure. The audit log
+    distinguishes the two; the caller cannot.
+    """
+    return NotFound(f"no dataset {dataset_id!r}", dataset_id=dataset_id)
+
+
+def _best_distribution(distributions: list[DistributionDetail]) -> DistributionDetail | None:
+    """The distribution to send a browser to.
+
+    Preferring, in order: a reachable link over a known-dead one, an
+    anonymously readable path over a gated one, a bulk download over an API. A
+    user who clicked "download" wants a file, and sending them to a login form
+    when an open mirror exists is a worse answer than the mirror.
+
+    ``min`` over a rank tuple rather than a chain of filters, so "no healthy
+    anonymous path exists" still yields the best of a bad set rather than
+    nothing at all.
+    """
+
+    def rank(dist: DistributionDetail) -> tuple[int, int, int]:
+        return (
+            0 if dist.reachable else 1,
+            0 if dist.anonymous_access is not False else 1,
+            0 if dist.bulk_download else 1,
+        )
+
+    # http(s) only. An `s3://` or `gs://` URI is a real access path and belongs
+    # in an access plan, but a browser cannot follow it — redirecting to one
+    # produces a dead tab, which is a worse answer than saying so.
+    usable = [
+        d
+        for d in distributions
+        if d.access_url and d.access_url.startswith(("http://", "https://"))
+    ]
+    return min(usable, key=rank) if usable else None
+
+
+def _audit(
+    session: Any,
+    caller: Caller,
+    request: Request,
+    document: SearchDocument,
+    distribution: DistributionDetail,
+) -> None:
+    """Record the redirect. Never fatal.
+
+    A download that failed to log is still a download; refusing to serve it
+    because the audit table is unreachable would take the catalog down with the
+    database, and the redirect target is public information anyway.
+    """
+    if session is None:
+        return
+    try:
+        from datahub.api.models.repositories import Repositories
+
+        Repositories(session).audit.record(
+            action="dataset.download",
+            outcome="granted",
+            resource_kind="distribution",
+            resource_id=distribution.id,
+            principal_id=caller.principal_id,
+            principal_kind=caller.client_kind,
+            client=request.headers.get("x-client", "api"),
+        )
+    except Exception as exc:
+        log.warning("audit write failed", error=str(exc), dataset=document.id)
+
+
+# ---------------------------------------------------------------------------
+# Query parsing
+# ---------------------------------------------------------------------------
+
+
+def _filters(**kwargs: Any) -> dict[str, list[str]]:
+    """Repeated query parameters into the filter map.
+
+    Named parameters rather than a free-form ``filter[]``: FastAPI then
+    validates and documents each one, and a client discovers the filterable
+    fields from the OpenAPI document rather than from prose.
+    """
+    out: dict[str, list[str]] = {}
+    for name, value in kwargs.items():
+        if value is None:
+            continue
+        values = value if isinstance(value, list) else [value]
+        out[name] = [str(v).lower() if isinstance(v, bool) else str(v) for v in values]
+    return out
+
+
+def _bbox(raw: str | None) -> tuple[float, float, float, float] | None:
+    from datahub.api.search.query import parse_bbox
+
+    return parse_bbox(raw)
+
+
+def _when(raw: str | None, field: str) -> Any:
+    from datahub.api.search.query import parse_datetime
+
+    return parse_datetime(raw, field=field)

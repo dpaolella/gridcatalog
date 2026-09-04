@@ -26,7 +26,11 @@ class ConceptRef(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     iri: str
-    label: str
+    #: Optional because a record can carry a concept IRI this deployment holds
+    #: no label for — a crosswalk target, or a concept added to the vocabulary
+    #: after the record was written. Returning the IRI with no label is honest;
+    #: inventing a label from the IRI's last segment is not.
+    label: str | None = None
     notation: str | None = None
 
 

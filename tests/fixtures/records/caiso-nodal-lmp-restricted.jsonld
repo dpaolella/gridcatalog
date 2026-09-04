@@ -1,0 +1,64 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/caiso-nodal-lmp-restricted",
+      "type": "Dataset",
+      "title": "CAISO nodal LMP history, extended attribute set",
+      "summary": "Locational marginal prices by pricing node, with the congestion and loss components a member agreement covers.",
+      "description": "Hourly and five-minute locational marginal prices for every CAISO pricing node, including the congestion and marginal-loss decomposition that the public OASIS feed does not carry. Access to the extended attributes is governed by a member agreement; the record exists publicly because knowing this dataset exists is not itself restricted, and a modeller who needs it should be able to find out who to ask.",
+      "keyword": [
+        "locational marginal price",
+        "nodal",
+        "CAISO",
+        "congestion",
+        "market"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/caiso",
+      "custodian": "https://catalog.opengrid.org/agent/caiso",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD9"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "license": "https://spdx.org/licenses/LicenseRef-Member-Agreement",
+      "licenseNote": "Redistribution is governed by the CAISO member agreement. Terms are specific to the signatory and are not reproduced here.",
+      "redistributionAllowed": false,
+      "commercialUseAllowed": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "credentialRequirement": "A CAISO market participant account and a signed member agreement covering the extended attribute set.",
+      "accessBarrier": "Member agreement required before the extended attributes are released.",
+      "documentationStatus": "external-standard-only",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "restricted-metadata",
+      "tier": 2,
+      "spatialLabel": ["California ISO footprint"],
+      "spatialGranularity": "nodal",
+      "updateCadence": "P1D",
+      "modified": "2026-08-15T00:00:00Z",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/caiso-nodal-lmp-restricted#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "The extended attribute set is not the same series as the public OASIS LMP feed. Comparing the two without reconciling the loss component produces a systematic offset."
+        ]
+      },
+      "distribution": [
+        {
+          "id": "https://catalog.opengrid.org/dist/caiso-nodal-lmp-restricted--api",
+          "type": "Distribution",
+          "accessURL": "https://oasis.caiso.com/oasisapi/SingleZip",
+          "formatLabel": "CSV in ZIP",
+          "mediaType": "application/zip",
+          "anonymousAccess": false,
+          "bulkDownload": false,
+          "hostedByOpenGrid": false,
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired"
+        }
+      ]
+    }
+  ]
+}

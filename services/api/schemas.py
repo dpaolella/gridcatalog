@@ -240,6 +240,211 @@ class SchemaResponse(ApiModel):
     #: itself; it is not an empty table).
     unavailable_reason: str | None = None
 
+    @classmethod
+    def from_record(
+        cls,
+        document: dict[str, Any],
+        doc: SearchDocument,
+        *,
+        labels: dict[str, str] | None = None,
+    ) -> Self:
+        """Build from a JSON-LD record, read out of the graph.
+
+        Out of the graph rather than the index because the index carries a
+        field *count* — which is what a list view needs — and this endpoint
+        exists for the caller who wants the fields themselves.
+        """
+        from datahub.graph.records import dataset_node
+
+        try:
+            node = dataset_node(document)
+        except Exception:
+            node = {}
+
+        raw = node.get("hasField") or []
+        if isinstance(raw, dict):
+            raw = [raw]
+        fields = [FieldDetail(**_field_kwargs(f, labels or {})) for f in raw if isinstance(f, dict)]
+
+        return cls(
+            dataset_id=doc.id,
+            completeness_level=doc.completeness_level,
+            fields=sorted(fields, key=lambda f: f.local_name),
+            unavailable_reason=None if fields else _no_schema_reason(doc),
+        )
+
+
+def _no_schema_reason(doc: SearchDocument) -> str:
+    """Why the schema tab is empty, in words a user can act on.
+
+    "No fields" is not an answer: it reads as "this dataset has no columns",
+    which is almost never true. What is true is that nobody has catalogued
+    them, and the level says how far the record has got.
+    """
+    if doc.reference_only:
+        return (
+            "This is a reference-only pointer: the catalog records where the dataset is and "
+            "who publishes it, and does not describe its contents."
+        )
+    if doc.completeness_level < 2:
+        return (
+            "Field-level metadata has not been captured for this record yet. It is at "
+            f"completeness level {doc.completeness_level}; field descriptions arrive at level 2."
+        )
+    return "No field-level metadata is recorded for this dataset."
+
+
+def _field_kwargs(node: dict[str, Any], labels: dict[str, str]) -> dict[str, Any]:
+    """One ``og:Field`` node into a :class:`FieldDetail`.
+
+    Every absence is carried through as an absence. A field with no unit is a
+    field whose unit was not captured, and defaulting it to "dimensionless"
+    would turn a gap into a claim.
+    """
+    concept = node.get("concept")
+    gap = node.get("conceptGap") or {}
+    if isinstance(gap, list):
+        gap = gap[0] if gap else {}
+    return {
+        "id": str(node.get("id", "")),
+        "local_name": str(node.get("localName") or node.get("fieldId") or ""),
+        "label": node.get("label"),
+        "definition": node.get("definition"),
+        "data_type": node.get("dataType"),
+        "unit": node.get("unit"),
+        # The stated unit, verbatim from the source, sits alongside the
+        # resolved IRI rather than replacing it: "kV" is what the publisher
+        # wrote and the QUDT IRI is what a machine can convert.
+        "unit_label": labels.get(str(node.get("unit"))) or node.get("unitAsStated"),
+        "concept": (
+            ConceptRef(iri=str(concept), label=labels.get(str(concept)))
+            if isinstance(concept, str)
+            else None
+        ),
+        "concept_inferred": bool(node.get("inferredAssignment", False)),
+        "inference_basis": node.get("inferenceBasis"),
+        "concept_gap_reason": gap.get("gapReason") if isinstance(gap, dict) else None,
+        "value_basis": node.get("valueBasis"),
+        "field_sources": _as_list(node.get("fieldSource")),
+        "derived_from": _as_list(node.get("derivedFromField")),
+        "required": node.get("required"),
+        "completeness_caveats": node.get("completenessCaveats"),
+    }
+
+
+def _as_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    return [str(v) for v in (value if isinstance(value, list) else [value])]
+
+
+class LinkHealth(ApiModel):
+    """What the prober last saw at this URL.
+
+    Reported even when it is bad. A dead link a user can see is a reportable
+    fact; a dead link silently removed is a dataset that appears to have no
+    access path at all.
+    """
+
+    status: str | None = None
+    last_probed_at: datetime | None = None
+    consecutive_failures: int = 0
+    probe_cadence: str | None = None
+    redirect_target: str | None = None
+
+
+class DistributionDetail(ApiModel):
+    """One access path, with everything needed to decide how to read it.
+
+    Built from the record rather than from the search index. The index carries
+    only enough of a distribution to filter and render a list row — no access
+    URLs, because a search response should not haul every URL in the catalog
+    to a client that wanted ten titles. This is the shape for the caller who
+    has picked a dataset and now wants to fetch it.
+    """
+
+    id: str
+    access_url: str | None = None
+    download_url: str | None = None
+    media_type: str | None = None
+    format_label: str | None = None
+    byte_size: int | None = None
+    checksum: str | None = None
+
+    access_restriction: str | None = None
+    anonymous_access: bool | None = None
+    credential_requirement: str | None = None
+    requester_pays: bool = False
+
+    bulk_download: bool | None = None
+    #: Whether a client can read part of the file rather than all of it. What
+    #: makes a 4 TB dataset usable from a laptop (PRD §F7).
+    supports_range_requests: bool = False
+    cors_enabled: bool | None = None
+    chunk_index_method: str | None = None
+    subsetting_protocol: str | None = None
+
+    hosted_by_opengrid: bool = False
+    hosting_reason: str | None = None
+    link_health: LinkHealth | None = None
+
+    @classmethod
+    def from_node(cls, node: dict[str, Any]) -> Self:
+        health = node.get("linkHealth")
+        if isinstance(health, list):
+            health = health[0] if health else None
+        return cls(
+            id=str(node.get("id", "")),
+            access_url=node.get("accessURL"),
+            download_url=node.get("downloadURL"),
+            media_type=node.get("mediaType"),
+            format_label=node.get("formatLabel"),
+            byte_size=node.get("byteSize"),
+            checksum=node.get("checksum"),
+            access_restriction=node.get("accessRestriction"),
+            anonymous_access=node.get("anonymousAccess"),
+            credential_requirement=node.get("credentialRequirement"),
+            requester_pays=bool(node.get("requesterPays", False)),
+            bulk_download=node.get("bulkDownload"),
+            supports_range_requests=bool(node.get("supportsRangeRequests", False)),
+            cors_enabled=node.get("corsEnabled"),
+            chunk_index_method=node.get("chunkIndexMethod"),
+            subsetting_protocol=node.get("subsettingProtocol"),
+            hosted_by_opengrid=bool(node.get("hostedByOpenGrid", False)),
+            hosting_reason=node.get("hostingReason"),
+            link_health=(
+                LinkHealth(
+                    status=health.get("linkHealthStatus"),
+                    last_probed_at=health.get("lastProbedAt"),
+                    consecutive_failures=int(health.get("consecutiveFailures", 0) or 0),
+                    probe_cadence=health.get("probeCadence"),
+                    redirect_target=health.get("redirectTarget"),
+                )
+                if isinstance(health, dict)
+                else None
+            ),
+        )
+
+    @classmethod
+    def from_record(cls, document: dict[str, Any]) -> list[Self]:
+        from datahub.graph.records import dataset_node
+
+        try:
+            node = dataset_node(document)
+        except Exception:
+            return []
+        raw = node.get("distribution") or []
+        if isinstance(raw, dict):
+            raw = [raw]
+        return [cls.from_node(d) for d in raw if isinstance(d, dict)]
+
+    @property
+    def reachable(self) -> bool:
+        """Whether the last probe found it. Unprobed counts as reachable —
+        "nobody has checked" is not "it is broken"."""
+        status = self.link_health.status if self.link_health else None
+        return status in (None, "verified", "redirected")
+
 
 class DatasetDetail(DatasetSummary):
     description: str | None = None
@@ -418,6 +623,11 @@ class ReportReceipt(ApiModel):
     id: str
     received_at: datetime
     dataset_id: str
+    #: How many open reports now stand against the same target, this one
+    #: included. Reports are grouped rather than deduped, so a target flagged
+    #: eleven times reads as eleven (PRD §12.11) — and a reporter learns their
+    #: report joined others rather than wondering whether it registered.
+    open_reports_on_target: int = 1
     message: str = "Thank you. This has been routed to the curation queue."
 
 

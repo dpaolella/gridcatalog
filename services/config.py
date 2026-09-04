@@ -119,6 +119,13 @@ class Settings(BaseSettings):
     probe_timeout_s: float = 15.0
     probe_failure_threshold: int = 3
 
+    # ---- api ------------------------------------------------------------
+    #: Comma-separated. The web UI's origin in development; the deployment's own
+    #: origins in production. Not "*": the API accepts credentials, and a
+    #: wildcard origin with credentials is either rejected by the browser or a
+    #: way for any page to read an authenticated response.
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+
     # ---- auth -----------------------------------------------------------
     secret_key: str = "dev-only-not-a-secret-change-me"
     token_ttl_s: int = 3600
@@ -135,6 +142,10 @@ class Settings(BaseSettings):
     # ---- observability --------------------------------------------------
     log_level: str = "INFO"
     log_json: bool = False
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
     @field_validator("graph_store_path", "search_store_path", mode="before")
     @classmethod

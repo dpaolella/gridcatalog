@@ -1,0 +1,64 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/utility-load-shapes-allowlisted",
+      "type": "Dataset",
+      "title": "Distribution feeder load shapes, participating utility set",
+      "summary": "Hourly feeder-level load shapes contributed by participating utilities under a data-sharing agreement.",
+      "description": "Hourly load at feeder granularity for participating distribution utilities. Feeder-level load is treated as commercially and operationally sensitive by every contributor, and several will not participate if the existence of their contribution is discoverable. So this record's existence is itself allow-listed: a caller who is not on the list is told the dataset does not exist, which is the only answer that does not confirm it does.",
+      "keyword": [
+        "feeder",
+        "distribution network",
+        "load profile",
+        "hourly"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/opengrid",
+      "custodian": "https://catalog.opengrid.org/agent/opengrid",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "license": "https://spdx.org/licenses/LicenseRef-Participation-Agreement",
+      "licenseNote": "Use is governed by the participation agreement each contributing utility signed. Redistribution outside the participant set is prohibited.",
+      "redistributionAllowed": false,
+      "commercialUseAllowed": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "credentialRequirement": "Membership of the participating-utility allow-list, managed by the contributing utilities and not by OpenGrid.",
+      "accessBarrier": "Allow-listed. The list is the contributors' to manage; OpenGrid stores and enforces it and never arbitrates its contents. The access-restriction scheme classifies this as accountRequired because that is what stands between a caller and the bytes; the fact that the record's existence is also withheld is og:visibility, not an access restriction.",
+      "documentationStatus": "partial",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "allowlisted-existence",
+      "tier": 2,
+      "spatialGranularity": "point",
+      "updateCadence": "P1Y",
+      "modified": "2026-07-01T00:00:00Z",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/utility-load-shapes-allowlisted#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Coverage is the participant set, not a region. Aggregating these shapes to a service territory understates load by whatever the non-participants serve."
+        ]
+      },
+      "distribution": [
+        {
+          "id": "https://catalog.opengrid.org/dist/utility-load-shapes-allowlisted--parquet",
+          "type": "Distribution",
+          "accessURL": "https://data.opengrid.org/restricted/feeder-load-shapes/",
+          "formatLabel": "Parquet",
+          "mediaType": "application/vnd.apache.parquet",
+          "anonymousAccess": false,
+          "bulkDownload": true,
+          "hostedByOpenGrid": true,
+          "hostingReason": "etl-output",
+          "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-data-team",
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired"
+        }
+      ]
+    }
+  ]
+}

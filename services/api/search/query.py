@@ -30,7 +30,7 @@ from datahub.api.search.backend import (
     SortSpec,
 )
 from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS
-from datahub.errors import DataHubError
+from datahub.errors import DataHubError, NotEntitled
 
 #: Facets returned when the caller does not ask for specific ones. Chosen to be
 #: the filters the list view renders by default; asking for all twenty on every
@@ -112,7 +112,11 @@ def build(params: SearchParams, entitlement: Entitlement) -> SearchRequest:
         # A caller asking for drafts who is not entitled to them gets an error,
         # not a quietly confirmed-only result set. Silent narrowing here would
         # make a steward tool look broken rather than unauthorised.
-        raise BadSearchRequest(
+        # 403 rather than 400: the request is well formed and the caller is
+        # not permitted, which are different failures and different fixes. No
+        # disclosure either — it says the *feature* needs a steward, not that
+        # any particular record exists.
+        raise NotEntitled(
             "unconfirmed records are visible to stewards only",
             hint="drop include_unconfirmed, or authenticate as a steward",
         )
@@ -326,8 +330,11 @@ def _sort(raw: str | None) -> tuple[SortSpec, ...]:
 
 
 def _limit(raw: int) -> int:
-    if raw < 1:
-        raise BadSearchRequest("limit must be at least 1", got=raw)
+    # Zero is a real request, not a mistake: "give me the facet counts and no
+    # results" is how a filter panel is populated, and making the caller ask
+    # for a row they will discard costs a projection per query for nothing.
+    if raw < 0:
+        raise BadSearchRequest("limit cannot be negative", got=raw)
     if raw > MAX_LIMIT:
         raise BadSearchRequest(
             f"limit is capped at {MAX_LIMIT}; page through with offset instead",

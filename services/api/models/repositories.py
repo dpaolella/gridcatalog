@@ -351,6 +351,26 @@ class CustodianshipRepository(Repository[Custodianship]):
             is not None
         )
 
+    def custodian_iris_for(self, user_id: str) -> list[str]:
+        """The custodian identifiers a user acts for.
+
+        A record names its custodian with ``og:custodian``, which is an IRI for
+        an organisation or a person — not necessarily this user's own id. A user
+        who manages a dataset on behalf of an organisation has to match on the
+        organisation, or the record they own reads as somebody else's.
+
+        The organisation string is only a custodian identifier when it is an
+        IRI; a free-text organisation name is a label, and matching on a label
+        would let anyone who typed the same string inherit the access.
+        """
+        rows = self.session.execute(
+            select(Custodianship.organisation).where(
+                Custodianship.user_id == user_id,
+                Custodianship.organisation.is_not(None),
+            )
+        ).scalars()
+        return sorted({r for r in rows if r and r.startswith(("http://", "https://"))})
+
     def contacts_for(self, dataset_id: str) -> list[str]:
         """Who to tell when a link dies. Empty is a real answer, and the caller
         has to handle it: an unowned dataset with a dead link is a fact for the

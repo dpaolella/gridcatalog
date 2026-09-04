@@ -828,6 +828,52 @@ def status(json_out: Annotated[bool, typer.Option("--json")] = False) -> None:
         raise typer.Exit(1)
 
 
+@app.command("serve")
+def serve(
+    host: Annotated[str, typer.Option(help="Bind address.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option(help="Port.")] = 8000,
+    reload: Annotated[bool, typer.Option("--reload", help="Restart on code changes.")] = False,
+) -> None:
+    """Run the API.
+
+    Binds to localhost by default. A development server that listened on every
+    interface by default would put an unauthenticated catalog on the network of
+    whoever ran it to try it out; `--host 0.0.0.0` is a decision someone should
+    have to make.
+    """
+    import uvicorn
+
+    settings = get_settings()
+    typer.echo(f"http://{host}:{port}/docs  ({settings.environment})")
+    uvicorn.run(
+        "datahub.api.app:app",
+        host=host,
+        port=port,
+        reload=reload,
+        log_config=None,  # structlog is already configured; uvicorn's would replace it
+    )
+
+
+@app.command("openapi")
+def openapi(
+    output: Annotated[Path | None, typer.Argument(help="Write here instead of stdout.")] = None,
+) -> None:
+    """Print the OpenAPI 3.1 document.
+
+    PRD §F8 calls it "the canonical contract everything else calls" — the web
+    UI, the SDK and the MCP server all generate against it — so it has to be
+    obtainable without starting a server, for a CI check or a client build.
+    """
+    from datahub.api.app import create_app
+
+    document = json.dumps(create_app().openapi(), indent=2, sort_keys=True)
+    if output:
+        Path(output).write_text(document + "\n")
+        typer.echo(f"wrote {output}")
+    else:
+        typer.echo(document)
+
+
 @app.command("version")
 def version() -> None:
     """Print the package version."""
