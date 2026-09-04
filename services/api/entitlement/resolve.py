@@ -6,9 +6,10 @@ predicate that gets compiled. Everything downstream takes an ``Entitlement`` and
 has no way to ask who the caller is — which is deliberate, because a handler
 that could ask would eventually decide.
 
-The identity sources here are bearer tokens and nothing else. Federated login,
-sessions and the custodian API are M6; the seam is this function's signature,
-which does not change when they arrive.
+Two identity sources, because there are two kinds of caller (PRD §F10): a
+**bearer token** for the SDK and the MCP server, and a **session cookie** for
+the browser. Both land in the same :class:`Caller`, so nothing downstream knows
+or cares which was presented.
 
 **A bad token is anonymous, not an error.** A caller presenting an expired token
 to a public search gets the public results, the same as a caller presenting
@@ -35,6 +36,12 @@ log = get_logger(__name__)
 #: stored alongside the hash so a user can identify which token to revoke
 #: without the token itself being recoverable.
 TOKEN_PREFIX = "og_pat_"
+
+#: The browser session cookie. Defined here rather than in the auth router
+#: because both the router that sets it and the resolver that reads it need the
+#: name, and a cookie whose name is spelled in two places is a sign-in that
+#: works until someone renames one of them.
+SESSION_COOKIE = "og_session"
 
 
 @dataclass(frozen=True, slots=True)
@@ -83,18 +90,32 @@ def resolve(
     authorization: str | None,
     session: Any = None,
     settings: Settings | None = None,
+    cookie: str | None = None,
 ) -> Caller:
     """The caller behind a request.
 
     ``session`` is a SQLAlchemy session or None. None means no operational
     store is reachable, which resolves to anonymous — a catalog whose database
     is down should still serve public search rather than 500 on every request.
+
+    A bearer token wins over a session cookie when both are present. The
+    ambiguous case is a browser that is signed in as one person driving a
+    script that presents another person's token, and the explicit credential is
+    the one the caller chose to send.
     """
     settings = settings or get_settings()
-    token = _bearer(authorization)
-    if not token or session is None:
+    if session is None:
         return anonymous()
 
+    token = _bearer(authorization)
+    if token:
+        return _from_token(token, session, settings)
+    if cookie:
+        return _from_cookie(cookie, session)
+    return anonymous()
+
+
+def _from_token(token: str, session: Any, settings: Settings) -> Caller:
     repos = Repositories(session)
     row = repos.tokens.by_hash(hash_token(token, settings))
     if row is None:
@@ -108,6 +129,32 @@ def resolve(
         return anonymous()
 
     repos.tokens.mark_used(row.id)
+    return _caller_for(user, repos, token_id=row.id)
+
+
+def _from_cookie(session_id: str, session: Any) -> Caller:
+    """Resolve a browser session.
+
+    ``live`` is what makes this safe: expiry and revocation are conditions of
+    the lookup, so a logged-out cookie resolves to anonymous rather than to the
+    person who logged out.
+
+    Unlike the token path this writes nothing. A session that recorded its own
+    last use would put every browser GET in a write transaction, and the cost
+    of that shows up somewhere unrelated — as a refusal whose audit row cannot
+    be written because the request being refused holds the write lock.
+    """
+    repos = Repositories(session)
+    row = repos.sessions.live(session_id)
+    if row is None:
+        return anonymous()
+    user = repos.users.get(row.user_id)
+    if user is None or not user.is_active:
+        return anonymous()
+    return _caller_for(user, repos)
+
+
+def _caller_for(user: Any, repos: Repositories, *, token_id: str | None = None) -> Caller:
     # Allow-list membership is NOT resolved here. It is projected onto each
     # search document as `entitled_principals`, so the predicate is evaluated
     # inside the query rather than against its results (ADR-0006). Resolving it
@@ -125,7 +172,7 @@ def resolve(
         principal_id=user.id,
         email=user.email,
         role=user.role,
-        token_id=row.id,
+        token_id=token_id,
         is_agent=user.is_agent,
     )
 
@@ -139,4 +186,4 @@ def _bearer(authorization: str | None) -> str | None:
     return value.strip()
 
 
-__all__ = ["TOKEN_PREFIX", "Caller", "anonymous", "hash_token", "resolve"]
+__all__ = ["SESSION_COOKIE", "TOKEN_PREFIX", "Caller", "anonymous", "hash_token", "resolve"]

@@ -632,6 +632,90 @@ class ReportReceipt(ApiModel):
 
 
 # ---------------------------------------------------------------------------
+# Identity
+# ---------------------------------------------------------------------------
+
+
+class MeResponse(ApiModel):
+    """The caller, as the API sees them.
+
+    Answered for an anonymous caller too: a client asking "who am I" wants to
+    know, and "nobody" is an answer.
+    """
+
+    authenticated: bool
+    principal_id: str | None = None
+    email: str | None = None
+    role: str = "anonymous"
+    is_agent: bool = False
+    is_steward: bool = False
+    custodian_of: list[str] = Field(default_factory=list)
+
+
+class ProviderList(ApiModel):
+    providers: list[str] = Field(default_factory=list)
+    native_credentials: bool = False
+
+
+class TokenRequest(ApiModel):
+    name: str = Field(min_length=1, max_length=200, description="So you can tell them apart.")
+    scopes: list[str] = Field(default_factory=list)
+    expires_in_days: int | None = Field(default=None, ge=1, le=730)
+
+
+class TokenSummary(ApiModel):
+    """A token as it can safely be shown: everything but the token."""
+
+    id: str
+    name: str
+    prefix: str = Field(description="The first characters, so you know which one to revoke.")
+    scopes: list[str] = Field(default_factory=list)
+    created_at: datetime
+    expires_at: datetime | None = None
+    last_used_at: datetime | None = None
+
+
+class IssuedTokenResponse(TokenSummary):
+    token: str = Field(description="Shown once. Only a hash is stored.")
+    warning: str
+
+
+# ---------------------------------------------------------------------------
+# Allow-lists
+# ---------------------------------------------------------------------------
+
+
+class AllowlistEntryModel(ApiModel):
+    principal_id: str | None = None
+    principal_email: str | None = None
+    note: str | None = None
+    expires_at: datetime | None = None
+
+
+class AllowlistResponse(ApiModel):
+    dataset_id: str
+    entries: list[AllowlistEntryModel] = Field(default_factory=list)
+    #: Stated on every response, because it is the thing custodians most often
+    #: assume otherwise: OpenGrid stores and enforces this list and never
+    #: arbitrates its contents (PRD §F8).
+    managed_by: str = (
+        "The dataset's custodian. OpenGrid stores and enforces this list and never "
+        "arbitrates its contents."
+    )
+
+
+class AllowlistUpdate(ApiModel):
+    """The whole list, not a patch.
+
+    A PUT of the complete set, because a diff-based API makes "who can see this"
+    a question you answer by replaying a history — and the one question a
+    custodian actually asks is "who is on it right now".
+    """
+
+    entries: list[AllowlistEntryModel] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
 # Access plans
 # ---------------------------------------------------------------------------
 

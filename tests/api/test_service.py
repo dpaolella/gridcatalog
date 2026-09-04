@@ -98,11 +98,13 @@ def test_every_prd_endpoint_is_present(client) -> None:
         "/v1/datasets/{dataset_id}/access-plan",
         "/v1/submissions",
         "/v1/reports",
+        "/v1/allowlists/{dataset_id}",
+        "/v1/auth/me",
+        "/v1/auth/tokens",
     } <= paths
 
     deferred = {
         "/v1/datasets/{dataset_id}/links": "M8, inter-dataset links",
-        "/v1/allowlists/{dataset_id}": "M6, the custodian API",
     }
     assert not (set(deferred) & paths), "a deferred endpoint arrived without its milestone"
 
@@ -116,7 +118,13 @@ def test_every_operation_documents_its_failure_modes(client) -> None:
             if method not in ("get", "post", "put"):
                 continue
             codes = set(operation.get("responses", {}))
-            assert codes & {"200", "202", "302"}, f"{method} {path} documents no success"
+            # Any 2xx or 3xx, rather than a list of the ones that happen to
+            # exist today. An enumerated list makes this test fail whenever a
+            # correct endpoint uses a code the list has not heard of — which it
+            # did, twice, for the 204 of logout and the 201 of token creation.
+            assert any(code[:1] in "23" for code in codes), (
+                f"{method} {path} documents no success"
+            )
 
 
 def test_filterable_fields_are_discoverable_from_the_document(client) -> None:

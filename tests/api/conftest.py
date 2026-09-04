@@ -69,13 +69,17 @@ def corpus_nquads(tmp_path_factory) -> Path:
 def loaded(api_env, corpus_nquads):
     """The fixture corpus, in this test's own store and index."""
     from datahub.api import deps
+    from datahub.api.models.base import session_scope
     from datahub.graph.records import RecordStore
     from datahub.projector import reindex
 
     store = deps.graph_store()
     store.dataset.parse(corpus_nquads.as_posix(), format="nquads")
     records = RecordStore(store)
-    reindex(records, deps.search_backend())
+    # With the session factory, so allow-list membership is projected. Without
+    # it every document gets an empty `entitled_principals` and every
+    # entitlement test passes for the wrong reason.
+    reindex(records, deps.search_backend(), session_factory=session_scope)
     return records
 
 

@@ -129,7 +129,14 @@ class Settings(BaseSettings):
     # ---- auth -----------------------------------------------------------
     secret_key: str = "dev-only-not-a-secret-change-me"
     token_ttl_s: int = 3600
+    session_ttl_s: int = 14 * 24 * 3600
     oidc_providers: str = "github,google,microsoft"
+    oidc_github_client_id: str | None = None
+    oidc_github_client_secret: str | None = None
+    oidc_google_client_id: str | None = None
+    oidc_google_client_secret: str | None = None
+    oidc_microsoft_client_id: str | None = None
+    oidc_microsoft_client_secret: str | None = None
     rate_limit_human_per_min: int = 120
     rate_limit_agent_per_min: int = 600
     rate_limit_anonymous_per_min: int = 60
@@ -142,6 +149,10 @@ class Settings(BaseSettings):
     # ---- observability --------------------------------------------------
     log_level: str = "INFO"
     log_json: bool = False
+
+    @property
+    def oidc_provider_list(self) -> list[str]:
+        return [p.strip() for p in self.oidc_providers.split(",") if p.strip()]
 
     @property
     def cors_origins_list(self) -> list[str]:
@@ -164,10 +175,6 @@ class Settings(BaseSettings):
     def fuseki_gsp_endpoint(self) -> str:
         """Graph Store Protocol endpoint, used for whole-graph PUT and GET."""
         return f"{self.fuseki_url.rstrip('/')}/{self.fuseki_dataset}/data"
-
-    @property
-    def oidc_provider_list(self) -> list[str]:
-        return [p.strip() for p in self.oidc_providers.split(",") if p.strip()]
 
 
 @functools.lru_cache(maxsize=1)

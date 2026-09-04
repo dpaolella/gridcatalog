@@ -51,6 +51,9 @@ from datahub.api.models.operational import (
     Submission,
     User,
 )
+from datahub.api.models.operational import (
+    Session as SessionRow,
+)
 from datahub.logging import get_logger
 from sqlalchemy import Select, delete, func, or_, select, update
 from sqlalchemy.engine import CursorResult, Result
@@ -160,6 +163,53 @@ class UserRepository(Repository[User]):
 
     def touch(self, user_id: str) -> None:
         self.session.execute(update(User).where(User.id == user_id).values(last_seen_at=utcnow()))
+
+
+class SessionRepository(Repository[SessionRow]):
+    """Browser sessions. The UI's credential, as tokens are the SDK's.
+
+    Named ``SessionRow`` throughout: ``Session`` in this module is SQLAlchemy's
+    unit of work, and two things called Session in one file is how a bug gets
+    written that reads perfectly.
+    """
+
+    model = SessionRow
+
+    def open(self, user_id: str, *, ttl: timedelta, **context: Any) -> SessionRow:
+        row = SessionRow(user_id=user_id, expires_at=utcnow() + ttl, **context)
+        return self.add(row)
+
+    def live(self, session_id: str) -> SessionRow | None:
+        """A session, and only if it is still usable.
+
+        Expiry and revocation are conditions of the lookup rather than checks a
+        caller makes afterwards — the same rule as tokens, for the same reason.
+        """
+        row = self.get(session_id)
+        if row is None or row.revoked_at is not None:
+            return None
+        return row if row.expires_at > utcnow() else None
+
+    def revoke(self, session_id: str) -> bool:
+        return bool(
+            affected(
+                self.session.execute(
+                    update(SessionRow)
+                    .where(SessionRow.id == session_id, SessionRow.revoked_at.is_(None))
+                    .values(revoked_at=utcnow())
+                )
+            )
+        )
+
+    def revoke_all(self, user_id: str) -> int:
+        """Sign out everywhere. What a person clicks after losing a laptop."""
+        return affected(
+            self.session.execute(
+                update(SessionRow)
+                .where(SessionRow.user_id == user_id, SessionRow.revoked_at.is_(None))
+                .values(revoked_at=utcnow())
+            )
+        )
 
 
 class ApiTokenRepository(Repository[ApiToken]):
@@ -1009,6 +1059,13 @@ class AuditRepository(Repository[AuthorizationEvent]):
         client: str | None = None,
         tool_name: str | None = None,
     ) -> AuthorizationEvent:
+        """Record a decision on *this* session, inside the caller's transaction.
+
+        Right for a decision the request goes on to honour. Wrong for a refusal:
+        a refusal is raised, an exception rolls this transaction back, and the
+        row goes with it (ADR-0009). Use :func:`audit_out_of_band` on any path
+        that is about to raise.
+        """
         return self.add(
             AuthorizationEvent(
                 action=action,
@@ -1039,6 +1096,31 @@ class AuditRepository(Repository[AuthorizationEvent]):
             .order_by(AuthorizationEvent.occurred_at.desc())
             .limit(limit)
         )
+
+
+def audit_out_of_band(settings: Any = None, **event: Any) -> None:
+    """Write an audit row in its own transaction (ADR-0009).
+
+    The counterpart to :meth:`AuditRepository.record`, which writes on the
+    caller's session. Use this one on any path that is about to raise.
+
+    PRD §F10 requires refusals to be logged. A refusal is raised as an
+    exception, and an exception rolls the request's transaction back — so an
+    audit row written on that session disappears along with the refusal it
+    records, and the log is silently empty for exactly the events it exists
+    for.
+
+    Never fatal: a refusal that failed to log is still a refusal, and turning
+    an authorization decision into a 500 because the audit table is unreachable
+    would be a worse failure than the missing row.
+    """
+    from datahub.api.models.base import session_scope
+
+    try:
+        with session_scope(settings) as session:
+            AuditRepository(session).record(**event)
+    except Exception as exc:
+        log.warning("audit row not written", error=str(exc), action=event.get("action"))
 
 
 class AccessPlanRepository(Repository[AccessPlanIssue]):
@@ -1193,6 +1275,10 @@ class Repositories:
     @property
     def users(self) -> UserRepository:
         return UserRepository(self.session)
+
+    @property
+    def sessions(self) -> SessionRepository:
+        return SessionRepository(self.session)
 
     @property
     def tokens(self) -> ApiTokenRepository:

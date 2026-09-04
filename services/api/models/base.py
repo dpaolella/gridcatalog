@@ -103,19 +103,36 @@ def get_engine(settings: Settings | None = None) -> Engine:
                 Path(path).parent.mkdir(parents=True, exist_ok=True)
         _engine = create_engine(url, **kwargs)
         if url.startswith("sqlite"):
-            _enable_sqlite_foreign_keys(_engine)
+            _configure_sqlite(_engine)
     return _engine
 
 
-def _enable_sqlite_foreign_keys(engine: Engine) -> None:
-    """SQLite ignores foreign keys unless told not to, which turns a broken
-    reference into silently orphaned rows instead of an error."""
+def _configure_sqlite(engine: Engine) -> None:
+    """Two pragmas SQLite needs and does not set itself.
+
+    ``foreign_keys=ON`` because SQLite ignores foreign keys unless told not to,
+    which turns a broken reference into silently orphaned rows instead of an
+    error.
+
+    ``journal_mode=WAL`` because the default rollback journal makes a reader
+    block a writer. That is not a theoretical concern here: an audit row for a
+    refusal has to be written in its own transaction — otherwise it rolls back
+    with the refusal it records — and under the default journal that write
+    blocks on the read transaction of the very request being refused, so the
+    log is empty for exactly the events it exists for. WAL also survives a
+    crash better, which is the usual reason to want it.
+    """
     from sqlalchemy import event
 
     @event.listens_for(engine, "connect")
     def _set_pragma(dbapi_connection: Any, _record: Any) -> None:
         cursor = dbapi_connection.cursor()
         cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.execute("PRAGMA journal_mode=WAL")
+        # A writer that finds the database busy waits rather than failing
+        # immediately: five seconds is far longer than any write here takes and
+        # far shorter than a user notices.
+        cursor.execute("PRAGMA busy_timeout=5000")
         cursor.close()
 
 

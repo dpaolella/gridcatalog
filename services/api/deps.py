@@ -20,7 +20,7 @@ import functools
 from collections.abc import Iterator
 from typing import Annotated
 
-from datahub.api.entitlement import Caller, anonymous, resolve
+from datahub.api.entitlement import SESSION_COOKIE, Caller, anonymous, resolve
 from datahub.api.models.base import get_sessionmaker
 from datahub.api.search.backend import SearchBackend
 from datahub.api.search.factory import make_search_backend
@@ -105,10 +105,28 @@ def current_caller(
     time — and resolving twice is how two call sites come to disagree.
     """
     try:
-        caller = resolve(authorization, session)
+        caller = resolve(authorization, session, cookie=request.cookies.get(SESSION_COOKIE))
     except Exception as exc:
         log.warning("caller resolution failed", error=str(exc))
         caller = anonymous()
+
+    if session is not None:
+        # Commit the "this token was used" touch now, rather than carrying an
+        # open write transaction through the rest of the request.
+        #
+        # Two reasons, and the second is the one that bites. A token *was* used
+        # even if the request it authenticated is then refused, so the fact
+        # belongs outside the request's transaction. And holding the write lock
+        # for the whole request means the audit row for a refusal — which has to
+        # be written on a second connection, or it rolls back with the refusal
+        # it records — blocks on the very request being refused, so the log is
+        # empty for exactly the events it exists for.
+        try:
+            session.commit()
+        except Exception as exc:  # pragma: no cover - a store that just answered
+            log.warning("could not record token use", error=str(exc))
+            session.rollback()
+
     request.state.caller = caller
     return caller
 

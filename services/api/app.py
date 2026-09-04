@@ -28,11 +28,13 @@ from contextlib import asynccontextmanager
 from typing import Any
 
 from datahub.api import deps
-from datahub.api.routers import concepts, datasets, health, intake
+from datahub.api.deps import CallerDep
+from datahub.api.ratelimit import WINDOW_S, RateLimiter, exempt
+from datahub.api.routers import allowlists, auth, concepts, datasets, health, intake
 from datahub.config import Settings, get_settings
-from datahub.errors import DataHubError
+from datahub.errors import DataHubError, RateLimited
 from datahub.logging import configure_logging, get_logger
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -58,6 +60,14 @@ TAGS: list[dict[str, Any]] = [
     {"name": "datasets", "description": "Search and read catalog records."},
     {"name": "concepts", "description": "The SKOS vocabulary and the ten data domains."},
     {"name": "intake", "description": "Submit a dataset, or report a problem with one."},
+    {"name": "auth", "description": "Signing in, and the tokens that stand in for it."},
+    {
+        "name": "allowlists",
+        "description": (
+            "Who may see a restricted dataset. Managed by its custodian; OpenGrid stores "
+            "and enforces the list and never arbitrates its contents."
+        ),
+    },
     {"name": "service", "description": "Health and readiness."},
 ]
 
@@ -110,10 +120,63 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     _register_middleware(app)
     _register_errors(app)
 
-    for router in (datasets.router, concepts.router, intake.router, health.router):
-        app.include_router(router, prefix="/v1")
+    # The rate limit is a router dependency rather than middleware, because
+    # middleware runs before FastAPI resolves dependencies — so it would see no
+    # caller and charge every authenticated request to its IP address. That
+    # errs safe (the anonymous budget is the tightest) and is still wrong: PRD
+    # §F9 requires agent traffic to get a *larger* budget, and an agent
+    # throttled to the anonymous rate cannot work.
+    limited = [Depends(rate_limit)]
+
+    for router in (
+        datasets.router,
+        concepts.router,
+        intake.router,
+        auth.router,
+        allowlists.router,
+        health.router,
+    ):
+        app.include_router(router, prefix="/v1", dependencies=limited)
 
     return app
+
+
+# ---------------------------------------------------------------------------
+# Rate limiting
+# ---------------------------------------------------------------------------
+
+LIMITER = RateLimiter()
+
+
+def rate_limit(request: Request, response: Response, caller: CallerDep) -> None:
+    """Count this request against the caller's budget.
+
+    A dependency rather than middleware, so it runs *after* the caller is
+    resolved and an agent is charged to its own, larger budget (PRD §F9: agent
+    traffic is several times chattier than human traffic, and a limit that made
+    agentic use impossible would just push it to scraping the UI).
+
+    The headers go on every response and not only on a 429: a client that can
+    see it has four requests left paces itself, and one that finds out by being
+    refused has already failed a user's request.
+    """
+    if exempt(request.url.path):
+        return
+
+    decision = LIMITER.check(
+        principal_id=caller.principal_id,
+        is_agent=caller.is_agent,
+        client_host=request.client.host if request.client else None,
+    )
+    response.headers.update(decision.headers)
+    if not decision.allowed:
+        log.info("rate limited", bucket=decision.bucket, limit=decision.limit)
+        raise RateLimited(
+            f"more than {decision.limit} requests in the last minute from this client",
+            limit=decision.limit,
+            window_seconds=WINDOW_S,
+            retry_after_seconds=decision.reset_in,
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -184,13 +247,17 @@ def _register_errors(app: FastAPI) -> None:
         """Every deliberate failure. The class carries its own status, so a new
         error type gets the right code without touching this function."""
         payload = exc.to_payload()
-        return _problem(
+        response = _problem(
             request,
             status=exc.status_code,
             title=exc.message,
             code=payload.pop("code", exc.code),
             **{k: v for k, v in payload.items() if k not in ("message", "error")},
         )
+        if retry_after := payload.get("retry_after_seconds"):
+            # A 429 with no Retry-After teaches a client to hammer.
+            response.headers["Retry-After"] = str(retry_after)
+        return response
 
     @app.exception_handler(RequestValidationError)
     async def bad_request(request: Request, exc: RequestValidationError) -> JSONResponse:

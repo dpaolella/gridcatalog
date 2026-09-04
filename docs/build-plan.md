@@ -44,9 +44,9 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-5.1 | Access-plan model and path selection | M5 | WP-2.2 | done |
 | WP-5.2 | Byte-range and subsetting-protocol planning | M5 | WP-5.1 | done |
 | WP-5.3 | Link-health prober, auto-heal, sibling fallback | M5 | WP-2.2 | done |
-| WP-6.1 | Principals, tokens, OIDC and federated SSO | M6 | WP-2.3 | todo |
-| WP-6.2 | Allow-lists, three visibility levels, custodian API | M6 | WP-6.1, WP-4.2 | todo |
-| WP-6.3 | Rate limiting, audit log, entitlement matrix suite | M6 | WP-6.2 | todo |
+| WP-6.1 | Principals, tokens, OIDC and federated SSO | M6 | WP-2.3 | done |
+| WP-6.2 | Allow-lists, three visibility levels, custodian API | M6 | WP-6.1, WP-4.2 | done |
+| WP-6.3 | Rate limiting, audit log, entitlement matrix suite | M6 | WP-6.2 | done |
 | WP-7.1 | Concept and unit resolution across four data shapes | M7 | WP-1.2, WP-2.1 | todo |
 | WP-7.2 | Q1–Q5 named queries and regression suite | M7 | WP-1.5 | done |
 | WP-7.3 | Currency grading + relational/scheduled trigger split | M7 | WP-7.1 | todo |
@@ -244,7 +244,9 @@ Three things worth recording:
   established — the same split `/schema` uses.
 
 Deferred with their milestones, and asserted absent so the gap stays
-deliberate: `/access-plan` (M5), `/links` (M8), `/allowlists` (M6).
+deliberate: `/access-plan` (M5), `/links` (M8), `/allowlists` (M6). The first
+and third have since arrived with their milestones and moved out of the set;
+`/links` is still asserted absent.
 
 ---
 
@@ -301,9 +303,78 @@ Two things the tests forced into the open:
 
 PRD §F10. Runs in parallel from M4.
 
+- **WP-6.1** Principals, personal access tokens and federated sign-in.
+  Authorization Code with PKCE against GitHub, Google or Microsoft; a session
+  cookie for the browser and a bearer token for the SDK and the MCP server.
+  Only a keyed hash of a token is ever stored.
+- **WP-6.2** The three visibility levels and the custodian API. `PUT` replaces
+  the whole allow-list; there is no approval step, because **the dataset creator
+  manages the list and OpenGrid never arbitrates its contents** (PRD §F8).
+- **WP-6.3** Per-caller rate limits, the authorization audit log, and the
+  entitlement matrix suite that asserts the milestone's done-criterion endpoint
+  by endpoint.
+
 **Milestone done when:** a non-entitled user cannot detect the existence of an
 allow-listed-existence dataset through any endpoint, including result counts and
 pagination.
+
+**Where M6 landed.** The done-criterion is asserted rather than reasoned about:
+`tests/api/test_entitlement_matrix.py` walks every endpoint that names a dataset
+and checks that an allow-listed-existence record is invisible to a
+non-entitled caller in each of them — the record read, the search results, the
+**result count**, the facet counts, the pagination arithmetic, `/schema`,
+`/quality`, `/distributions`, `/download` and `/access-plan`. The 404 for a
+record that exists is byte-identical to the 404 for one that never did,
+including the request-id-bearing problem document, because a distinguishable
+refusal is an existence oracle.
+
+Four decisions worth recording, each of which the implementation argued for:
+
+- **A bad token is anonymous, not a 401.** A stale token in a script that reads
+  public data keeps working, and a 401 would confirm to whoever presented it
+  that the token was once real. The presentation is logged; the response says
+  nothing.
+- **Only a custodian may touch an allow-list — not a steward, not an admin.**
+  An admin who could edit the list would be arbitrating its contents, which is
+  precisely what PRD §F8 forbids. An admin can change *who the custodian is*;
+  that is a different power and it leaves a different audit trail.
+- **A `PUT` of the whole list, not a patch.** A diff-based API makes "who can
+  see this" a question you answer by replaying a history. Replacing the list
+  makes it a `GET`. Revocations are applied before grants, so a body that both
+  grants and revokes the same principal resolves to revoked rather than to
+  whichever the dict ordering happened to yield.
+- **Rate limiting is a router dependency, not middleware.** Middleware runs
+  before FastAPI resolves dependencies, so it sees no caller and charges every
+  authenticated request to its IP address. That errs safe — the anonymous
+  budget is the tightest — and is still wrong: PRD §F9 wants agent traffic on a
+  *larger* budget, and an agent throttled to the anonymous rate cannot work.
+
+Three things the tests forced into the open, all of the same shape — a security
+control that appears to work and does not:
+
+- **A grant that never reached the index is a grant that does not work.**
+  Entitlement is compiled into the query (ADR-0006), which means allow-list
+  membership lives on the search document as `entitled_principals`. The
+  projector was being constructed without a session, so every document got an
+  empty list — and every entitlement test would have passed, for the wrong
+  reason, because "invisible to everyone" also satisfies "invisible to the
+  non-entitled".
+- **The audit log was empty for exactly the events it exists for.** A refusal is
+  raised as an exception, an exception rolls the request's transaction back, and
+  an audit row written on that session rolls back with the refusal it records.
+  It now goes out on its own transaction — which then deadlocked against the
+  request's own write lock, because resolving the caller touches the token's
+  `last_used_at`. A token *was* used even if the request it authenticated is
+  then refused, so that touch is now committed as soon as it is made and the
+  request stops carrying a write transaction it does not need.
+- **The session cookie was set and never read.** Sign-in completed, the cookie
+  came back, the redirect landed — and every subsequent request resolved to
+  anonymous, so a browser would have shown signed-in chrome over signed-out
+  data. The cookie resolves to a caller now, through the same `live()` lookup
+  that makes expiry and revocation conditions of the query rather than checks
+  after it. Unlike the token path it writes nothing, deliberately: a session
+  that recorded its own last use would put every browser `GET` in a write
+  transaction.
 
 ---
 
