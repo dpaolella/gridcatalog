@@ -1,0 +1,216 @@
+# Expected violation per invalid fixture.
+#
+# PRD §11: 'Invalid fixtures must fail with the expected violation.' Asserting
+# only that a record fails would let a shape that fires for the wrong reason
+# pass, which is the failure mode that matters — a constraint that catches the
+# right records by accident stops catching them the moment anything changes.
+#
+# Matched on constraint component and property path. Message text is matched on
+# a substring only, because wording is the part most likely to be improved.
+
+cadence-not-a-duration:
+  constraint: Pattern
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: ISO 8601 duration
+  path: og:updateCadence
+  why: The Currency grade compares elapsed time against this, so it must be machine-comparable.
+completeness-level-four:
+  constraint: MaxInclusive
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: There is no level 4
+  path: og:completenessLevel
+  why: "PRD \xA76 defines three levels. A fourth would mean the schema needs extending, not the record."
+composite-quality-facet:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/ds/broken#q
+  level: 2
+  message_contains: no composite
+  path: og:facet
+  why: ADR-0007. Averaging three independent facets produces a letter that describes nothing.
+concept-gap-without-reason:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/field/broken/f1#gap
+  level: 3
+  message_contains: indistinguishable from not having looked
+  path: og:gapReason
+  why: X4. A bare gap marker carries no information.
+concept-outside-scheme:
+  constraint: Or
+  focus_node: https://catalog.opengrid.org/field/broken/f1
+  level: 3
+  message_contains: explicit og:conceptGap
+  path: null
+  why: A dangling concept IRI resolves to nothing and silently drops the field from every concept query.
+currency-grade-c:
+  constraint: SPARQL
+  focus_node: https://catalog.opengrid.org/ds/broken#q
+  level: 2
+  message_contains: does not use grade C
+  path: null
+  why: "PRD \xA7F5 leaves C deliberately unused on this facet; \xA712.3 carries the question forward."
+data-domain-as-string:
+  constraint: Node
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: DD1-DD10
+  path: og:dataDomain
+  why: "PRD \xA74.1 D3: controlled, not free text."
+data-domain-outside-scheme:
+  constraint: Node
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: DD1-DD10
+  path: og:dataDomain
+  why: A well-formed IRI in the right namespace is still not a concept that exists.
+distribution-without-access-url:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/dist/broken--d1
+  level: 1
+  message_contains: not an access path
+  path: dcat:accessURL
+  why: A distribution with no URL cannot answer 'where do I get it'.
+enriched-value-without-model:
+  constraint: SPARQL
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: name the model and the prompt version
+  path: null
+  why: ADR-0005. Without both, a bad prompt's output cannot be identified or revoked in bulk.
+field-without-concept-or-gap:
+  constraint: Or
+  focus_node: https://catalog.opengrid.org/field/broken/f1
+  level: 3
+  message_contains: explicit og:conceptGap
+  path: null
+  why: "PRD \xA74.5 shape 3 and rule X4. Silence is indistinguishable from not having looked."
+geospatial-primary-without-crs:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: nativeCRS
+  path: og:nativeCRS
+  why: "PRD \xA74.5 shape 2. Coordinates without a CRS are not locations."
+grade-without-rationale:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/ds/broken#q
+  level: 2
+  message_contains: concrete human-readable reason
+  path: og:gradeRationale
+  why: 'PRD principle 6: explainability over score. A bare letter is not explainable.'
+hosted-copy-without-owner:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/dist/broken--d1
+  level: 1
+  message_contains: refresh owner
+  path: og:refreshOwner
+  why: "PRD \xA7F2 names an unowned hosted copy the documented failure mode in every comparable project."
+inferred-concept-without-basis:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/field/broken/f1
+  level: 3
+  message_contains: unfalsifiable
+  path: og:inferenceBasis
+  why: X3. 'Inferred' with no stated basis cannot be reviewed.
+license-as-free-text:
+  constraint: Pattern
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: absolute IRI
+  path: dct:license
+  why: "A licence name is not a licence identifier. The context coerces dct:license to an IRI, so free\
+    \ text becomes a relative IRI rather than failing to parse \u2014 which is why a nodeKind check alone\
+    \ is not enough."
+missing-license:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: states a licence
+  path: dct:license
+  why: A fabricated licence is worse than a missing one, so a record with none stays at draft.
+modelled-field-without-source:
+  constraint: SPARQL
+  focus_node: https://catalog.opengrid.org/field/broken/f1
+  level: 2
+  message_contains: records no origin
+  path: null
+  why: "PRD \xA74.5 shape 1. A modelled value with no lineage cannot be graded above Provenance D."
+negative-byte-size:
+  constraint: MinInclusive
+  focus_node: https://catalog.opengrid.org/dist/broken--d1
+  level: 1
+  message_contains: non-negative
+  path: dcat:byteSize
+  why: A negative size is a parse error upstream, not a fact.
+provenance-class-outside-scheme:
+  constraint: Node
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: how its values came to exist
+  path: og:provenanceClass
+  why: The provenance class caps the Provenance grade, so an unknown value would cap it at nothing.
+range-requests-without-chunk-index:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/dist/broken--d1
+  level: 1
+  message_contains: chunkIndexMethod
+  path: og:chunkIndexMethod
+  why: "PRD \xA74.5 shape 4. Advertising a capability the broker cannot use yields a plan that does not\
+    \ work."
+record-without-distribution:
+  constraint: MinCount
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: where do I get it
+  path: dcat:distribution
+  why: 'Even a Tier 3 pointer carries a distribution: the landing page.'
+self-supersession:
+  constraint: SPARQL
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 2
+  message_contains: cannot supersede itself
+  path: null
+  why: A self-loop makes the Currency grade oscillate and provenance traversal non-terminating.
+unit-as-string:
+  constraint: Node
+  focus_node: https://catalog.opengrid.org/field/broken/f1
+  level: 3
+  message_contains: never a string
+  path: og:unit
+  why: "PRD \xA74.3 C5. 'MW' cannot be compared with 'kW' or converted."
+unknown-enrichment-basis:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: inferred, source-confirmed, steward-authored
+  path: og:enrichmentBasis
+  why: X3 needs a closed set; a free-text basis is unauditable.
+unknown-link-health-status:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/dist/broken--d1#h
+  level: 1
+  message_contains: verified, degraded, unreachable, redirected
+  path: og:linkHealthStatus
+  why: The exclude-after-three-failures rule is undefined for a status outside the four.
+unknown-review-state:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: draft, in-review, confirmed, flagged
+  path: og:reviewState
+  why: Review state decides which named graph a record lives in.
+unknown-spatial-granularity:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: nodal, zonal, gridded
+  path: og:spatialGranularity
+  why: Granularity decides whether a dataset can serve power flow at all.
+unknown-subsetting-protocol:
+  constraint: In
+  focus_node: https://catalog.opengrid.org/dist/broken--d1
+  level: 1
+  message_contains: opendap
+  path: og:subsettingProtocol
+  why: The broker selects a path from this value; an unknown protocol yields no path.

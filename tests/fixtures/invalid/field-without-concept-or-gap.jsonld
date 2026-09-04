@@ -1,0 +1,44 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/broken",
+      "type": "Dataset",
+      "title": "Broken record",
+      "description": "A deliberately invalid fixture.",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "partial",
+      "completenessLevel": 3,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "distribution": [
+        "https://catalog.opengrid.org/dist/broken--d1"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/broken/f1"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/broken--d1",
+      "type": "Distribution",
+      "accessURL": "https://example.org/data.csv",
+      "mediaType": "text/csv"
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/broken/f1",
+      "type": "Field",
+      "localName": "f1",
+      "label": "Field one",
+      "definition": "A field.",
+      "dataType": "float64",
+      "valueBasis": "measured",
+      "unit": "http://qudt.org/vocab/unit/MegaW"
+    }
+  ]
+}

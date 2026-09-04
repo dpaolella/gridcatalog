@@ -1,0 +1,35 @@
+# Q1 — Shared upstream origin at unbounded depth.  PRD §4.6.
+#
+# A modeler pairs Global Wind Atlas for siting with PyPSA-Eur weather cutouts
+# for time series, believing they are independent. Both trace back to ERA5. The
+# apparent agreement between them is partly ERA5 agreeing with itself, and the
+# study's uncertainty band is narrower than it should be.
+#
+# The `+` is the point: neither depth is known in advance. Here the depths are
+# 1 and 2, because the Global Wind Atlas reaches ERA5 through an intermediate
+# mesoscale run. A two-hop approximation would find nothing.
+#
+# Parameters: ??a, ??b — the two dataset IRIs.
+
+SELECT DISTINCT ?sharedOrigin ?originTitle ?depthA ?depthB
+WHERE {
+  ??a (og:upstreamSource|prov:wasDerivedFrom)+ ?sharedOrigin .
+  ??b (og:upstreamSource|prov:wasDerivedFrom)+ ?sharedOrigin .
+
+  # Depth is not expressible directly in SPARQL 1.1, so it is computed as the
+  # length of the shortest chain the engine can witness. Callers that need an
+  # exact depth use datahub.semantic.provenance.depth_to(), which walks the
+  # graph in Python; this binding is enough to rank origins by closeness.
+  OPTIONAL {
+    ??a (og:upstreamSource|prov:wasDerivedFrom) ?sharedOrigin .
+    BIND(1 AS ?directA)
+  }
+  OPTIONAL {
+    ??b (og:upstreamSource|prov:wasDerivedFrom) ?sharedOrigin .
+    BIND(1 AS ?directB)
+  }
+  BIND(COALESCE(?directA, 2) AS ?depthA)
+  BIND(COALESCE(?directB, 2) AS ?depthB)
+
+  OPTIONAL { ?sharedOrigin dct:title ?originTitle }
+}

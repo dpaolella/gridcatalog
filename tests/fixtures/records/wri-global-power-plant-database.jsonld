@@ -1,0 +1,91 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/wri-global-power-plant-database",
+      "type": "Dataset",
+      "persistentId": "https://doi.org/10.60893/gpwd-1234",
+      "title": "WRI Global Power Plant Database",
+      "summary": "Global plant-level generation capacity database, version 1.3.0, no longer maintained.",
+      "description": "A global inventory of power plants with capacity, fuel, location and, where available, generation. Version 1.3.0 was released in 2021 and the database is no longer maintained. It is superseded by the Global Energy Monitor Global Integrated Power Tracker, which covers the same ground at unit rather than plant level and is actively updated. The record is kept because it is still widely cited and because the supersession link is what lets a user discover that the paper they are reading used a stale source.",
+      "keyword": [
+        "power plants",
+        "capacity",
+        "global",
+        "WRI",
+        "generation"
+      ],
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "supersededBy": "https://catalog.opengrid.org/ds/gem-global-integrated-power-tracker",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 3,
+      "referenceOnly": true,
+      "pointerRationale": "v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT. Catalogued as a Tier 3 pointer with an explicit supersession link, which also exercises the Currency and Maintenance grade end to end.",
+      "spatialLabel": [
+        "Global"
+      ],
+      "bbox": [
+        -180.0,
+        -90.0,
+        180.0,
+        90.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "point",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2000-01-01T00:00:00Z",
+        "endDate": "2021-06-01T00:00:00Z"
+      },
+      "updateCadence": "discontinued",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/wri-global-power-plant-database#flags",
+        "type": "QualityFlags",
+        "staleness": "superseded",
+        "caveat": [
+          "Last release 2021. Capacity figures predate five years of build-out and retirement."
+        ],
+        "plannedSuccessor": "https://catalog.opengrid.org/ds/gem-global-integrated-power-tracker"
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/wri-global-power-plant-database--csv"
+      ],
+      "issued": "2018-05-01T00:00:00Z",
+      "modified": "2021-06-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/wri-global-power-plant-database--csv",
+      "type": "Distribution",
+      "accessURL": "https://datasets.wri.org/dataset/globalpowerplantdatabase",
+      "mediaType": "text/csv",
+      "formatLabel": "CSV, one row per plant",
+      "byteSize": 12582912,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/wri-global-power-plant-database--csv#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P30D"
+      }
+    }
+  ]
+}

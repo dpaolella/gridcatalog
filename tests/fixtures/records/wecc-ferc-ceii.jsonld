@@ -1,0 +1,85 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/wecc-ferc-ceii",
+      "type": "Dataset",
+      "title": "WECC / FERC CEII transmission data",
+      "summary": "Investment-grade Western Interconnection network models, designated Critical Energy Infrastructure Information and not obtainable.",
+      "description": "The transmission planning models WECC and FERC hold are the authoritative representation of the Western Interconnection. They are CEII-designated under 18 CFR 388.113 and require an NDA plus FERC clearance. This record exists because a catalog that tells you what does not exist is more useful than one that silently returns nothing: the gap is permanent, it bounds what DD1 can offer, and a modeler should learn that here rather than after a month of correspondence.",
+      "keyword": [
+        "CEII",
+        "WECC",
+        "FERC",
+        "transmission",
+        "restricted"
+      ],
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "license": "https://spdx.org/licenses/LicenseRef-CEII",
+      "licenseNote": "CEII-designated under 18 CFR 388.113. Not a licence in the reuse sense: a statutory access restriction.",
+      "redistributionAllowed": false,
+      "commercialUseAllowed": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/ceii",
+      "anonymousAccess": false,
+      "documentationStatus": "external-standard-only",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 3,
+      "referenceOnly": true,
+      "accessBarrier": "restricted",
+      "pointerRationale": "NDA plus FERC clearance. Permanently out of reach and catalogued as a documented gap, not as a lead to chase.",
+      "spatialLabel": [
+        "Western Interconnection",
+        "United States",
+        "Canada"
+      ],
+      "bbox": [
+        -125.0,
+        31.0,
+        -102.0,
+        60.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "nodal",
+      "updateCadence": "irregular",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/wecc-ferc-ceii#flags",
+        "type": "QualityFlags",
+        "staleness": "unknown",
+        "caveat": [
+          "No access path exists at any price. PRD \u00a712.4 carries forward whether a de-sensitized derivative under controlled access is a defensible niche; until that is decided, this is a gap and nothing more."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing"
+      ],
+      "issued": "2020-01-01T00:00:00Z",
+      "modified": "2026-01-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing",
+      "type": "Distribution",
+      "accessURL": "https://www.ferc.gov/ceii",
+      "formatLabel": "Landing page only; no data artifact",
+      "bulkDownload": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/ceii",
+      "anonymousAccess": false,
+      "credentialRequirement": "FERC CEII clearance and a signed non-disclosure agreement",
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P30D"
+      }
+    }
+  ]
+}

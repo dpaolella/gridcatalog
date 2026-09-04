@@ -1,0 +1,36 @@
+# Q5 — Unit-mismatch and match-strength audit.  PRD §4.6.
+#
+# Find concept mappings asserted as skos:exactMatch where the two sides carry
+# different units, or where the same statement also declares a difference.
+# These are X2 violations and modelling hazards: a nodal voltage and a zonal
+# average voltage look identical at the header level, and an exactMatch tells a
+# downstream tool it may substitute one for the other.
+#
+# A data-quality query over the crosswalk itself, which is only expressible
+# because the crosswalk is data rather than code. The same audit runs at commit
+# time in tests/vocab/test_crosswalks.py.
+#
+# The GRAPH ?g wrapper is load-bearing, not decoration. Difference annotations
+# hang off the concept rather than off the mapping statement, so a concept
+# mapped in four crosswalks would have one scheme's closeMatch justification
+# flag another scheme's perfectly sound exactMatch. Confining the pattern to a
+# single graph per solution — one graph per crosswalk scheme — makes the
+# annotation unambiguous without reifying every mapping.
+
+SELECT DISTINCT ?scheme ?concept ?external ?conceptUnit ?externalUnit ?justification
+WHERE {
+  GRAPH ?scheme {
+    ?concept skos:exactMatch ?external .
+    OPTIONAL {
+      ?concept ?differenceProperty ?justification .
+      VALUES ?differenceProperty { og:unitDiffers og:basisDiffers og:granularityDiffers }
+    }
+  }
+  OPTIONAL { GRAPH ?unitGraph { ?concept og:defaultUnit ?conceptUnit } }
+  OPTIONAL { GRAPH ?unitGraph2 { ?external og:defaultUnit ?externalUnit } }
+  FILTER (
+    BOUND(?justification)
+    || (BOUND(?conceptUnit) && BOUND(?externalUnit) && ?conceptUnit != ?externalUnit)
+  )
+}
+ORDER BY ?scheme ?concept

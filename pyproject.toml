@@ -113,6 +113,10 @@ ignore = [
 testpaths = ["tests"]
 pythonpath = ["."]
 asyncio_mode = "auto"
+# The default suite runs with no container runtime and no outbound network
+# (ADR-0002). Opt in with `pytest -m integration` or `-m network`; `make
+# test-all` runs everything.
+addopts = "-m 'not integration and not network'"
 markers = [
   "integration: requires external services (fuseki, opensearch, postgres)",
   "network: requires outbound network access to third-party sources",

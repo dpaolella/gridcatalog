@@ -1,0 +1,22 @@
+# Q4 — Federation across an external endpoint.  PRD §4.6.
+#
+# Query OpenGrid's catalog and the Open Energy Platform in one query, joined on
+# shared concept IRIs, with no ingestion of their records. This is the GERS
+# federated-node pattern in miniature, and PRD §0.3 calls it the decisive
+# capability behind the storage decision.
+#
+# Requires outbound network from the store, so the test that runs it is marked
+# `network` and skipped by default. A federation failure is a real finding
+# about the substrate, not a flaky test — PRD §10 says to treat a negative
+# result here as a successful experiment.
+#
+# Parameter: ??endpoint — the remote SPARQL endpoint.
+
+SELECT DISTINCT ?ogDataset ?concept ?remoteSubject
+WHERE {
+  ?ogDataset og:hasField/og:concept ?concept .
+  SERVICE ??endpoint {
+    ?remoteSubject ?p ?concept .
+  }
+}
+LIMIT 100

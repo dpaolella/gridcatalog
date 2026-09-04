@@ -1,0 +1,133 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/esa-worldcover",
+      "type": "Dataset",
+      "title": "ESA WorldCover",
+      "summary": "Global 10 m land cover classification derived from Sentinel-1 and Sentinel-2, cloud-optimised.",
+      "description": "Eleven-class land cover at 10 m resolution, global, published as cloud-optimised GeoTIFFs. The primary siting exclusion layer for renewable development at continental scale, and a strong partial-read exemplar: a siting study needs one tile, not the planet.",
+      "keyword": [
+        "land cover",
+        "Sentinel",
+        "10m",
+        "COG",
+        "siting",
+        "exclusion"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/esa",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "attribution": "ESA WorldCover project, \u00a9 ESA WorldCover contributors",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "geospatialPrimary": true,
+      "spatialLabel": [
+        "Global"
+      ],
+      "bbox": [
+        -180.0,
+        -60.0,
+        180.0,
+        84.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "geometryTypes": [
+        "raster"
+      ],
+      "spatialGranularity": "gridded",
+      "spatialResolution": "10 m",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2021-01-01T00:00:00Z",
+        "endDate": "2021-12-31T00:00:00Z"
+      },
+      "updateCadence": "irregular",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/siting"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "exclusionRationale": "A land cover raster constrains where capacity can go; it says nothing about how much is needed. It is an input to a siting screen that feeds an expansion model, not an input to the model.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/esa-worldcover#flags",
+        "type": "QualityFlags",
+        "staleness": "aging",
+        "caveat": [
+          "A single-year classification. Land use changes faster than the release cadence in rapidly developing regions."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/esa-worldcover--cog-s3"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/esa-worldcover/map",
+        "https://catalog.opengrid.org/field/esa-worldcover/quality"
+      ],
+      "issued": "2022-10-01T00:00:00Z",
+      "modified": "2022-10-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/esa-worldcover--cog-s3",
+      "type": "Distribution",
+      "accessURL": "s3://esa-worldcover/v200/2021/map/",
+      "mediaType": "image/tiff; application=geotiff",
+      "formatLabel": "Cloud-optimised GeoTIFF, 3x3 degree tiles",
+      "byteSize": 1099511627776,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": true,
+      "chunkIndexMethod": "cog-tiles",
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/esa-worldcover--cog-s3#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/esa-worldcover/map",
+      "type": "Field",
+      "localName": "Map",
+      "fieldId": "Map",
+      "label": "Land cover class",
+      "definition": "Eleven-class categorical land cover code following the WorldCover legend.",
+      "dataType": "uint8",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/esa-worldcover"
+      ],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/esa-worldcover/quality",
+      "type": "Field",
+      "localName": "InputQuality",
+      "fieldId": "InputQuality",
+      "label": "Input observation quality",
+      "definition": "Count of valid Sentinel observations behind each pixel's classification, a proxy for confidence.",
+      "dataType": "uint8",
+      "valueBasis": "measured",
+      "required": false,
+      "completenessCaveats": "Low counts cluster in persistently cloudy regions, so classification confidence is spatially correlated rather than random."
+    }
+  ]
+}

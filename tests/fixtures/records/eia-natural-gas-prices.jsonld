@@ -1,0 +1,98 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/eia-natural-gas-prices",
+      "type": "Dataset",
+      "title": "EIA natural gas prices and Short-Term Energy Outlook",
+      "summary": "Historical US natural gas spot and delivered prices, with short-horizon outlook projections.",
+      "description": "Henry Hub spot prices, citygate and delivered prices by sector and state, plus the Short-Term Energy Outlook's forward view. DD7's structural note bounds what this can offer: historical prices are open and forward curves are uniformly commercial and will remain so, so a record like this serves backtesting and calibration and cannot serve forward revenue modelling.",
+      "keyword": [
+        "natural gas",
+        "price",
+        "Henry Hub",
+        "STEO",
+        "fuel",
+        "EIA"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/eia",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD7"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "license": "https://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "US Government work, public domain.",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "United States"
+      ],
+      "bbox": [
+        -170.0,
+        18.0,
+        -66.0,
+        72.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "national",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "1997-01-01T00:00:00Z",
+        "endDate": "2027-12-31T00:00:00Z"
+      },
+      "updateCadence": "P1M",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/marketSimulation"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "exclusionRationale": "A short-term outlook does not reach the horizon a capacity expansion model needs, and no open forward curve does. Substituting a two-year outlook for a thirty-year fuel path is the error DD7's structural note exists to prevent.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/eia-natural-gas-prices#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Historical only, plus a short outlook. Forward curves are commercial and redistribution is prohibited; that is a permanent gap, not a coverage shortfall."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/eia-natural-gas-prices--api"
+      ],
+      "issued": "2000-01-01T00:00:00Z",
+      "modified": "2026-08-15T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/eia-natural-gas-prices--api",
+      "type": "Distribution",
+      "accessURL": "https://api.eia.gov/v2/natural-gas",
+      "mediaType": "application/json",
+      "formatLabel": "JSON via EIA API v2",
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "credentialRequirement": "Free API key",
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/eia-natural-gas-prices--api#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P1D"
+      }
+    }
+  ]
+}

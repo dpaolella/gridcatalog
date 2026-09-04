@@ -1,0 +1,149 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/nrel-atb",
+      "type": "Dataset",
+      "title": "NREL Annual Technology Baseline",
+      "summary": "Cost and performance projections for electricity generation and storage technologies, to 2050, in three scenarios.",
+      "description": "The canonical US technology cost stack: capital cost, fixed and variable O&M, capacity factor and financing assumptions by technology and year, under conservative, moderate and advanced trajectories. Cataloged as one dataset with two domain facets rather than as two records \u2014 the storage tables and the generation tables are the same publication and splitting them would double every future update.",
+      "keyword": [
+        "cost",
+        "ATB",
+        "technology",
+        "projection",
+        "capex",
+        "storage",
+        "NREL"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/nrel",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD9",
+        "https://schema.opengrid.org/concept/data-domain/DD6"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "attribution": "National Renewable Energy Laboratory, Annual Technology Baseline",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "United States"
+      ],
+      "bbox": [
+        -170.0,
+        18.0,
+        -66.0,
+        72.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "national",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2022-01-01T00:00:00Z",
+        "endDate": "2050-12-31T00:00:00Z"
+      },
+      "updateCadence": "P1Y",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/marketSimulation"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/productionCost"
+      ],
+      "exclusionRationale": "Annual national averages by technology. A dispatch model needs unit-level marginal cost, and applying a technology average to a specific unit misprices the whole merit order.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/nrel-atb#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Projections, not observations. Every value is conditional on the scenario it sits in, and comparing figures across scenarios or across ATB vintages is a category error."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/nrel-atb--csv"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/nrel-atb/capex",
+        "https://catalog.opengrid.org/field/nrel-atb/fom",
+        "https://catalog.opengrid.org/field/nrel-atb/wacc_real"
+      ],
+      "issued": "2015-01-01T00:00:00Z",
+      "modified": "2026-07-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/nrel-atb--csv",
+      "type": "Distribution",
+      "accessURL": "https://data.openei.org/submissions/6006",
+      "mediaType": "text/csv",
+      "formatLabel": "CSV, one row per technology, year, scenario and metric",
+      "byteSize": 94371840,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/nrel-atb--csv#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P30D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/nrel-atb/capex",
+      "type": "Field",
+      "localName": "CAPEX",
+      "fieldId": "CAPEX",
+      "label": "Overnight capital cost",
+      "definition": "Overnight capital cost per unit of nameplate capacity, in constant dollars of the ATB base year.",
+      "dataType": "float64",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "required": true,
+      "completenessCaveats": "Constant dollars of the ATB base year. Comparing against a figure in another year's dollars without deflating is the most common misuse."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/nrel-atb/fom",
+      "type": "Field",
+      "localName": "Fixed O&M",
+      "fieldId": "fixed_om",
+      "label": "Fixed operating cost",
+      "definition": "Annual fixed operations and maintenance cost per unit of capacity.",
+      "dataType": "float64",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/nrel-atb/wacc_real",
+      "type": "Field",
+      "localName": "WACC Real",
+      "fieldId": "wacc_real",
+      "label": "Real weighted average cost of capital",
+      "definition": "Real WACC assumed for the technology and year, before tax credits.",
+      "dataType": "float64",
+      "valueBasis": "estimated",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "required": false,
+      "completenessCaveats": "DD9's structural note calls WACC almost entirely absent from open sources. This field is one of the few published values and is an assumption, not an observation."
+    }
+  ]
+}

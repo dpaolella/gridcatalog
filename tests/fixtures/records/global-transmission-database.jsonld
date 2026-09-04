@@ -1,0 +1,131 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/global-transmission-database",
+      "type": "Dataset",
+      "persistentId": "https://doi.org/10.1016/j.dib.2024.110420",
+      "conceptDoi": "https://doi.org/10.5281/zenodo.15527469",
+      "title": "Global Transmission Database",
+      "summary": "Zonal MW transfer limits by country and voltage class, assembled from public sources by Brinkerink et al.",
+      "description": "A global compilation of inter-zonal transmission transfer capacities, organised by country pair and voltage class. Deliberately zonal: it carries no bus-branch topology and no impedances, so it supports capacity expansion and zonal dispatch and cannot support power flow at any level of care. Its value is coverage where DD1 is thinnest.",
+      "keyword": ["transmission", "transfer capacity", "NTC", "global", "zonal"],
+      "publisher": "https://catalog.opengrid.org/agent/brinkerink-et-al",
+      "dataDomain": ["https://schema.opengrid.org/concept/data-domain/DD1"],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 3,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": ["Global"],
+      "bbox": [-180.0, -90.0, 180.0, 90.0],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "zonal",
+      "hasTopology": false,
+      "hasImpedance": false,
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2020-01-01T00:00:00Z",
+        "endDate": "2024-01-01T00:00:00Z"
+      },
+      "updateCadence": "irregular",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/powerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/reliabilityAssessment"
+      ],
+      "exclusionRationale": "No bus-branch topology and no impedance. DD1's structural note explains why that limit is not a gap in this dataset but a bound on the whole domain: investment-grade US transmission data is CEII-designated and permanently out of reach.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/global-transmission-database#flags",
+        "type": "QualityFlags",
+        "staleness": "current"
+      },
+      "distribution": ["https://catalog.opengrid.org/dist/global-transmission-database--csv"],
+      "hasField": [
+        "https://catalog.opengrid.org/field/global-transmission-database/transfer_capacity_mw",
+        "https://catalog.opengrid.org/field/global-transmission-database/voltage_kv",
+        "https://catalog.opengrid.org/field/global-transmission-database/confidence_class"
+      ],
+      "issued": "2024-05-01T00:00:00Z",
+      "modified": "2025-05-27T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/global-transmission-database--csv",
+      "type": "Distribution",
+      "accessURL": "https://zenodo.org/records/15527469/files/global_transmission_db.csv",
+      "mediaType": "text/csv",
+      "formatLabel": "CSV, one row per country-pair and voltage class",
+      "byteSize": 819200,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/global-transmission-database--csv#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/transfer_capacity_mw",
+      "type": "Field",
+      "localName": "transfer_capacity_mw",
+      "fieldId": "transfer_capacity_mw",
+      "label": "Inter-zonal transfer capacity",
+      "definition": "Maximum power transferable between the two zones named in the row, aggregating the limiting effect of all circuits in that voltage class.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/MegaW",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/transferCapacity",
+      "valueBasis": "estimated",
+      "fieldSource": ["https://catalog.opengrid.org/ds/global-transmission-database"],
+      "required": true,
+      "completenessCaveats": "Zonal by construction. This is not a branch rating and must not be substituted for one."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/voltage_kv",
+      "type": "Field",
+      "localName": "voltage_kv",
+      "fieldId": "voltage_kv",
+      "label": "Voltage class",
+      "definition": "Nominal voltage class of the circuits the row aggregates.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/nominalVoltage",
+      "valueBasis": "measured",
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/confidence_class",
+      "type": "Field",
+      "localName": "confidence_class",
+      "fieldId": "confidence_class",
+      "label": "Compiler confidence class",
+      "definition": "The compilers' own three-level assessment of how well-attested a row is, from a published operator figure down to an inference from line count and voltage.",
+      "dataType": "string",
+      "conceptGap": {
+        "id": "https://catalog.opengrid.org/field/global-transmission-database/confidence_class#gap",
+        "type": "ConceptGap",
+        "gapReason": "No concept in the grid-concept scheme covers a compiler's self-assessed confidence. It is metadata about the row rather than a physical, economic or categorical quantity, and inventing a concept for one dataset's internal grading would pollute a shared vocabulary. Recorded as a gap rather than omitted so a reader can see the field was considered (PRD X4)."
+      },
+      "valueBasis": "estimated",
+      "fieldSource": ["https://catalog.opengrid.org/ds/global-transmission-database"],
+      "required": false
+    }
+  ]
+}

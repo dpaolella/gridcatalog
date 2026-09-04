@@ -1,0 +1,93 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/ember-electricity-review",
+      "type": "Dataset",
+      "title": "Ember Global Electricity Review and Renewable Target Tracker",
+      "summary": "Annual global electricity generation and emissions by country and fuel, alongside a tracker of national renewable targets.",
+      "description": "Ember compiles national electricity statistics into a consistent global series and separately tracks stated renewable and clean-power targets by country. DD8's structural note explains why this record matters disproportionately: policy data usually fails on format rather than on licence, and Ember is one of the few sources that publishes it structured and via an API rather than as a PDF.",
+      "keyword": [
+        "policy",
+        "targets",
+        "generation",
+        "emissions",
+        "Ember",
+        "global"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/ember",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD8"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "attribution": "Ember, Global Electricity Review",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "Global"
+      ],
+      "bbox": [
+        -180.0,
+        -90.0,
+        180.0,
+        90.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "national",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2000-01-01T00:00:00Z",
+        "endDate": "2025-12-31T00:00:00Z"
+      },
+      "updateCadence": "P1Y",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/emissionsAccounting",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/ember-electricity-review#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Targets are as stated by governments, not as assessed for credibility. A target in this dataset is a policy fact, not a forecast."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/ember-electricity-review--api"
+      ],
+      "issued": "2020-03-01T00:00:00Z",
+      "modified": "2026-04-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/ember-electricity-review--api",
+      "type": "Distribution",
+      "accessURL": "https://api.ember-energy.org",
+      "mediaType": "application/json",
+      "formatLabel": "JSON API; CSV downloads also published",
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/ember-electricity-review--api#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P1D"
+      }
+    }
+  ]
+}

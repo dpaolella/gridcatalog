@@ -19,6 +19,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any
 
+from datahub.api.models.base import Base, IdMixin, TimestampMixin, utcnow
 from sqlalchemy import (
     JSON,
     Boolean,
@@ -32,8 +33,6 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
-from datahub.api.models.base import Base, IdMixin, TimestampMixin, utcnow
 
 # ---------------------------------------------------------------------------
 # Identity

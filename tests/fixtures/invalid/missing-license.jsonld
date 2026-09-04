@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/broken",
+      "type": "Dataset",
+      "title": "Broken record",
+      "description": "A deliberately invalid fixture.",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "partial",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "distribution": [
+        "https://catalog.opengrid.org/dist/broken--d1"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/broken--d1",
+      "type": "Distribution",
+      "accessURL": "https://example.org/data.csv",
+      "mediaType": "text/csv"
+    }
+  ]
+}

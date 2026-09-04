@@ -1,0 +1,106 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/global-wind-atlas",
+      "type": "Dataset",
+      "persistentId": "https://globalwindatlas.info",
+      "title": "Global Wind Atlas",
+      "summary": "Global high-resolution wind resource maps: mean wind speed and power density at several heights, produced by microscale downscaling of a mesoscale simulation.",
+      "description": "The Global Wind Atlas provides wind climate statistics on a 250 m grid worldwide. It is produced in two stages: a WRF mesoscale simulation driven by reanalysis boundary conditions, followed by microscale downscaling that accounts for terrain and roughness. The two-stage derivation is why it appears independent of a reanalysis-derived time series and is not — the reanalysis is two hops upstream rather than one, which is exactly the depth an unbounded provenance walk is needed to find.",
+      "keyword": ["wind", "resource", "atlas", "siting", "WRF", "downscaling"],
+      "publisher": "https://catalog.opengrid.org/agent/dtu-wind",
+      "dataDomain": ["https://schema.opengrid.org/concept/data-domain/DD5"],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "upstreamSource": ["https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale"],
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "attribution": "Global Wind Atlas 3.0, DTU Wind Energy and the World Bank Group",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 3,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 2,
+      "geospatialPrimary": true,
+      "spatialLabel": ["Global"],
+      "bbox": [-180.0, -62.0, 180.0, 84.0],
+      "nativeCRS": "EPSG:4326",
+      "geometryTypes": ["raster"],
+      "spatialGranularity": "gridded",
+      "spatialResolution": "250 m",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2008-01-01T00:00:00Z",
+        "endDate": "2017-12-31T00:00:00Z"
+      },
+      "updateCadence": "irregular",
+      "timeResolution": "P10Y",
+      "supportedAnalysis": ["https://schema.opengrid.org/concept/analysis-type/siting"],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy"
+      ],
+      "exclusionRationale": "These are long-term climate statistics, not a time series. A dispatch or adequacy study needs chronological hours, and a mean wind speed cannot be resampled into them.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/global-wind-atlas#flags",
+        "type": "QualityFlags",
+        "staleness": "aging",
+        "caveat": [
+          "Traces to the same reanalysis family as most European weather cutouts, through its mesoscale boundary conditions. Treating it as an independent check on a reanalysis-derived time series understates uncertainty."
+        ]
+      },
+      "distribution": ["https://catalog.opengrid.org/dist/global-wind-atlas--geotiff"],
+      "hasField": ["https://catalog.opengrid.org/field/global-wind-atlas/wind-speed-100m"],
+      "issued": "2019-10-01T00:00:00Z",
+      "modified": "2023-06-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale",
+      "type": "Agent",
+      "name": "Global Wind Atlas WRF mesoscale simulation",
+      "upstreamSource": ["https://catalog.opengrid.org/ds/ecmwf-era5"],
+      "pointerRationale": "The intermediate mesoscale model run behind the Global Wind Atlas. Not itself a published dataset, so it is recorded as an upstream node rather than catalogued: PRD §4.1 D4 is explicit that an absent upstream link means 'not captured', so an intermediate that exists must be recorded even when it cannot be catalogued."
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/global-wind-atlas--geotiff",
+      "type": "Distribution",
+      "accessURL": "https://globalwindatlas.info/download",
+      "mediaType": "image/tiff; application=geotiff",
+      "formatLabel": "GeoTIFF, per country and per height",
+      "byteSize": 8589934592,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/global-wind-atlas--geotiff#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/global-wind-atlas/wind-speed-100m",
+      "type": "Field",
+      "localName": "wind-speed_100m",
+      "fieldId": "wind-speed_100m",
+      "label": "Mean wind speed at 100 m",
+      "definition": "Long-term mean wind speed at 100 metres above ground, over the 2008-2017 simulation period.",
+      "dataType": "float32",
+      "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+      "valueBasis": "modeled",
+      "fieldSource": ["https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale"],
+      "required": true,
+      "completenessCaveats": "A ten-year mean, not a time series. Two sites with the same mean can have very different generation profiles."
+    }
+  ]
+}

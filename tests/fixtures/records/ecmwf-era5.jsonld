@@ -1,0 +1,206 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/ecmwf-era5",
+      "type": "Dataset",
+      "persistentId": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+      "title": "ECMWF ERA5 reanalysis",
+      "summary": "Hourly global atmospheric reanalysis from 1940 to the present, the reference weather input for European and global energy system modelling.",
+      "description": "ERA5 is the fifth-generation ECMWF atmospheric reanalysis of the global climate, produced by the Copernicus Climate Change Service. It assimilates observations into a fixed forecast model to produce a physically consistent hourly record on a roughly 31 km grid. In energy modelling it is the dominant source of wind speed, solar irradiance and temperature time series, which makes it the most common shared upstream origin in the catalog: two datasets that appear independent frequently both derive from it.",
+      "keyword": [
+        "reanalysis",
+        "weather",
+        "wind",
+        "solar",
+        "temperature",
+        "ERA5",
+        "Copernicus"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/ecmwf",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "license": "https://spdx.org/licenses/LicenseRef-Copernicus-1.2",
+      "licenseNote": "Copernicus Licence v1.2. Free reuse including commercial, with attribution to the Copernicus Climate Change Service. Not an SPDX-listed identifier.",
+      "attribution": "Generated using Copernicus Climate Change Service information 2026",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 3,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "Global"
+      ],
+      "bbox": [
+        -180.0,
+        -90.0,
+        180.0,
+        90.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "gridded",
+      "spatialResolution": "0.25 degree",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "1940-01-01T00:00:00Z",
+        "endDate": "2026-08-01T00:00:00Z"
+      },
+      "updateCadence": "P1D",
+      "timeResolution": "PT1H",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/siting"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/powerFlow"
+      ],
+      "exclusionRationale": "A reanalysis carries no network representation. It is an input to generation availability, never a substitute for a network model.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/ecmwf-era5#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Reanalysis wind speeds are known to be biased low in complex terrain; downscaling is normally required before siting use.",
+          "The 31 km grid does not resolve individual wind farms. A cell value is an area average, not a site measurement."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/ecmwf-era5--zarr-s3",
+        "https://catalog.opengrid.org/dist/ecmwf-era5--cds-api"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/ecmwf-era5/u100",
+        "https://catalog.opengrid.org/field/ecmwf-era5/ssrd",
+        "https://catalog.opengrid.org/field/ecmwf-era5/t2m",
+        "https://catalog.opengrid.org/field/ecmwf-era5/ro"
+      ],
+      "issued": "2018-06-14T00:00:00Z",
+      "modified": "2026-08-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/ecmwf-era5--zarr-s3",
+      "type": "Distribution",
+      "accessURL": "s3://era5-pds/zarr/",
+      "mediaType": "application/vnd+zarr",
+      "formatLabel": "Zarr v2",
+      "byteSize": 4398046511104,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": true,
+      "corsEnabled": true,
+      "chunkIndexMethod": "zarr-v2",
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/ecmwf-era5--zarr-s3#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/ecmwf-era5--cds-api",
+      "type": "Distribution",
+      "accessURL": "https://cds.climate.copernicus.eu/api",
+      "mediaType": "application/x-netcdf",
+      "formatLabel": "NetCDF-4 or GRIB, on request",
+      "bulkDownload": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "credentialRequirement": "Copernicus CDS account and API key",
+      "supportsRangeRequests": false,
+      "subsettingProtocol": null,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/ecmwf-era5--cds-api#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P1D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/u100",
+      "type": "Field",
+      "localName": "u100",
+      "fieldId": "u100",
+      "label": "100 metre U wind component",
+      "definition": "Eastward component of the horizontal wind at 100 metres above the surface. Combined with v100 it gives wind speed at approximately modern turbine hub height, which is why ERA5 is usable for wind yield without extrapolation from 10 metres.",
+      "dataType": "float32",
+      "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "required": true,
+      "completenessCaveats": "Complete over the full record; no gaps."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssrd",
+      "type": "Field",
+      "localName": "ssrd",
+      "fieldId": "ssrd",
+      "label": "Surface solar radiation downwards",
+      "definition": "Shortwave radiation reaching a horizontal surface, accumulated over the hour. Equivalent to global horizontal irradiance once divided by the accumulation period, which is the conversion most consumers forget.",
+      "dataType": "float32",
+      "unit": "http://qudt.org/vocab/unit/W-PER-M2",
+      "unitAsStated": "J m**-2 accumulated over 1 hour",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/globalHorizontalIrradiance",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "required": true,
+      "completenessCaveats": "Accumulated, not instantaneous. A consumer treating the raw value as W/m2 overstates irradiance by a factor of 3600."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/t2m",
+      "type": "Field",
+      "localName": "t2m",
+      "fieldId": "t2m",
+      "label": "2 metre temperature",
+      "definition": "Air temperature at two metres above the surface.",
+      "dataType": "float32",
+      "unit": "http://qudt.org/vocab/unit/DEG_C",
+      "unitAsStated": "K",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/airTemperature",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ro",
+      "type": "Field",
+      "localName": "ro",
+      "fieldId": "ro",
+      "label": "Runoff",
+      "definition": "Water leaving the surface and sub-surface as runoff, accumulated hourly. Used as a hydro inflow proxy after catchment aggregation.",
+      "dataType": "float32",
+      "unit": "http://qudt.org/vocab/unit/MilliM",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/hydroInflow",
+      "inferredAssignment": true,
+      "inferenceBasis": "Resolved to hydro inflow by alt-label match on 'runoff' at confidence 0.87. ERA5 documents this as a land-surface water balance term, not as a hydro inflow; the mapping holds only after catchment aggregation, which this dataset does not perform.",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "required": false,
+      "completenessCaveats": "Not a reservoir inflow. Using it directly as hydro availability without routing overstates responsiveness."
+    }
+  ]
+}

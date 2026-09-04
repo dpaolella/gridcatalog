@@ -5,10 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from datahub.namespaces import OG, QUDT
 from rdflib import Graph, URIRef
 from rdflib.namespace import RDFS
-
-from datahub.namespaces import OG, QUDT
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 QUDT_UNIT = "http://qudt.org/vocab/unit/"

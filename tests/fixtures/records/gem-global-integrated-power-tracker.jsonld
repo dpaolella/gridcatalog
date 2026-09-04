@@ -1,0 +1,98 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/gem-global-integrated-power-tracker",
+      "type": "Dataset",
+      "title": "Global Energy Monitor Global Integrated Power Tracker",
+      "summary": "Unit-level global generation inventory across eight technology trackers, updated continuously; download is form-gated.",
+      "description": "GEM's integrated tracker consolidates its coal, gas, oil, nuclear, hydro, wind, solar and bioenergy trackers into one unit-level inventory with status, capacity, location and ownership. It is the most complete open global fleet dataset and it fails the anonymous-access criterion: the download is behind a registration form, which lands it at Tier 2 despite being otherwise model-ready. That is the tier framework doing its job \u2014 the constraint is an access path, not data quality, and conflating the two would misinform the user.",
+      "keyword": [
+        "power plants",
+        "units",
+        "global",
+        "GEM",
+        "capacity",
+        "tracker"
+      ],
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "supersedes": [
+        "https://catalog.opengrid.org/ds/wri-global-power-plant-database"
+      ],
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "licenseNote": "CC-BY-4.0 for non-commercial reuse; a separate exemption process exists for commercial use.",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": false,
+      "shareAlike": false,
+      "attribution": "Global Energy Monitor, Global Integrated Power Tracker",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 2,
+      "spatialLabel": [
+        "Global"
+      ],
+      "bbox": [
+        -180.0,
+        -90.0,
+        180.0,
+        90.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "point",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2000-01-01T00:00:00Z",
+        "endDate": "2026-07-01T00:00:00Z"
+      },
+      "updateCadence": "P6M",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/emissionsAccounting"
+      ],
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/gem-global-integrated-power-tracker#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Form-gated download. The data is open; the path is not, which is what caps the tier."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/gem-global-integrated-power-tracker--xlsx"
+      ],
+      "issued": "2022-01-01T00:00:00Z",
+      "modified": "2026-07-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/gem-global-integrated-power-tracker--xlsx",
+      "type": "Distribution",
+      "accessURL": "https://globalenergymonitor.org/projects/global-integrated-power-tracker/download-data/",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "formatLabel": "XLSX behind a registration form",
+      "byteSize": 41943040,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "credentialRequirement": "Registration form; no API key, no programmatic path",
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/gem-global-integrated-power-tracker--xlsx#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P30D"
+      }
+    }
+  ]
+}

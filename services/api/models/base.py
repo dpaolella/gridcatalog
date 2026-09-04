@@ -19,11 +19,10 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from typing import Any
 
+from datahub.config import Settings, get_settings
 from sqlalchemy import DateTime, MetaData, String, TypeDecorator, create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
-
-from datahub.config import Settings, get_settings
 
 #: Explicit naming so Alembic autogenerate produces stable, reviewable diffs
 #: instead of database-assigned constraint names that differ per dialect.
@@ -47,12 +46,12 @@ class UTCDateTime(TypeDecorator):
     impl = DateTime(timezone=True)
     cache_ok = True
 
-    def process_bind_param(self, value: datetime | None, dialect: Any) -> datetime | None:
+    def process_bind_param(self, value: datetime | None, dialect: Any) -> datetime | None:  # noqa: ARG002 - SQLAlchemy TypeDecorator API
         if value is None:
             return None
         return value.astimezone(UTC) if value.tzinfo else value.replace(tzinfo=UTC)
 
-    def process_result_value(self, value: datetime | None, dialect: Any) -> datetime | None:
+    def process_result_value(self, value: datetime | None, dialect: Any) -> datetime | None:  # noqa: ARG002 - SQLAlchemy TypeDecorator API
         if value is None:
             return None
         return value if value.tzinfo else value.replace(tzinfo=UTC)

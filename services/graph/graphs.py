@@ -43,6 +43,20 @@ class NamedGraph(StrEnum):
     PROVENANCE = _BASE + "provenance"
     """Revision history and audit statements about records, not about datasets."""
 
+    @staticmethod
+    def crosswalk(scheme: str) -> str:
+        """The graph holding one external-scheme crosswalk.
+
+        One graph per crosswalk, not one graph for all of them. Difference
+        annotations (og:unitDiffers and friends) hang off the concept rather
+        than off the individual mapping statement, so merging four crosswalks
+        would let one scheme's closeMatch justification appear to qualify
+        another scheme's exactMatch — and the Q5 audit would report violations
+        that are not there. Separate graphs confine each annotation to the
+        scheme that made it.
+        """
+        return f"{_BASE}crosswalk/{scheme}"
+
     def uri(self) -> URIRef:
         return URIRef(str(self))
 
@@ -71,6 +85,9 @@ AUTHORED_GRAPHS: tuple[NamedGraph, ...] = (
     NamedGraph.SHAPES,
     NamedGraph.PROVENANCE,
 )
+
+#: Prefix under which per-crosswalk graphs are minted.
+CROSSWALK_GRAPH_PREFIX = _BASE + "crosswalk/"
 
 
 def record_graph(review_state: str) -> NamedGraph:

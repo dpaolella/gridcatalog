@@ -5,10 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from datahub.namespaces import OG
 from rdflib import Graph, URIRef
 from rdflib.namespace import DCTERMS, OWL, SKOS
-
-from datahub.namespaces import OG
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 CROSSWALKS = REPO_ROOT / "vocab" / "crosswalks"

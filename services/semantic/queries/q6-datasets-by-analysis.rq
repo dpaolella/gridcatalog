@@ -1,0 +1,16 @@
+# Q6 — Datasets fit for an analysis, including narrower analysis types.
+#
+# Not in the PRD's five, but the same inference pattern applied to the analysis
+# vocabulary rather than the quantity vocabulary: a request for "power flow"
+# datasets must return those declared fit for AC or DC power flow specifically.
+#
+# Parameter: ??analysis.
+
+SELECT DISTINCT ?dataset ?title ?declaredFor
+WHERE {
+  { ?declaredFor skos:broader+ ??analysis } UNION { BIND(??analysis AS ?declaredFor) }
+  ?dataset og:supportedAnalysis ?declaredFor .
+  FILTER NOT EXISTS { ?dataset og:excludedAnalysis ?declaredFor }
+  OPTIONAL { ?dataset dct:title ?title }
+}
+ORDER BY ?title

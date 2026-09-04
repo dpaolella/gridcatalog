@@ -1,0 +1,611 @@
+# SHACL shapes for the OpenGrid metadata contract. PRD §4.5, §4.4, §6.
+#
+# LEVEL PARAMETERISATION (ADR-0004)
+# ---------------------------------
+# A record publishes at completeness level 1 and is promoted to 2 and 3 as
+# detail arrives. A level-3 constraint must therefore not block a level-1
+# record.
+#
+# Every property shape carries og:appliesAtLevel. The runner
+# (datahub.harvest.validate.runner) builds a shapes graph for a target level by
+# detaching every property shape whose level exceeds it, and by dropping node
+# shapes above it entirely. The runner contains no list of which constraint
+# applies where: the annotation is the mechanism, so adding a constraint at a
+# level is a one-line data change.
+#
+# MESSAGES
+# --------
+# PRD §10 M1's done-criterion is that an invalid record is rejected "with a
+# message pointing at the failing triple". sh:resultMessage carries the focus
+# node and path; sh:message must therefore carry the *remedy*. Not "violates
+# minCount" but "add og:fieldSource, or change og:valueBasis to measured".
+#
+# ADVANCED MODE
+# -------------
+# SPARQL-based targets and constraints are used where a constraint is
+# conditional on a value rather than on a class — the geospatial-primary rule,
+# the modelled-field rule, the range-request rule. pySHACL must run with
+# advanced=True; the runner sets it.
+
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ===========================================================================
+# Reusable value-space shapes
+# ===========================================================================
+
+og:DataDomainConceptShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:hasValue <https://schema.opengrid.org/concept/data-domain> ;
+    sh:minCount 1 ;
+    sh:message "og:dataDomain must be a concept from the OpenGrid data-domain scheme (DD1-DD10). A free-text domain is not a domain: PRD §4.1 D3 makes this controlled precisely so a filter can be built on it." ;
+  ] .
+
+og:ProvenanceClassConceptShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:hasValue <https://schema.opengrid.org/concept/provenance-class> ;
+    sh:minCount 1 ;
+    sh:message "og:provenanceClass must be a concept from the provenance-class scheme: one of primary, curated, modeled, reanalysis, derived, synthetic, osm-derived, institutional." ;
+  ] .
+
+og:AccessRestrictionConceptShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:hasValue <https://schema.opengrid.org/concept/access-restriction> ;
+    sh:minCount 1 ;
+    sh:message "og:accessRestriction must be a concept from the access-restriction scheme: one of none, account-required, ceii, pii, commercial-paywall, discontinued." ;
+  ] .
+
+og:AnalysisTypeConceptShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:hasValue <https://schema.opengrid.org/concept/analysis-type> ;
+    sh:minCount 1 ;
+    sh:message "og:supportedAnalysis and og:excludedAnalysis take concepts from the analysis-type scheme." ;
+  ] .
+
+og:GridConceptShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:property [
+    sh:path skos:inScheme ;
+    sh:hasValue <https://schema.opengrid.org/concept/grid-concept> ;
+    sh:minCount 1 ;
+    sh:message "og:concept must resolve to a concept in the OpenGrid grid-concept scheme. If no concept fits, record an og:conceptGap instead — an unmapped field is never silently omitted (PRD X4)." ;
+  ] .
+
+og:QudtUnitShape a sh:NodeShape ;
+  sh:nodeKind sh:IRI ;
+  sh:message "og:unit must be a unit IRI, never a string. 'MW' is not a unit; <http://qudt.org/vocab/unit/MegaW> is (PRD §4.3 C5)." ;
+  sh:or (
+    [ sh:pattern "^http://qudt\\.org/vocab/unit/" ]
+    [ sh:pattern "^https://schema\\.opengrid\\.org/unit/" ]
+  ) .
+
+og:ConceptGapShape a sh:NodeShape ;
+  sh:targetClass og:ConceptGap ;
+  og:appliesAtLevel 3 ;
+  sh:property [
+    sh:path og:gapReason ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    og:appliesAtLevel 3 ;
+    sh:message "A gap marker must state why no concept fits. A bare gap is indistinguishable from not having looked (PRD X4)." ;
+  ] .
+
+# ===========================================================================
+# Dataset
+# ===========================================================================
+
+og:DatasetShape a sh:NodeShape ;
+  sh:targetClass dcat:Dataset ;
+  rdfs:label "OpenGrid dataset record" ;
+
+  # ---- D1 identity, level 1 ----
+  sh:property [
+    sh:path og:persistentId ; sh:nodeKind sh:IRI ; sh:maxCount 1 ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:persistentId must be an IRI — a DOI, a handle or a stable landing URL." ;
+  ] ;
+  sh:property [
+    sh:path og:conceptDoi ; sh:nodeKind sh:IRI ; sh:maxCount 1 ; og:appliesAtLevel 2 ;
+    sh:message "The concept DOI names the dataset across versions. Keep it distinct from the version DOI (PRD §4.1 D1)." ;
+  ] ;
+  sh:property [
+    sh:path og:versionDoi ; sh:nodeKind sh:IRI ; sh:maxCount 1 ; og:appliesAtLevel 2 ;
+    sh:message "The version DOI names one release." ;
+  ] ;
+
+  # ---- D2 description, level 1 ----
+  sh:property [
+    sh:path dct:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every record needs exactly one language-tagged dct:title." ;
+  ] ;
+  sh:property [
+    sh:path dct:description ; sh:minCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every record needs a dct:description. If the source gave none, the harvester should have left the record at draft rather than publishing an unexplained title." ;
+  ] ;
+  sh:property [
+    sh:path og:summary ; sh:maxCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 1 ;
+    sh:message "og:summary is the one-line form the list view renders; keep it to one sentence." ;
+  ] ;
+
+  # ---- D3 domain, level 1 ----
+  sh:property [
+    sh:path og:dataDomain ; sh:minCount 1 ; sh:node og:DataDomainConceptShape ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every record carries at least one og:dataDomain from DD1-DD10." ;
+  ] ;
+
+  # ---- D6 provenance class, level 1 ----
+  sh:property [
+    sh:path og:provenanceClass ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:node og:ProvenanceClassConceptShape ; og:appliesAtLevel 1 ;
+    sh:message "Every record states how its values came to exist. This caps the Provenance quality grade, so it cannot be left open." ;
+  ] ;
+
+  # ---- D4/D5 upstream, level 2 ----
+  sh:property [
+    sh:path og:upstreamSource ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
+    sh:message "og:upstreamSource takes IRIs of upstream datasets or sources." ;
+  ] ;
+  sh:property [
+    sh:path prov:wasDerivedFrom ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
+    sh:message "prov:wasDerivedFrom takes IRIs." ;
+  ] ;
+
+  # ---- D7 relations, level 2 ----
+  sh:property [
+    sh:path og:supersededBy ; sh:nodeKind sh:IRI ; sh:maxCount 1 ; og:appliesAtLevel 2 ;
+    sh:message "og:supersededBy points at the one record that replaces this one." ;
+  ] ;
+  sh:property [
+    sh:path og:supersedes ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
+    sh:message "og:supersedes points at records this one replaces." ;
+  ] ;
+  sh:property [
+    sh:path og:complements ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
+  ] ;
+
+  # ---- D8 licence, level 1 ----
+  sh:property [
+    sh:path dct:license ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    sh:pattern "^https?://" ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every published record states a licence as an absolute IRI — an SPDX identifier where one fits, otherwise a stable URL for the terms plus og:licenseNote. A fabricated licence is worse than a missing one, so a record with no discoverable licence stays at draft rather than guessing (PRD §7.4). The absolute-IRI requirement is not pedantry: the JSON-LD context coerces dct:license to an IRI, so free text like \"CC BY 4.0\" silently becomes a relative IRI that resolves to nothing rather than failing to parse." ;
+  ] ;
+
+  # ---- D9/D10 access, level 1 ----
+  sh:property [
+    sh:path og:accessRestriction ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:node og:AccessRestrictionConceptShape ; og:appliesAtLevel 1 ;
+    sh:message "Every record classifies its access barrier, including 'none'." ;
+  ] ;
+  sh:property [
+    sh:path og:anonymousAccess ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:anonymousAccess is required: it is one of the five Tier 1 criteria and it is what an unauthenticated evaluator filters on." ;
+  ] ;
+
+  # ---- D11 distributions, level 1 ----
+  sh:property [
+    sh:path dcat:distribution ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "A record with no distribution cannot answer 'where do I get it', which is one of the four things the catalog exists to do. Tier 3 pointers still carry a distribution: the landing page." ;
+  ] ;
+
+  # ---- D12 fitness, level 2 ----
+  sh:property [
+    sh:path og:supportedAnalysis ; sh:node og:AnalysisTypeConceptShape ; og:appliesAtLevel 2 ;
+    sh:message "og:supportedAnalysis takes concepts from the analysis-type scheme. Saying what a dataset IS for is the easy half; PRD §D12 asks for both." ;
+  ] ;
+  sh:property [
+    sh:path og:excludedAnalysis ; sh:node og:AnalysisTypeConceptShape ; og:appliesAtLevel 2 ;
+    sh:message "og:excludedAnalysis takes concepts from the analysis-type scheme. This is the half users cannot get anywhere else: a catalog that says what a dataset is not for saves a study." ;
+  ] ;
+
+  # ---- D13 quality flags, level 1 ----
+  sh:property [
+    sh:path og:qualityFlags ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+
+  # ---- D14 spatial, level 1 ----
+  sh:property [
+    sh:path og:bbox ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "og:bbox is an ordered list of four numbers: minLon, minLat, maxLon, maxLat, in EPSG:4326." ;
+  ] ;
+  sh:property [
+    sh:path og:nativeCRS ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:spatialGranularity ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
+    sh:in ( "nodal" "zonal" "gridded" "administrative" "point" "national" "global" ) ;
+    sh:message "og:spatialGranularity is one of nodal, zonal, gridded, administrative, point, national, global. It decides whether a dataset can serve power flow at all, so it is controlled." ;
+  ] ;
+
+  # ---- D15 temporal, level 1 ----
+  sh:property [
+    sh:path dct:temporal ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:updateCadence ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    sh:pattern "^(P(\\d+Y)?(\\d+M)?(\\d+W)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?|irregular|on-demand|discontinued)$" ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:updateCadence is an ISO 8601 duration (P1D, P1Y, PT1H) or one of irregular, on-demand, discontinued. The Currency grade compares elapsed time against it, so it has to be machine-comparable; it is also displayed alongside the grade, so a correctly-scheduled annual dataset does not read as stale next to an hourly one (PRD §F5)." ;
+  ] ;
+
+  # ---- D16 grid facets, level 2 ----
+  sh:property [ sh:path og:hasTopology ; sh:maxCount 1 ; sh:datatype xsd:boolean ; og:appliesAtLevel 2 ] ;
+  sh:property [ sh:path og:hasImpedance ; sh:maxCount 1 ; sh:datatype xsd:boolean ; og:appliesAtLevel 2 ] ;
+
+  # ---- D17/D19 schema, level 2 ----
+  sh:property [
+    sh:path og:hasField ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
+    sh:message "A level 2 record describes its fields. If the source documents none, the record stays at level 1 and says so — an empty schema tab dressed as a described dataset is the dishonesty PRD §6 exists to prevent." ;
+  ] ;
+
+  # ---- D18 documentation status, level 1 ----
+  sh:property [
+    sh:path og:documentationStatus ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "fully-documented" "partial" "external-standard-only" "none" ) ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:documentationStatus is one of fully-documented, partial, external-standard-only, none." ;
+  ] ;
+
+  # ---- build additions, level 1 ----
+  sh:property [
+    sh:path og:completenessLevel ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:datatype xsd:integer ; sh:minInclusive 1 ; sh:maxInclusive 3 ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:completenessLevel is 1, 2 or 3 (PRD §6). There is no level 4; if a record has more than level 3 carries, the schema needs extending, not the record." ;
+  ] ;
+  sh:property [
+    sh:path og:reviewState ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "draft" "in-review" "confirmed" "flagged" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:reviewState is one of draft, in-review, confirmed, flagged." ;
+  ] ;
+  sh:property [
+    sh:path og:harvestSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every record says where it came from — a harvester id, or 'curated'. Without it a per-source recall audit is impossible (PRD §M3)." ;
+  ] ;
+  sh:property [
+    sh:path og:visibility ; sh:maxCount 1 ;
+    sh:in ( "public" "restricted-metadata" "allowlisted-existence" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:visibility is one of public, restricted-metadata, allowlisted-existence (PRD §F8)." ;
+  ] ;
+  sh:property [
+    sh:path og:tier ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+    sh:minInclusive 1 ; sh:maxInclusive 3 ; og:appliesAtLevel 1 ;
+    sh:message "Tier is 1, 2 or 3. It is an internal build-prioritisation fact and is never displayed as a quality signal (PRD §5)." ;
+  ] ;
+
+  # ---- level 3 ----
+  sh:property [
+    sh:path og:hasField ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 3 ;
+    sh:message "A level 3 record has resolved fields. Promotion to 3 is what enables the semantic layer and the link graph, so it cannot be claimed without them." ;
+  ] .
+
+# ---- D7: a dataset cannot supersede itself -----------------------------
+
+og:SupersessionShape a sh:NodeShape ;
+  sh:targetClass dcat:Dataset ;
+  og:appliesAtLevel 2 ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "A dataset cannot supersede itself. A self-loop here makes the Currency grade oscillate and makes provenance traversal non-terminating in any implementation that does not guard for it." ;
+    sh:select """
+      SELECT $this WHERE {
+        { $this <https://schema.opengrid.org/ns#supersededBy> $this }
+        UNION
+        { $this <https://schema.opengrid.org/ns#supersedes> $this }
+      }
+    """ ;
+  ] .
+
+# ---- PRD §4.5 shape 2: geospatial-primary datasets ---------------------
+
+og:GeospatialPrimaryShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment "PRD §4.5: 'A geospatial-primary dataset without og:bbox, og:nativeCRS and og:geometryTypes fails at level 1.' Conditional on a value rather than a class, so the target is a SPARQL selection." ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#geospatialPrimary> true .
+      }
+    """ ;
+  ] ;
+  sh:property [
+    sh:path og:bbox ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:bbox at level 1. Without an extent it cannot be found by anyone searching a region, which for a geospatial dataset is everyone." ;
+  ] ;
+  sh:property [
+    sh:path og:nativeCRS ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:nativeCRS at level 1. Coordinates without a CRS are not locations." ;
+  ] ;
+  sh:property [
+    sh:path og:geometryTypes ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:geometryTypes at level 1 — point, line, polygon, raster or a combination." ;
+  ] .
+
+# ===========================================================================
+# Distribution
+# ===========================================================================
+
+og:DistributionShape a sh:NodeShape ;
+  sh:targetClass dcat:Distribution ;
+  rdfs:label "Access path" ;
+
+  sh:property [
+    sh:path dcat:accessURL ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "Every distribution needs exactly one dcat:accessURL as an IRI. A distribution with no URL is not an access path." ;
+  ] ;
+  sh:property [
+    sh:path dcat:byteSize ; sh:maxCount 1 ; sh:datatype xsd:long ; sh:minInclusive 0 ;
+    og:appliesAtLevel 1 ;
+    sh:message "dcat:byteSize is a non-negative integer. A negative size is a parse error somewhere upstream, not a fact." ;
+  ] ;
+  sh:property [
+    sh:path dcat:mediaType ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:accessRestriction ; sh:maxCount 1 ; sh:node og:AccessRestrictionConceptShape ;
+    og:appliesAtLevel 1 ;
+    sh:message "A distribution's access restriction, where it overrides the dataset's, must still be a concept from the access-restriction scheme. The same dataset commonly has an anonymous S3 copy and an account-gated API, and the classification differs between them (PRD §4.2)." ;
+  ] ;
+  sh:property [
+    sh:path og:supportsRangeRequests ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+    og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:corsEnabled ; sh:maxCount 1 ; sh:datatype xsd:boolean ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:subsettingProtocol ; sh:maxCount 1 ;
+    sh:in ( "opendap" "thredds" "wcs" "wfs" "ogc-api-coverages" "stac-api" ) ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:subsettingProtocol is one of opendap, thredds, wcs, wfs, ogc-api-coverages, stac-api, or absent." ;
+  ] ;
+  sh:property [
+    sh:path og:linkHealth ; sh:maxCount 1 ; sh:node og:LinkHealthShape ; og:appliesAtLevel 1 ;
+  ] .
+
+og:LinkHealthShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  sh:property [
+    sh:path og:linkHealthStatus ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "verified" "degraded" "unreachable" "redirected" ) ; og:appliesAtLevel 1 ;
+    sh:message "Link health status is one of verified, degraded, unreachable, redirected (PRD §F1.10). Any other value would make the exclude-after-three-failures rule undefined." ;
+  ] ;
+  sh:property [
+    sh:path og:consecutiveFailures ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+    sh:minInclusive 0 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:lastProbedAt ; sh:maxCount 1 ; sh:datatype xsd:dateTime ; og:appliesAtLevel 1 ;
+  ] .
+
+# ---- PRD §4.5 shape 4: range requests need a chunk index ---------------
+
+og:RangeRequestShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment "PRD §4.5: 'A distribution with og:supportsRangeRequests: true and no og:chunkIndexMethod fails.' Without the index the broker knows a slice is possible and cannot say which bytes, so the capability is unusable." ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#supportsRangeRequests> true .
+      }
+    """ ;
+  ] ;
+  sh:property [
+    sh:path og:chunkIndexMethod ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A distribution advertising range requests must say how to find the bytes: set og:chunkIndexMethod (zarr-v2, zarr-v3, parquet-rowgroup, cog-tiles, netcdf4-chunks, hdf5-btree), or set og:supportsRangeRequests false. Advertising a capability the broker cannot use produces a partial-read plan that does not work." ;
+  ] .
+
+# ---- hosted copies need a named refresh owner --------------------------
+
+og:HostedCopyShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment "PRD §F2: 'Every hosted copy has a named refresh owner assigned before launch, not after. This is the documented failure mode in every comparable project. Enforce it: a hosted distribution with no owner cannot be published.'" ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#hostedByOpenGrid> true .
+      }
+    """ ;
+  ] ;
+  sh:property [
+    sh:path og:refreshOwner ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "A distribution OpenGrid hosts must name a refresh owner before it is published. An unowned hosted copy is the standard way a data hub accumulates stale mirrors." ;
+  ] ;
+  sh:property [
+    sh:path og:hostingReason ; sh:minCount 1 ;
+    sh:in ( "format" "fragile-source" "charges-user" "etl-output" ) ; og:appliesAtLevel 1 ;
+    sh:message "Hosting is by exception (PRD §F2). State which exception applies: format, fragile-source, charges-user or etl-output." ;
+  ] .
+
+# ===========================================================================
+# Field
+# ===========================================================================
+
+og:FieldShape a sh:NodeShape ;
+  sh:targetClass og:Field ;
+  rdfs:label "Field-level metadata" ;
+
+  # ---- C1/C2/C3, level 2 ----
+  sh:property [
+    sh:path og:localName ; sh:minCount 1 ; sh:maxCount 1 ; og:appliesAtLevel 2 ;
+    sh:message "A field must carry the name it actually has in the data. Without it the schema tab describes a dataset the user cannot recognise." ;
+  ] ;
+  sh:property [
+    sh:path og:label ; sh:minCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 2 ;
+    sh:message "A field needs a human-readable label." ;
+  ] ;
+  sh:property [
+    sh:path og:definition ; sh:minCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 2 ;
+    sh:message "A field needs a definition. PRD §4.3 C2 is explicit that this is capturable even when the source documents it only externally — cite the external document rather than leaving it blank." ;
+  ] ;
+  sh:property [
+    sh:path og:dataType ; sh:minCount 1 ; sh:maxCount 1 ; og:appliesAtLevel 2 ;
+    sh:message "A field needs a data type." ;
+  ] ;
+
+  # ---- C6, level 2 ----
+  sh:property [
+    sh:path og:valueBasis ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "measured" "estimated" "modeled" "synthetic" ) ; og:appliesAtLevel 2 ;
+    sh:message "og:valueBasis is one of measured, estimated, modeled, synthetic. It determines the Provenance grade and it is the difference between an observation and an assumption." ;
+  ] ;
+
+  # ---- C10, level 2 ----
+  sh:property [
+    sh:path og:required ; sh:maxCount 1 ; sh:datatype xsd:boolean ; og:appliesAtLevel 2 ;
+  ] ;
+
+  # ---- C5, level 3 ----
+  sh:property [
+    sh:path og:unit ; sh:maxCount 1 ; sh:node og:QudtUnitShape ; og:appliesAtLevel 3 ;
+    sh:message "og:unit must be a unit IRI from QUDT or the OpenGrid unit registry, never a string. 'MW' is not a unit; <http://qudt.org/vocab/unit/MegaW> is (PRD §4.3 C5)." ;
+  ] ;
+
+  # ---- C7/C8, level 3 ----
+  sh:property [
+    sh:path og:fieldSource ; sh:nodeKind sh:IRI ; og:appliesAtLevel 3 ;
+  ] ;
+  sh:property [
+    sh:path og:derivedFromField ; sh:nodeKind sh:IRI ; og:appliesAtLevel 3 ;
+  ] ;
+
+  # ---- C4 + X4, level 3: a concept OR an explicit gap, never neither ----
+  sh:or (
+    [ sh:property [ sh:path og:concept ; sh:minCount 1 ; sh:node og:GridConceptShape ] ]
+    [ sh:property [ sh:path og:conceptGap ; sh:minCount 1 ; sh:node og:ConceptGapShape ] ]
+  ) ;
+  og:orAppliesAtLevel 3 ;
+  sh:message "At level 3 every field either resolves to a concept or carries an explicit og:conceptGap saying why it does not. Silence is not an option: a field omitted from the crosswalk is indistinguishable from a field nobody looked at (PRD X4)." .
+
+# ---- PRD §4.5 shape 1: a modelled value must record where it came from --
+
+og:ModelledFieldShape a sh:NodeShape ;
+  og:appliesAtLevel 2 ;
+  rdfs:comment "PRD §4.5: 'A field with og:valueBasis of estimated or modeled and no og:derivedFromField and no og:fieldSource fails.' This is the constraint that stops a modelled number from passing as an observation." ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#valueBasis> ?basis .
+        FILTER (?basis IN ("estimated", "modeled"))
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "This field is marked estimated or modeled but records no origin. Add og:fieldSource (where the input came from) or og:derivedFromField (which source field it was computed from), or change og:valueBasis to measured. A modelled value with no lineage cannot be graded above Provenance D and should not be published as if it could." ;
+    sh:select """
+      SELECT $this WHERE {
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#fieldSource> ?s }
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#derivedFromField> ?d }
+      }
+    """ ;
+  ] .
+
+# ---- X3: an enriched value states model and prompt version -------------
+
+og:EnrichmentBasisShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment "PRD X3 and ADR-0005: every enriched field is tagged og:enrichmentBasis 'inferred' with the model and prompt version. Enforced as a shape so it cannot be skipped by a prompt change." ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#enrichmentBasis> ?basis .
+      }
+    """ ;
+  ] ;
+  sh:property [
+    sh:path og:enrichmentBasis ; sh:in ( "inferred" "source-confirmed" "steward-authored" ) ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:enrichmentBasis is one of inferred, source-confirmed, steward-authored." ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "An inferred value must name the model and the prompt version that produced it. Without both, a bad prompt's output cannot be identified or revoked in bulk (ADR-0005)." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#enrichmentBasis> "inferred" .
+        FILTER NOT EXISTS {
+          $this <https://schema.opengrid.org/ns#enrichmentModel> ?m .
+          $this <https://schema.opengrid.org/ns#enrichmentPromptVersion> ?v .
+        }
+      }
+    """ ;
+  ] .
+
+# ---- X3: an inferred concept assignment states its basis ---------------
+
+og:InferredConceptShape a sh:NodeShape ;
+  og:appliesAtLevel 3 ;
+  rdfs:comment "PRD X3: 'An inferred concept assignment must be flagged as inferred with a stated basis.'" ;
+  sh:target [
+    a sh:SPARQLTarget ;
+    sh:select """
+      SELECT ?this WHERE {
+        ?this <https://schema.opengrid.org/ns#inferredAssignment> true .
+      }
+    """ ;
+  ] ;
+  sh:property [
+    sh:path og:inferenceBasis ; sh:minCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 3 ;
+    sh:message "An inferred concept assignment must state on what basis — an alt-label match, an embedding similarity above threshold, a steward's judgement. 'Inferred' without a basis is unfalsifiable." ;
+  ] .
+
+# ===========================================================================
+# Quality grades
+# ===========================================================================
+
+og:QualityGradeShape a sh:NodeShape ;
+  sh:targetClass og:QualityGrade ;
+  og:appliesAtLevel 2 ;
+  sh:property [
+    sh:path og:facet ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "provenance" "documentation" "currency" ) ; og:appliesAtLevel 2 ;
+    sh:message "There are exactly three facets: provenance, documentation, currency. There is no composite, and adding one is forbidden (ADR-0007)." ;
+  ] ;
+  sh:property [
+    sh:path og:grade ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "A" "B" "C" "D" ) ;
+    og:appliesAtLevel 2 ;
+    sh:message "A grade is A, B, C or D." ;
+  ] ;
+  sh:property [
+    sh:path og:gradeRationale ; sh:minCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 2 ;
+    sh:message "Every grade carries a concrete human-readable reason. A bare letter is not explainable and fails PRD principle 6." ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "The Currency facet does not use grade C. PRD §F5 leaves it deliberately unused rather than inventing a level to fill it; §12.3 carries the question of whether to define one." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#facet> "currency" .
+        $this <https://schema.opengrid.org/ns#grade> "C" .
+      }
+    """ ;
+  ] .

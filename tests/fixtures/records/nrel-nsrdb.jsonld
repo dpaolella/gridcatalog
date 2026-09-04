@@ -1,0 +1,158 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/nrel-nsrdb",
+      "type": "Dataset",
+      "persistentId": "https://data.openei.org/submissions/57",
+      "title": "NREL National Solar Radiation Database",
+      "summary": "Satellite-derived half-hourly solar irradiance and meteorological data on a 4 km grid, covering the Americas and expanding regions.",
+      "description": "The NSRDB provides GHI, DNI and DHI derived from geostationary satellite imagery through the PSM physical model, with supporting meteorology. It is the reference solar resource dataset for US work. The record is a good example of why access paths are modelled separately: the OEDI Parquet copy on S3 is anonymous and bulk-downloadable, while the developer API is key-gated and rate-limited, and the barrier classification differs between them even though the data is the same.",
+      "keyword": [
+        "solar",
+        "irradiance",
+        "GHI",
+        "DNI",
+        "NSRDB",
+        "satellite"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/nrel",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "license": "https://spdx.org/licenses/CC-BY-3.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "attribution": "National Renewable Energy Laboratory",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "United States",
+        "Americas"
+      ],
+      "bbox": [
+        -180.0,
+        -20.0,
+        -25.0,
+        60.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "gridded",
+      "spatialResolution": "4 km",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "1998-01-01T00:00:00Z",
+        "endDate": "2024-12-31T23:30:00Z"
+      },
+      "updateCadence": "P1Y",
+      "timeResolution": "PT30M",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/siting"
+      ],
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#flags",
+        "type": "QualityFlags",
+        "staleness": "current"
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3",
+        "https://catalog.opengrid.org/dist/nrel-nsrdb--developer-api"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/nrel-nsrdb/ghi",
+        "https://catalog.opengrid.org/field/nrel-nsrdb/dni"
+      ],
+      "issued": "2015-01-01T00:00:00Z",
+      "modified": "2025-06-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3",
+      "type": "Distribution",
+      "accessURL": "s3://nrel-pds-nsrdb/",
+      "mediaType": "application/x-hdf5",
+      "formatLabel": "HDF5 on anonymous S3, via the OEDI data lake",
+      "byteSize": 549755813888,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": true,
+      "chunkIndexMethod": "hdf5-btree",
+      "corsEnabled": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--developer-api",
+      "type": "Distribution",
+      "accessURL": "https://developer.nrel.gov/api/nsrdb",
+      "mediaType": "text/csv",
+      "formatLabel": "CSV per point, on request",
+      "bulkDownload": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "credentialRequirement": "NREL developer API key, free on registration; rate-limited per key",
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--developer-api#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P1D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/nrel-nsrdb/ghi",
+      "type": "Field",
+      "localName": "GHI",
+      "fieldId": "GHI",
+      "label": "Global horizontal irradiance",
+      "definition": "Total shortwave radiation on a horizontal surface, as an instantaneous value at the half-hour timestamp.",
+      "dataType": "int16",
+      "valueBasis": "modeled",
+      "required": true,
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/goes-psm"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/nrel-nsrdb/dni",
+      "type": "Field",
+      "localName": "DNI",
+      "fieldId": "DNI",
+      "label": "Direct normal irradiance",
+      "definition": "Beam radiation on a surface normal to the sun.",
+      "dataType": "int16",
+      "valueBasis": "modeled",
+      "required": true,
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/goes-psm"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/upstream/goes-psm",
+      "type": "Agent",
+      "name": "GOES satellite imagery processed by the NREL Physical Solar Model",
+      "pointerRationale": "The satellite radiance product and the PSM retrieval behind NSRDB. Not a catalogued dataset in its own right, so it is recorded as an upstream node: PRD \u00a74.3 C7 is explicit that a field source may point at an uncatalogued source, and an absent link would read as 'no source' rather than 'not catalogued'."
+    }
+  ]
+}

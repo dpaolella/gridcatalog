@@ -1,0 +1,22 @@
+# Q7 — Records whose Currency grade may have lapsed.
+#
+# The self-contained recompute batch's work list (PRD §F4.3). A dataset goes
+# stale from time passing, with no write event to hook, which is why this is a
+# scheduled query rather than a trigger.
+#
+# Returns cadence and last-modified so the grader can compare them; the
+# comparison itself is in Python because SPARQL 1.1 has no duration arithmetic.
+
+SELECT DISTINCT ?dataset ?title ?cadence ?modified ?supersededBy ?lastGraded
+WHERE {
+  ?dataset a dcat:Dataset ;
+           og:reviewState "confirmed" .
+  OPTIONAL { ?dataset dct:title ?title }
+  OPTIONAL { ?dataset og:updateCadence ?cadence }
+  OPTIONAL { ?dataset dct:modified ?modified }
+  OPTIONAL { ?dataset og:supersededBy ?supersededBy }
+  OPTIONAL {
+    ?dataset og:lastComputedAt ?signal .
+    ?signal og:signalName "currency" ; og:computedAt ?lastGraded .
+  }
+}

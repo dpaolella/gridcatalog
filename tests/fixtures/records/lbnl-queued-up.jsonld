@@ -1,0 +1,92 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/lbnl-queued-up",
+      "type": "Dataset",
+      "title": "LBNL Queued Up: interconnection queue dataset",
+      "summary": "All seven US ISO/RTO interconnection queues plus non-ISO utilities, harmonised into one schema.",
+      "description": "Berkeley Lab's annual harmonisation of US interconnection queues. Every ISO publishes its own schema, statuses and capacity conventions; this dataset resolves them into one. DD3's structural note is blunt about the consequence: LBNL has already solved this normalisation once and it should not be re-solved.",
+      "keyword": [
+        "interconnection",
+        "queue",
+        "ISO",
+        "RTO",
+        "LBNL",
+        "project pipeline"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/lbnl",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD3"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "United States"
+      ],
+      "bbox": [
+        -170.0,
+        18.0,
+        -66.0,
+        72.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "point",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2000-01-01T00:00:00Z",
+        "endDate": "2025-12-31T00:00:00Z"
+      },
+      "updateCadence": "P1Y",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/interconnectionAnalysis",
+        "https://schema.opengrid.org/concept/analysis-type/transmissionPlanning"
+      ],
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/lbnl-queued-up#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Annual snapshot. A queue moves continuously, so between releases the picture is out of date by up to a year."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/lbnl-queued-up--xlsx"
+      ],
+      "issued": "2021-06-01T00:00:00Z",
+      "modified": "2026-04-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/lbnl-queued-up--xlsx",
+      "type": "Distribution",
+      "accessURL": "https://emp.lbl.gov/queues",
+      "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "formatLabel": "XLSX and CSV",
+      "byteSize": 31457280,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/lbnl-queued-up--xlsx#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P30D"
+      }
+    }
+  ]
+}

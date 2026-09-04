@@ -1,0 +1,126 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/eia-930",
+      "type": "Dataset",
+      "title": "EIA-930 Hourly Electric Grid Monitor",
+      "summary": "Hourly demand, generation by fuel and interchange for every US balancing authority.",
+      "description": "The operational record of the US grid at balancing-authority resolution: hourly demand, hourly generation split by fuel category, and hourly interchange between authorities. The DD4 anchor for the United States, and the dataset against which any modelled US load profile should be sanity-checked.",
+      "keyword": [
+        "load",
+        "demand",
+        "balancing authority",
+        "hourly",
+        "EIA",
+        "interchange"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/eia",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "license": "https://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "US Government work, public domain. No SPDX identifier exists for the general case.",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "spatialLabel": [
+        "United States"
+      ],
+      "bbox": [
+        -170.0,
+        18.0,
+        -66.0,
+        72.0
+      ],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "zonal",
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2015-07-01T00:00:00Z",
+        "endDate": "2026-08-31T23:00:00Z"
+      },
+      "updateCadence": "P1D",
+      "timeResolution": "PT1H",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/emissionsAccounting"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/powerFlow"
+      ],
+      "exclusionRationale": "Balancing-authority totals carry no network representation. DD4's structural note is explicit that substation-level and behind-the-meter data are unavailable anywhere at any price.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/eia-930#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "Early years contain known reporting errors that EIA has since documented but not retrospectively corrected in all series."
+        ]
+      },
+      "distribution": [
+        "https://catalog.opengrid.org/dist/eia-930--api"
+      ],
+      "hasField": [
+        "https://catalog.opengrid.org/field/eia-930/demand",
+        "https://catalog.opengrid.org/field/eia-930/net_generation"
+      ],
+      "issued": "2016-07-01T00:00:00Z",
+      "modified": "2026-09-01T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/eia-930--api",
+      "type": "Distribution",
+      "accessURL": "https://api.eia.gov/v2/electricity/rto",
+      "mediaType": "application/json",
+      "formatLabel": "JSON via EIA API v2; bulk CSV also published",
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "credentialRequirement": "Free API key for the JSON API; the bulk CSV needs none",
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/eia-930--api#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P1D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/eia-930/demand",
+      "type": "Field",
+      "localName": "D",
+      "fieldId": "D",
+      "label": "Demand",
+      "definition": "Hourly electricity demand within the balancing authority, as reported by the authority.",
+      "dataType": "float64",
+      "valueBasis": "measured",
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/eia-930/net_generation",
+      "type": "Field",
+      "localName": "NG",
+      "fieldId": "NG",
+      "label": "Net generation",
+      "definition": "Hourly net generation within the balancing authority, summed across fuel categories.",
+      "dataType": "float64",
+      "valueBasis": "measured",
+      "required": true
+    }
+  ]
+}

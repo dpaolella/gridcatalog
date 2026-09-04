@@ -17,13 +17,13 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 
 | # | Work package | Milestone | Depends on | State |
 |---|---|---|---|---|
-| WP-0.1 | Repository, packaging, tooling, CI | M0 | — | todo |
-| WP-0.2 | Backend protocols and settings | M0 | WP-0.1 | todo |
-| WP-1.1 | JSON-LD context and namespace registry | M1 | WP-0.1 | todo |
-| WP-1.2 | SKOS concept schemes (five, versioned) | M1 | WP-1.1 | todo |
-| WP-1.3 | SHACL shapes, level-parameterised | M1 | WP-1.1, WP-1.2 | todo |
-| WP-1.4 | Conformance fixtures and suite | M1 | WP-1.3 | todo |
-| WP-1.5 | Graph client, named graphs, inference materialisation | M1 | WP-0.2, WP-1.2 | todo |
+| WP-0.1 | Repository, packaging, tooling, CI | M0 | — | done |
+| WP-0.2 | Backend protocols and settings | M0 | WP-0.1 | done |
+| WP-1.1 | JSON-LD context and namespace registry | M1 | WP-0.1 | done |
+| WP-1.2 | SKOS concept schemes (five, versioned) | M1 | WP-1.1 | done |
+| WP-1.3 | SHACL shapes, level-parameterised | M1 | WP-1.1, WP-1.2 | done |
+| WP-1.4 | Conformance fixtures and suite | M1 | WP-1.3 | done |
+| WP-1.5 | Graph client, named graphs, inference materialisation | M1 | WP-0.2, WP-1.2 | done |
 | WP-2.1 | Record model, JSON-LD ⇄ RDF round-trip | M2 | WP-1.1, WP-1.5 | todo |
 | WP-2.2 | Distribution model, revision history, link health state | M2 | WP-2.1 | todo |
 | WP-2.3 | Operational store: schema, migrations, repositories | M2 | WP-0.2 | todo |
@@ -47,7 +47,7 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-6.2 | Allow-lists, three visibility levels, custodian API | M6 | WP-6.1, WP-4.2 | todo |
 | WP-6.3 | Rate limiting, audit log, entitlement matrix suite | M6 | WP-6.2 | todo |
 | WP-7.1 | Concept and unit resolution across four data shapes | M7 | WP-1.2, WP-2.1 | todo |
-| WP-7.2 | Q1–Q5 named queries and regression suite | M7 | WP-1.5 | todo |
+| WP-7.2 | Q1–Q5 named queries and regression suite | M7 | WP-1.5 | done |
 | WP-7.3 | Currency grading + relational/scheduled trigger split | M7 | WP-7.1 | todo |
 | WP-7.4 | Provenance and documentation grading | M7 | WP-7.1 | todo |
 | WP-7.5 | Golden set: ~60 level-3 records across ten domains | M7 | WP-2.5 | todo |

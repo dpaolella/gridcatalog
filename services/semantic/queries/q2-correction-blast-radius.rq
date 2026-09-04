@@ -1,0 +1,18 @@
+# Q2 — Blast radius of an upstream correction.  PRD §4.6.
+#
+# "ERA5 issued a correction. What in my study is affected?"
+#
+# Follows provenance, version and concept-equivalence edges in ONE walk, at
+# unknown depth. Doing this relationally would need three separate transitive
+# closures and a union, maintained by hand.
+#
+# Parameter: ??origin — the corrected dataset.
+
+SELECT DISTINCT ?affected ?title ?domain ?reviewState
+WHERE {
+  ?affected (og:upstreamSource|prov:wasDerivedFrom|og:supersedes|og:sameConceptAs)+ ??origin .
+  OPTIONAL { ?affected dct:title ?title }
+  OPTIONAL { ?affected og:dataDomain ?domain }
+  OPTIONAL { ?affected og:reviewState ?reviewState }
+}
+ORDER BY ?title

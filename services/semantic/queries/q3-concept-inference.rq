@@ -1,0 +1,23 @@
+# Q3 — Inference over the concept scheme.  PRD §4.6.
+#
+# Return every dataset carrying a field of the given concept OR ANY NARROWER
+# CONCEPT, without anyone enumerating what counts. A query for "renewable
+# resource" returns solar irradiance, wind speed and hydro inflow because the
+# SKOS hierarchy says so. Adding geothermal gradient next year makes this
+# return more, with no code change.
+#
+# There is deliberately no list of concepts anywhere in this file or in the
+# code that calls it. That absence is the feature.
+#
+# Parameter: ??concept — the parent concept.
+
+SELECT DISTINCT ?dataset ?datasetTitle ?field ?fieldLabel ?concept ?conceptLabel
+WHERE {
+  { ?concept skos:broader+ ??concept } UNION { BIND(??concept AS ?concept) }
+  ?field og:concept ?concept .
+  ?dataset og:hasField ?field .
+  OPTIONAL { ?dataset dct:title ?datasetTitle }
+  OPTIONAL { ?field og:label ?fieldLabel }
+  OPTIONAL { ?concept skos:prefLabel ?conceptLabel }
+}
+ORDER BY ?datasetTitle ?fieldLabel

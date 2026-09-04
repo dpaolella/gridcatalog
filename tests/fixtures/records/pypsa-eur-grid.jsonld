@@ -1,0 +1,176 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/pypsa-eur-grid",
+      "type": "Dataset",
+      "persistentId": "https://doi.org/10.5281/zenodo.13358976",
+      "title": "PyPSA-Eur grid dataset (pre-built OSM network)",
+      "summary": "European transmission network extracted from OpenStreetMap and assembled into a PyPSA-ready bus-branch model.",
+      "description": "Buses, lines, links, transformers and substations for the European transmission system, reconstructed from OpenStreetMap power infrastructure tags. Electrical parameters are not measured: impedance and thermal rating are estimated from a voltage-class lookup, which is recorded per field so a user can see which numbers are observed and which are assumed. The ODbL share-alike obligation propagates to anything derived from it, which is a redistribution constraint rather than a quality one and is flagged accordingly.",
+      "keyword": ["transmission", "OSM", "PyPSA", "Europe", "bus-branch", "network"],
+      "publisher": "https://catalog.opengrid.org/agent/pypsa",
+      "dataDomain": ["https://schema.opengrid.org/concept/data-domain/DD1"],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "upstreamSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "license": "https://spdx.org/licenses/ODbL-1.0",
+      "licenseNote": "MIT for the extraction code, ODbL-1.0 for the data. The share-alike obligation propagates to derived data, including anything OpenGrid hosts downstream.",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": true,
+      "attribution": "© OpenStreetMap contributors, processed by the PyPSA-Eur developers",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 3,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 2,
+      "spatialLabel": ["Europe"],
+      "bbox": [-11.0, 34.0, 32.0, 72.0],
+      "nativeCRS": "EPSG:4326",
+      "spatialGranularity": "nodal",
+      "hasTopology": true,
+      "hasImpedance": true,
+      "voltageClass": ["220 kV", "300 kV", "380 kV", "400 kV", "500 kV", "750 kV"],
+      "temporal": {
+        "type": "PeriodOfTime",
+        "startDate": "2024-01-01T00:00:00Z",
+        "endDate": "2024-08-01T00:00:00Z"
+      },
+      "updateCadence": "P6M",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/dcPowerFlow"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/acPowerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/reliabilityAssessment"
+      ],
+      "exclusionRationale": "Impedances are estimated from voltage class rather than measured, and reactive parameters are absent. A DC power flow tolerates that; an AC solution or an N-1 assessment against real limits does not.",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/pypsa-eur-grid#flags",
+        "type": "QualityFlags",
+        "staleness": "current",
+        "caveat": [
+          "OSM completeness varies by country and is not documented per country. Coverage in one member state is not evidence of coverage in another.",
+          "Electrical parameters are voltage-class estimates, not measurements. Every affected field carries og:valueBasis modeled."
+        ]
+      },
+      "distribution": ["https://catalog.opengrid.org/dist/pypsa-eur-grid--zenodo-csv"],
+      "hasField": [
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom",
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/s_nom",
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/x",
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/length",
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/bus0"
+      ],
+      "issued": "2024-08-20T00:00:00Z",
+      "modified": "2024-08-20T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/upstream/openstreetmap-power",
+      "type": "Agent",
+      "name": "OpenStreetMap power infrastructure tags",
+      "pointerRationale": "The OSM planet extract the network was reconstructed from. Catalogued separately as a DD1 dataset in its own right; recorded here as the upstream node so the derivation chain is traversable."
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/pypsa-eur-grid--zenodo-csv",
+      "type": "Distribution",
+      "accessURL": "https://zenodo.org/records/13358976",
+      "mediaType": "text/csv",
+      "formatLabel": "CSV: buses, lines, links, transformers, substations",
+      "byteSize": 47185920,
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": false,
+      "corsEnabled": true,
+      "hostedByOpenGrid": false,
+      "linkHealth": {
+        "id": "https://catalog.opengrid.org/dist/pypsa-eur-grid--zenodo-csv#health",
+        "type": "LinkHealth",
+        "linkHealthStatus": "verified",
+        "lastProbedAt": "2026-09-01T04:00:00Z",
+        "consecutiveFailures": 0,
+        "probeCadence": "P7D"
+      }
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom",
+      "type": "Field",
+      "localName": "v_nom",
+      "fieldId": "v_nom",
+      "label": "Nominal voltage",
+      "definition": "Voltage class of the bus, taken from the OSM voltage tag.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/nominalVoltage",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "required": true,
+      "completenessCaveats": "Present where the OSM way carries a voltage tag; inferred from neighbours otherwise, and those rows are not distinguished in the published file."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/s_nom",
+      "type": "Field",
+      "localName": "s_nom",
+      "fieldId": "s_nom",
+      "label": "Nominal apparent power rating",
+      "definition": "Thermal rating of the line, estimated from voltage class and circuit count using a standard conductor assumption.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/MegaV-A",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/continuousRating",
+      "valueBasis": "modeled",
+      "derivedFromField": ["https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom"],
+      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "required": true,
+      "completenessCaveats": "A lookup, not a measurement. Real ratings vary with conductor type and ambient conditions by a wide margin."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/x",
+      "type": "Field",
+      "localName": "x",
+      "fieldId": "x",
+      "label": "Series reactance",
+      "definition": "Line series reactance in ohms, computed from length and a per-kilometre value looked up by voltage class.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/OHM",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/reactance",
+      "valueBasis": "modeled",
+      "derivedFromField": ["https://catalog.opengrid.org/field/pypsa-eur-grid/length"],
+      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "required": true,
+      "completenessCaveats": "Voltage-class lookup times length. The absence of a measured resistance is why this dataset supports DC and not AC power flow."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/length",
+      "type": "Field",
+      "localName": "length",
+      "fieldId": "length",
+      "label": "Line length",
+      "definition": "Route length of the line, from the OSM geometry.",
+      "dataType": "float64",
+      "unit": "http://qudt.org/vocab/unit/KiloM",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/branchLength",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/bus0",
+      "type": "Field",
+      "localName": "bus0",
+      "fieldId": "bus0",
+      "label": "From bus",
+      "definition": "Identifier of the bus at the line's first end.",
+      "dataType": "string",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/branchEndpoints",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "required": true
+    }
+  ]
+}
