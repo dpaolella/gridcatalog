@@ -267,7 +267,7 @@ class Projector:
         from datahub.api.models.repositories import ProjectorStateRepository
 
         with self._session_factory() as session:  # type: ignore[operator]
-            return ProjectorStateRepository(session).get()
+            return ProjectorStateRepository(session).current()
 
     def _record_commit(self) -> None:
         self._update_state(commit=True)

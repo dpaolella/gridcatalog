@@ -64,6 +64,20 @@ def iri(value: str | URIRef) -> str:
     return f"<{text}>"
 
 
+def placeholders(template: str) -> list[str]:
+    """The ``??name`` placeholders a query template expects, in order.
+
+    So a caller can be told what a query needs before running it. An unbound
+    placeholder otherwise surfaces as a SPARQL parse error naming a variable
+    the caller never wrote.
+    """
+    seen: list[str] = []
+    for match in _PLACEHOLDER.finditer(template):
+        if match.group(1) not in seen:
+            seen.append(match.group(1))
+    return seen
+
+
 def bind(template: str, params: Mapping[str, Any] | None = None) -> str:
     """Substitute ``??name`` placeholders in *template* with N3 terms.
 

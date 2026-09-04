@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from datahub.graph.graphs import NamedGraph
+from datahub.graph.sparql import placeholders as _placeholders
 from datahub.graph.store import Binding, GraphStore
 
 QUERY_DIR = Path(__file__).resolve().parent
@@ -108,3 +109,12 @@ def run(
 ) -> list[Binding]:
     """Load, scope and execute a named query."""
     return store.select(scoped(load(name), *graphs), params)
+
+
+def placeholders(query: str) -> list[str]:
+    """The ``??name`` bindings a query needs. Re-exported so a caller working
+    with named queries does not have to reach into the SPARQL helpers."""
+    return _placeholders(query)
+
+
+__all__ = ["load", "placeholders", "query_names", "run", "scoped"]

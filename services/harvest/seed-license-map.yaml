@@ -1,0 +1,176 @@
+# Seed licence strings to SPDX identifiers.
+#
+# ONLY unambiguous mappings appear here. "CC-BY-4.0" is unambiguous.
+# "open access, no formal license stated" is not, and a row carrying it gets a
+# LicenseRef identifier plus og:licenseNote with the verbatim text — because a
+# fabricated licence is worse than a missing one (PRD principle 4, §7.4), and a
+# reader who sees "CC-BY-4.0" on a dataset whose terms nobody checked has been
+# actively misled rather than merely underserved.
+#
+# A string not listed here is NOT guessed. It becomes
+# LicenseRef-Unreviewed-<slug> with the original text preserved, and the record
+# stays at draft until a steward resolves it.
+
+spdx:
+  "CC-BY-4.0": CC-BY-4.0
+  "CC-BY-3.0": CC-BY-3.0
+  "CC-BY-SA-4.0": CC-BY-SA-4.0
+  "CC-BY-NC-SA-4.0": CC-BY-NC-SA-4.0
+  "CC0": CC0-1.0
+  "ODbL-1.0": ODbL-1.0
+  "MIT": MIT
+  "BSD-3-Clause": BSD-3-Clause
+
+# Strings that describe real terms but have no SPDX identifier. These get a
+# LicenseRef and the note text below, which is more informative than the
+# original string and does not pretend to be a standard identifier.
+license_ref:
+  "US Government public domain":
+    id: LicenseRef-US-Gov-Public-Domain
+    note: >-
+      A work of the United States federal government, not subject to copyright
+      within the United States (17 U.S.C. §105). Reuse is unrestricted; some
+      agencies request attribution as a courtesy.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "Copernicus Licence v1.2":
+    id: LicenseRef-Copernicus-1.2
+    note: >-
+      Copernicus Licence v1.2. Free reuse including commercial, with
+      attribution to the Copernicus Climate Change Service.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "ENTSO-E Open Data Licence":
+    id: LicenseRef-ENTSOE-Open-Data
+    note: >-
+      ENTSO-E Open Data Licence. Free reuse with attribution; a free account is
+      required to obtain the data, which is an access barrier rather than a
+      licence restriction.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "CEII-designated (18 CFR 388.113)":
+    id: LicenseRef-CEII
+    note: >-
+      Critical Energy Infrastructure Information under 18 CFR 388.113. Not a
+      licence in the reuse sense: a statutory access restriction requiring FERC
+      clearance and a non-disclosure agreement.
+    redistribution_allowed: false
+    commercial_use_allowed: false
+  "EEA re-use policy (CC-BY equivalent)":
+    id: LicenseRef-EEA-Reuse
+    note: >-
+      European Environment Agency re-use policy: reuse permitted with
+      acknowledgement, equivalent in effect to CC-BY.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "EEA re-use policy":
+    id: LicenseRef-EEA-Reuse
+    note: >-
+      European Environment Agency re-use policy: reuse permitted with
+      acknowledgement.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "public domain":
+    id: LicenseRef-Public-Domain
+    note: "Placed in the public domain by its publisher."
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "free with attribution":
+    id: LicenseRef-Free-With-Attribution
+    note: >-
+      Free to reuse with attribution, under the publisher's own terms rather
+      than a standard licence. The exact terms are on the publisher's site and
+      have not been reviewed by a steward.
+    redistribution_allowed: true
+  "free, ISO terms":
+    id: LicenseRef-ISO-Terms
+    note: >-
+      Free to access under the ISO/RTO's own terms of use, which vary by
+      operator and have not been reviewed by a steward.
+  "IRENA terms, free with attribution":
+    id: LicenseRef-IRENA
+    note: "IRENA terms of use: free with attribution."
+    redistribution_allowed: true
+  "custom IEA terms":
+    id: LicenseRef-IEA-Custom
+    note: >-
+      IEA terms of use, which restrict redistribution. Read them before
+      publishing any derivative.
+    redistribution_allowed: false
+  "NERC copyright, free to access, redistribution restricted":
+    id: LicenseRef-NERC-Standards
+    note: >-
+      NERC holds copyright. The standards are free to read, and redistribution
+      is restricted — extracted structured parameters may be published with
+      citation, but the PDFs may not be mirrored. Confirm with counsel before
+      shipping an extraction.
+    redistribution_allowed: false
+  "EU re-use policy":
+    id: LicenseRef-EU-Reuse
+    note: "European Commission re-use policy (Decision 2011/833/EU)."
+    redistribution_allowed: true
+    commercial_use_allowed: true
+  "ENTSOG terms":
+    id: LicenseRef-ENTSOG
+    note: "ENTSOG transparency platform terms of use."
+  "free for academic and non-commercial use only":
+    id: LicenseRef-Academic-Non-Commercial
+    note: >-
+      Academic and non-commercial use only. This restriction is easy to miss
+      and excludes a whole class of downstream user; surface it prominently.
+    redistribution_allowed: false
+    commercial_use_allowed: false
+  "custom WDPA terms, attribution required, commercial restricted":
+    id: LicenseRef-WDPA
+    note: >-
+      World Database on Protected Areas terms: attribution required, commercial
+      use restricted, and redistribution of the database subject to conditions.
+    commercial_use_allowed: false
+  "free, verify per feed":
+    id: LicenseRef-Unreviewed-Per-Feed
+    note: >-
+      Licensing differs per feed and has not been verified. Do not rely on this
+      record's licence field until a steward has checked the specific feed.
+  "mixed, verify per feed":
+    id: LicenseRef-Unreviewed-Per-Feed
+    note: >-
+      Licensing differs per feed and has not been verified. Do not rely on this
+      record's licence field until a steward has checked the specific feed.
+  "varies per table":
+    id: LicenseRef-Unreviewed-Per-Table
+    note: >-
+      Licensing differs per table and has not been verified per table.
+  "varies by ISO":
+    id: LicenseRef-Unreviewed-Per-ISO
+    note: "Licensing differs by ISO and has not been verified per operator."
+  "open access, no formal license stated":
+    id: LicenseRef-No-Formal-Licence
+    note: >-
+      Openly downloadable with no licence statement of any kind. That is NOT
+      the same as public domain: absent an explicit grant, default copyright
+      applies and redistribution may not be permitted. Treat as unresolved.
+    redistribution_allowed: false
+  "free with attribution, commercial restricted":
+    id: LicenseRef-Free-Attribution-Non-Commercial
+    note: "Free with attribution; commercial use restricted."
+    commercial_use_allowed: false
+  "CC-BY-4.0 (PUDL output)":
+    id: CC-BY-4.0
+    note: >-
+      CC-BY-4.0 applies to the PUDL output. The upstream filings are US
+      Government works.
+    redistribution_allowed: true
+    commercial_use_allowed: true
+
+# Strings whose licence is genuinely two licences, one for code and one for
+# data. The data licence governs the catalogued artifact; both are recorded.
+dual:
+  "MIT (code), ODbL-1.0 (data)":
+    id: ODbL-1.0
+    note: >-
+      MIT for the extraction code, ODbL-1.0 for the data. The share-alike
+      obligation propagates to derived data, including anything OpenGrid hosts
+      downstream.
+    share_alike: true
+    redistribution_allowed: true
+    commercial_use_allowed: true

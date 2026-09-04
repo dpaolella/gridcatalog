@@ -24,11 +24,12 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-1.3 | SHACL shapes, level-parameterised | M1 | WP-1.1, WP-1.2 | done |
 | WP-1.4 | Conformance fixtures and suite | M1 | WP-1.3 | done |
 | WP-1.5 | Graph client, named graphs, inference materialisation | M1 | WP-0.2, WP-1.2 | done |
-| WP-2.1 | Record model, JSON-LD ⇄ RDF round-trip | M2 | WP-1.1, WP-1.5 | todo |
+| WP-2.1 | Record model, JSON-LD ⇄ RDF round-trip | M2 | WP-1.1, WP-1.5 | done |
 | WP-2.2 | Distribution model, revision history, link health state | M2 | WP-2.1 | todo |
-| WP-2.3 | Operational store: schema, migrations, repositories | M2 | WP-0.2 | todo |
-| WP-2.4 | Projector: CONSTRUCT, indexer, one-command reindex | M2 | WP-2.1 | todo |
-| WP-2.5 | Curated seed loader (`data/seed-sources.yaml` → catalog) | M2 | WP-2.1, WP-1.3 | todo |
+| WP-2.3 | Operational store: schema, migrations, repositories | M2 | WP-0.2 | done |
+| WP-2.4 | Projector: CONSTRUCT, indexer, one-command reindex | M2 | WP-2.1 | done |
+| WP-2.5 | Curated seed loader (`data/seed-sources.yaml` → catalog) | M2 | WP-2.1, WP-1.3 | done |
+| WP-2.6 | Operations CLI (`datahub`) | M2 | WP-2.3, WP-2.4, WP-2.5 | done |
 | WP-3.1 | Harvest framework: runs, checkpoints, rate limiting | M3 | WP-2.3 | todo |
 | WP-3.2 | Adapters: ckan, zenodo, datacite | M3 | WP-3.1 | todo |
 | WP-3.3 | Adapters: stac, yaml_repo, dcat_sparql, oep, curated | M3 | WP-3.1 | todo |
@@ -126,10 +127,24 @@ PRD §F1, §3.1.
 - **WP-2.5** Curated seed loader: 114 seed datasets across ten domains from
   `data/seed-sources.yaml`, carrying `verified: false` through to
   `og:reviewState` so unreviewed rows cannot be mistaken for confirmed ones.
+- **WP-2.6** The `datahub` CLI. Added to the plan during M2 rather than
+  discovered later: every task in this milestone is one an operator has to run,
+  and a task that lives only in a runbook is a task that gets done differently
+  each time. Data on stdout, diagnostics on stderr, an exit code that means
+  something — so the same commands work in CI.
 
 **Milestone done when:** every curated seed dataset is in `og:graph/catalog`,
 validates, is retrievable by a Python call, appears in the index within the
 stated lag budget, and survives a full reindex byte-identically.
+
+**Where M2 landed.** 113 records (114 rows; the EU ETS / EEA EUTL pair is one
+dataset under two domains, per PRD §4.1 D3): 55 confirmed in the catalog graph,
+58 draft. The 56/58 verified split in the seed file becomes 55/58 after that
+merge. Every row validates at level 1. Two rules are enforced by a branch with
+a test on both sides rather than by convention: an unverified row cannot reach
+the catalog graph, and no record carries a licence the seed file did not state
+— an unmappable licence string becomes a `LicenseRef` with the original text
+preserved and `redistributionAllowed: false`, never a guess.
 
 ---
 

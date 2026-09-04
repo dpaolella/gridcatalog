@@ -21,7 +21,7 @@ import json
 from collections.abc import Iterable, Iterator, Sequence
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, cast
 
 from datahub.config import Settings, get_settings
 from datahub.errors import NotFound, ValidationFailed
@@ -33,6 +33,7 @@ from datahub.logging import get_logger
 from datahub.namespaces import DATASET_BASE, OG
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
+from rdflib.query import ResultRow
 
 log = get_logger(__name__)
 
@@ -172,12 +173,38 @@ class RecordStore:
         return self.to_jsonld(subgraph)
 
     def to_jsonld(self, subgraph: Graph) -> dict[str, Any]:
-        serialised = subgraph.serialize(
-            format="json-ld", context=self.runner.context["@context"], auto_compact=True
+        """A record as JSON-LD, compacted against the project context."""
+        context = self.runner.context["@context"]
+        document: dict[str, Any] = json.loads(
+            subgraph.serialize(format="json-ld", context=context, auto_compact=True)
         )
-        document: dict[str, Any] = json.loads(serialised)
-        # rdflib emits the expanded context inline; replace it with the URL so a
-        # record on the wire is small and so consumers cache one context.
+        # rdflib emits every typed literal as a JSON string, even with
+        # use_native_types. That is not a cosmetic problem: "false" is truthy in
+        # Python and in JavaScript, so a consumer writing
+        # `if record["anonymousAccess"]` would read an account-gated dataset as
+        # openly accessible. Coerce back to the types the context declares.
+        # rdflib cannot compact a term that is both @container: @set and
+        # @language, and emits the raw CURIE with expanded values instead. Four
+        # of the terms it affects are the multi-valued human-readable ones a UI
+        # shows. Repaired here rather than by dropping the language tag from
+        # the context, because the context is correct and the serialiser is not.
+        document = repair_language_sets(document, context)
+        document = nativise(document, context)
+        # Nest what the record contains, so a record read back has the shape it
+        # was written in. rdflib compacts to a flat @graph of cross-referencing
+        # nodes, which is valid JSON-LD and unpleasant to consume: a client
+        # asking for a dataset's quality flags would get an IRI and have to go
+        # looking for the node it names.
+        document = frame(document, context)
+        # Absolute IRIs for identifier-valued terms. rdflib compacts an IRI to
+        # a CURIE wherever the context happens to declare a matching prefix, so
+        # a licence comes back as ``spdx:CC-BY-4.0`` while a data domain, whose
+        # base has no prefix, comes back in full. A client should not have to
+        # handle both, and the readability that compaction buys is in the term
+        # names, not in the values.
+        document = absolutise(document, context)
+        # rdflib inlines the expanded context; replace it with the URL so a
+        # record on the wire is small and consumers cache one copy.
         document["@context"] = f"{self.settings.catalog_base_url}/context/opengrid-datahub.jsonld"
         return document
 
@@ -382,7 +409,10 @@ class RecordStore:
         the same node.
         """
         path = " | ".join(f"<{p}>" for p in CONTAINMENT_PREDICATES)
-        reachable = set(incoming.query(f"SELECT ?s WHERE {{ <{dataset_iri}> ({path})* ?s }}"))
+        reachable = cast(
+            "Iterable[ResultRow]",
+            incoming.query(f"SELECT ?s WHERE {{ <{dataset_iri}> ({path})* ?s }}"),
+        )
         owned_nodes = {row[0] for row in reachable}
         owned, ancillary = Graph(), Graph()
         for triple in incoming:
@@ -490,6 +520,210 @@ class RecordStore:
         if dataset_id.startswith(("http://", "https://")):
             return URIRef(dataset_id)
         return URIRef(DATASET_BASE + dataset_id)
+
+
+#: xsd datatypes that must survive as JSON natives rather than as strings.
+_NATIVE_CASTS: dict[str, Any] = {
+    "xsd:boolean": lambda v: str(v).strip().lower() in ("true", "1"),
+    "xsd:integer": int,
+    "xsd:long": int,
+    "xsd:int": int,
+    "xsd:double": float,
+    "xsd:decimal": float,
+    "xsd:float": float,
+}
+
+
+def nativise(document: Any, context: dict[str, Any]) -> Any:
+    """Restore JSON native types the JSON-LD serialiser flattened to strings.
+
+    rdflib emits every typed literal as a string. For a date that is harmless;
+    for a boolean it is a correctness bug, because ``"false"`` is truthy in
+    both languages every consumer of this API is written in.
+    """
+    casts = {
+        term: _NATIVE_CASTS[definition["@type"]]
+        for term, definition in context.items()
+        if isinstance(definition, dict) and definition.get("@type") in _NATIVE_CASTS
+    }
+
+    def walk(node: Any, term: str | None = None) -> Any:
+        if isinstance(node, dict):
+            return {key: walk(value, key) for key, value in node.items()}
+        if isinstance(node, list):
+            return [walk(item, term) for item in node]
+        cast = casts.get(term or "")
+        if cast is None or not isinstance(node, str):
+            return node
+        try:
+            return cast(node)
+        except (TypeError, ValueError):
+            # A malformed value is left as it was found rather than dropped:
+            # losing it would hide the defect, and the shape is what SHACL is
+            # for.
+            return node
+
+    return walk(document)
+
+
+def _expand_term(value: str, context: dict[str, Any]) -> str:
+    """Resolve a context term's ``@id`` to a full IRI."""
+    prefix, sep, rest = value.partition(":")
+    if not sep or rest.startswith("//"):
+        return value
+    base = context.get(prefix)
+    if isinstance(base, str):
+        return f"{base}{rest}"
+    return value
+
+
+def containment_terms(context: dict[str, Any]) -> frozenset[str]:
+    """The context's term names for the containment predicates.
+
+    Derived from :data:`CONTAINMENT_PREDICATES` rather than listed again, so a
+    predicate cannot be containment for the purpose of writing a record and a
+    reference for the purpose of reading one back.
+    """
+    contained = {str(predicate) for predicate in CONTAINMENT_PREDICATES}
+    terms = set()
+    for term, definition in context.items():
+        if term.startswith("@"):
+            continue
+        iri = definition if isinstance(definition, str) else definition.get("@id")
+        if isinstance(iri, str) and _expand_term(iri, context) in contained:
+            terms.add(term)
+    return frozenset(terms)
+
+
+def frame(document: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
+    """Nest contained nodes inside the node that contains them.
+
+    Only along containment predicates, and only once per node: a reference to
+    another *dataset* stays an IRI, because inlining it would make one record's
+    document contain another record, and a client could not tell which parts it
+    is allowed to edit.
+
+    ``@graph`` is kept even when one node remains, so the shape does not change
+    with the contents of a record — a client indexing ``@graph[0]`` should not
+    break on the one record that happens to have no distributions.
+    """
+    nodes = document.get("@graph")
+    if not isinstance(nodes, list):
+        return document
+
+    terms = containment_terms(context)
+    by_id = {n["id"]: n for n in nodes if isinstance(n, dict) and isinstance(n.get("id"), str)}
+    consumed: set[str] = set()
+
+    def inline(value: Any) -> Any:
+        if isinstance(value, list):
+            return [inline(item) for item in value]
+        if isinstance(value, str) and value in by_id and value not in consumed:
+            consumed.add(value)
+            return nest(by_id[value])
+        return value
+
+    def nest(node: dict[str, Any]) -> dict[str, Any]:
+        return {key: inline(value) if key in terms else value for key, value in node.items()}
+
+    roots = [n for n in nodes if n.get("type") == "Dataset"]
+    framed = [nest(root) for root in roots]
+    # Anything not reached from a dataset stays at the top level rather than
+    # being dropped. A node the framing does not understand is a bug to see,
+    # not a triple to lose.
+    root_ids = {id(node) for node in roots}
+    framed += [
+        nest(node) for node in nodes if id(node) not in root_ids and node.get("id") not in consumed
+    ]
+    return {**{k: v for k, v in document.items() if k != "@graph"}, "@graph": framed}
+
+
+def repair_language_sets(document: Any, context: dict[str, Any]) -> Any:
+    """Compact the terms rdflib leaves expanded.
+
+    A term declared ``{"@container": "@set", "@language": "en"}`` comes back as
+    its CURIE carrying ``{"@language": ..., "@value": ...}`` objects. Rewritten
+    to the term name and a list of plain strings — but only where the language
+    matches what the term declares. A value in another language is left exactly
+    as the serialiser produced it: it does not fit the term's definition, and
+    quietly folding it in would lose the fact that it is there.
+    """
+    repairs: dict[str, tuple[str, str]] = {}
+    for term, definition in context.items():
+        if not isinstance(definition, dict):
+            continue
+        language = definition.get("@language")
+        if definition.get("@container") != "@set" or not language:
+            continue
+        iri = definition.get("@id", "")
+        for key in {iri, _expand_term(iri, context)}:
+            if key:
+                repairs[key] = (term, language)
+
+    def repair(node: dict[str, Any]) -> dict[str, Any]:
+        out: dict[str, Any] = {}
+        for key, value in node.items():
+            target = repairs.get(key)
+            if target is None:
+                out[key] = walk(value)
+                continue
+            term, language = target
+            items = value if isinstance(value, list) else [value]
+            plain = [
+                item["@value"]
+                for item in items
+                if isinstance(item, dict) and item.get("@language") == language
+            ]
+            if len(plain) != len(items):
+                out[key] = walk(value)
+                continue
+            out[term] = plain
+        return out
+
+    def walk(node: Any) -> Any:
+        if isinstance(node, dict):
+            return repair(node)
+        if isinstance(node, list):
+            return [walk(item) for item in node]
+        return node
+
+    return walk(document)
+
+
+def absolutise(document: Any, context: dict[str, Any]) -> Any:
+    """Expand CURIE values of identifier-valued terms back to absolute IRIs.
+
+    Term *names* stay compact — that is where compaction earns its keep. Term
+    *values* that identify something are expanded, so every IRI in a record
+    looks the same whether or not the context happens to declare a prefix for
+    its namespace.
+    """
+    id_terms = {
+        term
+        for term, definition in context.items()
+        if isinstance(definition, dict) and definition.get("@type") == "@id"
+    } | {"id", "@id"}
+
+    def walk(node: Any, term: str | None = None) -> Any:
+        if isinstance(node, dict):
+            return {key: walk(value, key) for key, value in node.items()}
+        if isinstance(node, list):
+            return [walk(item, term) for item in node]
+        if term in id_terms and isinstance(node, str):
+            return _expand_term(node, context)
+        return node
+
+    return walk(document)
+
+
+def dataset_node(document: dict[str, Any]) -> dict[str, Any]:
+    """The ``dcat:Dataset`` node of a JSON-LD record document."""
+    if document.get("type") == "Dataset":
+        return document
+    for node in document.get("@graph", []):
+        if node.get("type") == "Dataset":
+            return node
+    raise NotFound("document contains no dataset node")
 
 
 def normalise_literals(graph: Graph) -> Graph:

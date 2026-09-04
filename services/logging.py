@@ -17,7 +17,10 @@ def configure_logging(settings: Settings | None = None) -> None:
         return
     settings = settings or get_settings()
     level = getattr(logging, settings.log_level.upper(), logging.INFO)
-    logging.basicConfig(format="%(message)s", stream=sys.stdout, level=level)
+    # stderr, not stdout. Every CLI command that emits JSON writes it to
+    # stdout, and a log line interleaved into that stream turns a parseable
+    # document into garbage — `datahub graph bootstrap --json | jq` has to work.
+    logging.basicConfig(format="%(message)s", stream=sys.stderr, level=level)
     processors: list = [
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
@@ -32,6 +35,13 @@ def configure_logging(settings: Settings | None = None) -> None:
     )
     structlog.configure(
         processors=processors,
+        # Emit through stdlib logging rather than structlog's default
+        # PrintLogger, which writes to stdout whatever `basicConfig` says. That
+        # default put log lines into the CLI's data stream, so
+        # `datahub graph bootstrap --json | jq` received a log line and a
+        # document. Going through stdlib also means one place decides where
+        # logs go — here, stderr — for the CLI, the API and the workers alike.
+        logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.make_filtering_bound_logger(level),
         cache_logger_on_first_use=True,
     )
