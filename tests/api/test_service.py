@@ -95,12 +95,12 @@ def test_every_prd_endpoint_is_present(client) -> None:
         "/v1/datasets/{dataset_id}/download",
         "/v1/concepts",
         "/v1/domains",
+        "/v1/datasets/{dataset_id}/access-plan",
         "/v1/submissions",
         "/v1/reports",
     } <= paths
 
     deferred = {
-        "/v1/datasets/{dataset_id}/access-plan": "M5, the access broker",
         "/v1/datasets/{dataset_id}/links": "M8, inter-dataset links",
         "/v1/allowlists/{dataset_id}": "M6, the custodian API",
     }

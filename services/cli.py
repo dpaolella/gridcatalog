@@ -51,7 +51,10 @@ app.add_typer(seed_app)
 app.add_typer(record_app)
 app.add_typer(index_app)
 app.add_typer(query_app)
+probe_app = typer.Typer(name="probe", help="Link health.", no_args_is_help=True)
+
 app.add_typer(harvest_app)
+app.add_typer(probe_app)
 
 
 def err(message: str) -> None:
@@ -826,6 +829,132 @@ def status(json_out: Annotated[bool, typer.Option("--json")] = False) -> None:
     if report.get("entailments_current") is False:
         err("entailments are stale — run `datahub graph materialize`")
         raise typer.Exit(1)
+
+
+@probe_app.command("run")
+def probe_run(
+    limit: Annotated[int, typer.Option(help="Stop after N distributions.")] = 200,
+    all_urls: Annotated[
+        bool, typer.Option("--all", help="Probe everything, not only what is due.")
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Check whether the links in the catalog still work.
+
+    HEAD, or a single-byte range where HEAD is refused. Never a full download:
+    a prober that fetched what it was checking would move terabytes a week
+    across sources that did not ask to be crawled, and would look exactly like
+    abuse from the other end.
+    """
+    from datahub.api.broker import Prober, due_targets, iter_urls
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+
+    _require_schema()
+    with make_store() as store:
+        records = RecordStore(store)
+        if all_urls:
+            targets = iter_urls(records, (NamedGraph.CATALOG, NamedGraph.DRAFT))
+        else:
+            with session_scope() as session:
+                targets = due_targets(records, Repositories(session), limit=limit)
+
+        if not targets:
+            typer.echo("nothing due")
+            return
+        with Prober() as prober:
+            result = prober.run(targets, limit=limit)
+
+    _emit(
+        {
+            "probed": result.probed,
+            "verified": result.verified,
+            "redirected": result.redirected,
+            "degraded": result.degraded,
+            "unreachable": result.unreachable,
+            "skipped": result.skipped,
+            "healed": result.healed,
+            "excluded": result.excluded,
+            "errors": result.errors,
+        },
+        result.summary,
+        as_json=json_out,
+    )
+
+
+@probe_app.command("status")
+def probe_status(
+    limit: Annotated[int, typer.Option()] = 25,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Which links are failing, and for how long."""
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    _require_schema()
+    with session_scope() as session:
+        repos = Repositories(session)
+        rows = [
+            {
+                "distribution": row.distribution_id,
+                "dataset": row.dataset_id,
+                "status": row.status,
+                "consecutive_failures": row.consecutive_failures,
+                "excluded_from_plans": row.excluded_from_plans,
+                "last_probed_at": row.last_probed_at,
+                "last_success_at": row.last_success_at,
+            }
+            for row in repos.health.unhealthy(min_failures=1)[:limit]
+        ]
+
+    if json_out:
+        _emit(rows, "", as_json=True)
+        return
+    if not rows:
+        typer.echo("every probed link is healthy")
+        return
+    for row in rows:
+        flag = " EXCLUDED" if row["excluded_from_plans"] else ""
+        typer.echo(
+            f"{row['status']:<12} {row['consecutive_failures']:>2} failures{flag}  "
+            f"{row['distribution']}"
+        )
+
+
+@probe_app.command("history")
+def probe_history(
+    distribution_id: Annotated[str, typer.Argument()],
+    limit: Annotated[int, typer.Option()] = 20,
+) -> None:
+    """One distribution's probe and revision history.
+
+    The revisions are the interesting half: PRD §F1.12 says provenance is never
+    silently rewritten, and this is where an auto-healed URL shows its old
+    value.
+    """
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    _require_schema()
+    with session_scope() as session:
+        repos = Repositories(session)
+        probes = repos.probes.history(distribution_id, limit=limit)
+        revisions = repos.revisions.history(distribution_id, limit=limit)
+
+    typer.echo(f"probes ({len(probes)}):")
+    for probe in probes:
+        typer.echo(
+            f"  {probe.probed_at:%Y-%m-%d %H:%M}  {probe.status:<12} "
+            f"{probe.http_status or '-':>4}  {probe.error or ''}"
+        )
+    typer.echo(f"\nrevisions ({len(revisions)}):")
+    for revision in revisions:
+        typer.echo(f"  {revision.changed_at:%Y-%m-%d %H:%M}  {revision.field} [{revision.source}]")
+        typer.echo(f"    was: {revision.old_value}")
+        typer.echo(f"    now: {revision.new_value}")
 
 
 @app.command("serve")

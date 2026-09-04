@@ -41,9 +41,9 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-4.2 | Query builder, facets, entitlement injection | M4 | WP-4.1 | done |
 | WP-4.3 | REST read endpoints and OpenAPI 3.1 | M4 | WP-4.2, WP-2.1 | done |
 | WP-4.4 | Concepts, domains, submissions, reports endpoints | M4 | WP-4.3 | done |
-| WP-5.1 | Access-plan model and path selection | M5 | WP-2.2 | todo |
-| WP-5.2 | Byte-range and subsetting-protocol planning | M5 | WP-5.1 | todo |
-| WP-5.3 | Link-health prober, auto-heal, sibling fallback | M5 | WP-2.2 | todo |
+| WP-5.1 | Access-plan model and path selection | M5 | WP-2.2 | done |
+| WP-5.2 | Byte-range and subsetting-protocol planning | M5 | WP-5.1 | done |
+| WP-5.3 | Link-health prober, auto-heal, sibling fallback | M5 | WP-2.2 | done |
 | WP-6.1 | Principals, tokens, OIDC and federated SSO | M6 | WP-2.3 | todo |
 | WP-6.2 | Allow-lists, three visibility levels, custodian API | M6 | WP-6.1, WP-4.2 | todo |
 | WP-6.3 | Rate limiting, audit log, entitlement matrix suite | M6 | WP-6.2 | todo |
@@ -263,6 +263,37 @@ PRD §F1 (10–14), §F8.
 
 **Milestone done when:** a 4 TB Zarr and an 800 KB CSV return plans of identical
 shape, and a slice request against the Zarr transfers only the slice.
+
+**Where M5 landed.** Both halves of the done-criterion hold. The identical-shape
+half is asserted directly (`test_one_shape_whatever_the_size`); the
+transfers-only-the-slice half is the client's to execute, which is the design —
+the Hub is not in the read path, so the plan states the mode and the byte
+mechanics and the reader does the transfer.
+
+Three restraints are what make the prober safe to point at sources nobody
+asked:
+
+- **HEAD, or a single-byte range where HEAD is refused. Never a download.** A
+  prober that fetched what it checked would move terabytes a week and be
+  indistinguishable from abuse.
+- **Three consecutive failures, not one.** A single failure is a hiccup, a
+  certificate renewal, a deploy. Excluding on the first would make link health
+  flap, and a signal that flaps is one nobody trusts.
+- **Auto-heal only on a stable *permanent* redirect,** to the same target every
+  time. A 302 is the source telling us not to remember it, and three 301s to
+  three different hosts is a load balancer, not a move.
+
+Two things the tests forced into the open:
+
+- Healing was **half implemented**: the revision row was written and the record
+  was not, so every subsequent probe re-healed and one move produced four
+  revision rows. PRD §F1.12 says the redirect "auto-updates the stored URL *and*
+  writes a revision-history entry"; doing only the second half also puts a
+  false statement in the audit trail. A prober constructed without a record
+  store now declines to heal rather than claiming it did.
+- **An `s3://` URI is not an unreachable link.** Its health is not knowable over
+  HTTP, and recording it as unreachable would exclude working data — including
+  ERA5, the largest thing in the corpus — from every access plan.
 
 ---
 

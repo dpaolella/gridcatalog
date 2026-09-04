@@ -20,11 +20,14 @@ asking for a dataset's schema wants the schema, not the summary of it.
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import Annotated, Any
 
 from datahub.api.deps import CallerDep, RecordsDep, SearchDep, SessionDep
 from datahub.api.entitlement import Caller
 from datahub.api.schemas import (
+    AccessPlanRequest,
+    AccessPlanResponse,
     DatasetDetail,
     DatasetSummary,
     DistributionDetail,
@@ -240,6 +243,55 @@ def get_distributions(
     return DistributionDetail.from_record(records.get(document.iri))
 
 
+@router.post(
+    "/datasets/{dataset_id}/access-plan",
+    response_model=AccessPlanResponse,
+    summary="How to read this dataset. Never the bytes themselves.",
+)
+def access_plan(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+    session: SessionDep,
+    request: Request,
+    body: AccessPlanRequest | None = None,
+) -> AccessPlanResponse:
+    """Issue an access plan.
+
+    One uniform shape whether the dataset is 800 KB or 4 TB; only the path
+    differs. Licence, attribution and quality grades travel *in the plan*,
+    which is what makes agentic access defensible — the guardrail metadata is
+    in the payload rather than in a page the agent never read (PRD §F7).
+
+    POST rather than GET because the request carries a slice specification, and
+    because issuing a plan is an auditable event: PRD §F10 requires grants and
+    refusals to be logged, and §12.9 leaves open whether a plan is revoked when
+    an allow-list changes. Both need a row per issue.
+    """
+    from datahub.api.broker import Broker, SliceSpec
+
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        # An access plan for a record the caller may see but not read would be
+        # the disclosure the stub exists to prevent: the plan carries the URL.
+        raise _absent(dataset_id)
+
+    body = body or AccessPlanRequest()
+    plan = Broker().plan(
+        document,
+        records.get(document.iri),
+        slice_spec=SliceSpec(
+            time=(body.time_start, body.time_end) if body.time_start and body.time_end else None,
+            bbox=tuple(body.bbox) if body.bbox else None,
+            variables=tuple(body.variables),
+        ),
+        distribution_id=body.distribution_id,
+    )
+    _record_plan(session, caller, request, plan)
+    return AccessPlanResponse.from_plan(plan)
+
+
 @router.get(
     "/datasets/{dataset_id}/download",
     status_code=status.HTTP_302_FOUND,
@@ -391,6 +443,47 @@ def _best_distribution(distributions: list[DistributionDetail]) -> DistributionD
         if d.access_url and d.access_url.startswith(("http://", "https://"))
     ]
     return min(usable, key=rank) if usable else None
+
+
+def _record_plan(session: Any, caller: Caller, request: Request, plan: Any) -> None:
+    """Log the issue, and the grant.
+
+    Two rows because they answer two questions: the plan row is "who was told
+    where this data is, and until when" (PRD §12.9 needs it to make revocation
+    implementable), and the audit row is the §F10 requirement that grants and
+    refusals are logged. Neither is fatal — a plan that failed to log is still
+    a plan, and refusing to issue it because the audit table is unreachable
+    would take the catalog down with the database.
+    """
+    if session is None:
+        return
+    try:
+        from datetime import UTC, datetime
+
+        from datahub.api.models.repositories import Repositories
+
+        repos = Repositories(session)
+        ttl = (plan.expires_at - datetime.now(UTC)) if plan.expires_at else None
+        repos.plans.issue(
+            dataset_id=plan.dataset_id,
+            distribution_id=plan.distribution_id,
+            mode=plan.mode,
+            ttl=ttl or timedelta(seconds=900),
+            principal_id=caller.principal_id,
+            client=request.headers.get("x-client", "api"),
+            slice_spec=plan.requested_slice or None,
+        )
+        repos.audit.record(
+            action="dataset.access_plan",
+            outcome="granted",
+            resource_kind="distribution",
+            resource_id=plan.distribution_id,
+            principal_id=caller.principal_id,
+            principal_kind=caller.client_kind,
+            client=request.headers.get("x-client", "api"),
+        )
+    except Exception as exc:
+        log.warning("access plan not recorded", error=str(exc), dataset=plan.dataset_id)
 
 
 def _audit(

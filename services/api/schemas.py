@@ -632,6 +632,78 @@ class ReportReceipt(ApiModel):
 
 
 # ---------------------------------------------------------------------------
+# Access plans
+# ---------------------------------------------------------------------------
+
+
+class AccessPlanRequest(ApiModel):
+    """What the caller wants, if anything narrower than everything."""
+
+    distribution_id: str | None = Field(
+        default=None,
+        description="Pin a specific access path. Omit and the broker chooses, and says why.",
+    )
+    time_start: str | None = Field(default=None, description="ISO 8601.")
+    time_end: str | None = None
+    bbox: list[float] | None = Field(
+        default=None, description="west, south, east, north in WGS 84.", min_length=4, max_length=4
+    )
+    variables: list[str] = Field(default_factory=list)
+
+
+class AccessPlanResponse(ApiModel):
+    """One uniform shape regardless of whether the dataset is 800 KB or 4 TB.
+
+    Licence, attribution and quality grades travel with the plan. That is the
+    whole point of the object (PRD §F7): an agent handed a URL cannot know it
+    may not redistribute what it downloads, and an agent handed a plan is told
+    in a field it cannot miss.
+    """
+
+    dataset_id: str
+    distribution_id: str
+    mode: Literal["redirect", "partial-read", "subsetting-protocol"]
+    location: str
+    format: str | None = None
+    read_instructions: dict[str, Any] = Field(default_factory=dict)
+    requested_slice: dict[str, Any] = Field(default_factory=dict)
+    byte_ranges: list[dict[str, Any]] = Field(default_factory=list)
+    credentials: dict[str, Any] | None = None
+    expires_at: datetime | None = None
+
+    license: str | None = None
+    license_note: str | None = None
+    attribution: str | None = None
+    redistribution_allowed: bool | None = Field(
+        default=None,
+        description=(
+            "null means not recorded, never 'permitted'. Absent an explicit grant, "
+            "default copyright applies."
+        ),
+    )
+    commercial_use_allowed: bool | None = None
+    quality_grades: dict[str, str | None] = Field(default_factory=dict)
+
+    path_rationale: str = Field(
+        description="Why this path and not another. Derived from metadata, not configured."
+    )
+    partial_read_unavailable_reason: str | None = Field(
+        default=None,
+        description=(
+            "Why no partial read is on offer. An absent partial-read section is ambiguous "
+            "— it looks the same whether the dataset cannot do it or nobody recorded that "
+            "it can."
+        ),
+    )
+    fallback_reason: str | None = None
+    caveats: list[str] = Field(default_factory=list)
+
+    @classmethod
+    def from_plan(cls, plan: Any) -> Self:
+        return cls(**{f: getattr(plan, f) for f in cls.model_fields})
+
+
+# ---------------------------------------------------------------------------
 # Errors and health
 # ---------------------------------------------------------------------------
 
