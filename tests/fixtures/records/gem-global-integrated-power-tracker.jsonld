@@ -39,12 +39,6 @@
       "spatialLabel": [
         "Global"
       ],
-      "bbox": [
-        -180.0,
-        -90.0,
-        180.0,
-        90.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "point",
       "temporal": {
@@ -70,7 +64,12 @@
         "https://catalog.opengrid.org/dist/gem-global-integrated-power-tracker--xlsx"
       ],
       "issued": "2022-01-01T00:00:00Z",
-      "modified": "2026-07-01T00:00:00Z"
+      "modified": "2026-07-01T00:00:00Z",
+      "bboxMinLon": -180.0,
+      "bboxMinLat": -90.0,
+      "bboxMaxLon": 180.0,
+      "bboxMaxLat": 90.0,
+      "bboxWKT": "POLYGON((-180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0, -180.0 -90.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/gem-global-integrated-power-tracker--xlsx",

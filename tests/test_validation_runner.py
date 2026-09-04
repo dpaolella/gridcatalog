@@ -17,6 +17,7 @@ MINIMAL = """
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
 @prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 <https://catalog.opengrid.org/ds/t> a dcat:Dataset ;
   dct:title "T"@en ; dct:description "D"@en ;
   og:dataDomain <https://schema.opengrid.org/concept/data-domain/DD1> ;
@@ -172,8 +173,11 @@ def test_shape_1_measured_field_needs_no_source(runner: ValidationRunner) -> Non
 GEO = MINIMAL.replace(
     'og:harvestSource "curated" ;',
     'og:harvestSource "curated" ; og:geospatialPrimary true ; '
-    'og:bbox (-1.0 -1.0 1.0 1.0) ; og:geometryTypes "raster" ;',
+    'og:bboxMinLon "-1.0"^^xsd:double ; og:bboxMinLat "-1.0"^^xsd:double ; '
+    'og:bboxMaxLon "1.0"^^xsd:double ; og:bboxMaxLat "1.0"^^xsd:double ; '
+    'og:geometryTypes "raster" ;',
 )
+assert "geospatialPrimary" in GEO, "the GEO fixture stopped matching MINIMAL"
 
 
 def test_shape_2_geospatial_primary_without_crs_fails_at_level_one(

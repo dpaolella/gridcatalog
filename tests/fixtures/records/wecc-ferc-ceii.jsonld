@@ -38,12 +38,6 @@
         "United States",
         "Canada"
       ],
-      "bbox": [
-        -125.0,
-        31.0,
-        -102.0,
-        60.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "nodal",
       "updateCadence": "irregular",
@@ -59,7 +53,12 @@
         "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing"
       ],
       "issued": "2020-01-01T00:00:00Z",
-      "modified": "2026-01-01T00:00:00Z"
+      "modified": "2026-01-01T00:00:00Z",
+      "bboxMinLon": -125.0,
+      "bboxMinLat": 31.0,
+      "bboxMaxLon": -102.0,
+      "bboxMaxLat": 60.0,
+      "bboxWKT": "POLYGON((-125.0 31.0, -102.0 31.0, -102.0 60.0, -125.0 60.0, -125.0 31.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing",

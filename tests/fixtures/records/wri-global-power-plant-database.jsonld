@@ -37,12 +37,6 @@
       "spatialLabel": [
         "Global"
       ],
-      "bbox": [
-        -180.0,
-        -90.0,
-        180.0,
-        90.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "point",
       "temporal": {
@@ -64,7 +58,12 @@
         "https://catalog.opengrid.org/dist/wri-global-power-plant-database--csv"
       ],
       "issued": "2018-05-01T00:00:00Z",
-      "modified": "2021-06-01T00:00:00Z"
+      "modified": "2021-06-01T00:00:00Z",
+      "bboxMinLon": -180.0,
+      "bboxMinLat": -90.0,
+      "bboxMaxLon": 180.0,
+      "bboxMaxLat": 90.0,
+      "bboxWKT": "POLYGON((-180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0, -180.0 -90.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/wri-global-power-plant-database--csv",

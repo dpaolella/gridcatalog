@@ -38,12 +38,6 @@
         "United States",
         "Americas"
       ],
-      "bbox": [
-        -180.0,
-        -20.0,
-        -25.0,
-        60.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "gridded",
       "spatialResolution": "4 km",
@@ -74,7 +68,12 @@
         "https://catalog.opengrid.org/field/nrel-nsrdb/dni"
       ],
       "issued": "2015-01-01T00:00:00Z",
-      "modified": "2025-06-01T00:00:00Z"
+      "modified": "2025-06-01T00:00:00Z",
+      "bboxMinLon": -180.0,
+      "bboxMinLat": -20.0,
+      "bboxMaxLon": -25.0,
+      "bboxMaxLat": 60.0,
+      "bboxWKT": "POLYGON((-180.0 -20.0, -25.0 -20.0, -25.0 60.0, -180.0 60.0, -180.0 -20.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3",

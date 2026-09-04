@@ -224,8 +224,24 @@ og:DatasetShape a sh:NodeShape ;
 
   # ---- D14 spatial, level 1 ----
   sh:property [
-    sh:path og:bbox ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
-    sh:message "og:bbox is an ordered list of four numbers: minLon, minLat, maxLon, maxLat, in EPSG:4326." ;
+    sh:path og:bboxMinLon ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minInclusive -180.0 ; sh:maxInclusive 180.0 ; og:appliesAtLevel 1 ;
+    sh:message "og:bboxMinLon is a longitude in EPSG:4326, between -180 and 180." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMaxLon ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minInclusive -180.0 ; sh:maxInclusive 180.0 ; og:appliesAtLevel 1 ;
+    sh:message "og:bboxMaxLon is a longitude in EPSG:4326, between -180 and 180." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMinLat ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minInclusive -90.0 ; sh:maxInclusive 90.0 ; og:appliesAtLevel 1 ;
+    sh:message "og:bboxMinLat is a latitude in EPSG:4326, between -90 and 90." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMaxLat ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minInclusive -90.0 ; sh:maxInclusive 90.0 ; og:appliesAtLevel 1 ;
+    sh:message "og:bboxMaxLat is a latitude in EPSG:4326, between -90 and 90." ;
   ] ;
   sh:property [
     sh:path og:nativeCRS ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
@@ -330,8 +346,20 @@ og:GeospatialPrimaryShape a sh:NodeShape ;
     """ ;
   ] ;
   sh:property [
-    sh:path og:bbox ; sh:minCount 1 ; og:appliesAtLevel 1 ;
-    sh:message "A geospatial-primary dataset must declare og:bbox at level 1. Without an extent it cannot be found by anyone searching a region, which for a geospatial dataset is everyone." ;
+    sh:path og:bboxMinLon ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare its extent at level 1 — all four of og:bboxMinLon, og:bboxMinLat, og:bboxMaxLon, og:bboxMaxLat. Without one it cannot be found by anyone searching a region, which for a geospatial dataset is everyone." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMinLat ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:bboxMinLat at level 1." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMaxLon ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:bboxMaxLon at level 1." ;
+  ] ;
+  sh:property [
+    sh:path og:bboxMaxLat ; sh:minCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "A geospatial-primary dataset must declare og:bboxMaxLat at level 1." ;
   ] ;
   sh:property [
     sh:path og:nativeCRS ; sh:minCount 1 ; og:appliesAtLevel 1 ;

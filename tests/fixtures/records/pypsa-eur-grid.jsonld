@@ -8,17 +8,28 @@
       "title": "PyPSA-Eur grid dataset (pre-built OSM network)",
       "summary": "European transmission network extracted from OpenStreetMap and assembled into a PyPSA-ready bus-branch model.",
       "description": "Buses, lines, links, transformers and substations for the European transmission system, reconstructed from OpenStreetMap power infrastructure tags. Electrical parameters are not measured: impedance and thermal rating are estimated from a voltage-class lookup, which is recorded per field so a user can see which numbers are observed and which are assumed. The ODbL share-alike obligation propagates to anything derived from it, which is a redistribution constraint rather than a quality one and is flagged accordingly.",
-      "keyword": ["transmission", "OSM", "PyPSA", "Europe", "bus-branch", "network"],
+      "keyword": [
+        "transmission",
+        "OSM",
+        "PyPSA",
+        "Europe",
+        "bus-branch",
+        "network"
+      ],
       "publisher": "https://catalog.opengrid.org/agent/pypsa",
-      "dataDomain": ["https://schema.opengrid.org/concept/data-domain/DD1"],
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
-      "upstreamSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "upstreamSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "license": "https://spdx.org/licenses/ODbL-1.0",
       "licenseNote": "MIT for the extraction code, ODbL-1.0 for the data. The share-alike obligation propagates to derived data, including anything OpenGrid hosts downstream.",
       "redistributionAllowed": true,
       "commercialUseAllowed": true,
       "shareAlike": true,
-      "attribution": "© OpenStreetMap contributors, processed by the PyPSA-Eur developers",
+      "attribution": "\u00a9 OpenStreetMap contributors, processed by the PyPSA-Eur developers",
       "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
       "anonymousAccess": true,
       "documentationStatus": "fully-documented",
@@ -27,13 +38,21 @@
       "harvestSource": "curated",
       "visibility": "public",
       "tier": 2,
-      "spatialLabel": ["Europe"],
-      "bbox": [-11.0, 34.0, 32.0, 72.0],
+      "spatialLabel": [
+        "Europe"
+      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "nodal",
       "hasTopology": true,
       "hasImpedance": true,
-      "voltageClass": ["220 kV", "300 kV", "380 kV", "400 kV", "500 kV", "750 kV"],
+      "voltageClass": [
+        "220 kV",
+        "300 kV",
+        "380 kV",
+        "400 kV",
+        "500 kV",
+        "750 kV"
+      ],
       "temporal": {
         "type": "PeriodOfTime",
         "startDate": "2024-01-01T00:00:00Z",
@@ -59,7 +78,9 @@
           "Electrical parameters are voltage-class estimates, not measurements. Every affected field carries og:valueBasis modeled."
         ]
       },
-      "distribution": ["https://catalog.opengrid.org/dist/pypsa-eur-grid--zenodo-csv"],
+      "distribution": [
+        "https://catalog.opengrid.org/dist/pypsa-eur-grid--zenodo-csv"
+      ],
       "hasField": [
         "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom",
         "https://catalog.opengrid.org/field/pypsa-eur-grid/s_nom",
@@ -68,7 +89,12 @@
         "https://catalog.opengrid.org/field/pypsa-eur-grid/bus0"
       ],
       "issued": "2024-08-20T00:00:00Z",
-      "modified": "2024-08-20T00:00:00Z"
+      "modified": "2024-08-20T00:00:00Z",
+      "bboxMinLon": -11.0,
+      "bboxMinLat": 34.0,
+      "bboxMaxLon": 32.0,
+      "bboxMaxLat": 72.0,
+      "bboxWKT": "POLYGON((-11.0 34.0, 32.0 34.0, 32.0 72.0, -11.0 72.0, -11.0 34.0))"
     },
     {
       "id": "https://catalog.opengrid.org/upstream/openstreetmap-power",
@@ -109,7 +135,9 @@
       "unit": "http://qudt.org/vocab/unit/KiloV",
       "concept": "https://schema.opengrid.org/concept/grid-concept/nominalVoltage",
       "valueBasis": "measured",
-      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "required": true,
       "completenessCaveats": "Present where the OSM way carries a voltage tag; inferred from neighbours otherwise, and those rows are not distinguished in the published file."
     },
@@ -124,8 +152,12 @@
       "unit": "http://qudt.org/vocab/unit/MegaV-A",
       "concept": "https://schema.opengrid.org/concept/grid-concept/continuousRating",
       "valueBasis": "modeled",
-      "derivedFromField": ["https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom"],
-      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom"
+      ],
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "required": true,
       "completenessCaveats": "A lookup, not a measurement. Real ratings vary with conductor type and ambient conditions by a wide margin."
     },
@@ -140,8 +172,12 @@
       "unit": "http://qudt.org/vocab/unit/OHM",
       "concept": "https://schema.opengrid.org/concept/grid-concept/reactance",
       "valueBasis": "modeled",
-      "derivedFromField": ["https://catalog.opengrid.org/field/pypsa-eur-grid/length"],
-      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/length"
+      ],
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "required": true,
       "completenessCaveats": "Voltage-class lookup times length. The absence of a measured resistance is why this dataset supports DC and not AC power flow."
     },
@@ -156,7 +192,9 @@
       "unit": "http://qudt.org/vocab/unit/KiloM",
       "concept": "https://schema.opengrid.org/concept/grid-concept/branchLength",
       "valueBasis": "measured",
-      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "required": true
     },
     {
@@ -169,7 +207,9 @@
       "dataType": "string",
       "concept": "https://schema.opengrid.org/concept/grid-concept/branchEndpoints",
       "valueBasis": "measured",
-      "fieldSource": ["https://catalog.opengrid.org/upstream/openstreetmap-power"],
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
       "required": true
     }
   ]

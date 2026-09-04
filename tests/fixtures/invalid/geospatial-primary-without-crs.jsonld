@@ -21,15 +21,14 @@
         "https://catalog.opengrid.org/dist/broken--d1"
       ],
       "geospatialPrimary": true,
-      "bbox": [
-        -1.0,
-        -1.0,
-        1.0,
-        1.0
-      ],
       "geometryTypes": [
         "raster"
-      ]
+      ],
+      "bboxMinLon": -1.0,
+      "bboxMinLat": -1.0,
+      "bboxMaxLon": 1.0,
+      "bboxMaxLat": 1.0,
+      "bboxWKT": "POLYGON((-1.0 -1.0, 1.0 -1.0, 1.0 1.0, -1.0 1.0, -1.0 -1.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/broken--d1",

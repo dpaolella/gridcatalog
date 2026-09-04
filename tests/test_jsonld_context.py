@@ -187,7 +187,9 @@ def test_scalar_terms_carry_their_datatype(context: dict) -> None:
         "lastProbedAt": "xsd:dateTime",
         "issued": "xsd:dateTime",
         "modified": "xsd:dateTime",
-        "conceptConfidence": "xsd:decimal",
+        "conceptConfidence": "xsd:double",
+        "bboxMinLon": "xsd:double",
+        "bboxMaxLat": "xsd:double",
     }
     for term, datatype in expected.items():
         assert context[term]["@type"] == datatype, f"{term} should be {datatype}"
@@ -271,10 +273,32 @@ def test_a_record_round_trips_through_rdf(context: dict) -> None:
     assert isomorphic(graph, recompacted), "the record does not survive a round trip"
 
 
-def test_bbox_is_an_ordered_list(context: dict) -> None:
-    """A bounding box is minLon, minLat, maxLon, maxLat in that order. An
-    unordered set of four numbers is four numbers, not a box."""
-    assert context["bbox"]["@container"] == "@list"
+def test_bbox_is_four_scalars_not_a_list(context: dict) -> None:
+    """A bounding box was an ordered rdf:List and is now four named scalars.
+
+    The list bought ordering nobody needed and cost three things that were
+    wanted: a SPARQL spatial filter became a list walk, JSON-LD serialisation
+    depended on blank-node list cells (and rdflib's serializer crashes on
+    skolemised ones), and the four numbers were not individually addressable by
+    the semantic layer.
+    """
+    for term in ("bboxMinLon", "bboxMinLat", "bboxMaxLon", "bboxMaxLat"):
+        assert context[term]["@type"] == "xsd:double", term
+    assert "@container" not in context.get("bbox", {})
+
+
+def test_numeric_terms_are_doubles_not_decimals(context: dict) -> None:
+    """Values arrive as JSON numbers, and rdflib's JSON-LD parser applies
+    ``@type`` coercion by stamping the datatype onto the value it already
+    parsed. A term declared ``xsd:decimal`` therefore yields a decimal-typed
+    literal holding a float — internally inconsistent, and rejected by SHACL's
+    datatype check with a message pointing at a value that looks fine."""
+    for term, definition in context.items():
+        if not isinstance(definition, dict):
+            continue
+        assert definition.get("@type") != "xsd:decimal", (
+            f"{term} is declared xsd:decimal; use xsd:double for values that arrive as JSON numbers"
+        )
 
 
 def test_single_and_multi_valued_records_produce_the_same_shape(context: dict) -> None:

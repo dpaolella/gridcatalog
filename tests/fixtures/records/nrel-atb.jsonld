@@ -38,12 +38,6 @@
       "spatialLabel": [
         "United States"
       ],
-      "bbox": [
-        -170.0,
-        18.0,
-        -66.0,
-        72.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "national",
       "temporal": {
@@ -77,7 +71,12 @@
         "https://catalog.opengrid.org/field/nrel-atb/wacc_real"
       ],
       "issued": "2015-01-01T00:00:00Z",
-      "modified": "2026-07-01T00:00:00Z"
+      "modified": "2026-07-01T00:00:00Z",
+      "bboxMinLon": -170.0,
+      "bboxMinLat": 18.0,
+      "bboxMaxLon": -66.0,
+      "bboxMaxLat": 72.0,
+      "bboxWKT": "POLYGON((-170.0 18.0, -66.0 18.0, -66.0 72.0, -170.0 72.0, -170.0 18.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/nrel-atb--csv",

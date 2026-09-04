@@ -35,12 +35,6 @@
       "spatialLabel": [
         "United States"
       ],
-      "bbox": [
-        -170.0,
-        18.0,
-        -66.0,
-        72.0
-      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "point",
       "temporal": {
@@ -65,7 +59,12 @@
         "https://catalog.opengrid.org/dist/lbnl-queued-up--xlsx"
       ],
       "issued": "2021-06-01T00:00:00Z",
-      "modified": "2026-04-01T00:00:00Z"
+      "modified": "2026-04-01T00:00:00Z",
+      "bboxMinLon": -170.0,
+      "bboxMinLat": 18.0,
+      "bboxMaxLon": -66.0,
+      "bboxMaxLat": 72.0,
+      "bboxWKT": "POLYGON((-170.0 18.0, -66.0 18.0, -66.0 72.0, -170.0 72.0, -170.0 18.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/lbnl-queued-up--xlsx",

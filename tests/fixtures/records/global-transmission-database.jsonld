@@ -9,9 +9,17 @@
       "title": "Global Transmission Database",
       "summary": "Zonal MW transfer limits by country and voltage class, assembled from public sources by Brinkerink et al.",
       "description": "A global compilation of inter-zonal transmission transfer capacities, organised by country pair and voltage class. Deliberately zonal: it carries no bus-branch topology and no impedances, so it supports capacity expansion and zonal dispatch and cannot support power flow at any level of care. Its value is coverage where DD1 is thinnest.",
-      "keyword": ["transmission", "transfer capacity", "NTC", "global", "zonal"],
+      "keyword": [
+        "transmission",
+        "transfer capacity",
+        "NTC",
+        "global",
+        "zonal"
+      ],
       "publisher": "https://catalog.opengrid.org/agent/brinkerink-et-al",
-      "dataDomain": ["https://schema.opengrid.org/concept/data-domain/DD1"],
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
       "license": "https://spdx.org/licenses/CC-BY-4.0",
       "redistributionAllowed": true,
@@ -25,8 +33,9 @@
       "harvestSource": "curated",
       "visibility": "public",
       "tier": 1,
-      "spatialLabel": ["Global"],
-      "bbox": [-180.0, -90.0, 180.0, 90.0],
+      "spatialLabel": [
+        "Global"
+      ],
       "nativeCRS": "EPSG:4326",
       "spatialGranularity": "zonal",
       "hasTopology": false,
@@ -51,14 +60,21 @@
         "type": "QualityFlags",
         "staleness": "current"
       },
-      "distribution": ["https://catalog.opengrid.org/dist/global-transmission-database--csv"],
+      "distribution": [
+        "https://catalog.opengrid.org/dist/global-transmission-database--csv"
+      ],
       "hasField": [
         "https://catalog.opengrid.org/field/global-transmission-database/transfer_capacity_mw",
         "https://catalog.opengrid.org/field/global-transmission-database/voltage_kv",
         "https://catalog.opengrid.org/field/global-transmission-database/confidence_class"
       ],
       "issued": "2024-05-01T00:00:00Z",
-      "modified": "2025-05-27T00:00:00Z"
+      "modified": "2025-05-27T00:00:00Z",
+      "bboxMinLon": -180.0,
+      "bboxMinLat": -90.0,
+      "bboxMaxLon": 180.0,
+      "bboxMaxLat": 90.0,
+      "bboxWKT": "POLYGON((-180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0, -180.0 -90.0))"
     },
     {
       "id": "https://catalog.opengrid.org/dist/global-transmission-database--csv",
@@ -93,7 +109,9 @@
       "unit": "http://qudt.org/vocab/unit/MegaW",
       "concept": "https://schema.opengrid.org/concept/grid-concept/transferCapacity",
       "valueBasis": "estimated",
-      "fieldSource": ["https://catalog.opengrid.org/ds/global-transmission-database"],
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/global-transmission-database"
+      ],
       "required": true,
       "completenessCaveats": "Zonal by construction. This is not a branch rating and must not be substituted for one."
     },
@@ -124,7 +142,9 @@
         "gapReason": "No concept in the grid-concept scheme covers a compiler's self-assessed confidence. It is metadata about the row rather than a physical, economic or categorical quantity, and inventing a concept for one dataset's internal grading would pollute a shared vocabulary. Recorded as a gap rather than omitted so a reader can see the field was considered (PRD X4)."
       },
       "valueBasis": "estimated",
-      "fieldSource": ["https://catalog.opengrid.org/ds/global-transmission-database"],
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/global-transmission-database"
+      ],
       "required": false
     }
   ]
