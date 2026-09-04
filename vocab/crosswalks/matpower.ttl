@@ -1,0 +1,150 @@
+# og-grid-concept → MATPOWER case format.
+#
+# MATPOWER's schema is a set of numbered matrix columns documented in the manual
+# and in caseformat.m. There is no published vocabulary of any kind, so every
+# column gets a locally-minted handle under
+# https://schema.opengrid.org/crosswalk/matpower/ named for the constant
+# MATPOWER itself uses (BUS_I, BR_R, PMAX). The og:columnIndex on each handle
+# records the position, because a MATPOWER file is positional and a reader that
+# knows the name but not the index cannot parse it.
+#
+# Worth doing despite the absence of a standard: MATPOWER is the lingua franca
+# of the OPF literature and of the pglib-opf benchmark corpus in the seed
+# inventory, so a catalog that cannot say "this column is nominal voltage" for a
+# MATPOWER case is failing the users most likely to be reading it.
+#
+# Everything electrical in MATPOWER is per-unit on the case's baseMVA except
+# voltages, which are in kV, and angles, which are in degrees. That single fact
+# produces most of the closeMatch statements below.
+
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix og:    <https://schema.opengrid.org/ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix gc:    <https://schema.opengrid.org/concept/grid-concept/> .
+@prefix mp:    <https://schema.opengrid.org/crosswalk/matpower/> .
+
+<https://schema.opengrid.org/crosswalk/matpower>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid ↔ MATPOWER crosswalk"@en ;
+  dct:description "Mappings from the OpenGrid grid-concept scheme to MATPOWER case-format matrix columns. MATPOWER publishes no vocabulary; column IRIs here are locally minted handles named for MATPOWER's own constants."@en ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> ;
+  og:targetScheme "MATPOWER case format version 2" ;
+  og:mintedTargetIris true ;
+  owl:versionInfo "1.0.0" ;
+  dct:issued "2026-09-04"^^xsd:date .
+
+# --- bus matrix ---------------------------------------------------------
+
+mp:BUS_I a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 1 ; skos:prefLabel "BUS_I"@en .
+mp:BUS_TYPE a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 2 ; skos:prefLabel "BUS_TYPE"@en .
+mp:PD a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 3 ; skos:prefLabel "PD"@en .
+mp:QD a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 4 ; skos:prefLabel "QD"@en .
+mp:VM a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 8 ; skos:prefLabel "VM"@en .
+mp:VA a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 9 ; skos:prefLabel "VA"@en .
+mp:BASE_KV a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 10 ; skos:prefLabel "BASE_KV"@en .
+mp:ZONE a og:ExternalTerm ; og:matrix "bus" ; og:columnIndex 11 ; skos:prefLabel "ZONE"@en .
+
+gc:busIdentifier skos:exactMatch mp:BUS_I ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:busType skos:exactMatch mp:BUS_TYPE ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> ;
+  skos:editorialNote "Values 1/2/3/4 are PQ/PV/reference/isolated. The values themselves resolve to their own concepts (PRD §4.3 C9); the column resolves to this one."@en .
+gc:electricityDemand skos:exactMatch mp:PD ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> ;
+  skos:editorialNote "PD is real power demand in MW at bus granularity — same quantity, same unit, same granularity."@en .
+gc:reactivePower skos:closeMatch mp:QD ;
+  og:granularityDiffers "QD is demand-side reactive power at a bus specifically; the concept covers generation and flow as well."@en .
+gc:operatingVoltage skos:closeMatch mp:VM ;
+  og:basisDiffers "VM is per-unit on BASE_KV. The concept's default unit is percent with a per-unit flag, so substitution needs the flag set."@en .
+gc:voltageAngle skos:exactMatch mp:VA ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:nominalVoltage skos:exactMatch mp:BASE_KV ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:zoneIdentifier skos:closeMatch mp:ZONE ;
+  og:granularityDiffers "MATPOWER's ZONE is a loss-zone integer with no external meaning; a real zone identifier resolves to a named market or control area."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from usage rather than from the manual, which defines ZONE only as a loss-zone label. Cases derived from real systems often reuse it for a market zone, and cases that do not leave it at 1 throughout."@en .
+
+# --- branch matrix ------------------------------------------------------
+
+mp:F_BUS a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 1 ; skos:prefLabel "F_BUS"@en .
+mp:T_BUS a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 2 ; skos:prefLabel "T_BUS"@en .
+mp:BR_R a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 3 ; skos:prefLabel "BR_R"@en .
+mp:BR_X a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 4 ; skos:prefLabel "BR_X"@en .
+mp:BR_B a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 5 ; skos:prefLabel "BR_B"@en .
+mp:RATE_A a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 6 ; skos:prefLabel "RATE_A"@en .
+mp:RATE_B a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 7 ; skos:prefLabel "RATE_B"@en .
+mp:RATE_C a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 8 ; skos:prefLabel "RATE_C"@en .
+mp:TAP a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 9 ; skos:prefLabel "TAP"@en .
+mp:SHIFT a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 10 ; skos:prefLabel "SHIFT"@en .
+mp:BR_STATUS a og:ExternalTerm ; og:matrix "branch" ; og:columnIndex 11 ; skos:prefLabel "BR_STATUS"@en .
+
+gc:branchEndpoints skos:exactMatch mp:F_BUS, mp:T_BUS ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:resistance skos:closeMatch mp:BR_R ;
+  og:basisDiffers "BR_R is per-unit on baseMVA and the from-bus base voltage; the concept's default unit is ohms. Convertible only with both bases, which the column does not carry."@en .
+gc:reactance skos:closeMatch mp:BR_X ;
+  og:basisDiffers "As for BR_R."@en .
+gc:susceptance skos:closeMatch mp:BR_B ;
+  og:basisDiffers "BR_B is per-unit total line charging, not per-end and not in siemens."@en .
+gc:continuousRating skos:closeMatch mp:RATE_A ;
+  og:unitDiffers "RATE_A is in MVA like the concept, but a value of 0 means 'unlimited' rather than 'zero rating'. A reader treating 0 as a rating disconnects the network."@en ;
+  skos:editorialNote "The zero-means-unlimited convention is the reason this is not an exactMatch. It is a semantic difference hiding inside an identical unit."@en .
+gc:emergencyRating skos:closeMatch mp:RATE_B ; og:unitDiffers "As for RATE_A."@en .
+gc:shortTermRating skos:closeMatch mp:RATE_C ; og:unitDiffers "As for RATE_A."@en .
+gc:tapRatio skos:closeMatch mp:TAP ;
+  og:basisDiffers "TAP is 0 for a transmission line and a ratio for a transformer; 0 does not mean a zero ratio."@en .
+gc:phaseShift skos:exactMatch mp:SHIFT ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:topologyStatus skos:exactMatch mp:BR_STATUS ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+
+# --- gen and gencost matrices -------------------------------------------
+
+mp:GEN_BUS a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 1 ; skos:prefLabel "GEN_BUS"@en .
+mp:PG a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 2 ; skos:prefLabel "PG"@en .
+mp:QG a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 3 ; skos:prefLabel "QG"@en .
+mp:QMAX a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 4 ; skos:prefLabel "QMAX"@en .
+mp:QMIN a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 5 ; skos:prefLabel "QMIN"@en .
+mp:MBASE a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 7 ; skos:prefLabel "MBASE"@en .
+mp:PMAX a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 9 ; skos:prefLabel "PMAX"@en .
+mp:PMIN a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 10 ; skos:prefLabel "PMIN"@en .
+mp:RAMP_10 a og:ExternalTerm ; og:matrix "gen" ; og:columnIndex 17 ; skos:prefLabel "RAMP_10"@en .
+mp:GENCOST a og:ExternalTerm ; og:matrix "gencost" ; skos:prefLabel "gencost"@en .
+
+gc:activePower skos:exactMatch mp:PG ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:nameplateCapacity skos:exactMatch mp:PMAX ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> ;
+  skos:editorialNote "PMAX is the maximum real power output in MW at unit granularity."@en .
+gc:minimumStableLevel skos:exactMatch mp:PMIN ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:reactiveCapability skos:exactMatch mp:QMAX, mp:QMIN ;
+  dct:source <https://matpower.org/docs/MATPOWER-manual.pdf> .
+gc:apparentPower skos:closeMatch mp:MBASE ;
+  og:basisDiffers "MBASE is the machine's per-unit base, used for normalising its impedances. It is numerically the machine rating in most cases and is not defined as one."@en .
+gc:rampRate skos:closeMatch mp:RAMP_10 ;
+  og:unitDiffers "RAMP_10 is the ramp achievable in ten minutes, in MW; the concept is MW per minute. A factor of ten, but also a different physical statement about sustained versus burst capability."@en .
+gc:variableOperatingCost skos:closeMatch mp:GENCOST ;
+  og:basisDiffers "gencost is a polynomial or piecewise-linear cost curve including fuel, not a scalar variable O&M rate. Only the linear coefficient of a first-order polynomial is comparable, and only for a unit with no fuel."@en ;
+  skos:editorialNote "Mapping a cost curve to a scalar as exact would silently discard the curvature that makes the curve worth having."@en .
+
+# --- X4: explicit gaps -------------------------------------------------
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/matpower> ;
+   og:gapConcept gc:primaryFuel, gc:technologyType ;
+   og:gapReason "The MATPOWER case format carries no fuel or technology column. A case built from a real system loses that attribution entirely, which is why a MATPOWER case cannot serve a dispatch study that prices carbon."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/matpower> ;
+   og:gapConcept gc:timestamp, gc:electricityConsumption ;
+   og:gapReason "A MATPOWER case is a single snapshot. There is no time dimension, so no column can hold a timestamp or an energy quantity."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/matpower> ;
+   og:gapConcept gc:latitude, gc:longitude ;
+   og:gapReason "The format has no geographic columns. Synthetic cases in the seed inventory ship coordinates in a companion file, not in the case."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/matpower> ;
+   og:gapConcept gc:minimumUpTime, gc:minimumDownTime, gc:startupCost, gc:forcedOutageRate ;
+   og:gapReason "Unit commitment parameters are outside the base case format. MOST extends it, but a plain case file has nowhere to put them."@en .

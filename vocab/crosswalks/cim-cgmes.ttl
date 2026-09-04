@@ -1,0 +1,137 @@
+# og-grid-concept → IEC 61970 CIM 100 / CGMES 3.0.
+#
+# CIM is the one scheme here that publishes a real RDF vocabulary, so these are
+# genuine IRI-to-IRI mappings rather than handles for documented names.
+#
+# The recurring reason for closeMatch rather than exactMatch in this file is
+# per-unit versus SI. CGMES profiles carry impedance in ohms on ACLineSegment
+# and per-unit elsewhere; converting needs a base power and base voltage the
+# field alone does not carry, which is a basis difference, not a unit difference.
+
+@prefix cim:   <http://iec.ch/TC57/CIM100#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix og:    <https://schema.opengrid.org/ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix gc:    <https://schema.opengrid.org/concept/grid-concept/> .
+
+<https://schema.opengrid.org/crosswalk/cim-cgmes>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid ↔ CIM/CGMES crosswalk"@en ;
+  dct:description "Mappings from the OpenGrid grid-concept scheme to IEC 61970 CIM 100 classes and attributes as profiled by CGMES 3.0."@en ;
+  dct:source <https://cim.ucaiug.io/> ;
+  og:targetScheme "IEC 61970 CIM 100 / CGMES 3.0" ;
+  owl:versionInfo "1.0.0" ;
+  dct:issued "2026-09-04"^^xsd:date .
+
+gc:nominalVoltage
+  skos:exactMatch cim:BaseVoltage.nominalVoltage ;
+  dct:source <https://cim.ucaiug.io/> .
+
+gc:operatingVoltage
+  skos:closeMatch cim:SvVoltage.v ;
+  og:basisDiffers "CIM SvVoltage.v is a solved state-variable value in kV; the OpenGrid concept is normally carried per-unit. Same quantity, different normalisation, so substitution needs the base voltage."@en .
+
+gc:voltageAngle skos:exactMatch cim:SvVoltage.angle ; dct:source <https://cim.ucaiug.io/> .
+
+gc:activePower
+  skos:closeMatch cim:EnergyConsumer.p, cim:RotatingMachine.p, cim:SvPowerFlow.p ;
+  og:granularityDiffers "CIM attaches active power to a specific terminal or machine; the OpenGrid concept is the quantity itself and appears at bus, unit and zone granularity."@en .
+
+gc:reactivePower
+  skos:closeMatch cim:EnergyConsumer.q, cim:RotatingMachine.q, cim:SvPowerFlow.q ;
+  og:granularityDiffers "As for active power."@en .
+
+gc:apparentPower skos:exactMatch cim:RotatingMachine.ratedS ; dct:source <https://cim.ucaiug.io/> .
+
+gc:resistance
+  skos:closeMatch cim:ACLineSegment.r ;
+  og:basisDiffers "CGMES carries ACLineSegment.r in ohms for the whole segment; datasets in this catalog frequently carry per-unit or per-kilometre resistance. Convertible only with length and base impedance."@en .
+
+gc:reactance
+  skos:closeMatch cim:ACLineSegment.x ;
+  og:basisDiffers "As for resistance."@en .
+
+gc:susceptance
+  skos:closeMatch cim:ACLineSegment.bch ;
+  og:basisDiffers "bch is total line charging susceptance for the segment; some datasets carry half-susceptance per end."@en ;
+  skos:editorialNote "The half-versus-total convention is the specific error this closeMatch prevents: an exactMatch would let a tool substitute one for the other and halve or double line charging."@en ;
+  og:enrichmentBasis "inferred" .
+
+gc:conductance skos:closeMatch cim:ACLineSegment.gch ;
+  og:basisDiffers "As for susceptance."@en ; og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred by symmetry with the bch mapping rather than read from a CGMES profile document; gch is present in the equipment profile but rarely populated, so the correspondence was not confirmed against a live exchange."@en .
+
+gc:continuousRating
+  skos:closeMatch cim:OperationalLimitSet, cim:CurrentLimit.value ;
+  og:unitDiffers "CIM expresses the normal operational limit as a current in amperes on CurrentLimit; the OpenGrid concept is apparent power in MVA. Convertible only with the nominal voltage."@en ;
+  dct:source <https://cim.ucaiug.io/> .
+
+gc:nameplateCapacity
+  skos:exactMatch cim:GeneratingUnit.maxOperatingP ;
+  dct:source <https://cim.ucaiug.io/> ;
+  skos:editorialNote "Both are the maximum sustained active power output in MW at unit granularity."@en .
+
+gc:minimumStableLevel skos:exactMatch cim:GeneratingUnit.minOperatingP ;
+  dct:source <https://cim.ucaiug.io/> .
+
+gc:reactiveCapability
+  skos:closeMatch cim:SynchronousMachine.maxQ, cim:SynchronousMachine.minQ ;
+  og:basisDiffers "CIM gives fixed limits; a capability curve varies the limit with active output, and collapsing a curve to a pair of scalars overstates capability at high output."@en .
+
+gc:busIdentifier skos:closeMatch cim:ConnectivityNode, cim:TopologicalNode ;
+  og:granularityDiffers "A CIM ConnectivityNode is node-breaker; a TopologicalNode is the bus-branch merge of several. A dataset's 'bus' is almost always the latter, and mapping to the former would multiply the node count several-fold."@en ;
+  dct:source <https://cim.ucaiug.io/> .
+
+gc:branchEndpoints skos:closeMatch cim:Terminal ;
+  og:basisDiffers "CIM models each end as a Terminal object; tabular datasets carry a from/to pair of bus identifiers."@en .
+
+gc:substationIdentifier skos:exactMatch cim:Substation ; dct:source <https://cim.ucaiug.io/> .
+
+gc:tapRatio skos:closeMatch cim:RatioTapChanger.step ;
+  og:unitDiffers "CIM gives an integer tap step; the OpenGrid concept is the resulting dimensionless turns ratio. Converting needs the step voltage increment."@en .
+
+gc:phaseShift skos:closeMatch cim:PhaseTapChanger ;
+  og:basisDiffers "CIM models the changer; the OpenGrid concept is the angle it produces."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from the class name and role. CGMES expresses the resulting angle through several PhaseTapChanger subclasses with different parameterisations, so the mapping targets the abstract class rather than an attribute."@en .
+
+gc:electricityDemand skos:exactMatch cim:EnergyConsumer.p ; dct:source <https://cim.ucaiug.io/> .
+
+gc:topologyStatus skos:closeMatch cim:Equipment.inService ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from the CGMES equipment profile: inService is the boolean tabular formats spell BR_STATUS or in_service."@en .
+
+gc:primaryFuel skos:closeMatch cim:FossilFuel.fossilFuelType, cim:GeneratingUnit ;
+  og:granularityDiffers "CIM enumerates fossil fuel types only; renewable carriers are expressed by the generating-unit subclass, so one OpenGrid field maps to two CIM mechanisms."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from the CIM class hierarchy rather than from a published mapping: no single CIM attribute carries what a tabular fuel column carries, so this records a two-part correspondence that a reader must resolve per value."@en .
+
+gc:inertiaConstant skos:closeMatch cim:SynchronousMachineDynamics ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "The inertia constant lives in the CGMES dynamics profile rather than the equipment profile; the mapping is to the profile class rather than to a single attribute."@en .
+
+# --- X4: explicit gaps -------------------------------------------------
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/cim-cgmes> ;
+   og:gapConcept gc:capacityFactor ;
+   og:gapReason "CIM models the physical system, not statistical summaries of its operation. There is no CIM attribute for capacity factor and inventing one would misrepresent the standard."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/cim-cgmes> ;
+   og:gapConcept gc:overnightCapitalCost, gc:fixedOperatingCost, gc:variableOperatingCost,
+                 gc:levelisedCost, gc:weightedAverageCostOfCapital ;
+   og:gapReason "CIM has no cost model. Economic parameters are out of its scope by design."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/cim-cgmes> ;
+   og:gapConcept gc:globalHorizontalIrradiance, gc:windSpeed, gc:hydroInflow,
+                 gc:airTemperature ;
+   og:gapReason "Meteorological quantities are outside CIM. CGMES carries generation schedules, not the weather that produced them."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/cim-cgmes> ;
+   og:gapConcept gc:forcedOutageRate, gc:plannedOutageRate ;
+   og:gapReason "Availability statistics are not in the CGMES profiles used for network exchange."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/cim-cgmes> ;
+   og:gapConcept gc:transferCapacity ;
+   og:gapReason "CIM is nodal. Zonal transfer capacity is an aggregate over many branches with no CIM counterpart, and mapping it to a branch limit would be exactly the nodal-versus-zonal error X2 exists to prevent."@en .

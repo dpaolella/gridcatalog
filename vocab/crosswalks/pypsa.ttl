@@ -1,0 +1,179 @@
+# og-grid-concept → PyPSA component attributes.
+#
+# PyPSA publishes its schema as CSV component tables in the package, not as RDF,
+# so each attribute is given a stable handle under
+# https://schema.opengrid.org/crosswalk/pypsa/. The handle is a pointer to a
+# documented external name; it is not a claim that PyPSA publishes an IRI.
+#
+# The recurring reason for closeMatch here is per-unit. PyPSA carries Line.r and
+# Line.x in ohms but Generator.p_max_pu, Line.s_max_pu and StorageUnit
+# efficiencies as per-unit fractions, and a "_pu" attribute is a fraction of a
+# nominal the field does not itself carry.
+
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix og:    <https://schema.opengrid.org/ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix gc:    <https://schema.opengrid.org/concept/grid-concept/> .
+@prefix pypsa: <https://schema.opengrid.org/crosswalk/pypsa/> .
+
+<https://schema.opengrid.org/crosswalk/pypsa>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid ↔ PyPSA crosswalk"@en ;
+  dct:description "Mappings from the OpenGrid grid-concept scheme to PyPSA component attributes. PyPSA has no RDF vocabulary; attribute IRIs here are locally minted handles for documented attribute names."@en ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> ;
+  og:targetScheme "PyPSA 0.x component attributes" ;
+  og:mintedTargetIris true ;
+  owl:versionInfo "1.0.0" ;
+  dct:issued "2026-09-04"^^xsd:date .
+
+gc:nominalVoltage skos:exactMatch pypsa:Bus.v_nom ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> ;
+  skos:editorialNote "Both are the bus voltage class in kV."@en .
+
+gc:operatingVoltage skos:closeMatch pypsa:Bus.v_mag_pu_set ;
+  og:basisDiffers "PyPSA's v_mag_pu_set is a setpoint, not a solved value, and is per-unit."@en .
+
+gc:voltageAngle skos:exactMatch pypsa:Bus.v_ang ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:activePower skos:closeMatch pypsa:Generator.p, pypsa:Load.p_set, pypsa:Link.p0 ;
+  og:granularityDiffers "PyPSA attaches active power per component and per snapshot; the OpenGrid concept is the quantity independent of where it is attached."@en .
+
+gc:reactivePower skos:closeMatch pypsa:Generator.q, pypsa:Load.q_set ;
+  og:granularityDiffers "As for active power."@en .
+
+gc:apparentPower skos:exactMatch pypsa:Line.s_nom ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> ;
+  skos:editorialNote "s_nom is the line's nominal apparent power rating in MVA."@en .
+
+gc:resistance skos:exactMatch pypsa:Line.r ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> ;
+  skos:editorialNote "Line.r is series resistance in ohms for the whole line, matching the concept's default unit and granularity. Line.r_pu_eff, the per-unit effective value, is a different quantity and is mapped separately below."@en .
+
+gc:reactance skos:exactMatch pypsa:Line.x ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:susceptance skos:exactMatch pypsa:Line.b ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:conductance skos:exactMatch pypsa:Line.g ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:continuousRating skos:closeMatch pypsa:Line.s_max_pu ;
+  og:basisDiffers "s_max_pu is a per-unit derating factor applied to s_nom, not a rating in MVA. The rating is the product of the two."@en .
+
+gc:branchLength skos:exactMatch pypsa:Line.length ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:circuitCount skos:exactMatch pypsa:Line.num_parallel ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:tapRatio skos:closeMatch pypsa:Transformer.tap_ratio ;
+  og:basisDiffers "PyPSA's tap_ratio is defined relative to the transformer's own nominal ratio; some datasets give an absolute turns ratio."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from the component documentation's default of 1.0, which implies a ratio relative to nominal rather than an absolute turns ratio. Not stated explicitly in the docs."@en .
+
+gc:phaseShift skos:exactMatch pypsa:Transformer.phase_shift ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:busIdentifier skos:exactMatch pypsa:Bus.name ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:branchEndpoints skos:exactMatch pypsa:Line.bus0, pypsa:Line.bus1 ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:zoneIdentifier skos:closeMatch pypsa:Bus.country, pypsa:Bus.zone ;
+  og:granularityDiffers "PyPSA's country is a two-letter code; a bidding zone is finer in several countries and coarser in none."@en .
+
+gc:nameplateCapacity skos:exactMatch pypsa:Generator.p_nom ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> ;
+  skos:editorialNote "The og concept was bootstrapped partly from this attribute: same quantity, same MW unit, same unit-level granularity."@en .
+
+gc:minimumStableLevel skos:closeMatch pypsa:Generator.p_min_pu ;
+  og:basisDiffers "p_min_pu is a per-unit fraction of p_nom; the concept's default unit is MW. Convertible with p_nom, which the field alone does not carry."@en .
+
+gc:capacityFactor skos:closeMatch pypsa:Generator.p_max_pu ;
+  og:basisDiffers "p_max_pu is an availability ceiling per snapshot, which for a variable renewable equals its capacity factor and for a thermal unit does not. The two coincide only for must-take resources."@en ;
+  skos:editorialNote "This is the mapping most likely to be over-strengthened by a future editor. It is not an exactMatch: reading a thermal unit's p_max_pu as a capacity factor would report an idle unit as a fully-utilised one."@en .
+
+gc:variableOperatingCost skos:closeMatch pypsa:Generator.marginal_cost ;
+  og:basisDiffers "PyPSA's marginal_cost conventionally includes fuel; the OpenGrid concept excludes it. Whether a given PyPSA network follows the convention is not discoverable from the attribute."@en ;
+  skos:editorialNote "The single most consequential ambiguity in dispatch data, so it is recorded as a basis difference rather than smoothed over."@en .
+
+gc:thermalEfficiency skos:exactMatch pypsa:Generator.efficiency ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:overnightCapitalCost skos:closeMatch pypsa:Generator.capital_cost ;
+  og:unitDiffers "PyPSA's capital_cost is an annualised cost per MW of capacity, already multiplied by a capital recovery factor. The OpenGrid concept is the un-annualised overnight cost per kW. Two conversions apart, not one."@en .
+
+gc:rampRate skos:closeMatch pypsa:Generator.ramp_limit_up, pypsa:Generator.ramp_limit_down ;
+  og:basisDiffers "PyPSA ramp limits are per-unit of p_nom per snapshot; the concept is MW per minute. Converting needs p_nom and the snapshot length."@en .
+
+gc:minimumUpTime skos:closeMatch pypsa:Generator.min_up_time ;
+  og:unitDiffers "PyPSA counts in snapshots, not hours. Equal only when snapshots are hourly."@en .
+
+gc:minimumDownTime skos:closeMatch pypsa:Generator.min_down_time ;
+  og:unitDiffers "As for minimum up time."@en .
+
+gc:startupCost skos:exactMatch pypsa:Generator.start_up_cost ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:storageEnergyCapacity skos:closeMatch pypsa:Store.e_nom, pypsa:StorageUnit.p_nom ;
+  og:basisDiffers "PyPSA's Store carries energy directly as e_nom; StorageUnit carries power and derives energy as p_nom × max_hours. Which component a network uses changes which attribute holds the quantity."@en .
+
+gc:storagePowerCapacity skos:exactMatch pypsa:StorageUnit.p_nom ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:storageDuration skos:exactMatch pypsa:StorageUnit.max_hours ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:roundTripEfficiency skos:closeMatch pypsa:StorageUnit.efficiency_store,
+                                       pypsa:StorageUnit.efficiency_dispatch ;
+  og:basisDiffers "PyPSA carries the two one-way efficiencies; round-trip efficiency is their product. Mapping either one alone as exact would overstate performance by roughly the square root."@en .
+
+gc:selfDischargeRate skos:closeMatch pypsa:StorageUnit.standing_loss ;
+  og:unitDiffers "PyPSA's standing_loss is a per-snapshot fraction; the concept is a percentage per day."@en .
+
+gc:stateOfCharge skos:closeMatch pypsa:StorageUnit.state_of_charge_initial ;
+  og:basisDiffers "PyPSA's attribute is the initial condition; the concept is the value at any time."@en .
+
+gc:inflowRate skos:exactMatch pypsa:StorageUnit.inflow ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:electricityDemand skos:exactMatch pypsa:Load.p_set ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:primaryFuel skos:closeMatch pypsa:Generator.carrier ;
+  og:granularityDiffers "PyPSA's carrier conflates fuel and technology — 'onwind' is a technology, 'gas' is a fuel — so it maps to two OpenGrid concepts depending on the value."@en ;
+  skos:related gc:technologyType .
+
+gc:transferCapacity skos:closeMatch pypsa:Link.p_nom ;
+  og:granularityDiffers "A PyPSA Link between two zonal buses carries the transfer limit; the same attribute on a nodal Link is an HVDC rating. The distinction is in the network's granularity, not in the attribute."@en .
+
+gc:timestamp skos:exactMatch pypsa:Network.snapshots ;
+  dct:source <https://pypsa.readthedocs.io/en/latest/user-guide/components.html> .
+
+gc:topologyStatus skos:closeMatch pypsa:Line.active ;
+  og:basisDiffers "PyPSA's active flag excludes a component from the optimisation entirely; an in-service flag in a network dataset describes the represented system state. A component may be out of service and still worth carrying."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred from behaviour rather than from a documented equivalence: PyPSA drops inactive components before solving, which is the same practical effect a BR_STATUS of 0 has in MATPOWER."@en .
+
+# --- X4: explicit gaps -------------------------------------------------
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/pypsa> ;
+   og:gapConcept gc:forcedOutageRate, gc:plannedOutageRate ;
+   og:gapReason "PyPSA has no native outage-rate attribute. Availability is expressed through p_max_pu time series, which conflates outage with resource availability and is therefore not the same quantity."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/pypsa> ;
+   og:gapConcept gc:heatRate ;
+   og:gapReason "PyPSA carries efficiency, not heat rate. They are reciprocals, so the information is present, but no attribute holds this quantity and asserting one would be wrong in direction as well as unit."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/pypsa> ;
+   og:gapConcept gc:co2EmissionRate ;
+   og:gapReason "PyPSA models emissions through a carrier's co2_emissions attribute in tonnes per MWh of fuel, combined with efficiency. The plant-level output-based rate is derived, not stored."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/pypsa> ;
+   og:gapConcept gc:eiaPlantCode, gc:orisCode, gc:gemUnitIdentifier, gc:eicCode ;
+   og:gapReason "PyPSA networks carry free-text component names, not register identifiers. Entity resolution against EIA or GEM is a step performed before a network is built, not a PyPSA attribute."@en .

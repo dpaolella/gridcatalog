@@ -1,0 +1,1165 @@
+# OpenGrid grid concepts — the physical-quantity scheme. PRD §F7.
+#
+# This is what makes two differently-named columns in two datasets resolvable to
+# the same quantity (PRD §4.3 C4), and it is what query Q3 runs over: "a query
+# for renewable resource fields returns solar irradiance, wind speed and hydro
+# inflow because the SKOS hierarchy says so, with nobody maintaining an
+# expansion list."
+#
+# Bootstrapped from the Open Energy Ontology and the Sienna / PowerSystems.jl
+# schema rather than authored fresh (PRD §F7: "a third parallel vocabulary would
+# be a net negative for the ecosystem"). Where a concept corresponds to one in
+# those, skos:closeMatch or skos:exactMatch records it and skos:editorialNote
+# says where it came from. The crosswalk files in vocab/crosswalks/ carry the
+# per-scheme mappings; the matches here are only to the two schemes this one was
+# derived from.
+#
+# Three properties on each leaf are load-bearing:
+#
+#   og:defaultUnit    A QUDT unit IRI. Never a string (PRD §4.3 C5). Concept
+#                     resolution matches on normalised name AND unit, so a
+#                     column called "capacity" in MW and one in kW resolve to
+#                     the same concept with a unit conversion recorded, not to
+#                     two concepts.
+#   og:quantityKind   A QUDT quantitykind IRI where one fits. Two concepts with
+#                     the same quantity kind but different units are
+#                     convertible; two with different kinds are not, and that
+#                     is what query Q5 audits.
+#   skos:altLabel     The column names datasets actually use — p_nom, Pmax,
+#                     ssrd, GHI, heat_rate_btu_per_kwh. These are the input to
+#                     the altLabel stage of concept resolution (PRD §F4), so
+#                     they are working data, not documentation.
+#
+# A concept with no og:defaultUnit is either an abstract branch node or a
+# genuinely dimensionless or categorical quantity; tests/vocab/test_grid_concepts.py
+# asserts that distinction rather than letting an omission pass.
+
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix og:    <https://schema.opengrid.org/ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix unit:  <http://qudt.org/vocab/unit/> .
+@prefix qk:    <http://qudt.org/vocab/quantitykind/> .
+@prefix oeo:   <http://openenergy-platform.org/ontology/oeo/> .
+@prefix ogunit: <https://schema.opengrid.org/unit/> .
+@prefix gc:    <https://schema.opengrid.org/concept/grid-concept/> .
+
+<https://schema.opengrid.org/concept/grid-concept>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Grid Concepts"@en ;
+  dct:description """The physical, economic and categorical quantities that appear as fields in grid-modeling datasets. Hierarchical, because the hierarchy is queried: a request for "renewable resource" fields must return solar irradiance and wind speed without anyone enumerating them (PRD §4.6 Q3). Bootstrapped from the Open Energy Ontology and the Sienna schema."""@en ;
+  dct:source <http://openenergy-platform.org/ontology/oeo/> ,
+             <https://github.com/NREL-Sienna/PowerSystems.jl> ;
+  dct:issued "2026-09-04"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept gc:electricalQuantity, gc:networkElementProperty,
+                     gc:generationProperty, gc:storageProperty,
+                     gc:renewableResource, gc:demandQuantity, gc:costQuantity,
+                     gc:emissionsQuantity, gc:policyQuantity,
+                     gc:geospatialQuantity, gc:marketQuantity,
+                     gc:temporalQuantity, gc:identifierQuantity .
+
+# ===========================================================================
+# Top concepts. Abstract branch nodes: no unit, no direct field ever resolves
+# to one of these — resolution that lands on a branch node is a gap, not a hit.
+# ===========================================================================
+
+gc:electricalQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Electrical quantity"@en ;
+  skos:definition "A measurable electrical property of a power system element or of the system as a whole."@en ;
+  og:abstract true .
+
+gc:networkElementProperty a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Network element property"@en ;
+  skos:definition "A property describing a component of the network graph — a bus, branch, transformer, converter or substation — or its position in that graph."@en ;
+  og:abstract true .
+
+gc:generationProperty a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Generation property"@en ;
+  skos:definition "A technical, operational or identifying property of a generating unit or plant."@en ;
+  og:abstract true .
+
+gc:storageProperty a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Storage property"@en ;
+  skos:definition "A property of an energy storage device. Kept separate from generation property because storage is characterised by an energy-to-power ratio that has no generation analogue, and conflating the two is how a duration gets lost."@en ;
+  og:abstract true .
+
+gc:renewableResource a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Renewable resource"@en ;
+  skos:definition "A meteorological or hydrological quantity that determines the availability of a renewable generation technology. The branch PRD §4.6 Q3 is written against: a query for this concept returns every descendant because the hierarchy says so, and adding a descendant next year makes the same query return more with no code change."@en ;
+  skos:editorialNote "Corresponds broadly to the OEO renewable-energy-source branch, but organised by measured quantity rather than by energy carrier, because a dataset carries irradiance, not solar energy."@en ;
+  og:abstract true .
+
+gc:demandQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Demand quantity"@en ;
+  skos:definition "A quantity describing electricity consumption, at any aggregation from an appliance end-use to a balancing-authority total."@en ;
+  og:abstract true .
+
+gc:costQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Cost quantity"@en ;
+  skos:definition "A monetary or financing quantity used in investment or dispatch decisions."@en ;
+  og:abstract true .
+
+gc:emissionsQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Emissions quantity"@en ;
+  skos:definition "A pollutant mass, rate or intensity attributable to generation or consumption."@en ;
+  og:abstract true .
+
+gc:policyQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Policy quantity"@en ;
+  skos:definition "A quantity fixed by regulation, statute or market rule rather than by physics or by a market outcome."@en ;
+  og:abstract true .
+
+gc:geospatialQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Geospatial quantity"@en ;
+  skos:definition "A location, geometry, terrain or land-characteristic quantity used for siting and for spatial joins."@en ;
+  og:abstract true .
+
+gc:marketQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Market quantity"@en ;
+  skos:definition "A price or volume that is the outcome of a market clearing, as distinct from a cost, which is an input to one."@en ;
+  og:abstract true .
+
+gc:temporalQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Temporal quantity"@en ;
+  skos:definition "A timestamp, interval or duration. Present as a first-class branch because the join key between two time series is a field like any other, and PRD §F6.5 requires the specific joinable keys to be named."@en ;
+  og:abstract true .
+
+gc:identifierQuantity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:prefLabel "Identifier"@en ;
+  skos:definition "A code identifying an entity in an external register. DD2's structural note names entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS codes and ENTSO-E EIC codes as the binding constraint in that domain, so these are modelled as concepts rather than left as opaque strings."@en ;
+  og:abstract true .
+
+# ===========================================================================
+# Electrical quantities
+# ===========================================================================
+
+gc:voltage a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Voltage"@en ;
+  skos:definition "Electric potential difference. An abstract parent: a dataset column is always one of the narrower kinds, and treating a nominal voltage and a measured operating voltage as the same quantity is a classic silent error."@en ;
+  og:quantityKind qk:Voltage ; og:abstract true .
+
+gc:nominalVoltage a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:voltage ; skos:prefLabel "Nominal voltage"@en ;
+  skos:altLabel "v_nom"@en, "BASE_KV"@en, "baseKV"@en, "base_voltage"@en, "voltage_kv"@en,
+                "nominal_voltage"@en, "rated voltage"@en, "kv"@en, "voltage_class"@en ;
+  skos:definition "The design voltage class of a bus or line, e.g. 345 kV. A label of the equipment, not a measurement: it does not vary with operating state."@en ;
+  skos:closeMatch oeo:OEO_00000139 ;
+  skos:editorialNote "Bootstrapped from Sienna ACBus.base_voltage and PyPSA Bus.v_nom, which agree on meaning and on kV."@en ;
+  og:defaultUnit unit:KiloV ; og:quantityKind qk:Voltage .
+
+gc:operatingVoltage a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:voltage ; skos:prefLabel "Operating voltage magnitude"@en ;
+  skos:altLabel "VM"@en, "v_mag_pu"@en, "vm_pu"@en, "voltage_magnitude"@en, "magnitude"@en ;
+  skos:definition "The voltage magnitude at a bus in a given system state, normally expressed per unit of the nominal voltage. Distinct from nominal voltage: it is a solved or measured value and varies by snapshot."@en ;
+  og:defaultUnit unit:PERCENT ; og:quantityKind qk:Voltage ;
+  skos:scopeNote "Per-unit is dimensionless; QUDT has no per-unit concept, so unit:PERCENT is recorded with og:perUnitBasis on the field where the value is per-unit rather than percentage. A field carrying per-unit values without that flag is a unit ambiguity, which is exactly what Q5 hunts for."@en .
+
+gc:voltageAngle a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Voltage phase angle"@en ;
+  skos:altLabel "VA"@en, "v_ang"@en, "theta"@en, "phase_angle"@en, "angle_deg"@en ;
+  skos:definition "The phase angle of the bus voltage phasor relative to a reference bus."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle .
+
+gc:current a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Current"@en ;
+  skos:altLabel "I"@en, "amps"@en, "amperes"@en, "current_a"@en ;
+  skos:definition "Electric current magnitude through a conductor."@en ;
+  og:defaultUnit unit:A ; og:quantityKind qk:ElectricCurrent .
+
+gc:activePower a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Active power"@en ;
+  skos:altLabel "P"@en, "real power"@en, "MW"@en, "p_mw"@en, "power_mw"@en,
+                "active_power"@en, "PG"@en ;
+  skos:definition "The real component of electrical power — the part that does work. The single most common quantity in grid datasets and the one most often ambiguous about sign convention and about whether it is an instantaneous value, an interval average or a limit."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:reactivePower a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Reactive power"@en ;
+  skos:altLabel "Q"@en, "MVAr"@en, "q_mvar"@en, "QG"@en, "QD"@en, "reactive_power"@en ;
+  skos:definition "The imaginary component of electrical power, exchanged with the network without net work. Required for AC power flow and absent from most open datasets, which is why a dataset carrying it is worth distinguishing."@en ;
+  og:defaultUnit unit:MegaV-A_Reactive ; og:quantityKind qk:ReactivePower .
+
+gc:apparentPower a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Apparent power"@en ;
+  skos:altLabel "S"@en, "MVA"@en, "s_nom"@en, "ratedS"@en, "mva_rating"@en, "base_power"@en ;
+  skos:definition "The vector magnitude of active and reactive power. Equipment ratings are usually stated in apparent power while dispatch limits are stated in active power, and treating the two as interchangeable overstates usable capacity by the power factor."@en ;
+  og:defaultUnit unit:MegaV-A ; og:quantityKind qk:ApparentPower .
+
+gc:powerFactor a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Power factor"@en ;
+  skos:altLabel "pf"@en, "cos_phi"@en, "power_factor"@en ;
+  skos:definition "The ratio of active to apparent power. Dimensionless, conventionally between -1 and 1 with the sign carrying the lead/lag distinction."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:frequency a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "System frequency"@en ;
+  skos:altLabel "Hz"@en, "frequency_hz"@en, "f"@en, "grid frequency"@en ;
+  skos:definition "The electrical frequency of the synchronous area."@en ;
+  og:defaultUnit unit:HZ ; og:quantityKind qk:Frequency .
+
+gc:impedance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Impedance"@en ;
+  skos:definition "The complex opposition of a branch to alternating current. Abstract: a dataset carries resistance, reactance, susceptance or conductance separately, and whether they are in ohms or per unit is the most common source of silent error in network data."@en ;
+  og:quantityKind qk:Impedance ; og:abstract true .
+
+gc:resistance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:impedance ; skos:prefLabel "Series resistance"@en ;
+  skos:altLabel "r"@en, "BR_R"@en, "r_ohm"@en, "r_pu"@en, "resistance"@en, "ACLineSegment.r"@en ;
+  skos:definition "The real part of series branch impedance, determining real power loss. Its presence is what separates a dataset usable for AC power flow from one usable only for DC."@en ;
+  og:defaultUnit unit:OHM ; og:quantityKind qk:Resistance .
+
+gc:reactance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:impedance ; skos:prefLabel "Series reactance"@en ;
+  skos:altLabel "x"@en, "BR_X"@en, "x_ohm"@en, "x_pu"@en, "reactance"@en, "ACLineSegment.x"@en ;
+  skos:definition "The imaginary part of series branch impedance. The minimum electrical parameter for a DC power flow."@en ;
+  og:defaultUnit unit:OHM ; og:quantityKind qk:Reactance .
+
+gc:susceptance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:impedance ; skos:prefLabel "Shunt susceptance"@en ;
+  skos:altLabel "b"@en, "BR_B"@en, "bch"@en, "b_pu"@en, "line charging"@en, "susceptance"@en ;
+  skos:definition "The imaginary part of shunt admittance, representing line charging."@en ;
+  og:defaultUnit unit:S ; og:quantityKind qk:Susceptance .
+
+gc:conductance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:impedance ; skos:prefLabel "Shunt conductance"@en ;
+  skos:altLabel "g"@en, "g_pu"@en, "conductance"@en ;
+  skos:definition "The real part of shunt admittance, representing leakage loss."@en ;
+  og:defaultUnit unit:S ; og:quantityKind qk:Conductance .
+
+gc:thermalRating a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Thermal rating"@en ;
+  skos:definition "The power a branch may carry without exceeding its thermal limit. Abstract: continuous, emergency and short-term ratings are different numbers for the same asset and a dataset carrying only one must say which."@en ;
+  og:quantityKind qk:ApparentPower ; og:abstract true .
+
+gc:continuousRating a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:thermalRating ; skos:prefLabel "Continuous thermal rating"@en ;
+  skos:altLabel "RATE_A"@en, "rateA"@en, "normal rating"@en, "s_nom"@en,
+                "continuous_rating_mva"@en, "normalPowerLimit"@en ;
+  skos:definition "The rating an element may carry indefinitely under stated ambient conditions. What a base-case power flow is checked against."@en ;
+  og:defaultUnit unit:MegaV-A ; og:quantityKind qk:ApparentPower .
+
+gc:emergencyRating a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:thermalRating ; skos:prefLabel "Emergency thermal rating"@en ;
+  skos:altLabel "RATE_B"@en, "rateB"@en, "emergency rating"@en, "LTE"@en,
+                "long term emergency"@en ;
+  skos:definition "The higher rating permitted for a bounded period following a contingency."@en ;
+  og:defaultUnit unit:MegaV-A ; og:quantityKind qk:ApparentPower .
+
+gc:shortTermRating a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:thermalRating ; skos:prefLabel "Short-term thermal rating"@en ;
+  skos:altLabel "RATE_C"@en, "rateC"@en, "STE"@en, "short term emergency"@en ;
+  skos:definition "The highest rating, permitted only for minutes, used in stability and switching studies."@en ;
+  og:defaultUnit unit:MegaV-A ; og:quantityKind qk:ApparentPower .
+
+gc:transferCapacity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Zonal transfer capacity"@en ;
+  skos:altLabel "NTC"@en, "net transfer capacity"@en, "transfer limit"@en, "ATC"@en,
+                "interzonal_capacity_mw"@en, "transfer_capacity"@en ;
+  skos:definition "The maximum power transferable between two zones, aggregating the limiting effect of many branches into one number. Zonal by construction: it is NOT a coarse version of a branch rating, and mapping the two as equivalent is the nodal-versus-zonal error PRD X2 warns about."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:electricalLoss a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Electrical losses"@en ;
+  skos:altLabel "losses"@en, "loss_mw"@en, "transmission_losses"@en, "loss_factor"@en ;
+  skos:definition "Power or energy dissipated in transmission and transformation rather than delivered to load."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:shortCircuitPower a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Short-circuit power"@en ;
+  skos:altLabel "SCR"@en, "short circuit ratio"@en, "fault level"@en, "scc_mva"@en ;
+  skos:definition "The apparent power a fault at a bus would draw, a measure of local system strength. Increasingly load-bearing in inverter-based-resource studies and almost never present in open data."@en ;
+  og:defaultUnit unit:MegaV-A ; og:quantityKind qk:ApparentPower .
+
+gc:inertiaConstant a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:electricalQuantity ; skos:prefLabel "Inertia constant"@en ;
+  skos:altLabel "H"@en, "inertia"@en, "inertia_constant_s"@en ;
+  skos:definition "Stored rotational kinetic energy per unit of machine rating, in seconds. Determines the initial rate of change of frequency after a disturbance."@en ;
+  og:defaultUnit unit:SEC ; og:quantityKind qk:Time .
+
+# ===========================================================================
+# Network element properties
+# ===========================================================================
+
+gc:busIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Bus identifier"@en ;
+  skos:altLabel "BUS_I"@en, "bus_id"@en, "bus"@en, "node_id"@en, "ConnectivityNode"@en,
+                "busName"@en, "name"@en ;
+  skos:definition "The identifier of a node in the network graph. A join key rather than a measurement, and the most common join key between two network datasets."@en ;
+  og:isJoinKey true .
+
+gc:busType a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Bus type"@en ;
+  skos:altLabel "BUS_TYPE"@en, "bus_type"@en, "type"@en, "PQ"@en, "PV"@en, "slack"@en, "REF"@en ;
+  skos:definition "The power-flow role of a bus: load (PQ), generator (PV), reference/slack, or isolated. Categorical, and the categories are themselves governed, so the field carries og:codeList (PRD §4.3 C9)."@en ;
+  og:isCategorical true .
+
+gc:branchEndpoints a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Branch endpoints"@en ;
+  skos:altLabel "F_BUS"@en, "T_BUS"@en, "from_bus"@en, "to_bus"@en, "bus0"@en, "bus1"@en,
+                "arc"@en, "Terminal"@en ;
+  skos:definition "The pair of buses a branch connects. Directional in the data even where the physics is not, and the direction sets the sign convention for flow."@en ;
+  og:isJoinKey true .
+
+gc:branchLength a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Branch length"@en ;
+  skos:altLabel "length"@en, "length_km"@en, "circuit_length"@en, "line_length"@en ;
+  skos:definition "Route length of a line. Used to estimate impedance from a per-kilometre lookup where measured parameters are unavailable — a derivation that must be recorded as og:valueBasis modeled."@en ;
+  og:defaultUnit unit:KiloM ; og:quantityKind qk:Length .
+
+gc:circuitCount a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Circuit count"@en ;
+  skos:altLabel "circuits"@en, "num_parallel"@en, "n_circuits"@en, "parallel"@en ;
+  skos:definition "Number of parallel circuits carried on one right of way. Frequently inferred from imagery in OSM-derived data rather than observed."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:tapRatio a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Transformer tap ratio"@en ;
+  skos:altLabel "TAP"@en, "tap_ratio"@en, "tap_position"@en, "ratio"@en, "tap"@en ;
+  skos:definition "The off-nominal turns ratio of a transformer, controlling voltage."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:phaseShift a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Phase shift angle"@en ;
+  skos:altLabel "SHIFT"@en, "phase_shift"@en, "angle"@en, "phase_angle_deg"@en ;
+  skos:definition "The angular displacement introduced by a phase-shifting transformer, used to control flow."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle .
+
+gc:substationIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Substation identifier"@en ;
+  skos:altLabel "substation"@en, "substation_id"@en, "station"@en, "Substation"@en ;
+  skos:definition "The identifier of the substation a bus or transformer belongs to. The join key between an electrical model and a geospatial infrastructure layer."@en ;
+  og:isJoinKey true .
+
+gc:zoneIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Zone identifier"@en ;
+  skos:altLabel "ZONE"@en, "zone"@en, "area"@en, "region"@en, "bidding_zone"@en,
+                "balancing_authority"@en, "ba_code"@en, "control_area"@en ;
+  skos:definition "The market or control zone a network element belongs to. The join key between a nodal network dataset and a zonal time series, which is what makes a nodal-plus-zonal pairing usable at all."@en ;
+  og:isJoinKey true .
+
+gc:interconnectorIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Interconnector identifier"@en ;
+  skos:altLabel "interconnector"@en, "tie_line"@en, "link"@en, "border"@en, "hvdc_link"@en ;
+  skos:definition "The identifier of a controllable link or tie line between zones, typically HVDC."@en ;
+  og:isJoinKey true .
+
+gc:converterType a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "Converter type"@en ;
+  skos:altLabel "converter"@en, "LCC"@en, "VSC"@en, "converter_technology"@en ;
+  skos:definition "The HVDC converter technology — line-commutated or voltage-source — which determines reactive capability and black-start behaviour."@en ;
+  og:isCategorical true .
+
+gc:topologyStatus a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:networkElementProperty ; skos:prefLabel "In-service status"@en ;
+  skos:altLabel "status"@en, "BR_STATUS"@en, "in_service"@en, "available"@en, "operational"@en ;
+  skos:definition "Whether an element is in service in the represented state. A boolean that silently changes the topology, and a dataset omitting it is implicitly asserting everything is in service."@en ;
+  og:isCategorical true .
+
+# ===========================================================================
+# Generation properties
+# ===========================================================================
+
+gc:nameplateCapacity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Nameplate capacity"@en ;
+  skos:altLabel "p_nom"@en, "PMAX"@en, "Pmax"@en, "capacity_mw"@en, "nameplate_capacity_mw"@en,
+                "installed_capacity"@en, "max_capacity"@en, "rating"@en, "maxOperatingP"@en,
+                "capacity"@en, "summer_capacity_mw"@en ;
+  skos:definition "The maximum sustained active power output a unit is rated for. The most-used field in DD2 and one whose meaning varies more than its name suggests: nameplate, summer-rated and winter-rated capacities differ, and a dataset should say which it carries."@en ;
+  skos:editorialNote "Bootstrapped from Sienna ThermalStandard.active_power_limits.max and PyPSA Generator.p_nom, which agree in meaning and unit."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:minimumStableLevel a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Minimum stable level"@en ;
+  skos:altLabel "PMIN"@en, "Pmin"@en, "p_min_pu"@en, "min_stable_level"@en,
+                "minimum_load"@en, "minOperatingP"@en, "min_gen_mw"@en ;
+  skos:definition "The lowest output a unit can sustain while synchronised. Binding on unit commitment and frequently expressed as a fraction of nameplate rather than in MW, which is a unit-basis distinction the crosswalk must not paper over."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:capacityFactor a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Capacity factor"@en ;
+  skos:altLabel "cf"@en, "capacity_factor"@en, "p_max_pu"@en, "availability_factor"@en,
+                "load_factor"@en, "cf_annual"@en ;
+  skos:definition "Output as a fraction of what continuous nameplate operation would produce. Either an annual scalar or an hourly time series, and the two are entirely different artifacts sharing a name — a distinction that decides whether a dataset can serve production cost modeling."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:heatRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Heat rate"@en ;
+  skos:altLabel "heat_rate"@en, "heat_rate_btu_per_kwh"@en, "hr"@en, "efficiency"@en,
+                "heat_rate_mmbtu_per_mwh"@en, "incremental_heat_rate"@en ;
+  skos:definition "Fuel energy input per unit of electrical output. The inverse of efficiency, and the field where unit confusion is most consequential: BTU/kWh and MMBtu/MWh differ by a factor of a thousand and both appear in the wild."@en ;
+  skos:scopeNote "An average heat rate and an incremental heat-rate curve are different quantities; a dataset carrying only the average cannot support economic dispatch at part load."@en ;
+  og:defaultUnit ogunit:BTU_IT-PER-KiloW-HR .
+
+gc:thermalEfficiency a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Thermal efficiency"@en ;
+  skos:altLabel "efficiency"@en, "eta"@en, "efficiency_pct"@en, "net_efficiency"@en ;
+  skos:definition "Electrical output as a fraction of fuel energy input. Expresses the same physics as heat rate with the ratio inverted, so the two are convertible but NOT the same concept — an exactMatch between them would be a unit-and-direction error."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:rampRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Ramp rate"@en ;
+  skos:altLabel "ramp_up"@en, "ramp_down"@en, "ramp_limit_up"@en, "ramp_rate_mw_per_min"@en,
+                "RAMP_10"@en, "ramp_limits"@en ;
+  skos:definition "The maximum rate of change of output. Stated per minute or per hour depending on source, and as an absolute rate or a fraction of nameplate."@en ;
+  og:defaultUnit ogunit:MegaW-PER-MIN .
+
+gc:minimumUpTime a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Minimum up time"@en ;
+  skos:altLabel "min_up_time"@en, "MIN_UP_TIME"@en, "up_time_h"@en, "time_limits.up"@en ;
+  skos:definition "The minimum duration a unit must remain online once started."@en ;
+  og:defaultUnit unit:HR ; og:quantityKind qk:Time .
+
+gc:minimumDownTime a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Minimum down time"@en ;
+  skos:altLabel "min_down_time"@en, "MIN_DOWN_TIME"@en, "down_time_h"@en, "time_limits.down"@en ;
+  skos:definition "The minimum duration a unit must remain offline once shut down."@en ;
+  og:defaultUnit unit:HR ; og:quantityKind qk:Time .
+
+gc:startupCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Start-up cost"@en ;
+  skos:altLabel "start_up_cost"@en, "STARTUP"@en, "startup_cost"@en, "start_cost"@en ;
+  skos:definition "The cost of bringing a unit from offline to synchronised, usually varying with how long it has been off."@en ;
+  og:defaultUnit unit:USD .
+
+gc:forcedOutageRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Forced outage rate"@en ;
+  skos:altLabel "FOR"@en, "eford"@en, "forced_outage_rate"@en, "outage_rate"@en,
+                "unavailability"@en, "EFORd"@en ;
+  skos:definition "The probability a unit is unavailable due to unplanned failure. The single most requested unavailable parameter in production cost work: NERC GADS holds it behind membership and no open substitute exists, which is why DD2's gap is documented rather than quietly filled."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:plannedOutageRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Planned outage rate"@en ;
+  skos:altLabel "POR"@en, "planned_outage_rate"@en, "maintenance_rate"@en, "scheduled_outage"@en ;
+  skos:definition "The fraction of time a unit is out for scheduled maintenance."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:commissioningDate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Commissioning date"@en ;
+  skos:altLabel "operating_year"@en, "commissioning_date"@en, "online_date"@en,
+                "start_year"@en, "cod"@en, "commercial_operation_date"@en ;
+  skos:definition "When a unit entered commercial operation. Used for vintage-based efficiency and cost assumptions and as a weak entity-resolution signal."@en ;
+  og:isTemporal true .
+
+gc:retirementDate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Retirement date"@en ;
+  skos:altLabel "retirement_year"@en, "planned_retirement"@en, "decommission_date"@en,
+                "closure_year"@en ;
+  skos:definition "When a unit retired or is scheduled to. Announced and actual retirement dates differ and a dataset should say which it carries."@en ;
+  og:isTemporal true .
+
+gc:primaryFuel a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Primary fuel"@en ;
+  skos:altLabel "fuel"@en, "fuel_type"@en, "primary_fuel"@en, "energy_source_code"@en,
+                "carrier"@en, "prime_fuel"@en ;
+  skos:definition "The main energy carrier a unit consumes. Categorical and governed by incompatible code lists across EIA, GEM and ENTSO-E, which is precisely why the values resolve to concepts of their own rather than being compared as strings (PRD §4.3 C9)."@en ;
+  og:isCategorical true .
+
+gc:technologyType a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Technology type"@en ;
+  skos:altLabel "technology"@en, "prime_mover"@en, "prime_mover_code"@en, "tech"@en,
+                "plant_type"@en, "generation_technology"@en ;
+  skos:definition "The conversion technology — combined cycle, steam turbine, onshore wind, utility PV. Distinct from fuel: a combined-cycle and a simple-cycle unit share a fuel and share almost no operating characteristics."@en ;
+  og:isCategorical true .
+
+gc:reactiveCapability a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Reactive power capability"@en ;
+  skos:altLabel "QMAX"@en, "QMIN"@en, "reactive_power_limits"@en, "q_max"@en, "capability_curve"@en ;
+  skos:definition "The range of reactive power a unit can supply or absorb at a given active output. Required for AC power flow, absent from nearly all open fleet data."@en ;
+  og:defaultUnit unit:MegaV-A_Reactive ; og:quantityKind qk:ReactivePower .
+
+gc:hubHeight a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Turbine hub height"@en ;
+  skos:altLabel "hub_height"@en, "hub_height_m"@en, "tower_height"@en ;
+  skos:definition "Height of the turbine nacelle above ground. Determines which wind-speed height a resource dataset must supply, which is a concrete example of why a resource dataset and a fleet dataset are complementary rather than substitutable."@en ;
+  og:defaultUnit unit:M ; og:quantityKind qk:Length .
+
+gc:rotorDiameter a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Rotor diameter"@en ;
+  skos:altLabel "rotor_diameter"@en, "rotor_diameter_m"@en, "blade_diameter"@en ;
+  skos:definition "Swept-area diameter of a wind turbine rotor. With nameplate capacity it gives specific power, which drives the shape of the power curve."@en ;
+  og:defaultUnit unit:M ; og:quantityKind qk:Length .
+
+gc:tiltAngle a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Panel tilt angle"@en ;
+  skos:altLabel "tilt"@en, "tilt_angle"@en, "array_tilt"@en, "surface_tilt"@en ;
+  skos:definition "Inclination of a fixed PV array from horizontal. With azimuth and tracking type, determines the transposition from horizontal irradiance to plane-of-array irradiance."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle .
+
+gc:trackingType a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "PV tracking type"@en ;
+  skos:altLabel "tracking"@en, "axis_tracking"@en, "single_axis"@en, "fixed_tilt"@en ;
+  skos:definition "Whether a PV array is fixed, single-axis or dual-axis tracking. Changes annual yield by tens of percent and is frequently absent from capacity registers."@en ;
+  og:isCategorical true .
+
+gc:inverterLoadingRatio a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:generationProperty ; skos:prefLabel "Inverter loading ratio"@en ;
+  skos:altLabel "ILR"@en, "dc_ac_ratio"@en, "inverter_loading_ratio"@en, "dc_to_ac"@en ;
+  skos:definition "DC array capacity divided by AC inverter capacity. The reason a PV plant's reported capacity is ambiguous between DC and AC, which changes capacity factor by a fifth or more."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+# ===========================================================================
+# Storage properties
+# ===========================================================================
+
+gc:storageEnergyCapacity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Storage energy capacity"@en ;
+  skos:altLabel "energy_capacity_mwh"@en, "e_nom"@en, "capacity_mwh"@en,
+                "state_of_charge_limits.max"@en, "usable_energy"@en ;
+  skos:definition "Usable stored energy at full charge. The quantity most often confused with power capacity when a source reports a bare 'capacity' for a battery."@en ;
+  og:defaultUnit unit:MegaW-HR ; og:quantityKind qk:Energy .
+
+gc:storagePowerCapacity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Storage power capacity"@en ;
+  skos:altLabel "power_capacity_mw"@en, "p_nom"@en, "rated_power_mw"@en,
+                "discharge_rating"@en, "charge_rating"@en ;
+  skos:definition "Maximum charge or discharge rate. Charge and discharge ratings are not always equal and a dataset giving one number is asserting they are."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:storageDuration a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Storage duration"@en ;
+  skos:altLabel "duration_h"@en, "max_hours"@en, "duration"@en, "hours_of_storage"@en ;
+  skos:definition "Energy capacity divided by power capacity: how long the device can discharge at full rate. Derivable from the other two, and carried separately because most registers report it and not both components."@en ;
+  og:defaultUnit unit:HR ; og:quantityKind qk:Time .
+
+gc:roundTripEfficiency a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Round-trip efficiency"@en ;
+  skos:altLabel "RTE"@en, "round_trip_efficiency"@en, "efficiency_store"@en,
+                "efficiency_dispatch"@en, "rte_pct"@en ;
+  skos:definition "Energy discharged as a fraction of energy charged over a full cycle. Some sources report one-way charge and discharge efficiencies instead, whose product is this quantity — so a one-way efficiency mapped as an exactMatch to this would overstate performance."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:stateOfCharge a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "State of charge"@en ;
+  skos:altLabel "SOC"@en, "soc"@en, "state_of_charge"@en, "energy_level"@en ;
+  skos:definition "Stored energy at a point in time, as a fraction of energy capacity or in absolute energy units."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:degradationRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Capacity degradation rate"@en ;
+  skos:altLabel "degradation"@en, "degradation_rate"@en, "capacity_fade"@en, "annual_degradation"@en ;
+  skos:definition "Annual loss of usable energy capacity. Calendar and cycle degradation are different mechanisms and a single annual figure conflates them."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:cycleLife a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Cycle life"@en ;
+  skos:altLabel "cycle_life"@en, "cycles"@en, "max_cycles"@en, "lifetime_cycles"@en ;
+  skos:definition "Full equivalent cycles before capacity falls to a stated end-of-life threshold. Meaningless without that threshold, which sources often omit."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:selfDischargeRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Self-discharge rate"@en ;
+  skos:altLabel "standing_loss"@en, "self_discharge"@en, "standing_loss_pct_per_day"@en ;
+  skos:definition "Energy lost per unit time while idle. Negligible for lithium-ion over hours and decisive for thermal or hydrogen storage over seasons."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:inflowRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:storageProperty ; skos:prefLabel "Reservoir inflow"@en ;
+  skos:altLabel "inflow"@en, "inflow_mwh"@en, "natural_inflow"@en, "reservoir_inflow"@en ;
+  skos:definition "Energy or volume arriving in a hydro reservoir independent of pumping. Modelled as a storage property rather than a resource because it enters the optimisation as an exogenous addition to state of charge."@en ;
+  skos:related gc:hydroInflow ;
+  og:defaultUnit unit:MegaW-HR ; og:quantityKind qk:Energy .
+
+# ===========================================================================
+# Renewable resource — the branch PRD §4.6 Q3 is written against
+# ===========================================================================
+
+gc:solarIrradiance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Solar irradiance"@en ;
+  skos:definition "Radiant flux from the sun per unit area. Abstract over the three measured components, which are not interchangeable: a PV model needs the components, not their sum."@en ;
+  og:quantityKind qk:Irradiance ; og:abstract true .
+
+gc:globalHorizontalIrradiance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:solarIrradiance ; skos:prefLabel "Global horizontal irradiance"@en ;
+  skos:altLabel "GHI"@en, "ghi"@en, "global_horizontal"@en, "ssrd"@en,
+                "surface_solar_radiation_downwards"@en, "swgdn"@en, "solar_ghi"@en ;
+  skos:definition "Total shortwave radiation on a horizontal surface — the sum of the direct and diffuse components. The headline solar variable, and the one an annual-average atlas usually reports."@en ;
+  skos:editorialNote "ERA5 names it ssrd and reports accumulated J/m² per hour; NSRDB names it GHI and reports W/m². Same quantity, different unit and accumulation, so the crosswalk uses closeMatch with a stated basis rather than exactMatch."@en ;
+  og:defaultUnit unit:W-PER-M2 ; og:quantityKind qk:Irradiance .
+
+gc:directNormalIrradiance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:solarIrradiance ; skos:prefLabel "Direct normal irradiance"@en ;
+  skos:altLabel "DNI"@en, "dni"@en, "beam_irradiance"@en, "direct_normal"@en, "fdir"@en ;
+  skos:definition "Radiation arriving in a direct beam on a surface normal to the sun. The only component concentrating solar can use."@en ;
+  og:defaultUnit unit:W-PER-M2 ; og:quantityKind qk:Irradiance .
+
+gc:diffuseHorizontalIrradiance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:solarIrradiance ; skos:prefLabel "Diffuse horizontal irradiance"@en ;
+  skos:altLabel "DHI"@en, "dhi"@en, "diffuse"@en, "diffuse_horizontal"@en ;
+  skos:definition "Scattered sky radiation on a horizontal surface, excluding the direct beam."@en ;
+  og:defaultUnit unit:W-PER-M2 ; og:quantityKind qk:Irradiance .
+
+gc:planeOfArrayIrradiance a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:solarIrradiance ; skos:prefLabel "Plane-of-array irradiance"@en ;
+  skos:altLabel "POA"@en, "poa_irradiance"@en, "tilted_irradiance"@en, "in_plane"@en ;
+  skos:definition "Irradiance on the tilted module plane, derived from the horizontal components plus array geometry. Always modelled, never measured in a resource dataset, so a field carrying it should be og:valueBasis modeled."@en ;
+  og:defaultUnit unit:W-PER-M2 ; og:quantityKind qk:Irradiance .
+
+gc:windSpeed a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Wind speed"@en ;
+  skos:altLabel "wind_speed"@en, "ws"@en, "wspd"@en, "wind_speed_100m"@en, "u100"@en,
+                "v100"@en, "windspeed_ms"@en, "wind_speed_at_hub_height"@en ;
+  skos:definition "Horizontal wind speed at a stated height above ground. The height is part of the quantity: a 10 m and a 100 m wind speed differ by a shear factor of well over a third and are not the same field."@en ;
+  skos:scopeNote "A dataset giving wind speed without stating the measurement height is missing a required qualifier, and the field should carry og:completenessCaveats rather than be silently accepted."@en ;
+  og:defaultUnit unit:M-PER-SEC ; og:quantityKind qk:Velocity .
+
+gc:windDirection a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Wind direction"@en ;
+  skos:altLabel "wind_direction"@en, "wd"@en, "wdir"@en, "direction_deg"@en ;
+  skos:definition "Direction the wind blows from, in degrees clockwise from north."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle .
+
+gc:airDensity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Air density"@en ;
+  skos:altLabel "rho"@en, "air_density"@en, "density_kg_m3"@en ;
+  skos:definition "Mass of air per unit volume. Wind power scales linearly with it, so a high-altitude site's yield is overstated by a sea-level assumption."@en ;
+  og:defaultUnit unit:KiloGM-PER-M3 ; og:quantityKind qk:Density .
+
+gc:airTemperature a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Air temperature"@en ;
+  skos:altLabel "temperature"@en, "t2m"@en, "temp_air"@en, "air_temp"@en, "tas"@en,
+                "temperature_2m"@en, "dry_bulb"@en ;
+  skos:definition "Near-surface air temperature. Enters PV yield through the cell-temperature model, thermal capacity through derating, and demand through heating and cooling response — which is why one weather dataset serves three domains."@en ;
+  og:defaultUnit unit:DEG_C ; og:quantityKind qk:Temperature .
+
+gc:relativeHumidity a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Relative humidity"@en ;
+  skos:altLabel "rh"@en, "humidity"@en, "relative_humidity"@en ;
+  skos:definition "Water vapour content as a fraction of saturation at the same temperature."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:surfacePressure a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Surface pressure"@en ;
+  skos:altLabel "sp"@en, "pressure"@en, "surface_pressure"@en, "psfc"@en ;
+  skos:definition "Atmospheric pressure at the surface, used with temperature to derive air density."@en ;
+  og:defaultUnit unit:PA ; og:quantityKind qk:Pressure .
+
+gc:hydroInflow a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Hydro inflow"@en ;
+  skos:altLabel "runoff"@en, "ro"@en, "river_discharge"@en, "streamflow"@en,
+                "inflow_m3s"@en, "hydro_inflow"@en, "discharge"@en ;
+  skos:definition "Volumetric water flow available to a hydro plant. Named in PRD §4.6 Q3 as one of the three concepts a renewable-resource query must return without enumeration."@en ;
+  og:defaultUnit unit:M3-PER-SEC ; og:quantityKind qk:VolumeFlowRate .
+
+gc:snowWaterEquivalent a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Snow water equivalent"@en ;
+  skos:altLabel "SWE"@en, "swe"@en, "snowpack"@en, "snow_water_equivalent"@en ;
+  skos:definition "Water content of the snowpack. The seasonal-storage signal behind spring hydro inflow, and the variable that makes a hydro year predictable months ahead."@en ;
+  og:defaultUnit unit:MilliM ; og:quantityKind qk:Length .
+
+gc:waveHeight a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Significant wave height"@en ;
+  skos:altLabel "Hs"@en, "swh"@en, "wave_height"@en, "significant_wave_height"@en ;
+  skos:definition "Mean height of the highest third of waves. Drives wave energy yield and constrains offshore construction windows."@en ;
+  og:defaultUnit unit:M ; og:quantityKind qk:Length .
+
+gc:seaSurfaceTemperature a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Sea surface temperature"@en ;
+  skos:altLabel "SST"@en, "sst"@en, "sea_surface_temperature"@en ;
+  skos:definition "Temperature of the ocean surface layer. Affects offshore wind shear through atmospheric stability and thermal plant cooling where seawater-cooled."@en ;
+  og:defaultUnit unit:DEG_C ; og:quantityKind qk:Temperature .
+
+gc:geothermalGradient a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Geothermal gradient"@en ;
+  skos:altLabel "geothermal_gradient"@en, "temperature_gradient"@en, "heat_flow"@en ;
+  skos:definition "Rate of temperature increase with depth. The resource variable for geothermal generation."@en ;
+  skos:editorialNote "PRD §4.6 Q3 uses this concept as the worked example of extensibility: adding it makes the renewable-resource query return more with no code change. tests/graph/test_inference.py asserts that property by inserting a further concept at test time."@en ;
+  og:defaultUnit ogunit:DEG_C-PER-KiloM .
+
+gc:biomassYield a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Biomass yield"@en ;
+  skos:altLabel "biomass_potential"@en, "feedstock_yield"@en, "residue_availability"@en ;
+  skos:definition "Recoverable biomass energy per unit area per year."@en ;
+  og:defaultUnit ogunit:GigaJ-PER-HA .
+
+gc:tidalRange a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:renewableResource ; skos:prefLabel "Tidal range"@en ;
+  skos:altLabel "tidal_range"@en, "tide_amplitude"@en ;
+  skos:definition "Vertical difference between high and low water. Deterministic, unlike every other resource in this branch, which is why a tidal series needs no weather-year ensemble."@en ;
+  og:defaultUnit unit:M ; og:quantityKind qk:Length .
+
+# ===========================================================================
+# Demand quantities
+# ===========================================================================
+
+gc:electricityDemand a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Electricity demand"@en ;
+  skos:altLabel "load"@en, "demand"@en, "PD"@en, "p_set"@en, "demand_mw"@en,
+                "load_mw"@en, "consumption"@en, "EnergyConsumer.p"@en, "actual_load"@en ;
+  skos:definition "Electrical power drawn at a point or aggregated over an area. Whether it is metered at the transmission interface, includes distributed generation net of consumption, or includes losses varies by source and changes the number materially."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:peakDemand a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Peak demand"@en ;
+  skos:altLabel "peak_load"@en, "peak_mw"@en, "system_peak"@en, "coincident_peak"@en,
+                "annual_peak"@en ;
+  skos:definition "Maximum demand over a stated period. Coincident and non-coincident peaks differ and summing non-coincident peaks overstates system peak, which is a recurring error in bottom-up load studies."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:netLoad a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Net load"@en ;
+  skos:altLabel "net_load"@en, "residual_load"@en, "net_demand"@en, "load_minus_vre"@en ;
+  skos:definition "Demand minus variable renewable output — what dispatchable resources must serve. Derived, not measured, and its definition depends on which technologies count as variable."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:endUseLoad a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "End-use load"@en ;
+  skos:altLabel "end_use"@en, "end_use_load"@en, "appliance_load"@en, "hvac_load"@en,
+                "enduse"@en, "load_profile"@en ;
+  skos:definition "Demand attributable to one class of equipment or service — space heating, cooling, water heating, lighting. The resolution ResStock and ComStock publish and the resolution electrification studies need."@en ;
+  og:defaultUnit unit:KiloW ; og:quantityKind qk:ActivePower .
+
+gc:demandResponsePotential a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Demand response potential"@en ;
+  skos:altLabel "DR_potential"@en, "flexible_load"@en, "dr_mw"@en, "sheddable_load"@en ;
+  skos:definition "Demand that can be shed or shifted under a stated programme design and notice period. Almost always modelled from assumptions rather than measured, and the assumptions dominate the answer."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:electricityConsumption a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Electricity consumption"@en ;
+  skos:altLabel "energy_consumption"@en, "mwh"@en, "consumption_mwh"@en, "annual_energy"@en,
+                "generation_mwh"@en, "net_generation"@en ;
+  skos:definition "Energy over an interval, as distinct from power at an instant. The distinction is not pedantic: a column named 'load' in MWh over hourly intervals and one in MW are numerically equal at hourly resolution and diverge at every other resolution."@en ;
+  og:defaultUnit unit:MegaW-HR ; og:quantityKind qk:Energy .
+
+gc:interchange a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:demandQuantity ; skos:prefLabel "Net interchange"@en ;
+  skos:altLabel "interchange"@en, "net_interchange"@en, "imports"@en, "exports"@en,
+                "cross_border_flow"@en, "scheduled_interchange"@en ;
+  skos:definition "Net power flow across a balancing-authority or bidding-zone boundary. Sign conventions differ between sources and a flipped sign is invisible until the energy balance fails."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:electricVehicleLoad a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:endUseLoad ; skos:prefLabel "Electric vehicle charging load"@en ;
+  skos:altLabel "EV_load"@en, "ev_charging"@en, "vehicle_load"@en, "charging_demand"@en ;
+  skos:definition "Demand from vehicle charging, whose shape depends far more on charging behaviour and tariff design than on the vehicle fleet."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+gc:dataCentreLoad a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:endUseLoad ; skos:prefLabel "Data centre load"@en ;
+  skos:altLabel "datacenter_load"@en, "data_center_demand"@en, "hyperscale_load"@en ;
+  skos:definition "Demand from data centre facilities. DD4's structural note names projections of this as the fastest-moving gap in the domain, with no authoritative open source and mutually inconsistent assumptions across the consultancy reports and IRP filings that do cover it."@en ;
+  og:defaultUnit unit:MegaW ; og:quantityKind qk:ActivePower .
+
+# ===========================================================================
+# Cost quantities
+# ===========================================================================
+
+gc:capitalCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Capital cost"@en ;
+  skos:definition "Investment cost of building an asset. Abstract: overnight and total-installed costs differ by financing during construction and by owner's costs, and the difference is a fifth or more for a nuclear plant."@en ;
+  og:abstract true .
+
+gc:overnightCapitalCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:capitalCost ; skos:prefLabel "Overnight capital cost"@en ;
+  skos:altLabel "OCC"@en, "overnight_cost"@en, "capex"@en, "capital_cost"@en,
+                "capital_cost_per_kw"@en, "investment_cost"@en, "capex_usd_per_kw"@en ;
+  skos:definition "Construction cost excluding financing, as if the plant were built instantly. The form NREL ATB publishes and the form capacity expansion models consume."@en ;
+  og:defaultUnit ogunit:USD-PER-KiloW .
+
+gc:totalInstalledCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:capitalCost ; skos:prefLabel "Total installed cost"@en ;
+  skos:altLabel "TIC"@en, "installed_cost"@en, "total_capital_cost"@en, "all_in_cost"@en ;
+  skos:definition "Overnight cost plus financing during construction and owner's costs. What actually appears on a balance sheet, and not comparable with overnight cost without knowing the construction period and discount rate."@en ;
+  og:defaultUnit ogunit:USD-PER-KiloW .
+
+gc:fixedOperatingCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Fixed operating cost"@en ;
+  skos:altLabel "FOM"@en, "fixed_om"@en, "fixed_o_and_m"@en, "fom_usd_per_kw_yr"@en,
+                "fixed_cost"@en ;
+  skos:definition "Annual operating cost independent of output, per unit of capacity per year. Reported per kW-year almost universally; a source giving a bare per-kW figure is either annual or a one-off and must say which."@en ;
+  og:defaultUnit ogunit:USD-PER-KiloW-YR .
+
+gc:variableOperatingCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Variable operating cost"@en ;
+  skos:altLabel "VOM"@en, "variable_om"@en, "vom_usd_per_mwh"@en, "marginal_cost"@en,
+                "variable_cost"@en ;
+  skos:definition "Operating cost proportional to output, excluding fuel. Sources differ on whether fuel is included in a field called 'marginal cost', which is the most consequential ambiguity in dispatch data."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:fuelCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Fuel cost"@en ;
+  skos:altLabel "fuel_price"@en, "fuel_cost"@en, "gas_price"@en, "coal_price"@en,
+                "fuel_cost_per_mmbtu"@en, "commodity_price"@en ;
+  skos:definition "Delivered cost of fuel per unit of energy content. Historical prices are open; forward curves are uniformly commercial, which DD7's structural note states as a permanent gap rather than a coverage shortfall."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaBTU_IT .
+
+gc:levelisedCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Levelised cost of energy"@en ;
+  skos:altLabel "LCOE"@en, "lcoe"@en, "levelized_cost"@en, "lcoe_usd_per_mwh"@en ;
+  skos:definition "Discounted lifetime cost divided by discounted lifetime output. A derived summary, not an input: it embeds a discount rate, a capacity factor and a lifetime, and comparing two published LCOEs computed on different assumptions is a category error."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:discountRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Discount rate"@en ;
+  skos:altLabel "discount_rate"@en, "social_discount_rate"@en, "hurdle_rate"@en ;
+  skos:definition "The rate at which future cash flows are discounted. Real and nominal rates differ by inflation and a dataset must say which."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:weightedAverageCostOfCapital a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Weighted average cost of capital"@en ;
+  skos:altLabel "WACC"@en, "wacc"@en, "cost_of_capital"@en ;
+  skos:definition "Blended required return on debt and equity. DD9's structural note calls WACC and discount rates almost entirely absent from open sources and names it a large and underappreciated gap; it is modelled here so that absence is expressible as a gap marker rather than as silence."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:capitalRecoveryFactor a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Capital recovery factor"@en ;
+  skos:altLabel "CRF"@en, "crf"@en, "annuity_factor"@en ;
+  skos:definition "The annuity factor converting an up-front cost into an equivalent annual payment, given a rate and a lifetime."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:economicLifetime a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Economic lifetime"@en ;
+  skos:altLabel "lifetime"@en, "economic_life"@en, "asset_life"@en, "lifetime_years"@en ;
+  skos:definition "Years over which an investment is amortised. Distinct from technical life, and the shorter of the two is what appears in a financial model."@en ;
+  og:defaultUnit unit:YR ; og:quantityKind qk:Time .
+
+gc:transmissionCost a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:costQuantity ; skos:prefLabel "Transmission cost"@en ;
+  skos:altLabel "line_cost"@en, "transmission_capex"@en, "cost_per_mw_km"@en,
+                "interconnection_cost"@en, "network_upgrade_cost"@en ;
+  skos:definition "Cost of network capacity, usually per MW-kilometre or per project. Interconnection upgrade cost allocations are published per project as PDF study reports with no consistent schema, which DD3's structural note defers past v1."@en ;
+  og:defaultUnit unit:USD .
+
+# ===========================================================================
+# Emissions quantities
+# ===========================================================================
+
+gc:co2EmissionRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "CO2 emission rate"@en ;
+  skos:altLabel "co2_rate"@en, "emission_rate"@en, "co2_lb_per_mwh"@en,
+                "carbon_intensity"@en, "co2_kg_per_mwh"@en, "CO2_MASS"@en ;
+  skos:definition "Carbon dioxide emitted per unit of electricity produced or consumed. Annual-average and hourly-marginal rates are both called this and are not substitutes: eGRID serves the first, CAMD hourly data the second."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaW-HR .
+
+gc:co2EmissionFactor a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "CO2 emission factor"@en ;
+  skos:altLabel "emission_factor"@en, "co2_per_mmbtu"@en, "fuel_emission_factor"@en ;
+  skos:definition "Carbon dioxide per unit of fuel energy burned. A property of the fuel, not of the plant, and combining it with a heat rate gives the plant's emission rate."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaBTU_IT .
+
+gc:marginalEmissionRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:co2EmissionRate ; skos:prefLabel "Marginal emission rate"@en ;
+  skos:altLabel "MOER"@en, "marginal_emissions"@en, "short_run_marginal_emissions"@en,
+                "lrmer"@en ;
+  skos:definition "Emissions from the generation that would respond to a marginal change in load. What a consumption-side intervention actually changes, and systematically different from the average rate."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaW-HR .
+
+gc:noxEmissions a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "NOx emissions"@en ;
+  skos:altLabel "nox"@en, "NOX_MASS"@en, "nox_rate"@en, "nitrogen_oxides"@en ;
+  skos:definition "Nitrogen oxide mass or rate. Regulated seasonally in some US programmes, so an annual figure can hide the constraint that binds."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaW-HR .
+
+gc:so2Emissions a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "SO2 emissions"@en ;
+  skos:altLabel "so2"@en, "SO2_MASS"@en, "sulfur_dioxide"@en, "so2_rate"@en ;
+  skos:definition "Sulphur dioxide mass or rate, largely determined by fuel sulphur content and scrubber presence."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaW-HR .
+
+gc:methaneEmissions a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "Methane emissions"@en ;
+  skos:altLabel "ch4"@en, "methane"@en, "fugitive_methane"@en, "upstream_methane"@en ;
+  skos:definition "Methane mass, most of it upstream of the power plant. Whether a gas plant's emissions include upstream methane changes its comparison against coal, so the boundary must be stated."@en ;
+  og:defaultUnit ogunit:KiloGM-PER-MegaW-HR .
+
+gc:heatInput a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:emissionsQuantity ; skos:prefLabel "Heat input"@en ;
+  skos:altLabel "heat_input"@en, "HEAT_INPUT"@en, "fuel_consumed"@en, "mmbtu"@en ;
+  skos:definition "Fuel energy consumed over an interval. Paired with generation it yields a measured heat rate, which is why CAMD hourly data is the best open source for heat-rate curves."@en ;
+  og:defaultUnit ogunit:MegaBTU_IT ; og:quantityKind qk:Energy .
+
+# ===========================================================================
+# Policy quantities
+# ===========================================================================
+
+gc:renewableTarget a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Renewable portfolio target"@en ;
+  skos:altLabel "RPS"@en, "renewable_target"@en, "rps_pct"@en, "clean_energy_standard"@en,
+                "CES"@en, "renewable_share_target"@en ;
+  skos:definition "A required share of generation or sales from qualifying resources by a stated year. What qualifies differs by jurisdiction, so the target percentage alone is not comparable across them."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:carbonPrice a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Carbon price"@en ;
+  skos:altLabel "carbon_price"@en, "co2_price"@en, "allowance_price"@en, "eua_price"@en,
+                "carbon_tax"@en, "clearing_price"@en ;
+  skos:definition "Price per unit of CO2, whether a tax rate or a market allowance price. A tax is a policy quantity fixed by statute; an allowance price is a market outcome, and this concept covers both because the model consumes them identically."@en ;
+  og:defaultUnit ogunit:USD-PER-TON_Metric .
+
+gc:emissionsCap a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Emissions cap"@en ;
+  skos:altLabel "cap"@en, "emissions_budget"@en, "allowance_budget"@en, "carbon_budget"@en ;
+  skos:definition "The absolute quantity of emissions permitted in a compliance period."@en ;
+  og:defaultUnit unit:TON_Metric .
+
+gc:reserveMargin a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Planning reserve margin"@en ;
+  skos:altLabel "PRM"@en, "reserve_margin"@en, "planning_reserve"@en ;
+  skos:definition "Required capacity above forecast peak demand, as a percentage. Set administratively in most markets and derived from a reliability target in a few."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:capacityCredit a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Capacity credit"@en ;
+  skos:altLabel "ELCC"@en, "capacity_value"@en, "accredited_capacity"@en,
+                "capacity_credit"@en, "qualifying_capacity"@en ;
+  skos:definition "The share of a resource's nameplate that counts toward a capacity requirement. Published per-ISO as PDF study reports with incompatible methodologies, which DD6's structural note calls a modeling hazard rather than a service — values are not comparable across ISOs."@en ;
+  og:defaultUnit unit:PERCENT .
+
+gc:incentiveRate a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:policyQuantity ; skos:prefLabel "Incentive rate"@en ;
+  skos:altLabel "ITC"@en, "PTC"@en, "tax_credit"@en, "subsidy"@en, "feed_in_tariff"@en,
+                "incentive"@en ;
+  skos:definition "The value of a production or investment incentive. Expressed per unit of output or as a share of capital cost depending on the instrument, and those two forms are not interconvertible without a capacity factor."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+# ===========================================================================
+# Market quantities
+# ===========================================================================
+
+gc:energyPrice a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:marketQuantity ; skos:prefLabel "Energy price"@en ;
+  skos:altLabel "price"@en, "energy_price"@en, "spot_price"@en, "day_ahead_price"@en,
+                "price_usd_per_mwh"@en, "market_price"@en ;
+  skos:definition "Cleared price for energy in a market interval. Day-ahead and real-time prices for the same hour are different quantities and a dataset must say which."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:locationalMarginalPrice a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:energyPrice ; skos:prefLabel "Locational marginal price"@en ;
+  skos:altLabel "LMP"@en, "lmp"@en, "nodal_price"@en, "locational_price"@en ;
+  skos:definition "Nodal energy price, decomposable into energy, congestion and loss components. A hub price is an average of nodal prices and is not itself an LMP — the nodal-versus-zonal distinction again."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:ancillaryServicePrice a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:marketQuantity ; skos:prefLabel "Ancillary service price"@en ;
+  skos:altLabel "AS_price"@en, "reserve_price"@en, "regulation_price"@en,
+                "frequency_response_price"@en ;
+  skos:definition "Cleared price for a reserve or regulation product. Product definitions differ between markets enough that cross-market comparison needs the definition, not just the price."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:capacityPrice a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:marketQuantity ; skos:prefLabel "Capacity market price"@en ;
+  skos:altLabel "capacity_price"@en, "RPM_price"@en, "capacity_clearing_price"@en,
+                "UCAP_price"@en ;
+  skos:definition "Cleared price for capacity, per unit of accredited capacity per period. Whether it is quoted per installed or per unforced capacity changes the number by the capacity credit."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW .
+
+gc:congestionRent a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:marketQuantity ; skos:prefLabel "Congestion rent"@en ;
+  skos:altLabel "congestion"@en, "congestion_cost"@en, "congestion_rent"@en ;
+  skos:definition "Revenue arising from price differences across a constrained interface."@en ;
+  og:defaultUnit unit:USD .
+
+gc:curtailment a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:marketQuantity ; skos:prefLabel "Curtailment"@en ;
+  skos:altLabel "curtailed_energy"@en, "curtailment_mwh"@en, "spilled_energy"@en,
+                "curtailment_rate"@en ;
+  skos:definition "Available renewable energy not produced, whether for economic or for network reasons. The two causes have different remedies and a dataset conflating them cannot support either analysis."@en ;
+  og:defaultUnit unit:MegaW-HR ; og:quantityKind qk:Energy .
+
+# ===========================================================================
+# Geospatial quantities
+# ===========================================================================
+
+gc:latitude a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Latitude"@en ;
+  skos:altLabel "lat"@en, "latitude"@en, "y"@en, "lat_deg"@en ;
+  skos:definition "Geodetic latitude. Meaningless without the datum, which is why og:nativeCRS is mandatory on a geospatial-primary dataset at level 1."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle ; og:isJoinKey true .
+
+gc:longitude a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Longitude"@en ;
+  skos:altLabel "lon"@en, "lng"@en, "longitude"@en, "x"@en, "lon_deg"@en ;
+  skos:definition "Geodetic longitude."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle ; og:isJoinKey true .
+
+gc:elevation a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Elevation"@en ;
+  skos:altLabel "elevation"@en, "altitude"@en, "dem"@en, "height_m"@en, "z"@en ;
+  skos:definition "Height above a vertical datum. Drives air density for wind and access cost for construction."@en ;
+  og:defaultUnit unit:M ; og:quantityKind qk:Length .
+
+gc:slope a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Terrain slope"@en ;
+  skos:altLabel "slope"@en, "gradient"@en, "slope_deg"@en, "slope_pct"@en ;
+  skos:definition "Steepness of terrain, a standard siting exclusion criterion. Reported in degrees or percent and the two differ by a tangent, not a factor."@en ;
+  og:defaultUnit unit:DEG ; og:quantityKind qk:Angle .
+
+gc:landCoverClass a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Land cover class"@en ;
+  skos:altLabel "landcover"@en, "land_cover"@en, "lc_class"@en, "nlcd_class"@en,
+                "worldcover_class"@en, "corine_class"@en ;
+  skos:definition "Categorical surface classification. The class code lists of WorldCover, CORINE and NLCD are mutually incompatible, so the values resolve to their own concepts rather than being compared numerically (PRD §4.3 C9)."@en ;
+  og:isCategorical true .
+
+gc:protectedAreaStatus a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Protected area status"@en ;
+  skos:altLabel "protected"@en, "iucn_category"@en, "wdpa_status"@en, "gap_status"@en,
+                "conservation_status"@en ;
+  skos:definition "Whether and how strictly land is protected from development. IUCN categories and US GAP status codes express the same idea on incompatible scales."@en ;
+  og:isCategorical true .
+
+gc:exclusionMask a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Development exclusion mask"@en ;
+  skos:altLabel "exclusion"@en, "buildable"@en, "developable_area"@en, "exclusion_mask"@en ;
+  skos:definition "A binary or fractional raster of land unavailable for development. Always derived from a stack of source layers with a stated rule set, and the rule set matters more than the mask."@en ;
+  og:defaultUnit unit:UNITLESS .
+
+gc:administrativeBoundary a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Administrative boundary"@en ;
+  skos:altLabel "admin_boundary"@en, "country"@en, "state"@en, "county"@en, "region"@en,
+                "iso_code"@en, "gadm_code"@en, "nuts_code"@en, "fips"@en ;
+  skos:definition "A jurisdiction polygon or its code. Low analytical value, high utility as a join key layer — which is exactly why Natural Earth is in the seed inventory."@en ;
+  og:isJoinKey true ; og:isCategorical true .
+
+gc:distanceToInfrastructure a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Distance to infrastructure"@en ;
+  skos:altLabel "distance_to_transmission"@en, "dist_to_road"@en, "grid_distance_km"@en,
+                "interconnection_distance"@en ;
+  skos:definition "Straight-line or routed distance from a site to the nearest transmission line, road or substation. The dominant term in interconnection cost and the reason a siting study needs DD1 as well as DD10."@en ;
+  og:defaultUnit unit:KiloM ; og:quantityKind qk:Length .
+
+gc:floodHazard a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Flood hazard zone"@en ;
+  skos:altLabel "flood_zone"@en, "sfha"@en, "flood_hazard"@en, "return_period"@en ;
+  skos:definition "Categorical flood risk designation, typically by return period."@en ;
+  og:isCategorical true .
+
+gc:area a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:geospatialQuantity ; skos:prefLabel "Area"@en ;
+  skos:altLabel "area"@en, "area_km2"@en, "land_area"@en, "footprint"@en ;
+  skos:definition "Planar or geodesic area of a feature. Which of the two, and in which projection, changes the number by several percent at high latitude."@en ;
+  og:defaultUnit unit:KiloM2 ; og:quantityKind qk:Area .
+
+# ===========================================================================
+# Temporal quantities
+# ===========================================================================
+
+gc:timestamp a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:temporalQuantity ; skos:prefLabel "Timestamp"@en ;
+  skos:altLabel "time"@en, "timestamp"@en, "datetime"@en, "period"@en, "interval_start"@en,
+                "utc_time"@en, "date"@en ;
+  skos:definition "The instant or interval a value applies to. The universal join key between two time series, and the field where a missing timezone silently shifts a year of data by hours."@en ;
+  og:isTemporal true ; og:isJoinKey true .
+
+gc:timeResolution a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:temporalQuantity ; skos:prefLabel "Time resolution"@en ;
+  skos:altLabel "resolution"@en, "frequency"@en, "timestep"@en, "interval_length"@en,
+                "temporal_resolution"@en ;
+  skos:definition "The length of the interval each record covers. Determines which analyses a time series can serve, and resampling to a coarser resolution is lossy in a way that resampling a spatial grid is not."@en ;
+  og:defaultUnit unit:MIN ; og:quantityKind qk:Time .
+
+gc:weatherYear a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:temporalQuantity ; skos:prefLabel "Weather year"@en ;
+  skos:altLabel "weather_year"@en, "met_year"@en, "resource_year"@en ;
+  skos:definition "Which historical year's weather a synthetic series represents. A resource adequacy study needs many; a production cost study needs one, stated. Two datasets built on different weather years are not comparable hour by hour even when both are 'hourly 2019'."@en ;
+  og:isTemporal true ; og:isJoinKey true .
+
+gc:modelYear a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:temporalQuantity ; skos:prefLabel "Model year"@en ;
+  skos:altLabel "model_year"@en, "projection_year"@en, "scenario_year"@en, "target_year"@en ;
+  skos:definition "The future year a projected value describes, as distinct from the weather year underlying its time series and from the vintage of the study that produced it."@en ;
+  og:isTemporal true .
+
+gc:vintageYear a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:temporalQuantity ; skos:prefLabel "Data vintage"@en ;
+  skos:altLabel "vintage"@en, "data_year"@en, "reporting_year"@en, "as_of_date"@en ;
+  skos:definition "The year the underlying observation or assumption was made. Feeds the Currency & Maintenance grade directly."@en ;
+  og:isTemporal true .
+
+# ===========================================================================
+# Identifiers — DD2's binding constraint is entity resolution, not availability
+# ===========================================================================
+
+gc:plantIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:identifierQuantity ; skos:prefLabel "Plant identifier"@en ;
+  skos:definition "An identifier for a generating station in some register. Abstract: the registers do not agree, and treating two register codes as one identifier is the error DD2's structural note is about."@en ;
+  og:isJoinKey true ; og:abstract true .
+
+gc:eiaPlantCode a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:plantIdentifier ; skos:prefLabel "EIA plant code"@en ;
+  skos:altLabel "plant_id_eia"@en, "eia_plant_id"@en, "plant_code"@en, "EIA_ID"@en ;
+  skos:definition "US Energy Information Administration plant identifier, the spine of EIA-860 and EIA-923."@en ;
+  og:isJoinKey true .
+
+gc:orisCode a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:plantIdentifier ; skos:prefLabel "ORIS/ORISPL code"@en ;
+  skos:altLabel "oris"@en, "orispl"@en, "oris_code"@en, "facility_id_epa"@en ;
+  skos:definition "EPA plant identifier used by eGRID and CAMD. Usually equal to the EIA plant code and not always, which is why the mapping is a curated crosswalk rather than an assumption."@en ;
+  og:isJoinKey true .
+
+gc:gemUnitIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:plantIdentifier ; skos:prefLabel "GEM unit identifier"@en ;
+  skos:altLabel "gem_id"@en, "gem_unit_id"@en, "tracker_id"@en ;
+  skos:definition "Global Energy Monitor unit identifier, the only global unit-level identifier in the seed inventory."@en ;
+  og:isJoinKey true .
+
+gc:eicCode a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:plantIdentifier ; skos:prefLabel "ENTSO-E EIC code"@en ;
+  skos:altLabel "eic"@en, "eic_code"@en, "energy_identification_code"@en ;
+  skos:definition "Energy Identification Code, the European register's identifier for units, zones and parties."@en ;
+  og:isJoinKey true .
+
+gc:generatorIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:identifierQuantity ; skos:prefLabel "Generator unit identifier"@en ;
+  skos:altLabel "generator_id"@en, "unit_id"@en, "gen_id"@en, "unitid"@en, "boiler_id"@en ;
+  skos:definition "An identifier for a unit within a plant. Unique only within its plant in most registers, so the join key is the pair, and using the unit id alone silently merges units across plants."@en ;
+  og:isJoinKey true .
+
+gc:queuePositionIdentifier a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:identifierQuantity ; skos:prefLabel "Interconnection queue position"@en ;
+  skos:altLabel "queue_id"@en, "queue_position"@en, "request_id"@en, "project_id"@en ;
+  skos:definition "The identifier a project carries in an interconnection queue. Unique within an ISO and reused across ISOs, which is why LBNL's harmonised queue prefixes it with the ISO."@en ;
+  og:isJoinKey true .
+
+gc:queueStatus a skos:Concept ; skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:identifierQuantity ; skos:prefLabel "Interconnection queue status"@en ;
+  skos:altLabel "queue_status"@en, "status"@en, "project_status"@en, "withdrawn"@en,
+                "operational"@en, "active"@en ;
+  skos:definition "Where a project stands in the interconnection process. Every ISO publishes its own status vocabulary, which is the whole reason DD3 is a normalisation problem."@en ;
+  og:isCategorical true .
+
+# ===========================================================================
+# Fourth-level concepts. Added where a real dataset distinguishes a variant
+# that a consumer must not silently substitute for its parent.
+# ===========================================================================
+
+gc:clearSkyGlobalHorizontalIrradiance a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:globalHorizontalIrradiance ;
+  skos:prefLabel "Clear-sky global horizontal irradiance"@en ;
+  skos:altLabel "clearsky_ghi"@en, "ghi_clear"@en, "clear_sky_ghi"@en, "ghi_cs"@en ;
+  skos:definition "Modelled irradiance the site would receive with no cloud. Published alongside the all-sky value by NSRDB and by ERA5-derived products; the ratio of the two is the clear-sky index used in downscaling. Always modelled, never measured."@en ;
+  skos:scopeNote "Substituting this for the all-sky value overstates yield by the annual cloud loss, which exceeds a third in much of northern Europe. Carried as its own concept so a column named ghi_clear cannot resolve to the all-sky parent."@en ;
+  og:defaultUnit unit:W-PER-M2 ; og:quantityKind qk:Irradiance .
+
+gc:dayAheadLocationalMarginalPrice a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:locationalMarginalPrice ;
+  skos:prefLabel "Day-ahead locational marginal price"@en ;
+  skos:altLabel "DA_LMP"@en, "da_lmp"@en, "dam_lmp"@en, "day_ahead_lmp"@en ;
+  skos:definition "The LMP cleared in the day-ahead market for a given hour and node. A forward commitment price, not an outturn."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .
+
+gc:realTimeLocationalMarginalPrice a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/grid-concept> ;
+  skos:broader gc:locationalMarginalPrice ;
+  skos:prefLabel "Real-time locational marginal price"@en ;
+  skos:altLabel "RT_LMP"@en, "rt_lmp"@en, "rtm_lmp"@en, "real_time_lmp"@en, "balancing_price"@en ;
+  skos:definition "The LMP cleared in the real-time or balancing market. Differs from the day-ahead price for the same hour by the forecast error the market had to resolve, and a revenue model using the wrong one misstates volatility badly."@en ;
+  og:defaultUnit ogunit:USD-PER-MegaW-HR .

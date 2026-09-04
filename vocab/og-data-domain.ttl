@@ -1,0 +1,187 @@
+# OpenGrid data domains (DD1-DD10) — PRD §5, schema field og:dataDomain (D3).
+#
+# Ten domains, controlled, not free text. Every published record carries exactly
+# one at completeness level 1.
+#
+# Three things in this file are load-bearing beyond the labels:
+#
+#   og:structuralNote      The domain's honest statement of what is genuinely
+#                          unavailable and why. PRD §5: "A catalog that tells you
+#                          what does not exist is more useful than one that
+#                          silently returns nothing." The domain page renders it,
+#                          so it lives here rather than in the UI. Each note is
+#                          byte-identical to the structural_note for the same
+#                          domain in data/seed-sources.yaml, including the
+#                          trailing newline the YAML folded scalar produces;
+#                          tests/vocab/test_core_schemes.py enforces that.
+#   og:v1CatalogScope      PRD §5 table, "V1 catalog" column. True for all ten.
+#   og:v1IngestionScope    PRD §5 table, "V1 ingestion/ETL" column. "etl" for the
+#                          four domains that get Tier 2 pipelines and hosted
+#                          derived copies in v1; "harvest-only" for the six that
+#                          get published records and nothing else.
+#
+# skos:altLabel entries are search surface. The projector copies them into the
+# search document so that a user typing "interconnection queue" or "load" lands
+# on the domain without knowing the DD numbering.
+#
+# IRIs follow docs/conventions.md: the scheme is
+# https://schema.opengrid.org/concept/data-domain and concept tokens are the
+# DD1-DD10 notation the PRD fixes, not lowerCamelCase.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dd:   <https://schema.opengrid.org/concept/data-domain/> .
+
+<https://schema.opengrid.org/concept/data-domain>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Data Domains"@en ;
+  dct:description """The ten subject domains the OpenGrid Data Hub catalogs, used as the value space of og:dataDomain (PRD §4.1 D3). Flat and closed: a dataset belongs to exactly one domain, and adding an eleventh is a minor version of this scheme, not a record-level decision. Each concept carries the domain's structural note — what is genuinely unavailable in that domain and why — because the note is a product surface, not a disclaimer."""@en ;
+  dct:issued "2026-09-04"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept dd:DD1, dd:DD2, dd:DD3, dd:DD4, dd:DD5,
+                     dd:DD6, dd:DD7, dd:DD8, dd:DD9, dd:DD10 .
+
+
+dd:DD1
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD1" ;
+  skos:prefLabel "Network topology & parameters"@en ;
+  skos:altLabel "transmission network"@en, "grid topology"@en, "network model"@en,
+                "bus-branch model"@en, "transmission lines"@en, "substations"@en,
+                "impedance"@en, "transfer capacity"@en, "power flow case"@en ;
+  skos:definition "Datasets describing the physical and electrical structure of transmission and, where available, distribution networks: buses, branches, substations and transformers with their ratings, impedances and transfer limits. Includes bus-branch and node-breaker models, zonal transfer-capacity tables, and georeferenced infrastructure layers that carry no electrical parameters."@en ;
+  og:structuralNote "Investment-grade US transmission network data is CEII-designated and permanently out of reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic topology. State this in the domain page rather than letting users discover it.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "etl" .
+
+dd:DD2
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD2" ;
+  skos:prefLabel "Generator fleet"@en ;
+  skos:altLabel "power plants"@en, "generators"@en, "generating units"@en,
+                "plant inventory"@en, "installed capacity"@en, "heat rate"@en,
+                "retirements"@en, "emissions rates"@en ;
+  skos:definition "Datasets inventorying generating and storage units and their characteristics: location, technology, fuel, nameplate and net capacity, commissioning and retirement dates, ownership, heat rate, emissions rates and operating history, at unit or plant granularity."@en ;
+  og:structuralNote "Unit-level global coverage is genuinely good here, unlike DD1. The binding constraint is entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS codes and ENTSO-E EIC codes, not availability. This domain is the strongest argument for the identifier-reconciliation work.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .
+
+dd:DD3
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD3" ;
+  skos:prefLabel "IC queue & project pipeline"@en ;
+  skos:altLabel "interconnection queue"@en, "queue"@en, "project pipeline"@en,
+                "generator interconnection"@en, "queued projects"@en,
+                "cluster study"@en, "interconnection costs"@en ;
+  skos:definition "Datasets tracking proposed generation, storage and load projects through interconnection study and construction: queue position and request date, requested capacity and technology, point of interconnection, study phase, withdrawal or in-service outcome, and network upgrade cost allocations."@en ;
+  og:structuralNote "US-only in practice. No comparable international source exists. Every ISO publishes its own schema, so this domain is entirely a Tier 2 normalization problem. LBNL has already solved it once; do not re-solve it.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .
+
+dd:DD4
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD4" ;
+  skos:prefLabel "Load & demand"@en ;
+  skos:altLabel "load"@en, "demand"@en, "electricity demand"@en, "hourly load"@en,
+                "load profiles"@en, "consumption"@en, "load forecast"@en,
+                "end-use load"@en, "data center load"@en ;
+  skos:definition "Datasets recording or projecting electricity consumption: metered demand time series by balancing authority or planning area, end-use and building-stock load profiles, consumption surveys, and load forecasts and projections."@en ;
+  og:structuralNote "Hourly system-level load is well covered and openly licensed. Substation-level and behind-the-meter data is not available anywhere at any price. Data-center load projections are the fastest-moving gap and have no authoritative source.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .
+
+dd:DD5
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD5" ;
+  skos:prefLabel "Renewable resource & weather"@en ;
+  skos:altLabel "weather"@en, "solar irradiance"@en, "wind speed"@en,
+                "resource data"@en, "reanalysis"@en, "meteorology"@en,
+                "capacity factors"@en, "solar resource"@en, "wind resource"@en,
+                "weather cutouts"@en ;
+  skos:definition "Datasets describing the meteorological and hydrological conditions that drive variable generation: irradiance, wind speed, temperature, humidity, precipitation and inflow. Covers observations, reanalysis, resource atlases, and the capacity-factor and cutout products derived from them."@en ;
+  og:structuralNote "The only domain where data volume, not availability, is the constraint. Broker to existing cloud-native copies. Do not re-host the ERA5 archive.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "etl" .
+
+dd:DD6
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD6" ;
+  skos:prefLabel "Emerging technology parameters"@en ;
+  skos:altLabel "storage costs"@en, "battery parameters"@en, "energy storage"@en,
+                "long-duration storage"@en, "hydrogen"@en, "electrolyzer"@en,
+                "vehicle-to-grid"@en, "ELCC"@en, "technology parameters"@en ;
+  skos:definition "Cost, performance, degradation and lifetime parameter sets for technologies with no operating fleet large enough to observe directly: battery and long-duration storage, hydrogen production and end use, vehicle-to-grid, and the effective-load-carrying-capability studies that accompany them."@en ;
+  og:structuralNote "Almost no primary data. This domain is dominated by modeled and elicited parameter sets, which makes the Provenance facet (grade B, derived and traced) the norm rather than the exception. Say so on the domain page.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .
+
+dd:DD7
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD7" ;
+  skos:prefLabel "Fuel & commodity"@en ;
+  skos:altLabel "fuel prices"@en, "natural gas prices"@en, "gas prices"@en,
+                "coal prices"@en, "commodity prices"@en, "carbon price"@en,
+                "emissions allowances"@en, "pipeline capacity"@en ;
+  skos:definition "Datasets on the price, availability and delivery of fuels and traded commodities that enter production-cost and capacity-expansion models: natural gas, coal and oil prices, carbon and emissions-allowance prices and auction results, and gas pipeline capacity and flows."@en ;
+  og:structuralNote "Historical prices are open. Forward curves are uniformly commercial and will remain so. Do not promise forward price coverage.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .
+
+dd:DD8
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD8" ;
+  skos:prefLabel "Policy & regulatory"@en ;
+  skos:altLabel "policy"@en, "regulation"@en, "NERC standards"@en, "FERC orders"@en,
+                "capacity market rules"@en, "renewable targets"@en, "incentives"@en,
+                "market rules"@en ;
+  skos:definition "Datasets and documents encoding the rules a model must respect: reliability standards, regulatory orders, market and capacity-market rules, renewable and clean-energy targets, incentives, and national energy and climate plans."@en ;
+  og:structuralNote "The only domain where the binding constraint is format, not license. NERC standards, FERC orders and ISO capacity market rules are all freely accessible and bulk-downloadable as PDFs. They fail only on model-readiness. Structured extraction here is high-effort and high-value, and is the strongest argument for an LLM-assisted extraction pipeline.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "etl" .
+
+dd:DD9
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD9" ;
+  skos:prefLabel "Cost & financial"@en ;
+  skos:altLabel "costs"@en, "capital cost"@en, "capex"@en, "technology costs"@en,
+                "LCOE"@en, "O&M costs"@en, "discount rate"@en, "WACC"@en,
+                "cost projections"@en ;
+  skos:definition "Datasets on the capital and operating cost of energy technologies and on the financial parameters used to annualize them: overnight capital cost, fixed and variable O&M, forward cost projections, realized construction costs, utility financial filings, and discount-rate or WACC assumptions."@en ;
+  og:structuralNote "US technology cost data is excellent. International cost data is thin and mostly aggregate. WACC and discount rates are almost entirely absent from open sources, which is a large and underappreciated gap.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "etl" .
+
+dd:DD10
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/data-domain> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/data-domain> ;
+  skos:notation "DD10" ;
+  skos:prefLabel "Geospatial & siting"@en ;
+  skos:altLabel "siting"@en, "land cover"@en, "land use"@en, "exclusion zones"@en,
+                "protected areas"@en, "elevation"@en, "administrative boundaries"@en,
+                "basemap"@en, "GIS layers"@en, "flood hazard"@en ;
+  skos:definition "Base and constraint geospatial layers used to site infrastructure: land cover and land use, elevation and terrain, administrative and jurisdictional boundaries, protected and conservation areas, natural-hazard layers, and the exclusion masks assembled from them."@en ;
+  og:structuralNote "Global base layers are excellent and openly licensed. The gap is everything jurisdiction-specific: permitting status, parcel ownership, ROW. Those are county-level in the US and have no global analogue. Scope DD10 v1 to global base layers and exclusion masks; do not attempt parcel data.\n" ;
+  og:v1CatalogScope true ;
+  og:v1IngestionScope "harvest-only" .

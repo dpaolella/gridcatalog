@@ -1,0 +1,178 @@
+# og-grid-concept → NREL Sienna / PowerSystems.jl.
+#
+# PRD §F7 says to bootstrap the OpenGrid concept scheme from the Open Energy
+# Ontology and from Sienna. Where a concept came from Sienna it is genuinely the
+# same quantity by construction, so the exactMatch density here is high — and
+# that is a reason to be *more* careful, not less: an exactMatch inherited by
+# assumption is still an assumption.
+#
+# Every exactMatch below was checked against the four-part test in
+# vocab/crosswalks/README.md. Where Sienna carries a per-unit value on a system
+# with a declared base_power, that is a basis difference and the mapping is
+# close, not exact — Sienna's per-unit convention is system-wide and therefore
+# invisible in the field.
+#
+# Sienna publishes its schema as Julia struct definitions and documentation, not
+# as RDF, so field IRIs are locally minted handles.
+
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix og:     <https://schema.opengrid.org/ns#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix gc:     <https://schema.opengrid.org/concept/grid-concept/> .
+@prefix sienna: <https://schema.opengrid.org/crosswalk/sienna/> .
+
+<https://schema.opengrid.org/crosswalk/sienna>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid ↔ Sienna crosswalk"@en ;
+  dct:description "Mappings from the OpenGrid grid-concept scheme to NREL Sienna (PowerSystems.jl) component types and fields. Sienna is one of the two schemes og-grid-concept was bootstrapped from, so the exactMatch density is high by construction."@en ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> ;
+  og:targetScheme "PowerSystems.jl 4.x" ;
+  og:mintedTargetIris true ;
+  owl:versionInfo "1.0.0" ;
+  dct:issued "2026-09-04"^^xsd:date .
+
+# --- buses and branches -------------------------------------------------
+
+gc:nominalVoltage skos:exactMatch sienna:ACBus.base_voltage ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> ;
+  skos:editorialNote "The og concept was bootstrapped from this field: kV, bus granularity, design value not measurement."@en .
+
+gc:operatingVoltage skos:closeMatch sienna:ACBus.magnitude ;
+  og:basisDiffers "Sienna carries bus voltage magnitude per-unit on base_voltage."@en .
+
+gc:voltageAngle skos:exactMatch sienna:ACBus.angle ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:busIdentifier skos:exactMatch sienna:ACBus.number ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:busType skos:exactMatch sienna:ACBus.bustype ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:branchEndpoints skos:exactMatch sienna:Line.arc ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> ;
+  skos:editorialNote "Sienna's Arc is a from/to pair, structurally what a tabular from_bus/to_bus column pair expresses."@en .
+
+gc:resistance skos:closeMatch sienna:Line.r ;
+  og:basisDiffers "Sienna carries line impedance per-unit on the system base_power. Converting to ohms needs the system base, which is a property of the system rather than of the line."@en .
+
+gc:reactance skos:closeMatch sienna:Line.x ; og:basisDiffers "As for Line.r."@en .
+
+gc:susceptance skos:closeMatch sienna:Line.b ;
+  og:basisDiffers "Per-unit, and carried as a from/to named tuple rather than a total."@en .
+
+gc:continuousRating skos:closeMatch sienna:Line.rating ;
+  og:basisDiffers "Per-unit on system base_power rather than MVA."@en .
+
+gc:branchLength skos:exactMatch sienna:Line.length ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:tapRatio skos:exactMatch sienna:Transformer2W.tap ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:phaseShift skos:exactMatch sienna:PhaseShiftingTransformer.α ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:topologyStatus skos:exactMatch sienna:Component.available ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:zoneIdentifier skos:closeMatch sienna:ACBus.area, sienna:ACBus.load_zone ;
+  og:granularityDiffers "Sienna distinguishes an Area from a LoadZone; a single zone identifier in a tabular dataset may be either."@en .
+
+# --- generation ---------------------------------------------------------
+
+gc:nameplateCapacity skos:closeMatch sienna:ThermalStandard.active_power_limits ;
+  og:basisDiffers "Sienna's active_power_limits is a min/max named tuple in per-unit on base_power, not a scalar MW value. The maximum element is the nameplate; the field as a whole is not."@en ;
+  skos:editorialNote "Recorded as close rather than exact precisely because the og concept was derived from the max element: deriving from part of a field does not make the whole field identical to it."@en .
+
+gc:minimumStableLevel skos:closeMatch sienna:ThermalStandard.active_power_limits ;
+  og:basisDiffers "The min element of the same named tuple, in per-unit."@en .
+
+gc:apparentPower skos:exactMatch sienna:ThermalStandard.base_power ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> ;
+  skos:editorialNote "Sienna's per-device base_power is the machine rating in MVA."@en .
+
+gc:reactiveCapability skos:closeMatch sienna:ThermalStandard.reactive_power_limits ;
+  og:basisDiffers "Per-unit min/max tuple rather than a scalar in MVAr, and fixed rather than a capability curve."@en .
+
+gc:rampRate skos:closeMatch sienna:ThermalStandard.ramp_limits ;
+  og:basisDiffers "Per-unit per minute on base_power, as an up/down tuple."@en .
+
+gc:minimumUpTime skos:closeMatch sienna:ThermalStandard.time_limits ;
+  og:granularityDiffers "The up element of an up/down tuple, in hours. Same unit; the field carries both directions, so it is not identical to either concept alone."@en .
+
+gc:minimumDownTime skos:closeMatch sienna:ThermalStandard.time_limits ;
+  og:granularityDiffers "The down element of the same tuple."@en .
+
+gc:startupCost skos:closeMatch sienna:ThermalStandard.operation_cost ;
+  og:granularityDiffers "Sienna's operation_cost is a composite carrying start-up, shut-down, fixed and variable components. One element of it, not the whole."@en .
+
+gc:variableOperatingCost skos:closeMatch sienna:ThermalStandard.operation_cost ;
+  og:granularityDiffers "The variable element of the same composite, and it may be a curve rather than a scalar."@en .
+
+gc:capacityFactor skos:closeMatch sienna:RenewableDispatch.power_factor ;
+  og:basisDiffers "Not the same quantity. Sienna's RenewableDispatch carries availability as an attached time series rather than as a field; power_factor is the electrical power factor and is mapped here only because the names collide in practice."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Deliberately weak. The names look alike and the quantities are unrelated; recording the near-collision with an explicit basis note is more useful than silence, because a resolver matching on name alone would otherwise make this mistake unassisted."@en .
+
+gc:primaryFuel skos:exactMatch sienna:ThermalStandard.fuel ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:technologyType skos:exactMatch sienna:ThermalStandard.prime_mover_type ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:thermalEfficiency skos:closeMatch sienna:HydroPumpedStorage.pump_efficiency ;
+  og:granularityDiffers "Sienna models conversion efficiency per device type rather than as one field; this is the pumped-hydro instance."@en ;
+  og:enrichmentBasis "inferred" ;
+  skos:editorialNote "Inferred, and weak. Pump efficiency is a conversion efficiency but not a thermal one; the mapping is recorded so a resolver matching on the word efficiency has somewhere to land with a stated caveat, rather than resolving silently to the wrong concept."@en .
+
+# --- storage ------------------------------------------------------------
+
+gc:storageEnergyCapacity skos:closeMatch sienna:EnergyReservoirStorage.storage_capacity ;
+  og:basisDiffers "Per-unit on base_power rather than MWh."@en .
+
+gc:storagePowerCapacity skos:closeMatch sienna:EnergyReservoirStorage.input_active_power_limits,
+                                        sienna:EnergyReservoirStorage.output_active_power_limits ;
+  og:basisDiffers "Charge and discharge limits are separate per-unit tuples; a single power capacity is neither."@en .
+
+gc:roundTripEfficiency skos:closeMatch sienna:EnergyReservoirStorage.efficiency ;
+  og:basisDiffers "Sienna carries an in/out efficiency tuple; round-trip efficiency is the product."@en .
+
+gc:stateOfCharge skos:closeMatch sienna:EnergyReservoirStorage.initial_storage_capacity_level ;
+  og:basisDiffers "The initial condition, per-unit of storage capacity."@en .
+
+# --- load and time ------------------------------------------------------
+
+gc:electricityDemand skos:closeMatch sienna:PowerLoad.active_power ;
+  og:basisDiffers "Per-unit on base_power."@en .
+
+gc:timestamp skos:exactMatch sienna:TimeSeriesData.timestamp ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+gc:timeResolution skos:exactMatch sienna:TimeSeriesData.resolution ;
+  dct:source <https://github.com/NREL-Sienna/PowerSystems.jl> .
+
+# --- X4: explicit gaps -------------------------------------------------
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/sienna> ;
+   og:gapConcept gc:overnightCapitalCost, gc:fixedOperatingCost,
+                 gc:weightedAverageCostOfCapital, gc:economicLifetime ;
+   og:gapReason "PowerSystems.jl models operating cost, not investment cost. Capital cost belongs to SiennaOps/SiennaInvest rather than to the system data model, so there is no field to map to here."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/sienna> ;
+   og:gapConcept gc:co2EmissionRate, gc:noxEmissions, gc:so2Emissions ;
+   og:gapReason "Emissions are not a first-class field on Sienna component types; they are derived downstream from fuel and heat rate."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/sienna> ;
+   og:gapConcept gc:eiaPlantCode, gc:orisCode, gc:gemUnitIdentifier, gc:eicCode ;
+   og:gapReason "Sienna components carry a name, not a register identifier. Entity resolution happens before a system is built."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/sienna> ;
+   og:gapConcept gc:globalHorizontalIrradiance, gc:windSpeed ;
+   og:gapReason "Resource quantities enter Sienna only as availability time series attached to a RenewableDispatch device. The underlying meteorological variable is not represented, which is why a Sienna system and a weather dataset are complementary rather than overlapping."@en .
+
+[] a og:MappingGap ; og:gapInScheme <https://schema.opengrid.org/crosswalk/sienna> ;
+   og:gapConcept gc:transferCapacity ;
+   og:gapReason "Sienna is nodal. An Area interchange limit exists but is a different quantity from a zonal NTC derived by aggregating branch limits."@en .

@@ -1,0 +1,198 @@
+# OpenGrid analysis types — PRD §F7, schema fields og:supportedAnalysis and
+# og:excludedAnalysis (D12, "fitness for purpose").
+#
+# Two things in this file are load-bearing beyond the labels:
+#
+#   og:typicalInputDomain   The data domains an analysis of this kind consumes.
+#                           PRD §F6.6 asks every surfaced dataset pairing to
+#                           carry shared downstream workflow tags — "Both feed:
+#                           Capacity Expansion Modeling, Production Cost
+#                           Modeling". Holding the mapping here means the link
+#                           service derives those tags from the vocabulary
+#                           rather than from a table someone has to remember to
+#                           update when a domain is added.
+#   og:requiresGranularity  Whether the analysis needs nodal detail or is
+#                           satisfied by zonal. This is what makes "nodal versus
+#                           zonal, different granularity of the same network"
+#                           (PRD §F6.4) a computable descriptor rather than a
+#                           phrase a reviewer types.
+#
+# Abbreviations are skos:altLabel, not part of the IRI, because "RA" means
+# resource adequacy here and reliability assessment elsewhere and the IRI has to
+# outlive that ambiguity.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix dd:   <https://schema.opengrid.org/concept/data-domain/> .
+@prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix at:   <https://schema.opengrid.org/concept/analysis-type/> .
+
+<https://schema.opengrid.org/concept/analysis-type>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Analysis Types"@en ;
+  dct:description """The kinds of study a grid dataset can be fit or unfit for, used as the value space of og:supportedAnalysis and og:excludedAnalysis (PRD §4.1 D12). Shallow on purpose: two levels, because a modeler picking a dataset thinks in terms of the study they are running, not in terms of a taxonomy of studies. Where a study type has meaningfully different data needs at different granularities, that is expressed with og:requiresGranularity rather than by splitting the concept."""@en ;
+  dct:issued "2026-09-04"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept at:capacityExpansion, at:productionCost, at:resourceAdequacy,
+                     at:powerFlow, at:marketSimulation, at:siting,
+                     at:transmissionPlanning, at:emissionsAccounting .
+
+
+at:capacityExpansion
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "capacity-expansion" ;
+  skos:prefLabel "Capacity Expansion Modeling"@en ;
+  skos:altLabel "CEM"@en, "capacity expansion"@en, "investment planning"@en,
+                "long-term planning"@en, "generation expansion"@en ;
+  skos:definition "Co-optimising what to build and where over a multi-decade horizon, subject to policy, cost and reliability constraints. Represents the network zonally and time chronologically only in sampled representative periods, so it tolerates coarse spatial detail but is acutely sensitive to technology cost trajectories and to renewable resource correlation across sites."@en ;
+  skos:scopeNote "A dataset that resolves individual buses adds nothing here and a dataset that only resolves national totals is too coarse. The binding inputs are DD9 cost trajectories and DD5 resource time series with credible spatial correlation."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD5, dd:DD6, dd:DD7, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "zonal" .
+
+at:productionCost
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "production-cost" ;
+  skos:prefLabel "Production Cost Modeling"@en ;
+  skos:altLabel "PCM"@en, "production cost"@en, "unit commitment and economic dispatch"@en,
+                "chronological dispatch"@en, "security-constrained economic dispatch"@en ;
+  skos:definition "Simulating hourly or sub-hourly commitment and dispatch of a fixed fleet over a full year, honouring unit technical constraints and transmission limits, to produce costs, flows, prices and emissions. Needs a chronological year without gaps and unit-level technical parameters."@en ;
+  skos:scopeNote "The parameter most often missing is unit outage rate, which NERC GADS holds behind membership; the seed inventory records it as the single most requested unavailable parameter in PCM work. A dataset offering annual averages rather than a chronological series is excluded, not merely weaker."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD5, dd:DD7 ;
+  og:requiresGranularity "zonal" .
+
+at:unitCommitment
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:broader at:productionCost ;
+  skos:notation "unit-commitment" ;
+  skos:prefLabel "Unit Commitment"@en ;
+  skos:altLabel "UC"@en, "security-constrained unit commitment"@en, "SCUC"@en ;
+  skos:definition "The integer scheduling sub-problem: which thermal units are on in each period, subject to minimum up and down times, start costs and ramp limits. Isolated here because its data needs are strictly narrower than full production cost simulation and a dataset can serve it without serving the whole."@en ;
+  og:typicalInputDomain dd:DD2, dd:DD4, dd:DD7 ;
+  og:requiresGranularity "zonal" .
+
+at:resourceAdequacy
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "resource-adequacy" ;
+  skos:prefLabel "Resource Adequacy"@en ;
+  skos:altLabel "RA"@en, "loss of load expectation"@en, "LOLE"@en, "LOLP"@en,
+                "capacity value"@en, "ELCC"@en ;
+  skos:definition "Estimating the probability and expected magnitude of unserved energy, by Monte Carlo over outage draws and weather years. Distinguished from production cost simulation by needing many weather years rather than one representative year, and by needing outage-rate distributions rather than point estimates."@en ;
+  skos:scopeNote "A single weather year is disqualifying, not merely limiting: the whole result is a tail statistic. This is why DD5 datasets are graded here on the length of their record, not only on their resolution."@en ;
+  og:typicalInputDomain dd:DD2, dd:DD4, dd:DD5, dd:DD6 ;
+  og:requiresGranularity "zonal" .
+
+at:powerFlow
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "power-flow" ;
+  skos:prefLabel "Power Flow Analysis"@en ;
+  skos:altLabel "load flow"@en, "network analysis"@en ;
+  skos:definition "Solving for bus voltages and branch flows on a nodal network model. Requires topology and electrical parameters at bus-branch resolution; a zonal transfer-capacity table cannot serve it at any level of care."@en ;
+  skos:scopeNote "This is the analysis type DD1's structural note bites hardest on. Open datasets reach it only through synthetic grids or through OSM-derived topology with voltage-class-estimated impedances, and the latter must be flagged og:valueBasis modeled per field."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4 ;
+  og:requiresGranularity "nodal" .
+
+at:acPowerFlow
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:broader at:powerFlow ;
+  skos:notation "ac-power-flow" ;
+  skos:prefLabel "AC Power Flow"@en ;
+  skos:altLabel "ACOPF"@en, "AC optimal power flow"@en, "full AC"@en ;
+  skos:definition "The non-linear formulation, solving real and reactive power simultaneously. Needs resistance, reactance and shunt susceptance per branch plus reactive capability per generator — the parameters most often absent from open network data."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2 ;
+  og:requiresGranularity "nodal" .
+
+at:dcPowerFlow
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:broader at:powerFlow ;
+  skos:notation "dc-power-flow" ;
+  skos:prefLabel "DC Power Flow"@en ;
+  skos:altLabel "DCOPF"@en, "linearised power flow"@en, "lossless DC"@en ;
+  skos:definition "The linearised approximation, needing only reactance and thermal ratings. A dataset carrying reactance but no resistance supports this and not AC power flow, which is a distinction worth surfacing rather than collapsing into 'network data'."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2 ;
+  og:requiresGranularity "nodal" .
+
+at:transmissionPlanning
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "transmission-planning" ;
+  skos:prefLabel "Transmission Planning"@en ;
+  skos:altLabel "transmission expansion planning"@en, "TEP"@en, "network expansion"@en ;
+  skos:definition "Deciding which network reinforcements to build, evaluated against contingency criteria over future scenarios. Sits between capacity expansion and power flow: it needs a nodal or sub-zonal network and a forward view of generation siting, which is why interconnection queue data (DD3) is a genuine input rather than a curiosity."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD3, dd:DD4, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "nodal" .
+
+at:reliabilityAssessment
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:broader at:transmissionPlanning ;
+  skos:notation "reliability-assessment" ;
+  skos:prefLabel "Reliability Assessment"@en ;
+  skos:altLabel "contingency analysis"@en, "N-1"@en, "N-1-1"@en, "TPL-001"@en ;
+  skos:definition "Testing whether the system survives defined contingencies within thermal, voltage and stability limits. Governed by standards rather than by preference, which makes the DD8 policy texts (NERC TPL-001 in particular) a direct input to the study definition and not merely context."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD8 ;
+  og:requiresGranularity "nodal" .
+
+at:marketSimulation
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "market-simulation" ;
+  skos:prefLabel "Market Simulation"@en ;
+  skos:altLabel "price forecasting"@en, "capacity market modeling"@en,
+                "bid-based simulation"@en, "revenue modeling"@en ;
+  skos:definition "Simulating market outcomes — energy, ancillary and capacity prices, and participant revenues — under bidding behaviour that may depart from marginal cost. Needs market rules (DD8) as much as physical data, and forward fuel prices which DD7's structural note says are uniformly commercial and will remain so."@en ;
+  skos:scopeNote "The excluded-analysis case that matters here: a dataset offering only historical settled prices supports backtesting and does not support forward revenue modeling. Say so rather than letting the user find out."@en ;
+  og:typicalInputDomain dd:DD2, dd:DD4, dd:DD7, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "zonal" .
+
+at:siting
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "siting" ;
+  skos:prefLabel "Siting and Land Use"@en ;
+  skos:altLabel "site selection"@en, "land use screening"@en, "exclusion mapping"@en,
+                "suitability analysis"@en, "renewable siting"@en ;
+  skos:definition "Identifying where generation or transmission can physically and legally be built, by intersecting resource quality with terrain, land cover, protected areas and interconnection proximity. Consumes raster and vector geospatial layers rather than time series."@en ;
+  skos:scopeNote "DD10's structural note bounds this: global base layers and exclusion masks are well covered and openly licensed; parcel ownership and permitting status are county-level in the US with no global analogue and are out of scope for v1."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD3, dd:DD5, dd:DD10 ;
+  og:requiresGranularity "gridded" .
+
+at:emissionsAccounting
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "emissions-accounting" ;
+  skos:prefLabel "Emissions Accounting"@en ;
+  skos:altLabel "carbon accounting"@en, "marginal emissions"@en, "emissions inventory"@en,
+                "24/7 carbon-free matching"@en ;
+  skos:definition "Attributing emissions to generation, consumption or a specific load, at annual average or hourly marginal resolution. The two resolutions have genuinely different data needs — an annual subregional average and an hourly marginal rate are not substitutes — and a dataset supporting one frequently excludes the other."@en ;
+  skos:scopeNote "eGRID serves the annual-average case and is lagged roughly two years; CAMD hourly unit-level data serves the marginal case. Cataloguing both as simply 'emissions data' would let a user pick the wrong one silently."@en ;
+  og:typicalInputDomain dd:DD2, dd:DD4, dd:DD7 ;
+  og:requiresGranularity "zonal" .
+
+at:interconnectionAnalysis
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:broader at:transmissionPlanning ;
+  skos:notation "interconnection-analysis" ;
+  skos:prefLabel "Interconnection Queue Analysis"@en ;
+  skos:altLabel "queue analysis"@en, "project pipeline analysis"@en,
+                "withdrawal rate analysis"@en ;
+  skos:definition "Studying the pipeline of proposed projects: volumes, durations, withdrawal rates and cost allocation outcomes. Distinct from transmission planning in that its subject is the process rather than the network, and it is US-only in practice because no comparable international source exists."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD3, dd:DD9 ;
+  og:requiresGranularity "point" .

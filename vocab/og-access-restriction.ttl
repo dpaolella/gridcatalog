@@ -1,0 +1,141 @@
+# OpenGrid access restrictions — PRD §4.1 D9, schema field og:accessRestriction.
+#
+# Six values, closed. The restriction describes what stands between a user and
+# the bytes. It is asserted at dataset level and may be overridden per
+# distribution (PRD §4.2), because the common case is a dataset with an
+# anonymous S3 copy and an account-gated API, and the two paths are not equally
+# reachable.
+#
+# Two properties turn the tier framework of PRD §5 into data:
+#
+#   og:blocksAnonymousAccess  Whether the restriction, on its own, prevents an
+#                             unauthenticated user from reaching the bytes.
+#                             This is the constraint side of D10
+#                             (og:anonymousAccess); a record asserting
+#                             anonymous access on a path whose restriction
+#                             blocks it is contradicting itself, and the SHACL
+#                             shapes reject it rather than silently preferring
+#                             one of the two statements.
+#   og:tierCeiling            The highest tier a dataset can reach under this
+#                             restriction alone. Tier 1 requires all five PRD §5
+#                             criteria — permissive licence, anonymous free
+#                             access on at least one path, bulk download,
+#                             model-ready structure, documented parseable schema
+#                             — so a restriction that defeats the anonymous-access
+#                             criterion caps the dataset at 2 even when the other
+#                             four hold, and a restriction that leaves no
+#                             ingestible path at all caps it at 3.
+#
+# The ceiling is a cap, not an assignment: a dataset whose restriction is "none"
+# still lands at Tier 2 or 3 if it fails one of the other four criteria. A
+# dataset with several distributions takes the ceiling of its least restricted
+# one, since one open path is enough to satisfy the criterion.
+#
+# Tier is an internal build-prioritisation fact and is never displayed as a
+# quality signal (PRD §5).
+#
+# IRIs follow docs/conventions.md: scheme
+# https://schema.opengrid.org/concept/access-restriction, concept tokens
+# lowerCamelCase. skos:notation carries the D9 wire value, which is kebab-case
+# ("account-required"), so normalizers map the enum string through the notation
+# and never through the IRI token.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ar:   <https://schema.opengrid.org/concept/access-restriction/> .
+
+<https://schema.opengrid.org/concept/access-restriction>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Access Restrictions"@en ;
+  dct:description """What stands between a user and the bytes, used as the value space of og:accessRestriction (PRD §4.1 D9). Required at completeness level 1 on the dataset and overridable on each distribution (PRD §4.2). Each concept carries og:blocksAnonymousAccess and og:tierCeiling, which express the access-related half of the PRD §5 tier framework as data so that the access broker and the tier assignment read the same statement. A restriction is a fact about reachability, never a judgement about quality: a paywalled dataset is catalogued, is described honestly, and says why there is no schema tab."""@en ;
+  dct:issued "2026-09-04"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept ar:none, ar:accountRequired, ar:ceii, ar:pii,
+                     ar:commercialPaywall, ar:discontinued .
+
+
+ar:none
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "none" ;
+  skos:prefLabel "No restriction"@en ;
+  skos:altLabel "open access"@en, "anonymous"@en, "unrestricted"@en, "public"@en ;
+  skos:definition "The bytes are retrievable by an unauthenticated request with no registration, no credential, no click-through agreement and no fee. Attribution or share-alike obligations in the licence do not count as access restrictions; they are licence terms and are recorded as dct:license."@en ;
+  skos:scopeNote "A rate limit or a required API key that is issued automatically without registration is still \"none\". A form that must be filled in before download is not: that is account-required, because a machine cannot complete it."@en ;
+  skos:example "ECMWF ERA5, DD5 — CF-compliant Zarr readable from anonymous S3."@en ;
+  og:blocksAnonymousAccess false ;
+  og:tierCeiling 1 .
+
+ar:accountRequired
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "account-required" ;
+  skos:prefLabel "Account required"@en ;
+  skos:altLabel "registration required"@en, "login required"@en, "free account"@en,
+                "API key"@en, "form-gated"@en, "click-through"@en ;
+  skos:definition "The bytes are free of charge but reachable only after registering an account, requesting a credential, or completing a download form or click-through agreement. The barrier is identification, not payment or entitlement."@en ;
+  skos:scopeNote "Caps the dataset at Tier 2: PRD §5 requires anonymous free access on at least one path for Tier 1, and this defeats exactly that criterion while leaving the other four intact. data/seed-sources.yaml states the same conclusion for GEM's Global Integrated Power Tracker — form-gated, otherwise model-ready, lands Tier 2."@en ;
+  skos:example "ENTSO-E Transparency Platform, DD2/DD4/DD5 — free account required for the download and API paths."@en ;
+  og:blocksAnonymousAccess true ;
+  og:tierCeiling 2 .
+
+ar:ceii
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "ceii" ;
+  skos:prefLabel "CEII or equivalent security designation"@en ;
+  skos:altLabel "CEII"@en, "critical energy infrastructure information"@en,
+                "security restricted"@en, "NDA required"@en, "clearance required"@en ;
+  skos:definition "Withheld under a critical-infrastructure or national-security designation — Critical Energy/Electric Infrastructure Information under 18 CFR 388.113 in the United States, or an equivalent regime elsewhere. Access requires a demonstrated need, a regulator's determination or a non-disclosure agreement, and is granted to a person rather than to the public."@en ;
+  skos:scopeNote "Reference only. The record exists to document the gap: PRD §5 makes the DD1 structural note say so directly, and principle 2 requires the catalog to state that the data exists and is unreachable rather than return nothing. No field-level metadata and no inter-dataset links are attached."@en ;
+  skos:example "WECC / FERC CEII Transmission Data, DD1 — NDA plus FERC clearance; catalogued as a documented gap."@en ;
+  og:blocksAnonymousAccess true ;
+  og:tierCeiling 3 .
+
+ar:pii
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "pii" ;
+  skos:prefLabel "Personal data restricted"@en ;
+  skos:altLabel "PII"@en, "personally identifiable information"@en, "privacy restricted"@en,
+                "microdata"@en, "data use agreement"@en, "GDPR restricted"@en ;
+  skos:definition "Withheld or degraded because the records identify, or can be re-identified to, individual people or premises: interval meter data, customer-level consumption, survey microdata. Release at native granularity requires a data-use agreement, ethics approval or a disclosure-control process, and the public product is aggregated or perturbed."@en ;
+  skos:scopeNote "Distinct from ceii, which restricts on infrastructure-security grounds and cannot be lifted by aggregation. A privacy restriction usually can: the aggregated public release is a separate dataset with its own record and its own restriction, linked by og:supersedes or og:complements rather than folded into this one."@en ;
+  skos:editorialNote "No dataset in the v1 seed inventory (data/seed-sources.yaml) carries this restriction; the nearest case, DD4 substation metered demand, is utility-confidential rather than personal. The concept exists because harvested load and building-stock sources will hit it, and because inventing the value later would be a breaking change to this scheme."@en ;
+  og:blocksAnonymousAccess true ;
+  og:tierCeiling 3 .
+
+ar:commercialPaywall
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "commercial-paywall" ;
+  skos:prefLabel "Commercial paywall"@en ;
+  skos:altLabel "paywalled"@en, "subscription"@en, "licence fee"@en,
+                "proprietary"@en, "commercial data"@en ;
+  skos:definition "Reachable only under a paid subscription or per-dataset licence, typically with redistribution prohibited. Payment is the barrier, and the licence terms usually prevent OpenGrid from hosting, mirroring or restating the values even for a subscriber."@en ;
+  skos:scopeNote "Reference only, and the pointer rationale must name the redistribution constraint rather than only the price. PRD §5 requires the DD7 domain page to say plainly that forward curves are and will remain commercial, so that a user stops looking instead of assuming the catalog is incomplete."@en ;
+  skos:example "ICE / Platts / Argus forward curves, DD7 — redistribution prohibited, and a permanent gap for forward-price modeling."@en ;
+  og:blocksAnonymousAccess true ;
+  og:tierCeiling 3 .
+
+ar:discontinued
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/access-restriction> ;
+  skos:notation "discontinued" ;
+  skos:prefLabel "Discontinued"@en ;
+  skos:altLabel "no longer maintained"@en, "no longer published"@en, "frozen"@en,
+                "archived"@en, "last release"@en ;
+  skos:definition "The publisher has stopped producing the dataset. Whatever was released remains as it was, and any surviving copy may still be openly reachable, but no further vintage will appear and the access surface may be withdrawn without notice."@en ;
+  skos:scopeNote "Not an access gate — og:blocksAnonymousAccess is false because a discontinued dataset is often still anonymously downloadable — but it belongs on this axis because it is the reason a path stops resolving, and because it caps the dataset at Tier 3 under the PRD §5 rule that stale and superseded sources are reference only. It does not by itself set the Currency & Maintenance grade to D: PRD §F5 reserves that for an explicit og:supersededBy link to a newer catalog entry."@en ;
+  skos:example "Open Power System Data time series, DD4/DD5 — last release 2020, superseded by ENTSO-E direct and by newer aggregations."@en ;
+  og:blocksAnonymousAccess false ;
+  og:tierCeiling 3 .

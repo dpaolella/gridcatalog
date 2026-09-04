@@ -1,0 +1,152 @@
+# OpenGrid provenance classes — PRD §4.1 D6, schema field og:provenanceClass.
+#
+# Eight values, closed. The class answers one question: where did the numbers in
+# this dataset come from? It is a statement about how the values were produced,
+# never about whether the lineage happens to be recorded. That second question is
+# the Provenance quality facet (PRD §F5), and the two are deliberately separate:
+# a primary dataset with no upstream link recorded is still class "primary" and
+# grades D.
+#
+# og:baseProvenanceGrade encodes the F5 Provenance table as data rather than as
+# an if-chain in the grader. It is the *ceiling* — the best grade a dataset of
+# this class can reach once its lineage IS recorded:
+#
+#   A  "Primary & Traced"   values measured or primary, upstream origin recorded
+#   B  "Derived & Traced"   values estimated, modeled or synthetic, full lineage
+#                           to an origin recorded
+#
+# Grades C ("Traced, Basis Unconfirmed") and D ("Untraced") are reachable from
+# every class and are therefore not ceilings; they describe the state of the
+# lineage record, not the class. The grader computes
+# min(base ceiling, what the record's lineage supports), so adding a ninth class
+# is a vocabulary change and not a code change.
+#
+# Examples name datasets that are actually in data/seed-sources.yaml. Where the
+# seed file records a provenance value itself, the example is that row.
+#
+# IRIs follow docs/conventions.md: scheme
+# https://schema.opengrid.org/concept/provenance-class, concept tokens
+# lowerCamelCase. skos:notation carries the D6 wire value, which is
+# kebab-case ("osm-derived"), so normalizers map the enum string to the concept
+# through the notation and never through the IRI token.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix og:   <https://schema.opengrid.org/ns#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix pc:   <https://schema.opengrid.org/concept/provenance-class/> .
+
+<https://schema.opengrid.org/concept/provenance-class>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Provenance Classes"@en ;
+  dct:description """How the values in a dataset were produced, used as the value space of og:provenanceClass (PRD §4.1 D6). Required at completeness level 1, so every published record carries one. The scheme is flat and mutually exclusive: a dataset that is genuinely a mixture is classified by the step that determines the interpretation of its values, and the mixture itself is recorded as lineage (og:upstreamSource) rather than as a compound class. Each concept carries og:baseProvenanceGrade, the highest Provenance facet grade (PRD §F5) a dataset of that class can reach once its lineage is recorded."""@en ;
+  dct:issued "2026-09-04"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept pc:primary, pc:curated, pc:modeled, pc:reanalysis,
+                     pc:derived, pc:synthetic, pc:osmDerived, pc:institutional .
+
+
+pc:primary
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "primary" ;
+  skos:prefLabel "Primary"@en ;
+  skos:altLabel "observed"@en, "measured"@en, "reported"@en ;
+  skos:definition "Values originate with the party that holds the fact: metered or instrument-measured quantities, or figures reported by the operator or owner under a mandatory collection. This dataset is the first published record of the value; there is no upstream dataset it could be traced to."@en ;
+  skos:scopeNote "Test: if the value is wrong, the correction has to come from the reporting entity, not from a recomputation. A survey or administrative form is primary even though it is transcribed, because the respondent is the origin."@en ;
+  skos:example "EIA-860 (Annual Electric Generator Report), DD2 — capacity, technology and retirement dates as reported by the plant operator to EIA."@en ;
+  og:baseProvenanceGrade "A" .
+
+pc:curated
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "curated" ;
+  skos:prefLabel "Curated"@en ;
+  skos:altLabel "compiled"@en, "harmonized"@en, "reconciled"@en, "aggregation of primary sources"@en ;
+  skos:definition "Values are taken from one or more primary sources and cleaned, reconciled, deduplicated, unit-harmonized or re-keyed, without substituting an estimate for a reported quantity. The curator changes the presentation of the value, not the value's basis."@en ;
+  skos:scopeNote "Distinguish from derived: curation preserves the quantity a primary source reported, so it keeps the primary basis and the grade ceiling that goes with it. If the published number is a function of several inputs rather than one of them, the class is derived."@en ;
+  skos:example "Global Transmission Database (Brinkerink et al. 2024), DD1 — zonal transfer limits assembled and harmonized from published national and regional sources."@en ;
+  skos:editorialNote "data/seed-sources.yaml records the free-text provenance value \"curated benchmark\" (PowerGridLib / pglib-opf). The normalizer resolves it to this concept; the benchmark character of the dataset is a fitness-for-purpose fact and belongs in og:supportedAnalysis, not in the provenance class."@en ;
+  og:baseProvenanceGrade "A" .
+
+pc:modeled
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "modeled" ;
+  skos:prefLabel "Modeled"@en ;
+  skos:altLabel "modelled"@en, "engineering estimate"@en, "projection"@en,
+                "assumption set"@en, "elicited"@en ;
+  skos:definition "Values are the output of an engineering, economic or expert-elicitation process rather than an observation: cost and performance projections, scenario outputs, learning-rate extrapolations and parameter sets assembled from judgment. The value is a claim about a system state that was not measured, and often could not be."@en ;
+  skos:scopeNote "A modeled dataset is only as traceable as its assumptions. Grade A is unreachable by construction, which is a statement about the data, not a penalty: PRD §5 makes the same point for DD6, where modeled parameter sets are the norm."@en ;
+  skos:example "NREL ATB (Annual Technology Baseline), DD9 — technology capital and O&M cost trajectories built from an explicit, documented assumption set."@en ;
+  og:baseProvenanceGrade "B" .
+
+pc:reanalysis
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "reanalysis" ;
+  skos:prefLabel "Reanalysis"@en ;
+  skos:altLabel "atmospheric reanalysis"@en, "assimilated weather"@en,
+                "gridded weather"@en, "hindcast"@en ;
+  skos:definition "Gridded values produced by assimilating heterogeneous observations into a numerical weather or climate model run at a fixed configuration over a long historical period. Every cell is a model state constrained by observations, not an observation, and cells far from any station are model output in full."@en ;
+  skos:scopeNote "Kept separate from modeled because reanalysis has a distinct failure mode that matters for this catalog: it is a shared upstream origin. Two datasets that both trace to ERA5 are not independent, and the link service raises that as a correlation warning (PRD §F6.8, worked query Q1)."@en ;
+  skos:example "ECMWF ERA5, DD5 — hourly global atmospheric reanalysis, the single most common shared origin in the DD5 seed inventory."@en ;
+  og:baseProvenanceGrade "B" .
+
+pc:derived
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "derived" ;
+  skos:prefLabel "Derived"@en ;
+  skos:altLabel "processed"@en, "downscaled"@en, "resampled"@en,
+                "bias-corrected"@en, "computed from upstream"@en ;
+  skos:definition "Values are computed from one or more upstream datasets by a transformation that produces a new quantity: aggregation, downscaling, bias correction, conversion of a resource variable into a capacity factor, or any recombination whose output no source reported directly."@en ;
+  skos:scopeNote "Derived is the class where recording og:upstreamSource matters most, because the dataset is uninterpretable without it and because a correction upstream propagates here (worked query Q2). A derived dataset with no upstream link recorded grades D no matter how good it is."@en ;
+  skos:example "PyPSA-Eur weather cutouts, DD5 — per-region wind and solar time series computed from ERA5 fields."@en ;
+  og:baseProvenanceGrade "B" .
+
+pc:synthetic
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "synthetic" ;
+  skos:prefLabel "Synthetic"@en ;
+  skos:altLabel "generated"@en, "representative"@en, "fictitious network"@en,
+                "test case"@en ;
+  skos:definition "Values are generated to be statistically or topologically representative of a real system while corresponding to no real asset. Typically produced where the real data is restricted, so that methods can be developed and published against something shareable."@en ;
+  skos:scopeNote "The classification carries a usage warning that must survive to the record: results computed on a synthetic system describe the synthetic system. Do not let a synthetic dataset satisfy a request for the real network it stands in for."@en ;
+  skos:example "TAMU Synthetic Grid Data, DD1 — fictitious but geographically and electrically plausible test cases standing in for CEII-restricted US networks."@en ;
+  og:baseProvenanceGrade "B" .
+
+pc:osmDerived
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "osm-derived" ;
+  skos:prefLabel "OpenStreetMap-derived"@en ;
+  skos:altLabel "OSM"@en, "OSM-derived"@en, "crowd-sourced"@en,
+                "volunteered geographic information"@en ;
+  skos:definition "Values are extracted from OpenStreetMap, whether as a direct tag export or after topology reconstruction. Coverage and attribute completeness vary by region with mapper activity rather than with the physical system, and attributes such as voltage or circuit count are frequently inferred by a contributor from imagery rather than observed."@en ;
+  skos:scopeNote "Kept as its own class rather than folded into derived for two reasons that both have consequences downstream: the ODbL share-alike obligation propagates to anything OpenGrid hosts, and the heterogeneous per-feature basis means no reviewer can confirm the whole layer as measured. Grade A is therefore unreachable."@en ;
+  skos:example "OpenStreetMap power infrastructure (via earth-osm), DD1 — lines, substations and generators extracted from OSM tags."@en ;
+  skos:editorialNote "data/seed-sources.yaml records the free-text provenance value \"osm-derived + curated\" (PyPSA-Eur Grid Dataset). The normalizer resolves it to this concept: the OSM extraction is the step that determines both the licence obligation and the per-feature basis, and the curation on top does not lift either."@en ;
+  og:baseProvenanceGrade "B" .
+
+pc:institutional
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/provenance-class> ;
+  skos:notation "institutional" ;
+  skos:prefLabel "Institutional"@en ;
+  skos:altLabel "official publication"@en, "regulatory text"@en, "standard"@en,
+                "agency statistics"@en ;
+  skos:definition "The institution's own publication is the fact: a reliability standard, a regulatory order, a market rule, a policy target or an official statistical release. The publishing body is the origin of the value by authority rather than by measurement, and there is no upstream dataset behind it to trace."@en ;
+  skos:scopeNote "Use this rather than primary when the value exists because an institution declared it, and rather than curated when the institution does not disclose the per-value lineage of a compilation it publishes under its own authority. Most of DD8 is institutional; the domain's difficulty is format, not basis."@en ;
+  skos:example "NERC Reliability Standards (TPL-001, MOD-032, FAC-001, FAC-008), DD8 — the standard text is itself the authoritative parameter source."@en ;
+  og:baseProvenanceGrade "A" .

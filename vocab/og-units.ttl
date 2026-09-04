@@ -1,0 +1,193 @@
+# Unit registry.
+#
+# Why this file exists rather than a bare dependency on QUDT:
+#
+#   1. Query Q5 (PRD §4.6) audits skos:exactMatch pairs for unit disagreement.
+#      That check must run offline and deterministically, against a store whose
+#      contents are entirely under version control. Resolving a QUDT IRI over
+#      the network on every check would make a data-quality query depend on a
+#      third party's uptime.
+#   2. Unit conversion at concept-resolution time (PRD §F4: "exact match on
+#      normalized name AND unit") needs a conversion factor. Carrying it here
+#      means a column in kW and one in MW resolve to the same concept with the
+#      factor recorded, rather than to a mismatch.
+#   3. Not every unit a grid dataset uses is in QUDT. Monetary compounds
+#      (USD/kW-yr) and a few physical compounds (BTU/kWh) are minted here under
+#      https://schema.opengrid.org/unit/ rather than asserted as QUDT IRIs that
+#      may not resolve. Fabricating an IRI would be exactly the failure this
+#      project's fourth principle forbids.
+#
+# og:qudtStatus records the standing of each IRI:
+#
+#   "verified"    Checked against a specific QUDT release; the release is named
+#                 in dct:source on the registry node.
+#   "unverified"  Believed present in QUDT and used as such, but not checked
+#                 against a release at authoring time — no QUDT endpoint was
+#                 reachable from the build environment. tests/vocab/test_units.py
+#                 marks the reconciliation as pending rather than passing it
+#                 silently, and the network-marked test performs the check when
+#                 QUDT is reachable.
+#   "og-minted"   Defined here because QUDT does not define it. Permanent.
+#
+# Conversion is to the SI coherent unit of the quantity kind, so
+#   value_in_si = value * og:conversionMultiplier + og:conversionOffset
+# Offset is only non-zero for temperature.
+
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix og:     <https://schema.opengrid.org/ns#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:   <http://qudt.org/schema/qudt/> .
+@prefix qk:     <http://qudt.org/vocab/quantitykind/> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix unit:   <http://qudt.org/vocab/unit/> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix ogunit: <https://schema.opengrid.org/unit/> .
+
+<https://schema.opengrid.org/unit>
+  a owl:Ontology ;
+  dct:title "OpenGrid unit registry"@en ;
+  dct:description """Every unit IRI the catalog uses, with the label, symbol, quantity kind and SI conversion needed to compare two fields offline. Mirrors QUDT where QUDT defines the unit and mints under https://schema.opengrid.org/unit/ where it does not."""@en ;
+  dct:source <http://qudt.org/2.1/vocab/unit> ;
+  owl:versionInfo "1.0.0" ;
+  og:qudtReconciliation "pending" ;
+  rdfs:comment "No QUDT endpoint was reachable when this registry was authored, so QUDT-namespaced entries are marked unverified. Reconciling them against a pinned QUDT release is tracked as a task; the local conversion factors below are authoritative for the catalog either way."@en .
+
+# --- Power, energy, apparent and reactive power -------------------------
+
+unit:MegaW a qudt:Unit ; rdfs:label "megawatt"@en ; qudt:symbol "MW" ;
+  qudt:hasQuantityKind qk:Power ; og:conversionMultiplier 1e6 ; og:qudtStatus "unverified" .
+unit:KiloW a qudt:Unit ; rdfs:label "kilowatt"@en ; qudt:symbol "kW" ;
+  qudt:hasQuantityKind qk:Power ; og:conversionMultiplier 1e3 ; og:qudtStatus "unverified" .
+unit:MegaW-HR a qudt:Unit ; rdfs:label "megawatt hour"@en ; qudt:symbol "MWh" ;
+  qudt:hasQuantityKind qk:Energy ; og:conversionMultiplier 3.6e9 ; og:qudtStatus "unverified" .
+unit:MegaV-A a qudt:Unit ; rdfs:label "megavolt ampere"@en ; qudt:symbol "MVA" ;
+  qudt:hasQuantityKind qk:ApparentPower ; og:conversionMultiplier 1e6 ; og:qudtStatus "unverified" .
+unit:MegaV-A_Reactive a qudt:Unit ; rdfs:label "megavolt ampere reactive"@en ; qudt:symbol "MVAr" ;
+  qudt:hasQuantityKind qk:ReactivePower ; og:conversionMultiplier 1e6 ; og:qudtStatus "unverified" .
+
+# --- Electrical ---------------------------------------------------------
+
+unit:KiloV a qudt:Unit ; rdfs:label "kilovolt"@en ; qudt:symbol "kV" ;
+  qudt:hasQuantityKind qk:Voltage ; og:conversionMultiplier 1e3 ; og:qudtStatus "unverified" .
+unit:A a qudt:Unit ; rdfs:label "ampere"@en ; qudt:symbol "A" ;
+  qudt:hasQuantityKind qk:ElectricCurrent ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:OHM a qudt:Unit ; rdfs:label "ohm"@en ; qudt:symbol "Ω" ;
+  qudt:hasQuantityKind qk:Resistance ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:S a qudt:Unit ; rdfs:label "siemens"@en ; qudt:symbol "S" ;
+  qudt:hasQuantityKind qk:Conductance ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:HZ a qudt:Unit ; rdfs:label "hertz"@en ; qudt:symbol "Hz" ;
+  qudt:hasQuantityKind qk:Frequency ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+
+# --- Geometry, length, area, angle --------------------------------------
+
+unit:M a qudt:Unit ; rdfs:label "metre"@en ; qudt:symbol "m" ;
+  qudt:hasQuantityKind qk:Length ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:KiloM a qudt:Unit ; rdfs:label "kilometre"@en ; qudt:symbol "km" ;
+  qudt:hasQuantityKind qk:Length ; og:conversionMultiplier 1e3 ; og:qudtStatus "unverified" .
+unit:MilliM a qudt:Unit ; rdfs:label "millimetre"@en ; qudt:symbol "mm" ;
+  qudt:hasQuantityKind qk:Length ; og:conversionMultiplier 1e-3 ; og:qudtStatus "unverified" .
+unit:KiloM2 a qudt:Unit ; rdfs:label "square kilometre"@en ; qudt:symbol "km²" ;
+  qudt:hasQuantityKind qk:Area ; og:conversionMultiplier 1e6 ; og:qudtStatus "unverified" .
+unit:DEG a qudt:Unit ; rdfs:label "degree"@en ; qudt:symbol "°" ;
+  qudt:hasQuantityKind qk:Angle ; og:conversionMultiplier 0.017453292519943295 ; og:qudtStatus "unverified" .
+
+# --- Time ---------------------------------------------------------------
+
+unit:SEC a qudt:Unit ; rdfs:label "second"@en ; qudt:symbol "s" ;
+  qudt:hasQuantityKind qk:Time ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:MIN a qudt:Unit ; rdfs:label "minute"@en ; qudt:symbol "min" ;
+  qudt:hasQuantityKind qk:Time ; og:conversionMultiplier 60.0 ; og:qudtStatus "unverified" .
+unit:HR a qudt:Unit ; rdfs:label "hour"@en ; qudt:symbol "h" ;
+  qudt:hasQuantityKind qk:Time ; og:conversionMultiplier 3600.0 ; og:qudtStatus "unverified" .
+unit:YR a qudt:Unit ; rdfs:label "year"@en ; qudt:symbol "yr" ;
+  qudt:hasQuantityKind qk:Time ; og:conversionMultiplier 31557600.0 ; og:qudtStatus "unverified" .
+
+# --- Meteorological -----------------------------------------------------
+
+unit:W-PER-M2 a qudt:Unit ; rdfs:label "watt per square metre"@en ; qudt:symbol "W/m²" ;
+  qudt:hasQuantityKind qk:Irradiance ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:M-PER-SEC a qudt:Unit ; rdfs:label "metre per second"@en ; qudt:symbol "m/s" ;
+  qudt:hasQuantityKind qk:Velocity ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:M3-PER-SEC a qudt:Unit ; rdfs:label "cubic metre per second"@en ; qudt:symbol "m³/s" ;
+  qudt:hasQuantityKind qk:VolumeFlowRate ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:KiloGM-PER-M3 a qudt:Unit ; rdfs:label "kilogram per cubic metre"@en ; qudt:symbol "kg/m³" ;
+  qudt:hasQuantityKind qk:Density ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:PA a qudt:Unit ; rdfs:label "pascal"@en ; qudt:symbol "Pa" ;
+  qudt:hasQuantityKind qk:Pressure ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:DEG_C a qudt:Unit ; rdfs:label "degree Celsius"@en ; qudt:symbol "°C" ;
+  qudt:hasQuantityKind qk:Temperature ;
+  og:conversionMultiplier 1.0 ; og:conversionOffset 273.15 ; og:qudtStatus "unverified" .
+
+# --- Dimensionless and currency ----------------------------------------
+
+unit:PERCENT a qudt:Unit ; rdfs:label "percent"@en ; qudt:symbol "%" ;
+  qudt:hasQuantityKind qk:Dimensionless ; og:conversionMultiplier 0.01 ; og:qudtStatus "unverified" .
+unit:UNITLESS a qudt:Unit ; rdfs:label "unitless"@en ; qudt:symbol "" ;
+  qudt:hasQuantityKind qk:Dimensionless ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" .
+unit:USD a qudt:Unit ; rdfs:label "US dollar"@en ; qudt:symbol "$" ;
+  qudt:hasQuantityKind qk:Currency ; og:conversionMultiplier 1.0 ; og:qudtStatus "unverified" ;
+  rdfs:comment "Currency is not convertible by a fixed factor. A dataset must carry the price year separately; comparing a 2015$ and a 2024$ figure is a deflator question, not a unit question."@en .
+unit:TON_Metric a qudt:Unit ; rdfs:label "tonne"@en ; qudt:symbol "t" ;
+  qudt:hasQuantityKind qk:Mass ; og:conversionMultiplier 1e3 ; og:qudtStatus "unverified" .
+
+# =======================================================================
+# Locally minted. QUDT does not define these, so asserting a QUDT IRI for
+# them would be inventing one.
+# =======================================================================
+
+ogunit:MegaBTU_IT a qudt:Unit ; rdfs:label "million British thermal units (IT)"@en ;
+  qudt:symbol "MMBtu" ; qudt:hasQuantityKind qk:Energy ;
+  og:conversionMultiplier 1.05505585262e9 ; og:qudtStatus "og-minted" ;
+  rdfs:comment "The US energy trading convention. 'MM' is a thousand thousand, not mega — a naming trap that has produced factor-of-a-thousand errors in fuel cost data."@en .
+
+ogunit:BTU_IT-PER-KiloW-HR a qudt:Unit ; rdfs:label "BTU (IT) per kilowatt hour"@en ;
+  qudt:symbol "Btu/kWh" ; qudt:hasQuantityKind qk:Dimensionless ;
+  og:conversionMultiplier 2.930710701722e-4 ; og:qudtStatus "og-minted" ;
+  rdfs:comment "Heat rate in the US convention. Dimensionless once reduced (energy per energy); the SI-coherent value is the reciprocal of thermal efficiency."@en .
+
+ogunit:MegaW-PER-MIN a qudt:Unit ; rdfs:label "megawatt per minute"@en ;
+  qudt:symbol "MW/min" ; qudt:hasQuantityKind qk:PowerPerTime ;
+  og:conversionMultiplier 16666.6666666667 ; og:qudtStatus "og-minted" .
+
+ogunit:KiloGM-PER-MegaW-HR a qudt:Unit ; rdfs:label "kilogram per megawatt hour"@en ;
+  qudt:symbol "kg/MWh" ; qudt:hasQuantityKind qk:MassPerEnergy ;
+  og:conversionMultiplier 2.77777777778e-10 ; og:qudtStatus "og-minted" ;
+  rdfs:comment "Emission intensity. US sources frequently report lb/MWh; the factor is 0.45359237."@en .
+
+ogunit:KiloGM-PER-MegaBTU_IT a qudt:Unit ; rdfs:label "kilogram per million BTU"@en ;
+  qudt:symbol "kg/MMBtu" ; qudt:hasQuantityKind qk:MassPerEnergy ;
+  og:conversionMultiplier 9.4781712e-10 ; og:qudtStatus "og-minted" .
+
+ogunit:DEG_C-PER-KiloM a qudt:Unit ; rdfs:label "degree Celsius per kilometre"@en ;
+  qudt:symbol "°C/km" ; qudt:hasQuantityKind qk:TemperatureGradient ;
+  og:conversionMultiplier 1e-3 ; og:qudtStatus "og-minted" .
+
+ogunit:GigaJ-PER-HA a qudt:Unit ; rdfs:label "gigajoule per hectare"@en ;
+  qudt:symbol "GJ/ha" ; qudt:hasQuantityKind qk:EnergyPerArea ;
+  og:conversionMultiplier 1e5 ; og:qudtStatus "og-minted" .
+
+ogunit:USD-PER-KiloW a qudt:Unit ; rdfs:label "US dollar per kilowatt"@en ;
+  qudt:symbol "$/kW" ; qudt:hasQuantityKind qk:CurrencyPerPower ;
+  og:conversionMultiplier 1e-3 ; og:qudtStatus "og-minted" ;
+  rdfs:comment "Capital cost intensity. Not convertible across price years by a factor; the price year is a separate required qualifier."@en .
+
+ogunit:USD-PER-KiloW-YR a qudt:Unit ; rdfs:label "US dollar per kilowatt year"@en ;
+  qudt:symbol "$/kW-yr" ; qudt:hasQuantityKind qk:CurrencyPerPowerPerTime ;
+  og:conversionMultiplier 3.16887385e-11 ; og:qudtStatus "og-minted" ;
+  rdfs:comment "Fixed O&M. A source reporting bare $/kW for an annual cost is ambiguous between this and a one-off, and the ambiguity is worth a completeness caveat."@en .
+
+ogunit:USD-PER-MegaW a qudt:Unit ; rdfs:label "US dollar per megawatt"@en ;
+  qudt:symbol "$/MW" ; qudt:hasQuantityKind qk:CurrencyPerPower ;
+  og:conversionMultiplier 1e-6 ; og:qudtStatus "og-minted" .
+
+ogunit:USD-PER-MegaW-HR a qudt:Unit ; rdfs:label "US dollar per megawatt hour"@en ;
+  qudt:symbol "$/MWh" ; qudt:hasQuantityKind qk:CurrencyPerEnergy ;
+  og:conversionMultiplier 2.77777777778e-10 ; og:qudtStatus "og-minted" .
+
+ogunit:USD-PER-MegaBTU_IT a qudt:Unit ; rdfs:label "US dollar per million BTU"@en ;
+  qudt:symbol "$/MMBtu" ; qudt:hasQuantityKind qk:CurrencyPerEnergy ;
+  og:conversionMultiplier 9.4781712e-10 ; og:qudtStatus "og-minted" .
+
+ogunit:USD-PER-TON_Metric a qudt:Unit ; rdfs:label "US dollar per tonne"@en ;
+  qudt:symbol "$/t" ; qudt:hasQuantityKind qk:CurrencyPerMass ;
+  og:conversionMultiplier 1e-3 ; og:qudtStatus "og-minted" .
