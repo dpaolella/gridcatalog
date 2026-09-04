@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 import httpx
+import rdflib.plugins.sparql
 from datahub.config import GraphBackend, Settings, get_settings
 from datahub.graph.graphs import NamedGraph
 from datahub.graph.sparql import bind, prologue
@@ -29,6 +30,24 @@ from rdflib.term import Node
 log = logging.getLogger(__name__)
 
 Binding = dict[str, Node | None]
+
+# rdflib resolves a SPARQL ``FROM <g>`` by FETCHING g OVER THE NETWORK unless
+# this flag is off. Two reasons it must be off here, and the second is the
+# serious one:
+#
+#   * Every query this project scopes names graphs like
+#     ``https://schema.opengrid.org/ns#graph/computed``. Before the semantic
+#     layer has written anything, that graph is empty, rdflib reaches for the
+#     public internet, and the error names a URL rather than the missing graph.
+#   * With it on, any query carrying a ``FROM <http://attacker/>`` makes the
+#     server issue an outbound request to an attacker-chosen URL — a
+#     server-side request forgery, reachable from anywhere a query string is
+#     accepted. Nothing in this project needs remote FROM; federation uses
+#     ``SERVICE``, which this flag does not affect.
+#
+# It is a module-level global in rdflib, so it is set once, here, in the only
+# module that constructs a store.
+rdflib.plugins.sparql.SPARQL_LOAD_GRAPHS = False
 
 
 class GraphStoreError(RuntimeError):
@@ -116,6 +135,22 @@ class GraphStore(ABC):
     @abstractmethod
     def graph_names(self) -> list[str]:
         """IRIs of the named graphs that currently hold triples."""
+
+    def ensure_graphs(self, names: Iterable[NamedGraph | str]) -> None:
+        """Make sure each named graph exists, even if empty.
+
+        rdflib treats a ``FROM <g>`` naming a graph its dataset does not know
+        as an instruction to *fetch that IRI over the network*. Since the graph
+        IRIs are ``https://schema.opengrid.org/ns#graph/…``, a query scoped to
+        a graph nobody has written yet — ``og:graph/computed`` before the
+        semantic layer first runs — reaches for the public internet and fails
+        with a parse error naming a URL, which is a long way from the actual
+        problem.
+
+        Fuseki has no such behaviour, so this is a no-op there. It is on the
+        base class rather than on the rdflib store because callers should not
+        have to know which backend they have.
+        """
 
     # ---- lifecycle ------------------------------------------------------
 
@@ -218,6 +253,11 @@ class RdflibStore(GraphStore):
                 for g in self.dataset.graphs()
                 if len(g) and not str(g.identifier).startswith("urn:x-rdflib")
             ]
+
+    def ensure_graphs(self, names: Iterable[NamedGraph | str]) -> None:
+        with self._lock:
+            for name in names:
+                self.dataset.graph(URIRef(str(name)))
 
     def flush(self) -> None:
         if not self.path:

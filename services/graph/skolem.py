@@ -99,7 +99,7 @@ def _assign_names(graph: Graph, base: URIRef) -> dict[BNode, URIRef]:
             objects = sorted(graph.objects(subject, predicate), key=str)
             blank_objects = [o for o in objects if isinstance(o, BNode) and o not in names]
             for index, obj in enumerate(blank_objects):
-                stem = _stem(subject, predicate, base, names)
+                stem = _stem(subject, predicate, base)
                 if predicate in _CHAIN_PREDICATES:
                     stem = _next_in_chain(stem)
                 elif len(blank_objects) > 1:
@@ -124,7 +124,7 @@ def _assign_names(graph: Graph, base: URIRef) -> dict[BNode, URIRef]:
     return names
 
 
-def _stem(subject: URIRef, predicate: URIRef, base: URIRef, names: dict[BNode, URIRef]) -> str:
+def _stem(subject: URIRef, predicate: URIRef, base: URIRef) -> str:
     parent = "" if subject == base else _fragment(subject, base)
     local = _local_name(predicate)
     return f"{parent}.{local}" if parent else local

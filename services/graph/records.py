@@ -262,7 +262,7 @@ class RecordStore:
                     target_level=level,
                 )
 
-        existing = self._gather_from(dataset_iri, name, incoming)
+        existing = self._gather(dataset_iri, name)
         created = len(existing) == 0
         owned, ancillary = self._split(dataset_iri, incoming)
         changes = self._distribution_changes(existing, owned)
@@ -388,10 +388,6 @@ class RecordStore:
         for triple in incoming:
             (owned if triple[0] in owned_nodes else ancillary).add(triple)
         return owned, ancillary
-
-    def _gather_from(self, dataset_iri: URIRef, graph: NamedGraph, incoming: Graph) -> Graph:
-        """The stored subgraph a write will replace."""
-        return self._gather(dataset_iri, graph)
 
     def _replace(self, graph: NamedGraph, old: Graph, owned: Graph, ancillary: Graph) -> None:
         """One update: delete the old subgraph, insert the new one, merge the rest."""

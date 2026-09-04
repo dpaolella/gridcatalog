@@ -1,0 +1,70 @@
+# The projector's read: everything one search document needs, in one query.
+#
+# PRD §3.1 — "the projector runs on commit: a confirmed record change triggers a
+# SPARQL CONSTRUCT that flattens the record into a denormalized search document
+# and indexes it."
+#
+# Three graphs are read together and the join across them is the point:
+#
+#   og:graph/catalog    the record
+#   og:graph/vocab      concept LABELS, so the index carries text a user can
+#                       read and search rather than IRIs they cannot
+#   og:graph/inferred   og:broaderTransitive, which fills concept_iris_expanded
+#                       — the field that makes a filter on a parent concept a
+#                       term lookup instead of a graph walk on every query
+#
+# Scoped by datahub.semantic.queries.scoped, which emits FROM clauses. A
+# GRAPH-UNION would return nothing here: the concept is in one graph and the
+# field that carries it is in another, and a union of self-contained patterns
+# cannot join across them.
+#
+# Parameter: ??root — the dataset IRI.
+
+CONSTRUCT {
+  ?s ?p ?o .
+  ?concept skos:prefLabel ?conceptLabel .
+  ?concept og:broaderTransitive ?ancestor .
+  ?ancestor skos:prefLabel ?ancestorLabel .
+  ?unit qudt:symbol ?unitSymbol .
+  ?domain skos:prefLabel ?domainLabel .
+  ?domain skos:notation ?domainNotation .
+  ?analysis skos:prefLabel ?analysisLabel .
+}
+WHERE {
+  {
+    ??root (<http://www.w3.org/ns/dcat#distribution>
+           | <https://schema.opengrid.org/ns#hasField>
+           | <https://schema.opengrid.org/ns#hasFileGroup>
+           | <https://schema.opengrid.org/ns#hasLayer>
+           | <https://schema.opengrid.org/ns#hasVariable>
+           | <https://schema.opengrid.org/ns#qualityFlags>
+           | <https://schema.opengrid.org/ns#linkHealth>
+           | <https://schema.opengrid.org/ns#conceptGap>
+           | <https://schema.opengrid.org/ns#codeList>
+           | <https://schema.opengrid.org/ns#qualityGrade>
+           | <https://schema.opengrid.org/ns#lastComputedAt>
+           | <http://purl.org/dc/terms/temporal>)* ?s .
+    ?s ?p ?o .
+  }
+  UNION {
+    ??root og:hasField/og:concept ?concept .
+    ?concept skos:prefLabel ?conceptLabel .
+    OPTIONAL {
+      ?concept og:broaderTransitive ?ancestor .
+      ?ancestor skos:prefLabel ?ancestorLabel .
+    }
+  }
+  UNION {
+    ??root og:hasField/og:unit ?unit .
+    ?unit qudt:symbol ?unitSymbol .
+  }
+  UNION {
+    ??root og:dataDomain ?domain .
+    ?domain skos:prefLabel ?domainLabel .
+    OPTIONAL { ?domain skos:notation ?domainNotation }
+  }
+  UNION {
+    ??root (og:supportedAnalysis | og:excludedAnalysis) ?analysis .
+    ?analysis skos:prefLabel ?analysisLabel .
+  }
+}

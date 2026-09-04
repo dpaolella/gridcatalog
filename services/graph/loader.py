@@ -185,6 +185,9 @@ def bootstrap(
     all make.
     """
     settings = settings or get_settings()
+    # Every named graph must exist before anything queries across them: rdflib
+    # reads a FROM clause naming an unknown graph as a remote fetch.
+    store.ensure_graphs(list(NamedGraph))
     result = load_vocabularies(store, settings)
     load_shapes(store, settings)
     if materialize and result.changed:
