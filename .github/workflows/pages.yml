@@ -8,9 +8,14 @@ name: Pages
 # artefact itself, and this workflow runs it before the upload rather than
 # after, because a static site cannot be un-published.
 
+# Any push, filtered to the default branch by the `if` on the build job below
+# rather than by a branch name here. Naming the branch would have to be right
+# twice — once now, and again the day the default is renamed — and the failure
+# when it is wrong is silent: the workflow simply never runs, and the site goes
+# stale with nothing to show for it. A push to any other branch produces a
+# skipped run, which costs nothing.
 on:
   push:
-    branches: ["main"]
   workflow_dispatch:
 
 # Pages needs to write its own deployment; nothing here needs write access to
@@ -32,6 +37,7 @@ env:
 jobs:
   build:
     name: Build the static site
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     env:
       DATAHUB_GRAPH_STORE_PATH: var/site/graph.nq
@@ -56,15 +62,34 @@ jobs:
           npm ci --prefix web
 
       - name: Build a catalog
-        # The curated seed inventory, graded and linked — the same four steps
-        # as `make demo`. Unverified rows land in the draft graph and are not
-        # published, which is the seed file's own instruction and is enforced
-        # by the loader, not by this workflow.
+        # Breadth from the seed inventory, depth from the golden set.
+        #
+        # The seed inventory alone is ~50 records at completeness level 1: real,
+        # but with no schemas and nothing graded, so the site would show a
+        # catalog of stubs and say nothing about what the system does. The
+        # golden set is the curated level-3 half — every fact in it drawn from
+        # the seed inventory or the dataset's own documentation — and four of
+        # its records enrich seed entries that already exist rather than adding
+        # new ones.
+        #
+        # Two golden-set records are excluded. They are synthetic fixtures that
+        # exist to test the entitlement matrix, and a public catalog should list
+        # datasets that exist. What they prove is proven by `tests/snapshot/`,
+        # which does not need them to be published to do it.
+        #
+        # Unverified seed rows land in the draft graph and are never published.
+        # That is the seed file's own instruction, enforced by the loader rather
+        # than by this workflow.
         run: |
-          mkdir -p var/site
+          mkdir -p var/site/curated
+          cp tests/fixtures/records/*.jsonld var/site/curated/
+          rm var/site/curated/caiso-nodal-lmp-restricted.jsonld \
+             var/site/curated/utility-load-shapes-allowlisted.jsonld
+
           .venv/bin/datahub db upgrade
           .venv/bin/datahub graph bootstrap
           .venv/bin/datahub seed load
+          .venv/bin/datahub record load var/site/curated
           .venv/bin/datahub index reindex
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run

@@ -55,15 +55,22 @@ In the repository: **Settings → Pages → Build and deployment → Source →
 GitHub Actions**. Not "Deploy from a branch" — the workflow uploads an
 artifact and Pages serves it, so there is no `gh-pages` branch to keep.
 
-### 2. Merge the workflow to the default branch
+### 2. Get the workflow onto the default branch
 
-`.github/workflows/pages.yml` runs on every push to `main` and on demand from
-**Actions → Pages → Run workflow**. A workflow file only runs from the default
-branch, so it has to be merged before the manual trigger appears.
+`.github/workflows/pages.yml` deploys on every push to the repository's
+**default branch**, whichever branch that is, and on demand from **Actions →
+Pages → Run workflow**. GitHub reads workflow files from the default branch
+only, so nothing runs — and the manual trigger does not appear — until it is
+there.
 
-It builds a catalog from the curated seed inventory (`datahub seed load`,
-graded and linked), exports the snapshot, checks it, builds the site, and
-deploys.
+The branch is not named in the trigger. The job carries
+`if: github.ref_name == github.event.repository.default_branch` instead, so a
+push to any other branch produces a skipped run and a rename of the default
+branch does not silently stop the deploys. Hardcoding `main` has to be right
+twice, and when it is wrong the workflow simply never runs.
+
+It builds a catalog — the seed inventory for breadth, the golden set for depth
+— exports the snapshot, checks it, builds the site, and deploys.
 
 ### 3. Wait for the first run, then read the URL
 
