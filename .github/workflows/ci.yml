@@ -113,6 +113,28 @@ jobs:
           name: playwright-report
           path: playwright-report/
 
+      # The static build, on the catalog this job already seeded. It is here
+      # rather than in its own job because the expensive part — a populated
+      # store — is already paid for, and because the alternative is finding out
+      # that the export broke when a deploy to Pages fails on main.
+      - name: Export a snapshot and build the static site
+        env:
+          DATAHUB_GRAPH_STORE_PATH: var/e2e/graph.nq
+          DATAHUB_SEARCH_STORE_PATH: var/e2e/index.json
+          DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/e2e/ops.sqlite3
+        run: |
+          .venv/bin/pytest -q tests/snapshot
+          .venv/bin/datahub snapshot export var/e2e/snapshot
+          DATAHUB_SNAPSHOT="$PWD/var/e2e/snapshot" \
+            NEXT_PUBLIC_BASE_PATH=/gridcatalog \
+            npm run build --prefix web
+          # The three things a Pages deploy needs and a passing build does not
+          # guarantee: no Jekyll, a real 404 document, and no record whose
+          # existence is allow-listed.
+          test -f web/out/.nojekyll
+          test -f web/out/404.html
+          test ! -e web/out/datasets/utility-load-shapes-allowlisted
+
   integration:
     name: Integration — Fuseki, OpenSearch, Postgres
     runs-on: ubuntu-latest

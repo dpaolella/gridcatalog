@@ -62,6 +62,9 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-10.1 | Python SDK | M10 | WP-4.3, WP-5.1 | done |
 | WP-10.2 | MCP server, seven tools, tier gating, grounding tests | M10 | WP-10.1 | done |
 | WP-10.3 | Docs, OpenAPI publication, quickstart | M10 | all | done |
+| WP-11.1 | OpenGrid identity: tokens, Inter, devices, restyle | M11 | WP-9.4 | done |
+| WP-11.2 | Anonymous snapshot exporter and its entitlement suite | M11 | WP-6.3 | done |
+| WP-11.3 | Static build of the UI, and the Pages workflow | M11 | WP-11.1, WP-11.2 | done |
 
 ---
 
@@ -688,10 +691,47 @@ Three things the tests forced into the open:
 
 ---
 
+## M11 — Identity and public hosting
+
+Not a PRD milestone. It exists because a catalog nobody can look at is hard to
+review, and because the PRD's audience — modellers outside the team — cannot be
+asked to run a stack to see whether the thing is worth using.
+
+### WP-11.1 The OpenGrid identity
+
+The exact theme palette as `--og-*` custom properties in `globals.css`, with
+semantic tokens derived from them; Inter self-hosted through `next/font`;
+squared geometry at a 2px radius; the brand devices — divider rule, colour
+panels, hexagon wash — in `components/Brand.tsx`. `docs/brand.md` records the
+two places the brand had to be *decided* rather than applied: why the quality
+grades are a single petrol ramp rather than a traffic light, and why the lockup
+is composed from the mark plus live Inter rather than loaded as one SVG.
+
+### WP-11.2 The snapshot exporter
+
+`datahub snapshot export` drives the real FastAPI app in-process and writes
+what it returns. Every request is anonymous, with no way to make it otherwise,
+so the entitlement rules are enforced by the code that already enforces them
+rather than by a second implementation in the one place where a mistake cannot
+be withdrawn. `tests/snapshot/` re-asserts the whole PRD §F7 matrix against the
+exported tree — including that an allow-listed record's identifier appears in
+no file at all, not merely that it has no page.
+
+### WP-11.3 The static build and the Pages workflow
+
+One source tree, two builds. `DATAHUB_SNAPSHOT` switches `lib/api.ts` from
+fetch to file, turns on `output: "export"`, and drops the POST route handlers
+from `pageExtensions`; the forms they served render an honest notice instead of
+failing silently. `.github/workflows/pages.yml` builds a catalog, checks the
+export, builds the site and deploys; `docs/hosting.md` is the setup guide.
+
+---
+
 ## Where V1 stands
 
-All forty-five work packages are done, and every milestone's done-criterion is
-an assertion in the suite rather than a claim in this document. The two worth
+All forty-five V1 work packages are done, plus the three of M11, and every
+milestone's done-criterion is an assertion in the suite rather than a claim in
+this document. The two worth
 naming, because they are the ones a reader will want to check:
 
 - **No composite quality score exists anywhere.** Asserted in the search
@@ -726,13 +766,15 @@ where it matters rather than left to be discovered:
 
 ```
 M0 ─► M1 ─► M2 ─┬─► M3 ─┬─► M7 ─► M8 ─┐
-                │       │             ├─► M9 ─► M10
+                │       │             ├─► M9 ─► M10 ─► M11
                 └─► M4 ─┴─► M5 ───────┤
                         └─► M6 ───────┘
 ```
 
 M1–M5 are the critical path. M6 runs in parallel from M4. M7 and M8 require
-level-3 records, so the golden set is curated during M3.
+level-3 records, so the golden set is curated during M3. M11 depends on M6 as
+much as on M9: what the public site may contain is an entitlement question
+before it is a hosting one.
 
 ## Carried-forward open questions
 
