@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# `web` — the OpenGrid Data Hub UI
 
-## Getting Started
-
-First, run the development server:
+Next.js 15 (App Router), React 19, Tailwind 4, `next-intl`.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+DATAHUB_API_URL=http://localhost:8000 npm run dev     # :3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+From the repo root, `make demo` populates a catalog and `make web` starts this.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What it is allowed to do
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+It calls the REST API and nothing else — no SPARQL, no store client, no second
+copy of any rule the API owns. Entitlement, quality grading and link ranking are
+decided server-side. A second implementation here would eventually disagree with
+the first, and the one that disagreed would be the one a user was standing
+behind when they published a figure.
 
-## Learn More
+Every fetch is server-side. A browser holding an API token is a token an XSS bug
+exfiltrates, and server rendering also means the first paint is the data rather
+than a spinner.
 
-To learn more about Next.js, take a look at the following resources:
+## Three rules the components carry
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Absent means "not captured".** A missing value renders as those words, never
+  as an em dash, a zero or a blank cell — each of which a reader takes as a
+  statement about the dataset. `NotCaptured` in `components/EmptyState.tsx`.
+- **The three quality facets are never combined.** `QualityBadges` maps over
+  facets and renders each; there is no variable in it holding more than one
+  grade, so there is nothing to average even by accident (ADR-0007).
+- **Every empty state says what happened, not what is missing.** "No fields"
+  reads as "this dataset has no columns", which is almost never true.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Localisation
 
-## Deploy on Vercel
+English only, and every user-facing string is in `src/messages/en.json`; every
+date, number, byte size and cadence goes through `src/lib/format.ts`. That is
+architectural readiness rather than a second-locale deliverable — and it is much
+cheaper now than retrofitted, because retrofitting means finding every string in
+every component.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## `DATAHUB_API_URL`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Read from the process environment **at request time**, not through Next's `env`
+config option. `env` inlines values into the bundle at build time, which turns
+one deployment mistake into a silent one: the container runs, the pages render,
+and every request goes to localhost.
+
+## Tests
+
+`npx playwright test` from the repo root, or `make e2e`. The specs are in
+`tests/e2e/` and drive a real API and a real UI — mocking either would test the
+components against a fiction of the other, which is exactly the class of bug the
+suite exists to catch, and did.

@@ -204,6 +204,7 @@ def get_quality(
     dataset_id: DatasetId,
     caller: CallerDep,
     backend: SearchDep,
+    records: RecordsDep,
 ) -> QualityResponse:
     """Currency, provenance and documentation, graded independently.
 
@@ -214,7 +215,7 @@ def get_quality(
     document, full = _entitled_document(dataset_id, caller, backend)
     if not full:
         raise _absent(dataset_id)
-    return QualityResponse.from_document(document)
+    return QualityResponse.from_document(document, _rationales(document.iri, records))
 
 
 @router.get(
@@ -418,6 +419,34 @@ def download(
 
     _audit(session, caller, request, document, target)
     return RedirectResponse(url=target.access_url, status_code=status.HTTP_302_FOUND)
+
+
+def _rationales(iri: str, records: RecordsDep) -> dict[str, str]:
+    """Why each facet got the grade it did, read from the computed graph.
+
+    PRD §F5: *every grade derives from recorded facts.* That is only checkable
+    if the facts travel with the grade, and this is the endpoint where somebody
+    is asking. Never fatal: a grade whose rationale cannot be read is still a
+    grade, and refusing the whole response for a missing sentence would be a
+    worse answer than the sentence is worth.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.namespaces import OG
+    from rdflib import URIRef
+
+    try:
+        graph = records.store.get_graph(NamedGraph.COMPUTED)
+    except Exception as exc:  # pragma: no cover - a store that just answered
+        log.warning("could not read grade rationales", dataset=iri, error=str(exc))
+        return {}
+
+    out: dict[str, str] = {}
+    for node in graph.objects(URIRef(iri), OG.qualityGrade):
+        facet = graph.value(node, OG.facet)
+        rationale = graph.value(node, OG.gradeRationale)
+        if facet is not None and rationale is not None:
+            out[str(facet)] = str(rationale)
+    return out
 
 
 def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, str]]:

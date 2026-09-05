@@ -14,8 +14,24 @@ uv pip install --python .venv/bin/python -e ".[dev]"
 .venv/bin/datahub serve               # :8000, OpenAPI at /openapi.json
 ```
 
-State lands under `var/` and is disposable. `rm -rf var && make seed reindex`
-gets back to a known catalog.
+State lands under `var/` and is disposable. `rm -rf var && make demo` gets back
+to a known catalog — seeded, indexed, graded and linked.
+
+## The scheduled pass
+
+Two signals go stale without anybody writing anything, so they need a schedule
+rather than a hook (PRD §F4.3, and the split is the most likely correctness bug
+in the build):
+
+```bash
+datahub semantic schedule   # Currency & Maintenance. Daily.
+datahub probe run           # Link health. Weekly, and only what is due.
+```
+
+`datahub semantic signals` prints the whole classification with the reason for
+each, which is the thing to read before adding a signal. Hanging Currency off
+the write event would grade an abandoned dataset Current forever, and nothing
+would error.
 
 ## Running the production shape
 

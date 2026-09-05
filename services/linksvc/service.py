@@ -216,7 +216,7 @@ class LinkService:
             if write and self.store is not None:
                 self.write_links(document.iri, links)
         summary.finished_at = datetime.now(UTC)
-        log.info("link pass complete", **summary.as_dict())  # type: ignore[arg-type]
+        log.info("link pass complete", **summary.as_dict())
         return summary
 
     def _all_documents(self) -> Iterator[SearchDocument]:

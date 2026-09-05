@@ -168,12 +168,19 @@ class Vocabulary:
     @classmethod
     def from_graph(cls, graph: Graph, **kwargs: Any) -> Vocabulary:
         vocab = cls(**kwargs)
+        # `isinstance` rather than a cast: rdflib's iterators are typed as
+        # `Node`, and a blank node reaching here would be a vocabulary that has
+        # not been skolemised (ADR-0008) — which should be skipped, not
+        # silently treated as a concept with an unusable identifier.
         for subject in set(graph.subjects(SKOS.inScheme, None)):
+            if not isinstance(subject, URIRef):
+                continue
             concept = _concept(graph, subject)
             if concept is not None:
                 vocab.add(concept)
         for subject in set(graph.subjects(QUDT.hasQuantityKind, None)):
-            vocab.add_unit(_unit(graph, subject))
+            if isinstance(subject, URIRef):
+                vocab.add_unit(_unit(graph, subject))
         return vocab
 
     def add(self, concept: Concept) -> None:

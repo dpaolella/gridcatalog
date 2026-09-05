@@ -170,7 +170,7 @@ class SemanticRunner:
             if limit is not None and count + 1 >= limit:
                 break
         summary.finished_at = datetime.now(UTC)
-        log.info("semantic pass complete", **summary.as_dict())  # type: ignore[arg-type]
+        log.info("semantic pass complete", **summary.as_dict())
         return summary
 
     def run_scheduled(self, **kwargs: object) -> PassSummary:

@@ -187,7 +187,7 @@ def _traced(graph: Graph, iri: URIRef) -> int:
     if links:
         return len(links)
     uncaptured = graph.value(iri, OG.upstreamSourceUncaptured)
-    if uncaptured is not None and not bool(uncaptured.toPython()):  # type: ignore[union-attr]
+    if uncaptured is not None and not bool(uncaptured.toPython()):
         return 1
     return 0
 

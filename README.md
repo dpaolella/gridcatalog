@@ -14,17 +14,30 @@ datasets and issues access plans pointing at where the bytes actually live.
 
 ```bash
 uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[dev]"
-.venv/bin/datahub seed load            # load the curated seed catalog
-.venv/bin/datahub serve                # REST API on :8000, OpenAPI at /openapi.json
+make demo                              # seed, index, grade and link a local catalog
+make serve                             # REST API on :8000, OpenAPI at /openapi.json
+make web                               # the UI on :3000
 pytest                                 # full suite, no container runtime required
+```
+
+```python
+pip install "opengrid-datahub[all]"
+
+from opengrid import DataHub
+hub = DataHub()
+ds = hub.search(domain="DD5", region="DE", concept="solar_irradiance")[0]
+da = ds.open(time=slice("2019-01", "2019-12"))   # read in your process, not ours
 ```
 
 | Where to look | |
 |---|---|
+| Getting started | [`docs/quickstart.md`](docs/quickstart.md) |
 | Build specification | this file, below the divider |
 | Decomposition into work packages | [`docs/build-plan.md`](docs/build-plan.md) |
 | Architecture decisions | [`docs/decisions/`](docs/decisions/) |
 | Metadata schema | [`docs/metadata-schema.md`](docs/metadata-schema.md) |
+| API reference | [`docs/api.md`](docs/api.md), generated from OpenAPI |
+| Python SDK | [`sdk/python/README.md`](sdk/python/README.md) |
 | Running it | [`docs/operations.md`](docs/operations.md) |
 
 ---

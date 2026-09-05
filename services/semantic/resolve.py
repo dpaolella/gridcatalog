@@ -215,7 +215,11 @@ class Resolver:
         out: list[Part] = []
         for term, shape in SHAPE_CONTAINERS.items():
             for node in graph.objects(dataset_iri, OG[term]):
-                out.append(_part(graph, node, shape))
+                # A blank node here means the record was not skolemised
+                # (ADR-0008), and a part with no stable name cannot carry a
+                # resolution back to the record anyway.
+                if isinstance(node, URIRef):
+                    out.append(_part(graph, node, shape))
         return sorted(out, key=lambda p: p.iri)
 
     # -- resolving ---------------------------------------------------------

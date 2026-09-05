@@ -1,26 +1,83 @@
 @import "tailwindcss";
 
+/*
+ * One palette, defined once. The quality badge colours in particular are used
+ * in three places (list row, detail tab, connections list) and a fourth
+ * definition would eventually disagree with the other three.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbfbfa;
+  --surface: #ffffff;
+  --foreground: #16181d;
+  --muted: #5b6470;
+  --border: #e3e5e8;
+  --accent: #10614f;
+  --accent-soft: #e6f0ed;
+
+  /* Grades. Deliberately *not* a red-to-green ramp: these are three
+   * independent facets, and a traffic light invites a reader to average them
+   * into the composite ADR-0007 forbids. A single hue at four intensities
+   * reads as "more or less of this one thing", which is what a facet is. */
+  --grade-a: #0f5c4a;
+  --grade-b: #3f7f5f;
+  --grade-c: #8a7c3f;
+  --grade-d: #8a4b3f;
+  --grade-none: #6b7280;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0e1013;
+    --surface: #16191e;
+    --foreground: #e8eaed;
+    --muted: #9aa3ae;
+    --border: #272b31;
+    --accent: #4fbf9f;
+    --accent-soft: #16302a;
+    --grade-a: #5fc8a8;
+    --grade-b: #7fb99a;
+    --grade-c: #c3b273;
+    --grade-d: #cf8f80;
+    --grade-none: #8b939e;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Visible focus everywhere. An evaluator on a keyboard is a real user, and the
+ * default ring disappears against the accent colour. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
 }

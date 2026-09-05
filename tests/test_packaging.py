@@ -37,6 +37,27 @@ def test_no_declared_package_is_absent() -> None:
     assert not stale, f"declared but absent from services/: {sorted(stale)}"
 
 
+def test_the_sdk_is_packaged_separately() -> None:
+    """`opengrid` is its own distribution, not a subpackage of `datahub`.
+
+    Deliberate: a modeller installing the SDK should not pull in Fuseki
+    clients, SHACL, harvest adapters and a FastAPI app. The two share nothing
+    but the REST contract, which is the boundary that makes the split honest
+    rather than cosmetic.
+    """
+    import tomllib
+
+    sdk = REPO_ROOT / "sdk" / "python"
+    data = tomllib.loads((sdk / "pyproject.toml").read_text())
+
+    assert data["project"]["name"] == "opengrid-datahub"
+    assert data["tool"]["setuptools"]["packages"] == ["opengrid"]
+    assert data["project"]["dependencies"] == ["httpx>=0.27"], (
+        "the base SDK install is a search client; readers are extras"
+    )
+    assert "datahub" not in str(data["project"]["dependencies"])
+
+
 def test_services_is_importable_as_datahub() -> None:
     import datahub
     import datahub.graph

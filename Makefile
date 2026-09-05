@@ -56,6 +56,25 @@ web: ## Next.js dev server on :3000
 harvest: ## Harvest one source: make harvest SOURCE=oedi LIMIT=100
 	$(PY) -m datahub.harvest --source $(SOURCE) --limit $(or $(LIMIT),100)
 
+semantic: ## Resolve concepts and grade quality
+	$(PY) -m datahub.cli semantic run
+
+links: ## Compute inter-dataset links
+	$(PY) -m datahub.cli links run
+
+demo: seed reindex semantic links ## A populated local catalog, from nothing
+	@echo "Catalog ready. 'make serve' then 'make web'."
+
+web-build: ## Production build of the UI
+	cd web && npm run build
+
+e2e: ## Playwright over the M9 done-criterion flows
+	@# Both servers, torn down on the way out. The suite drives a real API and
+	@# a real UI: mocking either would test the components against a fiction of
+	@# the other, which is the class of bug this suite exists to catch.
+	E2E_CHROMIUM=$${E2E_CHROMIUM:-/opt/pw-browsers/chromium-1194/chrome-linux/chrome} \
+	  npx playwright test
+
 up: ## Start Fuseki, OpenSearch, Postgres, Redis
 	docker compose -f ops/docker-compose.yml up -d
 
@@ -63,4 +82,5 @@ down: ## Stop them
 	docker compose -f ops/docker-compose.yml down
 
 clean:
-	rm -rf .pytest_cache .ruff_cache .mypy_cache var/ **/__pycache__
+	rm -rf .pytest_cache .ruff_cache .mypy_cache var/ **/__pycache__ \
+	  test-results/ playwright-report/ web/.next

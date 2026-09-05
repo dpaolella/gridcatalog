@@ -88,7 +88,16 @@ class QualityResponse(ApiModel):
     not_yet_assessed_reason: str | None = None
 
     @classmethod
-    def from_document(cls, doc: SearchDocument) -> Self:
+    def from_document(cls, doc: SearchDocument, rationales: dict[str, str] | None = None) -> Self:
+        """Build the three facets.
+
+        ``rationales`` comes from the record rather than the index. The reason
+        a grade was given is a paragraph, and putting a paragraph per facet on
+        every search document would multiply the index for text a list view
+        never shows — but *this* endpoint is a user asking why, and PRD
+        principle 6 says a bare letter is not an answer.
+        """
+        rationales = rationales or {}
         badges: QualityBadges = doc.quality
         assessed = doc.quality_assessed and doc.completeness_level >= 2
         reason = (
@@ -106,6 +115,7 @@ class QualityResponse(ApiModel):
                 grade=badges.provenance if assessed else None,
                 label=badges.provenance_label if assessed else "Not yet assessed",
                 assessed=assessed,
+                rationale=rationales.get("provenance") if assessed else None,
                 computed_at=doc.last_computed_at.get("provenance"),
             ),
             QualityFacet(
@@ -113,6 +123,7 @@ class QualityResponse(ApiModel):
                 grade=badges.documentation if assessed else None,
                 label=badges.documentation_label if assessed else "Not yet assessed",
                 assessed=assessed,
+                rationale=rationales.get("documentation") if assessed else None,
                 computed_at=doc.last_computed_at.get("documentation"),
             ),
             # Currency is fully automatic and continuous (PRD §F5), so it is
@@ -123,6 +134,7 @@ class QualityResponse(ApiModel):
                 grade=badges.currency,
                 label=badges.currency_label,
                 assessed=badges.currency is not None,
+                rationale=rationales.get("currency"),
                 stated_cadence=doc.temporal.update_cadence,
                 computed_at=doc.last_computed_at.get("currency"),
             ),
@@ -541,6 +553,14 @@ class SearchResponseModel(ApiModel):
 
 class DomainResponse(ApiModel):
     id: str
+    iri: str = Field(
+        default="",
+        description=(
+            "The concept IRI, which is what the `data_domain` filter takes. Returned rather "
+            "than left for a client to build from the id: a client that synthesises an IRI "
+            "has hardcoded a namespace, and it will be wrong the first time one changes."
+        ),
+    )
     notation: str
     label: str
     definition: str | None = None
@@ -777,6 +797,77 @@ class LinksResponse(ApiModel):
     #: Set when there is nothing to show, explaining why rather than returning
     #: an empty list — the same rule the schema tab follows.
     unavailable_reason: str | None = None
+
+
+class ReviewItem(ApiModel):
+    """One record awaiting a steward.
+
+    Carries the violations rather than a boolean, because "does not conform" is
+    not something a steward can act on and "og:license must be an absolute IRI"
+    is.
+    """
+
+    dataset_id: str
+    state: str
+    source_id: str | None = None
+    data_domain: str | None = None
+    completeness_level: int = 1
+    inbound_link_count: int = Field(
+        default=0,
+        description=(
+            "Why this record is where it is in the queue. Ordering is by leverage: a record "
+            "twelve others cite is worth reviewing before one nothing points at (PRD §7.6)."
+        ),
+    )
+    validation_conforms: bool = False
+    violations: list[Any] = Field(default_factory=list)
+    confirmed_fields: list[str] = Field(default_factory=list)
+    conflict_detail: list[Any] = Field(
+        default_factory=list,
+        description=(
+            "Set when a re-harvest found the source changing a value under a field a steward "
+            "had already confirmed. The record is flagged for re-review rather than silently "
+            "overwritten (PRD §7.6)."
+        ),
+    )
+    steward_notes: str | None = None
+    reviewed_by: str | None = None
+    reviewed_at: datetime | None = None
+
+    @classmethod
+    def from_row(cls, row: Any) -> Self:
+        return cls(
+            dataset_id=row.dataset_id,
+            state=row.state,
+            source_id=row.source_id,
+            data_domain=row.data_domain,
+            completeness_level=row.completeness_level,
+            inbound_link_count=row.inbound_link_count,
+            validation_conforms=row.validation_conforms,
+            violations=list(row.violations or []),
+            confirmed_fields=list(row.confirmed_fields or []),
+            conflict_detail=list(row.conflict_detail or []),
+            steward_notes=row.steward_notes,
+            reviewed_by=row.reviewed_by,
+            reviewed_at=row.reviewed_at,
+        )
+
+
+class ReviewQueueResponse(ApiModel):
+    state: str
+    items: list[ReviewItem] = Field(default_factory=list)
+    total: int = 0
+
+
+class ReviewConfirm(ApiModel):
+    confirmed_fields: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Field paths this review checked. Unioned with what was confirmed before, never "
+            "replacing it: a second review must not un-confirm the first review's work."
+        ),
+    )
+    notes: str | None = None
 
 
 class AccessPlanResponse(ApiModel):

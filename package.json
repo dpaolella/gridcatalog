@@ -1,0 +1,11 @@
+{
+  "name": "opengrid-datahub-e2e",
+  "private": true,
+  "description": "Repo-root manifest for the end-to-end suite, which spans the API and the web UI and so belongs to neither.",
+  "scripts": {
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

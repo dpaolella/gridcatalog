@@ -57,6 +57,62 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
+  e2e:
+    name: E2E — Playwright over the real stack
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: uv python install ${{ env.PYTHON_VERSION }}
+      - name: Install
+        run: |
+          uv venv --python ${{ env.PYTHON_VERSION }} .venv
+          uv pip install --python .venv/bin/python -e ".[dev]"
+          npm ci
+          npm ci --prefix web
+          npx playwright install --with-deps chromium
+      - name: Seed a catalog
+        # A real store with the fixture corpus in it. The suite drives the API
+        # and the UI together, because both bugs it has caught so far were
+        # disagreements between them that neither side's own tests could see.
+        env:
+          DATAHUB_GRAPH_STORE_PATH: var/e2e/graph.nq
+          DATAHUB_SEARCH_STORE_PATH: var/e2e/index.json
+          DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/e2e/ops.sqlite3
+        run: |
+          mkdir -p var/e2e
+          .venv/bin/datahub db upgrade
+          .venv/bin/datahub graph bootstrap
+          .venv/bin/datahub record load tests/fixtures/records
+          .venv/bin/datahub index reindex
+          .venv/bin/datahub semantic run
+          .venv/bin/datahub links run
+      - name: Build the UI
+        run: npm run build --prefix web
+      - name: Run
+        env:
+          DATAHUB_GRAPH_STORE_PATH: var/e2e/graph.nq
+          DATAHUB_SEARCH_STORE_PATH: var/e2e/index.json
+          DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/e2e/ops.sqlite3
+          DATAHUB_API_URL: http://127.0.0.1:8000
+          E2E_BASE_URL: http://127.0.0.1:3210
+        run: |
+          .venv/bin/python -m uvicorn datahub.api.app:app --port 8000 &
+          npm start --prefix web -- -p 3210 &
+          for i in $(seq 1 60); do
+            curl -sf http://127.0.0.1:3210/ >/dev/null && break
+            sleep 2
+          done
+          npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
   integration:
     name: Integration — Fuseki, OpenSearch, Postgres
     runs-on: ubuntu-latest

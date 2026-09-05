@@ -121,6 +121,7 @@ def list_domains(caller: CallerDep, store: StoreDep, backend: SearchDep) -> list
     domains = [
         DomainResponse(
             id=str(row["concept"]).rsplit("/", 1)[-1],
+            iri=str(row["concept"]),
             notation=str(row.get("notation") or "").strip(),
             label=str(row["label"]),
             definition=_opt(row.get("definition")),

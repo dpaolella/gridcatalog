@@ -425,7 +425,7 @@ def test_a_correlated_pair_is_surfaced_reduced_not_hidden(client) -> None:
 
 
 def test_an_empty_link_list_explains_itself(client) -> None:
-    """"No links" reads as "nothing in this catalog relates to this dataset",
+    """ "No links" reads as "nothing in this catalog relates to this dataset",
     which is almost never what happened."""
     body = client.get("/v1/datasets/wecc-ferc-ceii/links").json()
 

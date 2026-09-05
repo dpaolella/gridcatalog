@@ -25,7 +25,7 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-1.4 | Conformance fixtures and suite | M1 | WP-1.3 | done |
 | WP-1.5 | Graph client, named graphs, inference materialisation | M1 | WP-0.2, WP-1.2 | done |
 | WP-2.1 | Record model, JSON-LD ⇄ RDF round-trip | M2 | WP-1.1, WP-1.5 | done |
-| WP-2.2 | Distribution model, revision history, link health state | M2 | WP-2.1 | todo |
+| WP-2.2 | Distribution model, revision history, link health state | M2 | WP-2.1 | done |
 | WP-2.3 | Operational store: schema, migrations, repositories | M2 | WP-0.2 | done |
 | WP-2.4 | Projector: CONSTRUCT, indexer, one-command reindex | M2 | WP-2.1 | done |
 | WP-2.5 | Curated seed loader (`data/seed-sources.yaml` → catalog) | M2 | WP-2.1, WP-1.3 | done |
@@ -54,14 +54,14 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-7.5 | Golden set: ~60 level-3 records across ten domains | M7 | WP-2.5 | done |
 | WP-8.1 | Pair signals and weighted strength from config | M8 | WP-7.1 | done |
 | WP-8.2 | Descriptors, typed relations, shared-origin warnings | M8 | WP-8.1, WP-7.2 | done |
-| WP-9.1 | Next.js app shell, design system, i18n scaffold | M9 | WP-4.3 | todo |
-| WP-9.2 | List view: search-while-typing, facets, map, timeline | M9 | WP-9.1 | todo |
-| WP-9.3 | Detail view: seven tabs | M9 | WP-9.1 | todo |
-| WP-9.4 | Domains, concepts, submit, report, connect pages | M9 | WP-9.1 | todo |
-| WP-9.5 | Steward review queue at `/admin/review` | M9 | WP-9.1, WP-3.7 | todo |
-| WP-10.1 | Python SDK | M10 | WP-4.3, WP-5.1 | todo |
-| WP-10.2 | MCP server, seven tools, tier gating, grounding tests | M10 | WP-10.1 | todo |
-| WP-10.3 | Docs, OpenAPI publication, quickstart | M10 | all | todo |
+| WP-9.1 | Next.js app shell, design system, i18n scaffold | M9 | WP-4.3 | done |
+| WP-9.2 | List view: search-while-typing, facets, map, timeline | M9 | WP-9.1 | done |
+| WP-9.3 | Detail view: seven tabs | M9 | WP-9.1 | done |
+| WP-9.4 | Domains, concepts, submit, report, connect pages | M9 | WP-9.1 | done |
+| WP-9.5 | Steward review queue at `/admin/review` | M9 | WP-9.1, WP-3.7 | done |
+| WP-10.1 | Python SDK | M10 | WP-4.3, WP-5.1 | done |
+| WP-10.2 | MCP server, seven tools, tier gating, grounding tests | M10 | WP-10.1 | done |
+| WP-10.3 | Docs, OpenAPI publication, quickstart | M10 | all | done |
 
 ---
 
@@ -557,6 +557,58 @@ designed explicitly, link graph capped at twelve neighbours with "show more".
 plan for a DD5 dataset in under 60 seconds, and an unauthenticated evaluator can
 read all three quality grades.
 
+**Where M9 landed.** Both clauses are Playwright tests against a real stack —
+the FastAPI app on one port, the built Next app on another, the fixture corpus
+behind both. The first lands on an access path in about three seconds; the
+second reads all three grades with no session at all, and asserts there is no
+composite anywhere on the page.
+
+**Mocking the API here would have missed the only bugs this suite found.** Both
+were shape mismatches between the UI's types and what the API actually returns:
+`link_health` is an object where the type said string, and a facet bucket's
+value is a number for completeness level and a boolean for anonymous access
+where the type said string — which surfaced as `a.split is not a function` on
+the landing page. A mocked API would have been mocked to match the types.
+
+Four decisions:
+
+- **The landing page is the search.** A landing page that is not already a
+  search makes the first thing a modeller does a click, and this milestone is
+  measured in seconds.
+- **Search state lives in the URL**, debounced and `replace`d rather than
+  pushed. A search a user can send to a colleague is worth more than one that is
+  fractionally faster, and eight keystrokes should leave one history entry
+  rather than eight.
+- **All seven tabs render and hide with CSS** rather than mounting on click, so
+  find-in-page reaches content the user has not clicked to. A tab that must be
+  opened before Ctrl-F can see it is a tab whose content is effectively missing.
+- **No map library.** A world graticule as inline SVG is a few hundred bytes and
+  works offline; a tile map is a third-party request on every catalog row and a
+  dependency on somebody else's uptime, for a picture that only has to say
+  "roughly here".
+
+The empty states are the part worth reading. Each says what happened rather than
+what is missing: an empty schema tab names the completeness level and what
+arrives at level 2; an unmapped field carries the stated reason it could not be
+mapped; and a restricted record and an absent one produce the *same page* and
+the same 404, with copy that says so plainly — a reader who understands why
+cannot be misled, and one who does not is not misled either.
+
+Two things this milestone pushed back into the API:
+
+- **`/quality` now carries each grade's rationale**, read from the computed
+  graph. The UI had a "why this grade" affordance and the field was always
+  null, which is PRD §F5's *every grade derives from recorded facts* being true
+  and unverifiable at the same time.
+- **`/domains` now returns the concept IRI**, not only the `DD5`-style id. A
+  client that has to synthesise an IRI has hardcoded a namespace, and it will be
+  wrong the first time one changes.
+
+Localisation is architectural readiness, not a second locale: every string is in
+`src/messages/en.json` and every date, number, byte size and cadence goes
+through `src/lib/format.ts`. Cheap now, and a search-and-destroy through every
+component later.
+
 ---
 
 ## M10 — MCP and SDK
@@ -566,9 +618,107 @@ PRD §F9.
 Tier-gated tools stay **present in the interface for all callers** and return
 403 per call; hiding them makes the agent hallucinate around the gap.
 
+- **WP-10.1** `sdk/python` — search and filter returning native objects,
+  access-plan retrieval and execution, lazy xarray and pandas readers, auth.
+- **WP-10.2** The fastmcp server: seven tools, tier gating, grounding tests.
+- **WP-10.3** `docs/api.md` generated from OpenAPI, and a quickstart.
+
 **Milestone done when:** an agent can search, inspect, explain a connection and
 receive an access plan without ever receiving bulk data, and an out-of-tier tool
 returns 403 rather than being absent.
+
+**Where M10 landed.** Both halves are asserted:
+`test_an_agent_can_go_from_search_to_access_plan` walks search → record →
+schema → plan and checks the plan says *where* the data is rather than
+containing any, and `test_an_out_of_tier_tool_returns_403_rather_than_being_absent`
+checks `author_workflow` is in the tool table for every caller and refuses per
+call, naming the tier it needs.
+
+**Grounding is structural, not a prompt** ([ADR-0010](decisions/0010-grounding-by-boundary.md)).
+PRD §F9 calls it the single most important correctness property, and the
+mechanism is the architecture boundary:
+`services/mcp` may not contain SPARQL and talks to the REST API only. A server
+that could read the store could also compose, summarise and infer, and each of
+those is a place where something plausible and untrue gets produced. A server
+that can only forward what the API returned cannot fabricate a dataset, because
+it has no way to make one. `test_no_tool_invents_a_dataset` checks every id in
+every response against the catalog itself.
+
+The same reasoning shows up in three smaller places:
+
+- **An unlinked pair gets "the catalog records no connection", not a sentence.**
+  A plausible paragraph about two datasets that are not linked is the
+  fabrication failure wearing its most convincing hat.
+- **A workflow's datasets are fetched, not assumed.** A specification naming a
+  dataset that does not exist would be handed to a user as a plan.
+- **A field with no concept carries its stated reason.** An agent told "no
+  concept covers a compiler's self-assessed confidence class" does not invent
+  one.
+
+**Truncation is reported.** The 100 KB cap trims the longest list in a payload —
+not the envelope, which is where the total count lives — and says the response
+is incomplete in words aimed at a model: *do not report a count or a conclusion
+from it.* An agent handed a truncated list that looked complete will say there
+are twelve such datasets when there are four hundred, and will be confident.
+
+**The SDK holds no second copy of any rule.** Not the entitlement predicate, not
+the quality tables, not the link weights — a second copy would eventually
+disagree with the first, and the one that disagreed would be the one a user was
+standing behind when they published a figure. Two tests enforce it: one greps
+the package for entitlement vocabulary, one for SPARQL and store imports.
+
+`ds.open()` executes the plan in the caller's process. The base install is a
+search client with one dependency; a reader that is missing names the package
+to install rather than raising an ImportError three frames down, because
+"unusable" with no remedy is a dead end and the remedy is one `pip install`.
+
+Three things the tests forced into the open:
+
+- **A synchronous httpx client cannot drive an ASGI app through a transport.**
+  The app is async and the transport hands back an async stream. Both clients
+  now accept a ready-made `httpx.Client` — which is also where a real caller
+  puts retries, a proxy or a custom auth flow.
+- **`/distributions` returns a bare list and both clients assumed an
+  envelope.** An `AttributeError` deep inside a tool an agent was mid-call on.
+- **The API ignores query parameters it does not recognise**, as HTTP APIs do.
+  Right for HTTP and wrong for a client library: a mistyped filter silently
+  widens a search and the caller trusts the results. The SDK validates filter
+  names against the API's own OpenAPI document, so the check cannot drift from
+  what the API takes.
+
+---
+
+## Where V1 stands
+
+All forty-five work packages are done, and every milestone's done-criterion is
+an assertion in the suite rather than a claim in this document. The two worth
+naming, because they are the ones a reader will want to check:
+
+- **No composite quality score exists anywhere.** Asserted in the search
+  document's field list, in the API's response models, in the SDK's types and
+  in the browser (ADR-0007).
+- **A record a caller may not see is indistinguishable from one that does not
+  exist** — through the record read, the result count, the facet counts, the
+  pagination arithmetic, every detail endpoint, the MCP tools, the SDK and the
+  UI, which returns the same page and the same 404 for both.
+
+Three things are deliberately short of the PRD's V1 target, and each is stated
+where it matters rather than left to be discovered:
+
+- **The golden set is 17 records against ~60.** Every fact in every record
+  comes from the seed inventory or the dataset's own documentation; inventing
+  the remaining forty-three would produce a regression suite that
+  regression-tests fiction. `data/golden-set/README.md` says so and says how to
+  grow it.
+- **The catalog itself is the seed inventory, not a harvested catalog.** The
+  harvest adapters are complete and tested against recorded fixtures; running
+  them against live sources needs outbound network this build environment does
+  not have.
+- **Two vocabulary findings are recorded rather than fixed** — EIA-930's `NG`
+  resolving to a concept labelled "Electricity consumption", and
+  `influx_direct` missing direct normal irradiance. Both are vocabulary
+  decisions, not code defects, and both are frozen in the golden set so the
+  curation pass has to look at them.
 
 ---
 

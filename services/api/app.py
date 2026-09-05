@@ -30,7 +30,7 @@ from typing import Any
 from datahub.api import deps
 from datahub.api.deps import CallerDep
 from datahub.api.ratelimit import WINDOW_S, RateLimiter, exempt
-from datahub.api.routers import allowlists, auth, concepts, datasets, health, intake
+from datahub.api.routers import allowlists, auth, concepts, datasets, health, intake, review
 from datahub.config import Settings, get_settings
 from datahub.errors import DataHubError, RateLimited
 from datahub.logging import configure_logging, get_logger
@@ -66,6 +66,13 @@ TAGS: list[dict[str, Any]] = [
         "description": (
             "Who may see a restricted dataset. Managed by its custodian; OpenGrid stores "
             "and enforces the list and never arbitrates its contents."
+        ),
+    },
+    {
+        "name": "review",
+        "description": (
+            "The steward queue. Highest-leverage records first: most inbound links, then most "
+            "complete."
         ),
     },
     {"name": "service", "description": "Health and readiness."},
@@ -134,6 +141,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         intake.router,
         auth.router,
         allowlists.router,
+        review.router,
         health.router,
     ):
         app.include_router(router, prefix="/v1", dependencies=limited)

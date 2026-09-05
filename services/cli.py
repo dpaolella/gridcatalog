@@ -420,6 +420,61 @@ def record_put(
     )
 
 
+@record_app.command("load")
+def record_load(
+    directory: Annotated[Path, typer.Argument(help="A directory of JSON-LD records.")],
+    pattern: Annotated[str, typer.Option("--glob", help="Which files to read.")] = "*.jsonld",
+    skip_validation: Annotated[bool, typer.Option("--skip-validation")] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Write every record in a directory.
+
+    One store and one validation runner for the whole batch, rather than a
+    shell loop over ``record put``: bootstrapping the shapes is most of the
+    cost of a single write, and paying it per file turns seventeen records into
+    a minute of parsing the same SHACL graph.
+
+    A file that fails validation is reported and the run continues. Stopping at
+    the first failure means loading a corpus is a game of whack-a-mole, and the
+    exit code still says whether everything landed.
+    """
+    from datahub.errors import ValidationFailed
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+
+    paths = sorted(Path(directory).glob(pattern))
+    if not paths:
+        err(f"no files matching {pattern!r} in {directory}")
+        raise typer.Exit(1)
+
+    written: list[str] = []
+    failed: list[dict[str, Any]] = []
+    with make_store() as store:
+        records = RecordStore(store)
+        for path in paths:
+            try:
+                result = records.put(json.loads(path.read_text()), validate=not skip_validation)
+            except ValidationFailed as exc:
+                failed.append({"file": path.name, "error": exc.message})
+                err(f"{path.name}: {exc.message}")
+                for violation in exc.violations[:5]:
+                    err(f"  {violation.focus_node} {violation.path or ''}: {violation.message}")
+                continue
+            except Exception as exc:
+                failed.append({"file": path.name, "error": str(exc)})
+                err(f"{path.name}: {exc}")
+                continue
+            written.append(result.dataset_id)
+
+    _emit(
+        {"written": written, "failed": failed},
+        f"{len(written)} record(s) written, {len(failed)} failed",
+        as_json=json_out,
+    )
+    if failed:
+        raise typer.Exit(1)
+
+
 @record_app.command("promote")
 def record_promote(
     dataset_id: Annotated[str, typer.Argument()],
@@ -992,16 +1047,29 @@ def serve(
 @app.command("openapi")
 def openapi(
     output: Annotated[Path | None, typer.Argument(help="Write here instead of stdout.")] = None,
+    markdown: Annotated[
+        bool, typer.Option("--markdown", help="Render the reference page instead of the JSON.")
+    ] = False,
 ) -> None:
-    """Print the OpenAPI 3.1 document.
+    """Print the OpenAPI 3.1 document, or the reference page generated from it.
 
     PRD §F8 calls it "the canonical contract everything else calls" — the web
     UI, the SDK and the MCP server all generate against it — so it has to be
     obtainable without starting a server, for a CI check or a client build.
+
+    ``--markdown`` writes ``docs/api.md``. Generated rather than hand-written,
+    because a hand-maintained API reference is correct on the day it is written
+    and wrong by the end of the month, invisibly.
     """
     from datahub.api.app import create_app
 
-    document = json.dumps(create_app().openapi(), indent=2, sort_keys=True)
+    spec = create_app().openapi()
+    if markdown:
+        from datahub.api.docgen import to_markdown
+
+        document = to_markdown(spec).rstrip()
+    else:
+        document = json.dumps(spec, indent=2, sort_keys=True)
     if output:
         Path(output).write_text(document + "\n")
         typer.echo(f"wrote {output}")

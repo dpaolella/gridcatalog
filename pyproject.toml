@@ -59,6 +59,7 @@ all = ["opengrid-datahub[opensearch,postgres,queue,mcp,llm,dev]"]
 
 [project.scripts]
 datahub = "datahub.cli:app"
+datahub-mcp = "datahub.mcp.server:main"
 
 [tool.setuptools]
 package-dir = { "datahub" = "services" }

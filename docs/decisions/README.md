@@ -17,3 +17,4 @@ Format: Context → Decision → Consequences → Alternatives considered.
 | [0007](0007-no-composite-quality-score.md) | Three independent quality facets, never a composite | Accepted |
 | [0008](0008-no-blank-nodes-in-the-store.md) | No blank nodes in the store | Accepted |
 | [0009](0009-audit-outside-the-request-transaction.md) | Refusals are audited outside the request transaction | Accepted |
+| [0010](0010-grounding-by-boundary.md) | Grounding by boundary, not by prompt | Accepted |
