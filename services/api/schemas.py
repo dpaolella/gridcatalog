@@ -246,7 +246,7 @@ class SchemaResponse(ApiModel):
         document: dict[str, Any],
         doc: SearchDocument,
         *,
-        labels: dict[str, str] | None = None,
+        labels: dict[str, dict[str, str]] | None = None,
     ) -> Self:
         """Build from a JSON-LD record, read out of the graph.
 
@@ -294,7 +294,7 @@ def _no_schema_reason(doc: SearchDocument) -> str:
     return "No field-level metadata is recorded for this dataset."
 
 
-def _field_kwargs(node: dict[str, Any], labels: dict[str, str]) -> dict[str, Any]:
+def _field_kwargs(node: dict[str, Any], labels: dict[str, dict[str, str]]) -> dict[str, Any]:
     """One ``og:Field`` node into a :class:`FieldDetail`.
 
     Every absence is carried through as an absence. A field with no unit is a
@@ -315,9 +315,17 @@ def _field_kwargs(node: dict[str, Any], labels: dict[str, str]) -> dict[str, Any
         # The stated unit, verbatim from the source, sits alongside the
         # resolved IRI rather than replacing it: "kV" is what the publisher
         # wrote and the QUDT IRI is what a machine can convert.
-        "unit_label": labels.get(str(node.get("unit"))) or node.get("unitAsStated"),
+        "unit_label": labels.get(str(node.get("unit")), {}).get("label")
+        or node.get("unitAsStated"),
         "concept": (
-            ConceptRef(iri=str(concept), label=labels.get(str(concept)))
+            ConceptRef(
+                iri=str(concept),
+                label=labels.get(str(concept), {}).get("label"),
+                # PRD §F4.2. A field documented only through CIM or CGMES is
+                # unreadable to a user who does not own the standard, and the
+                # concept's own definition is the thing that makes it readable.
+                definition=labels.get(str(concept), {}).get("definition"),
+            )
             if isinstance(concept, str)
             else None
         ),
@@ -733,6 +741,42 @@ class AccessPlanRequest(ApiModel):
         default=None, description="west, south, east, north in WGS 84.", min_length=4, max_length=4
     )
     variables: list[str] = Field(default_factory=list)
+
+
+class LinkedDataset(ApiModel):
+    """One suggested dataset, with the reason it is suggested.
+
+    PRD §F6: *every surfaced pairing carries at least one concrete
+    human-readable reason. A bare numeric score is not sufficient and should
+    fail review.* So ``descriptor`` and ``reasons`` are not decoration around
+    the number — they are the payload, and ``strength`` is the ordering.
+    """
+
+    dataset_id: str
+    title: str | None = None
+    relation: Literal[
+        "complementary", "substitute", "supersedes", "superseded-by", "derived-from", "related"
+    ]
+    strength: int = Field(ge=1, le=5, description="Five-point scale. Not a quality signal.")
+    descriptor: str
+    reasons: list[str] = Field(default_factory=list)
+    joinable_keys: list[str] = Field(default_factory=list)
+    shared_workflow_tags: list[str] = Field(default_factory=list)
+    #: PRD §F6.8-9. Present when the two datasets share an upstream origin. The
+    #: pairing is *reduced* rather than hidden: hiding it would remove exactly
+    #: the information the user needs, and leave them believing the two are
+    #: independent.
+    correlation_warning: str | None = None
+    shared_origin: str | None = None
+    strength_reduced_by_correlation: bool = False
+
+
+class LinksResponse(ApiModel):
+    dataset_id: str
+    links: list[LinkedDataset] = Field(default_factory=list)
+    #: Set when there is nothing to show, explaining why rather than returning
+    #: an empty list — the same rule the schema tab follows.
+    unavailable_reason: str | None = None
 
 
 class AccessPlanResponse(ApiModel):

@@ -155,6 +155,19 @@ def test_the_schema_endpoint_returns_fields(client) -> None:
     assert body["unavailable_reason"] is None
 
 
+def test_a_resolved_concept_carries_a_plain_language_definition(client) -> None:
+    """PRD §F4.2: a field documented only through CIM or CGMES is unreadable to
+    somebody who does not own the standard, and the concept's own definition is
+    what makes it readable. The label alone is not enough — "GHI" expanded to
+    "Global horizontal irradiance" still assumes the reader knows what that is.
+    """
+    body = client.get(f"/v1/datasets/{ERA5}/schema").json()
+
+    resolved = [f for f in body["fields"] if f.get("concept")]
+    assert resolved, "no field in this fixture resolves to a concept"
+    assert any(f["concept"].get("definition") for f in resolved)
+
+
 def test_an_empty_schema_explains_itself(client) -> None:
     """PRD §F3: an absent schema tab explains itself; it is not an empty table.
     "No fields" reads as "this dataset has no columns", which is almost never
@@ -380,3 +393,49 @@ def test_the_two_restriction_levels_behave_differently(client) -> None:
 
     assert restricted.status_code == 200
     assert hidden.status_code == 404
+
+
+# ---- links (M8) ----------------------------------------------------------
+
+
+def test_links_carry_a_reason_not_just_a_number(client) -> None:
+    """PRD §F6: *every surfaced pairing carries at least one concrete
+    human-readable reason. A bare numeric score is not sufficient and should
+    fail review.*"""
+    body = client.get("/v1/datasets/global-wind-atlas/links").json()
+
+    assert body["links"]
+    for link in body["links"]:
+        assert link["descriptor"]
+        assert link["reasons"] or link["correlation_warning"]
+        assert 1 <= link["strength"] <= 5
+
+
+def test_a_correlated_pair_is_surfaced_reduced_not_hidden(client) -> None:
+    """PRD §F6.9. A user shown nothing concludes the two are independent, which
+    is a stronger and more wrong claim than the warning would have made."""
+    body = client.get("/v1/datasets/global-wind-atlas/links").json()
+
+    correlated = [link for link in body["links"] if link["correlation_warning"]]
+    assert correlated, "the known correlated pair is not surfaced"
+    for link in correlated:
+        assert link["shared_origin"]
+        assert link["strength_reduced_by_correlation"] is True
+        assert link["strength"] >= 1
+
+
+def test_an_empty_link_list_explains_itself(client) -> None:
+    """"No links" reads as "nothing in this catalog relates to this dataset",
+    which is almost never what happened."""
+    body = client.get("/v1/datasets/wecc-ferc-ceii/links").json()
+
+    if not body["links"]:
+        assert body["unavailable_reason"]
+
+
+def test_links_are_absent_for_a_record_the_caller_cannot_see(client) -> None:
+    """The 404 is the one an absent record gets. A different response here
+    would make the suggestion list an existence oracle."""
+    response = client.get("/v1/datasets/utility-load-shapes-allowlisted/links")
+
+    assert response.status_code == 404

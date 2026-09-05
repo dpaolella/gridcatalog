@@ -114,6 +114,7 @@ broker would issue a plan it cannot fulfil.
 | C2 | `label`, `definition` | 2 | **yes** | Capturable even when the source documents it only externally — cite the document |
 | C3 | `dataType`, `fieldGeometryType`, `fieldCRS`, `dimensionality` | 2 | **yes** | |
 | C4 | `concept` **or** `conceptGap` | 3 | **candidate only** | What makes two differently-named columns resolvable |
+| C4 | `candidateConcept` | 3 | no | On a `conceptGap`: the concepts that fit equally well. Naming them tells a steward what to decide |
 | C5 | `unit` | 3 | **candidate only** | A unit IRI, never a string. `"MW"` fails |
 | C6 | `valueBasis` | 2 | **yes** | measured / estimated / modeled / synthetic |
 | C7 | `fieldSource` | 3 | no | May point at uncatalogued sources |

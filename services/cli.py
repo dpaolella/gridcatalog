@@ -52,9 +52,15 @@ app.add_typer(record_app)
 app.add_typer(index_app)
 app.add_typer(query_app)
 probe_app = typer.Typer(name="probe", help="Link health.", no_args_is_help=True)
+semantic_app = typer.Typer(
+    name="semantic", help="Concept resolution and quality grading.", no_args_is_help=True
+)
+links_app = typer.Typer(name="links", help="Inter-dataset links.", no_args_is_help=True)
 
 app.add_typer(harvest_app)
 app.add_typer(probe_app)
+app.add_typer(semantic_app)
+app.add_typer(links_app)
 
 
 def err(message: str) -> None:
@@ -1013,6 +1019,285 @@ def version() -> None:
         typer.echo(pkg_version("opengrid-datahub"))
     except PackageNotFoundError:
         typer.echo("0.0.0+unknown")
+
+
+# ---------------------------------------------------------------------------
+# semantic
+# ---------------------------------------------------------------------------
+
+
+@semantic_app.command("run")
+def semantic_run(
+    dataset_id: Annotated[str | None, typer.Argument(help="One record, or all of them.")] = None,
+    limit: Annotated[int | None, typer.Option(help="Stop after N records.")] = None,
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Compute and report; write nothing.")
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Resolve fields to concepts and grade the three quality facets.
+
+    Everything written goes to ``og:graph/computed``, which is droppable by
+    design: a bug here costs a rerun, not a restore.
+    """
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.semantic.runner import SemanticRunner
+
+    with make_store() as store:
+        runner = SemanticRunner(RecordStore(store))
+        if dataset_id:
+            outcome = runner.run_record(dataset_id, write=not dry_run)
+            payload: dict[str, Any] = {
+                "dataset": outcome.dataset_iri,
+                "changed": outcome.changed,
+                **outcome.resolution.summary(),
+                "grades": {a.facet: a.grade for a in outcome.assessments},
+            }
+            text = " ".join(f"{a.facet}={a.grade or 'not-assessed'}" for a in outcome.assessments)
+            _emit(payload, f"{dataset_id}: {text}", as_json=json_out)
+            return
+
+        summary = runner.run_all(limit=limit)
+        _emit(
+            summary.as_dict(),
+            f"{summary.records} records, {summary.changed} changed, "
+            f"{summary.resolved_parts} fields resolved, {summary.gaps} gaps",
+            as_json=json_out,
+        )
+
+
+@semantic_app.command("schedule")
+def semantic_schedule(
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """The scheduled batch: recompute the signals that go stale from time alone.
+
+    PRD §F4.3. This is the pass that must exist as a schedule and not as a
+    write hook — a dataset goes stale by *not* being updated, so there is no
+    write event to hang it on and no set of recently-touched records to narrow
+    it to.
+    """
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.semantic.runner import SemanticRunner
+
+    with make_store() as store:
+        summary = SemanticRunner(RecordStore(store)).run_scheduled()
+    _emit(
+        summary.as_dict(),
+        f"{summary.records} records regraded, {summary.changed} changed",
+        as_json=json_out,
+    )
+
+
+@semantic_app.command("resolve")
+def semantic_resolve(
+    dataset_id: Annotated[str, typer.Argument(help="The record to explain.")],
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Show what each field resolved to, and why. Writes nothing.
+
+    The rung and the basis are printed because a resolution nobody can audit is
+    a resolution nobody should trust.
+    """
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.semantic.runner import SemanticRunner
+
+    with make_store() as store:
+        outcome = SemanticRunner(RecordStore(store)).run_record(dataset_id, write=False)
+
+    rows = [
+        {
+            "field": item.part.local_name or item.part.iri,
+            "shape": item.part.shape,
+            "rung": item.rung,
+            "concept": item.concept,
+            "confidence": round(item.confidence, 3),
+            "basis": item.basis or item.gap_reason,
+        }
+        for item in outcome.resolution.resolutions
+    ]
+    lines = [
+        f"{row['field']:<28} {row['rung']:<11} "
+        f"{(row['concept'] or '— gap').rsplit('/', 1)[-1]:<34} {row['basis']}"
+        for row in rows
+    ]
+    _emit(rows, "\n".join(lines) or "no resolvable fields", as_json=json_out)
+
+
+@semantic_app.command("signals")
+def semantic_signals(
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """The trigger split: which signals recompute when, and why.
+
+    Printable because PRD §F4.3 calls this the most likely correctness bug in
+    the build, and a classification nobody can read is one nobody checks.
+    """
+    from datahub.semantic.triggers import SIGNALS
+
+    rows = [
+        {
+            "signal": s.name,
+            "trigger": str(s.trigger),
+            "max_age_days": s.max_age_days,
+            "because": s.because,
+        }
+        for s in SIGNALS
+    ]
+    _emit(
+        rows,
+        "\n".join(f"{r['signal']:<24} {r['trigger']:<18} {r['because']}" for r in rows),
+        as_json=json_out,
+    )
+
+
+# ---------------------------------------------------------------------------
+# links
+# ---------------------------------------------------------------------------
+
+
+@links_app.command("run")
+def links_run(
+    dataset_id: Annotated[str | None, typer.Argument(help="One record, or all of them.")] = None,
+    limit: Annotated[int | None, typer.Option(help="Stop after N records.")] = None,
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Compute and report; write nothing.")
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Compute inter-dataset links and write them to the computed graph.
+
+    Runs with full visibility, because it is a system pass: a restricted record
+    that got no links because the batch could not see it would have none to
+    show its own custodian either.
+    """
+    from datahub.api.search.factory import make_search_backend
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.linksvc import LinkService
+
+    with make_store() as store:
+        service = LinkService(backend=make_search_backend(), store=store)
+        if dataset_id:
+            links = service.links_for(dataset_id, entitlement=service.SYSTEM)
+            if not dry_run:
+                service.write_links(str(RecordStore(store)._iri(dataset_id)), links)
+            rows = [
+                {
+                    "target": link.target,
+                    "tier": link.tier,
+                    "score": link.score,
+                    "relation": link.relation,
+                    "descriptor": link.descriptor,
+                    "warning": link.warning,
+                }
+                for link in links
+            ]
+            _emit(
+                rows,
+                "\n".join(
+                    f"{r['target']:<38} tier={r['tier']} {r['relation']:<14} {r['descriptor']}"
+                    + (f"\n    ! {r['warning']}" if r["warning"] else "")
+                    for r in rows
+                )
+                or "no links",
+                as_json=json_out,
+            )
+            return
+
+        summary = service.run_all(limit=limit, write=not dry_run)
+    _emit(
+        summary.as_dict(),
+        f"{summary.records} records, {summary.links} links, {summary.warned} with a "
+        "shared-origin warning",
+        as_json=json_out,
+    )
+
+
+@links_app.command("explain")
+def links_explain(
+    source: Annotated[str, typer.Argument(help="The record to explain from.")],
+    target: Annotated[str, typer.Argument(help="The record to explain to.")],
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Every signal for one pair, and what it contributed to the score.
+
+    The question a reviewer asks first is "why is this ranked here", and
+    reconstructing the answer from the weights file is work.
+    """
+    from datahub.api.search.factory import make_search_backend
+    from datahub.graph.store import make_store
+    from datahub.linksvc import LinkService, compute, describe, load, score
+
+    backend = make_search_backend()
+    left, right = backend.get(source), backend.get(target)
+    if left is None or right is None:
+        err(f"not indexed: {source if left is None else target}")
+        raise typer.Exit(1)
+
+    with make_store() as store:
+        service = LinkService(backend=backend, store=store)
+        pair = compute(left, right, lineage=service.lineage, vocabulary=service.vocabulary)
+        described = describe(
+            left,
+            right,
+            pair,
+            derives_from=service.derives(left.iri, right.iri),
+            derived_by=service.derives(right.iri, left.iri),
+        )
+        link = score(pair, load(), described)
+
+    payload = {
+        "source": source,
+        "target": target,
+        "relation": link.relation,
+        "tier": link.tier,
+        "score": link.score,
+        "unpenalised_score": link.unpenalised_score,
+        "contributions": link.contributions,
+        "descriptor": link.descriptor,
+        "reasons": list(link.reasons),
+        "warning": link.warning,
+    }
+    lines = [
+        f"{source} -> {target}",
+        f"  relation   {link.relation}",
+        f"  tier       {link.tier}   score {link.score:.3f}"
+        + (f" (before penalty {link.unpenalised_score:.3f})" if link.unpenalised_score else ""),
+        f"  descriptor {link.descriptor}",
+        "  signals:",
+        *(
+            f"    {name:<22} {pair.value(name):.3f} x weight = {contribution:.3f}"
+            for name, contribution in sorted(link.contributions.items())
+        ),
+        *(f"  * {reason}" for reason in link.reasons),
+        *([f"  ! {link.warning}"] if link.warning else []),
+    ]
+    _emit(payload, "\n".join(lines), as_json=json_out)
+
+
+@links_app.command("weights")
+def links_weights(json_out: Annotated[bool, typer.Option("--json")] = False) -> None:
+    """The tuning knobs, as loaded. In config because they will change."""
+    from datahub.linksvc import load
+
+    weights = load()
+    payload = {
+        "version": weights.version,
+        "signals": weights.signals,
+        "shared_origin_penalty": weights.shared_origin_penalty,
+        "shared_origin_floor_tier": weights.shared_origin_floor_tier,
+        "tiers": weights.tiers,
+        "top_n": weights.top_n,
+        "tie_break": list(weights.tie_break),
+    }
+    lines = [f"{name:<24} {value:+.2f}" for name, value in sorted(weights.signals.items())]
+    lines.append(f"{'shared_origin_penalty':<24} {weights.shared_origin_penalty:+.2f}")
+    lines.append(f"floored at tier {weights.shared_origin_floor_tier}, top {weights.top_n}")
+    _emit(payload, "\n".join(lines), as_json=json_out)
 
 
 if __name__ == "__main__":

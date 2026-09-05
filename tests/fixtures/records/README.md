@@ -1,13 +1,16 @@
 # Record fixtures
 
-Fifteen valid records drawn from real datasets in `data/seed-sources.yaml`.
+Seventeen valid records drawn from real datasets in `data/seed-sources.yaml`.
 Every fact here — licence, URL, DOI, byte size, coverage — comes from the seed
 inventory or from the dataset's own documentation as described there. Where a
 value is not known it is absent, and the completeness level says so. Nothing is
 invented (PRD principle 4).
 
-The corpus doubles as the start of the golden set (PRD §11), so it is expected
-to grow toward ~60 records rather than be replaced.
+The corpus **is** the golden set (PRD §11). `data/golden-set/expectations.yaml`
+states what each record's fields must resolve to and what each facet must
+grade, so a change to the resolver or a grader that silently alters an answer
+fails a test rather than passing review. The set is expected to grow toward ~60
+records rather than be replaced.
 
 | Fixture | Domain | Level | Tier | Exists for |
 |---|---|---|---|---|
@@ -26,6 +29,8 @@ to grow toward ~60 records rather than be replaced.
 | `lbnl-queued-up` | DD3 | 1 | 1 | The DD3 anchor |
 | `ember-electricity-review` | DD8 | 1 | 1 | The DD8 anchor; policy data that is structured rather than PDF |
 | `eia-natural-gas-prices` | DD7 | 1 | 1 | The DD7 anchor; historical open, forward commercial |
+| `caiso-nodal-lmp-restricted` | DD9 | 1 | 1 | `restricted-metadata` visibility — the only record whose existence is public and whose detail is not (M6) |
+| `utility-load-shapes-allowlisted` | DD4 | 1 | 2 | `allowlisted-existence` visibility — the record the entitlement matrix hunts for leaks of (M6) |
 
 All ten data domains are represented.
 
@@ -46,3 +51,6 @@ both the broker shape-invariance test and the only `og:conceptGap` example.
    the record actually supports.
 3. Reference the context by URL, as here; the loader substitutes it locally.
 4. Run `pytest tests/conformance`.
+5. Add its entry to `data/golden-set/expectations.yaml`. A record with no entry
+   is loaded but not regression-tested, and `tests/semantic/test_golden_set.py`
+   fails rather than letting the hole go unnoticed.

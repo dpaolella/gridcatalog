@@ -83,6 +83,7 @@ packages = [
   "datahub.mcp",
   "datahub.projector",
   "datahub.semantic",
+  "datahub.semantic.grading",
   "datahub.semantic.queries",
 ]
 

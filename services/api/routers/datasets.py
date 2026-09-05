@@ -32,6 +32,8 @@ from datahub.api.schemas import (
     DatasetSummary,
     DistributionDetail,
     FacetBucket,
+    LinkedDataset,
+    LinksResponse,
     QualityResponse,
     SchemaResponse,
     SearchResponseModel,
@@ -243,6 +245,87 @@ def get_distributions(
     return DistributionDetail.from_record(records.get(document.iri))
 
 
+@router.get(
+    "/datasets/{dataset_id}/links",
+    response_model=LinksResponse,
+    summary="Datasets that go with this one, and why",
+)
+def get_links(
+    dataset_id: DatasetId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+) -> LinksResponse:
+    """Ranked, explained connections to other catalog records (PRD §F6).
+
+    Computed at request time rather than read from the stored graph, because
+    the candidate set depends on who is asking. Generating candidates through
+    the index with the caller's entitlement compiled in is ADR-0006's rule;
+    reading a stored list and filtering it afterwards would be the post-filter
+    the ADR forbids, and would leak the existence of an allow-listed record
+    through a suggestion that then disappeared.
+
+    A correlated pairing is **reduced, never hidden** (PRD §F6.9). A user told
+    that two datasets are related-but-not-independent can act on it; a user
+    shown nothing concludes they are unrelated, which is a stronger and more
+    wrong claim.
+    """
+    from datahub.linksvc import LinkService
+
+    document, full = _entitled_document(dataset_id, caller, backend)
+    if not full:
+        raise _absent(dataset_id)
+
+    service = LinkService(backend=backend, store=records.store)
+    links = service.links_for(document.id, entitlement=caller.entitlement)
+    return LinksResponse(
+        dataset_id=document.id,
+        links=[
+            LinkedDataset(
+                dataset_id=link.target,
+                title=_title_of(link.target, backend, caller),
+                relation=link.relation,
+                strength=link.tier,
+                descriptor=link.descriptor,
+                reasons=list(link.reasons),
+                joinable_keys=list(link.joinable_keys),
+                shared_workflow_tags=list(link.shared_workflow_tags),
+                correlation_warning=link.warning,
+                shared_origin=link.shared_origin,
+                strength_reduced_by_correlation=link.penalised,
+            )
+            for link in links
+        ],
+        unavailable_reason=None if links else _no_links_reason(document),
+    )
+
+
+def _title_of(dataset_id: str, backend: SearchDep, caller: CallerDep) -> str | None:
+    document = backend.get(dataset_id)
+    if document is None or not caller.entitlement.can_see_full_metadata(document):
+        return None
+    return document.title
+
+
+def _no_links_reason(document: SearchDocument) -> str:
+    """Why the list is empty, in words a user can act on.
+
+    "No links" reads as "nothing in this catalog relates to this dataset",
+    which is almost never what happened. What happened is that nothing shares
+    enough recorded metadata to say so, and the level is usually why.
+    """
+    if document.completeness_level < 2:
+        return (
+            "Nothing links to this record yet. Links are computed from concepts, coverage and "
+            f"supported analyses; this record is at completeness level "
+            f"{document.completeness_level} and carries too few of them to pair confidently."
+        )
+    return (
+        "No other catalog record shares enough recorded metadata with this one to pair it "
+        "confidently. That is a statement about what has been catalogued, not about the data."
+    )
+
+
 @router.post(
     "/datasets/{dataset_id}/access-plan",
     response_model=AccessPlanResponse,
@@ -337,12 +420,18 @@ def download(
     return RedirectResponse(url=target.access_url, status_code=status.HTTP_302_FOUND)
 
 
-def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, str]:
-    """Display labels for every concept and unit IRI the record mentions.
+def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, str]]:
+    """Display label and definition for every concept and unit the record names.
 
     One query for all of them rather than one per field: a record with ninety
     fields would otherwise be ninety round trips to render one page, and the
     labels all live in the same graph.
+
+    The definition is fetched here and nowhere else. PRD §F4.2 asks that a
+    plain-language definition sit beside every resolved concept, so that a
+    field documented only through CIM or CGMES is intelligible to somebody who
+    does not own the standard — and this is the endpoint where a user is asking
+    what a field means.
     """
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.records import dataset_node
@@ -370,15 +459,24 @@ def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, str]:
 
     rows = records.store.select(
         f"""
-        SELECT ?iri ?label WHERE {{
-          GRAPH ??vocab {{ ?iri ?p ?label }}
+        SELECT ?iri ?label ?definition WHERE {{
+          GRAPH ??vocab {{
+            ?iri ?p ?label .
+            OPTIONAL {{ ?iri skos:definition ?definition }}
+          }}
           {values_clause("iri", [URIRef(i) for i in sorted(iris)])}
           VALUES ?p {{ skos:prefLabel rdfs:label qudt:symbol }}
         }}
         """,
         {"vocab": NamedGraph.VOCAB.uri()},
     )
-    return {str(row["iri"]): str(row["label"]) for row in rows}
+    terms: dict[str, dict[str, str]] = {}
+    for row in rows:
+        entry = terms.setdefault(str(row["iri"]), {})
+        entry["label"] = str(row["label"])
+        if row.get("definition") is not None:
+            entry["definition"] = str(row["definition"])
+    return terms
 
 
 # ---------------------------------------------------------------------------

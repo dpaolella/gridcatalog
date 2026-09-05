@@ -32,6 +32,16 @@ class ConceptRef(BaseModel):
     #: inventing a label from the IRI's last segment is not.
     label: str | None = None
     notation: str | None = None
+    #: The concept's plain-language definition. PRD §F4.2: *surface a
+    #: plain-language definition alongside each resolved concept, so a field
+    #: documented only via CIM/CGMES is understandable without the user owning
+    #: that standard.*
+    #:
+    #: Populated only where a caller asked what a field means — the `/schema`
+    #: endpoint. Never in the index: a definition is two or three sentences and
+    #: a search result carrying one per concept would multiply the size of
+    #: every response for text nobody reads in a list view.
+    definition: str | None = None
 
 
 class SpatialCoverage(BaseModel):

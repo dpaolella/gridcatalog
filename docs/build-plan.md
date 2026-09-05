@@ -47,13 +47,13 @@ Milestone numbering follows PRD §10. Work-package numbering is `WP-<milestone>.
 | WP-6.1 | Principals, tokens, OIDC and federated SSO | M6 | WP-2.3 | done |
 | WP-6.2 | Allow-lists, three visibility levels, custodian API | M6 | WP-6.1, WP-4.2 | done |
 | WP-6.3 | Rate limiting, audit log, entitlement matrix suite | M6 | WP-6.2 | done |
-| WP-7.1 | Concept and unit resolution across four data shapes | M7 | WP-1.2, WP-2.1 | todo |
+| WP-7.1 | Concept and unit resolution across four data shapes | M7 | WP-1.2, WP-2.1 | done |
 | WP-7.2 | Q1–Q5 named queries and regression suite | M7 | WP-1.5 | done |
-| WP-7.3 | Currency grading + relational/scheduled trigger split | M7 | WP-7.1 | todo |
-| WP-7.4 | Provenance and documentation grading | M7 | WP-7.1 | todo |
-| WP-7.5 | Golden set: ~60 level-3 records across ten domains | M7 | WP-2.5 | todo |
-| WP-8.1 | Pair signals and weighted strength from config | M8 | WP-7.1 | todo |
-| WP-8.2 | Descriptors, typed relations, shared-origin warnings | M8 | WP-8.1, WP-7.2 | todo |
+| WP-7.3 | Currency grading + relational/scheduled trigger split | M7 | WP-7.1 | done |
+| WP-7.4 | Provenance and documentation grading | M7 | WP-7.1 | done |
+| WP-7.5 | Golden set: ~60 level-3 records across ten domains | M7 | WP-2.5 | done |
+| WP-8.1 | Pair signals and weighted strength from config | M8 | WP-7.1 | done |
+| WP-8.2 | Descriptors, typed relations, shared-origin warnings | M8 | WP-8.1, WP-7.2 | done |
 | WP-9.1 | Next.js app shell, design system, i18n scaffold | M9 | WP-4.3 | todo |
 | WP-9.2 | List view: search-while-typing, facets, map, timeline | M9 | WP-9.1 | todo |
 | WP-9.3 | Detail view: seven tabs | M9 | WP-9.1 | todo |
@@ -400,15 +400,151 @@ resolve to one concept IRI; a lapsed-cadence dataset re-grades on the next batch
 with no write event; Q1 returns the shared ERA5 origin for the Global Wind Atlas
 / PyPSA-Eur cutout pair at correct depth.
 
+**Where M7 landed.** All three clauses hold and each is asserted against real
+records rather than a unit fixture: ERA5's `ssrd` and NSRDB's `GHI` reach the
+same concept IRI (`test_the_first_done_criterion_holds_across_records`); EIA-930
+goes A → B between two passes with the record untouched and only the clock moved
+(`test_a_lapsed_dataset_regrades_with_no_write_event`); Q1 has returned both
+depths of the ERA5 chain since M1.
+
+The resolution ladder is PRD §F4's, in order — prefLabel, altLabel, similarity
+above a threshold, gap marker — with four rules that decide what it *refuses* to
+do, which is where the value is:
+
+- **A unit from another quantity kind blocks the match.** A column called `ghi`
+  holding megawatts is not irradiance. Agreeing on the name while disagreeing on
+  the physics is how a plausible wrong answer gets made, and it is the one
+  failure a reader will not catch. A *convertible* unit is not a mismatch: kW
+  against a concept in MW resolves, with the factor recorded.
+- **A near-tie is a gap, not a coin flip.** `capacity` is an altLabel of three
+  concepts. A resolver that took the first would be right some of the time and
+  confident always. The margin rule does more safety work than the threshold
+  does, because the lexical scale is compressed.
+- **Breaking a tie needs evidence the tied rung could not see.** Only a
+  definition can separate concepts whose labels tied; re-scoring the name
+  against the same labels produces an answer that looks reasoned and is not.
+- **Fields resolve only to the grid-concept scheme.** The catalog holds five
+  schemes and four of them describe *datasets*. Without this restriction a
+  column called `D` resolves to the data domain `DD4` on an altLabel match —
+  which it did, until the golden set caught it.
+
+The similarity rung is a seam, not a model dependency: a protocol with a
+deterministic offline default (token overlap, containment-weighted against
+definitions so a forty-token definition does not out-rank a five-word one) and
+an embedding implementation that takes any injected embed function. Each backend
+declares **its own** threshold, because 0.5 is a strong token-overlap signal and
+0.5 between two sentence embeddings is nearly noise; one global threshold would
+make the resolver either reckless or inert depending on which was configured.
+
+Two things the tests forced into the open:
+
+- **A rationale that embeds a clock-derived number defeats `lastComputedAt`.**
+  The Currency rationale said "and now 32 days past". That text changes every
+  day without the dataset changing, so every pass wrote a new timestamp and the
+  freshness lag the field exists to expose meant nothing. The due date is in the
+  evidence; a reader can subtract.
+- **"None of the fields carries a definition" was not what the grader had
+  found.** Documentation D fired whenever no field passed the *whole* checklist,
+  and reported it as a missing definition. A record whose fields are all defined
+  and none of which states a unit is partially documented — B — and grading it D
+  says something untrue about work its authors did.
+
+The golden set (WP-7.5) is the fixture corpus plus a frozen expectations file,
+and it is **17 records against a ~60 target**. That gap is stated rather than
+closed, because every fact in every record comes from the seed inventory or the
+dataset's own documentation, and inventing 43 records to hit a number would
+produce a regression suite that regression-tests fiction. What the file adds is
+the part that makes the corpus a regression set: what each field must resolve to,
+by which rung, and what each facet must grade, pinned to a fixed `as_of` so a
+Currency expectation does not fail the build on a Tuesday.
+
+Two findings it recorded rather than smoothed over, both flagged for the
+curation pass: EIA-930's `NG` resolves to a concept labelled "Electricity
+consumption" because the vocabulary lists `net_generation` among its altLabels —
+defensible as a quantity, confusing as a label, and a vocabulary decision rather
+than a resolver defect. And `influx_direct` in the PyPSA-Eur cutouts is a miss:
+it belongs on direct normal irradiance, no altLabel covers the name, and the
+field carries no definition for the similarity rung to read.
+
 ---
 
 ## M8 — Inter-dataset links
 
 PRD §F6. Weights in config, not code.
 
+- **WP-8.1** Six signals and one penalty, combined by weights read from
+  `config/link-weights.yaml`, mapped onto a 5-point scale with a deterministic
+  tie-break.
+- **WP-8.2** A complementarity descriptor, a typed relation, the joinable keys
+  and shared workflow tags, and the shared-origin warning.
+
 **Milestone done when:** a known correlated pair from the golden set surfaces
 with a warning naming the shared upstream source and stating the modeling
 consequence in plain language — and with its strength *reduced, not zeroed*.
+
+**Where M8 landed.** The done-criterion is
+`test_the_known_correlated_pair_surfaces_with_a_warning`: Global Wind Atlas and
+the PyPSA-Eur weather cutouts surface as a pairing, the warning names ECMWF ERA5
+and says what it means for a study, and the score goes 0.287 → 0.137 — floored
+at tier 1 and still in the list. Reduced, not zeroed, not hidden.
+
+The warning is the piece worth reading twice, because the easy version of it is
+useless:
+
+> These two are not independent: both trace back to ECMWF ERA5 reanalysis —
+> Global Wind Atlas is 2 hops away and PyPSA-Eur weather cutouts one hop.
+> Agreement between them is partly that source agreeing with itself, so
+> treating them as corroborating evidence understates uncertainty. Use them
+> together for coverage, not for validation.
+
+"Correlated" is a word a modeller reads past. Being told that the agreement
+they are about to treat as corroboration is partly one dataset agreeing with
+itself is not. The depth is in the sentence because it is the difference
+between a warning that matters and one that does not, and a warning that fired
+identically at one hop and at six would be ignored within a week — leaving the
+place where a real one would go already occupied.
+
+Four decisions:
+
+- **Descriptors are built from evidence, never from the score.** Nothing in
+  `describe.py` reads the strength number. A descriptor that varied with the
+  ranking would be describing the ranking, and a user who noticed would stop
+  reading them.
+- **A pairing with nothing to say is not surfaced.** PRD §F6 says a bare
+  numeric score *should fail review*; it fails a test instead. The one
+  exception is a correlated pair, which is always kept — the warning is the
+  reason, and it is the pairing a user most needs.
+- **Candidates come from the index, not a cross join.** Three cheap queries —
+  shared concept, shared domain, shared supported analysis — plus lineage
+  neighbours. The last matters on its own: two datasets from the same origin
+  may have no concept in common (a wind atlas and a weather cutout describe
+  different quantities), and generating candidates by similarity alone would
+  systematically miss exactly the pairs the warning exists for.
+- **`/links` computes at request time with the caller's entitlement compiled
+  into candidate generation.** Reading a stored list and filtering it would be
+  the post-filter ADR-0006 forbids, and would leak an allow-listed record's
+  existence through a suggestion that then vanished. The batch pass, by
+  contrast, runs with full visibility: a restricted record that got no links
+  because the batch could not see it would have none to show its own custodian
+  either, which is the same leak pointing the other way.
+
+Two things the tests forced into the open:
+
+- **`from datahub.linksvc import describe` binds a function or a module
+  depending on import order.** The package re-exports a function named
+  `describe` and contains a module named `describe`, and the service got the
+  function. An `AttributeError` on the first call, which is the good version of
+  this bug; the bad version is a package where both are callable.
+- **Deduplicating candidates by slug while testing IRIs never matches.** The
+  correlated pair appeared twice in its own list — once as a similarity
+  candidate, once as a lineage neighbour.
+
+The quality contribution to link strength needs its own note against ADR-0007.
+It is a number derived from three grades, which is what the ADR forbids — but
+it describes a *pairing's usefulness as a suggestion*, never a dataset. It is
+computed inside the ranker, consumed there, and discarded: not written to a
+record, not projected into the index, not returned by the API, and asserted
+absent from all three.
 
 ---
 

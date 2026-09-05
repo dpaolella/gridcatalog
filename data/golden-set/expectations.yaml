@@ -1,0 +1,254 @@
+# Golden-set expectations (PRD §11, WP-7.5).
+#
+# What each record must resolve to and must grade. Read
+# data/golden-set/README.md before changing anything here: these are claims
+# about what the system *should* answer, not a snapshot of what it does, and
+# regenerating the file from current behaviour destroys its only purpose.
+#
+# Consumed by tests/semantic/test_golden_set.py.
+
+version: 1
+
+# Currency is a function of the record and the clock. Pinning the clock is what
+# makes a Currency expectation mean "graded on this date" rather than "graded
+# whenever the suite ran", which would fail the build on a Tuesday.
+as_of: "2026-09-04T00:00:00Z"
+
+# Ten domains at level 1 is the V1 target (PRD §6) and is met. Level 3 is DD1
+# and DD5 — the domains where resolution and linking are demonstrable — against
+# a ~60-record target. The gap is real and stated; see the README.
+coverage:
+  domains_required: [DD1, DD2, DD3, DD4, DD5, DD6, DD7, DD8, DD9, DD10]
+  level_3_domains: [DD1, DD5]
+  target_records: 60
+
+records:
+
+  ecmwf-era5:
+    domains: [DD5]
+    level: 3
+    exists_for: >-
+      The shared upstream origin every ERA5-derived record traces to, and the
+      only fixture whose fields are all source-confirmed.
+    grades:
+      provenance: D
+      documentation: A
+      currency: B
+    provenance_note: >-
+      D is correct and worth stating, because it reads like a bug. ERA5 is a
+      reanalysis of assimilated observations, and the record does not say so —
+      it records no upstreamSource and does not assert
+      upstreamSourceUncaptured. The grade is about what the catalog can show,
+      not about the data, and the fix is to the record rather than to the
+      grader.
+    concepts:
+      ssrd: { concept: globalHorizontalIrradiance, rung: exact }
+      t2m: { concept: airTemperature, rung: exact }
+      u100: { concept: windSpeed, rung: exact }
+      ro:
+        concept: null
+        rung: gap
+        why: >-
+          Runoff matches hydro inflow by name and is recorded in mm, which is a
+          different quantity kind from a flow rate. The record's own
+          inferenceBasis says the same thing in prose. Resolving on the name
+          would assert a physical claim the data does not support.
+
+  nrel-nsrdb:
+    domains: [DD5]
+    level: 2
+    exists_for: >-
+      The other half of the milestone's first done-criterion: NSRDB says GHI
+      where ERA5 says ssrd, and both must reach one concept IRI.
+    grades:
+      provenance: D
+      documentation: B
+      currency: B
+    concepts:
+      GHI: { concept: globalHorizontalIrradiance, rung: exact }
+      DNI: { concept: directNormalIrradiance, rung: exact }
+
+  pypsa-eur-weather-cutouts:
+    domains: [DD5]
+    level: 3
+    exists_for: Q1 pair, depth 1 to ERA5.
+    grades:
+      provenance: B
+      documentation: A
+      currency: B
+    concepts:
+      wnd100m: { concept: windSpeed, rung: exact }
+      influx_direct:
+        concept: null
+        rung: gap
+        why: >-
+          A miss, recorded as one. atlite's influx_direct is direct-beam solar
+          influx and belongs on directNormalIrradiance; no altLabel covers the
+          name and the field carries no definition for the similarity rung to
+          read. The fix is an altLabel in the vocabulary or a definition in the
+          record — this entry is here so that fix is visible when it lands.
+
+  global-wind-atlas:
+    domains: [DD5]
+    level: 3
+    exists_for: Q1 pair, depth 2 to ERA5 via an uncatalogued mesoscale run.
+    grades:
+      provenance: B
+      documentation: A
+      currency: null
+    currency_note: >-
+      Cadence is "irregular", which is not an interval, so "past due" has no
+      meaning. Not assessed rather than Aging.
+    concepts:
+      wind-speed_100m: { concept: windSpeed, rung: exact }
+
+  pypsa-eur-grid:
+    domains: [DD1]
+    level: 3
+    exists_for: >-
+      The level-3 network record. Five fields across four different concept
+      subtrees, which is what makes it the resolution regression that matters.
+    grades:
+      provenance: B
+      documentation: A
+      currency: B
+    concepts:
+      v_nom: { concept: nominalVoltage, rung: exact }
+      s_nom: { concept: continuousRating, rung: exact }
+      x: { concept: reactance, rung: exact }
+      length: { concept: branchLength, rung: exact }
+      bus0: { concept: branchEndpoints, rung: exact }
+
+  global-transmission-database:
+    domains: [DD1]
+    level: 3
+    exists_for: The og:conceptGap example (rule X4).
+    grades:
+      provenance: D
+      documentation: A
+      currency: null
+    concepts:
+      voltage_kv: { concept: nominalVoltage, rung: exact }
+      transfer_capacity_mw: { concept: transferCapacity, rung: exact }
+      confidence_class:
+        concept: null
+        rung: gap
+        why: >-
+          The record's own gapReason says it: a compiler's self-assessed
+          confidence is metadata about the row, not a physical, economic or
+          categorical quantity, and minting a concept for one dataset's
+          internal grading would pollute a shared vocabulary. The resolver
+          reaching the same conclusion independently is the point of this
+          entry.
+
+  eia-930:
+    domains: [DD4]
+    level: 2
+    exists_for: >-
+      Fields whose local names are unintelligible and whose labels are not —
+      the case that forces the label rungs to try both.
+    grades:
+      provenance: D
+      documentation: B
+      currency: B
+    concepts:
+      D: { concept: electricityDemand, rung: alt-label }
+      NG:
+        concept: electricityConsumption
+        rung: alt-label
+        why: >-
+          Frozen with a flag rather than as an endorsement. The vocabulary
+          lists net_generation as an altLabel of Electricity consumption, whose
+          definition is "energy over an interval, as distinct from power at an
+          instant" — defensible as a quantity and confusing as a label, because
+          a column called "Net generation" resolving to something called
+          "consumption" reads as a bug to every user. A vocabulary decision, not
+          a resolver defect; carried here so the curation pass has to look at
+          it.
+
+  nrel-atb:
+    domains: [DD6, DD9]
+    level: 2
+    exists_for: >-
+      The only fixture exercising the similarity rung on a real field, and the
+      one record with two domain facets.
+    grades:
+      provenance: D
+      documentation: B
+      currency: A
+    concepts:
+      CAPEX: { concept: overnightCapitalCost, rung: exact }
+      "Fixed O&M": { concept: fixedOperatingCost, rung: exact }
+      "WACC Real": { concept: weightedAverageCostOfCapital, rung: similarity }
+
+  esa-worldcover:
+    domains: [DD10]
+    level: 2
+    exists_for: Geospatial-primary, and the categorical-field case.
+    grades:
+      provenance: D
+      documentation: B
+      currency: null
+    concepts:
+      Map: { concept: landCoverClass, rung: exact }
+      InputQuality:
+        concept: null
+        rung: gap
+        why: >-
+          A count of valid satellite observations behind a pixel is a
+          confidence proxy, not a quantity the grid vocabulary carries. Same
+          shape as confidence_class above and correctly a gap.
+
+  wri-global-power-plant-database:
+    domains: [DD2]
+    level: 1
+    exists_for: The Currency facet end to end — the only record with supersededBy.
+    grades:
+      provenance: null
+      documentation: null
+      currency: D
+    currency_note: >-
+      D because the record names its own successor. A statement the catalog
+      holds, not an inference from silence.
+
+  gem-global-integrated-power-tracker:
+    domains: [DD2]
+    level: 1
+    exists_for: The successor in the supersession pair.
+    grades: { provenance: null, documentation: null, currency: A }
+
+  caiso-nodal-lmp-restricted:
+    domains: [DD9]
+    level: 1
+    exists_for: restricted-metadata visibility (M6).
+    grades: { provenance: null, documentation: null, currency: B }
+
+  utility-load-shapes-allowlisted:
+    domains: [DD4]
+    level: 1
+    exists_for: allowlisted-existence visibility (M6).
+    grades: { provenance: null, documentation: null, currency: A }
+
+  wecc-ferc-ceii:
+    domains: [DD1]
+    level: 1
+    exists_for: Reference-only, permanently restricted, catalogued as a documented gap.
+    grades: { provenance: null, documentation: null, currency: null }
+
+  lbnl-queued-up:
+    domains: [DD3]
+    level: 1
+    exists_for: The DD3 anchor.
+    grades: { provenance: null, documentation: null, currency: A }
+
+  eia-natural-gas-prices:
+    domains: [DD7]
+    level: 1
+    exists_for: The DD7 anchor.
+    grades: { provenance: null, documentation: null, currency: A }
+
+  ember-electricity-review:
+    domains: [DD8]
+    level: 1
+    exists_for: The DD8 anchor.
+    grades: { provenance: null, documentation: null, currency: A }

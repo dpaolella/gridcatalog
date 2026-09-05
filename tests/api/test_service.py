@@ -101,11 +101,13 @@ def test_every_prd_endpoint_is_present(client) -> None:
         "/v1/allowlists/{dataset_id}",
         "/v1/auth/me",
         "/v1/auth/tokens",
+        "/v1/datasets/{dataset_id}/links",
     } <= paths
 
-    deferred = {
-        "/v1/datasets/{dataset_id}/links": "M8, inter-dataset links",
-    }
+    # Nothing left. Every endpoint PRD §F8 names is present; the guard stays as
+    # an empty set rather than being deleted, so the next deferred endpoint has
+    # somewhere to be declared.
+    deferred: dict[str, str] = {}
     assert not (set(deferred) & paths), "a deferred endpoint arrived without its milestone"
 
 
@@ -122,9 +124,7 @@ def test_every_operation_documents_its_failure_modes(client) -> None:
             # exist today. An enumerated list makes this test fail whenever a
             # correct endpoint uses a code the list has not heard of — which it
             # did, twice, for the 204 of logout and the 201 of token creation.
-            assert any(code[:1] in "23" for code in codes), (
-                f"{method} {path} documents no success"
-            )
+            assert any(code[:1] in "23" for code in codes), f"{method} {path} documents no success"
 
 
 def test_filterable_fields_are_discoverable_from_the_document(client) -> None:

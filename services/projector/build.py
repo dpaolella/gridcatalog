@@ -35,6 +35,7 @@ from datahub.api.search.document import (
 )
 from datahub.graph.records import read_bbox, slug_of
 from datahub.namespaces import OG
+from datahub.semantic.grading.facets import GRADE_LABELS as _GRADE_LABELS
 from rdflib import Graph, URIRef
 from rdflib.namespace import DCAT, DCTERMS, SKOS
 
@@ -44,26 +45,10 @@ _HEALTH_ORDER = ("unreachable", "degraded", "redirected", "verified")
 
 #: Grade labels from PRD §F5. Held here rather than recomputed in the UI so the
 #: API, the SDK and the MCP server all say the same words.
-GRADE_LABELS: dict[str, dict[str, str]] = {
-    "provenance": {
-        "A": "Primary & Traced",
-        "B": "Derived & Traced",
-        "C": "Traced, Basis Unconfirmed",
-        "D": "Untraced",
-    },
-    "documentation": {
-        "A": "Fully documented",
-        "B": "Partially documented",
-        "C": "Documented via external standard only",
-        "D": "Minimal",
-    },
-    "currency": {
-        "A": "Current",
-        "B": "Aging",
-        # C is deliberately unused on this facet (PRD §F5, §12.3).
-        "D": "Superseded",
-    },
-}
+#: Re-exported from the grading package, which owns the tables. Two copies
+#: would drift, and the drift would show as a grade whose letter and label
+#: disagreed — the projector saying "B / Fully documented".
+GRADE_LABELS = _GRADE_LABELS
 
 
 def build_document(

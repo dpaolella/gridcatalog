@@ -189,6 +189,8 @@
     "conceptGap": { "@id": "og:conceptGap", "@type": "@id" },
     "ConceptGap": "og:ConceptGap",
     "gapReason": { "@id": "og:gapReason", "@language": "en" },
+    "__comment_gap_candidates": "A gap the resolver could not close because several concepts fit equally. Naming them is more useful to a steward than either a guess or a bare no-match.",
+    "candidateConcept": { "@id": "og:candidateConcept", "@type": "@id", "@container": "@set" },
     "unit": { "@id": "og:unit", "@type": "@id" },
     "unitAsStated": "og:unitAsStated",
     "perUnitBasis": { "@id": "og:perUnitBasis", "@type": "xsd:boolean" },
@@ -264,6 +266,8 @@
     "accessBarrier": "og:accessBarrier",
 
     "__comment_links": "F6 — computed pairings live in og:graph/computed and reference records; they are not authored on a record.",
+    "DatasetLink": "og:DatasetLink",
+    "hasLink": { "@id": "og:hasLink", "@type": "@id", "@container": "@set" },
     "linkTo": { "@id": "og:linkTo", "@type": "@id" },
     "linkFrom": { "@id": "og:linkFrom", "@type": "@id" },
     "linkStrength": { "@id": "og:linkStrength", "@type": "xsd:integer" },
