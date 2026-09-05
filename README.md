@@ -34,6 +34,7 @@ da = ds.open(time=slice("2019-01", "2019-12"))   # read in your process, not our
 | Getting started | [`docs/quickstart.md`](docs/quickstart.md) |
 | Build specification | this file, below the divider |
 | Decomposition into work packages | [`docs/build-plan.md`](docs/build-plan.md) |
+| Scaling the catalog past the seed inventory | [`docs/ingestion-plan.md`](docs/ingestion-plan.md) |
 | Architecture decisions | [`docs/decisions/`](docs/decisions/) |
 | Metadata schema | [`docs/metadata-schema.md`](docs/metadata-schema.md) |
 | API reference | [`docs/api.md`](docs/api.md), generated from OpenAPI |
