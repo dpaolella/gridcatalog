@@ -1,11 +1,14 @@
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import { search } from "@/lib/api";
+import { IS_SNAPSHOT, search } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { Facets } from "@/components/Facets";
 import { ResultRow } from "@/components/ResultRow";
 import { SearchBar } from "@/components/SearchBar";
+import { StaticSearch } from "@/components/StaticSearch";
+import { HexWash, Rule } from "@/components/Brand";
 import { Pagination } from "@/components/Pagination";
+import { perRequest } from "@/lib/rendering";
 
 /**
  * The landing page and the list view are the same page (PRD §F3).
@@ -26,15 +29,38 @@ const FACETS = [
   "link_health",
 ];
 
-export const dynamic = "force-dynamic";
-
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function SearchPage({ searchParams }: { searchParams: SearchParams }) {
+  return (
+    <div className="space-y-8">
+      <Hero />
+      {IS_SNAPSHOT ? <SnapshotResults /> : <LiveResults searchParams={searchParams} />}
+    </div>
+  );
+}
+
+async function Hero() {
+  const app = await getTranslations("app");
+  return (
+    /* The hero is the one place the motif runs wide, as a corner wash behind
+       the title. Everywhere else it stays at an edge. */
+    <section className="relative -mx-5 -mt-10 overflow-hidden px-5 pb-8 pt-10">
+      <HexWash color="var(--og-petrol)" opacity={0.08} />
+      <div className="relative max-w-2xl">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{app("tagline")}</h1>
+        <Rule />
+        <p className="mt-5 text-base text-[color:var(--muted)]">{app("description")}</p>
+      </div>
+    </section>
+  );
+}
+
+async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
+  await perRequest();
   const params = await searchParams;
   const t = await getTranslations("search");
   const empty = await getTranslations("empty");
-  const app = await getTranslations("app");
 
   const offset = Number(params.offset ?? 0) || 0;
   const limit = 20;
@@ -49,23 +75,18 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
   const hasQuery = Object.keys(params).some((key) => key !== "offset");
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{app("tagline")}</h1>
-        <p className="mt-1 max-w-prose text-sm text-[color:var(--muted)]">{app("description")}</p>
-      </div>
-
+    <>
       <Suspense>
         <SearchBar />
       </Suspense>
 
-      <div className="grid gap-8 md:grid-cols-[13rem_1fr]">
+      <div className="grid gap-10 md:grid-cols-[13rem_1fr]">
         <Suspense>
           <Facets facets={response.facets} />
         </Suspense>
 
         <div className="min-w-0 space-y-4">
-          <p className="text-sm text-[color:var(--muted)]" aria-live="polite">
+          <p className="og-eyebrow" aria-live="polite">
             {t("resultsCount", { count: response.total })}
             {response.total > 0
               ? ` · ${t("showing", {
@@ -89,7 +110,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
               </p>
             </EmptyState>
           ) : (
-            <ul className="space-y-3">
+            <ul className="space-y-4">
               {response.results.map((dataset) => (
                 <ResultRow key={dataset.id} dataset={dataset} />
               ))}
@@ -101,6 +122,21 @@ export default async function SearchPage({ searchParams }: { searchParams: Searc
           </Suspense>
         </div>
       </div>
-    </div>
+    </>
+  );
+}
+
+/**
+ * The same search, filtered in the browser over a catalog that shipped with the
+ * page. No pagination: everything public is already here, and a page control
+ * over a list the reader is holding would be furniture.
+ */
+async function SnapshotResults() {
+  const response = await search({});
+  const rows = Object.fromEntries(
+    response.results.map((dataset) => [dataset.id, <ResultRow key={dataset.id} dataset={dataset} />]),
+  );
+  return (
+    <StaticSearch datasets={response.results} facets={response.facets} rows={rows} />
   );
 }

@@ -39,6 +39,8 @@ da = ds.open(time=slice("2019-01", "2019-12"))   # read in your process, not our
 | API reference | [`docs/api.md`](docs/api.md), generated from OpenAPI |
 | Python SDK | [`sdk/python/README.md`](sdk/python/README.md) |
 | Running it | [`docs/operations.md`](docs/operations.md) |
+| Publishing the catalog to GitHub Pages | [`docs/hosting.md`](docs/hosting.md) |
+| The OpenGrid identity in the UI | [`docs/brand.md`](docs/brand.md) |
 
 ---
 

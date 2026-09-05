@@ -32,7 +32,8 @@
     "more": "Show more",
     "next": "Next",
     "previous": "Previous",
-    "typing": "Results update as you type. There is no submit step."
+    "typing": "Results update as you type. There is no submit step.",
+    "showMore": "+{count} more"
   },
   "facets": {
     "data_domain": "Domain",
@@ -288,5 +289,12 @@
     "notes": "Steward notes",
     "reviewedBy": "Reviewed by",
     "open": "Open record"
+  },
+  "static": {
+    "badge": "Static preview",
+    "title": "This is a static copy of the catalog.",
+    "help": "These pages were built from a snapshot of the public catalog and are served as files, so there is no service behind them to receive a form or to check who you are. Everything that only reads — search, records, schemas, quality, connections — works exactly as it does on the live site. Anything that writes, or that depends on your identity, needs the live deployment.",
+    "runIt": "Run the full service",
+    "searchNote": "Filtered in your browser over the whole public catalog. The live site ranks results with a real scoring function; this matches on words, so the order is not the same."
   }
 }

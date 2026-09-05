@@ -29,7 +29,7 @@ from typing import Any
 
 from datahub.api import deps
 from datahub.api.deps import CallerDep
-from datahub.api.ratelimit import WINDOW_S, RateLimiter, exempt
+from datahub.api.ratelimit import WINDOW_S, RateLimiter, enabled, exempt
 from datahub.api.routers import allowlists, auth, concepts, datasets, health, intake, review
 from datahub.config import Settings, get_settings
 from datahub.errors import DataHubError, RateLimited
@@ -168,7 +168,7 @@ def rate_limit(request: Request, response: Response, caller: CallerDep) -> None:
     see it has four requests left paces itself, and one that finds out by being
     refused has already failed a user's request.
     """
-    if exempt(request.url.path):
+    if exempt(request.url.path) or not enabled():
         return
 
     decision = LIMITER.check(

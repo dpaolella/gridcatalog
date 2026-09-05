@@ -6,7 +6,8 @@ PIP := uv pip install --python .venv/bin/python
 
 .DEFAULT_GOAL := help
 .PHONY: help venv install lint fmt types test test-all conformance graph-suite \
-        seed reindex serve web harvest clean up down check
+        seed reindex serve web harvest clean up down check \
+        snapshot site site-serve
 
 help: ## Show this help
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -68,6 +69,24 @@ demo: seed reindex semantic links ## A populated local catalog, from nothing
 web-build: ## Production build of the UI
 	cd web && npm run build
 
+snapshot: ## Export the anonymous catalog as static JSON
+	@# Anonymous by construction — see services/snapshot.py. The tests under
+	@# tests/snapshot assert that against the artefact, and CI runs them
+	@# before the upload because a published file cannot be recalled.
+	$(PY) -m datahub.cli snapshot export var/site/snapshot
+
+site: snapshot ## Build the static site into web/out
+	@# BASE_PATH is the repository name for a project site
+	@# (<owner>.github.io/<repo>) and empty for a user site or a custom
+	@# domain. Wrong here means the HTML loads and every asset 404s.
+	cd web && DATAHUB_SNAPSHOT=$(CURDIR)/var/site/snapshot \
+	  NEXT_PUBLIC_BASE_PATH=$(BASE_PATH) npm run build
+
+site-serve: ## Serve web/out exactly as GitHub Pages would
+	@# Not `serve -s`: an SPA fallback renders the home page for every miss,
+	@# which hides precisely the broken links this is here to find.
+	cd web && node scripts/serve-export.mjs out --port 4321 --prefix "$(BASE_PATH)"
+
 e2e: ## Playwright over the M9 done-criterion flows
 	@# Both servers, torn down on the way out. The suite drives a real API and
 	@# a real UI: mocking either would test the components against a fiction of
@@ -83,4 +102,4 @@ down: ## Stop them
 
 clean:
 	rm -rf .pytest_cache .ruff_cache .mypy_cache var/ **/__pycache__ \
-	  test-results/ playwright-report/ web/.next
+	  test-results/ playwright-report/ web/.next web/out

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { apiUrl } from "@/lib/api";
+import { perRequest } from "@/lib/rendering";
 
 /**
  * MCP connection details, formatted for common clients (PRD §F3).
@@ -13,9 +14,9 @@ import { apiUrl } from "@/lib/api";
 // Rendered per request, not prerendered: this page reads the API URL from the
 // environment, and a statically generated copy would bake in whatever the
 // build machine had — the same trap the `env` config option sets.
-export const dynamic = "force-dynamic";
 
 export default async function ConnectPage() {
+  await perRequest();
   const t = await getTranslations("connect");
   const url = `${apiUrl()}/mcp`;
 
@@ -52,9 +53,7 @@ export default async function ConnectPage() {
       <section className="space-y-2">
         <h2 className="font-medium">{t("url")}</h2>
         <code
-          className="block overflow-x-auto rounded border p-3 text-sm"
-          style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-        >
+          className="og-card block overflow-x-auto p-3 font-mono text-sm">
           {url}
         </code>
       </section>
@@ -62,9 +61,7 @@ export default async function ConnectPage() {
       <section className="space-y-2">
         <h2 className="font-medium">Configuration</h2>
         <pre
-          className="overflow-x-auto rounded border p-3 text-xs"
-          style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-        >
+          className="og-card overflow-x-auto p-4 font-mono text-xs">
           {config}
         </pre>
       </section>
@@ -82,9 +79,7 @@ export default async function ConnectPage() {
       </section>
 
       <section
-        className="space-y-3 rounded-lg border p-4 text-sm"
-        style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-      >
+        className="og-card space-y-3 p-5 text-sm">
         <p>{t("grounding")}</p>
         <p>{t("noData")}</p>
       </section>

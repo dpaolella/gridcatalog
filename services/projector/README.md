@@ -46,7 +46,7 @@ fact, not an estimate: `projector_state.last_commit_at` and `last_indexed_at`,
 compared against `DATAHUB_PROJECTOR_LAG_BUDGET_S` (default 60 s).
 
 ```python
-projector.health()   # lag_seconds, healthy, pending, last_full_reindex_at
+projector.health()  # lag_seconds, healthy, pending, last_full_reindex_at
 ```
 
 `/readyz` and `datahub index status` both read it.

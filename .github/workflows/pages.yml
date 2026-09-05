@@ -1,0 +1,117 @@
+name: Pages
+
+# Publish the catalog as a static site.
+#
+# What gets published is a snapshot taken by driving the real API **with no
+# credentials**, so the site carries exactly what an anonymous caller can see
+# and cannot carry anything else. `tests/snapshot/` asserts that against the
+# artefact itself, and this workflow runs it before the upload rather than
+# after, because a static site cannot be un-published.
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Pages needs to write its own deployment; nothing here needs write access to
+# the repository.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time, and never cancel one that is mid-flight: a
+# half-uploaded site is a broken site.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  build:
+    name: Build the static site
+    runs-on: ubuntu-latest
+    env:
+      DATAHUB_GRAPH_STORE_PATH: var/site/graph.nq
+      DATAHUB_SEARCH_STORE_PATH: var/site/index.json
+      DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/site/ops.sqlite3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install
+        run: |
+          uv python install ${{ env.PYTHON_VERSION }}
+          uv venv --python ${{ env.PYTHON_VERSION }} .venv
+          uv pip install --python .venv/bin/python -e ".[dev]"
+          npm ci --prefix web
+
+      - name: Build a catalog
+        # The curated seed inventory, graded and linked — the same four steps
+        # as `make demo`. Unverified rows land in the draft graph and are not
+        # published, which is the seed file's own instruction and is enforced
+        # by the loader, not by this workflow.
+        run: |
+          mkdir -p var/site
+          .venv/bin/datahub db upgrade
+          .venv/bin/datahub graph bootstrap
+          .venv/bin/datahub seed load
+          .venv/bin/datahub index reindex
+          .venv/bin/datahub semantic run
+          .venv/bin/datahub links run
+
+      - name: Check what the exporter publishes
+        # Before the export, not after. These tests are the reason it is safe
+        # to point a public URL at this artefact at all.
+        run: .venv/bin/pytest -q tests/snapshot
+
+      - name: Export the snapshot
+        run: .venv/bin/datahub snapshot export var/site/snapshot
+
+      - name: Build the site
+        env:
+          DATAHUB_SNAPSHOT: ${{ github.workspace }}/var/site/snapshot
+          # A project site lives under the repository name; a user or org site
+          # (`<name>.github.io`) and a custom domain live at the root. Setting
+          # this wrong is the classic Pages failure: the HTML loads and every
+          # stylesheet, font and link 404s.
+          NEXT_PUBLIC_BASE_PATH: ${{ endsWith(github.repository, format('{0}.github.io', github.repository_owner)) && '' || format('/{0}', github.event.repository.name) }}
+          # Where a reader's own MCP client and SDK should point. The static
+          # site has no backend of its own, so this is the address of a live
+          # deployment if there is one, and the local quickstart if there is
+          # not.
+          DATAHUB_API_URL: ${{ vars.DATAHUB_PUBLIC_API_URL || 'http://localhost:8000' }}
+        run: npm run build --prefix web
+
+      # `web/public/.nojekyll` is copied into the export and is what stops
+      # Pages running the artefact through Jekyll — which drops every path
+      # beginning with an underscore, including `_next/`, which is all the
+      # JavaScript and every font. It is an empty file with no way to explain
+      # itself, so it is explained here and in docs/hosting.md.
+      - name: Check the export is Pages-shaped
+        run: test -f web/out/.nojekyll && test -f web/out/404.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/out
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

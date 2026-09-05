@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-20 0 560 420" role="img" aria-label="OpenGrid">
+  <title>OpenGrid</title>
+  <!--
+    The OpenGrid mark, in Orange (#E67205) on transparent.
+
+    Next serves this as the app icon; the same shapes are drawn inline by
+    `components/Brand.tsx` as `<Mark>`, where they inherit `currentColor`. A
+    favicon has no colour context to inherit, so this copy names the colour.
+
+    Reconstruction. Replace with the mark from the OpenGrid style bundle.
+  -->
+  <g fill="none" stroke="#E67205" stroke-width="44" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M180 27h248a40 40 0 0 1 35 20l124 163a40 40 0 0 1 0 40L463 373a40 40 0 0 1-35 20H180a40 40 0 0 1-35-20L21 250a40 40 0 0 1 0-40L145 47a40 40 0 0 1 35-20Z"/>
+    <path d="M242 105h146a28 28 0 0 1 24 14l73 96a28 28 0 0 1 0 28l-73 96a28 28 0 0 1-24 14H242a28 28 0 0 1-24-14l-73-96a28 28 0 0 1 0-28l73-96a28 28 0 0 1 24-14Z"/>
+    <path d="M180 27 411 393"/>
+  </g>
+</svg>

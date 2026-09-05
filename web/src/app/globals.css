@@ -1,71 +1,164 @@
 @import "tailwindcss";
 
-/*
- * One palette, defined once. The quality badge colours in particular are used
- * in three places (list row, detail tab, connections list) and a fourth
- * definition would eventually disagree with the other three.
- */
-:root {
-  --background: #fbfbfa;
-  --surface: #ffffff;
-  --foreground: #16181d;
-  --muted: #5b6470;
-  --border: #e3e5e8;
-  --accent: #10614f;
-  --accent-soft: #e6f0ed;
+/* ==========================================================================
+   OpenGrid visual identity.
 
-  /* Grades. Deliberately *not* a red-to-green ramp: these are three
-   * independent facets, and a traffic light invites a reader to average them
-   * into the composite ADR-0007 forbids. A single hue at four intensities
-   * reads as "more or less of this one thing", which is what a facet is. */
-  --grade-a: #0f5c4a;
-  --grade-b: #3f7f5f;
-  --grade-c: #8a7c3f;
-  --grade-d: #8a4b3f;
-  --grade-none: #6b7280;
+   Palette, typography and geometry are the values confirmed in the OpenGrid
+   style system. The rules that are easy to break without noticing, restated
+   here because this file is where they get broken:
+
+   - **Orange is the one sharp accent.** CTA, a key stat, an active state, a
+     warning that must be seen. Never a large background on a content view.
+   - **Petrol is the dominant dark.** Panels, dark surfaces, the statement
+     moments.
+   - **Signal Blue and Teal are line colours, not fills.** They carry the
+     divider rule and the line-icons — Signal Blue on light, Teal on dark.
+   - **Geometry is squared.** ~2px radius. The CTA is the only rounded thing,
+     and only slightly.
+
+   The divider rule and the colour panels are deliberate brand devices. General
+   "good design" advice says to strip a rule under a title; here it stays.
+   ========================================================================== */
+
+:root {
+  /* -- brand palette, exact -------------------------------------------- */
+  --og-orange: #e67205;
+  --og-petrol: #144056;
+  --og-navy: #0c2532;
+  --og-navy-deep: #07141b;
+  --og-teal: #1aa295;
+  --og-blue: #0055fe;
+  --og-grey: #f2f2f2;
+  --og-pale-blue: #dfe7ef;
+  --og-amber: #ffb64d;
+
+  /* -- semantic tokens, light context ---------------------------------- */
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-sunken: var(--og-grey);
+  --foreground: var(--og-petrol);
+  --muted: #5b7183;
+  --border: #dbe1e6;
+  --rule: var(--og-blue);
+  --accent: var(--og-orange);
+  --accent-contrast: #ffffff;
+  --panel: var(--og-petrol);
+  --panel-foreground: #ffffff;
+  --link: var(--og-petrol);
+  --link-visited: #6b4a86;
+
+  /* -- quality grades ---------------------------------------------------
+     A single Petrol ramp, not a red-to-green traffic light. Two reasons, and
+     the first is a hard constraint: three facets that shaded from red to green
+     would invite a reader to average them into the composite the design
+     forbids. The second is that the ramp says the true thing — these facets
+     measure how much is *established*, so a lighter chip is less established,
+     not "bad". "Not assessed" is an outlined chip and belongs to no step of
+     the ramp at all. */
+  --grade-a: #144056;
+  --grade-b: #2c6079;
+  --grade-c: #6e93a6;
+  --grade-d: #a9bfcb;
+  --grade-a-ink: #ffffff;
+  --grade-b-ink: #ffffff;
+  --grade-c-ink: #ffffff;
+  --grade-d-ink: var(--og-petrol);
+  --grade-none: transparent;
+  --grade-none-ink: var(--muted);
+
+  /* -- status ------------------------------------------------------------
+     Link health and the correlation warning. Orange appears here as the one
+     thing on a page that most needs to be seen, which is what the accent is
+     for — a spark, and still never a wash. */
+  --status-ok: var(--og-teal);
+  --status-warn: #b07c1a;
+  --status-alert: var(--og-orange);
+
+  --radius: 2px;
+  --radius-cta: 3px;
+  --rule-width: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--og-navy-deep);
+    --surface: var(--og-navy);
+    --surface-sunken: #0a1e29;
+    --foreground: #ffffff;
+    --muted: #9db0bd;
+    --border: #1d3644;
+    /* Teal on dark, Signal Blue on light. Both are line colours either way. */
+    --rule: var(--og-teal);
+    --panel: var(--og-petrol);
+    --link: #ffffff;
+    --link-visited: var(--og-amber);
+
+    --grade-a: #7fd8cb;
+    --grade-b: #5fb6ae;
+    --grade-c: #3d7f8c;
+    --grade-d: #2a5468;
+    --grade-a-ink: var(--og-navy-deep);
+    --grade-b-ink: var(--og-navy-deep);
+    --grade-c-ink: #ffffff;
+    --grade-d-ink: #ffffff;
+
+    --status-warn: var(--og-amber);
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-panel: var(--panel);
+  --color-rule: var(--rule);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-mono-stack);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0e1013;
-    --surface: #16191e;
-    --foreground: #e8eaed;
-    --muted: #9aa3ae;
-    --border: #272b31;
-    --accent: #4fbf9f;
-    --accent-soft: #16302a;
-    --grade-a: #5fc8a8;
-    --grade-b: #7fb99a;
-    --grade-c: #c3b273;
-    --grade-d: #cf8f80;
-    --grade-none: #8b939e;
-  }
-}
+/* ==========================================================================
+   Base
+   ========================================================================== */
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  /* Light is the brand's default body weight. */
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Visible focus everywhere. An evaluator on a keyboard is a real user, and the
- * default ring disappears against the accent colour. */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.011em;
+}
+
+/* Sentence case is a writing rule, not a CSS one — but this stops a stray
+   `uppercase` utility from turning a label into an all-caps banner. */
+.og-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--link);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 3px;
+  border-radius: var(--radius);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .skip-link {
@@ -79,5 +172,118 @@ body {
   padding: 0.5rem 0.75rem;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
+}
+
+/* ==========================================================================
+   Signature devices
+   ========================================================================== */
+
+/* The divider rule: a hairline near a title. Signal Blue on light, Teal on
+   dark. A confirmed brand device — do not remove it as "filler". */
+.og-rule {
+  border: 0;
+  border-top: var(--rule-width) solid var(--rule);
+  width: 3.5rem;
+  margin: 0.75rem 0 0;
+}
+
+.og-rule--wide {
+  width: 100%;
+  border-top-color: var(--border);
+}
+
+/* The hexagon circuit motif, as a corner or panel wash. Low strength, behind
+   text, at an edge — never wallpaper. */
+.og-hex {
+  position: relative;
+  isolation: isolate;
+}
+.og-hex::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: var(--og-hex-url);
+  background-repeat: repeat;
+  background-position: right -40px top -30px;
+  opacity: 0.09;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to left, #000 0%, transparent 62%);
+  mask-image: linear-gradient(to left, #000 0%, transparent 62%);
+}
+
+/* A colour panel: half or quarter solid field in Petrol, paired with the
+   pattern. Covers, section moments, rail sides. */
+.og-panel {
+  background: var(--panel);
+  color: var(--panel-foreground);
+  border-radius: var(--radius);
+}
+.og-panel a {
+  color: #ffffff;
+}
+.og-panel .og-rule {
+  border-top-color: var(--og-teal);
+}
+
+/* The CTA / emphasis block: small, Orange, white text, low radius. The only
+   rounded element in the system, and only just. */
+.og-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-radius: var(--radius-cta);
+  padding: 0.5rem 0.875rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+.og-cta:hover {
+  background: color-mix(in srgb, var(--accent) 88%, #000);
+}
+
+/* A squared surface card. No pill radii, no heavy shadow. */
+.og-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* Big stat callout: oversized number in Orange or Petrol, small label below. */
+.og-stat {
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+/* Tag / chip. Squared, quiet, outline — the palette carries meaning only where
+   meaning exists (grades, status). */
+.og-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.125rem 0.4rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+input,
+select,
+textarea {
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  font-weight: 300;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
 }

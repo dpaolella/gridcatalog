@@ -21,6 +21,10 @@ import type { LinkedDataset } from "@/lib/api";
  * it removes exactly the information the user needs — that these two are not
  * independent — and leaves them believing they are, which is a stronger and
  * more wrong claim.
+ *
+ * The graph uses the structural line colour for edges and the Orange accent,
+ * dashed, for a correlated one — so the flag survives a glance at the picture
+ * rather than living only in the list below it.
  */
 
 const VISIBLE = 12;
@@ -46,7 +50,7 @@ export function Connections({ links }: { links: LinkedDataset[] }) {
         <button
           type="button"
           onClick={() => setExpanded(!expanded)}
-          className="rounded border px-3 py-1.5 text-sm hover:bg-[color:var(--accent-soft)]"
+          className="og-tag px-3 py-1.5 text-sm hover:text-[color:var(--foreground)]"
           style={{ borderColor: "var(--border)" }}
         >
           {expanded ? t("showFewer") : t("showMore", { count: hidden })}
@@ -70,16 +74,20 @@ function ConnectionRow({ link }: { link: LinkedDataset }) {
   return (
     <li
       data-testid="connection"
-      className="rounded-lg border p-4"
+      className="og-card relative p-4"
       style={{
-        borderColor: link.correlation_warning ? "var(--grade-c)" : "var(--border)",
-        background: "var(--surface)",
+        // A correlated pairing is marked at its edge, not hidden. Orange is the
+        // accent for the one thing on a page that most needs to be seen, and a
+        // 3px rail is a mark rather than a wash.
+        borderLeft: link.correlation_warning
+          ? "3px solid var(--status-alert)"
+          : "1px solid var(--border)",
       }}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <Link
           href={`/datasets/${link.dataset_id}`}
-          className="font-medium text-[color:var(--accent)] hover:underline"
+          className="font-medium hover:underline"
         >
           {link.title ?? link.dataset_id}
         </Link>
@@ -96,8 +104,12 @@ function ConnectionRow({ link }: { link: LinkedDataset }) {
           <button
             type="button"
             onClick={() => setOpen(!open)}
-            className="inline-flex items-center gap-1.5 rounded px-2 py-1 text-xs font-medium"
-            style={{ background: "var(--accent-soft)", color: "var(--grade-d)" }}
+            className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-semibold"
+            style={{
+              borderRadius: "var(--radius)",
+              background: "color-mix(in srgb, var(--status-alert) 12%, transparent)",
+              color: "var(--status-alert)",
+            }}
             aria-expanded={open}
           >
             <span aria-hidden>△</span>
@@ -105,8 +117,8 @@ function ConnectionRow({ link }: { link: LinkedDataset }) {
           </button>
           {open ? (
             <p
-              className="mt-2 rounded border-l-2 py-1 pl-3 text-sm"
-              style={{ borderColor: "var(--grade-c)" }}
+              className="mt-2 border-l-2 py-1 pl-3 text-sm"
+              style={{ borderColor: "var(--status-alert)" }}
             >
               {link.correlation_warning}
             </p>
@@ -134,7 +146,7 @@ function StrengthPips({ strength }: { strength: number }) {
           key={pip}
           aria-hidden
           className="inline-block h-1.5 w-1.5 rounded-full"
-          style={{ background: pip <= strength ? "var(--accent)" : "var(--border)" }}
+          style={{ background: pip <= strength ? "var(--rule)" : "var(--border)" }}
         />
       ))}
       <span className="sr-only">{t("strength", { strength })}</span>
@@ -171,16 +183,16 @@ function LinkGraph({ links }: { links: LinkedDataset[] }) {
               y1={centre}
               x2={x}
               y2={y}
-              stroke={correlated ? "var(--grade-c)" : "var(--accent)"}
-              strokeOpacity={0.5}
+              stroke={correlated ? "var(--status-alert)" : "var(--rule)"}
+              strokeOpacity={0.55}
               strokeWidth={link.strength}
               strokeDasharray={correlated ? "4 3" : undefined}
             />
-            <circle cx={x} cy={y} r={5} fill={correlated ? "var(--grade-c)" : "var(--accent)"} />
+            <circle cx={x} cy={y} r={5} fill={correlated ? "var(--status-alert)" : "var(--rule)"} />
           </g>
         );
       })}
-      <circle cx={centre} cy={centre} r={9} fill="var(--foreground)" />
+      <circle cx={centre} cy={centre} r={9} fill="var(--og-petrol)" />
     </svg>
   );
 }

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { getDomains } from "@/lib/api";
+import { perRequest } from "@/lib/rendering";
 import { formatNumber } from "@/lib/format";
 
-export const dynamic = "force-dynamic";
 
 /**
  * The ten data domains (PRD §4.1 D3), each a way into the catalog.
@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic";
  * reads as empty rather than as a number the caller cannot reach.
  */
 export default async function DomainsPage() {
+  await perRequest();
   const nav = await getTranslations("nav");
   const domains = await getDomains();
 
@@ -23,8 +24,7 @@ export default async function DomainsPage() {
           <li key={domain.id}>
             <Link
               href={`/?data_domain=${encodeURIComponent(domain.iri)}`}
-              className="block h-full rounded-lg border p-4 hover:bg-[color:var(--accent-soft)]"
-              style={{ borderColor: "var(--border)", background: "var(--surface)" }}
+              className="og-card block h-full p-5 transition-colors hover:border-[color:var(--rule)]"
             >
               <div className="flex items-baseline justify-between gap-3">
                 <span className="font-medium">{domain.label}</span>
@@ -36,7 +36,10 @@ export default async function DomainsPage() {
                 <p className="mt-1 text-sm text-[color:var(--muted)]">{domain.definition}</p>
               ) : null}
               {domain.structural_note ? (
-                <p className="mt-2 border-l-2 pl-2 text-xs text-[color:var(--muted)]" style={{ borderColor: "var(--grade-c)" }}>
+                <p
+                  className="mt-3 border-l-2 pl-3 text-xs text-[color:var(--muted)]"
+                  style={{ borderColor: "var(--status-warn)" }}
+                >
                   {domain.structural_note}
                 </p>
               ) : null}

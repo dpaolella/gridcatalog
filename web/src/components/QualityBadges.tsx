@@ -2,26 +2,24 @@ import { useTranslations } from "next-intl";
 import type { QualityFacet } from "@/lib/api";
 
 /**
- * Three badges. Never a composite (ADR-0007, PRD §F5: "a hard constraint, not
- * a preference").
+ * Three badges. Never a composite (a hard constraint, not a preference).
  *
- * There is no place in this component where two grades meet. That is
- * structural rather than disciplined: the component maps over facets and
- * renders each one, so there is no variable holding more than one grade and
- * nothing to average even by accident.
+ * There is no place in this component where two grades meet. That is structural
+ * rather than disciplined: it maps over facets and renders each one, so no
+ * variable holds more than one grade and there is nothing to average even by
+ * accident.
  *
- * An unassessed facet renders as "not yet assessed" and never as D. A record
- * below completeness level 2 has no field metadata to grade, and showing D
- * would condemn every harvested record for having been harvested.
+ * The colour is a single Petrol ramp rather than a red-to-green scale, and the
+ * reason is the same constraint: a traffic light across three independent
+ * facets invites exactly the averaging the design forbids. The ramp reads as
+ * *how much is established*, which is what these facets measure — so a lighter
+ * chip is less established, not "bad".
+ *
+ * An unassessed facet is an outlined chip belonging to no step of the ramp, and
+ * never grade D. A record below completeness level 2 has no field metadata to
+ * grade; showing D would condemn every harvested record for having been
+ * harvested.
  */
-
-const GRADE_COLOR: Record<string, string> = {
-  A: "var(--grade-a)",
-  B: "var(--grade-b)",
-  C: "var(--grade-c)",
-  D: "var(--grade-d)",
-};
-
 export function QualityBadges({
   facets,
   size = "sm",
@@ -38,24 +36,29 @@ export function QualityBadges({
       {order.map((name) => {
         const facet = byName.get(name);
         const grade = facet?.grade ?? null;
+        const step = grade ? grade.toLowerCase() : null;
         return (
           <li key={name}>
             <span
-              className={`inline-flex items-center gap-1.5 rounded border px-2 py-0.5 ${
-                size === "lg" ? "text-sm" : "text-xs"
-              }`}
-              style={{ borderColor: "var(--border)" }}
+              className={`og-tag ${size === "lg" ? "px-2 py-1 text-[13px]" : ""}`}
               title={facet?.rationale ?? undefined}
             >
               <span
                 aria-hidden
-                className="inline-flex h-4 w-4 items-center justify-center rounded-sm text-[10px] font-semibold text-white"
-                style={{ background: grade ? GRADE_COLOR[grade] : "var(--grade-none)" }}
+                className="inline-flex h-[18px] w-[18px] items-center justify-center text-[10px] font-semibold"
+                style={{
+                  borderRadius: "var(--radius)",
+                  background: step ? `var(--grade-${step})` : "transparent",
+                  color: step ? `var(--grade-${step}-ink)` : "var(--grade-none-ink)",
+                  border: step ? "none" : "1px dashed var(--border)",
+                }}
               >
                 {grade ?? "–"}
               </span>
-              <span className="text-[color:var(--muted)]">{t(name)}</span>
-              <span className="font-medium">{facet?.label ?? t("notAssessed")}</span>
+              <span>{t(name)}</span>
+              <span className="font-medium text-[color:var(--foreground)]">
+                {facet?.label ?? t("notAssessed")}
+              </span>
             </span>
           </li>
         );

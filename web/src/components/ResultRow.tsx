@@ -23,23 +23,24 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
   const levelKey = String(dataset.completeness_level) as "1" | "2" | "3";
 
   return (
-    <li
-      className="rounded-lg border p-4"
-      style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-    >
+    <li className="og-card p-5">
       <div className="flex flex-col gap-4 sm:flex-row">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <Link
               href={`/datasets/${dataset.id}`}
-              className="text-lg font-medium text-[color:var(--accent)] hover:underline"
+              className="text-lg font-semibold hover:underline"
             >
               {dataset.title}
             </Link>
             {dataset.reference_only ? (
               <span
-                className="rounded px-1.5 py-0.5 text-[11px]"
-                style={{ background: "var(--accent-soft)" }}
+                className="px-1.5 py-0.5 text-[11px] font-semibold"
+                style={{
+                  borderRadius: "var(--radius)",
+                  background: "color-mix(in srgb, var(--accent) 14%, transparent)",
+                  color: "var(--accent)",
+                }}
                 title={t("referenceOnlyHelp")}
               >
                 {t("referenceOnly")}
@@ -86,7 +87,11 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
 
         {dataset.spatial?.bbox ? (
           <div className="w-full shrink-0 sm:w-40">
-            <CoverageMap bbox={dataset.spatial.bbox} className="h-20 w-full rounded border" />
+            <CoverageMap
+              bbox={dataset.spatial.bbox}
+              className="h-20 w-full border"
+              style={{ borderColor: "var(--border)", borderRadius: "var(--radius)" }}
+            />
           </div>
         ) : null}
       </div>
@@ -96,11 +101,7 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
 
 function Tag({ children, title }: { children: React.ReactNode; title?: string }) {
   return (
-    <li
-      className="rounded border px-1.5 py-0.5 text-[color:var(--muted)]"
-      style={{ borderColor: "var(--border)" }}
-      title={title}
-    >
+    <li className="og-tag" title={title}>
       {children}
     </li>
   );

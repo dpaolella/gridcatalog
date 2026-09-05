@@ -56,11 +56,15 @@ semantic_app = typer.Typer(
     name="semantic", help="Concept resolution and quality grading.", no_args_is_help=True
 )
 links_app = typer.Typer(name="links", help="Inter-dataset links.", no_args_is_help=True)
+snapshot_app = typer.Typer(
+    name="snapshot", help="Static export of the catalog.", no_args_is_help=True
+)
 
 app.add_typer(harvest_app)
 app.add_typer(probe_app)
 app.add_typer(semantic_app)
 app.add_typer(links_app)
+app.add_typer(snapshot_app)
 
 
 def err(message: str) -> None:
@@ -1366,6 +1370,40 @@ def links_weights(json_out: Annotated[bool, typer.Option("--json")] = False) -> 
     lines.append(f"{'shared_origin_penalty':<24} {weights.shared_origin_penalty:+.2f}")
     lines.append(f"floored at tier {weights.shared_origin_floor_tier}, top {weights.top_n}")
     _emit(payload, "\n".join(lines), as_json=json_out)
+
+
+# ---------------------------------------------------------------------------
+# snapshot
+# ---------------------------------------------------------------------------
+
+
+@snapshot_app.command("export")
+def snapshot_export(
+    directory: Annotated[Path, typer.Argument(help="Where to write the JSON.")],
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Write the catalog as static JSON, for a host with no backend.
+
+    Produced by driving the real API in-process, so the files are byte-identical
+    to what the server returns and cannot drift from it.
+
+    **Anonymous only.** Every request is made without credentials, so a
+    restricted record is absent from the snapshot for exactly the reason it is
+    absent from an anonymous search. That is deliberate and not configurable: a
+    static site is world-readable and cannot be un-published.
+    """
+    from datahub.snapshot import export
+
+    result = export(directory)
+    for entry in result.skipped:
+        err(f"skipped {entry}")
+    restricted = f", {len(result.restricted)} listed without detail" if result.restricted else ""
+    _emit(
+        result.as_dict(),
+        f"{result.datasets} dataset(s){restricted}, {result.files} file(s), "
+        f"{result.bytes_written // 1024} KiB -> {result.directory}",
+        as_json=json_out,
+    )
 
 
 if __name__ == "__main__":

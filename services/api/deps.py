@@ -45,10 +45,20 @@ def _backend() -> SearchBackend:
 
 
 def reset() -> None:
-    """Drop the cached process-wide resources. Test helper, and the hook the
-    app's shutdown uses so a store with a file behind it is flushed."""
+    """Drop the cached process-wide resources, flushing the store first.
+
+    Test helper, and the hook the app's shutdown uses. The flush is the part
+    that matters and was missing: `RdflibStore.close()` releases nothing —
+    persistence happens in `flush()` — so a shutdown that only closed wrote
+    nothing at all. Writes survived anyway because the store autoflushes after
+    each one, which is precisely why the gap was invisible: the only way to
+    lose data was to construct the store with `autoflush=False`, and then it
+    lost everything.
+    """
     if _store.cache_info().currsize:
-        _store().close()
+        store = _store()
+        store.flush()
+        store.close()
     _store.cache_clear()
     _backend.cache_clear()
 

@@ -53,8 +53,7 @@ export function ReportIssue({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="shrink-0 rounded border px-3 py-1.5 text-sm hover:bg-[color:var(--accent-soft)]"
-        style={{ borderColor: "var(--border)" }}
+        className="og-tag shrink-0 px-3 py-1.5 text-sm hover:text-[color:var(--foreground)]"
       >
         {t("title")}
       </button>
@@ -63,11 +62,9 @@ export function ReportIssue({
 
   return (
     <div
-      className="w-full max-w-sm rounded-lg border p-4"
-      style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-    >
+      className="og-card w-full max-w-sm p-4">
       <div className="flex items-baseline justify-between">
-        <h2 className="font-medium">{t("title")}</h2>
+        <h2 className="font-semibold">{t("title")}</h2>
         <button
           type="button"
           onClick={() => setOpen(false)}
@@ -94,8 +91,7 @@ export function ReportIssue({
             <select
               name="issue_type"
               required
-              className="w-full rounded border px-2 py-1.5"
-              style={{ borderColor: "var(--border)", background: "var(--background)" }}
+              className="w-full px-2 py-1.5"
             >
               <option value="incorrect-metadata">{t("types.incorrect-metadata")}</option>
               <option value="broken-link">{t("types.broken-link")}</option>
@@ -110,8 +106,7 @@ export function ReportIssue({
             <textarea
               name="comment"
               rows={3}
-              className="w-full rounded border px-2 py-1.5"
-              style={{ borderColor: "var(--border)", background: "var(--background)" }}
+              className="w-full px-2 py-1.5"
             />
           </label>
 
@@ -120,14 +115,13 @@ export function ReportIssue({
             <input
               name="email"
               type="email"
-              className="w-full rounded border px-2 py-1.5"
-              style={{ borderColor: "var(--border)", background: "var(--background)" }}
+              className="w-full px-2 py-1.5"
             />
             <span className="mt-1 block text-xs text-[color:var(--muted)]">{t("emailHelp")}</span>
           </label>
 
           {state === "failed" ? (
-            <p className="text-sm" style={{ color: "var(--grade-d)" }}>
+            <p className="text-sm" style={{ color: "var(--status-alert)" }}>
               {t("failed")}
             </p>
           ) : null}
@@ -135,8 +129,7 @@ export function ReportIssue({
           <button
             type="submit"
             disabled={state === "sending"}
-            className="rounded px-3 py-1.5 text-sm text-white disabled:opacity-60"
-            style={{ background: "var(--accent)" }}
+            className="og-cta disabled:opacity-60"
           >
             {state === "sending" ? t("sending") : t("submit")}
           </button>

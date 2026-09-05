@@ -24,6 +24,24 @@ export function apiUrl(): string {
   return process.env.DATAHUB_API_URL ?? "http://localhost:8000";
 }
 
+/**
+ * Where the data comes from.
+ *
+ * Two modes, one codebase:
+ *
+ * - **live** — every page fetches the API when it renders. What runs behind a
+ *   Node server, against a catalog that changes.
+ * - **snapshot** — every page reads JSON written ahead of time by
+ *   `datahub snapshot export`, so the whole site can be pre-rendered and served
+ *   as files. What runs on GitHub Pages, which has no process to fetch with.
+ *
+ * The snapshot is produced by driving the real API, so both modes read exactly
+ * the same shapes. That is what lets one set of components serve both without a
+ * branch anywhere except this file.
+ */
+export const SNAPSHOT_DIR = process.env.DATAHUB_SNAPSHOT ?? "";
+export const IS_SNAPSHOT = SNAPSHOT_DIR !== "";
+
 /** How long a list page may be served from cache. Short, because the catalog
  * changes when a harvest lands and a stale search lies about what exists. */
 const LIST_REVALIDATE = 60;
@@ -46,6 +64,8 @@ export class NotFoundError extends ApiError {}
 type Options = RequestInit & { revalidate?: number };
 
 async function request<T>(path: string, init: Options = {}): Promise<T> {
+  if (IS_SNAPSHOT) return snapshotRead<T>(path);
+
   const { revalidate, ...rest } = init;
   const response = await fetch(`${apiUrl()}${path}`, {
     ...rest,
@@ -62,6 +82,47 @@ async function request<T>(path: string, init: Options = {}): Promise<T> {
     throw new ApiError(response.status, body.detail ?? body.title ?? response.statusText);
   }
   return (await response.json()) as T;
+}
+
+/**
+ * Read a pre-rendered response off disk.
+ *
+ * Node's `fs` is imported dynamically so it never reaches a browser bundle: in
+ * snapshot mode this runs only during `next build`, and the client-side search
+ * that ships to the browser reads the same files over HTTP instead.
+ *
+ * A missing file is a `NotFoundError`, the same as a 404 — which is what makes
+ * a restricted record behave identically in both modes. The exporter writes a
+ * public stub for it and no detail files, so `/schema` is missing here for the
+ * same reason it 404s there.
+ */
+async function snapshotRead<T>(path: string): Promise<T> {
+  const { readFile } = await import("node:fs/promises");
+  const { join } = await import("node:path");
+
+  const file = snapshotFile(path);
+  if (file === null) throw new NotFoundError(404, `no snapshot entry for ${path}`);
+  try {
+    return JSON.parse(await readFile(join(SNAPSHOT_DIR, file), "utf8")) as T;
+  } catch {
+    throw new NotFoundError(404, `no snapshot entry for ${path}`);
+  }
+}
+
+/** Map an API path onto the file the exporter wrote for it. */
+function snapshotFile(path: string): string | null {
+  const [route] = path.split("?");
+  if (route === "/v1/domains") return "domains.json";
+  if (route === "/v1/datasets") return "index.json";
+
+  const detail = /^\/v1\/datasets\/([^/]+)(?:\/(schema|quality|distributions|links))?$/.exec(
+    route,
+  );
+  if (detail) {
+    const [, id, part] = detail;
+    return `datasets/${id}/${part ?? "record"}.json`;
+  }
+  return null;
 }
 
 // ---------------------------------------------------------------------------
@@ -264,15 +325,44 @@ export interface DomainSummary {
 // Calls
 // ---------------------------------------------------------------------------
 
-export function search(
+export async function search(
   params: Record<string, string | string[] | undefined>,
 ): Promise<SearchResponse> {
+  if (IS_SNAPSHOT) {
+    // The snapshot holds the whole public catalog in one file, and the static
+    // site filters it in the browser. Server-side here would mean pre-rendering
+    // a page per query, which is not a finite set.
+    const index = await request<{ total: number; results: DatasetSummary[] }>("/v1/datasets");
+    const facets = await snapshotFacets();
+    return { ...index, offset: 0, limit: index.results.length, facets, took_ms: 0 };
+  }
+
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined || value === "") continue;
     for (const item of Array.isArray(value) ? value : [value]) query.append(key, item);
   }
   return request<SearchResponse>(`/v1/datasets?${query}`, { revalidate: LIST_REVALIDATE });
+}
+
+async function snapshotFacets(): Promise<Record<string, FacetBucket[]>> {
+  const { readFile } = await import("node:fs/promises");
+  const { join } = await import("node:path");
+  try {
+    return JSON.parse(await readFile(join(SNAPSHOT_DIR, "facets.json"), "utf8")) as Record<
+      string,
+      FacetBucket[]
+    >;
+  } catch {
+    return {};
+  }
+}
+
+/** Every dataset id in the snapshot, for `generateStaticParams`. */
+export async function snapshotDatasetIds(): Promise<string[]> {
+  if (!IS_SNAPSHOT) return [];
+  const index = await request<{ results: DatasetSummary[] }>("/v1/datasets");
+  return index.results.map((d) => d.id);
 }
 
 export const getDataset = (id: string) =>

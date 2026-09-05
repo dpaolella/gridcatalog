@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { ApiError, type ReviewQueueResponse, reviewQueue } from "@/lib/api";
+import { ApiError, IS_SNAPSHOT, type ReviewQueueResponse, reviewQueue } from "@/lib/api";
+import { StaticNotice } from "@/components/StaticNotice";
+import { perRequest } from "@/lib/rendering";
 import { EmptyState } from "@/components/EmptyState";
+import { Rule } from "@/components/Brand";
 import { formatDate } from "@/lib/format";
 
 /**
@@ -17,13 +20,35 @@ import { formatDate } from "@/lib/format";
  * caller who may not see something is told it does not exist — here the
  * queue's *existence* is not a secret, only its contents.
  */
-export const dynamic = "force-dynamic";
 
 type SearchParams = Promise<{ state?: string }>;
 
 const STATES = ["draft", "in-review", "flagged", "confirmed"] as const;
 
 export default async function ReviewPage({ searchParams }: { searchParams: SearchParams }) {
+  // The queue is a signed-in steward's view of unpublished records. A static
+  // copy has neither a session nor those records, so it says so rather than
+  // rendering an empty queue that looks like "nothing to review".
+  if (IS_SNAPSHOT) return <StaticQueue />;
+  return <Queue searchParams={searchParams} />;
+}
+
+async function StaticQueue() {
+  const t = await getTranslations("review");
+  return (
+    <div className="space-y-6">
+      <header>
+        <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
+        <Rule />
+        <p className="mt-4 max-w-prose text-sm text-[color:var(--muted)]">{t("subtitle")}</p>
+      </header>
+      <StaticNotice />
+    </div>
+  );
+}
+
+async function Queue({ searchParams }: { searchParams: SearchParams }) {
+  await perRequest();
   const { state = "draft" } = await searchParams;
   const t = await getTranslations("review");
 
@@ -43,7 +68,8 @@ export default async function ReviewPage({ searchParams }: { searchParams: Searc
     <div className="space-y-6">
       <header>
         <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
-        <p className="mt-1 max-w-prose text-sm text-[color:var(--muted)]">{t("subtitle")}</p>
+        <Rule />
+        <p className="mt-4 max-w-prose text-sm text-[color:var(--muted)]">{t("subtitle")}</p>
       </header>
 
       <nav className="flex flex-wrap gap-2 text-sm" aria-label={t("state")}>
@@ -51,11 +77,12 @@ export default async function ReviewPage({ searchParams }: { searchParams: Searc
           <Link
             key={name}
             href={`/admin/review?state=${name}`}
-            className="rounded border px-3 py-1"
-            style={{
-              borderColor: name === state ? "var(--accent)" : "var(--border)",
-              background: name === state ? "var(--accent-soft)" : undefined,
-            }}
+            className="og-tag px-3 py-1"
+            style={
+              name === state
+                ? { borderColor: "var(--accent)", color: "var(--accent)", fontWeight: 600 }
+                : undefined
+            }
           >
             {t(`states.${name}`)}
           </Link>
@@ -71,16 +98,17 @@ export default async function ReviewPage({ searchParams }: { searchParams: Searc
           {queue.items.map((item) => (
             <li
               key={item.dataset_id}
-              className="rounded-lg border p-4"
-              style={{
-                borderColor: item.conflict_detail.length ? "var(--grade-c)" : "var(--border)",
-                background: "var(--surface)",
-              }}
+              className="og-card p-4"
+              style={
+                item.conflict_detail.length
+                  ? { borderLeft: "3px solid var(--status-alert)" }
+                  : undefined
+              }
             >
               <div className="flex flex-wrap items-baseline justify-between gap-3">
                 <Link
                   href={`/datasets/${item.dataset_id}`}
-                  className="font-medium text-[color:var(--accent)] hover:underline"
+                  className="font-semibold hover:underline"
                 >
                   {item.dataset_id}
                 </Link>
@@ -92,7 +120,7 @@ export default async function ReviewPage({ searchParams }: { searchParams: Searc
                   <span>
                     {t("inbound")} {item.inbound_link_count}
                   </span>
-                  <span style={{ color: item.validation_conforms ? "var(--grade-a)" : "var(--grade-d)" }}>
+                  <span style={{ color: item.validation_conforms ? "var(--status-ok)" : "var(--status-alert)" }}>
                     {t("conforms")}: {item.validation_conforms ? "✓" : "✗"}
                   </span>
                 </span>
@@ -100,8 +128,8 @@ export default async function ReviewPage({ searchParams }: { searchParams: Searc
 
               {item.conflict_detail.length ? (
                 <p
-                  className="mt-2 border-l-2 pl-2 text-sm"
-                  style={{ borderColor: "var(--grade-c)" }}
+                  className="mt-2 border-l-2 pl-3 text-sm"
+                  style={{ borderColor: "var(--status-alert)" }}
                   title={t("conflictHelp")}
                 >
                   △ {t("conflict")} ({item.conflict_detail.length})

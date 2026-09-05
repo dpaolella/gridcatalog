@@ -72,10 +72,11 @@ export function DatasetTabs({
             aria-selected={active === tab}
             aria-controls={`panel-${tab}`}
             onClick={() => setActive(tab)}
-            className="-mb-px border-b-2 px-3 py-2 text-sm"
+            className="-mb-px border-b-2 px-3 py-2.5 text-sm transition-colors"
             style={{
               borderColor: active === tab ? "var(--accent)" : "transparent",
               color: active === tab ? "var(--foreground)" : "var(--muted)",
+              fontWeight: active === tab ? 600 : 400,
             }}
           >
             {t(tab)}
@@ -136,7 +137,7 @@ function Overview({ dataset }: { dataset: DatasetDetail }) {
       </Rows>
 
       <section>
-        <h2 className="mb-2 font-medium">{t("fitness")}</h2>
+        <h2 className="mb-3 font-semibold">{t("fitness")}</h2>
         <Rows>
           <Row label={t("supported")}>
             {dataset.supported_analysis?.length ? (
@@ -166,7 +167,7 @@ function Overview({ dataset }: { dataset: DatasetDetail }) {
       </section>
 
       <section>
-        <h2 className="mb-2 font-medium">{t("structure")}</h2>
+        <h2 className="mb-3 font-semibold">{t("structure")}</h2>
         <Rows>
           <Row label={t("hasTopology")}>
             <Bool value={dataset.has_topology} />
@@ -261,14 +262,12 @@ function Provenance({
       </Rows>
 
       <section>
-        <h2 className="mb-2 font-medium">{t("accessTerms")}</h2>
+        <h2 className="mb-3 font-semibold">{t("accessTerms")}</h2>
         <ul className="space-y-2 text-sm">
           {distributions.map((dist) => (
             <li
               key={dist.id}
-              className="rounded border p-3"
-              style={{ borderColor: "var(--border)" }}
-            >
+              className="og-card p-3">
               <p className="font-medium">{dist.format_label ?? dist.media_type ?? dist.id}</p>
               <p className="text-[color:var(--muted)]">
                 {dist.access_restriction ? iriTail(dist.access_restriction) : "—"}
@@ -289,8 +288,12 @@ function Coverage({ dataset }: { dataset: DatasetDetail }) {
   return (
     <div className="grid gap-8 md:grid-cols-2">
       <section>
-        <h2 className="mb-3 font-medium">{t("geographic")}</h2>
-        <CoverageMap bbox={dataset.spatial?.bbox} className="h-40 w-full rounded border" />
+        <h2 className="mb-3 font-semibold">{t("geographic")}</h2>
+        <CoverageMap
+          bbox={dataset.spatial?.bbox}
+          className="h-40 w-full border"
+          style={{ borderColor: "var(--border)", borderRadius: "var(--radius)" }}
+        />
         <Rows className="mt-3">
           <Row label={t("bbox")}>
             {dataset.spatial?.bbox ? <BboxSummary bbox={dataset.spatial.bbox} /> : <NotCaptured />}
@@ -316,7 +319,7 @@ function Coverage({ dataset }: { dataset: DatasetDetail }) {
       </section>
 
       <section>
-        <h2 className="mb-3 font-medium">{t("temporal")}</h2>
+        <h2 className="mb-3 font-semibold">{t("temporal")}</h2>
         <CoverageTimeline start={dataset.temporal?.start} end={dataset.temporal?.end} />
         <Rows className="mt-3">
           <Row label={t("from")}>{formatDate(dataset.temporal?.start) ?? <NotCaptured />}</Row>
@@ -370,7 +373,7 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
               <td className="max-w-sm py-2 pr-4">
                 {field.definition ?? <NotCaptured />}
                 {field.completeness_caveats ? (
-                  <p className="mt-1 text-xs" style={{ color: "var(--grade-c)" }}>
+                  <p className="mt-1 text-xs" style={{ color: "var(--status-warn)" }}>
                     {t("caveat")}: {field.completeness_caveats}
                   </p>
                 ) : null}
@@ -385,8 +388,12 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
                     {field.concept.label ?? iriTail(field.concept.iri)}
                     {field.concept_inferred ? (
                       <span
-                        className="ml-1.5 rounded px-1 text-[10px]"
-                        style={{ background: "var(--accent-soft)" }}
+                        className="ml-1.5 px-1 text-[10px] font-medium"
+                        style={{
+                          borderRadius: "var(--radius)",
+                          background: "color-mix(in srgb, var(--accent) 14%, transparent)",
+                          color: "var(--accent)",
+                        }}
                         title={field.inference_basis ?? t("inferredHelp")}
                       >
                         {t("inferred")}
@@ -427,7 +434,7 @@ function Quality({
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-medium">{t("title")}</h2>
+        <h2 className="font-semibold">{t("title")}</h2>
         <p className="mt-1 max-w-prose text-sm text-[color:var(--muted)]">{t("help")}</p>
       </div>
 
@@ -437,17 +444,20 @@ function Quality({
           return (
             <li
               key={name}
-              className="rounded-lg border p-4"
-              style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-            >
-              <p className="text-sm text-[color:var(--muted)]">{t(name)}</p>
+              className="og-card p-4">
+              <p className="og-eyebrow">{t(name)}</p>
               <p className="mt-1 flex items-baseline gap-2">
                 <span
-                  className="inline-flex h-7 w-7 items-center justify-center rounded text-sm font-semibold text-white"
+                  className="inline-flex h-7 w-7 items-center justify-center text-sm font-semibold"
                   style={{
+                    borderRadius: "var(--radius)",
                     background: facet?.grade
                       ? `var(--grade-${facet.grade.toLowerCase()})`
-                      : "var(--grade-none)",
+                      : "transparent",
+                    color: facet?.grade
+                      ? `var(--grade-${facet.grade.toLowerCase()}-ink)`
+                      : "var(--grade-none-ink)",
+                    border: facet?.grade ? "none" : "1px dashed var(--border)",
                   }}
                 >
                   {facet?.grade ?? "–"}
@@ -504,9 +514,7 @@ function Downloads({ distributions }: { distributions: DistributionDetail[] }) {
         {distributions.map((dist) => (
           <li
             key={dist.id}
-            className="rounded-lg border p-4"
-            style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-          >
+            className="og-card p-4">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <p className="font-medium">{dist.format_label ?? dist.media_type ?? dist.id}</p>
               {dist.link_health ? <HealthTag health={dist.link_health} /> : null}
@@ -532,8 +540,7 @@ function Downloads({ distributions }: { distributions: DistributionDetail[] }) {
               <a
                 href={dist.access_url}
                 rel="noreferrer noopener"
-                className="mt-3 inline-block rounded border px-3 py-1.5 text-sm hover:bg-[color:var(--accent-soft)]"
-                style={{ borderColor: "var(--border)" }}
+                className="og-cta mt-3"
               >
                 {t("openSource")} ↗
               </a>
@@ -550,10 +557,10 @@ function HealthTag({ health }: { health: LinkHealth }) {
   const help = useTranslations("downloads");
   const colour =
     health.status === "verified"
-      ? "var(--grade-a)"
+      ? "var(--status-ok)"
       : health.status === "unreachable"
-        ? "var(--grade-d)"
-        : "var(--grade-c)";
+        ? "var(--status-alert)"
+        : "var(--status-warn)";
   const key = health.status as "verified" | "degraded" | "unreachable" | "redirected";
   const when = formatDate(health.last_probed_at);
   return (

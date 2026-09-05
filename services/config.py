@@ -140,6 +140,13 @@ class Settings(BaseSettings):
     rate_limit_human_per_min: int = 120
     rate_limit_agent_per_min: int = 600
     rate_limit_anonymous_per_min: int = 60
+    rate_limit_enabled: bool = True
+    """Off only where the caller is not a caller.
+
+    The snapshot exporter drives this API in-process to produce a build
+    artefact; throttling it means a static export that is silently missing
+    pages, which is a worse failure than the one the limit prevents. Never turn
+    this off on a deployment that serves anyone."""
 
     # ---- mcp ------------------------------------------------------------
     mcp_payload_cap_bytes: int = 100 * 1024

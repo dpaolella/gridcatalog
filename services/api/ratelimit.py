@@ -138,4 +138,15 @@ def exempt(path: str) -> bool:
     return path.startswith(EXEMPT)
 
 
-__all__ = ["EXEMPT", "WINDOW_S", "Decision", "RateLimiter", "exempt"]
+def enabled(settings: Settings | None = None) -> bool:
+    """Whether to count this request at all.
+
+    False only where the caller is not a caller — the snapshot exporter driving
+    the app in-process to produce a build artefact. A throttled exporter writes
+    a static site with pages silently missing, which is worse than the abuse
+    the limit exists to stop.
+    """
+    return (settings or get_settings()).rate_limit_enabled
+
+
+__all__ = ["EXEMPT", "WINDOW_S", "Decision", "RateLimiter", "enabled", "exempt"]

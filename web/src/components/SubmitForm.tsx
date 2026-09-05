@@ -44,10 +44,7 @@ export function SubmitForm() {
 
   if (state === "done") {
     return (
-      <div
-        className="rounded-lg border p-6"
-        style={{ borderColor: "var(--border)", background: "var(--surface)" }}
-      >
+      <div className="og-card p-6">
         <p className="font-medium">{t("thanks")}</p>
         <p className="mt-2 text-sm text-[color:var(--muted)]">{t("thanksHelp")}</p>
       </div>
@@ -77,8 +74,7 @@ export function SubmitForm() {
               next[index] = event.target.value;
               setUrls(next);
             }}
-            className="mb-2 w-full rounded border px-2 py-1.5"
-            style={{ borderColor: "var(--border)", background: "var(--surface)" }}
+            className="mb-2 w-full px-2 py-1.5"
           />
         ))}
         <button
@@ -100,14 +96,13 @@ export function SubmitForm() {
       <Field name="contact" label={t("contact")} type="email" required help={t("contactHelp")} />
 
       {state === "failed" ? (
-        <p style={{ color: "var(--grade-d)" }}>{t("failed")}</p>
+        <p style={{ color: "var(--status-alert)" }}>{t("failed")}</p>
       ) : null}
 
       <button
         type="submit"
         disabled={state === "sending"}
-        className="rounded px-4 py-2 text-white disabled:opacity-60"
-        style={{ background: "var(--accent)" }}
+        className="og-cta px-4 py-2 disabled:opacity-60"
       >
         {state === "sending" ? t("sending") : t("submit")}
       </button>
@@ -139,7 +134,7 @@ function Field({
   type?: string;
   help?: string;
 }) {
-  const style = { borderColor: "var(--border)", background: "var(--surface)" };
+  const style: React.CSSProperties = {};
   return (
     <label className="block">
       <span className="mb-1 block">
@@ -150,7 +145,7 @@ function Field({
           name={name}
           required={required}
           rows={4}
-          className="w-full rounded border px-2 py-1.5"
+          className="w-full px-2 py-1.5"
           style={style}
         />
       ) : (
@@ -158,7 +153,7 @@ function Field({
           name={name}
           type={type}
           required={required}
-          className="w-full rounded border px-2 py-1.5"
+          className="w-full px-2 py-1.5"
           style={style}
         />
       )}

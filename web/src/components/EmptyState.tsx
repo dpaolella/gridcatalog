@@ -1,14 +1,14 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { HexWash, Rule } from "@/components/Brand";
 
 /**
- * Every empty state is designed (PRD §F3: "empty states matter here … design
- * each explicitly").
+ * Every empty state is designed.
  *
- * The rule they all follow: say what happened, not what is missing. "No
- * fields" reads as "this dataset has no columns", which is almost never true;
- * what is true is that nobody has catalogued them yet, and the record's
- * completeness level says how far it has got.
+ * The rule they all follow: say what happened, not what is missing. "No fields"
+ * reads as "this dataset has no columns", which is almost never true; what is
+ * true is that nobody has catalogued them yet, and the completeness level says
+ * how far the record has got.
  */
 export function EmptyState({
   title,
@@ -20,23 +20,20 @@ export function EmptyState({
   action?: { href: string; label: string };
 }) {
   return (
-    <div
-      className="rounded-lg border border-dashed p-8 text-center"
-      style={{ borderColor: "var(--border)" }}
-    >
-      <p className="text-base font-medium">{title}</p>
-      {children ? (
-        <div className="mx-auto mt-2 max-w-prose text-sm text-[color:var(--muted)]">{children}</div>
-      ) : null}
-      {action ? (
-        <Link
-          href={action.href}
-          className="mt-4 inline-block rounded border px-3 py-1.5 text-sm hover:bg-[color:var(--accent-soft)]"
-          style={{ borderColor: "var(--border)" }}
-        >
-          {action.label}
-        </Link>
-      ) : null}
+    <div className="og-card relative overflow-hidden px-8 py-12">
+      <HexWash color="var(--og-petrol)" opacity={0.06} />
+      <div className="relative max-w-prose">
+        <p className="text-lg font-semibold">{title}</p>
+        <Rule />
+        {children ? (
+          <div className="mt-4 text-sm text-[color:var(--muted)]">{children}</div>
+        ) : null}
+        {action ? (
+          <Link href={action.href} className="og-cta mt-6">
+            {action.label}
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -44,9 +41,9 @@ export function EmptyState({
 /**
  * A value the catalog does not hold.
  *
- * Rendered as words rather than as an em dash or a blank cell, because both of
- * those read as "this dataset does not have one" — and PRD principle 2 says
- * absent means *not captured*, never "no source".
+ * Words rather than an em dash or a blank cell, because both of those read as
+ * "this dataset does not have one" — and absent means *not captured*, never
+ * "no source".
  */
 export function NotCaptured({ hint }: { hint?: string }) {
   return (

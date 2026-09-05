@@ -15,9 +15,11 @@ import { bboxToWkt, formatSpan, isGlobal } from "@/lib/format";
 export function CoverageMap({
   bbox,
   className = "",
+  style,
 }: {
   bbox?: number[] | null;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const W = 360;
   const H = 180;
@@ -35,7 +37,7 @@ export function CoverageMap({
           ? `Coverage from ${box[1]}° to ${box[3]}° latitude and ${box[0]}° to ${box[2]}° longitude`
           : "Coverage not captured"
       }
-      style={{ background: "var(--surface)" }}
+      style={{ background: "var(--surface-sunken)", ...style }}
     >
       {/* Graticule every 30°, so a reader can place the box without a
           coastline. Cheaper and more honest than a low-resolution outline
@@ -55,9 +57,9 @@ export function CoverageMap({
           y={y(box[3])}
           width={Math.max(x(box[2]) - x(box[0]), 1.5)}
           height={Math.max(y(box[1]) - y(box[3]), 1.5)}
-          fill="var(--accent)"
-          fillOpacity={0.25}
-          stroke="var(--accent)"
+          fill="var(--og-orange)"
+          fillOpacity={0.18}
+          stroke="var(--og-orange)"
           strokeWidth="1.5"
         />
       ) : null}
@@ -108,7 +110,7 @@ export function CoverageTimeline({
           style={{
             left: `${scale(s)}%`,
             width: `${Math.max(scale(e) - scale(s), 1)}%`,
-            background: "var(--accent)",
+            background: "var(--rule)",
           }}
         />
       </div>

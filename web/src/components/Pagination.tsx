@@ -39,8 +39,7 @@ export function Pagination({
         type="button"
         onClick={() => go(Math.max(offset - limit, 0))}
         disabled={offset === 0}
-        className="rounded border px-3 py-1.5 disabled:opacity-40"
-        style={{ borderColor: "var(--border)" }}
+        className="og-tag px-3 py-1.5 text-sm hover:text-[color:var(--foreground)] disabled:opacity-40"
       >
         {t("previous")}
       </button>
@@ -48,8 +47,7 @@ export function Pagination({
         type="button"
         onClick={() => go(offset + limit)}
         disabled={offset + limit >= total}
-        className="rounded border px-3 py-1.5 disabled:opacity-40"
-        style={{ borderColor: "var(--border)" }}
+        className="og-tag px-3 py-1.5 text-sm hover:text-[color:var(--foreground)] disabled:opacity-40"
       >
         {t("next")}
       </button>

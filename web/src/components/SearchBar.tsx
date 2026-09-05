@@ -58,7 +58,7 @@ export function SearchBar() {
         onChange={(event) => onChange(event.target.value)}
         placeholder={t("placeholder")}
         autoComplete="off"
-        className="w-full rounded-lg border px-4 py-3 text-base"
+        className="w-full px-4 py-3 text-base"
         style={{ borderColor: "var(--border)", background: "var(--surface)" }}
       />
       <p className="mt-1.5 text-xs text-[color:var(--muted)]" aria-live="polite">

@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { FacetBucket } from "@/lib/api";
-import { iriTail } from "@/lib/format";
+import { FacetGroup } from "@/components/FacetGroup";
 
 /**
  * Filters, over whatever facets the API returned.
@@ -18,7 +18,6 @@ import { iriTail } from "@/lib/format";
  * is the leak ADR-0006 is about.
  */
 export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
-  const t = useTranslations("facets");
   const search = useTranslations("search");
   const router = useRouter();
   const params = useSearchParams();
@@ -41,9 +40,9 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
   const hasFilters = [...params.keys()].some((key) => key !== "q" && key !== "offset");
 
   return (
-    <aside aria-label={search("filters")} className="space-y-6 text-sm">
+    <aside aria-label={search("filters")} className="min-w-0 space-y-6 text-sm">
       <div className="flex items-baseline justify-between">
-        <h2 className="font-medium">{search("filters")}</h2>
+        <h2 className="font-semibold">{search("filters")}</h2>
         {hasFilters ? (
           <button
             type="button"
@@ -53,7 +52,7 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
               if (q) query.set("q", q);
               router.replace(`/?${query}`, { scroll: false });
             }}
-            className="text-xs text-[color:var(--accent)] hover:underline"
+            className="text-xs font-medium text-[color:var(--accent)] hover:underline"
           >
             {search("clearFilters")}
           </button>
@@ -61,30 +60,13 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
       </div>
 
       {entries.map(([field, buckets]) => (
-        <fieldset key={field}>
-          <legend className="mb-1.5 font-medium text-[color:var(--muted)]">
-            {t.has(field) ? t(field) : field}
-          </legend>
-          <ul className="space-y-1">
-            {buckets.slice(0, 8).map((bucket) => (
-              <li key={String(bucket.value)}>
-                <label className="flex cursor-pointer items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={active(field, String(bucket.value))}
-                    onChange={() => toggle(field, String(bucket.value))}
-                  />
-                  <span className="flex-1 truncate" title={bucket.label ?? String(bucket.value)}>
-                    {bucket.label ?? iriTail(bucket.value)}
-                  </span>
-                  <span className="tabular-nums text-xs text-[color:var(--muted)]">
-                    {bucket.count}
-                  </span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </fieldset>
+        <FacetGroup
+          key={field}
+          field={field}
+          buckets={buckets}
+          isActive={(value) => active(field, value)}
+          onToggle={(value) => toggle(field, value)}
+        />
       ))}
     </aside>
   );
