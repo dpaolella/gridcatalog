@@ -1,6 +1,6 @@
 # Catalog scale-up: an ingestion plan
 
-Status: proposed. Tracking issue: TBD.
+Status: proposed. Tracking issue: [#13](https://github.com/dpaolella/gridcatalog/issues/13).
 
 The catalog publishes **66 datasets carrying 24 field descriptions between
 them**. The pipeline that was built to make it bigger runs, harvests 1,199
