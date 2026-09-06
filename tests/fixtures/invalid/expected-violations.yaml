@@ -197,9 +197,13 @@ unknown-review-state:
   constraint: In
   focus_node: https://catalog.opengrid.org/ds/broken
   level: 1
-  message_contains: draft, in-review, confirmed, flagged
+  message_contains: draft, in-review, confirmed, auto-confirmed, flagged
   path: og:reviewState
-  why: Review state decides which named graph a record lives in.
+  why: >-
+    Review state decides which named graph a record lives in, and since
+    ADR-0012 it also decides whether a published record was checked by a
+    person. `confirmed` and `auto-confirmed` are both published and are never
+    the same claim, so an unrecognised value cannot be waved through.
 unknown-spatial-granularity:
   constraint: In
   focus_node: https://catalog.opengrid.org/ds/broken
