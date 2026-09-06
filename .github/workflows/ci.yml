@@ -187,5 +187,20 @@ jobs:
           done
       - name: Migrate
         run: .venv/bin/alembic -c ops/alembic.ini upgrade head
+      - name: Refuse to pass on an empty selection
+        # This job started three services, ran migrations, collected zero tests
+        # and reported green — for as long as nothing in the tree carried the
+        # `integration` marker. A check that cannot fail is worse than no check:
+        # it costs the compute and buys the appearance of coverage.
+        run: |
+          collected=$(.venv/bin/pytest -m integration --collect-only -q 2>/dev/null \
+            | grep -oE '^[0-9]+' | head -1)
+          echo "integration tests collected: ${collected:-0}"
+          if [ "${collected:-0}" -lt 1 ]; then
+            echo "::error::No integration tests were collected. The services below" \
+                 "would have been started for nothing and this job would have passed."
+            exit 1
+          fi
+
       - name: Parity and integration suites
         run: .venv/bin/pytest -q -m integration

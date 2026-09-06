@@ -1,8 +1,10 @@
 """Shared fixtures.
 
 Every fixture here uses an in-process backend (ADR-0002), so the default suite
-runs with no container runtime. Container-backed equivalents live in
-``tests/integration/conftest.py`` and are selected by ``-m integration``.
+runs with no container runtime. The container-backed equivalents are in
+``tests/parity/test_containers.py`` and are selected by ``-m integration``; they
+run the same assertions as ``tests/parity/test_in_process.py``, so a failure
+there means a backend genuinely differs rather than a test being wrong.
 """
 
 from __future__ import annotations
