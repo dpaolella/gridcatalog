@@ -166,9 +166,8 @@ seed_datasets:
   DD1:
     domain_name: Network topology & parameters
     structural_note: >
-      Investment-grade US transmission network data is CEII-designated and permanently
-      out of reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic
-      topology. State this in the domain page rather than letting users discover it.
+      Investment-grade US transmission network data is CEII-designated and permanently out of
+      reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic topology.
     datasets:
       - name: Global Transmission Database (Brinkerink et al. 2024)
         tier: 1
@@ -200,7 +199,8 @@ seed_datasets:
         format: CSV (buses, lines, links, transformers, substations)
         anonymous: true
         bulk: true
-        note: Electrical parameters estimated from voltage-class lookup, not measured. Flag as C6 modeled.
+        note: Electrical parameters estimated from voltage-class lookup, not measured.
+        curator_note: Flag as C6 modeled.
         verified: true
       - name: PyPSA-Earth Global Grid Dataset
         tier: 2
@@ -224,14 +224,17 @@ seed_datasets:
         tier: 3
         license: CEII-designated (18 CFR 388.113)
         access_barrier: restricted
-        pointer_rationale: NDA plus FERC clearance. Permanently out of reach. Catalog as a documented gap.
+        pointer_rationale: NDA plus FERC clearance. Permanently out of reach.
+        curator_note: Catalog as a documented gap.
         verified: true
       - name: HIFLD
         tier: 3
         license: US Government public domain
         pointer_rationale: >
-          Access surface has changed. Verify current endpoint and whether the power
-          infrastructure layers are still public before cataloging.
+          Access surface has changed.
+        curator_note: >
+          Verify current endpoint and whether the power infrastructure layers are still public before
+          cataloging.
         verified: true
       - name: NREL ReEDS Transmission Network
         tier: 3
@@ -270,7 +273,8 @@ seed_datasets:
         tier: 1
         license: BSD-3-Clause
         access: https://github.com/NREL-Sienna
-        note: OpenGrid's own hub schema. Catalog it so the schema and its artifacts are discoverable together.
+        note: OpenGrid's own hub schema.
+        curator_note: Catalog it so the schema and its artifacts are discoverable together.
         verified: false
       - name: MATPOWER case archive
         tier: 2
@@ -289,10 +293,9 @@ seed_datasets:
   DD2:
     domain_name: Generator fleet
     structural_note: >
-      Unit-level global coverage is genuinely good here, unlike DD1. The binding
-      constraint is entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS
-      codes and ENTSO-E EIC codes, not availability. This domain is the strongest
-      argument for the identifier-reconciliation work.
+      Unit-level global coverage is genuinely good here, unlike DD1. The binding constraint is
+      entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS codes and ENTSO-E EIC
+      codes, not availability.
     datasets:
       - name: EIA-860 (Annual Electric Generator Report)
         tier: 1
@@ -327,8 +330,8 @@ seed_datasets:
         license: CC-BY-4.0
         access: https://data.catalyst.coop
         note: >
-          Already does the EIA/FERC/EPA entity reconciliation OpenGrid needs. Treat as
-          both a dataset and a reference implementation for identifier crosswalks.
+          Already does the EIA/FERC/EPA entity reconciliation OpenGrid needs. It is a reference
+          implementation for identifier crosswalks as much as a dataset.
         verified: true
       - name: Global Energy Monitor Global Integrated Power Tracker
         tier: 2
@@ -363,8 +366,9 @@ seed_datasets:
         tier: 3
         license: CC-BY-4.0
         pointer_rationale: >
-          v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT. Catalog as a
-          Tier 3 pointer with an explicit og:supersededBy link, which also exercises the
+          v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT.
+        curator_note: >
+          Catalog as a Tier 3 pointer with an explicit og:supersededBy link, which also exercises the
           Currency & Maintenance grade end to end.
         verified: false
       - name: NERC GADS (Generating Availability Data System)
@@ -386,9 +390,9 @@ seed_datasets:
   DD3:
     domain_name: IC queue & project pipeline
     structural_note: >
-      US-only in practice. No comparable international source exists. Every ISO
-      publishes its own schema, so this domain is entirely a Tier 2 normalization
-      problem. LBNL has already solved it once; do not re-solve it.
+      US-only in practice. No comparable international source exists. Every ISO publishes its
+      own schema, so this domain is a normalization problem rather than an availability one;
+      LBNL's Queued Up series already normalizes much of it.
     datasets:
       - name: LBNL Queued Up (interconnection queue dataset)
         tier: 1
@@ -441,9 +445,10 @@ seed_datasets:
         license: mixed, verify per feed
         access: https://www.gridstatus.io
         note: >
-          Open-source python client plus a commercial API tier. Verify which feeds are
-          openly licensed before cataloging. Good candidate for a data-partner conversation
-          rather than a scrape.
+          Open-source Python client plus a commercial API tier.
+        curator_note: >
+          Verify which feeds are openly licensed before cataloging. Good candidate for a data-partner
+          conversation rather than a scrape.
         verified: false
       - name: Prior interconnection study results and upgrade cost allocations
         tier: 3
@@ -478,7 +483,7 @@ seed_datasets:
         tier: 2
         license: US Government public domain
         access: https://www.ferc.gov/industries-data/electric/general-information/electric-industry-forms/form-no-714-annual-electric/data
-        note: Available cleaned via PUDL. Prefer the PUDL distribution over the raw filing.
+        note: Available cleaned via PUDL, which is the easier distribution to work with.
         verified: false
       - name: ENTSO-E Transparency Platform (actual total load, forecast load)
         tier: 2
@@ -524,8 +529,8 @@ seed_datasets:
   DD5:
     domain_name: Renewable resource & weather
     structural_note: >
-      The only domain where data volume, not availability, is the constraint. Broker to
-      existing cloud-native copies. Do not re-host the ERA5 archive.
+      The only domain where data volume, not availability, is the constraint. OpenGrid brokers
+      access to existing cloud-native copies rather than re-hosting archives of this size.
     datasets:
       - name: ECMWF ERA5
         tier: 1
@@ -613,9 +618,9 @@ seed_datasets:
   DD6:
     domain_name: Emerging technology parameters
     structural_note: >
-      Almost no primary data. This domain is dominated by modeled and elicited
-      parameter sets, which makes the Provenance facet (grade B, derived and traced)
-      the norm rather than the exception. Say so on the domain page.
+      Almost no primary data. This domain is dominated by modeled and elicited parameter sets,
+      which makes the Provenance facet (grade B, derived and traced) the norm here rather than
+      the exception.
     datasets:
       - name: NREL ATB (storage and emerging technology tables)
         tier: 1
@@ -665,8 +670,8 @@ seed_datasets:
   DD7:
     domain_name: Fuel & commodity
     structural_note: >
-      Historical prices are open. Forward curves are uniformly commercial and will
-      remain so. Do not promise forward price coverage.
+      Historical prices are open. Forward curves are uniformly commercial and will remain so,
+      so this domain does not cover them.
     datasets:
       - name: EIA Natural Gas prices and Short-Term Energy Outlook
         tier: 1
@@ -724,11 +729,10 @@ seed_datasets:
   DD8:
     domain_name: Policy & regulatory
     structural_note: >
-      The only domain where the binding constraint is format, not license. NERC
-      standards, FERC orders and ISO capacity market rules are all freely accessible
-      and bulk-downloadable as PDFs. They fail only on model-readiness. Structured
-      extraction here is high-effort and high-value, and is the strongest argument
-      for an LLM-assisted extraction pipeline.
+      The only domain where the binding constraint is format, not license. NERC standards,
+      FERC orders and ISO capacity market rules are all freely accessible and
+      bulk-downloadable as PDFs. They fail only on model-readiness, so structured extraction
+      here is high-effort and high-value.
     datasets:
       - name: Ember Global Electricity Review + Renewable Target Tracker
         tier: 1
@@ -753,9 +757,10 @@ seed_datasets:
         access: https://www.nerc.com/pa/stand/pages/reliabilitystandards.aspx
         format: PDF
         note: >
-          Redistribution restriction means OpenGrid can publish extracted structured
-          parameters with citation but cannot mirror the PDFs. Confirm with counsel before
-          shipping the extraction.
+          Redistribution restriction means OpenGrid can publish extracted structured parameters with
+          citation but cannot mirror the PDFs.
+        curator_note: >
+          Confirm with counsel before shipping the extraction.
         verified: true
       - name: FERC Orders (1920, 2023, 881, 2222, 1000, 2000)
         tier: 2
@@ -842,7 +847,7 @@ seed_datasets:
         verified: true
       - name: FERC Form 1 (raw)
         tier: 3
-        pointer_rationale: Use the PUDL distribution instead.
+        pointer_rationale: PUDL republishes this in a cleaned form.
         verified: true
       - name: Lazard LCOE+
         tier: 3
@@ -868,9 +873,9 @@ seed_datasets:
     domain_name: Geospatial & siting
     structural_note: >
       Global base layers are excellent and openly licensed. The gap is everything
-      jurisdiction-specific: permitting status, parcel ownership, ROW. Those are
-      county-level in the US and have no global analogue. Scope DD10 v1 to global
-      base layers and exclusion masks; do not attempt parcel data.
+      jurisdiction-specific: permitting status, parcel ownership, ROW. Those are county-level
+      in the US and have no global analogue, so v1 covers global base layers and exclusion
+      masks only.
     datasets:
       - name: Protected Planet / World Database on Protected Areas (WDPA)
         tier: 2

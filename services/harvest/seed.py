@@ -258,12 +258,23 @@ class SeedLoader:
 
     # ---- field groups ----------------------------------------------------
 
+    #: Seed keys whose text is addressed to the cataloguer, not to the reader.
+    #: Never projected into anything published.
+    CURATOR_ONLY = ("curator_note",)
+
     def _description(self, entry: dict[str, Any]) -> str:
         """A description assembled only from what the file states.
 
         The seed file has no description field, so this is built from the facts
         it does carry rather than invented. Saying less than the source is
         honest; saying more is not.
+
+        `note` and `pointer_rationale` are reader-facing and go in. Editorial
+        instructions do not: five published records used to carry text written
+        for whoever was cataloguing them, including "Confirm with counsel before
+        shipping the extraction" — an unresolved legal question rendered as a
+        dataset's public description. Those sentences now live in
+        `curator_note`, which nothing reads.
         """
         parts = [f"{entry['name']}, a {entry.get('domain_name', 'grid')} dataset"]
         if entry.get("format"):
@@ -364,6 +375,19 @@ class SeedLoader:
         "where do I get it", which is one of the four things the catalog exists
         to do.
         """
+        # FIXME(#18): this URL is fabricated, which PRD §14.4 forbids outright,
+        # and the UI renders it as a live "Open at source" button on 23 of 66
+        # published records.
+        #
+        # Not fixed here because omitting it is not the fix: level 1 requires at
+        # least one distribution and a distribution requires exactly one
+        # accessURL, so a record with no access path cannot validate — dropping
+        # the sentinel fails 34 seed rows rather than publishing them honestly.
+        # All 34 are tier 3 pointers with no access URL, no DOI and no secondary
+        # access, so there is genuinely nothing to point at. It needs either 34
+        # curated landing pages or a promotion-policy decision about publishing a
+        # record that cannot answer "where do I get it" — both of which belong
+        # with the ingestion work, not here.
         url = entry.get("access") or "https://opengrid.org/catalog/no-known-access-path"
         dist: dict[str, Any] = {
             "id": f"{DISTRIBUTION_BASE}{slug}--primary",
