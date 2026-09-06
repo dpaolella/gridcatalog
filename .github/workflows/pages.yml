@@ -90,6 +90,17 @@ jobs:
           .venv/bin/datahub graph bootstrap
           .venv/bin/datahub seed load
           .venv/bin/datahub record load var/site/curated
+
+          # The harvested catalog, one JSON-LD file per record, kept in git
+          # because nothing else here survives the build (WP-11.8). Absent on a
+          # fresh checkout that has never run `harvest.yml`, which is why this
+          # is guarded rather than assumed.
+          if compgen -G "data/catalog/*/*.jsonld" > /dev/null; then
+            for source in data/catalog/*/; do
+              .venv/bin/datahub record load "$source"
+            done
+          fi
+
           .venv/bin/datahub index reindex
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run

@@ -19,3 +19,4 @@ Format: Context → Decision → Consequences → Alternatives considered.
 | [0009](0009-audit-outside-the-request-transaction.md) | Refusals are audited outside the request transaction | Accepted |
 | [0010](0010-grounding-by-boundary.md) | Grounding by boundary, not by prompt | Accepted |
 | [0011](0011-provenance-gap-markers.md) | An absent provenance class is a gap marker, not a blank | Accepted |
+| [0012](0012-auto-promotion.md) | Auto-promotion, and git as the system of record | Accepted |

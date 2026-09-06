@@ -312,8 +312,8 @@ og:DatasetShape a sh:NodeShape ;
   ] ;
   sh:property [
     sh:path og:reviewState ; sh:minCount 1 ; sh:maxCount 1 ;
-    sh:in ( "draft" "in-review" "confirmed" "flagged" ) ; og:appliesAtLevel 1 ;
-    sh:message "og:reviewState is one of draft, in-review, confirmed, flagged." ;
+    sh:in ( "draft" "in-review" "confirmed" "auto-confirmed" "flagged" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:reviewState is one of draft, in-review, confirmed, auto-confirmed, flagged. `confirmed` means a person checked the licence and the access path; `auto-confirmed` means the pipeline substantiated it and nobody has. They are never conflated (ADR-0012)." ;
   ] ;
   sh:property [
     sh:path og:harvestSource ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;

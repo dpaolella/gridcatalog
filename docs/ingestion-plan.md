@@ -667,17 +667,19 @@ Suggested order and rough size:
 
 | | Package | Depends on | Size |
 |---|---|---|---|
-| 1 | WP-11.1 normaliser hardening | — | S |
+| ✔ | WP-11.1 normaliser hardening + 11.1a gap markers | landed | — |
 | 2 | WP-11.4 schema probe | — | L |
 | 3 | WP-11.2 enrichment on, budgeted | 11.1a | M |
-| 4 | WP-11.3 auto-promotion | 11.1, 11.2 | M |
+| ✔ | WP-11.3 auto-promotion | landed with 11.8 | — |
 | 5 | WP-11.5 resolution at volume | 11.4 | M |
 | 6 | WP-11.7 scale mechanics | 11.3 | M |
 | 7 | WP-11.6 source expansion | all | L, incremental |
-| — | WP-11.8 harvest to git (§7) | 11.1 | S, any time |
+| ✔ | WP-11.8 harvest to git (§7) | landed | — |
 
-WP-11.1 and WP-11.4 have no dependencies and no overlap. They are the two to
-start.
+Four landed. **WP-11.4, the schema probe, is now the one that matters most** —
+the pipeline can reach and publish records, and what those records do not yet
+carry is the field metadata the whole catalog is for. ERA5 publishes 4 fields;
+it describes 273 of its own.
 
 ---
 

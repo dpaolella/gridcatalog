@@ -90,10 +90,19 @@ AUTHORED_GRAPHS: tuple[NamedGraph, ...] = (
 CROSSWALK_GRAPH_PREFIX = _BASE + "crosswalk/"
 
 
+#: Review states whose records are published. Two of them, and the difference
+#: between them is preserved everywhere else: `confirmed` means a person
+#: checked the licence and the access path, `auto-confirmed` means the pipeline
+#: substantiated the record and nobody has (ADR-0012). They are the same
+#: *visibility* decision and a different *provenance* claim, which is why they
+#: share a graph and never share a value.
+PUBLISHED_STATES: frozenset[str] = frozenset({"confirmed", "auto-confirmed"})
+
+
 def record_graph(review_state: str) -> NamedGraph:
     """Which graph a record belongs in, given its review state.
 
-    ``confirmed`` records live in the catalog; everything else is draft. This is
+    Published records live in the catalog; everything else is draft. This is
     the only place that mapping is expressed.
     """
-    return NamedGraph.CATALOG if review_state == "confirmed" else NamedGraph.DRAFT
+    return NamedGraph.CATALOG if review_state in PUBLISHED_STATES else NamedGraph.DRAFT

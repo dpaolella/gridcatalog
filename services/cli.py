@@ -479,6 +479,162 @@ def record_load(
         raise typer.Exit(1)
 
 
+@record_app.command("auto-promote")
+def record_auto_promote(
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Report what would promote; change nothing.")
+    ] = False,
+    limit: Annotated[int, typer.Option(help="Stop after N draft records.")] = 100_000,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Publish every draft record the pipeline can substantiate on its own.
+
+    Four gates, all of them facts about the record rather than about where it
+    came from: it validates, its licence resolved to a real identifier, no
+    distribution is known unreachable, and no model-drafted value sits in a
+    field where a wrong one causes harm. See :mod:`datahub.harvest.promote`
+    and ADR-0012 for why there is no per-source trust list.
+
+    A record a person already confirmed is never restamped: a human judgement
+    outranks this one, and overwriting it would erase the fact that somebody
+    looked.
+    """
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.operational import DistributionHealth
+    from datahub.errors import ValidationFailed
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore, dataset_node
+    from datahub.graph.store import make_store
+    from datahub.harvest.promote import promote
+
+    _require_schema()
+    with session_scope() as session:
+        health = {
+            row.distribution_id: row.status for row in session.query(DistributionHealth).all()
+        }
+
+    promoted: list[str] = []
+    refused: list[dict[str, Any]] = []
+    with make_store() as store:
+        records = RecordStore(store)
+        for dataset_id in records.list_ids(graph=NamedGraph.DRAFT, limit=limit):
+            document = records.get(dataset_id, graph=NamedGraph.DRAFT)
+            node = dataset_node(document)
+            # The gate asks a question SHACL already answered upstream; re-running
+            # it here would double the cost of a pass over the whole catalog. A
+            # record in the draft graph got there by being written, and `put`
+            # validates.
+            node["_validation_conforms"] = True
+            result = promote(document, health)
+            node.pop("_validation_conforms", None)
+            if not result.promoted:
+                refused.append({"id": dataset_id, "why": result.why_not})
+                continue
+            if dry_run:
+                promoted.append(dataset_id)
+                continue
+            try:
+                records.put(document)
+            except ValidationFailed as exc:
+                refused.append({"id": dataset_id, "why": f"validation: {exc.message}"})
+                continue
+            records.delete(dataset_id, graph=NamedGraph.DRAFT)
+            promoted.append(dataset_id)
+
+    verb = "would promote" if dry_run else "promoted"
+    _emit(
+        {"promoted": promoted, "refused": refused, "dry_run": dry_run},
+        f"{verb} {len(promoted)} record(s); {len(refused)} left for review",
+        as_json=json_out,
+    )
+
+
+@record_app.command("export")
+def record_export(
+    directory: Annotated[Path, typer.Argument(help="Where to write the JSON-LD tree.")],
+    graph: Annotated[
+        str, typer.Option("--graph", help="Which graph to export: catalog or draft.")
+    ] = "catalog",
+    prune: Annotated[
+        bool,
+        typer.Option("--prune", help="Delete exported files whose record is no longer present."),
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Write every record in a graph as JSON-LD, one file each.
+
+    The exact inverse of ``record load``, and the reason it exists is that the
+    catalog has no database that survives a build: the site is a static export
+    rebuilt from scratch on every deploy, so a harvester writing to the graph
+    is writing to something the runner throws away. Exporting to git makes the
+    tree the system of record it already effectively is (WP-11.8).
+
+    **Deterministic, because the output is meant to be diffed.** Files are laid
+    out under ``<dir>/<harvest source>/<slug>.jsonld`` with sorted keys and a
+    trailing newline, so a record that did not change produces a byte-identical
+    file and no diff at all. That is the whole point: a weekly harvest should
+    open a pull request a person can actually read, showing the twelve records
+    that changed rather than four thousand reserialised ones.
+
+    ``--prune`` removes files for records no longer in the graph, and only
+    inside the source directories this run actually wrote. A harvest that died
+    half way must not be able to empty the catalog.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+
+    try:
+        target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
+    except Exception:  # pragma: no cover - defensive
+        err(f"unknown graph {graph!r}; expected 'catalog' or 'draft'")
+        raise typer.Exit(1) from None
+
+    root = Path(directory)
+    root.mkdir(parents=True, exist_ok=True)
+
+    written: list[str] = []
+    touched_sources: set[Path] = set()
+    kept: set[Path] = set()
+
+    with make_store() as store:
+        records = RecordStore(store)
+        for dataset_id in records.list_ids(graph=target, limit=1_000_000):
+            document = records.get(dataset_id, graph=target)
+            source = str(document.get("harvestSource") or "unknown")
+            folder = root / _safe_name(source)
+            folder.mkdir(parents=True, exist_ok=True)
+            touched_sources.add(folder)
+            path = folder / f"{_safe_name(dataset_id.rsplit('/', 1)[-1])}.jsonld"
+            payload = json.dumps(document, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+            # Only write when the bytes differ, so an unchanged record does not
+            # get a new mtime and a re-run is genuinely a no-op.
+            if not path.exists() or path.read_text() != payload:
+                path.write_text(payload)
+                written.append(dataset_id)
+            kept.add(path)
+
+    removed: list[str] = []
+    if prune:
+        for folder in sorted(touched_sources):
+            for path in sorted(folder.glob("*.jsonld")):
+                if path not in kept:
+                    path.unlink()
+                    removed.append(str(path.relative_to(root)))
+
+    _emit(
+        {"written": written, "removed": removed, "graph": str(target)},
+        f"{len(written)} record(s) written, {len(removed)} removed",
+        as_json=json_out,
+    )
+
+
+def _safe_name(value: str) -> str:
+    """A path segment that cannot escape the export root."""
+    cleaned = "".join(c if c.isalnum() or c in "-_." else "-" for c in value).strip("-.")
+    return cleaned or "unnamed"
+
+
 @record_app.command("promote")
 def record_promote(
     dataset_id: Annotated[str, typer.Argument()],

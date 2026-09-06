@@ -1,0 +1,167 @@
+name: Harvest
+
+# Refresh the catalog from its upstream sources, and open a pull request with
+# whatever changed.
+#
+# Why a pull request rather than a push. There is no server and no database:
+# `pages.yml` rebuilds the whole catalog from scratch in a runner on every
+# deploy and throws the container away, so the catalog's system of record is
+# this repository. That makes a harvest a *change to the repository*, and the
+# natural review gate for a change to a repository already exists.
+#
+# It is also what makes auto-promotion safe (ADR-0012). A record the pipeline
+# substantiated on its own still reaches the public site only through a merge,
+# so "publish anything we can substantiate" is a default somebody can veto by
+# closing a tab rather than a claim nobody checked.
+
+on:
+  schedule:
+    # Weekly, Monday 06:00 UTC. These catalogues change slowly, re-harvest is
+    # idempotent on `sourceId`, and an unchanged payload short-circuits the
+    # whole pipeline — so a daily run would mostly produce empty pull requests.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      source:
+        description: "Harvest source id, or 'all' for every priority-1 source."
+        required: false
+        default: "aws_open_data"
+      limit:
+        description: "Stop after N records per source. Empty means no limit."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: harvest
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+  DATAHUB_GRAPH_STORE_PATH: var/harvest-run/graph.nq
+  DATAHUB_SEARCH_STORE_PATH: var/harvest-run/index.json
+  DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/harvest-run/ops.sqlite3
+
+jobs:
+  harvest:
+    name: Harvest and open a pull request
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install
+        run: |
+          uv python install ${{ env.PYTHON_VERSION }}
+          uv venv --python ${{ env.PYTHON_VERSION }} .venv
+          uv pip install --python .venv/bin/python -e ".[dev]"
+
+      - name: Build the catalog this harvest is an update to
+        # The seed inventory and the records already in git. Without this the
+        # harvest would re-create every record from scratch and the diff would
+        # be the whole catalog rather than what changed.
+        run: |
+          mkdir -p var/harvest-run
+          .venv/bin/datahub db upgrade
+          .venv/bin/datahub graph bootstrap
+          .venv/bin/datahub seed load
+          if compgen -G "data/catalog/*/*.jsonld" > /dev/null; then
+            for source in data/catalog/*/; do
+              .venv/bin/datahub record load "$source" || true
+            done
+          fi
+
+      - name: Fetch the AWS Registry of Open Data
+        # The yaml_repo adapter reads a checkout rather than the contents API:
+        # 1,199 files is one clone or 1,199 authenticated requests.
+        if: inputs.source == 'aws_open_data' || inputs.source == 'all' || inputs.source == ''
+        run: |
+          git clone --depth 1 https://github.com/awslabs/open-data-registry \
+            var/harvest/aws_open_data
+
+      - name: Harvest
+        run: |
+          SOURCE="${{ inputs.source || 'aws_open_data' }}"
+          LIMIT="${{ inputs.limit }}"
+          ARGS=""
+          [ -n "$LIMIT" ] && ARGS="--limit $LIMIT"
+          if [ "$SOURCE" = "all" ]; then
+            .venv/bin/python -m datahub.harvest --priority 1 $ARGS
+          else
+            .venv/bin/python -m datahub.harvest --source "$SOURCE" $ARGS
+          fi
+
+      - name: Check the links before publishing anything
+        # Auto-promotion refuses a record whose distributions all probed
+        # unreachable, so this step is what gives that gate anything to read.
+        # It is allowed to fail: a prober that cannot reach the network must
+        # not stop a harvest, it just means fewer records have probe history.
+        continue-on-error: true
+        run: .venv/bin/datahub probe run --limit 2000
+
+      - name: Promote what the pipeline can substantiate
+        run: .venv/bin/datahub record auto-promote --json > var/harvest-run/promoted.json
+
+      - name: Export the catalog to git
+        run: .venv/bin/datahub record export data/catalog --graph catalog --prune
+
+      - name: Summarise
+        id: summary
+        run: |
+          PROMOTED=$(.venv/bin/python -c "import json;print(len(json.load(open('var/harvest-run/promoted.json'))['promoted']))")
+          REFUSED=$(.venv/bin/python -c "import json;print(len(json.load(open('var/harvest-run/promoted.json'))['refused']))")
+          RECORDS=$(find data/catalog -name '*.jsonld' | wc -l | tr -d ' ')
+          CHANGED=$(git status --porcelain data/catalog | wc -l | tr -d ' ')
+          {
+            echo "promoted=$PROMOTED"
+            echo "refused=$REFUSED"
+            echo "records=$RECORDS"
+            echo "changed=$CHANGED"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Open a pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: harvest/auto
+          # One branch, reused. A harvest that runs weekly and opens a new
+          # branch each time leaves a graveyard; reusing one means the open
+          # pull request is always "everything not yet merged".
+          title: "Harvest: ${{ steps.summary.outputs.changed }} record files changed"
+          commit-message: |
+            Harvest: ${{ steps.summary.outputs.promoted }} records auto-promoted
+
+            ${{ steps.summary.outputs.records }} records in data/catalog,
+            ${{ steps.summary.outputs.changed }} files changed by this run.
+            ${{ steps.summary.outputs.refused }} records were refused
+            promotion and remain in the review queue.
+          body: |
+            Automated harvest.
+
+            | | |
+            |---|---|
+            | Records in `data/catalog` | ${{ steps.summary.outputs.records }} |
+            | Files changed by this run | ${{ steps.summary.outputs.changed }} |
+            | Auto-promoted | ${{ steps.summary.outputs.promoted }} |
+            | Refused, left for review | ${{ steps.summary.outputs.refused }} |
+
+            Every record here was substantiated by the pipeline: it validates,
+            its licence resolved to a real identifier, no distribution is known
+            unreachable, and no model-drafted value sits in a gating field.
+            None of it has been checked by a person — that is what
+            `og:reviewState: auto-confirmed` records, and it is why this is a
+            pull request rather than a push.
+
+            **Reviewing this**: the diff is the catalog. Records that did not
+            change produce no diff at all, so what you see is what this run
+            actually did. Merging republishes the site.
+
+            Refused records and their reasons are in the workflow log under
+            *Promote what the pipeline can substantiate*.
+          labels: harvest
+          delete-branch: false
