@@ -355,9 +355,13 @@ def test_a_domain_is_inferred_and_marked_as_inferred(ckan) -> None:
 
 def test_a_provenance_class_is_never_guessed(ckan) -> None:
     """It caps the Provenance grade (PRD §6), so a wrong one is the catalog
-    asserting something false about how the numbers came to exist. Where the
-    source's words do not determine it, it is left absent and the record fails
-    level 1 — which costs throughput and is the right trade."""
+    asserting something false about how the numbers came to exist.
+
+    The refusal to guess is unchanged by ADR-0011 and is what this test is
+    for. What ADR-0011 changed is the alternative: the record now carries an
+    explicit gap rather than a hole, so it can be published saying "the source
+    did not say" instead of vanishing. The tests for that are further down.
+    """
     stated = ckan.normalize(harvested("ckan", CKAN)).document
     assert stated["provenanceClass"].endswith("/modeled"), "the description says 'Modeled'"
 
@@ -365,7 +369,7 @@ def test_a_provenance_class_is_never_guessed(ckan) -> None:
     result = ckan.normalize(harvested("ckan", silent))
     assert "provenanceClass" not in result.document
     assert "provenanceClass" in result.missing
-    assert any("guessing one" in w for w in result.warnings)
+    assert result.document["provenanceGap"]["gapReason"]
 
 
 def test_an_inferred_value_states_its_basis(ckan) -> None:
@@ -706,3 +710,72 @@ def test_a_stated_interval_and_a_closure_word_resolve_by_precedence(
     negations first and vague closure last.
     """
     assert TRANSFORMS["cadence"](stated) == expected
+
+
+# ---- ADR-0011: an absent provenance class is a gap marker, not a blank ----
+
+
+@pytest.fixture
+def mute() -> dict:
+    """A CKAN payload whose text determines no provenance class."""
+    return {
+        "name": "series-9002",
+        "title": "Regional electricity demand series",
+        "notes": "Hourly demand by balancing area for the continental United States.",
+        "license_id": "CC-BY-4.0",
+        "_public": True,
+        "resources": [{"url": "https://example.org/demand.csv", "format": "CSV"}],
+    }
+
+
+def test_a_silent_source_gets_a_gap_marker_not_a_hole(ckan, mute) -> None:
+    """The class is still never guessed. What changed is the alternative.
+
+    Before ADR-0011 the record simply had no provenance, which is
+    indistinguishable from nobody having looked, and failed level 1. Now it
+    carries an explicit gap that says the source was mute.
+    """
+    result = ckan.normalize(harvested("ckan", mute))
+
+    assert "provenanceClass" not in result.document
+    gap = result.document["provenanceGap"]
+    assert gap["type"] == "ProvenanceGap"
+    assert gap["id"].endswith("#provenance-gap")
+    assert gap["gapReason"]
+
+
+def test_the_gap_reason_says_why_rather_than_merely_that(ckan, mute) -> None:
+    """`og:gapReason` is sh:minCount 1 for the same reason og:conceptGap's is:
+    a bare gap is indistinguishable from not having looked (PRD X4)."""
+    reason = ckan.normalize(harvested("ckan", mute)).document["provenanceGap"]["gapReason"]
+    assert "does not state" in reason
+    assert "guessed" in reason
+
+
+def test_a_stated_provenance_class_still_wins_and_gets_no_gap(ckan) -> None:
+    """The gap is for silence. A source whose words determine a class gets the
+    class, and carrying both would be a contradiction."""
+    document = ckan.normalize(harvested("ckan", CKAN)).document
+    assert document["provenanceClass"].endswith("/modeled")
+    assert "provenanceGap" not in document
+
+
+def test_the_gap_satisfies_the_level_calculation(ckan, mute) -> None:
+    """A level calculation that disagreed with the shapes would mint records
+    that validate at 2 and are labelled 1."""
+    complete = {
+        **mute,
+        "extras": {"frequency": "Hourly"},
+        "metadata_modified": "2025-01-01T00:00:00Z",
+    }
+    document = ckan.normalize(harvested("ckan", complete)).document
+    assert "provenanceGap" in document
+    assert document["completenessLevel"] >= 1
+
+
+def test_a_gap_is_still_recorded_as_a_missing_class(ckan, mute) -> None:
+    """The gap publishes the record; it does not pretend the class is known.
+    Anything counting captured fields must still see this one as absent."""
+    result = ckan.normalize(harvested("ckan", mute))
+    assert "provenanceClass" in result.missing
+    assert any("provenance gap is recorded" in w for w in result.warnings)

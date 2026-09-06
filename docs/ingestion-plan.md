@@ -277,9 +277,50 @@ remains is the one thing the normaliser is right to refuse to invent.
 Mitigation: the table is explicit, it is tested against the registry's real
 value distribution, and unrecognised input drops the field rather than guessing.
 
+### WP-11.1a — An absent provenance class becomes a gap marker
+
+**Fixes B2 deterministically, with no model.** [ADR-0011](decisions/0011-provenance-gap-markers.md).
+
+`og:provenanceClass` was the single remaining blocker after WP-11.1: 998 of
+1,199 records, and nothing else. The normaliser is right to refuse to guess it
+— a wrong class is a fabricated quality claim — but refusing left a hole, and a
+hole fails level 1, and a record that fails level 1 is invisible.
+
+So the record now carries an explicit `og:provenanceGap` with a stated
+`og:gapReason`. This is `og:conceptGap` — ADR-0005's third enforcement layer,
+crosswalk rule X4 — applied one level up: never a silent omission, at dataset
+level as at field level. D6 becomes an `sh:or` in the shapes; a class, or an
+explicit gap, never neither.
+
+It claims nothing about the data. It says *the catalog cannot show you where
+these values came from, and we looked* — the same distinction
+`grading/provenance.py` already draws in its D row. Silence graded D before and
+grades D now; what changed is that the record exists to be graded.
+
+**Landed 2026-09-06. Measured:**
+
+```
+1199 payloads -> 1188 queued, 11 flagged
+    11  dcat:distribution
+
+provenance:  998 gap · 123 reanalysis · 40 modeled · 27 derived
+              6 osm-derived · 5 curated
+```
+
+**The ceiling, reached.** The only records still refused are the 11 that list
+no distribution at all, and a record with nowhere to get the data is correctly
+refused. From one source, with no model and no API key, the catalog goes from
+66 publishable records to **1,254**.
+
+The cost, stated plainly: 998 of those records say "provenance not stated". A
+catalog that mostly says that is honest and looks unimpressive, and it is the
+right trade against a smaller one that looked better by hiding the same
+ignorance behind an empty result set. WP-11.2 is what closes the gaps.
+
 ### WP-11.2 — Turn enrichment on, with a budget
 
-**Fixes B2, and the residue of B3 and B6.**
+**Fixes the residue of B3 and B6, and closes the provenance gaps WP-11.1a
+records.**
 
 The enricher is written, its guardrails are written, and its tests pass. What
 is missing is configuration, cost control and a cache:
@@ -297,10 +338,12 @@ closed set filtered after the call, every drafted value keeps
 `og:enrichmentBasis "inferred"`, and a drafted value is never allowed into a
 gating field (see WP-11.3).
 
-**Exit criterion.** ≥1,100 of the 1,199 AWS payloads reach `queued` — the
-measured ceiling is 1,188 — with every drafted value carrying its
-`og:enrichmentBasis`. Enrichment cost per 1,000 records is measured and
-recorded in `docs/operations.md`.
+**Exit criterion.** The gap-to-class ratio per source falls below 1:1 — that
+is, enrichment closes more provenance gaps than it leaves — with every drafted
+value carrying its `og:enrichmentBasis`. Enrichment cost per 1,000 records is
+measured and recorded in `docs/operations.md`. Conformance is no longer the
+measure here: WP-11.1a already took it to the ceiling, and what enrichment adds
+is quality, not volume.
 
 ### WP-11.3 — Trust tiers and auto-promotion
 
@@ -626,7 +669,7 @@ Suggested order and rough size:
 |---|---|---|---|
 | 1 | WP-11.1 normaliser hardening | — | S |
 | 2 | WP-11.4 schema probe | — | L |
-| 3 | WP-11.2 enrichment on, budgeted | 11.1 | M |
+| 3 | WP-11.2 enrichment on, budgeted | 11.1a | M |
 | 4 | WP-11.3 auto-promotion | 11.1, 11.2 | M |
 | 5 | WP-11.5 resolution at volume | 11.4 | M |
 | 6 | WP-11.7 scale mechanics | 11.3 | M |

@@ -154,6 +154,93 @@ on:
 ```
 
 **Size.** The whole public catalog ships inside the search page so the browser
-can filter it. That is fine for hundreds of records and wrong for tens of
-thousands; past that, serve the live API and let the static site be a
-front door rather than the whole catalog.
+can filter it. Measured rather than guessed: the search index is **1,382 bytes
+per record raw and 114 bytes gzipped** — it is a flat list of short strings, so
+it compresses about 12×.
+
+| Records | Index, raw | Index, over the wire |
+|---|---|---|
+| 66 (today) | 91 KB | 7 KB |
+| 1,000 | 1.4 MB | 0.11 MB |
+| 5,000 | 6.9 MB | 0.57 MB |
+| 20,000 | 27.6 MB | 2.3 MB |
+
+So the browser-side search is comfortable to about 20,000 records, not the
+"hundreds" this file used to claim. What gets uncomfortable first is elsewhere —
+see the next section.
+
+---
+
+## Where this can run, and what it costs
+
+The question that decides the rest: **does the catalog need a server?**
+
+Read-only discovery does not. Search, dataset pages, schemas, grades, coverage
+and connections are all served from the static export. What needs a live
+deployment is the short list in the table at the top of this file: sign-in, the
+steward review queue, issue reports, dataset submissions, and a REST endpoint
+for SDK and MCP users to point at.
+
+### The options
+
+| | Cost | You operate | Live API | Where it stops |
+|---|---|---|---|---|
+| **GitHub Actions + repo + Pages** | $0 | nothing | no | ~20k records; 1 GB site limit |
+| Cloudflare Pages | $0 | nothing | no | **20,000 files per deploy** — reached at ~4,000 records |
+| Hugging Face Space, free tier | $0 | a container | yes, but it **sleeps** after inactivity and cold-starts | fine |
+| Hugging Face Space, upgraded + persistent disk | ~$20–30/mo (verify) | a container | yes | fine |
+| Fly.io / Railway / a small VPS | ~$5/mo minimal, ~$20–40/mo for the full designed stack | a real deployment | yes | fine |
+| Hugging Face **Datasets** (storage only) | $0 | nothing | n/a | very large |
+
+Prices are approximate and from memory rather than checked — verify before
+committing to one.
+
+### What is actually recommended
+
+**Stay on GitHub, and add WP-11.8's scheduled harvest.** Not as a compromise:
+for a read-mostly catalog it is the better architecture, and the reasons are
+specific rather than budgetary.
+
+- The repository is public, so **Actions minutes and Pages are both free** and
+  stay free.
+- The catalog is already rebuilt from scratch on every deploy, so git is
+  already the system of record. Committing harvested records makes that
+  explicit rather than adding anything.
+- Every catalog change becomes a **reviewable diff**, and a bad harvest is one
+  closed pull request or one revert. No other option on this list gives that.
+- A steward's confirmation survives, because it is a committed file. On any
+  ephemeral-database option it does not.
+- 5,000 records is roughly 75 MB of JSON-LD plus history, against a 1 GB
+  soft warning and a 5 GB limit.
+
+**What breaks first, and it is not the host.** Five snapshot files per record
+means ~25,000 files at 5,000 records. The GitHub Pages artefact handles that,
+slowly; Cloudflare Pages does not, which is the one hard number that rules an
+option out. The fix — bundling detail records rather than emitting a file each
+— is WP-11.7 and is the same work whichever host is underneath.
+
+### When to add a server, and which one
+
+Add one when you want the live API, the steward UI, or public submissions —
+not before, and not to solve a scaling problem the static build does not have.
+
+At that point the honest comparison is between **Hugging Face Spaces** and a
+small always-on host like Fly.io. Spaces is attractive if the audience is
+already there and if a cold start on the first request is acceptable; the free
+tier sleeps, so a public catalog whose first visitor waits 30 seconds is the
+thing to check before choosing it. Persistent storage on a Space is a paid
+add-on, which matters because the operational store is a real database. Fly.io
+or a VPS is more predictable for something meant to stay up, and
+`ops/docker-compose.yml` already describes the full stack.
+
+Either way it is **additive**. In the recommended setup the git tree is the
+system of record, so a server is another consumer of it rather than a
+migration.
+
+### Worth doing regardless: publish the catalog as a Hugging Face dataset
+
+Orthogonal to hosting, free, and aimed at the audience that would use it. A
+`datahub snapshot export` tree is already the right shape to push as an HF
+dataset, and it makes the catalog loadable in one line for exactly the
+energy-modelling and ML people this is for. That is a distribution channel, not
+a hosting decision, and it does not compete with anything above.

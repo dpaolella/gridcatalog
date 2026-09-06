@@ -54,8 +54,10 @@
     "wasGeneratedBy": { "@id": "prov:wasGeneratedBy", "@type": "@id" },
     "upstreamSourceUncaptured": { "@id": "og:upstreamSourceUncaptured", "@type": "xsd:boolean" },
 
-    "__comment_d6": "D6 — provenance class. A concept from og-provenance-class; it caps the Provenance grade.",
+    "__comment_d6": "D6 — provenance class. A concept from og-provenance-class; it caps the Provenance grade. A record whose source does not state one carries an og:provenanceGap instead — the same 'never a silent omission' rule og:conceptGap holds at field level (ADR-0011).",
     "provenanceClass": { "@id": "og:provenanceClass", "@type": "@id" },
+    "provenanceGap": { "@id": "og:provenanceGap", "@type": "@id" },
+    "ProvenanceGap": "og:ProvenanceGap",
 
     "__comment_d7": "D7 — version and relation edges.",
     "supersedes": { "@id": "og:supersedes", "@type": "@id", "@container": "@set" },

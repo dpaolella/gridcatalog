@@ -714,7 +714,7 @@ class Normalizer:
 
         document.update({k: v for k, v in self.mapping.defaults.items() if k not in document})
         document.update(self._licence(document.pop("license", None), result))
-        document.update(self._classify(payload, document, result))
+        document.update(self._classify(payload, document, slug, result))
         distributions = self._distributions(payload, slug, result)
         if distributions:
             document["distribution"] = distributions
@@ -841,7 +841,11 @@ class Normalizer:
         }
 
     def _classify(
-        self, payload: dict[str, Any], document: dict[str, Any], result: NormalizedRecord
+        self,
+        payload: dict[str, Any],
+        document: dict[str, Any],
+        slug: str,
+        result: NormalizedRecord,
     ) -> dict[str, Any]:
         """Derive the two level-1 fields no source states outright.
 
@@ -849,9 +853,10 @@ class Normalizer:
         difference is the point (see :mod:`datahub.harvest.normalizers.classify`):
         a domain is a filing decision, inferred and marked as inferred; a
         provenance class is a quality claim, set only where the source's own
-        words determine it and otherwise left absent — which costs the record
-        level 1 and sends it to a steward, rather than the catalog asserting
-        something false about how the numbers came to exist.
+        words determine it, and otherwise replaced by an explicit
+        ``og:provenanceGap`` rather than by a guess — the catalog says "the
+        source did not say" instead of asserting something false about how the
+        numbers came to exist (ADR-0011).
         """
         text = " ".join(str(document.get(term, "")) for term in ("title", "description", "summary"))
         text += " " + " ".join(str(k) for k in (document.get("keyword") or []))
@@ -906,10 +911,27 @@ class Normalizer:
                 basis = document.get("inferenceBasis") or out.get("inferenceBasis") or ""
                 out["inferenceBasis"] = f"{basis} {found.provenance_basis}".strip()
             else:
+                # ADR-0011. The class is still not guessed — guessing one would
+                # cap the Provenance grade on a fabrication, and that has not
+                # changed. What changed is that saying nothing is no longer the
+                # only alternative: an explicit gap records that somebody looked
+                # and the source was mute, which is a different claim from
+                # silence and is the one the catalog can actually stand behind.
                 result.missing.add("provenanceClass")
+                out["provenanceGap"] = {
+                    "id": f"{DATASET_BASE}{slug}#provenance-gap",
+                    "type": "ProvenanceGap",
+                    "gapReason": (
+                        "The source record does not state how the values in this dataset were "
+                        "produced, and no provenance class could be determined from its own "
+                        "words. The class is left unset rather than guessed: it caps the "
+                        "Provenance quality grade, so an invented one would be a fabricated "
+                        "quality claim. A steward or a later harvest can close this."
+                    ),
+                }
                 result.warnings.append(
                     "the source does not state how its values were produced, so no provenance "
-                    "class is set; guessing one would cap the Provenance grade on a fabrication"
+                    "class is set; an explicit provenance gap is recorded instead"
                 )
         return out
 
@@ -984,6 +1006,11 @@ class Normalizer:
         "license",
         "distribution",
     )
+    #: Terms a record may satisfy either way. `provenanceClass` is satisfied by
+    #: an explicit `provenanceGap` too, because ADR-0011 made D6 a disjunction
+    #: in the shapes and a level calculation that disagreed with the shapes
+    #: would mint records that validate at 2 and are labelled 1.
+    LEVEL_1_ALTERNATIVES: dict[str, str] = {"provenanceClass": "provenanceGap"}
     #: Level 2 adds structure: what is inside it, and over what extent.
     LEVEL_2 = ("hasField", "temporal", "spatialGranularity", "updateCadence")
 
@@ -996,11 +1023,19 @@ class Normalizer:
         here — level 3 needs unit IRIs and concept resolution per field, which
         is the semantic layer's job (M7), not the normaliser's.
         """
-        if not all(document.get(term) for term in self.LEVEL_1):
+        if not all(self._satisfied(document, term) for term in self.LEVEL_1):
             return 1
         if all(document.get(term) for term in self.LEVEL_2):
             return 2
         return 1
+
+    def _satisfied(self, document: dict[str, Any], term: str) -> bool:
+        """Whether the record carries *term*, or the alternative that stands in
+        for it."""
+        if document.get(term):
+            return True
+        alternative = self.LEVEL_1_ALTERNATIVES.get(term)
+        return bool(alternative and document.get(alternative))
 
 
 def _as_list(value: Any) -> list[Any]:

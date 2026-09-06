@@ -105,6 +105,22 @@ og:ConceptGapShape a sh:NodeShape ;
     sh:message "A gap marker must state why no concept fits. A bare gap is indistinguishable from not having looked (PRD X4)." ;
   ] .
 
+# The same rule one level up. A field with no concept carries og:conceptGap; a
+# dataset whose source never said how its values were produced carries
+# og:provenanceGap. Both say "somebody looked and the answer was not there",
+# which is a different claim from silence and the only honest thing to publish
+# when the source is genuinely mute (ADR-0011).
+og:ProvenanceGapShape a sh:NodeShape ;
+  sh:targetClass og:ProvenanceGap ;
+  og:appliesAtLevel 1 ;
+  sh:property [
+    sh:path og:gapReason ;
+    sh:minCount 1 ;
+    sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "A provenance gap must state why the class is absent. A bare gap is indistinguishable from not having looked (PRD X4)." ;
+  ] .
+
 # ===========================================================================
 # Dataset
 # ===========================================================================
@@ -152,10 +168,16 @@ og:DatasetShape a sh:NodeShape ;
   ] ;
 
   # ---- D6 provenance class, level 1 ----
+  # The cardinality still holds; what changed in ADR-0011 is that an explicit
+  # gap satisfies it too. See the sh:or at the end of this shape.
   sh:property [
-    sh:path og:provenanceClass ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:path og:provenanceClass ; sh:maxCount 1 ;
     sh:node og:ProvenanceClassConceptShape ; og:appliesAtLevel 1 ;
     sh:message "Every record states how its values came to exist. This caps the Provenance quality grade, so it cannot be left open." ;
+  ] ;
+  sh:property [
+    sh:path og:provenanceGap ; sh:maxCount 1 ;
+    sh:node og:ProvenanceGapShape ; og:appliesAtLevel 1 ;
   ] ;
 
   # ---- D4/D5 upstream, level 2 ----
@@ -313,7 +335,15 @@ og:DatasetShape a sh:NodeShape ;
   sh:property [
     sh:path og:hasField ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 3 ;
     sh:message "A level 3 record has resolved fields. Promotion to 3 is what enables the semantic layer and the link graph, so it cannot be claimed without them." ;
-  ] .
+  ] ;
+
+  # ---- D6 + X4, level 1: a class OR an explicit gap, never neither -------
+  sh:or (
+    [ sh:property [ sh:path og:provenanceClass ; sh:minCount 1 ; sh:node og:ProvenanceClassConceptShape ] ]
+    [ sh:property [ sh:path og:provenanceGap ; sh:minCount 1 ; sh:node og:ProvenanceGapShape ] ]
+  ) ;
+  og:orAppliesAtLevel 1 ;
+  sh:message "Every record either states how its values came to exist or carries an explicit og:provenanceGap saying why it cannot. Silence is not an option: a record with no provenance class is indistinguishable from one nobody looked at, and the Provenance grade cannot tell those apart (PRD X4, ADR-0011)." .
 
 # ---- D7: a dataset cannot supersede itself -----------------------------
 
