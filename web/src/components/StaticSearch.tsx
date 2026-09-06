@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import type { DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { FacetGroup } from "@/components/FacetGroup";
+import { SortSelect, compareBySort } from "@/components/SortSelect";
 
 /**
  * Search, in the browser, over the snapshot.
@@ -91,16 +92,23 @@ export function StaticSearch({
     [datasets],
   );
 
+  const sort = params.get("sort") ?? "";
+
   const results = useMemo(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
-    return datasets.filter((dataset) => {
+    const matched = datasets.filter((dataset) => {
       const text = haystacks.get(dataset.id) ?? "";
       if (!terms.every((term) => text.includes(term))) return false;
       return Object.entries(selected).every(
         ([field, values]) => values.length === 0 || values.some((v) => matches(dataset, field, v)),
       );
     });
-  }, [datasets, haystacks, query, selected]);
+    // An explicit sort is deterministic, so both builds genuinely agree on it.
+    // Relevance is the absence of one: the server ranks, and here the order the
+    // exporter gave is left alone rather than a second scoring function being
+    // invented — see the note at the top of this file.
+    return sort ? [...matched].sort(compareBySort(sort)) : matched;
+  }, [datasets, haystacks, query, selected, sort]);
 
   function toggle(field: string, value: string) {
     const next = new URLSearchParams(params.toString());
@@ -166,9 +174,12 @@ export function StaticSearch({
         </aside>
 
         <div className="min-w-0 space-y-4">
-          <p className="og-eyebrow" aria-live="polite">
-            {t("resultsCount", { count: results.length })}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="og-eyebrow" aria-live="polite">
+              {t("resultsCount", { count: results.length })}
+            </p>
+            <SortSelect />
+          </div>
 
           {results.length === 0 ? (
             <EmptyState title={empty("noResults")}>
@@ -193,6 +204,10 @@ function haystack(dataset: DatasetSummary): string {
   return [
     dataset.title,
     dataset.summary,
+    // The exporter supplies this for records the API has a description for and
+    // a summary for. Without it 38 of 66 published records matched on their
+    // title and licence and nothing else.
+    dataset.search_text,
     dataset.publisher,
     ...(dataset.creators ?? []),
     ...dataset.data_domains.map((d) => d.label ?? d.iri),

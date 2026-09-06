@@ -8,6 +8,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { StaticSearch } from "@/components/StaticSearch";
 import { HexWash, Rule } from "@/components/Brand";
 import { Pagination } from "@/components/Pagination";
+import { SortSelect } from "@/components/SortSelect";
 import { perRequest } from "@/lib/rendering";
 
 /**
@@ -31,11 +32,19 @@ const FACETS = [
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-export default async function SearchPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
   return (
     <div className="space-y-8">
       <Hero />
-      {IS_SNAPSHOT ? <SnapshotResults /> : <LiveResults searchParams={searchParams} />}
+      {IS_SNAPSHOT ? (
+        <SnapshotResults />
+      ) : (
+        <LiveResults searchParams={searchParams} />
+      )}
     </div>
   );
 }
@@ -48,9 +57,13 @@ async function Hero() {
     <section className="relative -mx-5 -mt-10 overflow-hidden px-5 pb-8 pt-10">
       <HexWash color="var(--og-petrol)" opacity={0.08} />
       <div className="relative max-w-2xl">
-        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{app("tagline")}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          {app("tagline")}
+        </h1>
         <Rule />
-        <p className="mt-5 text-base text-[color:var(--muted)]">{app("description")}</p>
+        <p className="mt-5 text-base text-[color:var(--muted)]">
+          {app("description")}
+        </p>
       </div>
     </section>
   );
@@ -86,21 +99,33 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
         </Suspense>
 
         <div className="min-w-0 space-y-4">
-          <p className="og-eyebrow" aria-live="polite">
-            {t("resultsCount", { count: response.total })}
-            {response.total > 0
-              ? ` · ${t("showing", {
-                  from: offset + 1,
-                  to: Math.min(offset + response.results.length, response.total),
-                  total: response.total,
-                })}`
-              : ""}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="og-eyebrow" aria-live="polite">
+              {t("resultsCount", { count: response.total })}
+              {response.total > 0
+                ? ` · ${t("showing", {
+                    from: offset + 1,
+                    to: Math.min(
+                      offset + response.results.length,
+                      response.total,
+                    ),
+                    total: response.total,
+                  })}`
+                : ""}
+            </p>
+            <Suspense>
+              <SortSelect />
+            </Suspense>
+          </div>
 
           {response.results.length === 0 ? (
             <EmptyState
               title={empty("noResults")}
-              action={hasQuery ? { href: "/", label: empty("noResultsAction") } : undefined}
+              action={
+                hasQuery
+                  ? { href: "/", label: empty("noResultsAction") }
+                  : undefined
+              }
             >
               <p>
                 {empty("noResultsHelp", {
@@ -134,14 +159,21 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
 async function SnapshotResults() {
   const response = await search({});
   const rows = Object.fromEntries(
-    response.results.map((dataset) => [dataset.id, <ResultRow key={dataset.id} dataset={dataset} />]),
+    response.results.map((dataset) => [
+      dataset.id,
+      <ResultRow key={dataset.id} dataset={dataset} />,
+    ]),
   );
   return (
     // `useSearchParams` needs a boundary: the shell prerenders without a query
     // string and the filter applies on hydration, which is the most a static
     // page can honestly do.
     <Suspense>
-      <StaticSearch datasets={response.results} facets={response.facets} rows={rows} />
+      <StaticSearch
+        datasets={response.results}
+        facets={response.facets}
+        rows={rows}
+      />
     </Suspense>
   );
 }

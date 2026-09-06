@@ -188,6 +188,13 @@ export interface DatasetSummary {
   id: string;
   title: string;
   summary?: string | null;
+  /** Descriptive text for the static site's search, present only in a snapshot.
+   *
+   *  The API indexes `description` but does not return it in a list row, and the
+   *  static site has only list rows — so without this, a record with no summary
+   *  is unfindable by any word describing it here while the live API finds it.
+   *  `datahub snapshot export` fills it in; the live API never sends it. */
+  search_text?: string | null;
   publisher?: string | null;
   creators?: string[];
   data_domains: ConceptRef[];
