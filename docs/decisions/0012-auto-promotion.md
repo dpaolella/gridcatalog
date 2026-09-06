@@ -102,8 +102,16 @@ would not. Demotion is one field write.
 **The cost.** A record nobody checked can reach users. The licence and link
 gates are aimed at exactly the two failure modes that harm somebody — reusing
 data you may not, and following a link to nothing — and the merge gate catches
-the rest. Repository size grows: ~15 KB per record, so ~75 MB at 5,000 records
-plus history, against a 1 GB warning threshold.
+the rest.
+
+Repository size grows, and the first real export corrected the estimate that
+was here. **Median record: 8.1 KB. Mean: 54 KB.** The gap is a long tail — five
+NASA collection records carry descriptions of 270 KB to 669 KB, because the AWS
+registry's `Description` field is where those collections list every product
+they contain in prose. So 5,000 records is ~270 MB rather than the ~75 MB first
+estimated, still under a 1 GB warning threshold but no longer comfortably.
+Capping an unbounded prose field, with the truncation stated on the record,
+belongs in WP-11.7 with the rest of the scale mechanics.
 
 **Watch for.** A pull request nobody reads is the failure mode this design is
 most exposed to, because it converts the merge gate into a rubber stamp while

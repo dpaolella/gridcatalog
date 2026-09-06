@@ -581,7 +581,7 @@ def record_export(
     half way must not be able to empty the catalog.
     """
     from datahub.graph.graphs import NamedGraph
-    from datahub.graph.records import RecordStore
+    from datahub.graph.records import RecordStore, dataset_node
     from datahub.graph.store import make_store
 
     try:
@@ -601,7 +601,12 @@ def record_export(
         records = RecordStore(store)
         for dataset_id in records.list_ids(graph=target, limit=1_000_000):
             document = records.get(dataset_id, graph=target)
-            source = str(document.get("harvestSource") or "unknown")
+            # `harvestSource` is on the dataset node, not on the document: a
+            # record read back from the store is framed JSON-LD. Reading it off
+            # the top level silently filed all 121 records under `unknown/`,
+            # which is the same mistake the promotion gates made and the reason
+            # `dataset_node` exists.
+            source = str(dataset_node(document).get("harvestSource") or "unknown")
             folder = root / _safe_name(source)
             folder.mkdir(parents=True, exist_ok=True)
             touched_sources.add(folder)

@@ -583,9 +583,12 @@ opens a pull request. Merging it triggers the existing Pages deploy.
 - Reproducible: the published catalog is a function of a commit.
 - It is also the second gate that makes §6's auto-promotion safe — nothing
   reaches the public site without a merge, however it was confirmed.
-- Cost: repository size. 5,000 records at ~15 KB of JSON-LD is ~75 MB, which
-  git handles, and the schema metadata from WP-11.4 will roughly double it.
-  Worth watching, not worth avoiding.
+- Cost: repository size. Measured on the first real export: median record
+  8.1 KB, **mean 54 KB**, the gap being five NASA records whose descriptions
+  run to 669 KB because the AWS registry uses that field to list every product
+  in a collection. 5,000 records is therefore ~270 MB, not the ~75 MB first
+  estimated — still under git's comfortable range, and a reason to cap
+  unbounded prose fields in WP-11.7 rather than a reason to avoid this.
 
 **B — run a live deployment.** Fuseki, Postgres, OpenSearch and the API, kept
 running, with harvest as a server-side cron. This is what `ops/docker-compose.yml`
