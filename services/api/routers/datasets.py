@@ -91,6 +91,13 @@ def search_datasets(
     # route ignored, and anything sending the documented name hit an unknown
     # filter field and a 500. Both are the same bug from opposite ends.
     license: Annotated[list[str] | None, Query(description="SPDX id or LicenseRef.")] = None,
+    # A real filter, not just a facet. The MCP search tool has been sending
+    # `concept=` since M10 and FastAPI was dropping it, so an agent filtering by
+    # concept got the unfiltered catalog back and presented it as filtered —
+    # the same failure as the licence mismatch, from the other direction.
+    concept: Annotated[
+        list[str] | None, Query(description="Concept IRI carried by a field of the dataset.")
+    ] = None,
     spatial_granularity: Annotated[list[str] | None, Query()] = None,
     format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
     completeness_level: Annotated[list[int] | None, Query()] = None,
@@ -124,6 +131,7 @@ def search_datasets(
             data_domain=data_domain,
             provenance_class=provenance_class,
             license=license,
+            concept=concept,
             spatial_granularity=spatial_granularity,
             format=format,
             completeness_level=completeness_level,

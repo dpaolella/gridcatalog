@@ -188,3 +188,38 @@ SEARCH_ASSERTIONS = (
     assert_search_sorts_by_title,
     assert_search_total_is_the_match_count_not_the_page,
 )
+
+
+def assert_graph_store_removes_only_what_it_is_given(store: Any) -> None:
+    """`remove_graph` retracts specific triples and leaves the rest alone.
+
+    The mirror of `add_graph`, and the operation the semantic runner needs to
+    retract computed state. It used to reach for `get_graph` and remove from the
+    copy that came back, which discarded the retraction silently.
+    """
+    graph = Graph()
+    graph.add(_triple("parity-f", "grade", "D"))
+    graph.add(_triple("parity-f", "title", "keep me"))
+    store.put_graph(NamedGraph.COMPUTED, graph)
+
+    retract = Graph()
+    retract.add(_triple("parity-f", "grade", "D"))
+    store.remove_graph(NamedGraph.COMPUTED, retract)
+
+    back = store.get_graph(NamedGraph.COMPUTED)
+    assert _triple("parity-f", "grade", "D") not in back
+    assert _triple("parity-f", "title", "keep me") in back
+
+
+def assert_removing_an_absent_triple_is_not_an_error(store: Any) -> None:
+    """A retraction that already happened is the state the caller wanted."""
+    absent = Graph()
+    absent.add(_triple("parity-g", "grade", "never written"))
+    store.remove_graph(NamedGraph.COMPUTED, absent)
+
+
+GRAPH_ASSERTIONS = (
+    *GRAPH_ASSERTIONS,
+    assert_graph_store_removes_only_what_it_is_given,
+    assert_removing_an_absent_triple_is_not_an_error,
+)

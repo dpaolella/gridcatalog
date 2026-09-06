@@ -120,6 +120,21 @@ class GraphStore(ABC):
         """Merge triples into a named graph."""
 
     @abstractmethod
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        """Remove specific triples from a named graph.
+
+        The mirror of :meth:`add_graph`, and the only backend-neutral way to
+        retract computed state. Without it the semantic runner reached for
+        ``get_graph`` and removed triples from the copy it got back, so a value
+        that should have disappeared simply accumulated alongside its
+        replacement — a record ending up with two grades and whichever the
+        query returned first winning.
+
+        Triples that are not present are not an error: a retraction that has
+        already happened is the state the caller wanted.
+        """
+
+    @abstractmethod
     def drop_graph(self, name: NamedGraph | str) -> None:
         """Remove a named graph and everything in it."""
 
@@ -235,6 +250,13 @@ class RdflibStore(GraphStore):
                 target.add(triple)
         self._maybe_flush()
 
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        with self._lock:
+            target = self._named(name)
+            for triple in data:
+                target.remove(triple)
+        self._maybe_flush()
+
     def drop_graph(self, name: NamedGraph | str) -> None:
         with self._lock:
             self.dataset.remove_graph(URIRef(str(name)))
@@ -344,6 +366,15 @@ class FusekiStore(GraphStore):
             headers={"Content-Type": "application/n-triples"},
         )
         _raise_for_status(response, f"POST graph {name}")
+
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        triples = data.serialize(format="nt").strip()
+        if not triples:
+            return
+        # DELETE DATA rather than a DELETE WHERE pattern: these are ground
+        # triples the caller already holds, and a pattern would risk matching
+        # more than it was given.
+        self.update(f"DELETE DATA {{ GRAPH <{name}> {{ {triples} }} }}")
 
     def drop_graph(self, name: NamedGraph | str) -> None:
         self.update(f"DROP SILENT GRAPH <{name}>")

@@ -376,3 +376,63 @@ def test_every_grade_has_a_label(facet: str) -> None:
     assert GRADE_LABELS[facet]
     for grade, label in GRADE_LABELS[facet].items():
         assert grade in "ABCD" and label
+
+
+def test_a_changed_grade_replaces_the_old_one_instead_of_joining_it(tmp_path):
+    """Recomputing must replace computed state, not accumulate it.
+
+    `_write` used to remove triples from `get_graph`'s return value, which is a
+    *copy*, so the retraction went nowhere and the new triples were added
+    alongside the old.
+
+    The value has to actually change for this to show: `_write` short-circuits
+    on `_isomorphic` when a pass recomputes the same answer, so a second run
+    over unchanged input is a no-op and proves nothing. Currency is graded
+    against `now`, so running the same record two years apart changes it — and
+    a record that then carries two currency grades is one where the query
+    decides which is true.
+    """
+    from datetime import UTC, datetime
+
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.loader import bootstrap
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import RdflibStore
+    from datahub.semantic.runner import SemanticRunner
+    from fixtures.loader import load_record
+    from rdflib import URIRef
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    records.put(load_record("ecmwf-era5"))
+    runner = SemanticRunner(records)
+
+    def currency_grades() -> list[str]:
+        rows = store.select(
+            """
+            SELECT ?grade WHERE {
+              GRAPH ??g { ?node og:facet "currency" ; og:grade ?grade . }
+            }
+            """,
+            {"g": URIRef(str(NamedGraph.COMPUTED))},
+        )
+        return sorted(str(row["grade"]) for row in rows)
+
+    runner.run_all(now=datetime(2024, 1, 1, tzinfo=UTC))
+    early = currency_grades()
+    assert len(early) == 1, f"one currency grade per record, got {early}"
+
+    runner.run_all(now=datetime(2031, 1, 1, tzinfo=UTC))
+    late = currency_grades()
+
+    assert len(late) == 1, (
+        f"recomputing left {len(late)} currency grades on one record ({late}); the "
+        "old one was never retracted, so which grade the API reports depends on "
+        "which the query returns first"
+    )
+    assert late != early, (
+        "seven years on, the currency grade should have moved — if it did not, "
+        "this test is no longer exercising a change and cannot catch the bug"
+    )
+    store.close()
