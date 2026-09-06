@@ -13,8 +13,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
  *
  * `basePath` matters only for the second: a project page lives at
  * `<user>.github.io/<repo>/`, and every absolute URL the app emits has to carry
- * that prefix. Next rewrites `<Link>` and imported assets; `src/lib/paths.ts`
- * handles the strings it does not.
+ * that prefix. Next rewrites `<Link>`, the router and imported assets. A raw
+ * `fetch` to a path of our own is the case it cannot rewrite, so those read
+ * `NEXT_PUBLIC_BASE_PATH` themselves — see `AccountMenu`.
  */
 const isStatic = Boolean(process.env.DATAHUB_SNAPSHOT);
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";

@@ -60,6 +60,10 @@ export function isReachableByStrangers(url: string = apiUrl()): boolean {
  * the same shapes. That is what lets one set of components serve both without a
  * branch anywhere except this file.
  */
+/** The API's session cookie. Set by `/v1/auth/callback`; see `SESSION_COOKIE`
+ * in `datahub.api.entitlement.resolve`. */
+export const SESSION_COOKIE = "og_session";
+
 export const SNAPSHOT_DIR = process.env.DATAHUB_SNAPSHOT ?? "";
 export const IS_SNAPSHOT = SNAPSHOT_DIR !== "";
 
@@ -82,16 +86,22 @@ export class ApiError extends Error {
  * difference here would rebuild the existence oracle it removed. */
 export class NotFoundError extends ApiError {}
 
-type Options = RequestInit & { revalidate?: number };
+type Options = RequestInit & { revalidate?: number; authenticated?: boolean };
 
 async function request<T>(path: string, init: Options = {}): Promise<T> {
   if (IS_SNAPSHOT) return snapshotRead<T>(path);
 
-  const { revalidate, ...rest } = init;
+  const { revalidate, authenticated, ...rest } = init;
+  const session = authenticated ? await sessionHeader() : {};
   const response = await fetch(`${apiUrl()}${path}`, {
     ...rest,
-    headers: { Accept: "application/json", ...(rest.headers ?? {}) },
-    next: revalidate === undefined ? undefined : { revalidate },
+    headers: { Accept: "application/json", ...session, ...(rest.headers ?? {}) },
+    // A response that depends on who is asking must never be cached. The
+    // request that carries a cookie is opted out here rather than at each call
+    // site, because "forgot to say no-store on the authenticated one" serves
+    // one reader's view of the catalog to the next.
+    ...(authenticated ? { cache: "no-store" as const } : {}),
+    next: authenticated || revalidate === undefined ? undefined : { revalidate },
     redirect: "manual",
   });
 
@@ -102,7 +112,32 @@ async function request<T>(path: string, init: Options = {}): Promise<T> {
     const body = (await response.json().catch(() => ({}))) as Record<string, string>;
     throw new ApiError(response.status, body.detail ?? body.title ?? response.statusText);
   }
+  // 204 has no body to parse. `logout` is one.
+  if (response.status === 204) return undefined as T;
   return (await response.json()) as T;
+}
+
+/**
+ * The caller's session cookie, forwarded from the incoming request.
+ *
+ * Server-side fetches used to send nothing, so a signed-in steward's browser
+ * carried a session the Next server then dropped on the floor: every API read
+ * was anonymous and `reviewQueue()` answered 401 to a steward who was, in fact,
+ * signed in.
+ *
+ * Only the session cookie, and only where it is asked for. Forwarding the whole
+ * `Cookie` header would hand the API every unrelated cookie the site ever set,
+ * and forwarding by default would attach an identity to the cached anonymous
+ * reads that make up nearly all of the traffic.
+ *
+ * `next/headers` is imported here rather than at the top of the file so that a
+ * client component importing a *type* from this module never drags a
+ * server-only import into a browser bundle.
+ */
+async function sessionHeader(): Promise<Record<string, string>> {
+  const { cookies } = await import("next/headers");
+  const session = (await cookies()).get(SESSION_COOKIE);
+  return session ? { Cookie: `${SESSION_COOKIE}=${session.value}` } : {};
 }
 
 /**
@@ -443,8 +478,49 @@ export interface ReviewQueueResponse {
  * same record. */
 export const reviewQueue = (state = "draft") =>
   request<ReviewQueueResponse>(`/v1/review?state=${encodeURIComponent(state)}`, {
-    cache: "no-store",
+    authenticated: true,
   });
+
+// ---------------------------------------------------------------------------
+// Signing in
+// ---------------------------------------------------------------------------
+
+export interface MeResponse {
+  authenticated: boolean;
+  principal_id?: string | null;
+  email?: string | null;
+  role?: string | null;
+  is_agent: boolean;
+  is_steward: boolean;
+  custodian_of: string[];
+}
+
+export interface ProviderList {
+  providers: string[];
+  native_credentials: boolean;
+}
+
+/** Who the API thinks is asking. Answers `{authenticated: false}` rather than
+ *  401 for a signed-out caller, so there is no special case for the state the
+ *  site spends most of its time in. */
+export const me = () => request<MeResponse>("/v1/auth/me", { authenticated: true });
+
+/** The sign-in providers this deployment actually has credentials for. Cached
+ *  briefly: it changes when the deployment is reconfigured, not per reader. */
+export const authProviders = () =>
+  request<ProviderList>("/v1/auth/providers", { revalidate: LIST_REVALIDATE });
+
+/** Where a browser goes to begin a federated sign-in. The API owns the flow —
+ *  PKCE, state, the `next` check against the configured origins — so this is a
+ *  URL, not a fetch. */
+export function loginUrl(provider: string, next: string): string {
+  const query = new URLSearchParams({ next });
+  return `${apiUrl()}/v1/auth/login/${encodeURIComponent(provider)}?${query}`;
+}
+
+/** End this session: revoked server-side, not just forgotten here. */
+export const logout = () =>
+  request<void>("/v1/auth/logout", { method: "POST", authenticated: true });
 
 export function submitDataset(body: unknown) {
   return request<{ id: string; status: string; message: string }>("/v1/submissions", {

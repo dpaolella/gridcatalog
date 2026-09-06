@@ -17,14 +17,15 @@ a queue that moves and one that does not.
 
 from __future__ import annotations
 
-import functools
 import threading
 from dataclasses import dataclass, field
 from typing import Any
 
 from datahub.config import Settings, get_settings
 from datahub.errors import ValidationFailed, Violation
+from datahub.graph.sparql import parsing
 from datahub.namespaces import OG, SH
+from datahub.singleton import once
 from pyshacl import validate as pyshacl_validate
 from rdflib import BNode, Graph, Literal, URIRef
 from rdflib.namespace import RDF, SKOS
@@ -214,16 +215,21 @@ class ValidationRunner:
                 merged.add(triple)
             data = merged
 
-        conforms, report_graph, _ = pyshacl_validate(
-            data_graph=data,
-            shacl_graph=self.shapes_for_level(target_level),
-            advanced=True,  # SPARQL targets and constraints; see shapes header
-            inference="none",  # entailment is materialised deliberately, not here
-            abort_on_first=False,
-            allow_infos=True,
-            allow_warnings=True,
-            meta_shacl=False,
-        )
+        # `advanced=True` means pySHACL parses the SPARQL targets and
+        # constraints in the shapes, and rdflib's parser has process-wide
+        # mutable state (see `datahub.graph.sparql.parsing`). Validation is a
+        # write-path step, so serialising it costs nothing worth having.
+        with parsing():
+            conforms, report_graph, _ = pyshacl_validate(
+                data_graph=data,
+                shacl_graph=self.shapes_for_level(target_level),
+                advanced=True,  # SPARQL targets and constraints; see shapes header
+                inference="none",  # entailment is materialised deliberately, not here
+                abort_on_first=False,
+                allow_infos=True,
+                allow_warnings=True,
+                meta_shacl=False,
+            )
         violations, warnings = _project_results(report_graph)
         # pySHACL reports conforms=True when only warnings are present, which is
         # the behaviour we want: a warning informs the steward, a violation
@@ -478,7 +484,8 @@ def format_report(report: ValidationReport, *, colour: bool = False) -> str:
     return "\n".join(lines)
 
 
-@functools.lru_cache(maxsize=1)
-def get_runner() -> ValidationRunner:
-    """Process-wide runner. Cleared by tests via ``get_runner.cache_clear()``."""
-    return ValidationRunner()
+#: Process-wide runner, built once. `Once`, not `lru_cache`: see
+#: `datahub.singleton` — a runner parses the shapes and the vocabulary, so
+#: building four of them concurrently is expensive as well as wrong. Cleared
+#: with ``get_runner.clear()``.
+get_runner = once(ValidationRunner)

@@ -20,8 +20,17 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 @pytest.fixture
 def api_env(tmp_path, monkeypatch):
     from datahub.api import deps
+    from datahub.api.app import LIMITER
     from datahub.api.models.base import create_all, reset_engine
     from datahub.config import reset_settings
+
+    # The rate limiter is a module-level singleton counting per minute-window,
+    # so without this the intake tests share a budget with every test that ran
+    # before them in the same process — and which of them spends it depends on
+    # the order pytest-randomly picked. It surfaced as
+    # `assert 429 == 503`: a test asserting the store-down refusal, throttled
+    # before it could get there.
+    LIMITER.reset()
 
     monkeypatch.setenv("DATAHUB_GRAPH_STORE_PATH", str(tmp_path / "graph.nq"))
     monkeypatch.setenv("DATAHUB_SEARCH_STORE_PATH", str(tmp_path / "index.json"))

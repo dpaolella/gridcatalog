@@ -16,7 +16,6 @@ a transaction that outlived a request is a transaction nobody closes.
 
 from __future__ import annotations
 
-import functools
 from collections.abc import Iterator
 from typing import Annotated
 
@@ -28,20 +27,17 @@ from datahub.config import Settings, get_settings
 from datahub.graph.records import RecordStore
 from datahub.graph.store import GraphStore, make_store
 from datahub.logging import get_logger
+from datahub.singleton import once
 from fastapi import Depends, Header, Request
 from sqlalchemy.orm import Session
 
 log = get_logger(__name__)
 
 
-@functools.lru_cache(maxsize=1)
-def _store() -> GraphStore:
-    return make_store()
-
-
-@functools.lru_cache(maxsize=1)
-def _backend() -> SearchBackend:
-    return make_search_backend()
+# Built once, under a lock — see `datahub.singleton` for why `lru_cache` is not
+# the right tool here and what it cost.
+_store = once(make_store)
+_backend = once(make_search_backend)
 
 
 def reset() -> None:
@@ -55,11 +51,12 @@ def reset() -> None:
     lose data was to construct the store with `autoflush=False`, and then it
     lost everything.
     """
-    if _store.cache_info().currsize:
-        store = _store()
+    store = _store.peek()
+    if store is not None:
         store.flush()
         store.close()
-    if _backend.cache_info().currsize:
+    backend = _backend.peek()
+    if backend is not None:
         # The search backend needs this for the same reason the store does, and
         # for a sharper one: allow-list grants are re-projected into the index
         # in-process by the custodian API. With the file-backed backend those
@@ -67,11 +64,10 @@ def reset() -> None:
         # to the last full reindex and every grant made since disappeared —
         # while the operational row that recorded it stayed put, so the
         # custodian's list still showed the person they had added.
-        backend = _backend()
         backend.flush()
         backend.close()
-    _store.cache_clear()
-    _backend.cache_clear()
+    _store.clear()
+    _backend.clear()
 
 
 def settings_dep() -> Settings:

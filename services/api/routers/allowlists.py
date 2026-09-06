@@ -29,6 +29,7 @@ from datahub.api.deps import CallerDep, RecordsDep, SearchDep, SessionDep
 from datahub.api.entitlement import Caller, tokens
 from datahub.api.entitlement.visibility import absent, entitled_document
 from datahub.api.models.repositories import Repositories, audit_out_of_band
+from datahub.api.reproject import reproject
 from datahub.api.schemas import AllowlistEntryModel, AllowlistResponse, AllowlistUpdate
 from datahub.errors import NotAuthenticated, NotEntitled, NotFound
 from datahub.logging import get_logger
@@ -135,7 +136,7 @@ def put_allowlist(
     # is a grant that does not work. Reprojecting here rather than waiting for
     # the next reindex: a custodian who adds a colleague expects them to be
     # able to search for the dataset immediately.
-    _reproject(iri, records, session)
+    reproject(iri, records, session)
 
     return get_allowlist(dataset_id, caller, session, records, backend)
 
@@ -244,31 +245,3 @@ def _key(entry: AllowlistEntryModel) -> str | None:
     if entry.principal_email:
         return f"email:{entry.principal_email.lower()}"
     return None
-
-
-def _reproject(iri: str, records: RecordsDep, session: Any) -> None:
-    """Push the change into the search index, on this request's own session.
-
-    The session matters twice over. It must exist, because
-    ``entitled_principals`` is read from the operational store during
-    projection — a projector built without one writes a document with an empty
-    allow-list, and the grant just recorded silently does not work. And it must
-    be *this* session: opening a second one blocks on the write lock this
-    request is holding, which on SQLite is "database is locked" and on
-    PostgreSQL is a stall until the statement timeout.
-
-    Never fatal: a grant that is recorded but not yet indexed becomes visible
-    at the next reindex, whereas refusing the write because the index is down
-    would lose it entirely.
-    """
-    from contextlib import nullcontext
-
-    try:
-        from datahub.api.deps import search_backend
-        from datahub.projector import Projector
-
-        Projector(records, search_backend(), session_factory=lambda: nullcontext(session)).project(
-            iri
-        )
-    except Exception as exc:
-        log.warning("allow-list change not yet indexed", dataset=iri, error=str(exc))

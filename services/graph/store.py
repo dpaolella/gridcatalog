@@ -22,7 +22,7 @@ import httpx
 import rdflib.plugins.sparql
 from datahub.config import GraphBackend, Settings, get_settings
 from datahub.graph.graphs import NamedGraph
-from datahub.graph.sparql import bind, prologue
+from datahub.graph.sparql import bind, parsing, prologue
 from rdflib import Dataset, Graph, URIRef
 from rdflib.query import Result
 from rdflib.term import Node
@@ -212,11 +212,16 @@ class RdflibStore(GraphStore):
         return self.dataset.graph(URIRef(str(name)))
 
     def _raw_query(self, query: str) -> Result:
-        with self._lock:
+        # Two locks, guarding two different things. `self._lock` keeps this
+        # store's dataset consistent; `parsing()` is process-wide, because the
+        # thing rdflib is not thread-safe about is the *parser*, whose state is
+        # global — so a second store instance, or a bare `Graph.query`
+        # elsewhere, races with this one however well locked it is.
+        with self._lock, parsing():
             return self.dataset.query(query)
 
     def _raw_update(self, update: str) -> None:
-        with self._lock:
+        with self._lock, parsing():
             self.dataset.update(update)
         self._maybe_flush()
 
