@@ -25,6 +25,27 @@ export function apiUrl(): string {
 }
 
 /**
+ * Whether the configured API URL is one a stranger could actually open.
+ *
+ * On a developer's machine `http://localhost:8000` is exactly right — it is
+ * where their own API is. Baked into a site published to the world it is a
+ * link to the reader's own machine, which is not running anything. The
+ * Developers page shipped two of those.
+ *
+ * Loopback is the only case worth detecting: any other host is at least
+ * *plausibly* reachable, and a page that second-guessed a real hostname would
+ * be wrong more often than the check is worth.
+ */
+export function isReachableByStrangers(url: string = apiUrl()): boolean {
+  try {
+    const { hostname } = new URL(url);
+    return !["localhost", "127.0.0.1", "::1", "0.0.0.0", "[::1]"].includes(hostname);
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Where the data comes from.
  *
  * Two modes, one codebase:

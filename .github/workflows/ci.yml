@@ -87,9 +87,9 @@ jobs:
           .venv/bin/datahub db upgrade
           .venv/bin/datahub graph bootstrap
           .venv/bin/datahub record load tests/fixtures/records
-          .venv/bin/datahub index reindex
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run
+          .venv/bin/datahub index reindex
       - name: Build the UI
         run: npm run build --prefix web
       - name: Run

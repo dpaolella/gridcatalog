@@ -127,3 +127,49 @@ def test_reindex_reports_what_it_did(loaded) -> None:
     result = reindex(loaded, InMemorySearchBackend())
     assert "reindexed" in result.summary
     assert str(len(record_names())) in result.summary
+
+
+def test_grades_reach_the_index_only_when_grading_precedes_reindex():
+    """The pipeline's step order is load, grade, link, *then* index.
+
+    The index is a projection, and grades live in the computed graph — so an
+    index built before `semantic run` captures the catalog without them and
+    there is nothing in a later grading pass that puts them back. The published
+    site ran that way and every record read "Not yet assessed" for every facet,
+    which is the product's headline feature reading as blank.
+
+    Nothing in the code enforces the order; three separate call sites (the
+    Pages workflow, the CI e2e job and `make demo`) each have to get it right.
+    This test is what makes getting it wrong fail somewhere other than
+    production.
+    """
+    from datahub.semantic.runner import SemanticRunner
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    # A level-3 record, so provenance and documentation are above the
+    # assessment floor and a grade is genuinely expected.
+    records.put(load_record("ecmwf-era5"))
+
+    def grades_in(backend: InMemorySearchBackend) -> dict[str, object]:
+        doc = next(d for d in backend.all_documents() if d.id == "ecmwf-era5")
+        quality = doc.model_dump(mode="json")["quality"]
+        return {k: v for k, v in quality.items() if not k.endswith("_label")}
+
+    wrong_order = InMemorySearchBackend()
+    reindex(records, wrong_order)
+    SemanticRunner(records).run_all()
+    assert not any(grades_in(wrong_order).values()), (
+        "this assertion documents the bug rather than the fix: indexing before "
+        "grading yields a document with no grades, and grading afterwards does "
+        "not go back and reproject"
+    )
+
+    right_order = InMemorySearchBackend()
+    reindex(records, right_order)
+    assert any(grades_in(right_order).values()), (
+        "with grading already done, a reindex must carry the grades into the "
+        "index — if this fails, the projector has stopped reading the computed "
+        "graph and every quality badge in the product is about to go blank"
+    )

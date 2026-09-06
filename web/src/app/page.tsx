@@ -137,6 +137,11 @@ async function SnapshotResults() {
     response.results.map((dataset) => [dataset.id, <ResultRow key={dataset.id} dataset={dataset} />]),
   );
   return (
-    <StaticSearch datasets={response.results} facets={response.facets} rows={rows} />
+    // `useSearchParams` needs a boundary: the shell prerenders without a query
+    // string and the filter applies on hydration, which is the most a static
+    // page can honestly do.
+    <Suspense>
+      <StaticSearch datasets={response.results} facets={response.facets} rows={rows} />
+    </Suspense>
   );
 }

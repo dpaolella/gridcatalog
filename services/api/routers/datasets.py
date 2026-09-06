@@ -85,7 +85,12 @@ def search_datasets(
         list[str] | None, Query(description="DD1-DD10, or the concept IRI.")
     ] = None,
     provenance_class: Annotated[list[str] | None, Query()] = None,
-    license_id: Annotated[list[str] | None, Query()] = None,
+    # Named for the facet it filters, not for the document field it reads.
+    # They disagreed: the facet came back as "license" and the parameter was
+    # "license_id", so a UI built from the facet response sent a name the
+    # route ignored, and anything sending the documented name hit an unknown
+    # filter field and a 500. Both are the same bug from opposite ends.
+    license: Annotated[list[str] | None, Query(description="SPDX id or LicenseRef.")] = None,
     spatial_granularity: Annotated[list[str] | None, Query()] = None,
     format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
     completeness_level: Annotated[list[int] | None, Query()] = None,
@@ -118,7 +123,7 @@ def search_datasets(
         filters=_filters(
             data_domain=data_domain,
             provenance_class=provenance_class,
-            license_id=license_id,
+            license=license,
             spatial_granularity=spatial_granularity,
             format=format,
             completeness_level=completeness_level,
@@ -128,7 +133,11 @@ def search_datasets(
         temporal_start=_when(temporal_start, "temporal_start"),
         temporal_end=_when(temporal_end, "temporal_end"),
         sort=sort,
-        facets=tuple(f.strip() for f in facets.split(",") if f.strip()) if facets else None,
+        # Through `parse_facets`, not split inline: the helper checks the names
+        # against FACET_FIELDS and raises a 400 naming the valid ones. Splitting
+        # here skipped that, so an unknown facet reached SearchRequest and came
+        # back as a ValueError — a 500 for what is plainly a client error.
+        facets=_facets(facets),
         offset=offset,
         limit=limit,
         include_unconfirmed=include_unconfirmed,
@@ -675,3 +684,9 @@ def _when(raw: str | None, field: str) -> Any:
     from datahub.api.search.query import parse_datetime
 
     return parse_datetime(raw, field=field)
+
+
+def _facets(raw: str | None) -> Any:
+    from datahub.api.search.query import parse_facets
+
+    return parse_facets(raw)

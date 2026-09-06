@@ -1,6 +1,7 @@
 "use client";
 
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useCallback, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
@@ -41,8 +42,49 @@ export function StaticSearch({
   const t = useTranslations("search");
   const empty = useTranslations("empty");
 
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<Record<string, string[]>>({});
+  /**
+   * The URL is the state, exactly as it is on the server-rendered build.
+   *
+   * Holding it in `useState` instead was a quiet bug: the Domains page links to
+   * `/?data_domain=<iri>`, nobody read the query string, and every domain card
+   * landed the reader on the unfiltered catalog. It also meant no filtered view
+   * was linkable and the back button did not restore a search — three
+   * behaviours the reader has no reason to expect to differ between the two
+   * builds of the same page.
+   */
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  const query = params.get("q") ?? "";
+  const selected = useMemo(() => {
+    const out: Record<string, string[]> = {};
+    for (const key of new Set(params.keys())) {
+      if (key === "q" || key === "offset") continue;
+      out[key] = params.getAll(key);
+    }
+    return out;
+  }, [params]);
+
+  const write = useCallback(
+    (next: URLSearchParams) => {
+      const search = next.toString();
+      // `replace`, not `push`: typing eight characters should leave one history
+      // entry, not eight. Same reasoning as SearchBar on the live build.
+      router.replace(search ? `${pathname}?${search}` : pathname, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const setQuery = useCallback(
+    (value: string) => {
+      const next = new URLSearchParams(params.toString());
+      if (value) next.set("q", value);
+      else next.delete("q");
+      write(next);
+    },
+    [params, write],
+  );
 
   const haystacks = useMemo(
     () => new Map(datasets.map((d) => [d.id, haystack(d)])),
@@ -61,15 +103,19 @@ export function StaticSearch({
   }, [datasets, haystacks, query, selected]);
 
   function toggle(field: string, value: string) {
-    setSelected((current) => {
-      const values = current[field] ?? [];
-      return {
-        ...current,
-        [field]: values.includes(value)
-          ? values.filter((v) => v !== value)
-          : [...values, value],
-      };
-    });
+    const next = new URLSearchParams(params.toString());
+    const current = next.getAll(field);
+    next.delete(field);
+    for (const item of current) if (item !== value) next.append(field, item);
+    if (!current.includes(value)) next.append(field, value);
+    write(next);
+  }
+
+  function clearFilters() {
+    const next = new URLSearchParams();
+    const q = params.get("q");
+    if (q) next.set("q", q);
+    write(next);
   }
 
   const hasFilters = Object.values(selected).some((v) => v.length > 0);
@@ -100,7 +146,7 @@ export function StaticSearch({
             {hasFilters ? (
               <button
                 type="button"
-                onClick={() => setSelected({})}
+                onClick={clearFilters}
                 className="text-xs font-medium text-[color:var(--accent)] hover:underline"
               >
                 {t("clearFilters")}

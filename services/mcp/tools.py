@@ -108,7 +108,7 @@ class Tools:
             q=q,
             data_domain=data_domain,
             concept=concept,
-            license_id=license_id,
+            license=license_id,
             anonymous_access=anonymous_access,
             bbox=",".join(str(v) for v in bbox) if bbox else None,
             limit=min(limit, 50),

@@ -63,7 +63,7 @@ semantic: ## Resolve concepts and grade quality
 links: ## Compute inter-dataset links
 	$(PY) -m datahub.cli links run
 
-demo: seed reindex semantic links ## A populated local catalog, from nothing
+demo: seed semantic links reindex ## A populated local catalog, from nothing
 	@echo "Catalog ready. 'make serve' then 'make web'."
 
 web-build: ## Production build of the UI

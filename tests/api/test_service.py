@@ -132,7 +132,10 @@ def test_filterable_fields_are_discoverable_from_the_document(client) -> None:
     finds the filterable fields here rather than in prose."""
     document = client.get("/openapi.json").json()
     params = {p["name"] for p in document["paths"]["/v1/datasets"]["get"].get("parameters", [])}
-    assert {"q", "data_domain", "license_id", "bbox", "sort", "facets", "limit"} <= params
+    assert {"q", "data_domain", "license", "bbox", "sort", "facets", "limit"} <= params
+    # Every filter is named for the facet it filters, so a client can build a
+    # filter straight from the facet response. `tests/api/test_filter_facet_parity.py`
+    # is the enforcement; this is the discoverability half of the same contract.
 
 
 def test_the_description_states_the_control_plane_rule(client) -> None:

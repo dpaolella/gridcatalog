@@ -90,9 +90,15 @@ jobs:
           .venv/bin/datahub graph bootstrap
           .venv/bin/datahub seed load
           .venv/bin/datahub record load var/site/curated
-          .venv/bin/datahub index reindex
+          # Grade and link BEFORE indexing. The index is a projection of the
+          # graph, and grades are written to the computed graph by `semantic
+          # run` — so an index built first captures the catalog without them,
+          # and the snapshot exports what the index holds. It did exactly that:
+          # every published record read "Not yet assessed" until this order was
+          # corrected.
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run
+          .venv/bin/datahub index reindex
 
       - name: Check what the exporter publishes
         # Before the export, not after. These tests are the reason it is safe
