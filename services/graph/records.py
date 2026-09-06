@@ -56,6 +56,7 @@ CONTAINMENT_PREDICATES: tuple[URIRef, ...] = (
     OG.qualityFlags,
     OG.linkHealth,
     OG.conceptGap,
+    OG.provenanceGap,
     OG.codeList,
     OG.codeValue,
     OG.valueRange,

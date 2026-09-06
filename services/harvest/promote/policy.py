@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
+from functools import lru_cache
 from typing import Any
 
 from datahub.logging import get_logger
@@ -86,20 +87,54 @@ Gate = Callable[[dict[str, Any], Mapping[str, str]], Decision]
 
 
 def _validates(record: dict[str, Any], _health: Mapping[str, str]) -> Decision:
-    """The record conformed to the shapes at its own completeness level.
+    """The record conforms to the shapes at its own completeness level.
 
-    Checked upstream and passed in rather than re-run here. Not for speed —
-    validation measures at ~33 records/s, so it is a small share of the
-    pipeline's budget — but because re-deriving it would mean this module
-    owning a second opinion about whether a record is valid, and two answers
-    to that question is one too many.
+    **Answered by validating, not by assuming.** A first cut took the caller's
+    word for it, on the reasoning that a record in the draft graph got there by
+    being written and `put` validates. That reasoning is wrong:
+    ``runner.py:_publish`` writes drafts with ``validate=False`` precisely so a
+    record that fails validation is still kept. So the gate passed everything,
+    and `--dry-run` reported 353 promotable records where 121 were —
+    overstating by nearly 3x the one number the flag exists to give.
+
+    Validation costs about 30ms per record, which is a small share of a
+    pipeline that writes to the graph at 2 to 5 records/s. Cheap enough not to
+    guess.
     """
-    conforms = bool(record.get("_validation_conforms", False))
+    conforms = record.get("_validation_conforms")
+    if conforms is not None:
+        # A caller that already validated this exact document may say so, which
+        # is how the harvest runner avoids a second pass. Nothing else does.
+        return Decision(
+            "validates",
+            bool(conforms),
+            "" if conforms else "the record does not conform to the shapes at its computed level",
+        )
+
+    document = record.get("_document") or record
+    level = int(record.get("completenessLevel") or 1)
+    report = _runner().validate_jsonld(document, level)
+    if report.conforms:
+        return Decision("validates", True)
+    first = report.violations[0].message if report.violations else ""
     return Decision(
         "validates",
-        conforms,
-        "" if conforms else "the record does not conform to the shapes at its computed level",
+        False,
+        f"does not conform at level {level}: {first[:120]}",
     )
+
+
+@lru_cache(maxsize=1)
+def _runner() -> Any:
+    """One validation runner for the whole pass.
+
+    Bootstrapping the shapes graph is most of the cost of a single validation,
+    so building one per record turns a cheap gate into the expensive one this
+    docstring says it is not.
+    """
+    from datahub.harvest.validate import ValidationRunner
+
+    return ValidationRunner()
 
 
 def _licence_resolved(record: dict[str, Any], _health: Mapping[str, str]) -> Decision:

@@ -27,6 +27,7 @@ def record(**overrides) -> dict:
     """A record that passes every gate, so a test can break exactly one."""
     base = {
         "id": "https://catalog.opengrid.org/ds/example",
+        "type": "Dataset",
         "reviewState": "draft",
         "license": f"{SPDX}CC-BY-4.0",
         "distribution": [{"id": "https://catalog.opengrid.org/dist/example--csv"}],
@@ -155,3 +156,32 @@ def test_a_refusal_says_which_gate_and_why() -> None:
     why = promote(record(license=f"{SPDX}LicenseRef-Unstated")).why_not
     assert "licence" in why
     assert "unresolved" in why
+
+
+# ---- regressions ---------------------------------------------------------
+
+
+def test_the_gates_read_a_framed_document_not_only_a_bare_node() -> None:
+    """A record read back from the store is `{"@context", "@graph": [...]}`.
+
+    The gates first read `record["license"]` off the top level, so every field
+    came back absent and **every record was refused for stating no licence** —
+    0 of 524 promoted while the gates looked like they worked. The unit tests
+    did not catch it because they all passed bare nodes, which is why this one
+    passes a document.
+    """
+    document = {
+        "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+        "@graph": [record()],
+    }
+    result = promote(document)
+    assert result.promoted
+    assert document["@graph"][0]["reviewState"] == AUTO_CONFIRMED
+
+
+def test_the_validation_gate_is_not_a_rubber_stamp() -> None:
+    """It took the caller's word for it, on the reasoning that a draft record
+    was validated when it was written. The harvest runner writes drafts with
+    `validate=False` on purpose, so the gate passed everything and `--dry-run`
+    reported 353 promotable records where 121 were."""
+    assert not promote(record(_validation_conforms=False)).promoted
