@@ -561,11 +561,13 @@ the system of record and a server would just be another consumer of it.
 ### Answers, in plain terms
 
 **Does somebody have to ask Claude to re-ingest?** No, once the scheduled
-workflow exists. `pages.yml` already accepts a `schedule:` trigger; the harvest
-workflow takes the same. Weekly is the right starting cadence — most of these
-catalogs change slowly, re-harvest is idempotent on `sourceId`, and an
-unchanged payload short-circuits the whole pipeline including any model call.
-Claude is needed to *change* the pipeline, not to *run* it.
+workflow exists. Nothing runs on a schedule today — `pages.yml` triggers on
+push and on demand, and `docs/hosting.md` already notes that a `schedule:`
+block is how you change that. The harvest workflow gets one. Weekly is the
+right starting cadence: most of these catalogs change slowly, re-harvest is
+idempotent on `sourceId`, and an unchanged payload short-circuits the whole
+pipeline — no re-normalise, no re-validate, no model call. Claude is needed to
+*change* the pipeline, not to *run* it.
 
 **Who can run it?** Anyone with write access to this repository, plus the
 schedule itself. Concretely: **Actions → Harvest → Run workflow**, the same
