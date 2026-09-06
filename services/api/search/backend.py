@@ -64,6 +64,13 @@ class Entitlement:
     """
 
     principal_id: str | None = None
+    #: The caller's verified address, matched against allow-list grants made by
+    #: email. `AllowlistRepository.entitled_principals` projects ids *and*
+    #: addresses into the document precisely so a grant made before its subject
+    #: had an account keeps working — but nothing here read the address, so
+    #: every email grant was recorded, displayed to the custodian as active, and
+    #: matched by nobody.
+    email: str | None = None
     custodian_of: frozenset[str] = frozenset()
     #: Set only for the steward UI, which reads the draft graph deliberately.
     include_unconfirmed: bool = False
@@ -93,7 +100,15 @@ class Entitlement:
             return True
         if doc.custodian_id == self.principal_id:
             return True
-        return self.principal_id in doc.entitled_principals
+        if self.principal_id in doc.entitled_principals:
+            return True
+        # Case-insensitively, because an address is not case-sensitive in the
+        # half that matters and a custodian typing it with different casing than
+        # the identity provider returned should not silently grant nothing.
+        email = self.email
+        if not email:
+            return False
+        return email.lower() in {value.lower() for value in doc.entitled_principals}
 
 
 @dataclass(frozen=True, slots=True)

@@ -45,7 +45,7 @@ def _backend() -> SearchBackend:
 
 
 def reset() -> None:
-    """Drop the cached process-wide resources, flushing the store first.
+    """Drop the cached process-wide resources, flushing them first.
 
     Test helper, and the hook the app's shutdown uses. The flush is the part
     that matters and was missing: `RdflibStore.close()` releases nothing —
@@ -59,6 +59,17 @@ def reset() -> None:
         store = _store()
         store.flush()
         store.close()
+    if _backend.cache_info().currsize:
+        # The search backend needs this for the same reason the store does, and
+        # for a sharper one: allow-list grants are re-projected into the index
+        # in-process by the custodian API. With the file-backed backend those
+        # writes lived only in memory, so a restart silently reverted the index
+        # to the last full reindex and every grant made since disappeared —
+        # while the operational row that recorded it stayed put, so the
+        # custodian's list still showed the person they had added.
+        backend = _backend()
+        backend.flush()
+        backend.close()
     _store.cache_clear()
     _backend.cache_clear()
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type {
   DatasetDetail,
   DistributionDetail,
@@ -55,6 +55,37 @@ export function DatasetTabs({
 }) {
   const t = useTranslations("dataset.tabs");
   const [active, setActive] = useState<Tab>("overview");
+  const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
+
+  /**
+   * Arrow keys move between tabs, and only the selected one is a tab stop.
+   *
+   * WAI-ARIA's tab pattern asks for both, and this had neither: every one of the
+   * seven tabs was in the tab order, so a keyboard user pressed Tab seven times
+   * to get past the strip to the panel, and the arrow keys — the thing the
+   * pattern trains people to reach for — did nothing at all.
+   *
+   * Selection follows focus, which is the right choice here because every panel
+   * is already rendered (see the note above); moving focus reveals content
+   * without a fetch, so requiring a second keypress would be ceremony.
+   */
+  function onKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+    const delta =
+      event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    let next: Tab | null = null;
+    if (delta !== 0) {
+      const index = TABS.indexOf(active);
+      next = TABS[(index + delta + TABS.length) % TABS.length];
+    } else if (event.key === "Home") {
+      next = TABS[0];
+    } else if (event.key === "End") {
+      next = TABS[TABS.length - 1];
+    }
+    if (next === null) return;
+    event.preventDefault();
+    setActive(next);
+    tabRefs.current[next]?.focus();
+  }
 
   return (
     <div>
@@ -67,11 +98,17 @@ export function DatasetTabs({
         {TABS.map((tab) => (
           <button
             key={tab}
+            ref={(node) => {
+              tabRefs.current[tab] = node;
+            }}
             role="tab"
             id={`tab-${tab}`}
             aria-selected={active === tab}
             aria-controls={`panel-${tab}`}
+            // Roving tabindex: one stop for the whole strip, not seven.
+            tabIndex={active === tab ? 0 : -1}
             onClick={() => setActive(tab)}
+            onKeyDown={onKeyDown}
             className="-mb-px border-b-2 px-3 py-2.5 text-sm transition-colors"
             style={{
               borderColor: active === tab ? "var(--accent)" : "transparent",
@@ -204,7 +241,7 @@ function Provenance({
             <ul className="space-y-0.5">
               {dataset.upstream_sources.map((iri) => (
                 <li key={iri}>
-                  <Link href={`/datasets/${iriTail(iri)}`} className="text-[color:var(--accent)] hover:underline">
+                  <Link href={`/datasets/${iriTail(iri)}`} className="text-[color:var(--accent-text)] hover:underline">
                     {iriTail(iri)}
                   </Link>
                 </li>
@@ -223,7 +260,7 @@ function Provenance({
           <Row label={t("supersededBy")}>
             <Link
               href={`/datasets/${iriTail(dataset.superseded_by)}`}
-              className="text-[color:var(--accent)] hover:underline"
+              className="text-[color:var(--accent-text)] hover:underline"
             >
               {iriTail(dataset.superseded_by)}
             </Link>
@@ -239,7 +276,7 @@ function Provenance({
           {dataset.license_url ? (
             <a
               href={dataset.license_url}
-              className="text-[color:var(--accent)] hover:underline"
+              className="text-[color:var(--accent-text)] hover:underline"
               rel="noreferrer noopener"
             >
               {dataset.license_id ? iriTail(dataset.license_id) : dataset.license_url}
@@ -392,7 +429,7 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
                         style={{
                           borderRadius: "var(--radius)",
                           background: "color-mix(in srgb, var(--accent) 14%, transparent)",
-                          color: "var(--accent)",
+                          color: "var(--accent-text)",
                         }}
                         title={field.inference_basis ?? t("inferredHelp")}
                       >

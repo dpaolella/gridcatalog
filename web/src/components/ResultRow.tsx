@@ -39,7 +39,7 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
                 style={{
                   borderRadius: "var(--radius)",
                   background: "color-mix(in srgb, var(--accent) 14%, transparent)",
-                  color: "var(--accent)",
+                  color: "var(--accent-text)",
                 }}
                 title={t("referenceOnlyHelp")}
               >

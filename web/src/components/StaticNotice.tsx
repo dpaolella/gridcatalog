@@ -19,7 +19,7 @@ export async function StaticNotice({ children }: { children?: React.ReactNode })
 
   return (
     <section className="og-card p-6">
-      <p className="og-eyebrow" style={{ color: "var(--accent)" }}>
+      <p className="og-eyebrow" style={{ color: "var(--accent-text)" }}>
         {t("badge")}
       </p>
       <p className="mt-2 font-semibold">{t("title")}</p>

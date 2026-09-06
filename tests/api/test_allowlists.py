@@ -63,7 +63,24 @@ def test_the_custodian_can_read_the_list(client, people) -> None:
 
 
 def test_a_stranger_cannot(client, people) -> None:
+    """404 on an allow-listed-existence record, because 403 would confirm it.
+
+    The refusal a caller gets has to depend on whether they were allowed to know
+    the record is there — see `test_an_admin_cannot_either` just below, where a
+    403 is right precisely because an admin may already see it.
+    """
     response = client.get(f"/v1/allowlists/{HIDDEN}", headers=auth(people["stranger"]))
+    assert response.status_code == 404
+
+
+def test_a_stranger_gets_a_403_on_a_public_record(client, people) -> None:
+    """The other half of the rule, so the 404 above is not mistaken for a blanket.
+
+    Flattening every refusal to 404 would be the easy fix and the wrong one: on
+    a record the catalog publishes to the world, "this is not yours" discloses
+    nothing and is what a custodian who mistyped a slug needs to hear.
+    """
+    response = client.get("/v1/allowlists/ecmwf-era5", headers=auth(people["stranger"]))
     assert response.status_code == 403
 
 
@@ -157,13 +174,22 @@ def test_a_grant_can_name_someone_who_has_not_signed_in(client, people) -> None:
 
 
 def test_a_stranger_cannot_add_themselves(client, people) -> None:
+    """404, not 403 — `HIDDEN` is an allow-listed-existence record.
+
+    This asserted 403 until the refusal was made indistinguishable. A 403 says
+    "this exists and is not yours", which on a record whose *existence* is the
+    restricted part is the whole disclosure: a stranger could enumerate slugs
+    against this endpoint and learn which ones were real. The record read on the
+    next line has always answered 404; the allow-list endpoint now agrees with
+    it.
+    """
     response = client.put(
         f"/v1/allowlists/{HIDDEN}",
         json={"entries": [{"principal_id": people["stranger_id"]}]},
         headers=auth(people["stranger"]),
     )
 
-    assert response.status_code == 403
+    assert response.status_code == 404
     assert client.get(f"/v1/datasets/{HIDDEN}", headers=auth(people["stranger"])).status_code == 404
 
 

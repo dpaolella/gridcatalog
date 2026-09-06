@@ -52,7 +52,7 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
               if (q) query.set("q", q);
               router.replace(`/?${query}`, { scroll: false });
             }}
-            className="text-xs font-medium text-[color:var(--accent)] hover:underline"
+            className="text-xs font-medium text-[color:var(--accent-text)] hover:underline"
           >
             {search("clearFilters")}
           </button>

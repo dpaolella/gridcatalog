@@ -80,7 +80,7 @@ async function Queue({ searchParams }: { searchParams: SearchParams }) {
             className="og-tag px-3 py-1"
             style={
               name === state
-                ? { borderColor: "var(--accent)", color: "var(--accent)", fontWeight: 600 }
+                ? { borderColor: "var(--accent)", color: "var(--accent-text)", fontWeight: 600 }
                 : undefined
             }
           >

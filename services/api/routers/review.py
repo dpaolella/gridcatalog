@@ -22,6 +22,7 @@ from __future__ import annotations
 from typing import Annotated
 
 from datahub.api.deps import CallerDep, SessionDep
+from datahub.api.entitlement import tokens
 from datahub.api.models.repositories import Repositories
 from datahub.api.schemas import ReviewConfirm, ReviewItem, ReviewQueueResponse
 from datahub.errors import NotAuthenticated, NotEntitled, NotFound
@@ -38,6 +39,10 @@ def _steward(caller: CallerDep, session: SessionDep) -> None:
         raise NotAuthenticated("the review store is unreachable")
     if caller.is_anonymous:
         raise NotAuthenticated("sign in as a steward to see the review queue")
+    # Role *and* scope. The role says who this person is; the scope says what
+    # they asked this particular credential to be able to do. A steward's
+    # read-only token should not confirm records just because its holder could.
+    tokens.require_scope(caller, "steward:review")
     if not caller.entitlement.is_steward:
         raise NotEntitled(
             "the review queue is for stewards. This is a 403 rather than a 404 because the "

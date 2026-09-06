@@ -42,6 +42,16 @@
   --rule: var(--og-blue);
   --accent: var(--og-orange);
   --accent-contrast: #ffffff;
+  /* Orange, dark enough to carry words.
+     `--og-orange` on white measures 3.10:1, and so does white on it — below the
+     4.5:1 WCAG AA needs for normal text, which put the CTA, every accent link
+     and the "Reference only" tag under the bar. This is the same hue at 4.90:1
+     both ways.
+     `--accent` keeps the brand value and keeps its job: fills, rules, the
+     bounding box on a coverage map, the mark. Contrast ratios do not apply to
+     those, and darkening them would dull the one sharp accent the identity
+     has for no benefit. Anything with text in it uses this instead. */
+  --accent-text: #b25800;
   --panel: var(--og-petrol);
   --panel-foreground: #ffffff;
   --link: var(--og-petrol);
@@ -103,6 +113,10 @@
     --grade-d-ink: #ffffff;
 
     --status-warn: var(--og-amber);
+    /* On the dark ground `--og-orange` measures 6.02:1, so it needs no help as
+       text. The CTA still does: white on orange is 3.10:1 whatever the page
+       behind it, so `.og-cta` uses `--accent-text` in both themes. */
+    --accent-text: var(--og-orange);
   }
 }
 
@@ -233,7 +247,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--accent);
+  background: var(--accent-text);
   color: var(--accent-contrast);
   border-radius: var(--radius-cta);
   padding: 0.5rem 0.875rem;
@@ -241,7 +255,7 @@ a {
   font-size: 0.875rem;
 }
 .og-cta:hover {
-  background: color-mix(in srgb, var(--accent) 88%, #000);
+  background: color-mix(in srgb, var(--accent-text) 88%, #000);
 }
 
 /* A squared surface card. No pill radii, no heavy shadow. */
@@ -251,7 +265,11 @@ a {
   border-radius: var(--radius);
 }
 
-/* Big stat callout: oversized number in Orange or Petrol, small label below. */
+/* Big stat callout: oversized number in Orange or Petrol, small label below.
+   Keeps `--accent` rather than `--accent-text`: at 900 weight and 2rem+ this is
+   "large text" by WCAG, where the AA threshold is 3:1 and orange-on-white's
+   3.10:1 clears it. The darker orange is for body-sized text, which this is
+   the opposite of. */
 .og-stat {
   font-weight: 900;
   font-size: clamp(2rem, 5vw, 3.25rem);

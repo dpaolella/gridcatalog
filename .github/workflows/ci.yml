@@ -33,7 +33,10 @@ jobs:
       - name: Format check
         run: .venv/bin/ruff format --check services sdk tests
       - name: Types
-        run: .venv/bin/mypy || true   # advisory until the tree is fully annotated
+        # Enforcing. Seven not-yet-clean modules are named in pyproject.toml's
+        # mypy overrides rather than the whole check being made advisory with
+        # `|| true`, which reported a green tick for a check that could not fail.
+        run: .venv/bin/mypy
       - name: Tests
         run: .venv/bin/pytest -q --cov=services --cov=sdk --cov-report=term-missing
       - name: Conformance suite

@@ -85,7 +85,7 @@ export function FacetGroup({
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          className="mt-1 text-xs font-medium text-[color:var(--accent)] hover:underline"
+          className="mt-1 text-xs font-medium text-[color:var(--accent-text)] hover:underline"
         >
           {search("showMore", { count: hidden })}
         </button>

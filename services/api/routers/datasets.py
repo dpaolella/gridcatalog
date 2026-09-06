@@ -24,7 +24,8 @@ from datetime import timedelta
 from typing import Annotated, Any
 
 from datahub.api.deps import CallerDep, RecordsDep, SearchDep, SessionDep
-from datahub.api.entitlement import Caller
+from datahub.api.entitlement import Caller, tokens
+from datahub.api.entitlement.visibility import absent, entitled_document
 from datahub.api.schemas import (
     AccessPlanRequest,
     AccessPlanResponse,
@@ -38,10 +39,9 @@ from datahub.api.schemas import (
     SchemaResponse,
     SearchResponseModel,
 )
-from datahub.api.search.backend import SearchBackend
 from datahub.api.search.document import SearchDocument
-from datahub.api.search.query import SearchParams, build, build_for_ids
-from datahub.errors import NotFound, NoUsableDistribution
+from datahub.api.search.query import SearchParams, build
+from datahub.errors import NoUsableDistribution
 from datahub.logging import get_logger
 from fastapi import APIRouter, Path, Query, Request, Response, status
 from fastapi.responses import RedirectResponse
@@ -172,7 +172,7 @@ def get_dataset(
     backend: SearchDep,
     response: Response,
 ) -> DatasetDetail:
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
         # A stub: the caller may know it exists and no more. Not cached
         # publicly, because the response depends on who asked.
@@ -197,9 +197,9 @@ def get_schema(
     *count* because that is what a list view needs, and this endpoint exists
     for the caller who wants the fields themselves.
     """
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
     record = records.get(document.iri)
     return SchemaResponse.from_record(record, document, labels=_labels(record, records))
 
@@ -221,9 +221,9 @@ def get_quality(
     perfectly current and completely unprovenanced, and averaging those into
     one number destroys the only information a user could act on.
     """
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
     return QualityResponse.from_document(document, _rationales(document.iri, records))
 
 
@@ -249,9 +249,9 @@ def get_distributions(
     reportable fact; a dead link silently removed is a dataset that appears to
     have no access path at all.
     """
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
     return DistributionDetail.from_record(records.get(document.iri))
 
 
@@ -282,9 +282,9 @@ def get_links(
     """
     from datahub.linksvc import LinkService
 
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
 
     service = LinkService(backend=backend, store=records.store)
     links = service.links_for(document.id, entitlement=caller.entitlement)
@@ -362,13 +362,16 @@ def access_plan(
     refusals to be logged, and §12.9 leaves open whether a plan is revoked when
     an allow-list changes. Both need a row per issue.
     """
+    # A public plan is available anonymously; a token that asked only to read
+    # the catalog is still only reading the catalog.
+    tokens.require_scope(caller, "catalog:read", allow_anonymous=True)
     from datahub.api.broker import Broker, SliceSpec
 
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
         # An access plan for a record the caller may see but not read would be
         # the disclosure the stub exists to prevent: the plan carries the URL.
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
 
     body = body or AccessPlanRequest()
     plan = Broker().plan(
@@ -407,9 +410,9 @@ def download(
     means the source sees its own traffic, which is what keeps a data publisher
     willing to be catalogued.
     """
-    document, full = _entitled_document(dataset_id, caller, backend)
+    document, full = entitled_document(dataset_id, caller, backend)
     if not full:
-        raise _absent(dataset_id)
+        raise absent(dataset_id)
 
     target = _best_distribution(DistributionDetail.from_record(records.get(document.iri)))
     if target is None:
@@ -520,34 +523,6 @@ def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, 
 # ---------------------------------------------------------------------------
 # Entitlement
 # ---------------------------------------------------------------------------
-
-
-def _entitled_document(
-    dataset_id: str, caller: Caller, backend: SearchBackend
-) -> tuple[SearchDocument, bool]:
-    """Fetch a record through the entitlement predicate.
-
-    Through the index rather than the graph, because the index is where the
-    predicate is compiled. Reading the graph first and checking afterwards
-    would be the post-filter ADR-0006 forbids, and the check would live in
-    every handler rather than in one place.
-    """
-    slug = dataset_id.rsplit("/", 1)[-1]
-    response = backend.search(build_for_ids((slug,), caller.entitlement))
-    if not response.hits:
-        raise _absent(dataset_id)
-    hit = response.hits[0]
-    return hit.document, hit.full_metadata
-
-
-def _absent(dataset_id: str) -> NotFound:
-    """The same 404 whether the record is missing or withheld.
-
-    A 403 would say "this exists and you cannot have it", which on a record
-    whose existence is the restricted part *is* the disclosure. The audit log
-    distinguishes the two; the caller cannot.
-    """
-    return NotFound(f"no dataset {dataset_id!r}", dataset_id=dataset_id)
 
 
 def _best_distribution(distributions: list[DistributionDetail]) -> DistributionDetail | None:

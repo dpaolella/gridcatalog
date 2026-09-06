@@ -36,7 +36,7 @@ would error.
 ## Running the production shape
 
 ```bash
-make up          # fuseki, opensearch, postgres, redis, api, worker, beat, web
+make up          # fuseki, opensearch, postgres, redis, api, web
 make down
 ```
 
@@ -45,9 +45,13 @@ Then point the app at them:
 ```bash
 export DATAHUB_GRAPH_BACKEND=fuseki
 export DATAHUB_SEARCH_BACKEND=opensearch
-export DATAHUB_QUEUE_BACKEND=celery
 export DATAHUB_DATABASE_URL=postgresql+psycopg://datahub:datahub@localhost:5432/datahub
 ```
+
+`DATAHUB_QUEUE_BACKEND=celery` is accepted and currently pointless: the JobQueue
+protocol and a Celery implementation exist in `services/queue.py`, and no task is
+registered against them anywhere. Harvest, reindex, grading and link passes are
+run from the CLI. Leave it on the default until that changes.
 
 ## Configuration
 
@@ -123,11 +127,24 @@ them safe to drop.
 
 | Endpoint | Reports |
 |---|---|
-| `/healthz` | process liveness |
-| `/readyz` | graph, index and database reachable |
-| `/metrics` | Prometheus exposition |
+| `/health` | process liveness, and nothing else |
+| `/health/ready` | graph, index and database reachable |
+| `/health/status` | data state: record counts, projector lag, last reindex |
 
-Metrics worth an alert:
+`/health/ready` is the one to put in front of a load balancer. It reports
+`unhealthy` only when the graph is unreachable — without it there is no catalog
+— and `degraded` for a missing index or an unreachable database, because search
+falls back and reads still work, and pulling an instance for a degraded
+dependency turns a partial outage into a total one.
+
+**There is no `/metrics` endpoint yet.** This section previously documented one,
+along with `/healthz` and `/readyz`, none of which exist; an operator reaching
+for them mid-incident would have lost time. The signals below are what the
+instrumentation should expose when it is built, not what it exposes now — do
+not build alerts on them yet. Projector lag is available today through
+`/health/status` and `datahub index status`.
+
+Metrics worth an alert, once they exist:
 
 - **`datahub_projector_lag_seconds`** — the "why is search stale" signal.
 - **`datahub_brokered_to_hosted_ratio`** — PRD §F2 names this the metric that

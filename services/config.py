@@ -11,8 +11,12 @@ import functools
 from enum import StrEnum
 from pathlib import Path
 
-from pydantic import field_validator
+from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+#: The published default. Named so the guard below can recognise it, and so
+#: nobody has to keep two copies of the literal in step.
+DEV_SECRET_KEY = "dev-only-not-a-secret-change-me"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -127,7 +131,7 @@ class Settings(BaseSettings):
     cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
 
     # ---- auth -----------------------------------------------------------
-    secret_key: str = "dev-only-not-a-secret-change-me"
+    secret_key: str = DEV_SECRET_KEY
     token_ttl_s: int = 3600
     session_ttl_s: int = 14 * 24 * 3600
     oidc_providers: str = "github,google,microsoft"
@@ -164,6 +168,27 @@ class Settings(BaseSettings):
     @property
     def cors_origins_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @model_validator(mode="after")
+    def _secret_key_is_not_the_published_default(self) -> Settings:
+        """Refuse to start outside development on the key that ships in the repo.
+
+        `secret_key` is the HMAC key in `hash_token`, which is a *lookup* hash
+        over high-entropy random tokens — so this is not a forgery risk and the
+        guard is not about one. What the keyed hash buys is that a leaked
+        database alone does not let an attacker confirm guessed tokens offline.
+        On the published default that defence is worth nothing, because the key
+        is in the repository.
+
+        A refusal at startup rather than a warning: a warning in a container log
+        is a warning nobody reads, and the failure it precedes is silent.
+        """
+        if self.environment != "development" and self.secret_key == DEV_SECRET_KEY:
+            raise ValueError(
+                "DATAHUB_SECRET_KEY is still the development default. Set it to a "
+                f"random value before running with environment={self.environment!r}."
+            )
+        return self
 
     @field_validator("graph_store_path", "search_store_path", mode="before")
     @classmethod

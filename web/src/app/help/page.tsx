@@ -41,7 +41,7 @@ export default function HelpPage() {
       </dl>
       <p className="text-sm">
         Still stuck?{" "}
-        <Link href="/developers" className="text-[color:var(--accent)] hover:underline">
+        <Link href="/developers" className="text-[color:var(--accent-text)] hover:underline">
           Developer documentation
         </Link>
         .

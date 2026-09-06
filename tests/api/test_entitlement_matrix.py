@@ -341,3 +341,97 @@ def test_a_token_cannot_exceed_its_users_role(reindexed, accounts) -> None:
         plain = repos.users.get(accounts["stranger_id"])
         with pytest.raises(NotEntitled, match="requires the"):
             tokens.mint(repos, plain, name="escalate", scopes=("admin",))
+
+
+# ---------------------------------------------------------------------------
+# The allow-list endpoint, which used to answer the question the matrix forbids
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture
+def curious(reindexed):
+    """A signed-in nobody whose token *can* manage allow-lists.
+
+    `accounts` mints everyone `catalog:read` only, so a request there is refused
+    on the scope before existence is ever considered — which is a fine answer and
+    the wrong one to test with, because it is identical for every id and so
+    proves nothing about disclosure. This token clears the scope gate and gets
+    all the way to the question that matters.
+    """
+    from datahub.api.entitlement import tokens
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    with session_scope() as session:
+        repos = Repositories(session)
+        user = repos.users.upsert_federated(
+            "local", "curious", email="curious@example.org", display_name="curious"
+        )
+        user.role = "user"
+        session.flush()
+        return tokens.mint(repos, user, name="curious").token
+
+
+def test_allowlist_endpoint_cannot_be_used_as_an_existence_oracle(reindexed, curious):
+    """A signed-in nobody must not learn that an allow-listed record exists.
+
+    The custodian API used to resolve the dataset off the graph before
+    considering entitlement: 404 for an id that was not there, 403 for one that
+    was but was not yours. For a public record that difference discloses nothing.
+    For `HIDDEN`, whose *existence* is the restricted part, it is the entire
+    secret — and it was available to anyone who could sign in and enumerate
+    slugs.
+
+    The two answers must be byte-identical, not merely both refusals.
+    """
+    headers = {"Authorization": f"Bearer {curious}"}
+
+    hidden = reindexed.get(f"/v1/allowlists/{HIDDEN}", headers=headers)
+    imaginary = reindexed.get("/v1/allowlists/no-such-dataset-anywhere", headers=headers)
+
+    assert hidden.status_code == imaginary.status_code == 404
+    assert hidden.json()["type"] == imaginary.json()["type"]
+    assert hidden.json()["title"].replace(HIDDEN, "X") == imaginary.json()["title"].replace(
+        "no-such-dataset-anywhere", "X"
+    )
+
+
+def test_allowlist_endpoint_still_refuses_a_public_record_informatively(reindexed, curious):
+    """403, not 404, when the record's existence is already public.
+
+    Flattening every refusal to 404 would be the easy fix and the wrong one: it
+    would tell a custodian who mistyped nothing about whether the dataset exists,
+    on records the catalog publishes to the world anyway. The rule is about
+    withheld existence, not about refusals in general.
+    """
+    headers = {"Authorization": f"Bearer {curious}"}
+    response = reindexed.get(f"/v1/allowlists/{PUBLIC}", headers=headers)
+    assert response.status_code == 403
+
+
+def test_allowlist_endpoint_answers_the_entitled_member(reindexed, accounts):
+    """The member who *is* on the list still cannot manage it — and gets 403.
+
+    Being allow-listed means you can see the record; the list itself belongs to
+    the custodian. So this is the case where 403 is right on a hidden record:
+    the caller already knows it exists, and 404 would be a lie rather than a
+    withholding.
+
+    The token is re-minted with the member's role defaults on purpose. Their
+    `accounts` token carries only `catalog:read`, which would be refused on the
+    scope before entitlement was consulted — a 403 that looks like a pass and
+    tests nothing.
+    """
+    from datahub.api.entitlement import tokens
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    with session_scope() as session:
+        repos = Repositories(session)
+        user = repos.users.get(accounts["member_id"])
+        token = tokens.mint(repos, user, name="member-full").token
+
+    response = reindexed.get(
+        f"/v1/allowlists/{HIDDEN}", headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 403

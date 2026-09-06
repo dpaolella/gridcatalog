@@ -147,7 +147,7 @@ export function StaticSearch({
               <button
                 type="button"
                 onClick={clearFilters}
-                className="text-xs font-medium text-[color:var(--accent)] hover:underline"
+                className="text-xs font-medium text-[color:var(--accent-text)] hover:underline"
               >
                 {t("clearFilters")}
               </button>

@@ -131,3 +131,27 @@ python_version = "3.12"
 warn_unused_ignores = true
 ignore_missing_imports = true
 files = ["services", "sdk/python"]
+
+# The seven modules below are not yet clean, and CI used to hide that by running
+# `mypy || true` — a check that cannot fail, whose green tick reported nothing
+# and let annotations rot unnoticed. Naming them here instead makes the check
+# enforcing everywhere else and turns the debt into a list that can shrink.
+#
+# All seven are where rdflib's own typing is loosest: terms come back as `Node`
+# where the code knows it has a `URIRef`, and narrowing that properly is a real
+# piece of work rather than a sprinkling of ignores. Delete entries as they are
+# fixed; do not add new ones without saying why here.
+[[tool.mypy.overrides]]
+# `services.*`, not `datahub.*`: mypy names modules from the path it is given,
+# and it is given `services/`. The installed package is `datahub` only because
+# of the package-dir mapping above, which mypy does not apply here.
+module = [
+    "services.graph.skolem",
+    "services.graph.store",
+    "services.namespaces",
+    "services.harvest.validate.runner",
+    "services.projector.build",
+    "services.projector.index",
+    "services.api.search.opensearch_backend",
+]
+ignore_errors = true
