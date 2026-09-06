@@ -50,6 +50,7 @@ from datahub.logging import get_logger
 from datahub.namespaces import (
     DATASET_BASE,
     DISTRIBUTION_BASE,
+    SCHEME_DATA_DOMAIN,
     SPDX,
 )
 
@@ -250,6 +251,220 @@ def _t_names(value: Any) -> Any:
     return [n for n in names if n] or None
 
 
+# ---------------------------------------------------------------------------
+# Update cadence
+# ---------------------------------------------------------------------------
+#
+# `og:updateCadence` is constrained by SHACL to an ISO 8601 duration or one of
+# `irregular`, `on-demand`, `discontinued`, because the Currency grade compares
+# elapsed time against it. Sources state it in prose: "Monthly", "Varies by
+# dataset", "New data is added as soon as it is available."
+#
+# Mapping that prose with `transform: [text]` put free text into a
+# pattern-constrained field and failed *every* record of a 1,199-record harvest
+# — see docs/ingestion-plan.md §3. This transform is the fix, and its whole
+# design is in the last rule:
+#
+#   **Unrecognised input drops the field.** An absent cadence is legal at every
+#   completeness level and reads as "not captured". A guessed one is a schedule
+#   claim the source never made, and the Currency grade turns it into a
+#   confident quality judgement. Dropping is the honest failure.
+
+#: Phrases naming a real interval. Matched longest-first, so "semi-annually"
+#: cannot be swallowed by "annually".
+_CADENCE_INTERVALS: tuple[tuple[str, str], ...] = (
+    ("sub-hourly", "PT1H"),
+    ("continuously", "PT1H"),
+    ("continuous", "PT1H"),
+    ("real-time", "PT1H"),
+    ("real time", "PT1H"),
+    ("hourly", "PT1H"),
+    ("twice daily", "PT12H"),
+    ("twice a day", "PT12H"),
+    ("daily", "P1D"),
+    ("every day", "P1D"),
+    ("fortnightly", "P14D"),
+    ("bi-weekly", "P14D"),
+    ("biweekly", "P14D"),
+    ("weekly", "P7D"),
+    ("every week", "P7D"),
+    ("bi-monthly", "P2M"),
+    ("monthly", "P1M"),
+    ("every month", "P1M"),
+    ("quarterly", "P3M"),
+    ("semi-annually", "P6M"),
+    ("semiannually", "P6M"),
+    ("biannually", "P6M"),
+    ("twice a year", "P6M"),
+    ("annually", "P1Y"),
+    ("annual", "P1Y"),
+    ("yearly", "P1Y"),
+    ("every year", "P1Y"),
+    ("biennially", "P2Y"),
+)
+
+#: Phrases meaning "updated, but to no schedule".
+_CADENCE_IRREGULAR: tuple[str, ...] = (
+    "varies",
+    "periodically",
+    "periodic",
+    "occasionally",
+    "occasional",
+    "irregular",
+    "sporadic",
+    "intermittent",
+    "as new data",
+    "as data become",
+    "as data becomes",
+    "when new data",
+    "as available",
+    "as soon as",
+    "as they become",
+    "ongoing",
+    "from time to time",
+)
+
+#: Phrases meaning "updated when somebody asks". Kept apart from `irregular`
+#: because they are different claims and the Currency grade treats them so:
+#: an on-demand dataset is not stale for not having changed.
+_CADENCE_ON_DEMAND: tuple[str, ...] = (
+    "as needed",
+    "as required",
+    "as necessary",
+    "on demand",
+    "on-demand",
+    "on request",
+    "need-to-update",
+    "when required",
+    "when needed",
+)
+
+#: Explicit negations of updating. Tested *before* the intervals, because
+#: "not currently being updated" contains "update" and several of these
+#: sentences also name the interval the dataset used to run at.
+_CADENCE_NOT_UPDATED: tuple[str, ...] = (
+    "not updated",
+    "no longer updated",
+    "no longer being updated",
+    "not currently being updated",
+    "no further update",
+    "no updates",
+    "no plans to update",
+    "will not be updated",
+    "never",
+)
+
+#: Other ways of saying "finished". Tested *after* the intervals, because a
+#: stated interval is the stronger signal: "Updated monthly with complete
+#: records" is monthly, and reading it as a closed archive would mis-grade
+#: Currency on a live dataset. Bare "complete" and "final" are deliberately
+#: absent — on their own they are too weak to carry the claim.
+_CADENCE_CLOSED: tuple[str, ...] = (
+    "static",
+    "one-time",
+    "one time",
+    "single release",
+    "discontinued",
+    "historical archive",
+    "fixed dataset",
+    "final release",
+    "no longer",
+)
+
+#: Already-valid values pass through untouched, so a source that speaks ISO
+#: 8601 is not round-tripped through the phrase table.
+_ISO_DURATION = re.compile(r"^P(?!$)(\d+Y)?(\d+M)?(\d+W)?(\d+D)?(T(?!$)(\d+H)?(\d+M)?(\d+S)?)?$")
+_CADENCE_ENUM = frozenset({"irregular", "on-demand", "discontinued"})
+
+#: Values that say nothing at all. Distinguished from unrecognised prose only
+#: for the log: both drop the field.
+_CADENCE_EMPTY = frozenset({"", "n/a", "na", "none", "null", "-", "--", "unknown", "tbd", "?"})
+
+#: The EU frequency authority, which is what DCAT-AP sources put in
+#: `dct:accrualPeriodicity` — an IRI ending in a token, not prose. Matched
+#: explicitly rather than left to the phrase scan: `IRREG` does not contain
+#: "irregular", `CONT` does not contain "continuous", and `NEVER` matching
+#: "never" by luck is not a thing to rely on across a vocabulary that adds
+#: terms. Unlisted tokens fall through to the phrase scan and then to None.
+_EU_FREQUENCY: dict[str, str] = {
+    "HOURLY": "PT1H",
+    "BIHOURLY": "PT2H",
+    "TRIHOURLY": "PT3H",
+    "DAILY": "P1D",
+    "DAILY_2": "PT12H",
+    "CONT": "PT1H",
+    "UPDATE_CONT": "PT1H",
+    "WEEKLY": "P7D",
+    "WEEKLY_2": "P3D",
+    "WEEKLY_3": "P2D",
+    "BIWEEKLY": "P14D",
+    "MONTHLY": "P1M",
+    "MONTHLY_2": "P14D",
+    "MONTHLY_3": "P10D",
+    "BIMONTHLY": "P2M",
+    "QUARTERLY": "P3M",
+    "ANNUAL_2": "P6M",
+    "ANNUAL": "P1Y",
+    "ANNUAL_3": "P4M",
+    "BIENNIAL": "P2Y",
+    "TRIENNIAL": "P3Y",
+    "DECENNIAL": "P10Y",
+    "QUADRENNIAL": "P4Y",
+    "QUINQUENNIAL": "P5Y",
+    "IRREG": "irregular",
+    "OTHER": "irregular",
+    "NEVER": "discontinued",
+    "AS_NEEDED": "on-demand",
+    "NOT_PLANNED": "discontinued",
+}
+
+
+def _t_cadence(value: Any) -> Any:
+    """Free-text update frequency to a value SHACL accepts, or nothing.
+
+    Order matters, in both directions, and neither is arbitrary.
+
+    Explicit negations go **first**: "not currently being updated" contains
+    "update", and some of these sentences also name the interval the dataset
+    used to run at, so an interval scan would read a closed archive as live.
+
+    Vaguer "finished" wording goes **last**, after the intervals: "Updated
+    monthly with complete records" is monthly, and reading it as closed would
+    mis-grade Currency on a live dataset. Within every category the longest
+    phrase wins, so "semi-annually" is not swallowed by "annually".
+    """
+    if value is None:
+        return None
+    raw = " ".join(str(value).split()).strip()
+    if not raw:
+        return None
+    if raw in _CADENCE_ENUM or _ISO_DURATION.match(raw):
+        return raw
+    if raw.startswith(("http://", "https://")):
+        token = raw.rstrip("/").rsplit("/", 1)[-1].upper()
+        if mapped := _EU_FREQUENCY.get(token):
+            return mapped
+    text = raw.lower()
+    if text in _CADENCE_EMPTY:
+        return None
+    for phrase in sorted(_CADENCE_NOT_UPDATED, key=len, reverse=True):
+        if phrase in text:
+            return "discontinued"
+    for phrase, duration in sorted(_CADENCE_INTERVALS, key=lambda pair: -len(pair[0])):
+        if phrase in text:
+            return duration
+    for phrase in sorted(_CADENCE_CLOSED, key=len, reverse=True):
+        if phrase in text:
+            return "discontinued"
+    for phrase in sorted(_CADENCE_ON_DEMAND, key=len, reverse=True):
+        if phrase in text:
+            return "on-demand"
+    for phrase in sorted(_CADENCE_IRREGULAR, key=len, reverse=True):
+        if phrase in text:
+            return "irregular"
+    return None
+
+
 def _t_first(value: Any) -> Any:
     if isinstance(value, list):
         return value[0] if value else None
@@ -269,6 +484,7 @@ TRANSFORMS: dict[str, Callable[[Any], Any]] = {
     "list": _t_list,
     "names": _t_names,
     "first": _t_first,
+    "cadence": _t_cadence,
 }
 
 
@@ -328,6 +544,118 @@ def _resolve_one(payload: Any, path: str) -> Any:
 # ---------------------------------------------------------------------------
 # The normaliser
 # ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Licence strings
+# ---------------------------------------------------------------------------
+#
+# `seed-license-map.yaml` is matched by exact string, which is right for the
+# curated seed inventory — a file somebody wrote — and wrong for harvested
+# prose. All three of these are CC-BY-4.0 and all three missed a map that
+# already contains it:
+#
+#   [Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+#   Creative Commons Attribution 4.0 International License
+#   DE Africa makes this data available under the Creative Commons Attribute
+#   4.0 license https://creativecommons.org/licenses/by/4.0/.
+#
+# This normalises far enough for the existing map to find them, and no further.
+#
+# **Unambiguous only.** Every pattern below names one licence *and* one
+# version. A string saying "Creative Commons" with no version stays unresolved,
+# because CC-BY and CC-BY-NC-SA are not the same permission and a reader who
+# sees the wrong one has been actively misled (PRD §7.4). Anything unmatched is
+# returned untouched and fails exactly as it does today.
+
+_MARKDOWN_LINK = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+
+#: Ordered. The first match wins, so the more specific licence — the one with
+#: an extra clause such as NC or SA — must be tested before the plain one, or
+#: `by-nc-sa/4.0` resolves as `CC-BY-4.0` and grants a permission nobody gave.
+_LICENCE_PATTERNS: tuple[tuple[str, str], ...] = (
+    (r"creativecommons\.org/publicdomain/zero/1\.0", "CC0-1.0"),
+    (r"creativecommons\.org/publicdomain/mark/1\.0", "CC-PDDC"),
+    (r"creativecommons\.org/licenses/by-nc-sa/4\.0", "CC-BY-NC-SA-4.0"),
+    (r"creativecommons\.org/licenses/by-nc-nd/4\.0", "CC-BY-NC-ND-4.0"),
+    (r"creativecommons\.org/licenses/by-sa/4\.0", "CC-BY-SA-4.0"),
+    (r"creativecommons\.org/licenses/by-nc/4\.0", "CC-BY-NC-4.0"),
+    (r"creativecommons\.org/licenses/by-nd/4\.0", "CC-BY-ND-4.0"),
+    (r"creativecommons\.org/licenses/by/4\.0", "CC-BY-4.0"),
+    (r"creativecommons\.org/licenses/by-sa/3\.0", "CC-BY-SA-3.0"),
+    (r"creativecommons\.org/licenses/by/3\.0", "CC-BY-3.0"),
+    (r"opendatacommons\.org/licenses/odbl", "ODbL-1.0"),
+    (r"opendatacommons\.org/licenses/by", "ODC-By-1.0"),
+    (r"opendatacommons\.org/licenses/pddl", "PDDL-1.0"),
+    (r"\bcc[\s\-]?by[\s\-]?nc[\s\-]?sa[\s\-]?4(\.0)?\b", "CC-BY-NC-SA-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?nc[\s\-]?nd[\s\-]?4(\.0)?\b", "CC-BY-NC-ND-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?sa[\s\-]?4(\.0)?\b", "CC-BY-SA-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?nc[\s\-]?4(\.0)?\b", "CC-BY-NC-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?nd[\s\-]?4(\.0)?\b", "CC-BY-ND-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?4(\.0)?\b", "CC-BY-4.0"),
+    (r"\bcc[\s\-]?by[\s\-]?sa[\s\-]?3(\.0)?\b", "CC-BY-SA-3.0"),
+    (r"\bcc[\s\-]?by[\s\-]?3(\.0)?\b", "CC-BY-3.0"),
+    (r"\bcc[\s\-]?zero\b|\bcc0\b", "CC0-1.0"),
+    (
+        r"creative commons attribution[\s\-]non[\s\-]?commercial[\s\-]share[\s\-]?alike 4\.0",
+        "CC-BY-NC-SA-4.0",
+    ),
+    (r"creative commons attribution[\s\-]share[\s\-]?alike 4\.0", "CC-BY-SA-4.0"),
+    (r"creative commons attribution[\s\-]non[\s\-]?commercial 4\.0", "CC-BY-NC-4.0"),
+    (r"creative commons attribut\w* 4\.0", "CC-BY-4.0"),
+    (r"creative commons attribut\w* 3\.0", "CC-BY-3.0"),
+    (r"open database licen[cs]e", "ODbL-1.0"),
+    (r"\bapache[\s\-]?(licen[cs]e[\s,]*)?(version[\s]*)?2(\.0)?\b", "Apache-2.0"),
+    (r"\bmit licen[cs]e\b", "MIT"),
+    (r"\bbsd[\s\-]?3[\s\-]?clause\b", "BSD-3-Clause"),
+    (r"\bgpl[\s\-]?v?3(\.0)?\b", "GPL-3.0-only"),
+)
+
+_LICENCE_COMPILED: tuple[tuple[re.Pattern[str], str], ...] = tuple(
+    (re.compile(pattern), spdx) for pattern, spdx in _LICENCE_PATTERNS
+)
+
+#: Prose that grants public-domain-equivalent terms without naming a licence.
+#: Kept separate because these resolve to a `LicenseRef` the map already
+#: defines rather than to an SPDX identifier — the terms are real, the
+#: identifier is not.
+_PUBLIC_DOMAIN_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
+    re.compile(p)
+    for p in (
+        r"usa\.gov/publicdomain",
+        r"17 u\.?s\.?c\.? ?§? ?105",
+        r"u\.?s\.? government work",
+        r"united states government work",
+        r"work of the (united states|u\.?s\.?) (federal )?government",
+        r"public domain",
+    )
+)
+
+
+def normalise_licence(raw: Any) -> Any:
+    """A harvested licence string, normalised far enough to be looked up.
+
+    Returns an SPDX identifier, the seed map's own key for a public-domain
+    grant, or the input unchanged. Never a guess: an unmatched string comes
+    back exactly as it went in, so the caller's existing "did not map"
+    behaviour is preserved rather than papered over.
+    """
+    if raw is None:
+        return None
+    text = " ".join(str(raw).split())
+    if not text:
+        return raw
+    # `[label](url)` becomes `label url`, so a pattern can match either half.
+    haystack = _MARKDOWN_LINK.sub(r"\1 \2", text).lower()
+    for pattern, spdx in _LICENCE_COMPILED:
+        if pattern.search(haystack):
+            return spdx
+    for pattern in _PUBLIC_DOMAIN_PATTERNS:
+        if pattern.search(haystack):
+            # The key `seed-license-map.yaml` already carries, so the note and
+            # the reuse permissions come from the map rather than from here.
+            return "US Government public domain"
+    return raw
 
 
 class Normalizer:
@@ -469,7 +797,11 @@ class Normalizer:
                 ),
                 "redistributionAllowed": False,
             }
-        text = str(raw).strip()
+        # Normalise before matching. The map is keyed on exact strings, which
+        # is right for the hand-written seed inventory and useless against
+        # harvested prose; `normalise_licence` closes that gap and returns the
+        # input untouched when it cannot do so unambiguously.
+        text = str(normalise_licence(raw)).strip()
         if text.startswith(("http://", "https://")):
             # Already an identifier: DCAT and STAC sources carry licence IRIs.
             result.from_source.add("license")
@@ -495,11 +827,14 @@ class Normalizer:
                     if key in entry:
                         out[term] = entry[key]
                 return out
-        result.warnings.append(f"licence {text!r} did not map to a known identifier")
+        # Quote the source's own words, not the normalised form: a steward
+        # resolving this needs to see what the record actually said.
+        stated = " ".join(str(raw).split())
+        result.warnings.append(f"licence {stated!r} did not map to a known identifier")
         return {
-            "license": f"{SPDX}LicenseRef-Unreviewed-{slugify(text, max_length=40)}",
+            "license": f"{SPDX}LicenseRef-Unreviewed-{slugify(stated, max_length=40)}",
             "licenseNote": (
-                f'The source states the licence as "{text}", which does not map to a known '
+                f'The source states the licence as "{stated}", which does not map to a known '
                 "identifier. It has not been reviewed and must not be relied on."
             ),
             "redistributionAllowed": False,
@@ -531,6 +866,31 @@ class Normalizer:
                 out["inferredAssignment"] = True
                 out["inferenceBasis"] = found.domain_basis
                 result.from_source.discard("dataDomain")
+            elif self.source_domains:
+                # Last resort, and a weaker claim than the classifier's: the
+                # harvest source's own declaration of what it carries, in
+                # `seed-sources.yaml`. Filing a dataset in the drawer its
+                # catalogue says it belongs to is a defensible default where
+                # the record's own text says nothing, and it is *marked* as the
+                # weaker claim it is, so a steward re-filing it can see that
+                # nothing in the record supported the assignment.
+                #
+                # The alternative is what happened before: 30% of a real
+                # harvest blocked below level 1 on a filing decision, which
+                # makes the dataset invisible rather than mis-filed. A wrong
+                # drawer is recoverable and visible; absence is neither.
+                out["dataDomain"] = [f"{SCHEME_DATA_DOMAIN}/{d}" for d in self.source_domains]
+                out["inferredAssignment"] = True
+                out["inferenceBasis"] = (
+                    "No domain term matched the record's own text. Filed under the domains "
+                    f"the harvest source ({self.mapping.name}) declares for itself, which is "
+                    "a claim about the catalogue rather than about this dataset."
+                )
+                result.from_source.discard("dataDomain")
+                result.warnings.append(
+                    "no data domain matched the source text; filed under the harvest source's "
+                    "declared domains and marked inferred"
+                )
             else:
                 result.missing.add("dataDomain")
                 result.warnings.append(

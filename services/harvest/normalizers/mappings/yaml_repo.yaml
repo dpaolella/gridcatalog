@@ -28,7 +28,7 @@ fields:
     transform: [list]
   updateCadence:
     path: UpdateFrequency
-    transform: [text]
+    transform: [cadence]
   landingPage:
     path: _landing_page
     transform: [iri]

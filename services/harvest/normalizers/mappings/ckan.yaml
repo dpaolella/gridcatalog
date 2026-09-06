@@ -43,7 +43,7 @@ fields:
     transform: [doi]
   updateCadence:
     path: extras.frequency|frequency
-    transform: [text]
+    transform: [cadence]
   spatialLabel:
     path: extras.spatial_text|extras.spatial-text
     transform: [list]

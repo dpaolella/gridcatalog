@@ -246,6 +246,33 @@ result survivable at scale.
 falls below 100. Conformance ≥400 without any model call. No golden-set
 expectation changes.
 
+**Landed 2026-09-06. Measured:**
+
+```
+before:  1199 payloads ->    0 queued, 1199 flagged
+   1199  og:updateCadence
+    998  og:provenanceClass
+    724  og:dataDomain
+     11  dcat:distribution
+      1  dct:license
+
+after:   1199 payloads ->  201 queued,  998 flagged
+    998  og:provenanceClass
+     11  dcat:distribution
+```
+
+`updateCadence`, `dataDomain` and `license` are gone — all three constraints
+eliminated, not merely reduced. Conformance is **201, not the ≥400 predicted**,
+and the reason is worth recording rather than rounding off: the blockers
+overlap. Most records missing a domain were also missing a provenance class, so
+removing the domain blocker converted far fewer records than its own count of
+724 suggested. The prediction was arithmetic on non-disjoint sets.
+
+What it leaves is cleaner than the number implies. **The pipeline is now
+blocked on exactly one field for 83% of records, and on a genuinely absent
+distribution for the other 11.** Every mechanical failure is fixed; what
+remains is the one thing the normaliser is right to refuse to invent.
+
 **Risk.** A cadence phrase mapped to the wrong duration mis-grades Currency.
 Mitigation: the table is explicit, it is tested against the registry's real
 value distribution, and unrecognised input drops the field rather than guessing.
@@ -277,16 +304,12 @@ recorded in `docs/operations.md`.
 
 ### WP-11.3 — Trust tiers and auto-promotion
 
-**Fixes B5.** This is the one product decision in the plan and it needs sign-off
-before the code is written; §6 states the proposal and what it costs. The
-implementation, once signed off, is small:
+**Fixes B5.** Signed off — see §6. The implementation is small:
 
-- `trust: high | medium | low` on each entry in `seed-sources.yaml`, defaulting
-  to `low`. One operator decision per source, covering thousands of records.
 - A `reviewState` value `auto-confirmed`, third alongside `draft` and
   `confirmed`, added to the shapes, the API schema and the record card — a
   reader must be able to see which one they are looking at without asking.
-- A promotion check in `runner.py:_publish` evaluating the five conditions in
+- A promotion check in `runner.py:_publish` evaluating the four conditions in
   §6 and writing down which one failed when it declines, so the queue explains
   itself.
 - A `datahub review demote <id>` command, because auto-promotion is only
@@ -295,6 +318,12 @@ implementation, once signed off, is small:
 **Exit criterion.** ≥1,000 records auto-confirmed from `aws_open_data` with no
 steward action; a hand-audited sample of 50 shows no wrong licence and no dead
 access URL; every auto-confirmed record renders as auto-confirmed in the UI.
+
+**Note on where the real review gate sits.** Because the catalog is rebuilt and
+republished from a git commit (§7), an auto-confirmed record still cannot
+reach the public site without a merge. The pull request is a second gate that
+this plan gets for free, and it is what makes "publish anything the pipeline can
+substantiate" a safe default rather than a brave one.
 
 ### WP-11.4 — A schema-probe stage
 
@@ -414,29 +443,39 @@ record completes in under 10 seconds.
 
 ---
 
-## 6. The decision that needs sign-off: auto-promotion
+## 6. Auto-promotion — **decided, 2026-09-06**
 
-Everything else in this plan is engineering. This is policy.
+Everything else in this plan is engineering. This was policy, and it is settled:
+**auto-promotion is approved, with no trust list.**
 
-**The problem.** Per-record human confirmation is the correct default and it
-does not scale. 5,000 records at two minutes each is 166 hours of steward time
-before the first one is published.
+**The problem it solves.** Per-record human confirmation is the correct default
+and it does not scale. 5,000 records at two minutes each is 166 hours of
+steward time before the first one is published.
 
-**The proposal.** A record auto-promotes to `og:reviewState "auto-confirmed"`
-— a third state, distinct from `confirmed`, and visible as such in the UI and
-the API — if and only if **all** of:
+**What was decided.** A record auto-promotes to `og:reviewState
+"auto-confirmed"` — a third state, distinct from `confirmed`, and visible as
+such in the UI and the API — if and only if **all** of:
 
 1. SHACL conforms at the record's computed completeness level;
-2. its harvest source is marked `trust: high` in `seed-sources.yaml`, which is
-   the operator vouching for the *source*, one decision covering thousands of
-   records, rather than for each record;
-3. its licence resolved to an SPDX identifier or a reviewed `LicenseRef` —
+2. its licence resolved to an SPDX identifier or a reviewed `LicenseRef` —
    never `LicenseRef-Unreviewed-*` and never `LicenseRef-Unstated`;
-4. at least one distribution probed 200 or 206 within the last 30 days;
-5. no model-drafted value sits in a **gating** field. Gating fields are
+3. at least one distribution probed 200 or 206 within the last 30 days;
+4. no model-drafted value sits in a **gating** field. Gating fields are
    licence, access, distribution, provenance links and identifiers — the same
    set `ENRICHABLE_FIELDS` already refuses. A drafted summary or domain filing
-   is fine; a drafted provenance *class* keeps the record in the queue.
+   is fine.
+
+**The per-source trust list is dropped.** An earlier draft gated promotion on a
+`trust: high` marker in `seed-sources.yaml`. That field does not exist and is
+not being added: it is a hand-maintained list that has to be kept correct
+forever, and every condition it was standing in for is better answered by
+evidence about the record itself. Conditions 1 to 4 are all machine-checkable
+and all specific to the record, which is the stronger test — a high-trust
+source can still publish a record with a dead link, and a low-trust one can
+still publish a perfectly-formed record with a resolved licence.
+
+What that leaves is the rule the operator asked for in plain terms: **publish
+anything the pipeline can fully substantiate on its own, and queue the rest.**
 
 Everything else stays in the queue, and the queue keeps its existing ordering
 so stewards spend their time where the leverage is.
@@ -451,18 +490,106 @@ licence and a probed URL is not a claim that a human checked it — and with
 `reviewState` on the record and rendered in the UI, no reader can mistake it
 for one.
 
-**What it costs.** A wrong record reaches users before a human sees it. The
-mitigations are that (3) and (4) make the two failure modes that actually harm
-someone — a wrong licence, a dead link — the two things checked first, and that
-demotion is one field write.
+**What it costs.** A wrong record reaches users before a human sees it. Three
+things bound that. Conditions 2 and 3 check the two failure modes that actually
+harm someone — a wrong licence, a dead link — before anything else. Demotion is
+one field write. And because the catalog is republished from a git commit
+(§7), the pull request is a second gate: nothing reaches the public site
+without a merge, however it was confirmed.
 
-**The alternative, if this is rejected:** cap the catalog at what stewards can
-confirm, and say so in the product. That is a legitimate answer. It is not
-compatible with "5,000 to 6,000 grid-relevant datasets" in PRD §0.
+**The alternative that was rejected:** cap the catalog at what stewards can
+confirm, and say so in the product. A legitimate answer, and not compatible
+with "5,000 to 6,000 grid-relevant datasets" in PRD §0.
 
 ---
 
-## 7. Executing this with an agent
+## 7. How ingestion runs, and who runs it
+
+Not a detail. This decides where harvested records *live*, and the plan does
+not work without an answer.
+
+### What happens today
+
+There is no server. The site is a **static export**, built by
+`.github/workflows/pages.yml` in a GitHub Actions runner and served by GitHub
+Pages. On every push to the default branch the workflow builds a catalog **from
+scratch** — `seed load`, `record load`, `index reindex`, `semantic run`,
+`links run` — exports a snapshot, and deploys it. The graph, the search index
+and the operational SQLite database are created in the runner and thrown away
+with it.
+
+So the catalog's real source of truth is not a database. It is
+**`data/seed-sources.yaml` plus the JSON-LD record files, in git.** Everything
+else is derived, and derived fresh, every deploy.
+
+That is a good architecture for this product and it should be kept. It is also
+the thing that decides the next question.
+
+### Where harvested records go
+
+The harvester writes to a database that does not survive the build. Two ways
+out, and only one of them fits what is already here:
+
+**A — harvest to git (recommended).** A scheduled workflow runs the harvest,
+writes each accepted record as JSON-LD under `data/catalog/<source>/`, and
+opens a pull request. Merging it triggers the existing Pages deploy.
+
+- No server, no database, no hosting bill. The current setup is unchanged.
+- Every catalog change is a reviewable git diff. A steward's confirmation is a
+  committed file, so it survives; today it would not.
+- Reproducible: the published catalog is a function of a commit.
+- It is also the second gate that makes §6's auto-promotion safe — nothing
+  reaches the public site without a merge, however it was confirmed.
+- Cost: repository size. 5,000 records at ~15 KB of JSON-LD is ~75 MB, which
+  git handles, and the schema metadata from WP-11.4 will roughly double it.
+  Worth watching, not worth avoiding.
+
+**B — run a live deployment.** Fuseki, Postgres, OpenSearch and the API, kept
+running, with harvest as a server-side cron. This is what `ops/docker-compose.yml`
+already describes and what the steward UI, the submission form and the live
+API need.
+
+- Everything in the PRD works, including the review queue as an interactive
+  work list.
+- Cost: infrastructure to operate and pay for, and a second copy of the catalog
+  whose relationship to git has to be managed.
+
+**Recommendation: A now, B later if and when a live API is wanted.** They are
+not exclusive — B can be added without undoing A, because in A the git tree is
+the system of record and a server would just be another consumer of it.
+
+### Answers, in plain terms
+
+**Does somebody have to ask Claude to re-ingest?** No, once the scheduled
+workflow exists. `pages.yml` already accepts a `schedule:` trigger; the harvest
+workflow takes the same. Weekly is the right starting cadence — most of these
+catalogs change slowly, re-harvest is idempotent on `sourceId`, and an
+unchanged payload short-circuits the whole pipeline including any model call.
+Claude is needed to *change* the pipeline, not to *run* it.
+
+**Who can run it?** Anyone with write access to this repository, plus the
+schedule itself. Concretely: **Actions → Harvest → Run workflow**, the same
+place the Pages deploy is triggered by hand today. It has nothing to do with
+who administers the hosting — GitHub Pages serves whatever the workflow
+uploads, and the workflow's permissions come from the repository.
+
+**What if a harvest goes wrong?** It opens a pull request, which is closeable.
+Nothing reaches the site until a merge, and a bad merge is one revert. That is
+the whole reason to prefer A.
+
+### What this adds to the plan
+
+A work package, sized S, that can be done any time after WP-11.1:
+
+**WP-11.8 — harvest to git.** A `datahub harvest --write-records
+data/catalog/` mode, a `.github/workflows/harvest.yml` running weekly and on
+demand, and a `data/catalog/` tree loaded by `record load` in `pages.yml`
+alongside the seed inventory. Exit criterion: a scheduled run opens a pull
+request whose diff is readable, and merging it changes the published catalog.
+
+---
+
+## 8. Executing this with an agent
 
 The plan is written to be run by Claude, one work package per pull request,
 which means each package has to state its own done-ness in numbers rather than
@@ -498,17 +625,18 @@ Suggested order and rough size:
 | 1 | WP-11.1 normaliser hardening | — | S |
 | 2 | WP-11.4 schema probe | — | L |
 | 3 | WP-11.2 enrichment on, budgeted | 11.1 | M |
-| 4 | WP-11.3 trust tiers | 11.1, 11.2 | M, needs §6 sign-off |
+| 4 | WP-11.3 auto-promotion | 11.1, 11.2 | M |
 | 5 | WP-11.5 resolution at volume | 11.4 | M |
 | 6 | WP-11.7 scale mechanics | 11.3 | M |
 | 7 | WP-11.6 source expansion | all | L, incremental |
+| — | WP-11.8 harvest to git (§7) | 11.1 | S, any time |
 
 WP-11.1 and WP-11.4 have no dependencies and no overlap. They are the two to
 start.
 
 ---
 
-## 8. Non-goals
+## 9. Non-goals
 
 - **Not ETL.** PRD §0 scopes ingestion and Tier 2 ETL to DD1/DD5/DD8/DD9 and
   that is unchanged. This plan catalogs; it does not transform.
@@ -522,7 +650,7 @@ start.
 
 ---
 
-## 9. Reproducing the numbers
+## 10. Reproducing the numbers
 
 ```bash
 uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[dev]"

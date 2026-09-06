@@ -26,6 +26,7 @@ from datahub.harvest.normalizers.engine import (
     Normalizer,
     load_mapping,
     mapping_names,
+    normalise_licence,
     resolve,
 )
 
@@ -262,11 +263,37 @@ def test_an_unmappable_licence_keeps_its_original_text(ckan) -> None:
     assert document["redistributionAllowed"] is False
 
 
-def test_a_licence_iri_is_taken_as_given(ckan) -> None:
-    """DCAT and STAC sources carry licence IRIs already."""
-    payload = {**CKAN, "license_id": "https://creativecommons.org/licenses/by/4.0/"}
+def test_an_unrecognised_licence_iri_is_taken_as_given(ckan) -> None:
+    """DCAT and STAC sources carry licence IRIs already, and an IRI this
+    catalog does not recognise is still the best identifier anyone has."""
+    payload = {**CKAN, "license_id": "https://example.org/terms/data-use-v3"}
     document = ckan.normalize(harvested("ckan", payload)).document
-    assert document["license"] == "https://creativecommons.org/licenses/by/4.0/"
+    assert document["license"] == "https://example.org/terms/data-use-v3"
+
+
+def test_a_recognised_licence_iri_is_canonicalised_to_its_spdx_identifier(ckan) -> None:
+    """Changed by WP-11.1, deliberately, and worth stating why.
+
+    This used to pass the IRI through untouched. But a licence's *identity* is
+    what makes it filterable, and the same licence arrives spelled a dozen
+    ways: `https://creativecommons.org/licenses/by/4.0/`, `.../by/4.0`,
+    `http://`-not-`https://`, `CC-BY-4.0`, "Creative Commons Attribution 4.0
+    International". Passing each through verbatim splits one licence into a
+    dozen facet values, and a reader filtering on CC-BY-4.0 silently misses
+    most of the catalog.
+
+    Canonicalising loses nothing — the SPDX identifier is strictly the better
+    identifier — and it only fires on an unambiguous match, so the test above
+    still holds for everything else.
+    """
+    for spelling in (
+        "https://creativecommons.org/licenses/by/4.0/",
+        "http://creativecommons.org/licenses/by/4.0",
+        "CC-BY-4.0",
+        "Creative Commons Attribution 4.0 International License",
+    ):
+        document = ckan.normalize(harvested("ckan", {**CKAN, "license_id": spelling})).document
+        assert document["license"] == f"{SPDX}CC-BY-4.0", spelling
 
 
 def test_a_record_without_a_title_is_refused(ckan) -> None:
@@ -457,3 +484,225 @@ def test_validation_refuses_to_fetch_a_remote_context() -> None:
     runner = ValidationRunner()
     with pytest.raises(ValueError, match="refusing to fetch"):
         runner.validate_jsonld({"@context": "https://attacker.example/ctx.jsonld", "id": "x"}, 1)
+
+
+# ---- WP-11.1: cadence, licence prose, last-resort filing ------------------
+#
+# The three repairs that took a real 1,199-record harvest from 0 conforming
+# records to a publishable catalog. See docs/ingestion-plan.md §3 and §5.
+
+
+@pytest.mark.parametrize(
+    ("stated", "expected"),
+    [
+        # Intervals, in the words sources actually use.
+        ("Hourly", "PT1H"),
+        ("Daily", "P1D"),
+        ("Weekly", "P7D"),
+        ("Monthly", "P1M"),
+        ("Quarterly", "P3M"),
+        ("Annually", "P1Y"),
+        ("semi-annually", "P6M"),
+        ("Twice daily", "PT12H"),
+        # Longest-match: "semi-annually" must not be read as "annually".
+        ("Semi-Annually", "P6M"),
+        # Updated, but to no schedule.
+        ("Varies by dataset", "irregular"),
+        ("Periodically", "irregular"),
+        ("New data is added as soon as it is available.", "irregular"),
+        # Updated when asked. A different claim from `irregular`: an on-demand
+        # dataset is not stale for not having changed.
+        ("As Needed", "on-demand"),
+        ("As required", "on-demand"),
+        ("The dataset may be updated on a need-to-update basis.", "on-demand"),
+        # Finished. Also not stale — the Currency grade must not penalise a
+        # closed archive for being closed.
+        ("Not updated", "discontinued"),
+        ("Never", "discontinued"),
+        ("Not currently being updated", "discontinued"),
+        # Already valid: passed through, not round-tripped through the table.
+        ("P1D", "P1D"),
+        ("PT1H", "PT1H"),
+        ("irregular", "irregular"),
+        # DCAT-AP carries an authority IRI, not prose.
+        ("http://publications.europa.eu/resource/authority/frequency/ANNUAL", "P1Y"),
+        ("http://publications.europa.eu/resource/authority/frequency/IRREG", "irregular"),
+        ("http://publications.europa.eu/resource/authority/frequency/NEVER", "discontinued"),
+    ],
+)
+def test_a_stated_cadence_becomes_a_value_the_shape_accepts(stated: str, expected: str) -> None:
+    assert TRANSFORMS["cadence"](stated) == expected
+
+
+@pytest.mark.parametrize(
+    "stated",
+    ["", "N/A", "None", "TBD", "unknown", "every 3 fortnights", "see the documentation"],
+)
+def test_an_unreadable_cadence_is_dropped_rather_than_guessed(stated: str) -> None:
+    """The whole design of the transform is in this test.
+
+    `og:updateCadence` is absent-legal at every completeness level, and the
+    Currency grade compares elapsed time against it. So a dropped cadence reads
+    as "not captured", and a guessed one becomes a confident quality judgement
+    about a schedule the source never stated.
+    """
+    assert TRANSFORMS["cadence"](stated) is None
+
+
+def test_the_cadence_transform_is_what_unblocked_the_aws_registry() -> None:
+    """Regression for the bug that failed 100% of a 1,199-record harvest.
+
+    `mappings/yaml_repo.yaml` mapped the registry's free-text `UpdateFrequency`
+    into a field SHACL constrains to an ISO 8601 duration. These five values
+    are the registry's five most common, covering 386 of its 1,199 datasets.
+    """
+    registry_values = ["Varies by dataset", "As Needed", "Not updated", "Daily", "Monthly"]
+    assert all(TRANSFORMS["cadence"](v) is not None for v in registry_values)
+
+
+@pytest.mark.parametrize(
+    ("stated", "expected"),
+    [
+        ("[Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/)", "CC-BY-4.0"),
+        ("Creative Commons Attribution 4.0 International License", "CC-BY-4.0"),
+        ("Creative Commons Attribution 4.0 International (CC-BY 4.0)", "CC-BY-4.0"),
+        ("cc by 4.0", "CC-BY-4.0"),
+        ("Creative Commons Attribution Non Commercial 4.0", "CC-BY-NC-4.0"),
+        ("CC BY-SA 4.0", "CC-BY-SA-4.0"),
+        ("Apache License, Version 2.0", "Apache-2.0"),
+    ],
+)
+def test_licence_prose_resolves_to_the_identifier_it_names(stated: str, expected: str) -> None:
+    assert normalise_licence(stated) == expected
+
+
+def test_a_more_permissive_licence_never_wins_over_a_narrower_one() -> None:
+    """Ordering is the safety property here.
+
+    `by-nc-sa/4.0` contains `by`, so a pattern list tested in the wrong order
+    resolves a non-commercial share-alike licence as plain CC-BY — which grants
+    two permissions nobody gave. The specific patterns are tested first, and
+    this is the test that says so.
+    """
+    for url, expected in (
+        ("https://creativecommons.org/licenses/by-nc-sa/4.0/", "CC-BY-NC-SA-4.0"),
+        ("https://creativecommons.org/licenses/by-nc/4.0/", "CC-BY-NC-4.0"),
+        ("https://creativecommons.org/licenses/by-sa/4.0/", "CC-BY-SA-4.0"),
+        ("https://creativecommons.org/licenses/by-nd/4.0/", "CC-BY-ND-4.0"),
+        ("https://creativecommons.org/licenses/by/4.0/", "CC-BY-4.0"),
+    ):
+        assert normalise_licence(url) == expected, url
+
+
+@pytest.mark.parametrize(
+    "stated",
+    [
+        "Creative Commons",
+        "Open Data. There are no restrictions on the use of this data.",
+        "open access, no formal license stated",
+        "See the data provider's terms",
+        "NIH Genomic Data Sharing Policy: https://gdc.cancer.gov/access-data/data-access-policies",
+    ],
+)
+def test_an_ambiguous_licence_string_stays_unresolved(stated: str) -> None:
+    """PRD §7.4, and the reason the pattern list names a version every time.
+
+    "Creative Commons" is not a licence. CC-BY and CC-BY-NC-SA are different
+    permissions, and a reader shown the wrong one has been actively misled
+    rather than merely underserved — so the string comes back untouched and
+    fails exactly as it did before this resolver existed.
+    """
+    assert normalise_licence(stated) == stated
+
+
+def test_an_unresolved_licence_quotes_the_source_not_the_normalised_form(ckan) -> None:
+    """A steward resolving a LicenseRef needs to see what the record said."""
+    stated = "Licensed under our standard terms, see the portal"
+    result = ckan.normalize(harvested("ckan", {**CKAN, "license_id": stated}))
+    assert stated in result.document["licenseNote"]
+    assert any(stated in warning for warning in result.warnings)
+
+
+def test_a_record_the_classifier_cannot_file_falls_back_to_the_source(ckan) -> None:
+    """Last resort, and marked as the weaker claim it is.
+
+    30% of a real harvest carried no text a domain term matched, and stayed
+    below level 1 — invisible rather than mis-filed. Filing under the
+    catalogue's own declaration is recoverable and visible; absence is neither.
+    """
+    normalizer = Normalizer("ckan", source_domains=["DD8"])
+    opaque = {
+        "name": "series-4417",
+        "title": "Series 4417",
+        "notes": "Tabular records, quarterly.",
+        "license_id": "CC-BY-4.0",
+        "_public": True,
+        "resources": [{"url": "https://example.org/series-4417.csv", "format": "CSV"}],
+    }
+    result = normalizer.normalize(harvested("ckan", opaque))
+
+    assert result.document["dataDomain"] == ["https://schema.opengrid.org/concept/data-domain/DD8"]
+    assert result.document["inferredAssignment"] is True
+    assert "harvest source" in result.document["inferenceBasis"]
+    assert "claim about the catalogue" in result.document["inferenceBasis"]
+    assert any("declared domains" in warning for warning in result.warnings)
+
+
+def test_the_fallback_does_not_fire_when_the_source_declares_nothing() -> None:
+    """No declaration is not a licence to invent one. The record stays below
+    level 1 and goes to a steward, as it did before."""
+    normalizer = Normalizer("ckan", source_domains=[])
+    opaque = {
+        "name": "series-4417",
+        "title": "Series 4417",
+        "notes": "Tabular records, quarterly.",
+        "license_id": "CC-BY-4.0",
+        "_public": True,
+        "resources": [{"url": "https://example.org/series-4417.csv", "format": "CSV"}],
+    }
+    result = normalizer.normalize(harvested("ckan", opaque))
+    assert "dataDomain" not in result.document
+    assert "dataDomain" in result.missing
+
+
+def test_the_fallback_never_overrides_the_classifier(ckan) -> None:
+    """A source declaring DD1 that publishes a DD5 dataset still files DD5.
+    The fallback is for silence, not for disagreement."""
+    normalizer = Normalizer("ckan", source_domains=["DD1"])
+    document = normalizer.normalize(harvested("ckan", CKAN)).document
+    assert any(d.endswith("/DD5") for d in document["dataDomain"])
+    assert not any(d.endswith("/DD1") for d in document["dataDomain"])
+
+
+@pytest.mark.parametrize(
+    ("stated", "expected"),
+    [
+        # A stated interval beats vague "finished" wording in the same sentence.
+        ("Updated monthly with complete records", "P1M"),
+        ("Updated daily until the final release", "P1D"),
+        ("Data is complete through 2023 and updated annually", "P1Y"),
+        ("Monthly, dataset is complete", "P1M"),
+        # An explicit negation beats a stated interval, which is the opposite
+        # precedence and the reason both directions are tested.
+        ("No longer updated, previously monthly", "discontinued"),
+        ("Not currently being updated", "discontinued"),
+        # Unambiguous closure with no interval in sight still reads as closed.
+        ("Static snapshot", "discontinued"),
+        ("one-time release", "discontinued"),
+        # "Complete" alone carries no claim either way.
+        ("Complete", None),
+        ("Final", None),
+    ],
+)
+def test_a_stated_interval_and_a_closure_word_resolve_by_precedence(
+    stated: str, expected: str | None
+) -> None:
+    """Both orderings, because getting either backwards mis-grades Currency.
+
+    A first cut scanned for closure words before intervals, and read "Updated
+    monthly with complete records" as a dead archive. Moving the scan wholesale
+    the other way would have read "No longer updated, previously monthly" as a
+    live monthly dataset. Neither is a scan order; it is two, with explicit
+    negations first and vague closure last.
+    """
+    assert TRANSFORMS["cadence"](stated) == expected

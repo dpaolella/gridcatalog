@@ -39,7 +39,7 @@ fields:
     transform: [iri]
   updateCadence:
     path: accrualPeriodicity
-    transform: [text]
+    transform: [cadence]
   spatialLabel:
     path: spatialLabel
     transform: [list]
