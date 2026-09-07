@@ -19,13 +19,35 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 @pytest.fixture(autouse=True)
-def _isolated_settings(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
+def _isolated_settings(
+    request: pytest.FixtureRequest, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> Iterator[None]:
     """Point every path-valued setting at a temp dir and reset the cache.
 
     Autouse: a test that accidentally writes to the developer's real store is a
     test that will pass locally and fail in CI, or worse.
+
+    **Except for the container-backed tests**, which are the one kind that has
+    to keep its environment. This deletes every `DATAHUB_*` variable, and those
+    variables are how the integration job says where Fuseki, OpenSearch and
+    Postgres are and what credentials they take. Wiping them left the parity
+    tests on the defaults — `http://localhost:3030` and `http://localhost:9200`,
+    which happen to be right, so it looked like it worked — with
+    `DATAHUB_FUSEKI_USER` and `DATAHUB_FUSEKI_PASSWORD` gone. Fuseki's Shiro
+    filter rejected every unauthenticated request with a 401 before the request
+    reached anything that logs it, which is why the job's Fuseki container
+    recorded no requests at all from a suite that was making them.
+    `DATAHUB_DATABASE_URL` went the same way, so the job's Postgres service was
+    never touched: those tests ran against SQLite and reported themselves as
+    integration coverage.
     """
     from datahub.config import reset_settings
+
+    if request.node.get_closest_marker("integration"):
+        reset_settings()
+        yield
+        reset_settings()
+        return
 
     for key in list(os.environ):
         if key.startswith("DATAHUB_"):

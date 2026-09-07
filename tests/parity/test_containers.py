@@ -25,6 +25,30 @@ from parity.assertions import GRAPH_ASSERTIONS, SEARCH_ASSERTIONS
 pytestmark = pytest.mark.integration
 
 
+def test_the_configured_services_are_the_ones_under_test() -> None:
+    """The job's `DATAHUB_*` variables reach the tests.
+
+    `tests/conftest.py` deletes every one of them so a unit test cannot touch a
+    developer's real store, and for a long time it did that here too. The
+    defaults it fell back to — `http://localhost:3030` and
+    `http://localhost:9200` — are the addresses the job publishes, so it looked
+    like it worked; what went missing was the credentials, and Fuseki's Shiro
+    filter answered 401 before anything logged the request. The database URL
+    went the same way, and these tests ran against SQLite while claiming to
+    cover Postgres.
+
+    A configuration that silently falls back to a default is exactly the check
+    that cannot fail. This is the one that notices.
+    """
+    from datahub.config import get_settings
+
+    settings = get_settings()
+    assert settings.graph_backend.value == "fuseki", settings.graph_backend
+    assert settings.search_backend.value == "opensearch", settings.search_backend
+    assert settings.database_url.startswith("postgresql"), settings.database_url
+    assert settings.fuseki_user, "the Fuseki credentials did not survive into the test process"
+
+
 @pytest.fixture
 def fuseki_store():
     """A Fuseki-backed store, on a graph this test owns and then drops."""
