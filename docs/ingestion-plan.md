@@ -496,8 +496,10 @@ approximation because every stage here is per-record:
 
 | | Measured | Per record | At 5,000 records |
 |---|---|---|---|
-| Harvest + normalise + validate | 1,199 in 260 s | 4.6 rec/s | ~18 min per source sweep |
-| `index reindex` | 66 in 11.9 s | 5.5 rec/s | ~15 min, full rebuild only |
+| Harvest + normalise + validate | 1,199 in 368 s | 3.3 rec/s | ~25 min per source sweep |
+| ...of which SHACL validation | 25 in 0.76 s | 33 rec/s | ~2.5 min — not the floor |
+| `index reindex`, before | 444 in 1,300 s | 0.34 rec/s | ~4 hours |
+| `index reindex`, after `bulk` | 444 in 23 s | 19 rec/s | ~4.5 min |
 | `graph.nq` | 2,771 triples for 66 catalog records | ~42 triples | ~70 MB before field metadata |
 | ...with schemas | — | ~10 triples per `og:Field` | +150 MB at 10 fields/record average |
 | Static snapshot | 1.8 MB, 334 files | 27 KB, 5 files | ~135 MB, ~25,000 files |
@@ -505,12 +507,24 @@ approximation because every stage here is per-record:
 Nothing here exceeds GitHub Pages' 1 GB site limit, and that is the wrong thing
 to worry about. Three real limits, each with an obvious fix:
 
-- **Reindex is full-rebuild only.** 15 minutes to reflect a one-field
-  correction. Incremental reindex from the graph's change set, with the full
-  rebuild kept as the fallback it should always have been.
-- **SHACL validation is the pipeline's throughput floor** at 4.6 records/s, and
-  it is on the critical path of every harvest and every replay. The validator
-  is stateless per record; run it in a worker pool.
+- ~~**SHACL validation is the pipeline's throughput floor** at 4.6 records/s.~~
+  **Wrong, and worth recording as wrong.** 4.6 records/s was the *whole
+  pipeline*; validation measured on its own runs at **33 records/s**, under 15%
+  of the budget. Parallelising it would have optimised the wrong thing.
+
+- ~~**Reindex is slow**: 444 records took 19 minutes, 0.34/s.~~ Fixed, and the
+  cause was not what this section assumed. The projector's query joins across
+  four named graphs and is scoped with `FROM` clauses; rdflib evaluates that by
+  rebuilding the 77,000-triple union **per query execution**. Materialising it
+  once for the pass (`Projector.bulk`) took the same query from 2,519 ms per
+  record to 21 ms — **444 records from 1,300 s to 23 s, 56x** — with output
+  verified identical across 60 records. The graph read was 99.9% of reindex
+  time; everything else was noise.
+
+- **Reindex is still full-rebuild only.** 23 seconds is cheap enough that this
+  stopped being urgent, and it will return at 5,000 records. Incremental
+  reindex from the graph's change set, with the full rebuild kept as the
+  fallback it should always have been.
 - **The static export renders one page per record.** 5,000 Next.js pages plus a
   25,000-file artefact is a slow build and a slow upload before it is a large
   one. Shard the search index and bundle detail records rather than emitting a

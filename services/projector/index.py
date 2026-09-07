@@ -15,6 +15,8 @@ is silent.
 from __future__ import annotations
 
 import time
+from collections.abc import Iterator
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import TYPE_CHECKING
@@ -24,6 +26,7 @@ from datahub.api.search.document import SearchDocument
 from datahub.config import Settings, get_settings
 from datahub.graph.graphs import PUBLISHED_STATES, NamedGraph
 from datahub.graph.records import RecordStore, slug_of
+from datahub.graph.store import bind, prologue
 from datahub.logging import get_logger
 from datahub.projector.build import build_document
 from datahub.semantic.queries import scoped
@@ -108,6 +111,9 @@ class Projector:
         self.settings = settings or get_settings()
         self._session_factory = session_factory
         self._construct = _load_construct()
+        #: Set only inside `bulk`. See its docstring for why a snapshot is safe
+        #: for a rebuild and wrong for anything that interleaves writes.
+        self._merged: Graph | None = None
 
     # ---- projecting ------------------------------------------------------
 
@@ -191,10 +197,54 @@ class Projector:
 
     # ---- reading ---------------------------------------------------------
 
+    @contextmanager
+    def bulk(self) -> Iterator[None]:
+        """Read the four graphs once, for a pass over many records.
+
+        The projector's query joins across catalog, vocab, inferred and
+        computed, and is scoped with ``FROM`` clauses. rdflib evaluates that by
+        building the union **per query execution**, so a full reindex rebuilt a
+        77,000-triple merge 444 times: 2,519 ms per record, and 19 minutes for
+        a catalog that is not yet large.
+
+        Materialised once, the identical query runs in 21 ms — 118x. It is the
+        same query, deliberately: the alternative was reimplementing the
+        containment walk and the four vocabulary joins in Python, and a second
+        implementation of a rule is a second chance to get it wrong.
+
+        **A snapshot, and only safe because of what a rebuild is.** Nothing
+        writes to the graph while a reindex reads it; a caller that interleaves
+        writes with projection must not use this. Single-record projection —
+        which is what a commit triggers — does not, and takes the unbatched
+        path.
+        """
+        self._merged = self._merge_read_graphs()
+        try:
+            yield
+        finally:
+            self._merged = None
+
+    def _merge_read_graphs(self) -> Graph:
+        """One graph holding every triple the projector's query can see."""
+        self.records.store.ensure_graphs(READ_GRAPHS)
+        merged = Graph()
+        for name in READ_GRAPHS:
+            for triple in self.records.store.get_graph(name):
+                merged.add(triple)
+        log.info("projector read graphs materialised", triples=len(merged))
+        return merged
+
     def _read(self, iri: URIRef) -> Graph:
         """The record plus the vocabulary context the document needs."""
         if self._construct is None:
             return self.records.get_graph(str(iri), include_computed=True)
+        if self._merged is not None:
+            # The same query, against the union built once by `bulk`.
+            result = self._merged.query(prologue(bind(self._construct, {"root": iri})))
+            out = Graph()
+            for triple in result.graph or ():
+                out.add(triple)
+            return out
         # Guard against a store that was never bootstrapped: rdflib reads a FROM
         # clause naming a graph it does not know as a remote fetch, and the
         # resulting error names a URL rather than the missing graph.

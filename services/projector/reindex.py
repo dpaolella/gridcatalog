@@ -69,20 +69,23 @@ def reindex(
     indexed = skipped = 0
     errors: list[str] = []
 
-    for dataset_id in ids:
-        try:
-            doc = projector.document_for(dataset_id)
-        except Exception as exc:
-            errors.append(f"{slug_of(dataset_id)}: {type(exc).__name__}: {exc}")
-            log.warning("reindex skipped a record", dataset=dataset_id, error=str(exc))
-            continue
-        if doc is None or doc.review_state not in PUBLISHED_STATES:
-            skipped += 1
-            continue
-        pending.append(doc)
-        if len(pending) >= batch:
-            indexed += backend.index(pending)
-            pending.clear()
+    # One materialisation of the four read graphs for the whole pass, rather
+    # than one per record. See `Projector.bulk`.
+    with projector.bulk():
+        for dataset_id in ids:
+            try:
+                doc = projector.document_for(dataset_id)
+            except Exception as exc:
+                errors.append(f"{slug_of(dataset_id)}: {type(exc).__name__}: {exc}")
+                log.warning("reindex skipped a record", dataset=dataset_id, error=str(exc))
+                continue
+            if doc is None or doc.review_state not in PUBLISHED_STATES:
+                skipped += 1
+                continue
+            pending.append(doc)
+            if len(pending) >= batch:
+                indexed += backend.index(pending)
+                pending.clear()
 
     if pending:
         indexed += backend.index(pending)

@@ -173,3 +173,53 @@ def test_grades_reach_the_index_only_when_grading_precedes_reindex():
         "index — if this fails, the projector has stopped reading the computed "
         "graph and every quality badge in the product is about to go blank"
     )
+
+
+def test_the_bulk_path_produces_the_same_documents(loaded) -> None:
+    """A faster wrong answer is worthless.
+
+    `Projector.bulk` materialises the four read graphs once instead of letting
+    rdflib rebuild the union on every query — 2,519 ms per record down to 21 ms,
+    a full reindex of 444 records from 19 minutes to 23 seconds. It runs the
+    *same* query, so what needs defending is that "same query, different graph
+    object" really is the same answer.
+
+    `test_reindex_reproduces_incremental_projection_exactly` above already
+    compares the two paths end to end, since `reindex` is batched and
+    `project` is not. This one compares them document by document, so a
+    failure names the record rather than the whole index.
+
+    `indexed_at` is excluded: it is when the document was built, and two runs
+    at different times are supposed to differ there.
+    """
+    projector = Projector(loaded, InMemorySearchBackend())
+    ids = [str(i) for i in loaded.list_ids()][:12]
+    assert ids, "the fixture catalog has records"
+
+    unbatched = {i: projector.document_for(i).model_dump(exclude={"indexed_at"}) for i in ids}
+    with projector.bulk():
+        batched = {i: projector.document_for(i).model_dump(exclude={"indexed_at"}) for i in ids}
+
+    assert unbatched == batched
+
+
+def test_bulk_releases_the_snapshot_on_the_way_out(loaded) -> None:
+    """The merged graph is a snapshot, safe only because nothing writes during
+    a rebuild. Leaving it in place would serve stale reads to every later
+    projection in the process, silently."""
+    projector = Projector(loaded, InMemorySearchBackend())
+    assert projector._merged is None
+    with projector.bulk():
+        assert projector._merged is not None
+    assert projector._merged is None
+
+
+def test_bulk_releases_the_snapshot_even_when_the_pass_fails(loaded) -> None:
+    projector = Projector(loaded, InMemorySearchBackend())
+
+    class Boom(Exception):
+        pass
+
+    with pytest.raises(Boom), projector.bulk():
+        raise Boom
+    assert projector._merged is None
