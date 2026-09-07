@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { apiUrl } from "@/lib/api";
+import { publicApiUrl } from "@/lib/api";
 import { perRequest } from "@/lib/rendering";
 
 /**
@@ -18,7 +18,9 @@ import { perRequest } from "@/lib/rendering";
 export default async function ConnectPage() {
   await perRequest();
   const t = await getTranslations("connect");
-  const url = `${apiUrl()}/mcp`;
+  // Copied into the reader's own MCP client config, so it has to be the public
+  // address rather than whatever this server reaches the API on.
+  const url = `${publicApiUrl()}/mcp`;
 
   const tools = [
     ["search_datasets", "Search the catalog"],
@@ -35,7 +37,7 @@ export default async function ConnectPage() {
       mcpServers: {
         "opengrid-datahub": {
           command: "datahub-mcp",
-          env: { DATAHUB_API_URL: apiUrl() },
+          env: { DATAHUB_API_URL: publicApiUrl() },
         },
       },
     },

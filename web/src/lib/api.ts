@@ -25,6 +25,42 @@ export function apiUrl(): string {
 }
 
 /**
+ * The API's address **as a browser should use it**, which is not always the one
+ * this server uses.
+ *
+ * In any containerised deployment they differ. `web/Dockerfile` sets
+ * `DATAHUB_API_URL=http://api:8000` so server-side fetches resolve over the
+ * compose network — correct, and unusable in a browser, where `api` is not a
+ * hostname that exists. Everything rendered *into the page* for a reader to
+ * click, copy or configure has to use this instead: the sign-in link, the
+ * OpenAPI and docs links, the MCP server URL.
+ *
+ * It was `apiUrl()` for all of them, so the shipped compose stack rendered
+ * `http://api:8000/v1/auth/login/google` as the href of the sign-in button —
+ * a dead link on every deployment that is not a developer's laptop.
+ *
+ * Read per request from the server's environment, like `DATAHUB_API_URL` and
+ * for the same reason — **not** as a `NEXT_PUBLIC_` value. Next inlines any
+ * `NEXT_PUBLIC_*` reference into the bundle when the image is built, which
+ * would freeze the public address to whatever the build machine was told and
+ * reintroduce exactly the trap `next.config.ts` refuses the `env` block over.
+ * Every page that renders one of these URLs awaits `perRequest()`, so there is
+ * a request and an environment to read when it does; one image serves any
+ * deployment.
+ *
+ * That also means this is server-only. A client component calling it would
+ * read an environment that is not there, get the fallback, and render
+ * `http://localhost:8000` — so if one ever needs the address, pass it down as
+ * a prop from the server component that rendered it.
+ *
+ * Falls back to the server's URL, which is right for development, where the two
+ * genuinely are the same address.
+ */
+export function publicApiUrl(): string {
+  return process.env.DATAHUB_PUBLIC_API_URL || apiUrl();
+}
+
+/**
  * Whether the configured API URL is one a stranger could actually open.
  *
  * On a developer's machine `http://localhost:8000` is exactly right — it is
@@ -32,14 +68,20 @@ export function apiUrl(): string {
  * link to the reader's own machine, which is not running anything. The
  * Developers page shipped two of those.
  *
- * Loopback is the only case worth detecting: any other host is at least
- * *plausibly* reachable, and a page that second-guessed a real hostname would
- * be wrong more often than the check is worth.
+ * Loopback was the only case this detected, on the reasoning that "any other
+ * host is at least *plausibly* reachable". That reasoning was wrong for the
+ * deployment this project actually ships: `http://api:8000` passed the check and
+ * rendered as a live link, and `api` is a compose service name that resolves
+ * nowhere outside the container network. A single-label hostname — no dot at all
+ * — is never public, so it is caught here too.
  */
-export function isReachableByStrangers(url: string = apiUrl()): boolean {
+export function isReachableByStrangers(url: string = publicApiUrl()): boolean {
   try {
     const { hostname } = new URL(url);
-    return !["localhost", "127.0.0.1", "::1", "0.0.0.0", "[::1]"].includes(hostname);
+    if (["localhost", "127.0.0.1", "::1", "0.0.0.0", "[::1]"].includes(hostname)) return false;
+    // `api`, `web`, `datahub` — a container or service name. A public host has a
+    // dot in it, and an IPv6 literal arrives bracketed.
+    return hostname.includes(".") || hostname.startsWith("[");
   } catch {
     return false;
   }
@@ -515,7 +557,9 @@ export const authProviders = () =>
  *  URL, not a fetch. */
 export function loginUrl(provider: string, next: string): string {
   const query = new URLSearchParams({ next });
-  return `${apiUrl()}/v1/auth/login/${encodeURIComponent(provider)}?${query}`;
+  // `publicApiUrl`, not `apiUrl`: this string becomes an anchor href that a
+  // browser follows, not a URL this server fetches.
+  return `${publicApiUrl()}/v1/auth/login/${encodeURIComponent(provider)}?${query}`;
 }
 
 /** End this session: revoked server-side, not just forgotten here. */

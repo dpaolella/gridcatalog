@@ -1,4 +1,4 @@
-import { apiUrl, isReachableByStrangers } from "@/lib/api";
+import { isReachableByStrangers, publicApiUrl } from "@/lib/api";
 import { perRequest } from "@/lib/rendering";
 import Link from "next/link";
 
@@ -8,7 +8,10 @@ import Link from "next/link";
 
 export default async function DevelopersPage() {
   await perRequest();
-  const api = apiUrl();
+  // The address a reader's browser should use, not the one this server fetches
+  // with: in a containerised deployment those differ, and every URL on this page
+  // is one the reader clicks or copies.
+  const api = publicApiUrl();
   // A localhost API is right on a developer's own machine and useless on a
   // published site, where these were two dead links to the reader's own
   // computer. Say where the API would be rather than linking somewhere that

@@ -48,6 +48,14 @@ INDEX_MAPPING: dict[str, Any] = {
                 "og_stem": {"type": "stemmer", "language": "light_english"},
                 "og_edge": {"type": "edge_ngram", "min_gram": 2, "max_gram": 20},
             },
+            # For `entitled_principals`, which holds user ids *and* email
+            # addresses. An address is not case-sensitive in the half that
+            # matters, and a custodian who types one with different casing than
+            # the identity provider returned must not silently grant nothing.
+            # The in-memory backend folds both sides in `Entitlement._entitled`;
+            # a `keyword` term query is exact, so the folding has to happen in
+            # the mapping for the two backends to agree (ADR-0002).
+            "normalizer": {"og_lower": {"type": "custom", "filter": ["lowercase"]}},
         },
     },
     "mappings": {
@@ -201,7 +209,7 @@ INDEX_MAPPING: dict[str, Any] = {
             "superseded_by": {"type": "keyword"},
             "supersedes": {"type": "keyword"},
             "visibility": {"type": "keyword"},
-            "entitled_principals": {"type": "keyword"},
+            "entitled_principals": {"type": "keyword", "normalizer": "og_lower"},
             "custodian_id": {"type": "keyword"},
             "issued": {"type": "date"},
             "modified": {"type": "date"},
@@ -229,6 +237,19 @@ def entitlement_clause(entitlement: Entitlement) -> dict[str, Any]:
         visible.append({"term": {"custodian_id": entitlement.principal_id}})
         if entitlement.custodian_of:
             visible.append({"terms": {"custodian_id": sorted(entitlement.custodian_of)}})
+    # The caller's address, matched against grants made by address. Outside the
+    # `principal_id` branch on purpose: it is a *separate* way to match the same
+    # allow-list, and it belongs to a signed-in caller whether or not their id
+    # is on the list.
+    #
+    # This was missing entirely. `AllowlistRepository.entitled_principals`
+    # projects ids and addresses together precisely so a grant made before its
+    # subject had an account keeps working, and the in-memory backend matches
+    # both — so an email grant worked in development and in every test, and
+    # granted nothing at all on the production backend. The half-fixed version
+    # of #35, on the path that matters.
+    if not entitlement.is_steward and entitlement.email:
+        visible.append({"term": {"entitled_principals": entitlement.email.lower()}})
     clause: dict[str, Any] = {"bool": {"should": visible, "minimum_should_match": 1}}
     if entitlement.include_unconfirmed:
         return clause

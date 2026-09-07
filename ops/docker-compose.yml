@@ -104,8 +104,26 @@ services:
       context: ../web
       dockerfile: Dockerfile
     environment:
-      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000
-      DATAHUB_API_INTERNAL_URL: http://api:8000
+      # Two addresses for one API, because the two readers are different.
+      #
+      # `DATAHUB_API_URL` is what this container fetches with, over the compose
+      # network. `DATAHUB_PUBLIC_API_URL` is what gets rendered into the page
+      # for a browser to click — the sign-in link, the OpenAPI and docs links,
+      # the MCP server URL — and `api` is not a hostname a browser can resolve.
+      #
+      # This block used to set `NEXT_PUBLIC_API_BASE_URL` and
+      # `DATAHUB_API_INTERNAL_URL`, and **nothing in the tree read either name**:
+      # the app reads `DATAHUB_API_URL`, which came from the image's own `ENV`.
+      # Dead configuration is worse than none, because it reads as configured.
+      # `tests/web/test_deployment_env.py` now fails if a name set here is one
+      # no code reads.
+      #
+      # Both are read at request time, so neither needs to be a build argument
+      # and one image serves any deployment. A `NEXT_PUBLIC_`-prefixed name
+      # would *not* work here: Next inlines those when the image is built, and
+      # `RUN npm run build` happens before this file is ever consulted.
+      DATAHUB_API_URL: http://api:8000
+      DATAHUB_PUBLIC_API_URL: ${DATAHUB_PUBLIC_API_URL:-http://localhost:8000}
     ports: ["3000:3000"]
     depends_on:
       api: { condition: service_started }

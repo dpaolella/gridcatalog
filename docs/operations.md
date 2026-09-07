@@ -71,6 +71,28 @@ plumbing:
 | `DATAHUB_MCP_PAYLOAD_CAP_BYTES` | 102400 | Hard cap so bulk data cannot enter an agent's context |
 | `DATAHUB_RATE_LIMIT_AGENT_PER_MIN` | 600 | Agent traffic is several times chattier than human traffic |
 
+### The web container's two addresses
+
+The Next server is the one component that reads its environment directly rather
+than through `services/config.py`, because it is not Python. It takes two names,
+and a containerised deployment has to set both:
+
+| Setting | Default | What it decides |
+|---|---|---|
+| `DATAHUB_API_URL` | `http://localhost:8000` | Where **this server** fetches the API. Over the compose network, so `http://api:8000` |
+| `DATAHUB_PUBLIC_API_URL` | falls back to the above | The same API **as a browser should address it**: the sign-in link, the OpenAPI and docs links, the MCP server URL |
+
+They are one value on a laptop and two everywhere else. Shipping only the first
+is how the sign-in button came to have `http://api:8000/v1/auth/login/google` as
+its href — a hostname that resolves inside the container network and nowhere a
+reader's browser can reach.
+
+Both are read per request, so one image serves any deployment; neither is a
+build argument. A `NEXT_PUBLIC_`-prefixed name would have to be, because Next
+inlines those while `npm run build` runs — `tests/test_deployment_env.py` fails
+on a compose file that tries to set one at container start, and on any name
+configured that no code reads.
+
 ## Routine operations
 
 **Reindex from scratch.** Must be routine, not an emergency measure.
