@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type {
   DatasetDetail,
   DistributionDetail,
@@ -336,9 +336,28 @@ function Coverage({ dataset }: { dataset: DatasetDetail }) {
   );
 }
 
+/**
+ * Above this many fields the table stops being a table and becomes a wall, so
+ * a filter appears. ERA5 publishes 273 variables; scrolling 273 rows to find
+ * `ssrd` is not reading a schema, it is searching one badly.
+ */
+const FILTER_THRESHOLD = 25;
+
 function Schema({ schema }: { schema: SchemaResponse | null }) {
   const t = useTranslations("schema");
   const empty = useTranslations("empty");
+  const [query, setQuery] = useState("");
+
+  const fields = useMemo(() => {
+    if (!schema) return [];
+    const needle = query.trim().toLowerCase();
+    if (!needle) return schema.fields;
+    return schema.fields.filter((field) =>
+      [field.local_name, field.label, field.definition, field.unit_label, field.concept?.label]
+        .filter(Boolean)
+        .some((text) => String(text).toLowerCase().includes(needle)),
+    );
+  }, [schema, query]);
 
   if (!schema || schema.fields.length === 0) {
     return (
@@ -350,6 +369,25 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
 
   return (
     <div className="overflow-x-auto">
+      {schema.fields.length > FILTER_THRESHOLD ? (
+        <div className="mb-3 flex flex-wrap items-baseline gap-3">
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={t("filterPlaceholder")}
+            aria-label={t("filterPlaceholder")}
+            className="min-w-[16rem] flex-1 border px-3 py-1.5 text-sm"
+            style={{ borderColor: "var(--border)", borderRadius: "var(--radius)" }}
+          />
+          <p className="text-xs text-[color:var(--muted)]">
+            {t("fieldCount", { shown: fields.length, total: schema.fields.length })}
+          </p>
+        </div>
+      ) : null}
+      {fields.length === 0 ? (
+        <p className="py-4 text-sm text-[color:var(--muted)]">{t("noneMatch")}</p>
+      ) : null}
       <table className="w-full min-w-[48rem] text-sm">
         <thead>
           <tr className="border-b text-left" style={{ borderColor: "var(--border)" }}>
@@ -362,7 +400,7 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
           </tr>
         </thead>
         <tbody>
-          {schema.fields.map((field) => (
+          {fields.map((field) => (
             <tr key={field.id} className="border-b align-top" style={{ borderColor: "var(--border)" }}>
               <td className="py-2 pr-4">
                 <code className="text-xs">{field.local_name}</code>

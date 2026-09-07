@@ -43,6 +43,8 @@ from datahub.harvest.adapters import Adapter, HarvestedRecord, build
 from datahub.harvest.enrich import Enricher
 from datahub.harvest.filters.relevance import RelevanceFilter, text_of
 from datahub.harvest.normalizers.engine import Normalizer
+from datahub.harvest.schema import SchemaProber
+from datahub.harvest.schema import apply as schema_apply
 from datahub.harvest.validate import ValidationRunner
 from datahub.logging import get_logger
 
@@ -70,6 +72,9 @@ class SourceResult:
     #: Re-harvest found a source change under a steward-confirmed field.
     conflicted: int = 0
     enriched: int = 0
+    #: Records whose own schema surface was read, and fields that came back.
+    schema_probed: int = 0
+    fields_found: int = 0
     errors: list[str] = field(default_factory=list)
     checkpoint: dict[str, Any] | None = None
     run_id: str | None = None
@@ -86,6 +91,8 @@ class SourceResult:
             parts.append(f"{self.unchanged} unchanged")
         if self.flagged:
             parts.append(f"{self.flagged} flagged")
+        if self.schema_probed:
+            parts.append(f"{self.schema_probed} schemas ({self.fields_found} fields)")
         if self.conflicted:
             parts.append(f"{self.conflicted} conflicts")
         if self.errors:
@@ -106,6 +113,8 @@ class HarvestRunner:
         relevance: RelevanceFilter | None = None,
         enricher: Enricher | None = None,
         validator: ValidationRunner | None = None,
+        prober: SchemaProber | None = None,
+        probe_schemas: bool | None = None,
         session_factory: Any = None,
     ) -> None:
         self.source = source
@@ -119,6 +128,11 @@ class HarvestRunner:
         self.normalizer = Normalizer(
             self.adapter.name, self.settings, source_domains=source.get("domains")
         )
+        #: None disables the stage. A caller that cannot reach the network — the
+        #: test suite, an offline re-run — passes `probe_schemas=False` rather
+        #: than waiting for every probe to time out.
+        enabled = self.settings.harvest_probe_schemas if probe_schemas is None else probe_schemas
+        self.prober = prober or (SchemaProber(self.settings) if enabled else None)
         self._session_factory = session_factory or session_scope
 
     # ---- the run ---------------------------------------------------------
@@ -199,6 +213,20 @@ class HarvestRunner:
             return
 
         document = normalized.document
+
+        # The schema probe, between normalising and enriching (WP-11.4). Here
+        # rather than earlier because it needs the normalised distributions,
+        # and rather than later because a field the source itself describes
+        # must reach the enricher already present — the enricher may draft a
+        # label for a field, never the field.
+        if self.prober is not None:
+            outcome = self.prober.probe(document)
+            if outcome.found:
+                schema_apply(document, outcome, slug=normalized.dataset_id.rsplit("/", 1)[-1])
+                document["completenessLevel"] = self.normalizer.level(document)
+                result.schema_probed += 1
+                result.fields_found += len(outcome.fields)
+
         enrichment = self.enricher.enrich(document)
         if enrichment.enriched:
             document = self.enricher.apply(document, enrichment)

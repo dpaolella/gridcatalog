@@ -33,6 +33,11 @@ def _isolated_settings(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Itera
     monkeypatch.setenv("DATAHUB_QUEUE_BACKEND", "eager")
     monkeypatch.setenv("DATAHUB_DATABASE_URL", f"sqlite+pysqlite:///{tmp_path}/test.sqlite3")
     monkeypatch.setenv("DATAHUB_ENRICHMENT_ENABLED", "false")
+    # Off for the same reason enrichment is: the default suite runs with no
+    # outbound network (ADR-0002), and a stage that reaches the open web would
+    # otherwise spend the whole run waiting for connect timeouts. Tests that
+    # exercise the probe pass their own transport.
+    monkeypatch.setenv("DATAHUB_HARVEST_PROBE_SCHEMAS", "false")
     reset_settings()
     yield
     reset_settings()

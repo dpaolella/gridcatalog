@@ -408,6 +408,43 @@ the same to be true of most cloud-native records.
 total `og:Field` count goes from 24 to >2,000, and ≥30% of published records
 reach completeness level 2.
 
+**Landed 2026-09-07. Measured:**
+
+```
+ERA5:      4 -> 273 fields, every one with a unit and a long name,
+              from one 130 KB read of the store's own consolidated metadata
+catalog:  24 -> 293 fields across 66 records
+records with a distribution worth probing:  6 of 66
+```
+
+**Two of the three criteria met, and the third was the wrong criterion.** ERA5
+went from 4 fields to 273. Catalog-wide the count went to 293, not 2,000 — and
+the reason is not the probe. **Only 6 of the 66 published records point at data
+at all.** The other 60 point at landing pages, at portal search forms, at API
+roots, or at `no-known-access-path` — because they are seed-inventory stubs
+whose `access:` field is a human web page. A schema probe cannot read a schema
+from a page that has none, and it should not pretend to.
+
+Of the 6 that could be probed, 5 failed in this build environment only: Zenodo,
+OpenEI, NREL's developer API and WRI are all blocked by its egress policy, and
+`s3://era5-pds` returns 403. Dispatch was correct on every one. The same CSV
+extractor reads 36 fields from the WRI power-plant database when pointed at a
+reachable copy of it.
+
+So the catalog-wide number is a fact about **what the records point at**, not
+about the stage. It is WP-11.6's to move: a harvest source that yields
+distribution URLs pointing at files rather than at portals converts directly
+into field metadata. That is a better exit criterion and it replaces the one
+written here — ">2,000 fields" was arithmetic on an assumption about the corpus
+that the corpus does not support.
+
+Completeness level 2 is likewise not reached, and correctly so: a Zarr store
+states a name, a long name, a dtype and a unit, but not a definition and not
+whether values were measured or modelled. Two of the four things level 2
+requires of a field are missing, so `Normalizer.level` holds these records at
+1 rather than minting a label that fails its own validation. Enrichment
+(WP-11.2) is what promotes them.
+
 ### WP-11.5 — Field resolution at 100× the volume
 
 **Fixes D3.** The resolver is correct and untested above 24 fields. At 273
@@ -418,9 +455,10 @@ fields on one record:
 - Gap markers become the common case, not the exception. 273 ERA5 variables
   will produce perhaps 30 concept hits and 240 honest gaps, and the record page
   must not read as broken because of it.
-- The web schema tab (`web/src/components/DatasetTabs.tsx:339`) renders every
-  field in one table with no search, no pagination and no grouping. At 273 rows
-  that is unusable. Concept-resolved fields first, then a searchable remainder.
+- ~~The web schema tab renders every field in one table with no search.~~ Done
+  with WP-11.4: above 25 fields the tab grows a filter over name, description,
+  unit and concept, with a count of what is showing. Ordering
+  concept-resolved fields first is still open and belongs here.
 
 **Exit criterion.** ERA5's schema tab is usable at 273 fields; `semantic run`
 over a 2,000-field catalog completes in under ten minutes.
@@ -671,7 +709,7 @@ Suggested order and rough size:
 | | Package | Depends on | Size |
 |---|---|---|---|
 | ✔ | WP-11.1 normaliser hardening + 11.1a gap markers | landed | — |
-| 2 | WP-11.4 schema probe | — | L |
+| ✔ | WP-11.4 schema probe | landed | — |
 | 3 | WP-11.2 enrichment on, budgeted | 11.1a | M |
 | ✔ | WP-11.3 auto-promotion | landed with 11.8 | — |
 | 5 | WP-11.5 resolution at volume | 11.4 | M |

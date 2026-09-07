@@ -147,7 +147,10 @@
     "inferredHelp": "Drafted by the enricher and not yet confirmed by a steward.",
     "gap": "No concept",
     "gapHelp": "The catalog says why, rather than leaving the cell blank.",
-    "caveat": "Caveat"
+    "caveat": "Caveat",
+    "filterPlaceholder": "Filter fields by name, description, unit or concept",
+    "fieldCount": "{shown} of {total} fields",
+    "noneMatch": "No field matches that filter."
   },
   "quality": {
     "title": "Three independent facets",

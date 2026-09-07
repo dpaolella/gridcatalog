@@ -1025,9 +1025,39 @@ class Normalizer:
         """
         if not all(self._satisfied(document, term) for term in self.LEVEL_1):
             return 1
-        if all(document.get(term) for term in self.LEVEL_2):
+        if all(document.get(term) for term in self.LEVEL_2) and self._fields_reach_level_2(
+            document
+        ):
             return 2
         return 1
+
+    #: What the shapes require of every field at level 2 (C1, C2, C3, C6).
+    FIELD_LEVEL_2 = ("localName", "label", "definition", "dataType", "valueBasis")
+
+    def _fields_reach_level_2(self, document: dict[str, Any]) -> bool:
+        """Whether the record's fields carry what level 2 requires of a field.
+
+        A schema probe reads what the source states, and a Zarr store states a
+        name, a long name, a dtype and a unit — but not a definition, and not
+        whether the values were measured or modelled. So a probed record has
+        273 real fields and still cannot honestly claim level 2, because level
+        2 means *interpretable* and two of the four things that make a field
+        interpretable are missing.
+
+        Claiming it anyway would put the level calculation at odds with the
+        shapes, and the record would be labelled 2 and fail validation at 2.
+        Enrichment is what closes this (WP-11.2): a drafted definition and
+        value basis, each marked as drafted, promote the record honestly.
+        """
+        fields = document.get("hasField") or []
+        if isinstance(fields, dict):
+            fields = [fields]
+        nodes = [f for f in fields if isinstance(f, dict)]
+        if not nodes:
+            # Either there are no fields, or they are bare IRIs whose contents
+            # this function cannot see. Neither is evidence for level 2.
+            return False
+        return all(all(node.get(term) for term in self.FIELD_LEVEL_2) for node in nodes)
 
     def _satisfied(self, document: dict[str, Any], term: str) -> bool:
         """Whether the record carries *term*, or the alternative that stands in

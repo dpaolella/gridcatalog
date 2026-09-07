@@ -291,6 +291,10 @@ og:DatasetShape a sh:NodeShape ;
 
   # ---- D17/D19 schema, level 2 ----
   sh:property [
+    sh:path og:schemaSource ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
+    sh:message "og:schemaSource names the surface and URL a probed schema was read from. It is what makes a wrong field traceable to a wrong parse rather than to nobody-knows (WP-11.4)." ;
+  ] ;
+  sh:property [
     sh:path og:hasField ; sh:nodeKind sh:IRI ; og:appliesAtLevel 2 ;
     sh:message "A level 2 record describes its fields. If the source documents none, the record stays at level 1 and says so — an empty schema tab dressed as a described dataset is the dishonesty PRD §6 exists to prevent." ;
   ] ;

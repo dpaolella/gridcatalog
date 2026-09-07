@@ -155,6 +155,8 @@
     "fieldSchema": { "@id": "og:fieldSchema", "@type": "@id" },
     "conformsTo": { "@id": "dct:conformsTo", "@type": "@id", "@container": "@set" },
     "hasField": { "@id": "og:hasField", "@type": "@id", "@container": "@set" },
+    "__comment_schema_source": "Where a probed schema was read from — the surface and the URL. A wrong field is then traceable to a wrong parse rather than to nobody-knows (WP-11.4).",
+    "schemaSource": "og:schemaSource",
     "hasFileGroup": { "@id": "og:hasFileGroup", "@type": "@id", "@container": "@set" },
     "hasLayer": { "@id": "og:hasLayer", "@type": "@id", "@container": "@set" },
     "hasVariable": { "@id": "og:hasVariable", "@type": "@id", "@container": "@set" },

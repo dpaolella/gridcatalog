@@ -95,6 +95,12 @@ class Settings(BaseSettings):
     harvest_work_dir: Path = REPO_ROOT / "var" / "harvest"
     harvest_timeout_s: float = 30.0
     harvest_max_retries: int = 3
+    #: Read each dataset's own schema surface during a harvest (WP-11.4).
+    #: On by default because it is where field metadata comes from, and
+    #: switchable because it is the one stage that reaches hosts outside the
+    #: harvest source — an offline run, or a re-normalise of stored payloads,
+    #: wants it off rather than wanting every probe to time out.
+    harvest_probe_schemas: bool = True
 
     # ---- enrichment -----------------------------------------------------
     enrichment_enabled: bool = False

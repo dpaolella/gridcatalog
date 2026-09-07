@@ -332,11 +332,53 @@ def test_the_completeness_level_is_computed_not_declared(ckan) -> None:
     assert "distribution" in sparse.missing
 
 
+def _level_2_document(ckan) -> dict:
+    """Everything level 2 asks for, including a field that is itself level 2."""
+    document = dict.fromkeys([*ckan.LEVEL_1, *ckan.LEVEL_2], "x")
+    document["hasField"] = [dict.fromkeys(ckan.FIELD_LEVEL_2, "x")]
+    return document
+
+
 def test_a_harvested_record_never_reaches_level_three(ckan) -> None:
     """Level 3 needs unit IRIs and concept resolution per field, which is the
     semantic layer's job (M7). A normaliser claiming it would be claiming work
     nobody has done."""
-    assert ckan.level(dict.fromkeys([*ckan.LEVEL_1, *ckan.LEVEL_2], "x")) == 2
+    assert ckan.level(_level_2_document(ckan)) == 2
+
+
+def test_fields_that_cannot_be_interpreted_do_not_buy_level_two(ckan) -> None:
+    """A schema probe reads what the source states, and a Zarr store states a
+    name, a long name, a dtype and a unit — not a definition, and not whether
+    the values were measured or modelled.
+
+    So a probed record has 273 real fields and still cannot honestly claim
+    level 2, because level 2 means *interpretable* and two of the four things
+    that make a field interpretable are missing. Claiming it anyway would put
+    the level calculation at odds with the shapes: the record would be labelled
+    2 and then fail validation at 2. Enrichment is what closes this (WP-11.2).
+    """
+    document = _level_2_document(ckan)
+    probed = {
+        "localName": "ssrd",
+        "label": "Surface solar radiation downwards",
+        "dataType": "float32",
+    }
+    document["hasField"] = [probed]
+    assert ckan.level(document) == 1
+
+    document["hasField"] = [{**probed, "definition": "…", "valueBasis": "modeled"}]
+    assert ckan.level(document) == 2
+
+
+def test_one_uninterpretable_field_holds_the_whole_record_at_level_one(ckan) -> None:
+    """The level is a claim about the record, so the weakest field decides it.
+    Averaging would let 272 good fields hide one nobody described."""
+    document = _level_2_document(ckan)
+    document["hasField"] = [
+        dict.fromkeys(ckan.FIELD_LEVEL_2, "x"),
+        {"localName": "unknown_column"},
+    ]
+    assert ckan.level(document) == 1
 
 
 # ---- classification ------------------------------------------------------

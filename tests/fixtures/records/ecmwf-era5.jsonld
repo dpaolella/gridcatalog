@@ -69,6 +69,7 @@
         ]
       },
       "distribution": [
+        "https://catalog.opengrid.org/dist/ecmwf-era5--arco-gcs",
         "https://catalog.opengrid.org/dist/ecmwf-era5--zarr-s3",
         "https://catalog.opengrid.org/dist/ecmwf-era5--cds-api"
       ],
@@ -85,6 +86,20 @@
       "bboxMaxLon": 180.0,
       "bboxMaxLat": 90.0,
       "bboxWKT": "POLYGON((-180.0 -90.0, 180.0 -90.0, 180.0 90.0, -180.0 90.0, -180.0 -90.0))"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/ecmwf-era5--arco-gcs",
+      "type": "Distribution",
+      "accessURL": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+      "mediaType": "application/vnd+zarr",
+      "formatLabel": "Zarr, consolidated metadata (ARCO-ERA5 on Google Cloud)",
+      "bulkDownload": true,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "supportsRangeRequests": true,
+      "corsEnabled": true,
+      "chunkIndexMethod": "zarr-v2",
+      "hostedByOpenGrid": false
     },
     {
       "id": "https://catalog.opengrid.org/dist/ecmwf-era5--zarr-s3",
