@@ -93,17 +93,28 @@ def confirm(
     _steward(caller, session)
     repos = Repositories(session)
 
-    # Publish first, record second. PRD §7.6 makes confirming and publishing one
-    # act — "og:reviewState moves to confirmed and the record becomes visible" —
-    # and this endpoint used to do only the recording: the queue row said
-    # confirmed, an audit row said it happened, and the record stayed in the
-    # draft graph where the projector never looks. The only thing that actually
-    # published was the out-of-band CLI, which the review UI does not invoke.
+    # Refuse first, publish second, record third.
     #
-    # Order matters. A validation failure during promotion must surface as an
-    # error with the queue untouched; the reverse leaves a record marked
-    # confirmed that was never published, which is the bug being fixed and is
-    # invisible from the queue.
+    # PRD §7.6 makes confirming and publishing one act — "og:reviewState moves to
+    # confirmed and the record becomes visible" — and this endpoint used to do
+    # only the recording: the queue row said confirmed, an audit row said it
+    # happened, and the record stayed in the draft graph where the projector
+    # never looks.
+    #
+    # Publishing before recording is still right, because a validation failure
+    # during promotion has to surface as an error with the queue untouched. But
+    # it must not come before the *refusal*. It did, and the result was the worst
+    # outcome this endpoint has: a draft with no queue row — one demoted by a
+    # re-harvest, or loaded by the CLI — was promoted into the catalog, indexed,
+    # and left readable by anonymous callers, while the response said 404 and the
+    # `raise` below skipped the audit row. Reproduced: POST answered 404, the
+    # record moved from draft to catalog, and `GET /v1/datasets/{id}` answered
+    # 200 to a caller with no credentials at all.
+    #
+    # `by_dataset` is a read. Nothing has changed when it says no.
+    if repos.review.by_dataset(dataset_id) is None:
+        raise NotFound(f"no review item for {dataset_id!r}", dataset_id=dataset_id)
+
     published = _publish(dataset_id, caller, records, session)
 
     item = repos.review.confirm(
@@ -113,6 +124,10 @@ def confirm(
         notes=body.notes,
     )
     if item is None:
+        # The row was there a moment ago, so this is a concurrent delete rather
+        # than a bad request. Publishing already happened and is not undone: the
+        # record is reviewed and visible, which is the state the steward asked
+        # for, and losing the queue row loses only the bookkeeping.
         raise NotFound(f"no review item for {dataset_id!r}", dataset_id=dataset_id)
 
     repos.audit.record(

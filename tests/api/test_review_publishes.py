@@ -119,3 +119,43 @@ def test_confirming_an_already_published_record_is_not_an_error(client, loaded, 
     )
     assert response.status_code == 200, response.text[:300]
     assert client.get("/v1/datasets/ecmwf-era5").status_code == 200
+
+
+def test_a_refused_confirm_publishes_nothing(client, loaded, steward) -> None:
+    """A 404 must not leave the record published.
+
+    Publishing before recording is right — a validation failure during promotion
+    has to surface with the queue untouched — but it must not come before the
+    *refusal*. It did, and a draft with no queue row (one demoted by a
+    re-harvest, or loaded by the CLI) was promoted into the catalog, indexed and
+    left readable by anonymous callers while the response said 404. The `raise`
+    also skipped the audit row, so nothing recorded that it had happened.
+    """
+    import json
+
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+    from datahub.graph.graphs import NamedGraph
+    from fixtures.loader import load_record
+
+    slug = "unqueued-draft"
+    document = json.dumps(load_record("ecmwf-era5")).replace("/ds/ecmwf-era5", f"/ds/{slug}")
+    loaded.put(json.loads(document), graph=NamedGraph.DRAFT)
+
+    with session_scope() as session:
+        assert Repositories(session).review.by_dataset(slug) is None
+
+    response = client.post(
+        f"/v1/review/{slug}/confirm",
+        json={"confirmed_fields": [], "notes": None},
+        headers=auth(steward),
+    )
+
+    assert response.status_code == 404
+    assert not loaded.exists(slug, graph=NamedGraph.CATALOG), (
+        "the record was published by a request that answered 404"
+    )
+    assert loaded.exists(slug, graph=NamedGraph.DRAFT), "the draft was consumed by a failed confirm"
+    assert client.get(f"/v1/datasets/{slug}").status_code == 404, (
+        "an anonymous caller can read a record no steward successfully confirmed"
+    )

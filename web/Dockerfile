@@ -24,6 +24,13 @@ ENV NODE_ENV=production
 # Read at request time, so one image serves any deployment. Overridden by
 # compose; the default is only useful when the API shares a host.
 ENV DATAHUB_API_URL=http://api:8000
+# The same API as a *browser* should address it, for the URLs rendered into the
+# page: the sign-in link, the OpenAPI and docs links, the MCP server URL.
+# Deliberately left unset — `publicApiUrl()` then falls back to the line above,
+# which is right when the API really does share a host, and every other
+# deployment must say. `DATAHUB_` and not `NEXT_PUBLIC_`: a `NEXT_PUBLIC_` value
+# is inlined by `npm run build` above, so it could only be a build argument, and
+# then this image would serve exactly one deployment.
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
 COPY --from=build /app/node_modules ./node_modules

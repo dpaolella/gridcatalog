@@ -199,12 +199,48 @@ def assert_search_total_is_the_match_count_not_the_page(backend: Any) -> None:
     assert len(response.hits) == 1
 
 
+def assert_an_email_grant_is_matched_on_either_backend(backend: Any) -> None:
+    """A grant made by address entitles the caller who holds that address.
+
+    `AllowlistRepository.entitled_principals` projects user ids *and* email
+    addresses into the document, precisely so a grant made before its subject had
+    an account keeps working once they sign in. The in-memory backend matched
+    both and OpenSearch matched only the id, so an email grant worked in
+    development and in every test and granted nothing at all in production —
+    which is the bug #35 was filed for, surviving on the path that matters.
+
+    Case-insensitively, because an address is not case-sensitive in the half that
+    matters and a custodian typing one with different casing than the identity
+    provider returned should not silently grant nothing.
+    """
+    restricted = _doc(
+        "p-restricted",
+        "Restricted By Allowlist",
+        visibility="allowlisted-existence",
+        entitled_principals=["Granted.Person@Example.ORG"],
+    )
+    backend.index([*CORPUS, restricted])
+    backend.flush()
+    backend.refresh()
+
+    def visible(entitlement: Entitlement) -> set[str]:
+        response = backend.search(SearchRequest(entitlement=entitlement))
+        return {hit.document.id for hit in response.hits}
+
+    assert "p-restricted" not in visible(Entitlement.anonymous())
+    assert "p-restricted" not in visible(Entitlement(principal_id="urn:person:nobody"))
+    assert "p-restricted" in visible(
+        Entitlement(principal_id="urn:person:granted", email="granted.person@example.org")
+    ), "a grant made by address matched nobody"
+
+
 SEARCH_ASSERTIONS = (
     assert_search_finds_by_text,
     assert_search_filters_exactly,
     assert_search_facets_count_the_whole_result_set,
     assert_search_sorts_by_title,
     assert_search_total_is_the_match_count_not_the_page,
+    assert_an_email_grant_is_matched_on_either_backend,
 )
 
 
