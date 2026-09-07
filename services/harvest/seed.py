@@ -170,7 +170,7 @@ class SeedLoader:
         """
         by_slug: dict[str, list[HarvestedRecord]] = {}
         for record in harvested:
-            by_slug.setdefault(slugify(record.payload["name"]), []).append(record)
+            by_slug.setdefault(_slug_of(record.payload), []).append(record)
 
         merged: list[tuple[HarvestedRecord, list[str]]] = []
         for rows in by_slug.values():
@@ -184,7 +184,7 @@ class SeedLoader:
             others = [r.payload["data_domain"] for r in rows if r is not base]
             log.info(
                 "seed rows merged",
-                slug=slugify(base.payload["name"]),
+                slug=_slug_of(base.payload),
                 domains=[base.payload["data_domain"], *others],
             )
             merged.append((base, others))
@@ -201,7 +201,7 @@ class SeedLoader:
         entry = harvested.payload
         domain = entry["data_domain"]
         name = entry["name"]
-        slug = slugify(name)
+        slug = _slug_of(entry)
         iri = f"{DATASET_BASE}{slug}"
         verified = bool(entry.get("verified"))
         tier = entry.get("tier")
@@ -482,6 +482,34 @@ class SeedLoader:
                 "inter-dataset links; they exist so the gap is visible."
             )
         return caveats
+
+
+def _slug_of(entry: dict[str, Any]) -> str:
+    """This row's identity: the ``slug`` key if the file gives one, else the name.
+
+    The identifier used to be the slugified name and nothing else, which made
+    two things impossible to say.
+
+    A seed row and a curated record are the same dataset. Six of them were
+    published twice — "PyPSA-Eur grid dataset (pre-built OSM network)" and
+    "PyPSA-Eur Grid Dataset (pre-built OSM network)", byte-identical to a reader,
+    with different completeness levels and different grades. A duplicate is
+    worse than a missing record: nobody can tell which copy is authoritative,
+    and the link service treats one dataset as two related ones.
+
+    Two seed rows in different domains are the same dataset. The merge below
+    has always handled that and keyed on the *name*, so it only fired when the
+    names matched exactly. NREL ATB is in the file twice with the instruction
+    "Model as one dataset with domain facets, not two records" written in its
+    own note, and the names differ, so it published as two records — three,
+    with the curated one.
+
+    The alternative was fuzzy matching on titles or access URLs, which would
+    silently merge two datasets that happen to share a landing page. An explicit
+    key says what a person decided, and shows up in a diff.
+    """
+    declared = str(entry.get("slug") or "").strip()
+    return declared or slugify(entry["name"])
 
 
 def _clean(text: str) -> str:

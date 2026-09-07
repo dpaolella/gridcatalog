@@ -170,6 +170,7 @@ seed_datasets:
       reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic topology.
     datasets:
       - name: Global Transmission Database (Brinkerink et al. 2024)
+        slug: global-transmission-database
         tier: 1
         license: CC-BY-4.0
         provenance: curated
@@ -192,6 +193,7 @@ seed_datasets:
         note: Share-alike obligation propagates to anything OpenGrid hosts downstream.
         verified: true
       - name: PyPSA-Eur Grid Dataset (pre-built OSM network)
+        slug: pypsa-eur-grid
         tier: 2
         license: MIT (code), ODbL-1.0 (data)
         provenance: osm-derived + curated
@@ -221,6 +223,7 @@ seed_datasets:
         bulk: true
         verified: true
       - name: WECC / FERC CEII Transmission Data
+        slug: wecc-ferc-ceii
         tier: 3
         license: CEII-designated (18 CFR 388.113)
         access_barrier: restricted
@@ -334,6 +337,7 @@ seed_datasets:
           implementation for identifier crosswalks as much as a dataset.
         verified: true
       - name: Global Energy Monitor Global Integrated Power Tracker
+        slug: gem-global-integrated-power-tracker
         tier: 2
         license: CC-BY-4.0
         provenance: curated
@@ -395,6 +399,7 @@ seed_datasets:
       LBNL's Queued Up series already normalizes much of it.
     datasets:
       - name: LBNL Queued Up (interconnection queue dataset)
+        slug: lbnl-queued-up
         tier: 1
         license: CC-BY-4.0
         provenance: curated
@@ -469,6 +474,7 @@ seed_datasets:
       load projections are the fastest-moving gap and have no authoritative source.
     datasets:
       - name: EIA-930 Hourly Electric Grid Monitor
+        slug: eia-930
         tier: 1
         license: US Government public domain
         provenance: primary
@@ -623,10 +629,14 @@ seed_datasets:
       the exception.
     datasets:
       - name: NREL ATB (storage and emerging technology tables)
+        slug: nrel-atb
         tier: 1
         license: CC-BY-4.0
         access: https://atb.nrel.gov
-        note: Same source as DD9 cost data, different table subset. Model as one dataset with domain facets, not two records.
+        note: The storage and emerging-technology tables of the NREL ATB, the same release
+          as the DD9 cost stack.
+        curator_note: Model as one dataset with domain facets, not two records. The shared
+          slug is what does that.
         verified: true
       - name: PNNL Energy Storage Cost and Performance Database
         tier: 1
@@ -638,7 +648,8 @@ seed_datasets:
         tier: 2
         license: US Government public domain
         access: https://sandia.gov/ess-ssl/gesdb/public/
-        note: Verify the endpoint is still live. This database has had availability gaps.
+        note: This database has had availability gaps.
+        curator_note: Verify the endpoint is still live.
         verified: false
       - name: NREL Storage Futures Study data
         tier: 2
@@ -674,6 +685,7 @@ seed_datasets:
       so this domain does not cover them.
     datasets:
       - name: EIA Natural Gas prices and Short-Term Energy Outlook
+        slug: eia-natural-gas-prices
         tier: 1
         license: US Government public domain
         access: https://www.eia.gov/naturalgas/
@@ -686,6 +698,7 @@ seed_datasets:
         note: Full scenario tables available via API v2. High value as a scenario/assumption artifact.
         verified: false
       - name: World Bank Pink Sheet (commodity price data)
+        slug: world-bank-pink-sheet
         tier: 2
         license: CC-BY-4.0
         access: https://www.worldbank.org/en/research/commodity-markets
@@ -735,6 +748,7 @@ seed_datasets:
       here is high-effort and high-value.
     datasets:
       - name: Ember Global Electricity Review + Renewable Target Tracker
+        slug: ember-electricity-review
         tier: 1
         license: CC-BY-4.0
         access: https://ember-energy.org/data
@@ -805,6 +819,7 @@ seed_datasets:
       which is a large and underappreciated gap.
     datasets:
       - name: NREL ATB (Annual Technology Baseline)
+        slug: nrel-atb
         tier: 1
         license: CC-BY-4.0
         access: https://data.openei.org/submissions/6006

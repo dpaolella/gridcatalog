@@ -126,8 +126,22 @@ CORPUS = [
 
 
 def _seed(backend: Any) -> None:
+    """Write the corpus and make it visible.
+
+    `refresh()`, not just `flush()`, and this is the whole point of the parity
+    suite. In process an indexed document is searchable the instant it is
+    written, so `flush()` — which persists — looked like enough and every
+    assertion passed. OpenSearch is near-real-time: `index()` bulks with
+    `refresh=False`, so until something refreshes the index the documents exist
+    and no query returns them, and *all five* search assertions fail against it
+    with zero hits.
+
+    `SearchBackend.refresh` exists for exactly this and says so — "make recent
+    writes visible; no-op where writes are visible at once". Nothing called it.
+    """
     backend.index(CORPUS)
     backend.flush()
+    backend.refresh()
 
 
 def assert_search_finds_by_text(backend: Any) -> None:

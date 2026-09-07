@@ -131,6 +131,12 @@ jobs:
       - name: Check the export is Pages-shaped
         run: test -f web/out/.nojekyll && test -f web/out/404.html
 
+      # The static site's search runs in the browser over the whole catalog, so
+      # the whole catalog is in the landing page. That is fine at this size and
+      # will not be, and nothing enforced the limit until this step.
+      - name: Check the landing page has not outgrown one file
+        run: ops/check-page-weight.sh web/out/index.html
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
