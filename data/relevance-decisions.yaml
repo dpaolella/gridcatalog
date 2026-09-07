@@ -1,0 +1,1075 @@
+# Relevance decisions for the harvest filter's third stage (PRD §7.2).
+#
+# The filter accepts on a strong keyword score, rejects on a weak one, and
+# hands everything between to a classifier. This file *is* that classifier —
+# see `services/harvest/filters/decisions.py` for why it is committed data
+# rather than a runtime model call, and `docs/decisions/0013-relevance-decisions.md`
+# for the decision record.
+#
+# Keys are harvest source ids: `<source>:<identifier>`, the same key the
+# harvester is idempotent on. A dataset with no entry is undecided, not
+# irrelevant — the filter accepts it and says so, so an uncovered record shows
+# up as a gap rather than as a silent exclusion.
+#
+# ## The question each entry answers
+#
+# **Would a power-system or energy-system modeller plausibly use this dataset
+# as a model input, or to site or permit infrastructure?**
+#
+# Not "is it energy-adjacent", and not "is it good data". The catalog's ten
+# domains are the scope: network topology, generation fleet, load and demand,
+# cost, renewable resource and weather, emerging technology, fuel and
+# commodity, policy and regulation, and geospatial siting.
+#
+# Two lines are drawn deliberately, because they decide most of the file:
+#
+# * **Derived quantity, not raw sensor.** Land cover classes, elevation,
+#   bathymetry and albedo are read directly by siting and resource work.
+#   Radiance, reflectance and SAR backscatter are not: turning one into a
+#   siting input is a processing project, and a catalog that lists them is
+#   telling a modeller to go and do it.
+# * **Operational, not research.** NOAA's space-weather forecast is what a
+#   utility reads before a geomagnetic storm reaches its transformers. A
+#   heliophysics mission archive is not, however closely related.
+#
+# Disagreeing with a call here means editing one line, and the diff says what
+# changed and why. That is the whole point of the file.
+#
+# Decided by Claude over the AWS Registry of Open Data, 335 records — every
+# entry the keyword stage could not settle on its own. Nobody has re-checked
+# them by hand; `og:reviewState` still records how each record was published.
+
+decisions:
+  # RELEVANT — a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)
+  aws_open_data:australian-bureau-of-meteorology-barpa:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:cmip6:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:cornell-eas-data-lake:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:csiro-cafe60:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:dynamical-nasa-imerg:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:dynamical-noaa-hrrr:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:dynamical-tj-nwp:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:ecmwf-forecasts:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:emearth:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:era5-for-wrf:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:euro-cordex:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:global-drought-flood-catalogue:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:met-office-uk-deterministic:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:met-office-ukesm1-arise:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:meteo-france-models:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-chirps:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-fldas:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gldas:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gpm3imergde:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gpm3imergdf:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gpm3imergdl:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gpm3imerghh:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-gpm3imergm:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-m2i3npasm:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-m2i3nvaer:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nasa-nca-ldas:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:ncar-dart-cam6:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nexrad-arco:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-arl-hysplit:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-cdr-fundamental:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-cdr-terrestrial:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-cfs:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-climate-normals:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-gefs-reforecast:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-gfs-bdp-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-gfs-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-ghcnh:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-hrrr-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nam:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nclimgrid:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-ndfd:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nodd-kerchunk:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nwm-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nws-graphcastgfs-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-nws-hafs:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-oar-arl-nacc-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-rap:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-reanalyses-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-rrfs:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-rrfs-ops:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-rtma:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-ufs-gdas-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-ufs-gefsv13replay-pds:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-ufs-s2s:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:noaa-uwpd-cmip5:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nsf-ncar-era5:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:nwm-archive:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:open-meteo:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:planette_era5_reanalysis:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:saag-wrf:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:silo:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:sissa-forecast-database-dataset:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:smn-ar-wrf-dataset:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:wis2-global-cache:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:wis2-global-cache-jma:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:wrf-alaska-snap:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+  aws_open_data:wrf-se-alaska-snap:
+    relevant: true
+    reason: "a numerical weather prediction or reanalysis product: the wind, solar, temperature and precipitation series that drive generation and load in an energy-system model (DD5)"
+
+  # RELEVANT — a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)
+  aws_open_data:marine-energy-data:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:met-office-global-wave:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:met-office-nws-wave:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:nasa-mcd43a1:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:nasa-mcd43a4:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:nrel-pds-ncdb:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:nrel-pds-porotomo:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:nrel-pds-windai:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:whiffle-wins50:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+  aws_open_data:wpto-pds-us-wave:
+    relevant: true
+    reason: "a renewable resource dataset: the physical quantity a wind, solar, marine or geothermal resource assessment is built on (DD5, DD6)"
+
+  # RELEVANT — an inventory of power-sector assets (DD2, DD3)
+  aws_open_data:asset-data-africa-power-generation:
+    relevant: true
+    reason: "an inventory of power-sector assets (DD2, DD3)"
+  aws_open_data:asset-data-igp-power-generation:
+    relevant: true
+    reason: "an inventory of power-sector assets (DD2, DD3)"
+
+  # RELEVANT — grid modelling software and the data it ships with (DD2)
+  aws_open_data:gadal:
+    relevant: true
+    reason: "grid modelling software and the data it ships with (DD2)"
+
+  # RELEVANT — land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)
+  aws_open_data:deafrica-coastlines:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:esa-worldcover:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:glad-landsat-ard:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:in-elevation:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:its-live-data:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:kyfromabove:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:nj-lidar:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:noaa-bathymetry:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:noaa-ocs-hydrodata:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:open-lidar-data:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:pgc-arcticdem:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:pgc-earthdem:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:pgc-rema:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+  aws_open_data:vt-opendata:
+    relevant: true
+    reason: "land cover, elevation or bathymetry stated as a physical quantity, which is what siting and permitting analysis reads (DD10)"
+
+  # RELEVANT — operational space-weather forecasting, which utilities read for geomagnetically induced currents in transmission transformers
+  aws_open_data:noaa-nws-wam-ipe:
+    relevant: true
+    reason: "operational space-weather forecasting, which utilities read for geomagnetically induced currents in transmission transformers"
+  aws_open_data:noaa-space-weather:
+    relevant: true
+    reason: "operational space-weather forecasting, which utilities read for geomagnetically induced currents in transmission transformers"
+  aws_open_data:noaa-wsa-enlil:
+    relevant: true
+    reason: "operational space-weather forecasting, which utilities read for geomagnetically induced currents in transmission transformers"
+
+  # RELEVANT — energy-sector economics or decarbonisation analysis (DD8, DD9)
+  aws_open_data:geo_tide_geojsons:
+    relevant: true
+    reason: "energy-sector economics or decarbonisation analysis (DD8, DD9)"
+
+  # NOT RELEVANT — life sciences: genomics, cell biology, medicine or neuroscience. No power-system content
+  aws_open_data:1000-genomes-data-lakehouse-ready:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ai3:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:allen-cell-imaging-collections:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:asem-project:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:braidyn-bc_cued-lever-pull:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ccle:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:challenge-2021:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:cryoem-spa-workflow-records:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:dandiarchive:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:depmap-omics-ccle:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:eldors_v1:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:fm-ad:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:hail-vep-pipeline:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:hcmi-cmdc:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ilmn-dragen-1kgp:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:mosaic:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ncbi-blast-databases:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ncbi-covid-19:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ncbi-sra:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:ncbi-sra-rnaseq:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:nsw-herbarium:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:pdb-3d-structural-biology-data:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:radiant:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:recount:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:snpeff:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+  aws_open_data:synthea-omop:
+    relevant: false
+    reason: "life sciences: genomics, cell biology, medicine or neuroscience. No power-system content"
+
+  # NOT RELEVANT — astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant
+  aws_open_data:craam-open-vlf:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:dmspssj:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:jaxa-usgs-nasa-kaguya-tc:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:jaxa-usgs-nasa-kaguya-tc-dtms:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:lofar-elais-n1:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:mast-jwst:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:meerkat-eso137-006:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:nasa-heasarc:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:nasa-lambda:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:nasa-noaa---space-weather-program:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:nifs-lhd:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+  aws_open_data:ovrolwasolar:
+    relevant: false
+    reason: "astronomy, astrophysics, planetary science or heliophysics research. Not a power-system input; the operational space-weather products are listed separately as relevant"
+
+  # NOT RELEVANT — marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant
+  aws_open_data:aodn_mooring_hourly_timeseries_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_mooring_satellite_altimetry_calibration_validation:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_capricornbunkergroup_wave_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_capricornbunkergroup_wind_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_coffsharbour_wave_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_coffsharbour_wind_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_rottnestshelf_wave_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_rottnestshelf_wind_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_radar_turquoisecoast_velocity_hourly_averaged_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3c_1day_nighttime_himawari8:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_1day_daynighttime_multi_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_1day_daynighttime_single_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_1day_daynighttime_single_sensor_southernocean:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_1month_daytime_single_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_3day_daynighttime_multi_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l3s_6day_daynighttime_single_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l4_gamssa_1day_multi_sensor_world:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_satellite_ghrsst_l4_ramssa_1day_multi_sensor_australia:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_air_sea_flux_product_delayed:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_air_sea_flux_sst_meteo_realtime:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_co2_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_fishsoop_realtime_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_sst_delayed_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:aodn_vessel_trv_realtime_qc:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:coawst:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:fvcom_gom3:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:geonet:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:met-office-global-ocean:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:met-office-uk-marine-observations:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:mur:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-cdr-oceanic:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-gestofs:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-ioos-roms-doppio:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-jscope:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-nos-scuba-icesat2-pds:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-nos-stofs3d:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-oar-hourly-gdp:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-ofs:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:noaa-rtofs:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:sofar-spotter-archive:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:surftemp-sst:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+  aws_open_data:vadcr-crmp-aws:
+    relevant: false
+    reason: "marine and ocean science: sea surface temperature, currents, waves as oceanography, fisheries and navigation. Wave models read as a marine energy resource are listed separately as relevant"
+
+  # NOT RELEVANT — a raw sensor archive — radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant
+  aws_open_data:africa-field-boundary-labels:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:brazil-data-cubes:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:cbers:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:clay-v1-5-naip-2:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:clay-v1-5-sentinel2:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:deafrica-alos-jers:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:deafrica-geomad:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:deafrica-landsat:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:deafrica-sentinel-2-c1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:deafrica-sentinel5p:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:digital-globe-open-data:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:gnss-ro-opendata:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:jaxa-alos-palsar2-scansar:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:landsat-8:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:lgnd-clay-v1-5-sentinel2:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:maxar-open-data:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:modis-astraea:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:naip:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-astl1t:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-mod09a1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-mod09ga:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-mod09gq:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-mod13q1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-modis-t-jpl-l2p-v2019-0:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-mur-jpl-l4-glob-v41:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-myd09ga:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-myd09gq:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-operal2cslc-s1v1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-operal2rtc-s1-staticv1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-operal2rtc-s1v1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-operal3dswx-hlsv1:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nasa-snwg-opera:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:nj-imagery:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:radiant-mlhub:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:sentinel-1-rtc-indigo:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:sentinel-2:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:sentinel-s2-l2a-mosaic-120:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:sentinel1-slc-seasia-pds:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:st-open-data:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:umbra-open-data:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:usgs-landsat:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:usgs_aqr:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:venus-l2a-cogs:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+  aws_open_data:wb-light-every-night:
+    relevant: false
+    reason: "a raw sensor archive \u2014 radiance, reflectance, SAR backscatter or imagery. Turning one into a siting input is a processing project, not a catalog lookup; the derived land-cover and elevation products are listed as relevant"
+
+  # NOT RELEVANT — an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model
+  aws_open_data:ccic:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:ctrees-agb-100m-global:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:ctrees-amazon-canopy-height:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:ctrees-california-vhr-tree-height:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:dataforgood-fb-forests:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:dataforgood-fb-forestsv2:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:deafrica-mangrove:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:deafrica-ndvi_anomaly:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:dynamical-noaa-mrms:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:gcbo-dataset:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:geoschem-input-data:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:geoschem-nested-input-data:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:mapping-africa:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-acrim-iii:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-afrisar:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-airmoss:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-arcsix:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-ascends-airborne:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-asia-aq:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-atlas:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-bigfoot:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-biodiversity:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-calipso:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-comex:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-cowvr-tempest-stp-h8:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-csda:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-emit:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-eos:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-fluxnet:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-gedi02a:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-gedil4aagbdensityv212056:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-geos-3:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-goes:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-gpmmergir:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-grace:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-grace-da-dm:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-grace-fo:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-hydroclimatology:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-intexb:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-lpj:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-mas-emas:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-master:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-measures:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-measures-oswv:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-merra-2-observation:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-metop:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-multi-nasa:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-multi-taste:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-nasa-ssh:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-nimbus-7:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-noaa-climate-data-record-cdr-program:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-oco-2:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-oco-3:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-omg:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-oscar:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-pace:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-pem-tropics:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-prove:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-roses:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sage-iii-iss:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sage-iii-m3m:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sassie:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-scp:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-seawinds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sentinel-1:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sentinel-3a:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sentinel-3b:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sif-esdr:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-smapvex08:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-snf:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-sorce:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-staqs:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-tcte:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-tiros:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-topex-poseidon:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-tovs-pathfinder:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-trace-p:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-transcom:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:nasa-tropics-evi-3:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-epic-global-release:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-gk2a-pds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-gmgsi:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-jpss:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-mrms-pds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-ncn:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-nesdis-tcprimed-pds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-nexrad:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-oar-myrorss-pds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-swdi:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-ufs-htf-pds:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-ufs-marinereanalysis:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:noaa-ufs-regtests:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+  aws_open_data:northern-california-earthquakes:
+    relevant: false
+    reason: "an Earth-science research mission archive: atmospheric chemistry, the carbon cycle, the cryosphere, hydrology or ecology. Real science, and not an input to a power-system or energy-system model"
+
+  # NOT RELEVANT — air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input
+  aws_open_data:asset-data-africa-brick-kilns:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:asset-data-igp-brick-kilns-ban:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:asset-data-igp-brick-kilns-ind:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:asset-data-igp-brick-kilns-pak:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:cmas-data-warehouse:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:epa-ember:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:epa-equates-v1:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:epa-hourly-prognostic-meteorology:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:open-ceda:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+  aws_open_data:openaq:
+    relevant: false
+    reason: "air-quality regulation and emissions inventory. Adjacent to the energy sector and not a power-system model input"
+
+  # NOT RELEVANT — not an energy or geospatial dataset at all — finance, law, language, robotics, web archives or public health records
+  aws_open_data:asl_1000:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:commoncrawl:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:dcc:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:deutsche-boerse-pds:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:fomo-norlab:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:lei:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:loc-sanborn-maps:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:spatial-ucr:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:topical-chat-enriched:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+  aws_open_data:zipcheckup-us-home-environmental-risk:
+    relevant: false
+    reason: "not an energy or geospatial dataset at all \u2014 finance, law, language, robotics, web archives or public health records"
+

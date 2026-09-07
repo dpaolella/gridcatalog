@@ -106,6 +106,12 @@ class Settings(BaseSettings):
     #: wants it off rather than wanting every probe to time out.
     harvest_probe_schemas: bool = True
 
+    #: Recorded relevance decisions for the filter's third stage (PRD §7.2).
+    #: Committed data rather than a runtime model call — see
+    #: `datahub.harvest.filters.decisions` for why. Absent file, empty mapping,
+    #: and the filter behaves as it did before one existed.
+    relevance_decisions_path: Path = REPO_ROOT / "data" / "relevance-decisions.yaml"
+
     # ---- enrichment -----------------------------------------------------
     enrichment_enabled: bool = False
     anthropic_api_key: str | None = None
