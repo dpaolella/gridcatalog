@@ -159,12 +159,19 @@ range-requests-without-chunk-index:
   why: "PRD \xA74.5 shape 4. Advertising a capability the broker cannot use yields a plan that does not\
     \ work."
 record-without-distribution:
-  constraint: MinCount
+  constraint: SPARQL
   focus_node: https://catalog.opengrid.org/ds/broken
   level: 1
   message_contains: where do I get it
-  path: dcat:distribution
-  why: 'Even a Tier 3 pointer carries a distribution: the landing page.'
+  path: null
+  why: "A record the catalog offers must answer one of the four questions the catalog exists to answer. This was sh:minCount 1 on dcat:distribution, and the only way to satisfy it for a dataset with no access path was to invent a URL — which the seed loader did, 34 times, and the UI rendered as a live button (#18). Now a SPARQL constraint, so it can exempt the one case where the absence is the point: see reference-only-without-a-reason."
+reference-only-without-a-reason:
+  constraint: SPARQL
+  focus_node: https://catalog.opengrid.org/ds/broken
+  level: 1
+  message_contains: must carry og:pointerRationale
+  path: null
+  why: "The exemption above has a price. A reference-only record may omit its distribution because there is genuinely nothing to point at, and it must then say why — otherwise a deliberate gap (PRD §5) and an oversight look identical, which is the same reasoning as og:provenanceGap in ADR-0011."
 self-supersession:
   constraint: SPARQL
   focus_node: https://catalog.opengrid.org/ds/broken

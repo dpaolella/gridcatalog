@@ -113,6 +113,7 @@ def build_document(
         temporal=_temporal(graph, iri),
         tier=tier,
         reference_only=_bool(graph.value(iri, OG.referenceOnly)) or tier == 3,
+        pointer_rationale=_str(graph.value(iri, OG.pointerRationale)),
         completeness_level=level,
         review_state=_str(graph.value(iri, OG.reviewState)) or "draft",
         harvest_source=_str(graph.value(iri, OG.harvestSource)),

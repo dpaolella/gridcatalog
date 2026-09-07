@@ -217,13 +217,25 @@ def test_booleans_survive_the_round_trip_as_booleans(documents) -> None:
 # ---- structure -----------------------------------------------------------
 
 
-def test_every_record_has_an_access_path(documents) -> None:
+def test_every_record_has_an_access_path_or_says_why_it_has_none(documents) -> None:
     """ "Where do I get it" is one of the four questions the catalog exists to
-    answer, so a record with no distribution is a record that cannot answer
-    it — including a tier 3 pointer, whose distribution is its landing page."""
+    answer, so a record the catalog offers and cannot locate is a broken record.
+
+    This used to end at `assert node["distribution"]`, and the comment said "a
+    tier 3 pointer's distribution is its landing page". For 34 of them the seed
+    inventory has no landing page, so the loader minted one —
+    `https://opengrid.org/catalog/no-known-access-path` — and this assertion
+    passed on a fabricated URL (#18). A reference-only record may now have no
+    distribution, and must say why instead; the pair is enforced by
+    `og:AccessPathShape` and covered in `test_no_fabricated_access.py`.
+    """
     for dataset_id, (_, node) in documents.items():
-        distributions = node["distribution"]
-        assert distributions, dataset_id
+        if node.get("referenceOnly"):
+            assert node.get("distribution") or str(node.get("pointerRationale") or "").strip(), (
+                f"{dataset_id} offers nothing and explains nothing"
+            )
+        else:
+            assert node["distribution"], dataset_id
 
 
 def test_tier_three_records_are_marked_reference_only(documents) -> None:

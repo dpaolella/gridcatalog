@@ -143,6 +143,14 @@ class SearchDocument(BaseModel):
     """Internal build-prioritisation fact. Never rendered as a quality signal
     (PRD §5); the API exposes it only as ``reference_only`` for tier 3."""
     reference_only: bool = False
+    pointer_rationale: str | None = None
+    """Why a reference-only record has no access path.
+
+    Required by ``og:AccessPathShape`` of any reference-only record with no
+    distribution, so on those it is always present — and it is the only thing
+    the Downloads tab has to show, since there is nothing to download. Without
+    it the reader gets a blank tab where 34 records have their whole point
+    (PRD §5: a catalog that says what does not exist)."""
     completeness_level: CompletenessLevel = 1
     review_state: str = "draft"
     harvest_source: str | None = None

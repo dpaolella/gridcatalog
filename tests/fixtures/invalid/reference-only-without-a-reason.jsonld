@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/broken",
+      "type": "Dataset",
+      "title": "Broken record",
+      "description": "A reference-only pointer with no access path and no explanation. Declaring referenceOnly is what lets a record omit its distribution; omitting the reason as well turns a documented gap back into a blank.",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/ceii",
+      "anonymousAccess": false,
+      "documentationStatus": "none",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "tier": 3,
+      "referenceOnly": true
+    }
+  ]
+}

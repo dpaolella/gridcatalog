@@ -224,9 +224,20 @@ og:DatasetShape a sh:NodeShape ;
   ] ;
 
   # ---- D11 distributions, level 1 ----
+  #
+  # `sh:minCount 1` used to be here, and the message said "Tier 3 pointers still
+  # carry a distribution: the landing page." For 34 of them the seed inventory
+  # records no landing page, no DOI and no secondary access — so the loader
+  # minted `https://opengrid.org/catalog/no-known-access-path` to satisfy this
+  # line, and the UI rendered it as a live "Open at source" button on 23
+  # published records. A fabricated URL is exactly what PRD §14.4 forbids, and
+  # this constraint was what made fabricating one the only way to publish.
+  #
+  # The requirement moved to og:AccessPathShape, which asks the same question of
+  # a dataset the catalog offers and a different one of a reference-only pointer.
   sh:property [
-    sh:path dcat:distribution ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
-    sh:message "A record with no distribution cannot answer 'where do I get it', which is one of the four things the catalog exists to do. Tier 3 pointers still carry a distribution: the landing page." ;
+    sh:path dcat:distribution ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "dcat:distribution points at Distribution nodes by IRI." ;
   ] ;
 
   # ---- D12 fitness, level 2 ----
@@ -348,6 +359,52 @@ og:DatasetShape a sh:NodeShape ;
   ) ;
   og:orAppliesAtLevel 1 ;
   sh:message "Every record either states how its values came to exist or carries an explicit og:provenanceGap saying why it cannot. Silence is not an option: a record with no provenance class is indistinguishable from one nobody looked at, and the Provenance grade cannot tell those apart (PRD X4, ADR-0011)." .
+
+# ---- D11 + PRD §5: an access path, or a stated reason there is none ----
+#
+# Two constraints that together replace one `sh:minCount 1` (see D11 above).
+#
+# A dataset the catalog offers must answer "where do I get it" — one of the four
+# questions the catalog exists to answer. A **reference-only** record does not
+# offer anything: it is the PRD §5 feature, a record that exists so a gap is
+# visible, and the 34 in the seed inventory are datasets that are
+# CEII-designated, commercial, membership-restricted, or superseded. For those
+# an access path is not missing metadata; there is nothing to point at.
+#
+# So the requirement inverts rather than lapsing. A reference-only record with
+# no distribution must say **why** it has none, in og:pointerRationale, where a
+# reader sees it. Silence is not an option on either side — the same reasoning
+# as og:provenanceGap (ADR-0011): a blank is indistinguishable from nobody
+# having looked.
+#
+# SPARQL rather than `sh:or` because the two branches are not alternatives to
+# each other. They are one condition on og:referenceOnly with a different
+# obligation on each side, and a disjunction would let a real dataset satisfy it
+# by declaring itself reference-only.
+og:AccessPathShape a sh:NodeShape ;
+  sh:targetClass dcat:Dataset ;
+  og:appliesAtLevel 1 ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "A record with no dcat:distribution cannot answer 'where do I get it', which is one of the four things the catalog exists to do. If there is genuinely no access path, say so — og:referenceOnly true plus og:pointerRationale — rather than inventing a URL to satisfy this (PRD §14.4)." ;
+    sh:select """
+      SELECT $this WHERE {
+        FILTER NOT EXISTS { $this <http://www.w3.org/ns/dcat#distribution> ?dist }
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#referenceOnly> true }
+      }
+    """ ;
+  ] ,
+  [
+    a sh:SPARQLConstraint ;
+    sh:message "A reference-only record with no access path must carry og:pointerRationale saying why there is none — restricted, commercial, superseded, or that the inventory records no reason. The record exists so the gap is visible (PRD §5), and a gap with nothing said about it is indistinguishable from an oversight." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#referenceOnly> true .
+        FILTER NOT EXISTS { $this <http://www.w3.org/ns/dcat#distribution> ?dist }
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#pointerRationale> ?why }
+      }
+    """ ;
+  ] .
 
 # ---- D7: a dataset cannot supersede itself -----------------------------
 

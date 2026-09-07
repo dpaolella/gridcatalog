@@ -490,6 +490,10 @@ class DatasetDetail(DatasetSummary):
     supported_analysis: list[ConceptRef] = Field(default_factory=list)
     excluded_analysis: list[ConceptRef] = Field(default_factory=list)
     exclusion_rationale: str | None = None
+    #: Why a reference-only record has no access path. The Downloads tab's whole
+    #: content for the 34 records that have none — without it the reader gets an
+    #: empty tab instead of "CEII-designated, permanently out of reach" (#18).
+    pointer_rationale: str | None = None
     upstream_count: int = 0
     supersedes: list[str] = Field(default_factory=list)
     superseded_by: str | None = None
@@ -519,6 +523,7 @@ class DatasetDetail(DatasetSummary):
             doi=doc.doi,
             supported_analysis=doc.supported_analysis,
             excluded_analysis=doc.excluded_analysis,
+            pointer_rationale=doc.pointer_rationale,
             upstream_count=doc.upstream_count,
             supersedes=doc.supersedes,
             superseded_by=doc.superseded_by,

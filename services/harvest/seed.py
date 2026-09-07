@@ -221,7 +221,6 @@ class SeedLoader:
             "harvestSource": "curated",
             "sourceRecordId": harvested.source_id,
             "visibility": "public",
-            "distribution": [f"{DISTRIBUTION_BASE}{slug}--primary"],
             "modified": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         }
 
@@ -229,8 +228,9 @@ class SeedLoader:
             record["tier"] = tier
             if tier == 3:
                 record["referenceOnly"] = True
-        if entry.get("pointer_rationale"):
-            record["pointerRationale"] = _clean(entry["pointer_rationale"])
+        rationale = self._pointer_rationale(entry)
+        if rationale:
+            record["pointerRationale"] = rationale
         if entry.get("access_barrier"):
             record["accessBarrier"] = entry["access_barrier"]
         if entry.get("doi"):
@@ -244,9 +244,15 @@ class SeedLoader:
         if summary:
             record["summary"] = summary
 
-        record["distribution"] = [self._distribution(slug, entry)]
+        # No key at all when there is no access path, rather than an empty list:
+        # the difference is "this record does not answer where to get it" versus
+        # "it answers, with nothing", and the second is not a thing to say.
+        primary = self._distribution(slug, entry)
+        distributions = [primary] if primary is not None else []
         if entry.get("secondary_access") or entry.get("api"):
-            record["distribution"].append(self._secondary(slug, entry))
+            distributions.append(self._secondary(slug, entry))
+        if distributions:
+            record["distribution"] = distributions
 
         record["qualityFlags"] = {
             "id": f"{iri}#flags",
@@ -400,28 +406,56 @@ class SeedLoader:
             return "none"
         return "partial" if entry.get("note") else "external-standard-only"
 
-    def _distribution(self, slug: str, entry: dict[str, Any]) -> dict[str, Any]:
-        """The primary access path.
+    def _pointer_rationale(self, entry: dict[str, Any]) -> str:
+        """Why this record has no access path, in the reader's words (#18).
 
-        Every record gets one, including a tier 3 pointer — for which it is the
-        landing page, because a record with no distribution cannot answer
-        "where do I get it", which is one of the four things the catalog exists
-        to do.
+        Required by ``og:AccessPathShape`` of any reference-only record with no
+        distribution, so it cannot be left to whether the inventory happened to
+        fill the column in. 27 of the 34 do; the rest fall through to a barrier
+        stated as a concept, and then to the honest last resort.
+
+        The fallback is a statement about the *record*, not about the dataset —
+        "the inventory records no reason" rather than "there is no reason". PRD
+        §14.2: a missing field means not captured, never does not exist. It is
+        deliberately not spliced into the description, which is assembled from
+        what the file states about the dataset itself.
         """
-        # FIXME(#18): this URL is fabricated, which PRD §14.4 forbids outright,
-        # and the UI renders it as a live "Open at source" button on 23 of 66
-        # published records.
-        #
-        # Not fixed here because omitting it is not the fix: level 1 requires at
-        # least one distribution and a distribution requires exactly one
-        # accessURL, so a record with no access path cannot validate — dropping
-        # the sentinel fails 34 seed rows rather than publishing them honestly.
-        # All 34 are tier 3 pointers with no access URL, no DOI and no secondary
-        # access, so there is genuinely nothing to point at. It needs either 34
-        # curated landing pages or a promotion-policy decision about publishing a
-        # record that cannot answer "where do I get it" — both of which belong
-        # with the ingestion work, not here.
-        url = entry.get("access") or "https://opengrid.org/catalog/no-known-access-path"
+        stated = _clean(entry.get("pointer_rationale") or "")
+        if stated:
+            return stated
+        if not entry.get("access"):
+            barrier = entry.get("access_barrier")
+            if barrier:
+                return (
+                    f"No access path is recorded. The seed inventory classifies the barrier "
+                    f"as {barrier}."
+                )
+            return (
+                "No access path is recorded, and the seed inventory gives no reason for its "
+                "absence. Catalogued so the gap is visible; treat the absence as unexamined "
+                "rather than as evidence that the dataset cannot be obtained."
+            )
+        return ""
+
+    def _distribution(self, slug: str, entry: dict[str, Any]) -> dict[str, Any] | None:
+        """The primary access path, or ``None`` where the inventory records none.
+
+        ``None`` for 34 of the 114 rows, all of them tier 3 pointers with no
+        access URL, no DOI and no secondary access — CEII-designated, commercial,
+        membership-restricted or superseded datasets that the catalog lists so
+        the gap is visible (PRD §5) and does not claim to offer.
+
+        This used to mint ``https://opengrid.org/catalog/no-known-access-path``
+        and hand it back as a real distribution, because level 1 required one and
+        a distribution requires an accessURL. The UI rendered it as a live
+        "Open at source" button on 23 of 66 published records. A fabricated URL
+        is precisely what PRD §14.4 forbids, and the constraint that forced it
+        has moved: ``og:AccessPathShape`` now asks a reference-only record for
+        ``og:pointerRationale`` instead of a URL it does not have.
+        """
+        url = entry.get("access")
+        if not url:
+            return None
         dist: dict[str, Any] = {
             "id": f"{DISTRIBUTION_BASE}{slug}--primary",
             "type": "Distribution",
@@ -434,8 +468,6 @@ class SeedLoader:
             dist["bulkDownload"] = bool(entry["bulk"])
         if entry.get("anonymous") is not None:
             dist["anonymousAccess"] = bool(entry["anonymous"])
-        if not entry.get("access"):
-            dist["formatLabel"] = "No access path recorded in the seed inventory"
         return dist
 
     def _secondary(self, slug: str, entry: dict[str, Any]) -> dict[str, Any]:

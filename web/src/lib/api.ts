@@ -313,6 +313,11 @@ export interface DatasetDetail extends DatasetSummary {
   harvest_source?: string | null;
   upstream_sources?: string[];
   exclusion_rationale?: string | null;
+  /** Why a reference-only record has no access path — restricted, commercial,
+   *  superseded, or that the inventory records no reason. The Downloads tab's
+   *  entire content for a record with no distributions, which is the point of
+   *  cataloguing one: the gap is the information. */
+  pointer_rationale?: string | null;
 }
 
 export interface FacetBucket {

@@ -184,6 +184,13 @@ INDEX_MAPPING: dict[str, Any] = {
             },
             "tier": {"type": "integer"},
             "reference_only": {"type": "boolean"},
+            # Mapped but not in the free-text query: it explains an absence, and
+            # matching a search for "commercial" against "no access path, the
+            # barrier is commercial" would rank a dataset nobody can obtain
+            # above the ones they can. `index: false` says store and return,
+            # never search — and the mapping is `dynamic: strict`, so a field
+            # the projector emits and this omits fails the whole index write.
+            "pointer_rationale": {"type": "text", "index": False},
             "completeness_level": {"type": "integer"},
             "review_state": {"type": "keyword"},
             "harvest_source": {"type": "keyword"},

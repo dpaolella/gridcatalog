@@ -189,6 +189,8 @@
     "help": "OpenGrid redirects you to the source and never proxies the bytes. For a partial read of a large dataset, use the SDK — it fetches an access plan and reads only the slice you asked for.",
     "download": "Download",
     "openSource": "Open at source",
+    "noneTitle": "No access path — catalogued so the gap is visible",
+    "noneHelp": "OpenGrid lists this dataset without being able to offer it. Knowing that it exists, and why it is out of reach, is more useful than the catalog staying silent about it.",
     "sdk": "Read a slice with the SDK",
     "size": "Size",
     "format": "Format",

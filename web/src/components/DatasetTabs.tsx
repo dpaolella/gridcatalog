@@ -145,7 +145,9 @@ export function DatasetTabs({
             {tab === "schema" ? <Schema schema={schema} /> : null}
             {tab === "quality" ? <Quality quality={quality} dataset={dataset} /> : null}
             {tab === "connections" ? <ConnectionsTab links={links} /> : null}
-            {tab === "downloads" ? <Downloads distributions={distributions} /> : null}
+            {tab === "downloads" ? (
+              <Downloads dataset={dataset} distributions={distributions} />
+            ) : null}
           </section>
         ))}
       </div>
@@ -586,12 +588,40 @@ function ConnectionsTab({ links }: { links: LinksResponse | null }) {
   return <Connections links={links.links} />;
 }
 
-function Downloads({ distributions }: { distributions: DistributionDetail[] }) {
+/**
+ * Where to get it — or, for a reference-only record, why you cannot.
+ *
+ * The second case is 34 of the seed records and it is not a degraded version of
+ * the first. A CEII-designated network model, a membership-restricted outage
+ * database, a commercial forward curve: the catalog lists them so the gap is
+ * visible (PRD §5), and `pointer_rationale` is the whole of what it has to say.
+ *
+ * These used to carry a distribution pointing at
+ * `https://opengrid.org/catalog/no-known-access-path` — a URL the loader
+ * invented to satisfy a shape, rendered here as a live "Open at source" button
+ * that went nowhere. Now they carry no distribution and this tab says why (#18).
+ */
+function Downloads({
+  dataset,
+  distributions,
+}: {
+  dataset: DatasetDetail;
+  distributions: DistributionDetail[];
+}) {
   const t = useTranslations("downloads");
   const empty = useTranslations("empty");
 
   if (!distributions.length) {
-    return <EmptyState title={empty("noDistributions")} />;
+    return (
+      <EmptyState title={dataset.pointer_rationale ? t("noneTitle") : empty("noDistributions")}>
+        {dataset.pointer_rationale ? (
+          <>
+            <p>{dataset.pointer_rationale}</p>
+            <p className="mt-3">{t("noneHelp")}</p>
+          </>
+        ) : null}
+      </EmptyState>
+    );
   }
 
   return (
