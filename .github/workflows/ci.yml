@@ -157,6 +157,11 @@ jobs:
           discovery.type: single-node
           DISABLE_SECURITY_PLUGIN: "true"
           OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+          # Three hundred lines of plugin-loading chatter get printed into this
+          # job's log at teardown, *after* the test output, which buries the
+          # thing anybody opening a failed run came to read. At WARN the log is
+          # empty unless something is wrong, which is when it is worth having.
+          logger.level: WARN
         ports: ["9200:9200"]
       postgres:
         image: postgres:16
@@ -183,11 +188,37 @@ jobs:
           uv venv --python ${{ env.PYTHON_VERSION }} .venv
           uv pip install --python .venv/bin/python -e ".[dev,opensearch,postgres,queue]"
       - name: Wait for services
+        # This loop has never once succeeded. `curl -sf http://localhost:3030/$`
+        # asks Fuseki for the literal path `/$`, which is a 404 — so the `&&`
+        # never fired, the loop always burned its full 60 iterations, and the
+        # job then spent three minutes waiting before running the tests against
+        # whatever state the services happened to be in. A readiness check that
+        # cannot pass is the same defect as the empty-selection check below: it
+        # costs the time and buys the appearance of a check.
+        #
+        # It probes the endpoint the tests use rather than a liveness page. A
+        # Fuseki that is up without the `datahub` dataset answers the second and
+        # fails every graph assertion, and that difference is the whole point of
+        # asking.
         run: |
+          ready() {
+            curl -sf http://localhost:9200 >/dev/null || return 1
+            curl -sf -u admin:admin --data-urlencode 'query=ASK {}' \
+              http://localhost:3030/datahub/query >/dev/null || return 1
+          }
           for i in $(seq 1 60); do
-            curl -sf http://localhost:9200 >/dev/null && curl -sf http://localhost:3030/$ >/dev/null && break
+            if ready; then
+              echo "services ready after $((i * 3))s"
+              exit 0
+            fi
             sleep 3
           done
+          echo "::error::Fuseki or OpenSearch never became ready. The integration" \
+               "suite would have run against services that are not there."
+          curl -sS http://localhost:9200 || true
+          curl -sS -u admin:admin --data-urlencode 'query=ASK {}' \
+            http://localhost:3030/datahub/query || true
+          exit 1
       - name: Migrate
         run: .venv/bin/alembic -c ops/alembic.ini upgrade head
       - name: Refuse to pass on an empty selection
@@ -206,4 +237,7 @@ jobs:
           fi
 
       - name: Parity and integration suites
-        run: .venv/bin/pytest -q -m integration
+        # `-rf` and a one-line traceback: a parity failure is "this backend
+        # differs", and the assertion line says which. The full traceback adds
+        # nothing and pushes the summary further from the end of the log.
+        run: .venv/bin/pytest -q -m integration --tb=line -rf
