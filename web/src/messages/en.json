@@ -326,5 +326,17 @@
     "no": "No",
     "notCaptured": "Not captured",
     "tokensHelp": "Personal access tokens are issued through the API — POST /v1/auth/tokens — and shown once. Only a keyed hash is stored, so there is no way to show one again."
+  },
+  "cadence": {
+    "yearly": "yearly",
+    "twiceAYear": "twice a year",
+    "quarterly": "quarterly",
+    "monthly": "monthly",
+    "weekly": "weekly",
+    "daily": "daily",
+    "hourly": "hourly",
+    "irregular": "irregular",
+    "onDemand": "on demand",
+    "discontinued": "discontinued"
   }
 }

@@ -14,7 +14,14 @@ import type {
 import { BboxSummary, CoverageMap, CoverageTimeline, bboxToWkt } from "@/components/Coverage";
 import { Connections } from "@/components/Connections";
 import { EmptyState, NotCaptured } from "@/components/EmptyState";
-import { formatBytes, formatCadence, formatDate, formatNumber, iriTail } from "@/lib/format";
+import {
+  cadenceText,
+  formatBytes,
+  formatCadence,
+  formatDate,
+  formatNumber,
+  iriTail,
+} from "@/lib/format";
 
 /**
  * The seven tabs from PRD §F3, in the order the PRD lists them — which is also
@@ -320,6 +327,7 @@ function Provenance({
 
 function Coverage({ dataset }: { dataset: DatasetDetail }) {
   const t = useTranslations("coverage");
+  const cadence = useTranslations("cadence");
   const wkt = bboxToWkt(dataset.spatial?.bbox);
 
   return (
@@ -362,10 +370,14 @@ function Coverage({ dataset }: { dataset: DatasetDetail }) {
           <Row label={t("from")}>{formatDate(dataset.temporal?.start) ?? <NotCaptured />}</Row>
           <Row label={t("to")}>{formatDate(dataset.temporal?.end) ?? <NotCaptured />}</Row>
           <Row label={t("cadence")}>
-            {formatCadence(dataset.temporal?.update_cadence) ?? <NotCaptured />}
+            {cadenceText(formatCadence(dataset.temporal?.update_cadence), cadence) ?? (
+              <NotCaptured />
+            )}
           </Row>
           <Row label={t("resolution")}>
-            {formatCadence(dataset.temporal?.time_resolution) ?? <NotCaptured />}
+            {cadenceText(formatCadence(dataset.temporal?.time_resolution), cadence) ?? (
+              <NotCaptured />
+            )}
           </Row>
         </Rows>
       </section>

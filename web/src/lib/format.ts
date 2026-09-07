@@ -58,36 +58,49 @@ export function formatBytes(bytes?: number | null): string | null {
 }
 
 /**
- * An ISO 8601 duration as a phrase.
+ * An ISO 8601 duration as a *message key*, or the raw value.
  *
  * The update cadence is displayed beside the currency grade so a correctly
  * maintained annual dataset does not read as stale next to an hourly one
  * (PRD §F5). "P1Y" beside "Aging" tells a reader nothing; "yearly" does.
+ *
+ * It returns a key rather than the phrase because the phrases were English
+ * written into this file — "yearly", "twice a year", "on demand" — which is the
+ * one thing this module exists to prevent. PRD §F3 wants a second locale to be
+ * a message file, and a table of English inside the locale-aware layer makes it
+ * a code change instead.
+ *
+ * `{key}` means "render `cadence.<key>`". `{literal}` means the value is not one
+ * this build recognises, and is shown verbatim: a cadence of `P17D` is a real
+ * statement by a publisher, and dropping it would be worse than showing it raw.
  */
-export function formatCadence(value?: string | null): string | null {
+export type Cadence = { key: string } | { literal: string };
+
+export function formatCadence(value?: string | null): Cadence | null {
   if (!value) return null;
-  const named: Record<string, string> = {
+
+  const NAMED: Record<string, string> = {
     irregular: "irregular",
-    "on-demand": "on demand",
+    "on-demand": "onDemand",
     discontinued: "discontinued",
   };
-  if (named[value]) return named[value];
+  if (NAMED[value]) return { key: NAMED[value] };
 
   const match = /^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?)?$/.exec(
     value,
   );
-  if (!match) return value;
+  if (!match) return { literal: value };
   const [, years, months, weeks, days, hours, minutes] = match;
-  const simple: Record<string, string> = {
+  const SIMPLE: Record<string, string> = {
     "1Y": "yearly",
-    "6M": "twice a year",
+    "6M": "twiceAYear",
     "3M": "quarterly",
     "1M": "monthly",
     "1W": "weekly",
     "1D": "daily",
     "1H": "hourly",
   };
-  const key =
+  const token =
     (years && `${years}Y`) ||
     (months && `${months}M`) ||
     (weeks && `${weeks}W`) ||
@@ -95,7 +108,24 @@ export function formatCadence(value?: string | null): string | null {
     (hours && `${hours}H`) ||
     (minutes && `${minutes}min`) ||
     "";
-  return simple[key] ?? value;
+  const key = SIMPLE[token];
+  return key ? { key } : { literal: value };
+}
+
+/**
+ * A cadence rendered, given a translator for the `cadence` namespace.
+ *
+ * Takes `t` rather than importing one: this module has no locale of its own to
+ * consult, which is precisely the property that keeps the English in the
+ * message file. Both a server component's `getTranslations` and a client
+ * component's `useTranslations` satisfy the parameter.
+ */
+export function cadenceText(
+  cadence: Cadence | null,
+  t: (key: string) => string,
+): string | null {
+  if (cadence === null) return null;
+  return "key" in cadence ? t(cadence.key) : cadence.literal;
 }
 
 /** A dataset's coverage as a phrase: "2015 – 2026", or one open end. */
