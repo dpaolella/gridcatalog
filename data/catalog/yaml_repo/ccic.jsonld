@@ -1,0 +1,71 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The Chalmers Cloud Ice Climatology (CCIC) is a novel, deep-learning-based climate record of ice-particle concentrations in the atmosphere. CCIC results are available at high spatial and temporal resolution (0.07° / 3 h from 1983, 0.036° / 30 min from 2000) and thus ideally suited for evaluating high-resolution weather and climate models or studying individual weather systems.",
+      "distribution": [
+        {
+          "accessURL": "https://chalmerscloudiceclimatology.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ccic--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://ccic.readthedocs.io"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/ccic",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "zarr",
+        "atmosphere",
+        "global",
+        "satellite imagery",
+        "climate",
+        "ice",
+        "planetary",
+        "environmental",
+        "deep learning",
+        "geoscience",
+        "geospatial",
+        "aws-pds",
+        "geophysics",
+        "exploration"
+      ],
+      "landingPage": "https://registry.opendata.aws/ccic/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.673344+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ccic#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ccic#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:ccic",
+      "title": "Chalmers Cloud Ice Climatology",
+      "type": "Dataset",
+      "updateCadence": "P3M",
+      "visibility": "public"
+    }
+  ]
+}

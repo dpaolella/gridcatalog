@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The BraiDyn-BC (Brain Dynamics underlying emergence of Behavioral Change) Database offers an extensive, multimodal dataset that links wide-field calcium imaging of the mouse neocortex to comprehensive behavioral measurements during a behavioral task. As one of the contents in this database, we newly provide a dataset that includes 15 sessions spanning two weeks of motor skill learning, in which 25 mice were trained to pull a lever to obtain water rewards. Simultaneous high-speed videography captures body, facial, and eye movements, and environmental parameters are monitored. The dataset also features resting-state cortical activity and sensory-evoked responses, enhancing its utility for both learning-related and sensory-driven neural dynamics studies. Data are formatted in accordance with the Neurodata Without Borders (NWB) standard, ensuring compatibility with existing analysis tools and adherence to the FAIR principles. This resource enables in-depth investigations into the neural mechanisms underlying behavior and learning. The platform encourages collaborative research, supporting the exploration of rapid within-session learning effects, long-term behavioral adaptations, and neural circuit dynamics.",
+      "distribution": [
+        {
+          "accessURL": "https://braidyn-bc-buckets.s3.ap-northeast-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/braidyn-bc-cued-lever-pull--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.1101/2025.02.03.631599"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/braidyn-bc-cued-lever-pull",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "calcium imaging",
+        "aws-pds",
+        "video",
+        "imaging",
+        "Mus musculus",
+        "neuroscience",
+        "life sciences"
+      ],
+      "landingPage": "https://registry.opendata.aws/braidyn-bc_cued-lever-pull/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.607267+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/braidyn-bc-cued-lever-pull#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/braidyn-bc-cued-lever-pull#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:braidyn-bc_cued-lever-pull",
+      "title": "BraiDyn-BC: Cued lever-pull task dataset",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

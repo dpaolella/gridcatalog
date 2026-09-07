@@ -1,0 +1,47 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Copernicus GLO-30 DEM, a Geospatial & siting dataset, published as COG on anonymous S3, available at https://registry.opendata.aws/copernicus-dem/. Terrain and slope for siting exclusion. Already on AWS Open Data. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://registry.opendata.aws/copernicus-dem/",
+          "formatLabel": "COG on anonymous S3",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/copernicus-glo-30-dem--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/copernicus-glo-30-dem",
+      "license": "http://spdx.org/licenses/LicenseRef-Free-With-Attribution",
+      "licenseNote": "Free to reuse with attribution, under the publisher's own terms rather than a standard licence. The exact terms are on the publisher's site and have not been reviewed by a steward.",
+      "modified": "2026-09-07T07:34:28.722498+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/copernicus-glo-30-dem#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD10:copernicus-glo-30-dem",
+      "summary": "Terrain and slope for siting exclusion. Already on AWS Open Data.",
+      "tier": 1,
+      "title": "Copernicus GLO-30 DEM",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

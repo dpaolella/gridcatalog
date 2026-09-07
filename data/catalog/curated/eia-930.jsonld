@@ -1,0 +1,57 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "description": "EIA-930 Hourly Electric Grid Monitor, a Load & demand dataset, published as CSV, API, available at https://www.eia.gov/electricity/gridmonitor/. Hourly demand, generation by fuel, and interchange by balancing authority. DD4 anchor for the US. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://api.eia.gov/v2/electricity/rto",
+          "formatLabel": "API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eia-930--secondary",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.eia.gov/electricity/gridmonitor/",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "formatLabel": "CSV, API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eia-930--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/eia-930",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:34:23.341935+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review."
+        ],
+        "id": "https://catalog.opengrid.org/ds/eia-930#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD4:eia-930-hourly-electric-grid-monitor",
+      "summary": "Hourly demand, generation by fuel, and interchange by balancing authority. DD4 anchor for the US.",
+      "tier": 1,
+      "title": "EIA-930 Hourly Electric Grid Monitor",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

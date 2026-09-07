@@ -1,0 +1,116 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "ATL13QL is the quick look version of ATL13 and is based on the same algorithms that generate the ATL13 final data products. Once final ATL13 files are available, the corresponding ATL13QL files are removed. ATL13QL provides along-track surface water products for inland water bodies, defined as lakes, reservoirs, bays, estuaries, rivers, and a 7 km near-shore buffer. Data parameters include surface water height statistics and related parameters including significant wave height, transect slope, subsurface signal attenuation, and shallow water bathymetry. Water surface heights are provided as both orthometric height and height referencing the WGS84 ellipsoid. #### ATL09QL ATL09QL is the quick look version of ATL09 and is based on the same algorithms that generate the ATL09 final data products. Once final ATL09 files are available, the corresponding ATL09QL files are removed. ATL09QL contains calibrated, attenuated backscatter profiles (CAB), layer-integrated attenuated backscatter, blowing snow, and other parameters including cloud and aerosol layer height and atmospheric characteristics. The data were acquired by the Advanced Topographic Laser Altimeter System (ATLAS) instrument on board the ICESat-2 observatory. #### ATL08QL ATL08QL is the quick look version of ATL08 and is based on the same algorithms that generate the ATL08 final data products. Once final ATL08 files are available, the corresponding ATL08QL files are removed. ATL08QL contains along-track estimates of terrain height, canopy height, and canopy cover, as well as beam and reference parameters. Data were acquired by the Advanced Topographic Laser Altimeter System (ATLAS) instrument on board the ICESat-2 observatory. #### ATL10QL ATL10QL is the quick look version of ATL10 and is based on the same algorithms that generate the ATL10 final data products. Once final ATL10 files are available, the corresponding ATL10QL files are removed. ATL10 contains along-track sea ice freeboard calculated for 10 km swath segments. The data were acquired by the Advanced Topographic Laser Altimeter System (ATLAS) instrument on board the ICESat-2 observatory. #### ATL07QL ATL07QL is the quick look version of ATL07 and is based on the same algorithms that generate the ATL07 final data products. Once final ATL07 files are available, the corresponding ATL07QL files are removed. ATL07 contains along-track sea surface height and sea ice height for segments of variable lengths for all beams as well as fixed 10-meter segments for strong beams. Heights are also computed using the DDA-Bifurcation algorithm for strong beams. The data were acquired by the Advanced Topographic Laser Altimeter System (ATLAS) instrument on board the ICESat-2 observatory. #### SPL1BTB_NRT This Near Real-Time (NRT) data set corresponds to the standard SMAP L1B Radiometer Half-Orbit Time-Ordered Brightness Temperatures (SPL1BTB) product. The data provide calibrated estimates of time-ordered geolocated brightness temperature data measured by the Soil Moisture Active Passive (SMAP) passive microwave radiometer, the SMAP L-band radiometer. These Near Real-Time data are available within three hours of satellite observation. The data are created using the latest available ancillary data and spacecraft and antenna attitude data to reduce latency. The SMAP satellite orbits Earth every two to three days, providing half-orbit, ascending and descending, coverage from 86.4°S to 86.4°N in swaths 1000 km across. Data are stored for approximately two to three weeks. Thus, at any given time, users have access to at least fourteen consecutive days of Near Real-Time data through the NSIDC DAAC. Users deciding between the NRT and standard SMAP products should consider the immediacy of their needs versus the quality of the data required. Near real-time data are provided for operational needs whereas standard products meet the quality needs of scientific research. If latency is not a primary concern, users are encouraged to use the standard science product, SPL1BTB (https://doi.org/10.5067/ZHHBN1KQLI20). #### SPL2SMP_NRT This Near Real-Time (NRT) data set corresponds to the standard SMAP L2 Radiometer Half-Orbit 36 km EASE-Grid Soil Moisture (SPL2SMP) product. The data provide estimates of global land surface conditions measured by the Soil Moisture Active Passive (SMAP) passive microwave radiometer, the SMAP L-band radiometer. These Near Real-Time data are available within three hours of satellite observation. The data are created using the latest available ancillary data and spacecraft and antenna attitude data to reduce latency. The SMAP satellite orbits Earth every two to three days, providing half-orbit, ascending and descending, coverage from 86.4°S to 86.4°N in swaths 1000 km across. Data are stored for approximately two to three weeks. Thus, at any given time, users have access to at least fourteen consecutive days of Near Real-Time data through the NSIDC DAAC. Users deciding between the NRT and standard SMAP products should consider the immediacy of their needs versus the quality of the data required. Near real-time data are provided for operational needs whereas standard products meet the quality needs of scientific research. If latency is not a primary concern, users are encouraged to use the standard science product SPL2SMP (https://doi.org/10.5067/LPJ8F0TAK6E0). #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.nsidc.earthdatacloud.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ATLAS/ATL08QL/007",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP/SPL2SMP_NRT/107",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ATLAS/ATL10QL/007",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ATLAS/ATL09QL/007",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ATLAS/ATL07QL/007",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP/SPL1BTB_NRT/105",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ATLAS/ATL13QL/007",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-lance--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.earthdata.nasa.gov/data/projects/lance"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-lance",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "soil moisture",
+        "satellite imagery",
+        "ice"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-lance/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:20.545531+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-lance#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-lance#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-lance",
+      "title": "NASA LANCE Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

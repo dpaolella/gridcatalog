@@ -1,0 +1,67 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Earth & Atmospheric Sciences at Cornell University has created a public data lake of climate data. The data is stored in columnar storage formats (ORC) to make it straightforward to query using standard tools like Amazon Athena or Apache Spark. The data itself is originally intended to be used for building decision support tools for farmers and digital agriculture. The first dataset is the historical NDFD / NDGD data distributed by NCEP / NOAA / NWS. The NDFD (National Digital Forecast Database) and NDGD (National Digital Guidance Database) contain gridded forecasts and observations at 2.5km resolution for the Contiguous United States (CONUS). There are also 5km grids for several smaller US regions and non-continguous territories, such as Hawaii, Guam, Puerto Rico and Alaska. NOAA distributes archives of the NDFD/NDGD via its NOAA Operational Model Archive and Distribution System (NOMADS) in Grib2 format. The data has been converted to ORC to optimize storage space and to, more importantly, simplify data access via standard data analytics tools.",
+      "distribution": [
+        {
+          "accessURL": "https://cornell-eas-data-lake.s3.us-east-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/cornell-eas-data-lake--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://datalake.eas.cornell.edu/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/cornell-eas-data-lake",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9, DD10 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "geospatial",
+        "earth observation",
+        "mapping",
+        "aws-pds",
+        "agriculture",
+        "elevation",
+        "meteorological",
+        "weather",
+        "climate",
+        "environmental"
+      ],
+      "landingPage": "https://registry.opendata.aws/cornell-eas-data-lake/",
+      "license": "https://datalake.eas.cornell.edu/license.txt",
+      "modified": "2026-09-07T07:36:17.791178+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/cornell-eas-data-lake#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/cornell-eas-data-lake#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:cornell-eas-data-lake",
+      "title": "Cornell EAS Data Lake",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

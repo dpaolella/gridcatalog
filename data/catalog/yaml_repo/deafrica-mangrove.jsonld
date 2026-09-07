@@ -1,0 +1,76 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The Global Mangrove Watch (GMW) dataset is a result of the collaboration between Aberystwyth University (U.K.), solo Earth Observation (soloEO; Japan), Wetlands International the World Conservation Monitoring Centre (UNEP-WCMC) and the Japan Aerospace Exploration Agency (JAXA). The primary objective of producing this dataset is to provide countries lacking a national mangrove monitoring system with first cut mangrove extent and change maps, to help safeguard against further mangrove forest loss and degradation. The Global Mangrove Watch dataset (version 2) consists of a global baseline map of mangroves for 2010 and changes from this baseline for six epochs i.e. 1996, 2007, 2008, 2009, 2015 and 2016. Annual maps are planned from 2018 and onwards. The dataset can be used to identify mangrove ecosystems and monitor changes in mangrove extent. This is important in applications such as quantifying ‘blue carbon’, mitigating risks from natural disasters, and prioritising restoration activities. For more information on the Global Watch Mangrove product see the Global Mangrove Watch website.",
+      "distribution": [
+        {
+          "accessURL": "https://deafrica-services-inventory.s3.af-south-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-mangrove--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-input-datasets.s3.af-south-1.amazonaws.com/gmw",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-mangrove--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://docs.digitalearthafrica.org/en/latest/data_specs/Global_Mangrove_Watch_specs.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/deafrica-mangrove",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "natural resource",
+        "satellite imagery",
+        "stac",
+        "sustainability",
+        "geospatial",
+        "earth observation",
+        "aws-pds",
+        "coastal",
+        "cog",
+        "deafrica",
+        "land cover"
+      ],
+      "landingPage": "https://registry.opendata.aws/deafrica-mangrove/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.894536+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/deafrica-mangrove#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/deafrica-mangrove#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:deafrica-mangrove",
+      "title": "Digital Earth Africa Global Mangrove Watch",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

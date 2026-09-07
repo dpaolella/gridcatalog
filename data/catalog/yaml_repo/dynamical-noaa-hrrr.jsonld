@@ -1,0 +1,58 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The High-Resolution Rapid Refresh (HRRR) is a NOAA real-time 3-km resolution, hourly updated, cloud-resolving, convection-allowing atmospheric model, initialized by 3km grids with 3km radar assimilation. Radar data is assimilated in the HRRR every 15 min over a 1-h period adding further detail to that provided by the hourly data assimilation from the 13km radar-enhanced Rapid Refresh. These datasets have been translated to cloud-optimized Icechunk Zarr format by [dynamical.org](https://dynamical.org). - [NOAA HRRR forecast, 18 hour, virtual](https://dynamical.org/catalog/noaa-hrrr-forecast-18-hour-virtual/) - Weather forecasts from the High-Resolution Rapid Refresh (HRRR) model operated by NOAA NWS NCEP. - [NOAA HRRR forecast, 48 hour](https://dynamical.org/catalog/noaa-hrrr-forecast-48-hour/) - Weather forecasts from the High-Resolution Rapid Refresh (HRRR) model operated by NOAA NWS NCEP. - [NOAA HRRR forecast, 48 hour, virtual](https://dynamical.org/catalog/noaa-hrrr-forecast-48-hour-virtual/) - Weather forecasts from the High-Resolution Rapid Refresh (HRRR) model operated by NOAA NWS NCEP. - [NOAA HRRR analysis](https://dynamical.org/catalog/noaa-hrrr-analysis/) - Analysis data from the High-Resolution Rapid Refresh (HRRR) model operated by NOAA NWS NCEP. - [NOAA HRRR analysis, virtual](https://dynamical.org/catalog/noaa-hrrr-analysis-virtual/) - Analysis data from the High-Resolution Rapid Refresh (HRRR) model operated by NOAA NWS NCEP.",
+      "distribution": [
+        {
+          "accessURL": "https://dynamical-noaa-hrrr.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dynamical-noaa-hrrr--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://dynamical.org/catalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "zarr",
+        "atmosphere",
+        "forecast",
+        "meteorological",
+        "weather",
+        "climate"
+      ],
+      "landingPage": "https://registry.opendata.aws/dynamical-noaa-hrrr/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.991122+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:dynamical-noaa-hrrr",
+      "title": "NOAA HRRR - dynamical.org Icechunk Zarr",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "SnpEff is a variant annotation and effect prediction tool that annotates and predicts the effects of genetic variants on genes and proteins (such as amino acid changes). It supports over 38,000 genomes and provides comprehensive genomic databases for variant annotation. The databases include reference genomes, gene annotations, protein sequences, and regulatory elements from trusted sources like ENSEMBL, RefSeq, and UCSC. SnpSift complements SnpEff by providing tools to annotate genomic variants using databases, filter large genomic datasets, and manipulate annotated variants. Together, these tools provide a complete solution for genomic variant analysis, supporting research in human genetics, cancer genomics, pharmacogenomics, and model organism studies.",
+      "distribution": [
+        {
+          "accessURL": "https://snpeff-public.s3.us-east-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/snpeff--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://pcingola.github.io/SnpEff/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/snpeff",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "vcf",
+        "genome",
+        "structural variation",
+        "genetic",
+        "life sciences",
+        "genomic",
+        "cancer",
+        "variant annotation",
+        "aws-pds",
+        "whole genome sequencing",
+        "protein",
+        "bioinformatics",
+        "transcriptomics",
+        "whole exome sequencing"
+      ],
+      "landingPage": "https://registry.opendata.aws/snpeff/",
+      "license": "http://spdx.org/licenses/MIT",
+      "modified": "2026-09-07T07:36:23.949614+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/snpeff#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/snpeff#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:snpeff",
+      "title": "SnpEff & SnpSift Genomic Variant Annotation Databases",
+      "type": "Dataset",
+      "updateCadence": "P1M",
+      "visibility": "public"
+    }
+  ]
+}

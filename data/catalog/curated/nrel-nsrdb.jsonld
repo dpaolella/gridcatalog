@@ -1,0 +1,148 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "attribution": "National Renewable Energy Laboratory",
+      "bboxMaxLat": 60.0,
+      "bboxMaxLon": -25.0,
+      "bboxMinLat": -20.0,
+      "bboxMinLon": -180.0,
+      "bboxWKT": "POLYGON((-180.0 -20.0, -25.0 -20.0, -25.0 60.0, -180.0 60.0, -180.0 -20.0))",
+      "commercialUseAllowed": true,
+      "completenessLevel": 2,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The NSRDB provides GHI, DNI and DHI derived from geostationary satellite imagery through the PSM physical model, with supporting meteorology. It is the reference solar resource dataset for US work. The record is a good example of why access paths are modelled separately: the OEDI Parquet copy on S3 is anonymous and bulk-downloadable, while the developer API is key-gated and rate-limited, and the barrier classification differs between them even though the data is the same.",
+      "distribution": [
+        {
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+          "accessURL": "https://developer.nrel.gov/api/nsrdb",
+          "anonymousAccess": false,
+          "bulkDownload": false,
+          "credentialRequirement": "NREL developer API key, free on registration; rate-limited per key",
+          "formatLabel": "CSV per point, on request",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--developer-api",
+          "linkHealth": {
+            "consecutiveFailures": 0,
+            "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--developer-api#health",
+            "lastProbedAt": "2026-09-01T04:00:00+00:00",
+            "linkHealthStatus": "verified",
+            "probeCadence": "P1D",
+            "type": "LinkHealth"
+          },
+          "mediaType": "text/csv",
+          "supportsRangeRequests": false,
+          "type": "Distribution"
+        },
+        {
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+          "accessURL": "s3://nrel-pds-nsrdb/",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "byteSize": 549755813888,
+          "chunkIndexMethod": "hdf5-btree",
+          "corsEnabled": false,
+          "formatLabel": "HDF5 on anonymous S3, via the OEDI data lake",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3",
+          "linkHealth": {
+            "consecutiveFailures": 0,
+            "id": "https://catalog.opengrid.org/dist/nrel-nsrdb--oedi-s3#health",
+            "lastProbedAt": "2026-09-01T04:00:00+00:00",
+            "linkHealthStatus": "verified",
+            "probeCadence": "P7D",
+            "type": "LinkHealth"
+          },
+          "mediaType": "application/x-hdf5",
+          "supportsRangeRequests": true,
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "fully-documented",
+      "harvestSource": "curated",
+      "hasField": [
+        {
+          "dataType": "int16",
+          "definition": "Beam radiation on a surface normal to the sun.",
+          "fieldId": "DNI",
+          "fieldSource": [
+            "https://catalog.opengrid.org/upstream/goes-psm"
+          ],
+          "id": "https://catalog.opengrid.org/field/nrel-nsrdb/dni",
+          "label": "Direct normal irradiance",
+          "localName": "DNI",
+          "required": true,
+          "type": "Field",
+          "valueBasis": "modeled"
+        },
+        {
+          "dataType": "int16",
+          "definition": "Total shortwave radiation on a horizontal surface, as an instantaneous value at the half-hour timestamp.",
+          "fieldId": "GHI",
+          "fieldSource": [
+            "https://catalog.opengrid.org/upstream/goes-psm"
+          ],
+          "id": "https://catalog.opengrid.org/field/nrel-nsrdb/ghi",
+          "label": "Global horizontal irradiance",
+          "localName": "GHI",
+          "required": true,
+          "type": "Field",
+          "valueBasis": "modeled"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/nrel-nsrdb",
+      "issued": "2015-01-01T00:00:00+00:00",
+      "keyword": [
+        "solar",
+        "NSRDB",
+        "GHI",
+        "satellite",
+        "DNI",
+        "irradiance"
+      ],
+      "license": "https://spdx.org/licenses/CC-BY-3.0",
+      "modified": "2025-06-01T00:00:00+00:00",
+      "nativeCRS": "EPSG:4326",
+      "persistentId": "https://data.openei.org/submissions/57",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "publisher": "https://catalog.opengrid.org/agent/nrel",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#flags",
+        "staleness": "current",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "confirmed",
+      "shareAlike": false,
+      "spatialGranularity": "gridded",
+      "spatialLabel": [
+        "Americas",
+        "United States"
+      ],
+      "spatialResolution": "4 km",
+      "summary": "Satellite-derived half-hourly solar irradiance and meteorological data on a 4 km grid, covering the Americas and expanding regions.",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/siting",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "temporal": {
+        "endDate": "2024-12-31T23:30:00+00:00",
+        "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#temporal",
+        "startDate": "1998-01-01T00:00:00+00:00",
+        "type": "PeriodOfTime"
+      },
+      "tier": 1,
+      "timeResolution": "PT30M",
+      "title": "NREL National Solar Radiation Database",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Projects that use the dsgrid toolkit assemble bottom-up descriptions of electricity demand and related data that are highly resolved geographically, temporally, and sectorally. Typically modelers describe multiple scenarios of future energy use at hourly resolution, suitable for inclusion in long-term power system planning models, i.e., capacity expansion and production cost models.",
+      "distribution": [
+        {
+          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/building/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/dsgrid-2018-efs/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/tempo/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.nrel.gov/analysis/dsgrid.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5, DD4 2.4. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "data assimilation",
+        "energy modeling",
+        "solar",
+        "transportation",
+        "electricity",
+        "energy",
+        "industrial",
+        "meteorological"
+      ],
+      "landingPage": "https://registry.opendata.aws/nrel-pds-dsgrid/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:23.540181+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nrel-pds-dsgrid",
+      "title": "Demand-Side Grid (dsgrid) Toolkit",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

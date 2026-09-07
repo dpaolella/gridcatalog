@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "A normalized, address- and ZIP-level compilation of US public environmental health records: machine-parsed Consumer Confidence Reports (drinking water contaminant tables, including PFAS, for 9,700+ water systems, 2023-2024), lead service line records aggregated from 94 state and utility inventories (18.4M address-level records), a ZIP-level summary layer covering 41,000+ ZIP codes across 17 environmental risk categories, and companion layers built from EPA SDWIS, UCMR5, FEMA NRI, USGS, CDC, and Census sources. All records are machine-readable, carry per-record source provenance (source document URL, legal authority, parse/refresh date), and are reproducible from cited public documents. CSV, JSON, and Parquet formats; Parquet mirrors of the large collections are provided for Amazon Athena and columnar workflows.",
+      "distribution": [
+        {
+          "accessURL": "https://zipcheckup-open-data.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zipcheckup-us-home-environmental-risk--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/artakulov/open-data-examples/blob/main/us-home-environmental-risk-compilation/DATA-DICTIONARY.md"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/zipcheckup-us-home-environmental-risk",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset. Determined by the phrase \"aggregated from\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "csv",
+        "json",
+        "disaster response",
+        "parquet",
+        "census",
+        "aws-pds",
+        "environmental",
+        "sustainability",
+        "geospatial",
+        "water"
+      ],
+      "landingPage": "https://registry.opendata.aws/zipcheckup-us-home-environmental-risk/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:24.172331+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/zipcheckup-us-home-environmental-risk#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:zipcheckup-us-home-environmental-risk",
+      "title": "US Home Environmental Risk Compilation (ZipCheckup Open Data)",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

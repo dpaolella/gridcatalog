@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Enhancement of Measurements on Ships of Opportunity (SOOP)-Air Sea Flux sub-facility collects underway meteorological and oceanographic observations during scientific and Antarctic resupply voyages in the oceans adjacent to Australia. Data product is quality controlled observations. Research Vessel Real Time Air-Sea Fluxes, equips the Marine National Facility (MNF) (Research Vessels Southern Surveyor and Investigator), the Australian Antarctic Division (Research and Supply Vessels Aurora Australis and Nuyina), and Research Vessel Tangaroa with \"climate quality\" meteorological measurement systems, capable of providing high quality air-sea flux measurements and delivered to researchers on a near real-time basis. Obtaining the full set of air-sea fluxes essential for climate studies requires observations of: wind, air and sea temperature, humidity, pressure, precipitation, long- and short-wave radiation. The existing ship meteorological sensor sets are completed with IMOS instruments and a comprehensive annual calibration program implemented. Data streams are fed into existing ship data management systems, and broadcast via satellite back to Australia routinely. The observations are quality controlled at the Bureau of Meteorology. A daily file of 1-minute averages of the observations are generated shortly after 0000UTC and provided to IMOS.",
+      "distribution": [
+        {
+          "accessURL": "https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/vessel_air_sea_flux_sst_meteo_realtime.parquet",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/aodn-vessel-air-sea-flux-sst-meteo-realtime--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://catalogue-imos.aodn.org.au/geonetwork/srv/eng/catalog.search#/metadata/9436802f-ed93-4660-be50-e77c3c07bd09"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/aodn-vessel-air-sea-flux-sst-meteo-realtime",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "radiation",
+        "air temperature",
+        "precipitation",
+        "oceans",
+        "atmosphere",
+        "meteorological"
+      ],
+      "landingPage": "https://registry.opendata.aws/aodn_vessel_air_sea_flux_sst_meteo_realtime/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.420437+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/aodn-vessel-air-sea-flux-sst-meteo-realtime#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/aodn-vessel-air-sea-flux-sst-meteo-realtime#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:aodn_vessel_air_sea_flux_sst_meteo_realtime",
+      "title": "Ships of Opportunity - Air-sea fluxes - Meteorological and sea surface temperature - Real time",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

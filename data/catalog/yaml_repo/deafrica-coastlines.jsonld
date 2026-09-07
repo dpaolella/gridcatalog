@@ -1,0 +1,73 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Africa's long and dynamic coastline is subject to a wide range of pressures, including extreme weather and climate, sea level rise and human development. Understanding how the coastline responds to these pressures is crucial to managing this region, from social, environmental and economic perspectives. The Digital Earth Africa Coastlines (provisional) is a continental dataset that includes annual shorelines and rates of coastal change along the entire African coastline from 2000 to the present. The product combines satellite data from the Digital Earth Africa program with tidal modelling to map the typical location of the coastline at mean sea level for each year. The product enables trends of coastal erosion and growth to be examined annually at both a local and continental scale, and for patterns of coastal change to be mapped historically and updated regularly as data continues to be acquired. This allows current rates of coastal change to be compared with that observed in previous years or decades. The ability to map shoreline positions for each year provides valuable insights into whether changes to the coastline are the result of particular events or actions, or a process of more gradual change over time. This information can enable scientists, managers and policy makers to assess impacts from the range of drivers impacting the coastlines and potentially assist planning and forecasting for future scenarios.",
+      "distribution": [
+        {
+          "accessURL": "https://deafrica-services-inventory.s3.af-south-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-coastlines--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-services.s3.af-south-1.amazonaws.com/coastlines",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-coastlines--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://docs.digitalearthafrica.org/en/latest/data_specs/Coastlines_specs.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/deafrica-coastlines",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "satellite imagery",
+        "climate",
+        "sustainability",
+        "geospatial",
+        "earth observation",
+        "aws-pds",
+        "coastal",
+        "deafrica"
+      ],
+      "landingPage": "https://registry.opendata.aws/deafrica-coastlines/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.871415+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:deafrica-coastlines",
+      "title": "Digital Earth Africa Coastlines",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

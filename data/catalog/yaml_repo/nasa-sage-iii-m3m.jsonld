@@ -1,0 +1,89 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Level 1B pixel group transmission profiles for a single solar event. #### g3acld g3acld_004 is the Stratospheric Aerosol and Gas Experiment III (SAGE III) on the Meteor-3M (M-3M) platform (SAGE III/M3M) Level 2 Monthly Cloud Presence Data (HDF-EOS) Version 4 product. It is a monthly compilation of polar cloud presence from SAGE III coincident with solar event granules, that provides information about cloud presence during data capture of the granules. SAGE III obtains profile measurements of aerosol extinction, ozone, water vapor, nitrogen dioxide, nitrogen trioxide, chlorine dioxide, and cloud formations throughout the mesosphere, stratosphere, and upper troposphere with a vertical resolution of 0.5 - 1 km resolution. SAGE III was a fourth generation, satellite-borne instrument and a crucial element in NASA's Earth Observing System (EOS) . The instrument was launched on the Russian M-3M spacecraft in December 2001. The M-3M and SAGE III missions were terminated on March 6, 2006, because of a power supply system failure resulting in loss of communication with the satellite. The newest SAGE mission, SAGE III on ISS, was launched in 2017. SAGE III M-3M L2 Monthly Cloud Presence Data are monthly data files coincident with solar event granules that provides information about cloud presence during data capture of the granules. #### g3acldb g3acldb_004 is the Stratospheric Aerosol and Gas Experiment III (SAGE III) on the Meteor-3M (M-3M) platform (SAGE III/M3M) SAGE III Meteor-3M L2 Monthly Cloud Presence Data (Native) Version 4 data product. It is monthly data file coincident with solar event granules, that provides a monthly compilation of polar cloud presence from SAGE III during data capture of the granules. SAGE III obtains profile measurements of aerosol extinction, ozone, water vapor, nitrogen dioxide, nitrogen trioxide, chlorine dioxide and cloud formations throughout the mesosphere, stratosphere, and upper troposphere with a vertical resolution of 0.5 - 1 km resolution. SAGE III was a fourth generation, satellite-borne instrument and a crucial element in NASA's Earth Observing System (EOS) . The instrument was launched on the Russian M-3M spacecraft in December 2001. The M-3M and SAGE III missions were terminated on March 6, 2006, because of a power supply system failure resulting in loss of communication with the satellite. The newest SAGE mission, SAGE III on ISS, was launched in 2017. #### g3assp A Level 2 data file containing all the species products for a single solar event #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.asdc.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://asdc-prod-protected.s3.us-west-2.amazonaws.com/SAGE_III/g3acldb_004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sage-iii-m3m--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://asdc-prod-protected.s3.us-west-2.amazonaws.com/SAGE_III/g3assp_004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sage-iii-m3m--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://asdc-prod-protected.s3.us-west-2.amazonaws.com/SAGE_III/g3at_004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sage-iii-m3m--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://asdc-prod-protected.s3.us-west-2.amazonaws.com/SAGE_III/g3acld_004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sage-iii-m3m--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://sage.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-sage-iii-m3m",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "hdf",
+        "satellite imagery"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-sage-iii-m3m/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:22.159337+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-sage-iii-m3m#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-sage-iii-m3m#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-sage-iii-m3m",
+      "title": "NASA SAGE III-M3M Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

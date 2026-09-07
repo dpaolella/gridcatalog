@@ -1,0 +1,77 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The NEX-GDDP-CMIP6 dataset is comprised of global downscaled climate scenarios derived from the General Circulation Model (GCM) runs conducted under the Coupled Model Intercomparison Project Phase 6 (CMIP6) and across two of the four \"Tier 1\" greenhouse gas emissions scenarios known as Shared Socioeconomic Pathways (SSPs). The CMIP6 GCM runs were developed in support of the Sixth Assessment Report of the Intergovernmental Panel on Climate Change (IPCC AR6). This dataset includes downscaled projections from ScenarioMIP model runs for which daily scenarios were produced and distributed through the Earth System Grid Federation. The purpose of this dataset is to provide a set of global, high resolution, bias-corrected climate change projections that can be used to evaluate climate change impacts on processes that are sensitive to finer-scale climate gradients and the effects of local topography on climate conditions.",
+      "distribution": [
+        {
+          "accessURL": "https://nex-gddp-cmip6-cog.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nex-gddp-cmip6--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nex-gddp-cmip6.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nex-gddp-cmip6--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.7917/OFSG3345"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nex-gddp-cmip6",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10. Determined by the phrase \"bias-corrected\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "climate model",
+        "earth observation",
+        "aws-pds",
+        "near-surface specific humidity",
+        "netcdf",
+        "precipitation",
+        "cog",
+        "CMIP6",
+        "climate projections",
+        "NASA Center for Climate Simulation (NCCS)",
+        "global",
+        "near-surface relative humidity",
+        "climate",
+        "model",
+        "environmental",
+        "air temperature"
+      ],
+      "landingPage": "https://registry.opendata.aws/nex-gddp-cmip6/",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2026-09-07T07:36:23.271467+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nex-gddp-cmip6#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nex-gddp-cmip6",
+      "title": "NASA Earth Exchange Global Daily Downscaled Projections (NEX-GDDP-CMIP6)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

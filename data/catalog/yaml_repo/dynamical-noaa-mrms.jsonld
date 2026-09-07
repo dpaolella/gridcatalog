@@ -1,0 +1,59 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The NOAA Multi-Radar/Multi-Sensor System (MRMS) integrates data from multiple radars and radar networks, surface observations, numerical weather prediction (NWP) models, and climatology to generate seamless, high spatio-temporal resolution mosaics at low latency focused on hail, wind, tornado, quantitative precipitation estimations, convection, icing, and turbulence. These datasets have been translated to cloud-optimized Icechunk Zarr format by [dynamical.org](https://dynamical.org). - [NOAA MRMS CONUS analysis, hourly](https://dynamical.org/catalog/noaa-mrms-conus-analysis-hourly/) - Hourly precipitation analysis from the Multi-Radar Multi-Sensor (MRMS) system operated by NOAA NWS NCEP.",
+      "distribution": [
+        {
+          "accessURL": "https://dynamical-noaa-mrms.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dynamical-noaa-mrms--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://dynamical.org/catalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/dynamical-noaa-mrms",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "weather",
+        "climate",
+        "aws-pds",
+        "zarr",
+        "atmosphere",
+        "forecast",
+        "meteorological"
+      ],
+      "landingPage": "https://registry.opendata.aws/dynamical-noaa-mrms/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.992932+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/dynamical-noaa-mrms#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:dynamical-noaa-mrms",
+      "title": "NOAA MRMS - dynamical.org Icechunk Zarr",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

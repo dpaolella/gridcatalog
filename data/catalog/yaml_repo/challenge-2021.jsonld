@@ -1,0 +1,62 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The electrocardiogram (ECG) is a non-invasive representation of the electrical activity of the heart. Although the twelve-lead ECG is the standard diagnostic screening system for many cardiological issues, the limited accessibility of twelve-lead ECG devices provides a rationale for smaller, lower-cost, and easier to use devices. While single-lead ECGs are limiting [1], reduced-lead ECG systems hold promise, with evidence that subsets of the standard twelve leads can capture useful information [2], [3], [4] and even be comparable to twelve-lead ECGs in some limited contexts. In 2017 we challenged the public to classify AF from a single-lead ECG, and in 2020 we challenged the public to diagnose a much larger number of cardiac problems using twelve-lead recordings. However, there is limited evidence to demonstrate the utility of reduced-lead ECGs for capturing a wide range of diagnostic information. In this year&rsquo;s Challenge, we ask the following question: &lsquo;Will two do?&rsquo; This year&rsquo;s Challenge builds on last year&rsquo;s Challenge [5], which asked participants to classify cardiac abnormalities from twelve-lead ECGs. We are asking you to build an algorithm that can classify cardiac abnormalities from twelve-lead, six-lead, four-lead, three-lead, and two-lead ECGs. We will test each algorithm on databases of these reduced-lead ECGs, and the differences in performances of the algorithms on these databases will reveal the utility of reduced-lead ECGs in comparison to standard twelve-lead EGCs.",
+      "distribution": [
+        {
+          "accessURL": "https://physionet-open.s3.us-east-1.amazonaws.com/challenge-2021/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/challenge-2021--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.13026/34va-7q14"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/challenge-2021",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "health",
+        "medicine",
+        "life sciences"
+      ],
+      "landingPage": "https://registry.opendata.aws/challenge-2021/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.723267+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/challenge-2021#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/challenge-2021#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:challenge-2021",
+      "title": "Will Two Do? Varying Dimensions in Electrocardiography: The PhysioNet/Computing in Cardiology Challenge 2021",
+      "type": "Dataset",
+      "updateCadence": "discontinued",
+      "visibility": "public"
+    }
+  ]
+}

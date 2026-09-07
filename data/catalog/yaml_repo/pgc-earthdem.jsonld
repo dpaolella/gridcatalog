@@ -1,0 +1,66 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "EarthDEM - 2m GSD Digital Elevation Models (DEMs) and mosaics from 2002 to the present. The EarthDEM project seeks to fill the need for high-resolution time-series elevation data in non-polar regions. The time-dependent nature of the strip DEM files allows users to perform change detection analysis and to compare observations of topography data acquired in different seasons or years. The mosaic DEM tiles are assembled from multiple strip DEMs with the intention of providing a more consistent and comprehensive product over large areas. EarthDEM data is constructed from in-track and cross-track high-resolution (~0.5 meter) imagery acquired by the Maxar constellation of optical imaging satellites. Only a portion of the worldwide EarthDEM dataset is available publicly. Federally-funded researchers may access the entire dataset via NASA CSDA's Smallsat Data Explorer (see Data at Work section).",
+      "distribution": [
+        {
+          "accessURL": "https://pgc-opendata-dems.s3.us-west-2.amazonaws.com/earthdem/strips/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pgc-earthdem--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.pgc.umn.edu/data/earthdem/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/pgc-earthdem",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.9. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "cog",
+        "elevation",
+        "satellite imagery",
+        "stac",
+        "open source software",
+        "geospatial",
+        "earth observation",
+        "mapping",
+        "aws-pds"
+      ],
+      "landingPage": "https://registry.opendata.aws/pgc-earthdem/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:23.761866+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/pgc-earthdem#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/pgc-earthdem#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:pgc-earthdem",
+      "title": "EarthDEM",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

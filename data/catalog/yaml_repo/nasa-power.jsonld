@@ -1,0 +1,98 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "NASA's goal in Earth science is to observe, understand, and model the Earth system to discover how it is changing, to better predict change, and to understand the consequences for life on Earth. The Applied Sciences Program, within the Earth Science Division of the NASA Science Mission Directorate, serves individuals and organizations around the globe by expanding and accelerating societal and economic benefits derived from Earth science, information, and technology research and development. The [Prediction Of Worldwide Energy Resources (POWER)](https://power.larc.nasa.gov/) Project, funded through the Applied Sciences Program at NASA Langley Research Center, gathers NASA Earth observation data and parameters related to the fields of surface solar irradiance and meteorology to serve the public in several free, easy-to-access and easy-to-use methods. POWER helps communities become resilient amid observed climate variability by improving data accessibility, aiding research in energy development, building energy efficiency, and supporting agriculture projects. The POWER project contains over 380 satellite-derived meteorology and solar energy Analysis Ready Data (ARD) at four temporal levels: hourly, daily, monthly, and climatology. The POWER data archive provides data at the native resolution of the source products. The data is updated nightly to maintain near real time availability (2-3 days for meteorological parameters and 5-7 days for solar). The POWER services catalog consists of a series of RESTful Application Programming Interfaces, geospatial enabled image services, and web mapping Data Access Viewer. These three service offerings support data discovery, access, and distribution to the project’s user base as ARD and as direct application inputs to decision support tools. The latest data version update includes hourly-based source ARD, in addition to enhanced daily, monthly, annual, and climatology data. The daily time series for meteorology is available from 1981, while solar-based parameters start in 1984. The hourly source data are from Clouds and the Earth's Radiant Energy System (CERES) and Global Modeling and Assimilation Office (GMAO), spanning from 1984 for meteorology and from 2001 for solar-based parameters. The hourly data equips users with the ARD needed to model building system energy performance, providing information directly amenable to decision support tools introducing the industry standard EnergyPlus Weather file format.",
+      "distribution": [
+        {
+          "accessURL": "https://power-datastore.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-power--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nasa-power.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-power--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://power.larc.nasa.gov/docs/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-power",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.9. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "forecast",
+        "machine learning",
+        "weather",
+        "model",
+        "data assimilation",
+        "machine translation",
+        "radiation",
+        "climate model",
+        "geoscience",
+        "earth observation",
+        "water",
+        "agriculture",
+        "netcdf",
+        "imaging",
+        "history",
+        "time series forecasting",
+        "meteorological",
+        "analytics",
+        "global",
+        "satellite imagery",
+        "opendap",
+        "climate",
+        "air quality",
+        "archives",
+        "environmental",
+        "deep learning",
+        "solar",
+        "statistics",
+        "sustainability",
+        "metadata",
+        "geospatial",
+        "aws-pds",
+        "industry",
+        "zarr",
+        "energy",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-power/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.983538+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-power#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-power",
+      "title": "NASA Prediction of Worldwide Energy Resources (POWER)",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

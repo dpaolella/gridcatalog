@@ -1,0 +1,217 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Data released under the Department of Energy's (DOE) Open Energy Data Initiative (OEDI). The Open Energy Data Initiative aims to improve and automate access of high-value energy data sets across the U.S. Department of Energy’s programs, offices, and national laboratories. OEDI aims to make data actionable and discoverable by researchers and industry to accelerate analysis and advance innovation.",
+      "distribution": [
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/umcm/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/buildings-bench/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--15",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/pv-rooftop/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/dsgrid-2018-efs/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/NSO/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--14",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/pv-rooftop-pr/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/crescent_dunes/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--19",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/building_synthetic_dataset/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/dgen/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/sup3ruhi/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/SMART-DS/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/pvdaq/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/butter/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/nrel-pds-building-stock/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/building-sector-scenarios/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--17",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/tracking-the-sun/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/inspire/agrivoltaics_irradiance/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--18",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/ATB/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://oedi-data-lake.s3.us-west-2.amazonaws.com/PR100/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/oedi-data-lake--12",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/openEDI/documentation/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/oedi-data-lake",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "geospatial",
+        "energy",
+        "lidar",
+        "aws-pds",
+        "model",
+        "environmental",
+        "solar"
+      ],
+      "landingPage": "https://registry.opendata.aws/oedi-data-lake/",
+      "license": "http://spdx.org/licenses/CC-BY-3.0",
+      "modified": "2026-09-07T07:36:23.625026+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/oedi-data-lake#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/oedi-data-lake#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:oedi-data-lake",
+      "title": "Department of Energy's Open Energy Data Initiative (OEDI)",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

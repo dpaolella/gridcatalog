@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Climate TRACE power sector, a Generator fleet dataset, available at https://climatetrace.org/data. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://climatetrace.org/data",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/climate-trace-power-sector--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/climate-trace-power-sector",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:34:22.035873+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/climate-trace-power-sector#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD2:climate-trace-power-sector",
+      "tier": 2,
+      "title": "Climate TRACE power sector",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

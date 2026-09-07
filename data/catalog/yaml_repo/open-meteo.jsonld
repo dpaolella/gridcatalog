@@ -1,0 +1,58 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Open-Meteo integrates weather models from reputable national weather services, offering a swift and efficient weather API. Real-time weather forecasts are unified into a time-series database that provides historical and future weather data for any location worldwide. Through Open-Meteo on AWS Open Data, you can download the Open-Meteo weather database and analysis weather data locally. Docker images are provided to download data and to expose an HTTP API endpoint. Using Open-Meteo SDKs, you can seamlessly integrate weather data into your Python, Typescript, Swift, Kotlin, or Java applications. The entire source code is open-source, and contributions are welcome! To get started, familiarize yourself with the [available weather models](https://github.com/open-meteo/open-data) and explore tutorials on downloading 80 years of [historical weather data from ERA5](https://github.com/open-meteo/open-data/tree/main/tutorial_download_era5) or set up your own [real-time weather API](https://github.com/open-meteo/open-data/tree/main/tutorial_weather_api) with high-resolution models. If you have any questions, feel free to reach out on [GitHub discussions](https://github.com/open-meteo/open-meteo/discussions).",
+      "distribution": [
+        {
+          "accessURL": "https://openmeteo.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/open-meteo--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/open-meteo/open-data"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/open-meteo",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"era5\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "climate",
+        "earth observation",
+        "aws-pds",
+        "agriculture",
+        "meteorological",
+        "weather"
+      ],
+      "landingPage": "https://registry.opendata.aws/open-meteo/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:23.672829+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/open-meteo#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:open-meteo",
+      "title": "Open-Meteo Weather API Database",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

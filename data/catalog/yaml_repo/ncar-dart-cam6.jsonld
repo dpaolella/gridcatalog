@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This is a cloud-hosted subset of the CAM6+DART (Community Atmosphere Model version 6 Data Assimilation Research Testbed) Reanalysis dataset. These data products are designed to facilitate a broad variety of research using the NCAR CESM 2.1 (National Center for Atmospheric Research's Community Earth System Model version 2.1), including model evaluation, ensemble hindcasting, data assimilation experiments, and sensitivity studies. They come from an 80 member ensemble reanalysis of the global troposphere and stratosphere using DART and CAM6. The data products represent states of the atmosphere consistent with observations from 2011 through 2019 at 1 degree horizontal resolution and weekly frequency. Each ensemble member is an equally likely description of the atmosphere, and is also consistent with dynamics and physics of CAM6. The dataset also contains corresponding land surface values at 6-hourly frequency. This dataset is a reformatting, with no change to numerical values, of data from the \"CAM6 Data Assimilation Research Testbed (DART) Reanalysis\", [DOI:10.5065/JG1E-8525](https://doi.org/10.5065/JG1E-8525).",
+      "distribution": [
+        {
+          "accessURL": "https://ncar-dart-cam6.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ncar-dart-cam6--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.26024/sprq-2d04"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/ncar-dart-cam6",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "zarr",
+        "atmosphere",
+        "forecast",
+        "meteorological",
+        "weather",
+        "climate",
+        "data assimilation",
+        "climate model",
+        "geoscience",
+        "land",
+        "geospatial"
+      ],
+      "landingPage": "https://registry.opendata.aws/ncar-dart-cam6/",
+      "license": "https://www.ucar.edu/terms-of-use/data",
+      "modified": "2026-09-07T07:36:23.242157+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/ncar-dart-cam6#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:ncar-dart-cam6",
+      "title": "CAM6 Data Assimilation Research Testbed (DART) Reanalysis: Cloud-Optimized Dataset",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

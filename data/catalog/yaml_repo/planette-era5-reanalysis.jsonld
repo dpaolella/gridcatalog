@@ -1,0 +1,56 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The ERA5 archive provides a comprehensive record of global weather and climate from 1940 to present, with multiple temporal aggregations for flexible analysis. This dataset is derived from the ECMWF/Copernicus ERA5 reanalysis and includes daily means, 7-day rolling means, and monthly/seasonal aggregations at 0.25°×0.25° global resolution. The Planette ERA5 archive stores this data in cloud-native format (Zarr with icechunk) for efficient access and analysis. The dataset includes essential atmospheric variables at both surface and pressure levels, enabling a wide range of climate analyses, from daily weather patterns to long-term climate trends. Daily means are computed by averaging hourly ERA5 data, while longer temporal aggregations are derived from these daily means.",
+      "distribution": [
+        {
+          "accessURL": "https://planette-era5.s3.us-east-2.amazonaws.com/era5/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/planette-era5-reanalysis--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/PlanetteAI/planette_era5_archive/blob/main/README.md"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "earth observation",
+        "aws-pds",
+        "weather",
+        "climate"
+      ],
+      "landingPage": "https://registry.opendata.aws/planette_era5_reanalysis/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:23.772051+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:planette_era5_reanalysis",
+      "title": "Planette ERA5 Archive",
+      "type": "Dataset",
+      "updateCadence": "P1M",
+      "visibility": "public"
+    }
+  ]
+}

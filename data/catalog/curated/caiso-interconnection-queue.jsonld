@@ -1,0 +1,44 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD3"
+      ],
+      "description": "CAISO interconnection queue, a IC queue & project pipeline dataset, available at https://www.caiso.com/generation-transmission/interconnection-process. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://www.caiso.com/generation-transmission/interconnection-process",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/caiso-interconnection-queue--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/caiso-interconnection-queue",
+      "license": "http://spdx.org/licenses/LicenseRef-ISO-Terms",
+      "licenseNote": "Free to access under the ISO/RTO's own terms of use, which vary by operator and have not been reviewed by a steward.",
+      "modified": "2026-09-07T07:34:22.596891+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/caiso-interconnection-queue#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD3:caiso-interconnection-queue",
+      "tier": 2,
+      "title": "CAISO interconnection queue",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

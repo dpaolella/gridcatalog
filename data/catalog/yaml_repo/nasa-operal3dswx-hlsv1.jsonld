@@ -1,0 +1,68 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This dataset contains Level-3 Dynamic OPERA surface water extent product version 1. The data are validated surface water extent observations beginning April 2023. Known issues and caveats on usage are described under Documentation. The input dataset for generating each product is the Harmonized Landsat-8 and Sentinel-2A/B/C (HLS) product version 2.0. HLS products provide surface reflectance (SR) data from the Operational Land Imager (OLI) aboard the Landsat 8 satellite and the MultiSpectral Instrument (MSI) aboard the Sentinel-2A/B/C satellite. The surface water extent products are distributed over projected map coordinates using the Universal Transverse Mercator (UTM) projection. Each UTM tile covers an area of 109.8 km × 109.8 km. This area is divided into 3,660 rows and 3,660 columns at 30-m pixel spacing. Each product is distributed as a set of 10 GeoTIFF (Geographic Tagged Image File Format) files including water classification, associated confidence, land cover classification, terrain shadow layer, cloud/cloud-shadow classification, Digital elevation model (DEM), and Diagnostic layer. The digital elevation model (DEM) provided as a layer of the DSWx-HLS product (band 10) was generated using the Copernicus DEM 30-m and Copernicus DEM 90-m models provided by the European Space Agency. The Copernicus DEM 30-m and Copernicus DEM 90-m were produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved. The organizations in charge of the OPERA project, the Copernicus programme, and Airbus Defence and Space GmbH by law or by delegation do not assume any legal responsibility or liability, whether express or implied, arising from the use of this DEM. The OPERA DSWx-HLS product contains modified Copernicus Sentinel data (2023-2025). To access the calibration/validation database for OPERA Dynamic Surface Water Extent Products, please contact podaac@podaac.jpl.nasa.gov Read our doc on how to get AWS Credentials to retrieve this data: https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/OPERA_L3_DSWX-HLS_V1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-operal3dswx-hlsv1--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/OPDSW-PL3V1"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-operal3dswx-hlsv1",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 6.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "surface water",
+        "land",
+        "earth observation",
+        "metadata",
+        "aws-pds",
+        "water",
+        "cog",
+        "land cover",
+        "datacenter",
+        "ice"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-operal3dswx-hlsv1/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.873951+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-operal3dswx-hlsv1#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-operal3dswx-hlsv1#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-operal3dswx-hlsv1",
+      "title": "OPERA Dynamic Surface Water Extent from Harmonized Landsat Sentinel-2 product (Version 1)",
+      "type": "Dataset",
+      "updateCadence": "P7D",
+      "visibility": "public"
+    }
+  ]
+}

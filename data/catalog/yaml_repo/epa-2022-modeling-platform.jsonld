@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The data are part of the 2022 Modeling Platform used to support regulatory actions and technical analyses conducted by the EPA's Office of State Air Partnerships (OSAP). Specifically, this data includes Weather Research and Forecasting Model (v4.4.2) conducted at a 12-km resolution over the Continental United States (12US). MCIP-processed files and wrfcamx-processed (12US1 domain) are also available as part of this dataset to assist in the use of emissions processing and photochemical modeling. These files may be used in downstream applications to generate emissions, photochemical modeling, or dispersion modeling inputs. Additionally, lateral boundary condition files generated using GEOS-CF at 36-km with results translated from GEOS-Chem species available in GEOS-CF to CMAQ cb6/ae7. Simulations for boundary conditions covering the northern hemisphere are also provided. 12US2 lateral boundary condition files are also generated based on 36US3 CMAQ model run outputs. These simulations were conducted using CMAQ v5.4 and GEOS-Chem v14.0.1. 2022v1 CMAQ-ready emissions are provided for a 36km grid over North America (36US3) and two 12km grids (12SU1 and 12US2). In addition, 2022v1 CAMx-ready emissions are provided for a 12km grid over North America (12US2). See the documentation for pictures of the grids. The types of emissions data provided include point sources, nonpoint sources, mobiles sources, fires, lightning NOx, and biogenic emissions. Input files for computing biogenic emissions, lightning NOx emissions and bi-directional deposition inline within CMAQ are also provided. Ozone column and photolysis rate input files for CAMx model run are also provided. The related CMAQ and CAMx run scripts are also available now. One day sample outputs for CMAQ and CAMx on the 12US2 domain are also now available. README text files are included at multiple levels within the directory structure to explain files at that level. For more information about the emissions, see the below documentation or the 2022v1 web page: https://www.epa.gov/air-emissions-modeling/2022v1-emissions-modeling-platform",
+      "distribution": [
+        {
+          "accessURL": "https://epa-2022-modeling-platform.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/epa-2022-modeling-platform--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "file:///home/user/gridcatalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/epa-2022-modeling-platform",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10. Determined by the phrase \"wrf\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "weather",
+        "regulatory",
+        "air quality",
+        "environmental",
+        "aws-pds",
+        "meteorological"
+      ],
+      "landingPage": "https://registry.opendata.aws/epa-2022-modeling-platform/",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:36:18.035690+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/epa-2022-modeling-platform#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:epa-2022-modeling-platform",
+      "title": "OSAP 2022 Modeling Platform",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

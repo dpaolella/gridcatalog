@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The WindSat Polarimetric Radiometer, launched on January 6, 2003 aboard the Department of Defense Coriolis satellite, was designed to measure the ocean surface wind vector from space. It developed by the Naval Research Laboratory (NRL) Remote Sensing Division and the Naval Center for Space Technology for the U.S. Navy and the National Polar-orbiting Operational Environmental Satellite System (NPOESS) Integrated Program Office (IPO). The dataset contains the Level 1C WindSat Top of the Atmosphere (TOA) TB processed by RSS. The WindSat radiances are turned into TOA TB after correction for hot and cold calibration anomalies, receiver non-linearities, sensor pointing errors, antenna cross-polarization contamination, spillover, Faraday rotation and polarization alignment. The data are resampled on a fixed regular 0.125 deg Earth grid using Backus-Gilbert Optimum Interpolation. The sampling is done separately for fore and aft looks. The 10.7, 18.7, 23.8, 37.0 GHz channels are resampled to the 10.7 GHz spatial resolution. The 6.8 GHz channels are given at their native spatial resolution. The 10.7, 18.7, 23.8, 37.0 GHz channels are absolutely calibrated using the GMI sensor as calibration reference. The 6.8 GHz channels are calibrated using the open ocean with the RSS ocean emission model and the Amazon rain forest as calibration targets. The Faraday rotation angle (FRA) and geometric polarization basis rotation angle (PRA) were added in the last run. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/RSS_WindSat_L1C_TB_V08.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-seawinds--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://earthdata.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-seawinds",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "earth observation",
+        "aws-pds",
+        "oceans",
+        "atmosphere",
+        "satellite imagery",
+        "ice"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-seawinds/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:22.200609+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-seawinds#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-seawinds#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-seawinds",
+      "title": "NASA SEAWINDS Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

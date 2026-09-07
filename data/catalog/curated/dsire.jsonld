@@ -1,0 +1,51 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD8"
+      ],
+      "description": "DSIRE, a Policy & regulatory dataset, available at https://www.dsireusa.org. Share-alike. Any OpenGrid derivative inherits the SA obligation.",
+      "distribution": [
+        {
+          "accessURL": "https://www.dsireusa.org/dsire-api/",
+          "formatLabel": "API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dsire--secondary",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.dsireusa.org",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dsire--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/dsire",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2026-09-07T07:34:27.187882+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/dsire#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD8:dsire",
+      "summary": "Share-alike. Any OpenGrid derivative inherits the SA obligation.",
+      "tier": 2,
+      "title": "DSIRE",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

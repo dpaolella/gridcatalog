@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This product provides probabilistic weather forecasts for 7,213 sites (or spots) across the United Kingdom, Ireland and parts of Western Europe. It is produced by the Met Office IMPROVER Blended Probabilistic Forecast system. It is available in NetCDF format. Blended Probabilistic Forecast data is derived from the Met Office's operational NWP (Numerical Weather Prediction) ensembles and nowcasts. To give more reliable predictions, these are then blended and calibrated using the IMPROVER pipeline, and verified using spread–skill and reliability checks. This is 1 of 8 Blended Probabilistic Forecast products published by the Met Office on the Registry of Open Data on AWS. Data is available for the Global and UK domains, as gridded and spot (site-specific), and represented as percentiles and probabilities. This info is correct as of April 2026, but some things (like the number of sites, parameters and timesteps) may change in future. How probabilities work Ensemble forecasts show a range of possible weather outcomes. However, some users may find it more useful to see ensemble forecasts presented as probabilities, particularly when they're interested in specific thresholds. Probabilities are generated from an ensemble forecast by counting how many members of that ensemble exceed a particular threshold value. For example, if the threshold for screen temperature is 5°C, and 9 out of 18 ensemble members show a screen temperature above 5°C, there is a 50% chance of temperatures exceeding 5°C. How spot data works Spot data is derived by extracting site‑specific forecasts from post‑processed gridded forecasts. IMPROVER operates on two domains: - the UK domain, which primarily covers the region around the United Kingdom, Ireland and parts of Western Europe - the Global domain, which covers the whole world Within each domain, IMPROVER post-processes most forecasts on a grid, though the resolution of this grid differs between the two domains. Site-specific forecasts are drawn from these grids at the end of the post-processing chains. UK domain sites There are 7,213 forecast sites in the UK domain. IMPROVER calculates forecasts for these sites from UK domain gridded forecasts. These gridded forecasts are generated from a lead-time-dependent blend of up to 4 forecasting models: an extrapolation nowcast (MONOW), UKV, MOGREPS-UK, and MOGREPS-G. The blend can also involve multiple cycles of a model at different lead times. Parameters and timesteps There are 61 weather parameters available including: - Cloud - Temperature - Pressure - Humidity - Visibility - Precipitation rate and accumulations - UV - Wind For most parameters, the following timesteps are available: - Every hour from 0 to 120 hours - Every 3 hours from 123 to 186 hours However, timesteps vary significantly for some parameters. Check the [parameter documentation](https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/csv/data/blended-probabilistic-forecast-parameter-catalogue.xlsx) for more details. This dataset also contains deterministic “weather symbol” parameters. These are designed to complement the percentiles information in cases where the user wants to extract a single “deterministic” forecast. The 50th percentile works well for some parameters, but others are better represented by the weather symbol. Check the [parameter documentation](https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/csv/data/blended-probabilistic-forecast-parameter-catalogue.xlsx) for guidance on where this applies. Latency Data is made available shortly after the model blend time. Archive length Data is available for the past 30 days. Business needs This product supports risk-based decision-making by providing uncertainty ranges rather than single deterministic values. Typical uses include: - assessing uncertainty for operational planning - evaluating weather-related risk thresholds - deriving deterministic products (e.g. 50th percentile) from probabilistic outputs Spot forecasts provide information about weather diagnostics at single sites. By using a time series of these forecasts, you can determine how a weather diagnostic is expected to evolve at a particular location. This is ideal for users if you are not moving spatially and are instead interested in how conditions are evolving at your location. This is the kind of time-series information you see in the Met Office app when you look at a forecast for your home address. Gridded forecasts show how a diagnostic varies spatially across a domain at a given time. By using a time series of gridded fields, you can determine how a weather diagnostic is expected to evolve across a geographic area. So you may find them more useful if you need to consider moving spatially. This kind of product is very familiar from television broadcast weather forecasts. Gridded Blended Probabilistic Forecasts are also available as percentiles and probabilities for both the UK and Global domains.",
+      "distribution": [
+        {
+          "accessURL": "https://met-office-uk-spot-probabilities.s3.eu-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/met-office-bpf-uk-spot-probabilities--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.metoffice.gov.uk/services/data/external-data-channels"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/met-office-bpf-uk-spot-probabilities",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.7. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "forecast",
+        "near-surface air temperature",
+        "near-surface relative humidity",
+        "weather",
+        "model",
+        "geoscience",
+        "air temperature",
+        "geospatial",
+        "aws-pds",
+        "netcdf",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/met-office-bpf-uk-spot-probabilities/",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2026-09-07T07:36:18.458677+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/met-office-bpf-uk-spot-probabilities#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:met-office-bpf-uk-spot-probabilities",
+      "title": "Met Office Blended Probabilistic Forecast – UK Spot Probabilities",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The data are part of EPA’s Air Quality Time Series (EQUATES) Project. The data consist of hourly gridded pollutant concentrations estimates by the Community Multiscale Air Quality (CMAQ) model version 5.3.2 (https://doi.org/10.15139/S3/F2KJSK) for January 1 – December 31, 2019. Model data is provided for two spatial domains : the Northern Hemisphere (108 km x 108km horizontal grid spacing) and the Contiguous United States including parts of Canada and Mexico (12km x 12km horizontal grid spacing). Two types of hourly data are provided: three-dimensional air pollutant concentrations and vertical column pollutant totals. Previous studies have used this type of CMAQ 3D and vertical column air quality data to evaluate the modeling system, created model-observed ‘fused’ surfaces, and to analyze spatial and temporal changes in air quality in the upper atmosphere, e.g., https://doi.org/10.1016/j.envint.2019.104909; https://doi.org/10.5194/acp-17-12449-2017; https://doi.org/10.1029/2006JD008085; https://doi.org/10.5194/acp-15-9997-2015.",
+      "distribution": [
+        {
+          "accessURL": "https://epa-equates-v1.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/epa-equates-v1--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "file:///home/user/gridcatalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/epa-equates-v1",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "atmosphere",
+        "air quality",
+        "model"
+      ],
+      "landingPage": "https://registry.opendata.aws/epa-equates-v1/",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:36:18.049694+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/epa-equates-v1#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/epa-equates-v1#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:epa-equates-v1",
+      "title": "Community Multiscale Air Quality (CMAQ) 2019 3D Gridded and Column data from the EPA's Air Quality Time Series (EQUATES) Project",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

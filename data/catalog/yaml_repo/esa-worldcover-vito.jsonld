@@ -1,0 +1,73 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The European Space Agency (ESA) WorldCover product provides global land cover maps for 2020 & 2021 at 10 m resolution based on Copernicus Sentinel-1 and Sentinel-2 data. The WorldCover product comes with 11 land cover classes and has been generated in the framework of the ESA WorldCover project, part of the 5th Earth Observation Envelope Programme (EOEP-5) of the European Space Agency. A first version of the product (v100), containing the 2020 map was released in October 2021. The 2021 map was released in October 2022 using an improved algorithm (v200). The WorldCover 2020 and 2021 maps were generated with different algorithm versions and therefore changes between the maps should be treated with caution as these contain both real land cover changes as well as changes due to the used algorithms.",
+      "distribution": [
+        {
+          "accessURL": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/esa-worldcover-vito--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "file:///home/user/gridcatalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "disaster response",
+        "machine learning",
+        "land use",
+        "natural resource",
+        "synthetic aperture radar",
+        "satellite imagery",
+        "stac",
+        "sustainability",
+        "geospatial",
+        "earth observation",
+        "mapping",
+        "aws-pds",
+        "agriculture",
+        "cog",
+        "land cover"
+      ],
+      "landingPage": "https://registry.opendata.aws/esa-worldcover-vito/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:18.065273+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:esa-worldcover-vito",
+      "title": "ESA WorldCover",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

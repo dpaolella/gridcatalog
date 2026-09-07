@@ -1,0 +1,48 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessBarrier": "commercial-paywall",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/commercialPaywall",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Wood Mackenzie Wind/Solar, a Renewable resource & weather dataset.",
+      "distribution": [
+        {
+          "accessURL": "https://opengrid.org/catalog/no-known-access-path",
+          "formatLabel": "No access path recorded in the seed inventory",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/wood-mackenzie-wind-solar--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "none",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/wood-mackenzie-wind-solar",
+      "license": "http://spdx.org/licenses/LicenseRef-Unstated",
+      "licenseNote": "The seed inventory records no licence for this dataset. Absent an explicit grant, default copyright applies and reuse may not be permitted. A steward must resolve this before the record is confirmed.",
+      "modified": "2026-09-07T07:34:25.211444+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Access barrier recorded as commercial-paywall: this dataset is catalogued for discovery, not because it can be obtained.",
+          "Reference only. Tier 3 records carry no field-level metadata and no inter-dataset links; they exist so the gap is visible."
+        ],
+        "id": "https://catalog.opengrid.org/ds/wood-mackenzie-wind-solar#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": false,
+      "referenceOnly": true,
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD5:wood-mackenzie-wind-solar",
+      "tier": 3,
+      "title": "Wood Mackenzie Wind/Solar",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

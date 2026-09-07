@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "These data correspond to the [International LOFAR Telescope](http://www.lofar.org/) observations of the sky field ELAIS-N1 (16:10:01 +54:30:36) during the cycle 2 of observations. There are 11 runs of about 8 hours each plus the corresponding observation of the calibration targets before and after the target field. The data are measurement sets ([MS](https://casa.nrao.edu/Memos/229.html)) containing the cross-correlated data and metadata divided in 371 frequency sub-bands per target centred at ~150 MHz.",
+      "distribution": [
+        {
+          "accessURL": "https://lofar-elais-n1.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lofar-elais-n1--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.lofarcloud.uk/data.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/lofar-elais-n1",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "survey",
+        "imaging",
+        "astronomy",
+        "aws-pds"
+      ],
+      "landingPage": "https://registry.opendata.aws/lofar-elais-n1/",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:36:18.372656+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/lofar-elais-n1#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/lofar-elais-n1#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:lofar-elais-n1",
+      "title": "LOFAR ELAIS-N1 cycle 2 observations on AWS",
+      "type": "Dataset",
+      "updateCadence": "discontinued",
+      "visibility": "public"
+    }
+  ]
+}

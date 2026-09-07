@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD3"
+      ],
+      "description": "LBNL Utility-Scale Solar / Land-Based Wind Market Reports data, a IC queue & project pipeline dataset, available at https://emp.lbl.gov/utility-scale-solar. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://emp.lbl.gov/utility-scale-solar",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lbnl-utility-scale-solar-land-based-wind-market-reports-data--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/lbnl-utility-scale-solar-land-based-wind-market-reports-data",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:34:22.514867+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/lbnl-utility-scale-solar-land-based-wind-market-reports-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD3:lbnl-utility-scale-solar-land-based-wind-market-reports-data",
+      "tier": 1,
+      "title": "LBNL Utility-Scale Solar / Land-Based Wind Market Reports data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

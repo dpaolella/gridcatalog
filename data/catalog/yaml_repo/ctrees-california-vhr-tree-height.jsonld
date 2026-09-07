@@ -1,0 +1,66 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Canopy Tree Height maps for California in 2020. Created using a deep learning model on very-high-resolution airborne imagery from the National Agriculture Imagery Program (NAIP) by United States Department of Agriculture (USDA).",
+      "distribution": [
+        {
+          "accessURL": "https://ctrees-tree-height-ca-2020.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ctrees-california-vhr-tree-height--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "file:///home/user/gridcatalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/ctrees-california-vhr-tree-height",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "earth observation",
+        "geospatial",
+        "aws-pds",
+        "cog",
+        "image processing",
+        "land cover",
+        "aerial imagery",
+        "conservation",
+        "environmental",
+        "deep learning"
+      ],
+      "landingPage": "https://registry.opendata.aws/ctrees-california-vhr-tree-height/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.822122+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ctrees-california-vhr-tree-height#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ctrees-california-vhr-tree-height#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:ctrees-california-vhr-tree-height",
+      "title": "Sub-Meter Canopy Tree Height of California in 2020 by CTrees.org",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

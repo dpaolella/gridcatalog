@@ -1,0 +1,70 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "NASA produces skin sea surface temperature (SST) products from the Infrared (IR) channels of the Moderate-resolution Imaging Spectroradiometer (MODIS) onboard the Terra satellite. Terra was launched by NASA on December 18, 1999, into a sun synchronous, polar orbit with a daylight descending node at 10:30 am, to study the global dynamics of the Earth atmosphere, land and oceans. The MODIS captures data in 36 spectral bands at a variety of spatial resolutions. Two SST products can be present in these files. The first is a skin SST produced for both day and night observations, derived from the long wave IR 11 and 12 micron wavelength channels, using a modified nonlinear SST algorithm intended to provide continuity with SST derived from heritage and current NASA sensors. At night, a second SST product is produced using the mid-infrared 3.95 and 4.05 micron channels which are unique to MODIS; the SST derived from these measurements is identified as SST4. The SST4 product has lower uncertainty, but due to sun glint can only be produced at night. MODIS L2P SST data have a 1 km spatial resolution at nadir and are stored in 288 five minute granules per day. Full global coverage is obtained every two days, with coverage poleward of 32.3 degree being complete each day. The production of MODIS L2P SST files is part of the Group for High Resolution Sea Surface Temperature (GHRSST) project, and is a joint collaboration between the NASA Jet Propulsion Laboratory (JPL), the NASA Ocean Biology Processing Group (OBPG), and the Rosenstiel School of Marine and Atmospheric Science (RSMAS). Researchers at RSMAS are responsible for SST algorithm development, error statistics and quality flagging, while the OBPG, as the NASA ground data system, is responsible for the production of daily MODIS ocean products. JPL acquires MODIS ocean granules from the OBPG and reformats them to the GHRSST L2P netCDF specification with complete metadata and ancillary variables, and distributes the data as the official Physical Oceanography Data Archive (PO.DAAC) for SST. The R2019.0 supersedes the previous R2014.0 datasets which can be found at https://doi.org/10.5067/GHMDT-2PJ02 Read our doc on how to get AWS Credentials to retrieve this data: https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/MODIS_T-JPL-L2P-v2019.0/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-modis-t-jpl-l2p-v2019-0--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/GHMDT-2PJ19"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-modis-t-jpl-l2p-v2019-0",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "netcdf",
+        "orbit",
+        "oceans",
+        "atmosphere",
+        "datacenter",
+        "global",
+        "marine",
+        "land",
+        "earth observation",
+        "metadata"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-modis-t-jpl-l2p-v2019-0/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.195243+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-modis-t-jpl-l2p-v2019-0#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-modis-t-jpl-l2p-v2019-0#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-modis-t-jpl-l2p-v2019-0",
+      "title": "GHRSST Level 2P Global Sea Surface Skin Temperature from the MODIS on the NASA Terra satellite (GDS2)",
+      "type": "Dataset",
+      "updateCadence": "PT1H",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "PowerGridLib / pglib-opf, a Network topology & parameters dataset, published as MATPOWER, available at https://github.com/power-grid-lib/pglib-opf. The AC-OPF benchmark corpus. High value as a validation and benchmarking anchor and as a worked example of a versioned, community-governed artifact. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://github.com/power-grid-lib/pglib-opf",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "formatLabel": "MATPOWER",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/powergridlib-pglib-opf--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/powergridlib-pglib-opf",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:34:21.008811+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review."
+        ],
+        "id": "https://catalog.opengrid.org/ds/powergridlib-pglib-opf#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD1:powergridlib-pglib-opf",
+      "summary": "The AC-OPF benchmark corpus. High value as a validation and benchmarking anchor and as a worked example of a versioned, community-governed artifact.",
+      "tier": 1,
+      "title": "PowerGridLib / pglib-opf",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

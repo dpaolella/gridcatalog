@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "ENTSO-E Transparency Platform (renewable generation), a Renewable resource & weather dataset, available at https://transparency.entsoe.eu.",
+      "distribution": [
+        {
+          "accessURL": "https://transparency.entsoe.eu",
+          "anonymousAccess": false,
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/entso-e-transparency-platform-renewable-generation--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/entso-e-transparency-platform-renewable-generation",
+      "license": "http://spdx.org/licenses/LicenseRef-ENTSOE-Open-Data",
+      "licenseNote": "ENTSO-E Open Data Licence. Free reuse with attribution; a free account is required to obtain the data, which is an access barrier rather than a licence restriction.",
+      "modified": "2026-09-07T07:34:24.484095+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/entso-e-transparency-platform-renewable-generation#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD5:entso-e-transparency-platform-renewable-generation",
+      "tier": 2,
+      "title": "ENTSO-E Transparency Platform (renewable generation)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

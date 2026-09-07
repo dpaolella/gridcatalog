@@ -1,0 +1,69 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Version 07 is the current version of the data set. Older versions will no longer be available and have been superseded by Version 07. The Integrated Multi-satellitE Retrievals for GPM (IMERG) IMERG is a NASA product estimating global surface precipitation rates at a high resolution of 0.1° every half-hour beginning 2000. It is part of the joint NASA-JAXA Global Precipitation Measurement (GPM) mission, using the GPM Core Observatory satellite as the standard to combine precipitation observations from an international constellation of satellites using advanced techniques. IMERG can be used for global-scale applications as well as over regions with sparse or no reliable surface observations. The fine spatial and temporal resolution of IMERG data allows them to be accumulated to the scale of the application for increased skill. IMERG has three Runs with varying latencies in response to a range of application needs: rapid-response applications (Early Run, 4-h latency), same/next-day applications (Late Run, 14-h latency), and post-real-time research (Final Run, 3.5-month latency). While IMERG strives for consistency and accuracy, satellite estimates of precipitation are expected to have lower skill over frozen surfaces, complex terrain, and coastal zones. As well, the changing GPM satellite constellation over time may introduce artifacts that affect studies focusing on multi-year changes. This dataset is the GPM Level 3 IMERG Late Daily 10 x 10 km (GPM_3IMERGDL) derived from the half-hourly GPM_3IMERGHHL. The derived result represents a Late expedited estimate of the daily mean precipitation rate in mm/day. The dataset is produced by first computing the mean precipitation rate in (mm/hour) in every grid cell, and then multiplying the result by 24. This minimizes the possible dry bias in versions before \"07\", in the simple daily totals for cells where less than 48 half-hourly observations are valid for the day. The latter under-sampling is very rare in the combined microwave-infrared (and rain gauge in the final) dataset, variable \"precipitation\", and appears in higher latitudes. Thus, in most cases users of global \"precipitation\" data will not notice any difference. This correction, however, is noticeable in the high-quality microwave retrieval, variable \"MWprecipitation\", where the occurrence of less than 48 valid half-hourly samples per day is very common. The counts of the valid half-hourly samples per day have always been provided as a separate variable, and users of daily data were advised to pay close attention to that variable and use it to calculate the correct precipitation daily rates. Starting with version \"07\", this is done in production to minimize possible misinterpretations of the data. The counts are still provided in the data, but they are only given to gauge the significance of the daily rates, and reconstruct the simple totals if someone wishes to do so. The latency of the derived Late daily product is a couple of minutes after the last granule of GPM_3IMERGHHL for the UTC data day is received at GES DISC. Since the target latency of GPM_3IMERGHHL is 14 hours, the daily should appear no earlier than 14 hours after the closure of the UTC day. For information on the original data (GPM_3IMERGHHL), please see the Documentation (Related URL). The daily mean rate (mm/day) is derived by first computing the mean precipitation rate (mm/hour) in a grid cell for the data day, and then multiplying the result by 24. Thus, for every grid cell we have Pdaily_mean = SUM{Pi * 1[Pi valid]} / Pdaily_cnt * 24, i=[1,Nf] Where: Pdaily_cnt = SUM{1[Pi valid]} Pi - half-hourly input, in (mm/hr) Nf - Number of half-hourly files per day, Nf=48 1[.] - Indicator function; 1 when Pi is valid, 0 otherwise Pdaily_cnt - Number of valid retrievals in a grid cell per day. Grid cells for which Pdaily_cnt=0, are set to fill value in the Daily files. Note that Pi=0 is a valid value. Pdaily_cnt are provided in the data files as variables \"precipitation_cnt\" and \"MWprecipitation_cnt\", for correspondingly the microwave-IR-gauge and microwave-only retrievals. They are only given to gauge the significance of the daily rates, and reconstruct the simple totals if someone wishes to do so. There are various ways the daily error could be estimated from the source half-hourly random error (variable \"randomError\"). The daily error provided in the data files is calculated in a fashion similar to the daily mean precipitation rate. First, the mean of the squared half-hourly \"randomError\" for the day is computed, and the resulting (mm^2/hr) is converted to (mm^2/day). Finally, square root is taken to get the result in (mm/day): Perr_daily = { SUM{ (Perr_i)^2 * 1[Perr_i valid] ) } / Ncnt_err * 24}^0.5, i=[1,Nf] Ncnt_err = SUM( 1[Perr_i valid] ) where: Perr_i - half-hourly input, \"randomError\", (mm/hr) Perr_daily - Magnitude of the daily error, (mm/day) Ncnt_err - Number of valid half-hour error estimates Again, the sum of squared \"randomError\" can be reconstructed, and other estimates can be derived using the available counts in the Daily files. Read our doc on how to get AWS Credentials to retrieve this data: https://data.gesdisc.earthdata.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/GPM_L3/GPM_3IMERGDL.07/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-gpm3imergdl--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/GPM/IMERGDL/DAY/07"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdl",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1, DD5 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "land",
+        "metadata",
+        "aws-pds",
+        "hydrology",
+        "coastal",
+        "netcdf",
+        "atmosphere",
+        "datacenter",
+        "global",
+        "opendap",
+        "climate"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-gpm3imergdl/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:20.134062+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdl#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdl#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-gpm3imergdl",
+      "title": "GPM IMERG Late Precipitation L3 1 day 0.1 degree x 0.1 degree V07 (GPM_3IMERGDL) at GES DISC",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

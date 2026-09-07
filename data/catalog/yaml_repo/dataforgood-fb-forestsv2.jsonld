@@ -1,0 +1,67 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Version 2 Global and regional Canopy Height Maps (CHMv2). Created using machine learning models on high-resolution worldwide Vantor satellite imagery.",
+      "distribution": [
+        {
+          "accessURL": "https://dataforgood-fb-data.s3.us-east-1.amazonaws.com/forests/v2/global/dinov3_global_chm_v2_ml3/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dataforgood-fb-forestsv2--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/facebookresearch/dinov3"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/dataforgood-fb-forestsv2",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "geospatial",
+        "earth observation",
+        "aws-pds",
+        "agriculture",
+        "cog",
+        "image processing",
+        "land cover",
+        "machine learning",
+        "aerial imagery",
+        "satellite imagery",
+        "climate"
+      ],
+      "landingPage": "https://registry.opendata.aws/dataforgood-fb-forestsv2/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.842521+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/dataforgood-fb-forestsv2#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/dataforgood-fb-forestsv2#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:dataforgood-fb-forestsv2",
+      "title": "Version 2 High Resolution Canopy Height Maps by WRI and Meta",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

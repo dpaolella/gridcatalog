@@ -1,0 +1,151 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "attribution": "PyPSA-Eur developers; contains modified Copernicus Climate Change Service information",
+      "bboxMaxLat": 72.0,
+      "bboxMaxLon": 42.0,
+      "bboxMinLat": 33.0,
+      "bboxMinLon": -12.0,
+      "bboxWKT": "POLYGON((-12.0 33.0, 42.0 33.0, 42.0 72.0, -12.0 72.0, -12.0 33.0))",
+      "commercialUseAllowed": true,
+      "completenessLevel": 3,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Regional extracts of ERA5 prepared as atlite cutouts, so a PyPSA-Eur run does not have to download and subset the reanalysis itself. The cutouts carry wind speed, irradiance, temperature and runoff on the ERA5 grid, restricted to the European domain and to the years the workflow needs. Because they are extracts rather than a re-simulation, every value traces directly to ERA5 — which is what makes this dataset and any other ERA5-derived product correlated rather than independent.",
+      "distribution": [
+        {
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+          "accessURL": "https://zenodo.org/records/14936211",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "byteSize": 62277025792,
+          "chunkIndexMethod": "netcdf4-chunks",
+          "corsEnabled": true,
+          "formatLabel": "NetCDF-4, one file per cutout region and year",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pypsa-eur-weather-cutouts--zenodo",
+          "linkHealth": {
+            "consecutiveFailures": 0,
+            "id": "https://catalog.opengrid.org/dist/pypsa-eur-weather-cutouts--zenodo#health",
+            "lastProbedAt": "2026-09-01T04:00:00+00:00",
+            "linkHealthStatus": "verified",
+            "probeCadence": "P7D",
+            "type": "LinkHealth"
+          },
+          "mediaType": "application/x-netcdf",
+          "supportsRangeRequests": true,
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy"
+      ],
+      "exclusionRationale": "The published cutouts cover a limited span of weather years. Resource adequacy needs many years because the answer is a tail statistic, and a decade is not enough.",
+      "harvestSource": "curated",
+      "hasField": [
+        {
+          "completenessCaveats": "Horizontal, not normal. A PV model expecting DNI must divide by cos(zenith).",
+          "concept": "https://schema.opengrid.org/concept/grid-concept/directNormalIrradiance",
+          "dataType": "float32",
+          "definition": "Direct-beam shortwave radiation on a horizontal surface, derived from the ERA5 radiation fields by atlite's decomposition.",
+          "derivedFromField": [
+            "https://catalog.opengrid.org/field/ecmwf-era5/ssrd"
+          ],
+          "fieldId": "influx_direct",
+          "fieldSource": [
+            "https://catalog.opengrid.org/ds/ecmwf-era5"
+          ],
+          "id": "https://catalog.opengrid.org/field/pypsa-eur-weather-cutouts/influx_direct",
+          "inferenceBasis": "Resolved by alt-label similarity at 0.84. atlite's influx_direct is horizontal direct irradiance, whereas the concept is direct NORMAL irradiance; the two differ by the cosine of the solar zenith angle. Recorded as inferred rather than confirmed so a consumer sees the caveat.",
+          "inferredAssignment": true,
+          "label": "Direct solar influx",
+          "localName": "influx_direct",
+          "required": true,
+          "type": "Field",
+          "unit": "http://qudt.org/vocab/unit/W-PER-M2",
+          "valueBasis": "modeled"
+        },
+        {
+          "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+          "dataType": "float32",
+          "definition": "Wind speed magnitude at 100 metres, computed from the ERA5 u100 and v100 components.",
+          "derivedFromField": [
+            "https://catalog.opengrid.org/field/ecmwf-era5/u100"
+          ],
+          "fieldId": "wnd100m",
+          "fieldSource": [
+            "https://catalog.opengrid.org/ds/ecmwf-era5"
+          ],
+          "id": "https://catalog.opengrid.org/field/pypsa-eur-weather-cutouts/wnd100m",
+          "label": "Wind speed at 100 metres",
+          "localName": "wnd100m",
+          "required": true,
+          "type": "Field",
+          "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+          "valueBasis": "modeled"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/pypsa-eur-weather-cutouts",
+      "issued": "2025-02-25T00:00:00+00:00",
+      "keyword": [
+        "ERA5",
+        "atlite",
+        "PyPSA",
+        "Europe",
+        "cutout",
+        "weather"
+      ],
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-02-25T00:00:00+00:00",
+      "nativeCRS": "EPSG:4326",
+      "persistentId": "https://doi.org/10.5281/zenodo.14936211",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "publisher": "https://catalog.opengrid.org/agent/pypsa",
+      "qualityFlags": {
+        "caveat": [
+          "Derived from ERA5. Pairing these cutouts with any other ERA5-derived product produces correlated inputs, and the apparent agreement between them is partly ERA5 agreeing with itself."
+        ],
+        "id": "https://catalog.opengrid.org/ds/pypsa-eur-weather-cutouts#flags",
+        "staleness": "current",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "confirmed",
+      "shareAlike": false,
+      "spatialGranularity": "gridded",
+      "spatialLabel": [
+        "Europe"
+      ],
+      "spatialResolution": "0.25 degree",
+      "summary": "Pre-cut ERA5 weather slices covering Europe, packaged for direct use by atlite in PyPSA-Eur workflows.",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost"
+      ],
+      "temporal": {
+        "endDate": "2023-12-31T23:00:00+00:00",
+        "id": "https://catalog.opengrid.org/ds/pypsa-eur-weather-cutouts#temporal",
+        "startDate": "2013-01-01T00:00:00+00:00",
+        "type": "PeriodOfTime"
+      },
+      "tier": 1,
+      "timeResolution": "PT1H",
+      "title": "PyPSA-Eur weather cutouts",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "upstreamSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "versionDoi": "https://doi.org/10.5281/zenodo.14936211",
+      "visibility": "public",
+      "wasDerivedFrom": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "An International Group for High-Resolution Sea Surface Temperature (GHRSST) Level 4 sea surface temperature analysis, produced daily on an operational basis at the Australian Bureau of Meteorology using optimal interpolation (OI) on a global 0.25 degree grid. This Global Australian Multi-Sensor SST Analysis (GAMSSA) v1.0 system blends infra-red SST observations from the Advanced Very High Resolution Radiometer (AVHRR) on NOAA and METOP polar-orbiting satellites, microwave SST observations from the Advanced Microwave Scanning Radiometer-2 (AMSR-2) on GCOM-W, and in situ data from ships, and drifting and moored buoys from the Global Telecommunications System (GTS). All SST observations are filtered for those values suspected to be affected by diurnal warming by excluding cases which have experienced recent surface wind speeds of below 6 m/s during the day and less than 2 m/s during the night, thereby resulting in daily foundation SST estimates that are largely free of diurnal warming effects.",
+      "distribution": [
+        {
+          "accessURL": "https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/satellite_ghrsst_l4_gamssa_1day_multi_sensor_world.zarr",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://catalogue-imos.aodn.org.au/geonetwork/srv/eng/catalog.search#/metadata/2d496463-600c-465a-84a1-8a4ab76bd505"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "hasField": [
+        {
+          "dataType": "float64",
+          "definition": "b0: 1 = grid cell is open sea water, b1: 1 = land is present in this grid cell, b2: 1 = lake surface is present in this grid cell, b3: 1 = sea ice is present in this grid cell, b4-b7: reserved for future grid mask data",
+          "fieldId": "mask",
+          "id": "https://catalog.opengrid.org/field/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world/mask",
+          "label": "sea/land/lake/ice field composite mask",
+          "localName": "mask",
+          "type": "Field"
+        },
+        {
+          "dataType": "str560",
+          "fieldId": "filename",
+          "id": "https://catalog.opengrid.org/field/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world/filename",
+          "localName": "filename",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
+          "definition": "Calculated as analysis field error in OI analysis system and a function of the age and estimated standard deviation of all observations used to form analysed_sst value. See Beggs et al (2011) in http://www.bom.gov.au/jshess/papers.php?year=2011.",
+          "fieldId": "analysis_error",
+          "id": "https://catalog.opengrid.org/field/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world/analysis_error",
+          "label": "estimated error standard deviation of analysed_sst",
+          "localName": "analysis_error",
+          "type": "Field",
+          "unitAsStated": "kelvin"
+        },
+        {
+          "dataType": "float64",
+          "definition": "Fractional sea ice cover from NCEP-ICE product (Grumbine, 1996) .",
+          "fieldId": "sea_ice_fraction",
+          "id": "https://catalog.opengrid.org/field/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world/sea_ice_fraction",
+          "label": "sea ice area fraction",
+          "localName": "sea_ice_fraction",
+          "type": "Field",
+          "unitAsStated": "1"
+        },
+        {
+          "dataType": "float64",
+          "definition": "Optimally interpolated analysis of SST observations.",
+          "fieldId": "analysed_sst",
+          "id": "https://catalog.opengrid.org/field/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world/analysed_sst",
+          "label": "analysed sea surface temperature",
+          "localName": "analysed_sst",
+          "type": "Field",
+          "unitAsStated": "kelvin"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "oceans",
+        "satellite imagery"
+      ],
+      "landingPage": "https://registry.opendata.aws/aodn_satellite_ghrsst_l4_gamssa_1day_multi_sensor_world/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.391726+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/aodn-satellite-ghrsst-l4-gamssa-1day-multi-sensor-world#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "zarr-v2-consolidated at https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/satellite_ghrsst_l4_gamssa_1day_multi_sensor_world.zarr",
+      "sourceRecordId": "aws_open_data:aodn_satellite_ghrsst_l4_gamssa_1day_multi_sensor_world",
+      "title": "Satellite - Sea surface temperature - Level 4 - Multi sensor - Global Australian",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

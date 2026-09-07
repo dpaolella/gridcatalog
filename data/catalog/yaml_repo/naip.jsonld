@@ -1,0 +1,86 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/commercialPaywall",
+      "anonymousAccess": false,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The National Agriculture Imagery Program (NAIP) acquires aerial imagery during the agricultural growing seasons in the continental U.S. This \"leaf-on\" imagery andtypically ranges from 30 centimeters to 100 centimeters in resolution and is available from the naip-analytic Amazon S3 bucket as 4-band (RGB + NIR) imagery in MRF format, on naip-source Amazon S3 bucket as 4-band (RGB + NIR) in uncompressed Raw GeoTiff format and naip-visualization as 3-band (RGB) Cloud Optimized GeoTiff format. More details on [NAIP](https://naip-usdaonline.hub.arcgis.com/)",
+      "distribution": [
+        {
+          "accessURL": "https://naip-visualization.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/naip--2",
+          "requesterPays": true,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://naip-analytic.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/naip--0",
+          "requesterPays": true,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://naip-source.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/naip--1",
+          "requesterPays": true,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/awslabs/open-data-docs/tree/main/docs/naip"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/naip",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "earth observation",
+        "geospatial",
+        "aws-pds",
+        "agriculture",
+        "cog",
+        "natural resource",
+        "regulatory",
+        "aerial imagery"
+      ],
+      "landingPage": "https://registry.opendata.aws/naip/",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:36:18.546698+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/naip#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/naip#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:naip",
+      "title": "NAIP on AWS",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "NREL WIND Toolkit, a Renewable resource & weather dataset, available at https://data.openei.org/submissions/54.",
+      "distribution": [
+        {
+          "accessURL": "https://data.openei.org/submissions/54",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-wind-toolkit--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit",
+      "license": "http://spdx.org/licenses/CC-BY-3.0",
+      "modified": "2026-09-07T07:34:24.216894+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD5:nrel-wind-toolkit",
+      "tier": 1,
+      "title": "NREL WIND Toolkit",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

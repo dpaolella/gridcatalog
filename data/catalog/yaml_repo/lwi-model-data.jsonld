@@ -1,0 +1,75 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Geographic (land cover, land elevation, etc.), meteorologic (pluvial, wind, etc.), hydrologic (fluvial, tidal, etc.), hydrodynamic (water surface elevations, flow velocities), and built environment (structures, levees, floodgates, culverts) data used as inputs to and outputs from numerical modeling software for the prediction of flood risk in stochastic and probabilistic frameworks. This data was collected from open sources, such as from the National Oceanographic and Atmospheric Administration (NOAA) or the United States Geological Survey (USGS). The format of these data is modified to suit the needs of the modeling program and software, and then used to predict flooding in Louisiana across a range of scenarios. The modeling software used to predict flooding which utilizes and creates this data is freely available from the United States Army Corps of Engineers Hydrologic Engineering Center’s Hydrologic Modeling System (HEC-HMS) and River Analysis System (HEC-RAS). All data is made public by the State of Louisiana for the benefit of its citizens. This flood prediction data can be used by federal, state, and local decision makers as well as private citizens to assess the flood risk they face and make sound science-based decisions for response and adaptation.",
+      "distribution": [
+        {
+          "accessURL": "https://lwi-model-data.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lwi-model-data--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://watershed.la.gov/modeling-program"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/lwi-model-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 6.1, DD5 3.7. Source declares DD5, DD10. Determined by the phrase \"numerical model\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "hydrologic model",
+        "meteorological",
+        "infrastructure",
+        "land use",
+        "bathymetry",
+        "weather",
+        "climate",
+        "model",
+        "simulations",
+        "open source software",
+        "sustainability",
+        "geospatial",
+        "mapping",
+        "aws-pds",
+        "water",
+        "hydrology",
+        "precipitation",
+        "floods",
+        "elevation",
+        "coastal",
+        "forecast",
+        "disaster response",
+        "land cover"
+      ],
+      "landingPage": "https://registry.opendata.aws/lwi-model-data/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:18.381673+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/lwi-model-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:lwi-model-data",
+      "title": "Louisiana Watershed Initiative (LWI) Model Data",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD9"
+      ],
+      "description": "IEA WEO Free Dataset, a Cost & financial dataset, available at https://www.iea.org/data-and-statistics/data-product/world-energy-outlook-2024-free-dataset. Non-commercial only. This is the one seed dataset whose license restricts a class of downstream user, so it is the natural test case for surfacing redistribution flags prominently rather than burying them.",
+      "distribution": [
+        {
+          "accessURL": "https://www.iea.org/data-and-statistics/data-product/world-energy-outlook-2024-free-dataset",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/iea-weo-free-dataset--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/iea-weo-free-dataset",
+      "license": "http://spdx.org/licenses/CC-BY-NC-SA-4.0",
+      "modified": "2026-09-07T07:34:27.851543+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/iea-weo-free-dataset#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD9:iea-weo-free-dataset",
+      "summary": "Non-commercial only. This is the one seed dataset whose license restricts a class of downstream user, so it is the natural test case for surfacing redistribution flags prominently rather than burying them.",
+      "tier": 2,
+      "title": "IEA WEO Free Dataset",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

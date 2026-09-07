@@ -1,0 +1,70 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "M2I3NPASM (or inst3_3d_asm_Np) is an instantaneous 3-dimensional 3-hourly data collection in Modern-Era Retrospective analysis for Research and Applications version 2 (MERRA-2). This collection consists of assimilations of meteorological parameters at 42 pressure levels, such as temperature, wind components, vertical pressure velocity, water vapor, ozone mass mixing ratio, and layer height. The data field is available every three hours starting from 00:00 UTC, e.g.: 00:00, 03:00, … , 21:00 UTC. The information on the pressure levels can be found in the section 4.2 of the MERRA-2 File Specification document. MERRA-2 is the latest version of global atmospheric reanalysis for the satellite era produced by NASA Global Modeling and Assimilation Office (GMAO) using the Goddard Earth Observing System Model (GEOS) version 5.12.4. The dataset covers the period of 1980-present with the latency of ~3 weeks after the end of a month. Data Reprocessing: Please check “Records of MERRA-2 Data Reprocessing and Service Changes” linked from the “Documentation” tab on this page. Note that a reprocessed data filename is different from the original file. MERRA-2 Mailing List: Sign up to receive information on reprocessing of data, changing of tools and services, as well as data announcements from GMAO. Contact the GES DISC Help Desk (gsfc-dl-help-disc@mail.nasa.gov) to be added to the list. Questions: If you have a question, please read \"MERRA-2 File Specification Document\", “MERRA-2 Data Access – Quick Start Guide”, and FAQs linked from the ”Documentation” tab on this page. If that does not answer your question, you may post your question to the NASA Earthdata Forum (forum.earthdata.nasa.gov) or email the GES DISC Help Desk (gsfc-dl-help-disc@mail.nasa.gov). Read our doc on how to get AWS Credentials to retrieve this data: https://data.gesdisc.earthdata.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/MERRA2/M2I3NPASM.5.12.4/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-m2i3npasm--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/QBZ6MG944HW0"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-m2i3npasm",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 5.3. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "global",
+        "climate",
+        "ice",
+        "opendap",
+        "ecosystems",
+        "land",
+        "air temperature",
+        "metadata",
+        "water",
+        "aws-pds",
+        "biodiversity",
+        "hydrology",
+        "agriculture",
+        "coastal",
+        "netcdf",
+        "atmosphere",
+        "datacenter"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-m2i3npasm/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:20.810360+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-m2i3npasm#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-m2i3npasm",
+      "title": "MERRA-2 inst3_3d_asm_Np: 3d,3-Hourly,Instantaneous,Pressure-Level,Assimilation,Assimilated Meteorological Fields",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

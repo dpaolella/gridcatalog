@@ -1,0 +1,69 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "TSI Calibration Transfer Experiment (TCTE) Launch November 19, 2013 The TCTE includes a Total Irradiance Monitor to measure total solar irradiance (TSI). This new instrument is similar to that providing data from NASA’s SORCE mission since 2003, and will overlap TSI measurements with the SORCE mission. TCTE was launched on Nov. 19, 2013 from NASA’s Wallops Flight Facility as […] #### TCTE3TSI6 TCTE3TSI6 Version 004 is the final version of this data product, and supersedes all previous versions. The Total Solar Irradiance (TSI) Calibration Transfer Experiment (TCTE) data set TCTE3TSI6 contains 6-hour averaged total solar irradiance (a.k.a solar constant) data collected by the Total Irradiance Monitor (TIM) instrument covering the full wavelength spectrum. The data are normalized to one astronomical unit (1 AU). The TCTE/TIM instrument measures the Total Solar Irradiance (TSI), monitoring changes in incident sunlight to the Earth's atmosphere using an ambient temperature active cavity radiometer to a designed absolute accuracy of 350 parts per million (ppm, 1 ppm=0.0001% at 1-sigma), and a precision and long-term relative accuracy of 10 ppm per year. Due to the small size of these data and to maximize ease of use to end-users, each delivered TSI product contains science results for the entire mission in an ASCII column formatted file. Early in the mission, between Dec 2013 and May 2014, TCTE acquired daily measurements to establish good overlap with the SORCE TIM. From May 2014 to Dec 2014, the TCTE measurements were reduced to weekly, which greatly subsample the true solar variability, and thus have little value for solar research. Beginning in Jan 2015, daily obervations were resumed. The mission ended June 30, 2019. #### TCTE3TSID TCTE3TSID Version 004 is the final version of this data product, and supersedes all previous versions. The Total Solar Irradiance (TSI) Calibration Transfer Experiment (TCTE) data set TCTE3TSID contains daily averaged total solar irradiance (a.k.a solar constant) data collected by the Total Irradiance Monitor (TIM) instrument covering the full wavelength spectrum. The data are normalized to one astronomical unit (1 AU). The TCTE/TIM instrument measures the Total Solar Irradiance (TSI), monitoring changes in incident sunlight to the Earth's atmosphere using an ambient temperature active cavity radiometer to a designed absolute accuracy of 350 parts per million (ppm, 1 ppm=0.0001% at 1-sigma), and a precision and long-term relative accuracy of 10 ppm per year. Due to the small size of these data and to maximize ease of use to end-users, each delivered TSI product contains science results for the entire mission in an ASCII column formatted file. Early in the mission, between Dec 2013 and May 2014, TCTE acquired daily measurements to establish good overlap with the SORCE TIM. From May 2014 to Dec 2014, the TCTE measurements were reduced to weekly, which greatly subsample the true solar variability, and thus have little value for solar research. Beginning in Jan 2015, daily obervations were resumed. The mission ended June 30, 2019. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.gesdisc.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/TCTE_Level3/TCTE3TSID.004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-tcte--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/TCTE_Level3/TCTE3TSI6.004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-tcte--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "http://lasp.colorado.edu/home/tcte/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-tcte",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-tcte/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:22.546319+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-tcte#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-tcte#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-tcte",
+      "title": "NASA TCTE Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

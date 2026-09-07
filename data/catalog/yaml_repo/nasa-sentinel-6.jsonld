@@ -1,0 +1,340 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Provides reprocessed L1A high resolution (HR) non-time critical (NTC; 60-day latency) altimetry intermediate outputs from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, which are geo-located bursts of Ku-band echoes (at ~140 Hz) with all instrument calibrations applied and full rate complex waveforms for delay/Doppler or HR processing. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L1A_ALT_HR_STC_F Provides L1A high resolution (HR) short time critical (STC; 36-hour latency) altimetry intermediate outputs from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, which are geo-located bursts of Ku-band echoes (at ~140 Hz) with all instrument calibrations applied and full rate complex waveforms for delay/Doppler or HR processing. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L1B_GNSS_POD_DAILY Provides L1B daily GNSS-POD tracking data for the Sentinel-6A radar altimetry mission. #### JASON_CS_S6A_L1B_GNSS_POD_HOURLY Provides L1B hourly GNSS-POD tracking data for the Sentinel-6A radar altimetry mission. #### JASON_CS_S6A_L1B_GNSS_RO_POD_HOURLY Provides L1B GNSS-RO-POD tracking data for the Sentinel-6A radar altimetry mission. #### JASON_CS_S6A_L1B_ALT_HR_NTC_F08 Provides reprocessed L1B high resolution (HR) non-time critical (NTC; 60-day latency) altimetry data from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft which include the geolocated, fully SAR processed and calibrated multi-looked HR Ku-band waveforms. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L1B_ALT_HR_STC_F Provides L1B high resolution (HR) short time critical (STC; 36-hour latency) altimetry data from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft which include the geolocated, fully SAR processed and calibrated multi-looked HR Ku-band waveforms. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L1B_ALT_LR_NTC_F08 Provides reprocessed L1B low resolution (LR) non-time critical (NTC; 60-day latency) altimetry data from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft which include the geolocated, fully-calibrated pulse-limited LR power echoes. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L1B_ALT_LR_STC_F Provides L1B low resolution (LR) short time critical (STC; 36-hour latency) altimetry data from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft which include the geolocated, fully-calibrated pulse-limited LR power echoes. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2_AMR_RAD_NRT Provides L2 near real time (NRT; 3-hour latency) geophysical information from the Advanced Microwave Radiometer on the Sentinel-6A Michael Freilich spacecraft including surface type, wind speed, water vapor, brightness temperature, sigma0, wet troposphere, and associated quality flags. The data are interpolated to intervals that correspond to altimetry measurements from the Poseidon-4 SAR to supply the geophysical and environmental corrections for altimetry. The S6A NRT product is analogous to the Jason-3 OGDR product. #### JASON_CS_S6A_L2_AMR_RAD_NTC_F08_UNVALIDATED Provides reprocessed L2 non-time critical (NTC; 60-day latency) geophysical information from the Advanced Microwave Radiometer on the Sentinel-6A Michael Freilich spacecraft including surface type, wind speed, water vapor, brightness temperature, sigma0, wet troposphere, and associated quality flags. The data are interpolated to intervals that correspond to altimetry measurements from the Poseidon-4 SAR to supply the geophysical and environmental corrections for altimetry. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_AMR_RAD_NTC_F08 Provides L2 non-time critical (NTC; 60-day latency) validated geophysical information from the Advanced Microwave Radiometer on the Sentinel-6A Michael Freilich spacecraft including surface type, wind speed, water vapor, brightness temperature, sigma0, wet troposphere, and associated quality flags. The data are interpolated to intervals that correspond to altimetry measurements from the Poseidon-4 SAR to supply the geophysical and environmental corrections for altimetry. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_AMR_RAD_STC Provides L2 short time critical (STC; 36-hour latency) geophysical information from the Advanced Microwave Radiometer on the Sentinel-6A Michael Freilich spacecraft including surface type, wind speed, water vapor, brightness temperature, sigma0, wet troposphere, and associated quality flags. The data are interpolated to intervals that correspond to altimetry measurements from the Poseidon-4 SAR to supply the geophysical and environmental corrections for altimetry. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2_ALT_HR_STD_OST_NRT_F Provides L2 high resolution (HR) near real time (NRT; 3-hour latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz and 20 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This standard product release provides the geophysical parameters at both 1 and 20 Hz. The S6A NRT product is analogous to the Jason-3 OGDR product. #### JASON_CS_S6A_L2_ALT_HR_RED_OST_NRT_F Provides L2 high resolution (HR) near real time (NRT; 3-hour latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This release is reduced to exclude the 20 Hz observations that are included in the standard product. The S6A NRT product is analogous to the Jason-3 OGDR product. #### JASON_CS_S6A_L2_ALT_HR_STD_OST_NTC_F08_UNVALIDATED Provides reprocessed L2 high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz and 20 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This standard product release provides the geophysical parameters at both 1 and 20 Hz. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_HR_STD_OST_NTC_F08 Provides L2 high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz and 20 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This standard product release provides the geophysical parameters at both 1 and 20 Hz. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_HR_RED_OST_NTC_F08_UNVALIDATED Provides reprocessed L2 high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This release is reduced to exclude the 20 Hz observations that are included in the standard product. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_HR_RED_OST_NTC_F08 Provides L2 high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This release is reduced to exclude the 20 Hz observations that are included in the standard product. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_HR_STD_OST_STC_F Provides L2 high resolution (HR) short time critical (STC; 36-hour latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz and 20 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This standard product release provides the geophysical parameters at both 1 and 20 Hz. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2_ALT_HR_RED_OST_STC_F Provides L2 high resolution (HR) short time critical (STC; 36-hour latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This release is reduced to exclude the 20 Hz observations that are included in the standard product. The S6A STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2_ALT_LR_STD_OST_NRT_F Provides low resolution (LR) near real time (NRT; 3-hour latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed, along with 1 Hz and 20 Hz measurements from the radar altimeter, orbit altitude, environmental range corrections, instrument corrections, and geophysical models. The NRT product is analogous to the Jason-3 OGDR product. #### JASON_CS_S6A_L2_ALT_LR_RED_OST_NRT_F Provides low resolution (LR) near real time (NRT; 3-hour latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed. The NRT product is analogous to the Jason-3 OGDR product. #### JASON_CS_S6A_L2_ALT_LR_STD_OST_NTC_F08_UNVALIDATED Provides reprocessed L2 low resolution (LR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft. It contains Sea Surface Height (SSH), Sea Surface Height Anomalies (SSHA) and Significant Wave Height (SWH), along with 1 Hz and 20 Hz Ku-band measurements processed from L1B altimetry including the range, orbital altitude, time, and water vapour. It also includes altimetry corrections, significant wave height and wind-speed from the AMR-C. This standard product release provides the geophysical parameters at both 1 and 20 Hz. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_LR_STD_OST_NTC_F08 Provides low resolution (LR) non-time critical (NTC; 60-day latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed, along with 1 Hz and 20 Hz measurements from the radar altimeter, orbit altitude, environmental range corrections, instrument corrections, and geophysical models. The NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_LR_RED_OST_NTC_F08_UNVALIDATED Provides low resolution (LR) non-time critical (NTC; 60-day latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed. The NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2_ALT_LR_STD_OST_STC_F Provides low resolution (LR) short time critical (STC; 36-hour latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed, along with 1 Hz and 20 Hz measurements from the radar altimeter, orbit altitude, environmental range corrections, instrument corrections, and geophysical models. The STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2_ALT_LR_RED_OST_STC_F Provides low resolution (LR) short time critical (STC; 36-hour latency) measurements of sea surface height anomaly (SSHA), Significant Wave Height (SWH), and Wind Speed. The STC product is analogous to the Jason-3 IGDR product. #### JASON_CS_S6A_L2P_ALT_HR_OST_NTC_F08 Provides L2P high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, and contains L2-equivalent geophysical sea-state data at a slightly different latency than the other L2 NRT products. The sea-state data were derived from L1B altimetry, and include range, orbital altitude, time, and water vapour. Environmental and geophysical corrections, significant wave height, and wind-speed information are supplied by the AMR-C. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L2P_ALT_LR_OST_NTC_F08 Provides L2P low resolution (LR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, and contains L2-equivalent geophysical sea-state data at a slightly different latency than the other L2 NRT products. The sea-state data were derived from L1B altimetry, and include range, orbital altitude, time, and water vapour. Environmental and geophysical corrections, significant wave height, and wind-speed information are supplied by the AMR-C. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L3_ALT_HR_OST_NTC_F08 Provides L3 high resolution (HR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, which includes the unfiltered geophysical sea-state parameters that have been spatially and/or temporally resampled or corrected, including potential averaging over multiple orbits. The S6A NTC product is analogous to the Jason-3 GDR product. #### JASON_CS_S6A_L3_ALT_LR_OST_NTC_F08 Provides L3 low resolution (LR) non-time critical (NTC; 60-day latency) altimetry from the Poseidon-4 SAR altimeter on the Sentinel-6A Michael Freilich spacecraft, which includes the unfiltered geophysical sea-state parameters that have been spatially and/or temporally resampled or corrected, including potential averaging over multiple orbits. The S6A NTC product is analogous to the Jason-3 GDR product. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_RED_OST_NRT_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--14",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_RED_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--18",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_STD_OST_NRT_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--13",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_AMR_RAD_NTC_F08_UNVALIDATED",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--10",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_ALT_HR_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_GNSS_RO_POD_HOURLY",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_ALT_LR_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_RED_OST_NTC_F08_UNVALIDATED",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--25",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_STD_OST_NRT_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--21",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_RED_OST_NRT_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--22",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_RED_OST_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--20",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_ALT_HR_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L3_ALT_LR_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--31",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_STD_OST_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--19",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1A_ALT_HR_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_RED_OST_NTC_F08_UNVALIDATED",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--17",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_AMR_RAD_STC",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--12",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_STD_OST_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--26",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_ALT_LR_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--8",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_STD_OST_NTC_F08_UNVALIDATED",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--15",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_GNSS_POD_DAILY",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_HR_STD_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--16",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2P_ALT_LR_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--29",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_STD_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--24",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_RED_OST_STC_F",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--27",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2P_ALT_HR_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--28",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1B_GNSS_POD_HOURLY",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_AMR_RAD_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--11",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L1A_ALT_HR_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_AMR_RAD_NRT",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--9",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L2_ALT_LR_STD_OST_NTC_F08_UNVALIDATED",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--23",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON_CS_S6A_L3_ALT_HR_OST_NTC_F08",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-sentinel-6--30",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://earthdata.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-sentinel-6",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "aws-pds",
+        "radar",
+        "satellite imagery"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-sentinel-6/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:22.291214+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-sentinel-6#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-sentinel-6#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-sentinel-6",
+      "title": "NASA Sentinel-6 Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

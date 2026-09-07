@@ -1,0 +1,126 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This data set includes several parameters that were obtained from field surveys as part of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08). #### SV08V This data set includes in situ vegetation data collected during the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08) campaign. Sampling was designed to coincide with satellite overpasses, such as Landsat's Thematic Mapper (TM) 5 and the Moderate Resolution Imaging Spectroradiometer (MODIS) sensor on NASA's Terra satellite (MODIS/Terra), which can be then used to estimate vegetation water content on the regional scale. #### SV08LC This data set consists of land cover classification data derived from satellite imagery and of data obtained in the field as part of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08). #### SV08PLBK This data set contains backscatter data obtained by the Passive Active L-band System (PALS) microwave aircraft radar instrument as part of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08). #### SV08PLTB This data set contains brightness temperatures obtained by the Passive Active L-band System (PALS) microwave aircraft radiometer instrument as part of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08). #### SV08ST This data set contains soil texture data that were extracted from a multi-layer soil characteristics database for the conterminous United States and generated for each regional study area. Data are representative of the conditions present in the regional study areas during the general timeline of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08) campaign. #### SV08SR Surface roughness data for this data set were collected at several field sites as part of the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08) campaign. #### SV08VWC The Vegetation Water Content (VWC) map for the Soil Moisture Active Passive Validation Experiment 2008 (SMAPVEX08) was derived by calculating Normalized Difference Water Index (NDWI) from Satellite Pour l'Observation de la Terre-4 (SPOT-4) overpasses on 11 October 2008. In addition, samples from a range of vegetation types were used to compare VWC and NDWI to the satellite imagery. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.nsidc.earthdatacloud.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08SM/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08PLBK/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08SR/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08VWC/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08V/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08LC/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08PLTB/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV08ST/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-smapvex08--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://nsidc.org/data/sv08sm/versions/1"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-smapvex08",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "land cover",
+        "soil moisture",
+        "satellite imagery",
+        "aws-pds",
+        "radar"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-smapvex08/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:22.325307+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-smapvex08#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-smapvex08#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-smapvex08",
+      "title": "NASA SMAPVEX08 Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

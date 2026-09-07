@@ -1,0 +1,75 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The FoMo dataset is a multi-season collection recorded in a boreal forest environment, featuring deep snow, off-road terrain, steep slopes, and highly variable weather. It provides synchronized multi-modal sensor data—including two lidars (RoboSense and Leishen), an FMCW radar (Navtech), stereo and monocular cameras, dual IMUs, wheel odometry, power data, calibration sequences, and precise ground-truth trajectories via GNSS-PPK fusion. Designed to support research on robust robot autonomy under adverse conditions, FoMo includes repeated traversals of six trajectories of varying complexity for long-term SLAM and odometry evaluation, as well as rich metadata such as one-minute weather station measurements. The dataset is intended to challenge state-of-the-art SLAM, localization, traversability analysis, and multi-season robotics research.",
+      "distribution": [
+        {
+          "accessURL": "https://fomo-dataset.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/fomo-norlab--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://fomo.norlab.ulaval.ca/overview"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/fomo-norlab",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5, DD5 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "perception",
+        "computer vision",
+        "radar",
+        "extreme weather",
+        "meteorological",
+        "robotics",
+        "RINEX",
+        "signal processing",
+        "environmental",
+        "autonomous vehicles",
+        "GNSS",
+        "localization",
+        "geospatial",
+        "lidar",
+        "IMU",
+        "mapping",
+        "aws-pds",
+        "benchmark"
+      ],
+      "landingPage": "https://registry.opendata.aws/fomo-norlab/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:18.103633+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/fomo-norlab#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/fomo-norlab#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:fomo-norlab",
+      "title": "FoMo - A Multi-Season Dataset for Robot Navigation in Forêt Montmorency",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

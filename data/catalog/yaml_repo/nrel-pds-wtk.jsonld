@@ -1,0 +1,341 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Released to the public as part of the Department of Energy's Open Energy Data Initiative, the [Wind Integration National Dataset (WIND)](https://www.nrel.gov/grid/wind-toolkit.html) is an update and expansion of the Eastern Wind Integration Data Set and Western Wind Integration Data Set. It supports the next generation of wind integration studies.",
+      "distribution": [
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/kazakhstan/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/Offshore_CA/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/bangladesh/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/sup3rwind/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--35",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/seasiawind_v3/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--27",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/india/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/now23_california/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--29",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/wtk-us/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--17",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/indonesia/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--33",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/canada/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/wtk-us.h5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--18",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/philippines/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--14",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/seasiawind_v2/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--26",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/maine/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--12",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/south_atlantic/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--30",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/Hawaii/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/pr100/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--24",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/seasiawind/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--25",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/conus/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/wtk/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/philippines_tmy/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--22",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/central_asia/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/NW_Pacific/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/wtk-techno-economic/pywtk-data/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--19",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/mexico/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/Mid_Atlantic/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/gulf_of_mexico/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/vietnam/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--15",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/mid_atlantic_3d_pbl/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--31",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/Great_Lakes/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--23",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/bchrrr/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--32",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/NOW-WAKES_Mid_Atlantic/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--28",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/eastern_wind/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--20",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/western_wind/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--21",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-wtk.s3.us-west-2.amazonaws.com/wtk-led/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-wtk--34",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.nrel.gov/grid/wind-toolkit.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nrel-pds-wtk",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "meteorological",
+        "environmental",
+        "aws-pds",
+        "geospatial"
+      ],
+      "landingPage": "https://registry.opendata.aws/nrel-pds-wtk/",
+      "license": "http://spdx.org/licenses/CC-BY-3.0",
+      "modified": "2026-09-07T07:36:23.576501+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nrel-pds-wtk#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-pds-wtk#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nrel-pds-wtk",
+      "title": "NREL Wind Integration National Dataset",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

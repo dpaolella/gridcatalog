@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The NA-CORDEX dataset contains regional climate change scenario data and guidance for North America, for use in impacts, decision-making, and climate science. The NA-CORDEX data archive contains output from regional climate models (RCMs) run over a domain covering most of North America using boundary conditions from global climate model (GCM) simulations in the CMIP5 archive. These simulations run from 1950–2100 with a spatial resolution of 0.22°/25km or 0.44°/50km. This AWS S3 version of the data includes selected variables converted to Zarr format from the original NetCDF. Only daily data are currently available; all daily data were mapped to the Gregorian calendar. Sub-daily data may be added later. Both raw and bias-corrected data are available. Further details about this version of the dataset are available at the documentation link below.",
+      "distribution": [
+        {
+          "accessURL": "https://ncar-na-cordex.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ncar-na-cordex--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.26024/9xkm-fp81"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/ncar-na-cordex",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset. Determined by the phrase \"bias-corrected\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "climate",
+        "model",
+        "climate model",
+        "land",
+        "sustainability",
+        "geospatial",
+        "aws-pds",
+        "zarr",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/ncar-na-cordex/",
+      "license": "https://na-cordex.org/terms-use.html",
+      "modified": "2026-09-07T07:36:23.244278+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/ncar-na-cordex#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:ncar-na-cordex",
+      "title": "NA-CORDEX - North American component of the Coordinated Regional Downscaling Experiment",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

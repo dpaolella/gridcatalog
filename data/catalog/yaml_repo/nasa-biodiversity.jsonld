@@ -1,0 +1,71 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This dataset contains vegetation canopy metrics for the Greater Kruger National Park region of South Africa for 2007-2010 and 2015-2024. Metrics include relative height 98th percentile (RH98), fractional canopy cover, and foliage height diversity. This dataset contains vegetation canopy metrics for the Greater Kruger National Park region of South Africa. Metrics include relative height 98th percentile (RH98), fractional canopy cover, and foliage height diversity. They were derived by modeling a sample of Global Ecosystem Dynamics Investigation (GEDI) Level 2A Elevation and Height Metrics and Level 2B Canopy Cover and Vertical Profile Metrics at the 25-m footprint level with wall-to-wall spatial datasets including Landsat, PALSAR, topography derived from NASADEM, and soils data from iSDAsoil. Maps for 2023 and 2024 were created by applying the model trained from 2007-2022 data to PALSAR and Landsat data for 2023 and 2024. The data are suitable for analyzing change in woody canopy structure within the savanna ecosystems of this region. The data are provided in cloud optimized GeoTIFF format. #### Acoustic_Data_SonomaCounty_CA_2341 This dataset holds in situ sound recordings from sites in Sonoma County, California, USA as part of the Soundscapes to Landscapes citizen science project. Recordings were collected from 2017 to 2022 during the bird breeding season (mid-March thru mid-July). Sites (n=1399) were selected across the county; locations were stratified with respect to topographic position and broad land use/land cover types, such as forest, shrubland, herbaceous, urban, agriculture, and riparian areas. Two types of automated recorders were used: Android-based smartphones with attached microphones and AudioMoths. Recorders were deployed at sites for at least 3 days, and programmed to record 1 min of every 10, thus providing temporal sampling through day and night. Each recording was saved in a waveform audio file format (.wav) with 16-bit digitization depth and 44.1 kHz or 48 kHz sampling rate for smartphone and AudioMoth recorders, respectively. The dataset also includes site information including site location when so permitted by landowners in tabular form and photographs of field sites. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.ornldaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/biodiversity/Acoustic_Data_SonomaCounty_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-biodiversity--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/biodiversity/GEDI_Canopy_Metrics_GreaterKNP/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-biodiversity--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://earthdata.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-biodiversity",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.9. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "satellite imagery",
+        "aws-pds",
+        "elevation",
+        "land cover"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-biodiversity/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:19.323211+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-biodiversity#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-biodiversity#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-biodiversity",
+      "title": "NASA Biodiversity Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

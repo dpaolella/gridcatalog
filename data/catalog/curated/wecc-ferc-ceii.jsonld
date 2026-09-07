@@ -1,0 +1,83 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessBarrier": "restricted",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/ceii",
+      "anonymousAccess": false,
+      "bboxMaxLat": 60.0,
+      "bboxMaxLon": -102.0,
+      "bboxMinLat": 31.0,
+      "bboxMinLon": -125.0,
+      "bboxWKT": "POLYGON((-125.0 31.0, -102.0 31.0, -102.0 60.0, -125.0 60.0, -125.0 31.0))",
+      "commercialUseAllowed": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The transmission planning models WECC and FERC hold are the authoritative representation of the Western Interconnection. They are CEII-designated under 18 CFR 388.113 and require an NDA plus FERC clearance. This record exists because a catalog that tells you what does not exist is more useful than one that silently returns nothing: the gap is permanent, it bounds what DD1 can offer, and a modeler should learn that here rather than after a month of correspondence.",
+      "distribution": [
+        {
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/ceii",
+          "accessURL": "https://www.ferc.gov/ceii",
+          "anonymousAccess": false,
+          "bulkDownload": false,
+          "credentialRequirement": "FERC CEII clearance and a signed non-disclosure agreement",
+          "formatLabel": "Landing page only; no data artifact",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing",
+          "linkHealth": {
+            "consecutiveFailures": 0,
+            "id": "https://catalog.opengrid.org/dist/wecc-ferc-ceii--landing#health",
+            "lastProbedAt": "2026-09-01T04:00:00+00:00",
+            "linkHealthStatus": "verified",
+            "probeCadence": "P30D",
+            "type": "LinkHealth"
+          },
+          "supportsRangeRequests": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/wecc-ferc-ceii",
+      "issued": "2020-01-01T00:00:00+00:00",
+      "keyword": [
+        "transmission",
+        "CEII",
+        "WECC",
+        "FERC",
+        "restricted"
+      ],
+      "license": "https://spdx.org/licenses/LicenseRef-CEII",
+      "licenseNote": "CEII-designated under 18 CFR 388.113. Not a licence in the reuse sense: a statutory access restriction.",
+      "modified": "2026-01-01T00:00:00+00:00",
+      "nativeCRS": "EPSG:4326",
+      "pointerRationale": "NDA plus FERC clearance. Permanently out of reach and catalogued as a documented gap, not as a lead to chase.",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "qualityFlags": {
+        "caveat": [
+          "No access path exists at any price. PRD §12.4 carries forward whether a de-sensitized derivative under controlled access is a defensible niche; until that is decided, this is a gap and nothing more."
+        ],
+        "id": "https://catalog.opengrid.org/ds/wecc-ferc-ceii#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": false,
+      "referenceOnly": true,
+      "reviewState": "confirmed",
+      "spatialGranularity": "nodal",
+      "spatialLabel": [
+        "Western Interconnection",
+        "Canada",
+        "United States"
+      ],
+      "summary": "Investment-grade Western Interconnection network models, designated Critical Energy Infrastructure Information and not obtainable.",
+      "tier": 3,
+      "title": "WECC / FERC CEII transmission data",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

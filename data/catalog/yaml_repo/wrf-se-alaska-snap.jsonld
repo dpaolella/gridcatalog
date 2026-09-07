@@ -1,0 +1,60 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This dataset contains historical and projected dynamically downscaled climate data for the Southeast region of the State of Alaska at 1 and 4km spatial resolution and hourly temporal resolution. Select variables are also summarized into daily resolutions. This data was produced using the Weather Research and Forecasting (WRF) model (Version 4.0). We downscaled both Climate Forecast System Reanalysis (CFSR) historical reanalysis data (1980-2019) and both historical and projected runs from two GCM’s from the Coupled Model Inter-comparison Project 5 (CMIP5): GFDL-CM3 and NCAR-CCSM4 (historical run: 1980-2010 and RCP 8.5: 2030-2060).",
+      "distribution": [
+        {
+          "accessURL": "https://wrf-se-ak-ar5.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/wrf-se-alaska-snap--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.sciencebase.gov/catalog/item/5f93658882ce720ee2d598a7"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/wrf-se-alaska-snap",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "environmental",
+        "sustainability",
+        "earth observation",
+        "aws-pds",
+        "agriculture",
+        "coastal",
+        "weather",
+        "climate"
+      ],
+      "landingPage": "https://registry.opendata.aws/wrf-se-alaska-snap/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:24.161833+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/wrf-se-alaska-snap#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:wrf-se-alaska-snap",
+      "title": "High Resolution Downscaled Climate Data for Southeast Alaska",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

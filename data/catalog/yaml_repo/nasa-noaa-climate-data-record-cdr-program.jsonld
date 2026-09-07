@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The Smith & Reynolds Extended Reconstructed Sea Surface Temperature (ERSST) Level 4 dataset provides a historical reconstruction of monthly global ocean surface temperatures and temperature anomalies over a 2 degree spatial grid since 1854 from in-situ observations based on a consistent statistical methodology that accounts for uneven sampling distributions over time and related observational biases. Version 5 of this dataset implements release 3.0 of ICOADS (International Comprehensive Ocean-Atmosphere Data Set) and is supplemented by monthly GTS (Global Telecommunications Ship and buoy) system data. As for the prior ERSST version, v5 implements Empirical Orthogonal Teleconnection analysis (EOT) but with an improved tuning method for sparsely sampled regions and periods. ERSST anomalies are computed with respect to a 1971-2000 monthly climatology. The version 5 has been improved from previous version 4. Major improvements in v5 include: 1) Inclusion and use of new sources and new versions of input datasets, such as data from Argo floats (new source), ICOADS R3.0 (from R2.5), HadISST2 (from HadISST1) sea ice concentration, and 2) Improved methodologies, such as inclusion of additional statistical modes, less spatial-temporal smoothing, better quality control method, and bias correction with baseline to modern buoy observations. The new version improves the spatial structures and magnitudes of El Nino and La Nina events. The ERSST v5 in netCDF format contains extended reconstructed sea surface temperature, SST anomaly, and associated estimated SST error standard deviation fields, in compliance with CF1.6 standard metadata. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/REYNOLDS_NCDC_L4_MONTHLY_V5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-noaa-climate-data-record-cdr-program--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://earthdata.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-noaa-climate-data-record-cdr-program",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "climate",
+        "ice",
+        "aws-pds",
+        "netcdf",
+        "oceans",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-noaa-climate-data-record-cdr-program/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.451462+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-noaa-climate-data-record-cdr-program#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-noaa-climate-data-record-cdr-program#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-noaa-climate-data-record-cdr-program",
+      "title": "NASA NOAA CLIMATE DATA RECORD (CDR) PROGRAM Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

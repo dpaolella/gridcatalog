@@ -1,0 +1,54 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "commercialUseAllowed": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD7"
+      ],
+      "description": "EIA Natural Gas prices and Short-Term Energy Outlook, a Fuel & commodity dataset, available at https://www.eia.gov/naturalgas/. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://www.eia.gov/naturalgas/",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eia-natural-gas-prices--primary",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://api.eia.gov/v2/natural-gas",
+          "formatLabel": "API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eia-natural-gas-prices--secondary",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/eia-natural-gas-prices",
+      "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
+      "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
+      "modified": "2026-09-07T07:34:25.978917+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/eia-natural-gas-prices#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD7:eia-natural-gas-prices-and-short-term-energy-outlook",
+      "tier": 1,
+      "title": "EIA Natural Gas prices and Short-Term Energy Outlook",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

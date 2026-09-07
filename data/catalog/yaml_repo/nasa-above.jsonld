@@ -1,0 +1,2035 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This document presents the Concise Experiment Plan for NASA's Arctic-Boreal Vulnerability Experiment (ABoVE) to serve as a guide to the Program as it identifies the research to be conducted under this study. Research for ABoVE will link field-based, process-level studies with geospatial data products derived from airborne and satellite remote sensing, providing a foundation for improving the analysis and modeling capabilities needed to understand and predict ecosystem responses and societal implications. The ABoVE Concise Experiment Plan (ACEP) outlines the conceptual basis for the Field Campaign and expresses the compelling rationale explaining the scientific and societal importance of the study. It presents both the science questions driving ABoVE research as well as the top-level requirements for a study design to address them. #### Arctic_Boreal_CO2_Flux_V2_2448 This dataset is a synthesis of terrestrial and freshwater CO2 and CH4 fluxes from the Arctic-Boreal region aggregated to monthly timesteps. The dataset, known as ABCFlux v2, includes 1,028 unique sites and spans 1984-2024 with the majority of observations occurring after 1999. ABCFlux v2 includes surface-atmosphere CO2 fluxes of net ecosystem exchange (NEE), gross primary production (GPP), and ecosystem respiration (Reco) alongside CH4 fluxes. For aquatic ecosystems, CH4 fluxes were split into diffusive and ebullitive flux pathways and included potential emissions from transient storage in the water column, alongside CO2 and CH4 concentrations dissolved in the surface water. Fluxes were measured through a variety of methods including chamber and eddy covariance techniques alongside bubble traps, ice-surveys, and concentration-based turbulence-driven modelling in aquatic ecosystems. Supporting variables include methodological metadata (e.g., gap-filling methods, number of chamber measurement days), environmental measurements (e.g., air, water, and soil temperatures), and site-level attributes (e.g., permafrost thaw status, disturbance history). Compared with version 1, this v2 dataset includes additional variables to represent detailed descriptions of plant functional types, deep soil temperatures ( 45 degrees) and the Arctic-Boreal Vulnerability Experiment (ABoVE) domain across Alaska and Canada. The data are a 10-day averaged time step at 5-km spatial resolution for the period 2002-2015. Data represent the aerial portion of a grid cell covered by open water. The data were produced using high frequency (89 GHz) brightness temperatures from the Advanced Microwave Scanning Radiometer for EOS (AMSR-E) and the Advanced Microwave Scanning Radiometer 2 (AMSR2), with other ancillary inputs from AMSR-E/AMSR2 25-km products and the Moderate Resolution Imaging Spectroradiometer (MODIS). The resulting data record for fractional water is suitable for documenting open water patterns and inundation dynamics in boreal-Arctic ecosystems experiencing rapid climate change. #### Maps_AGB_North_Slope_AK_1565 This dataset includes 30-m gridded estimates of total plant aboveground biomass (AGB), the shrub AGB, and the shrub dominance (shrub/plant AGB) for non-water portions of the Beaufort Coastal Plain and Brooks Foothills ecoregions of the North Slope of Alaska. The estimates were derived by linking biomass harvests from 28 published field site datasets with NDVI from a regional Landsat mosaic derived from Landsat 5 and 7 satellite imagery. The data cover the period 2007-06-01 to 2016-08-31. #### Snow_Cover_Extent_and_Depth_1757 This dataset provides estimates of maximum snow cover extent (SCE) and snow depth for each 8-day composite period from 2001 to 2017 at 1 km resolution across Alaska. The study area covers the majority land area of Alaska except for areas covered by perennial ice/snow or open water. A downscaling scheme was used in which Modern-Era Retrospective Analysis for Research and Applications, Version 2 (MERRA-2) global reanalysis 0.5 degree snow depth data were interpolated to a finer 1 km spatial grid. In the methods used, the downscaling scheme incorporated MODIS SCE (MOD10A2) to better account for the influence of local topography on the 1km snow distribution patterns. For MODIS cloud-contaminated pixels, persistent and patchy cloud cover conditions were improved by applying an elevation-based spatial filtering algorithm to predict snow occurrence. Cloud-free MODIS SCE data were then used to downscale MERRA-2 snow depth data. For each snow-covered 1 km pixel indicated by the MODIS data, the snow depth was estimated based on the snow depth of the neighboring MERRA-2 0.5 grid cell, with weights predicted using a spatial filter. #### Historical_Lake_Shorelines_AK_1859 This dataset includes maps of historical lake shorelines with derived lake areas in the southern portion of the Goldstream Valley and the surrounding landscape north of Fairbanks, Alaska, USA. Historical lake margins were mapped for 1949, 1967, and 1985 using 1 m aerial photographs available through U.S. Geological Survey Earth Explorer, and for 2009 using 2.5 m SPOT satellite image mosaics. The study area was a 214 km2 area of Pleistocene-aged yedoma permafrost in the southern portion of the Goldstream Valley. An increasing number of thermokarst lakes and ponds, from 130&ndash;275 per year, were identified over the entire study period. Anthropogenic lakes, formed by mining peat, gravel, and gold concentrated in the northwestern extent of Goldstream Valley, were excluded. #### IceFraction_WaterBodies_ACP_AK_2451 This dataset contains ice fraction data at 1-km spatial resolution and approximately 6-day temporal resolution for small water bodies (900 m2 to 25 km2) across the Arctic Coastal Plain of Alaska (ACP) from 2017 to 2023. The data were developed using Sentinel-1 Synthetic Aperture Radar (SAR) imagery, texture features, and temperature data. Ice fraction is summarized for 1-km grid cells. Ice cover of water bodies in the northern high latitudes (NHL) is highly sensitive to the changing climate, and its dynamics exert substantial impacts on the NHL ecosystems, hydrological processes, and carbon cycle. Compared with the Google Dynamic World (DW) product derived from Sentinel-2 observations, this dataset shows high consistency with DW (R =0.91, RMSE = 0.19) while having enhanced temporal coverage due to fewer constraints from solar illumination, cloud cover, and atmospheric conditions. #### Fire_Ignitions_Locations_AK_CA_2316 This dataset provides daily fire ignition locations and timing for boreal fires in Alaska, U.S., and Canada between 2001 and 2019. The fire ignition locations and timing are extracted from the ABoVE Fire Emission Database; however, the temperate prairies of Canada, the Atlantic Highlands, and Mixed Wood Plains were not included. Fires were detected from Landsat differenced normalized burn ratio (dNBR) and the daily MODIS burned area and active fire products. Detections by dNBR were limited to fire perimeters from national fire databases. Fire ignition locations were retrieved using a local minimum within the fire perimeters. However, when fire locations were confounded due to simultaneous active fire detections, the fire ignition location was set as the centroid of these pixels. A spatial uncertainty equaling the standard deviation of the pixels' coordinates and the nominal nadir of 1000 m was applied to the fire ignition location. The temporal resolution of the ignition timing is within one day. Data is provided in comma separated values (CSV) and shapefile formats. #### BurnedArea_Emissions_AK_YT_NWT_1812 This dataset provides estimates of daily burned area, carbon emissions, and uncertainty, and daily fire ignition locations for boreal fires in Alaska, U.S., and in the Yukon and Northwest Territories, Canada. The data are at 500 m resolution for the 18-year period from 2001-2018. Burned area was retrieved from combining fire perimeter data from the Alaskan and Canadian Large Fire Databases with surface reflectance and active fire data from the Moderate Resolution Imaging Spectroradiometer (MODIS) Collection 6. Per-pixel carbon consumption was estimated based on a statistical relationship between field estimates of pyrogenic consumption and several environmental variables. To derive the carbon consumption estimates, the approach from Alaskan Fire Emissions Database (AKFED) was updated and extended for the period 2001-2018. Fire weather variables, temperature, and the drought code complemented remotely sensed tree cover and burn severity as model predictors. Fire ignition location and timing were extracted from the daily burned area maps. #### ABoVE_L1_P_SAR_1800 This dataset provides Level 1 (L1) polarimetric radar backscattering coefficient (Sigma-0 or S-0), multi-look complex, polarimetrically calibrated, and georeferenced data products from the UAVSAR P-band SAR radar instrument collected over 74 study sites across Alaska, USA, and western Canada. The radar instrument is a fully polarimetric P-band (ultra-high frequency) SAR operating in the 420-440 MHz band. The flight campaigns took place periodically in May-August 2017 onboard a NASA Gulfstream-III aircraft. Each set of products was produced from a data take (i.e., acquisition) of the UAVSAR P-band SAR radar instrument, where one data take is equivalent to one flight line over a site. Two to four data takes were sought for each site, although for some sites as few as one or as many as six are provided. There were a total of 139 data takes over the 74 sites. #### Alaska_Lake_Pond_Maps_2134 This dataset provides polygon spatial files of lake and pond extents for three sub-regions of Interior Alaska's boreal forest, and one tundra region located in Alaska's Yukon-Kuskokwim Delta. Files provide lake and pond extents of standing water without wetland vegetation or other obstructions with a minimum area of 0.01 ha. Water extents were derived from Planet Labs PlanetScope imagery with resolution of 3.125 m. A deep learning model (U-Net) was applied to PlanetScope orthotile imagery from Planet Labs' Dove-R and Super Dove satellites. The U-Net model used the red, green, blue, and near-infrared bands along with a slope raster derived from a 30-m digital elevation model (DEM) as inputs. The U-Net detected water bodies in all available cloud-free images from the snow-free period (May-September) of 2019-2021. Water body data are provided as 3-year composites (2019-2021) for all four regions and monthly climatological composites (May-September) over 2019-2021 for the three boreal forest regions. The composite water files indicate the presence of open, standing water in >40% of valid PlanetScope observations for a given composite time-slice. Files are provided in shapefile format. #### Lake_Wetland_Classes_UAVSAR_1883 This dataset contains a high-resolution land cover classification focused on water and wetland vegetation classes over three NASA ABoVE Campaign regions: Yukon Flats, Alaska, USA; the Peace-Athabasca Delta, Alberta; and the Canadian Shield, Northwest Territories (NWT), Canada. The product was derived from L-band synthetic aperture radar (SAR) acquisitions from the airborne NASA UAVSAR instrument in 2017-2019. The classification was trained and validated from field visits, UAV images, satellite imagery as well as other ABoVE datasets. Classifications in all regions are provided as both preliminary 13-class versions and final, simplified 5-class versions. Training and test data used for the classifier are also included as well as characteristics of lakes in the study area. This land cover classification was developed to support a project focusing on potential methane emissions from the shallow near-shore, or littoral, regions of lakes. The emergent aquatic vegetation classes can be used as a proxy for these littoral zones. Wetland vegetation classifications are provided as gridded raster files with an approximately 5-meter spatial resolution and aligned with the original UAVSAR footprints. Composite mosaics that aggregate these UAVSAR scenes by region and day of acquisition, if applicable, are also provided. Classifications in all regions are provided as both preliminary 13-class versions and final 5-class versions. #### ABoVE_GrowingSeason_Lake_Color_1866 This dataset provides an annual time series of Landsat green surface reflectance and the derived annual trend during the growing season (June and July) for 472,890 lakes across the ABoVE Extended Study Domain from 1984 to 2019. The reflectance data are from Landsat-5, Landsat-7, and Landsat-8 sensors for the green band (center wavelength 560 nm). Over 270,000 Landsat scenes were evaluated and quality assured to be cloud-free and over water. Lakes were selected from HydroLAKES, a global database of lakes of at least 10 ha. Lake surface reflectance was extracted from a 3-by-3-pixel area centered on each lake centroid from the selected Landsat scenes determined from lake polygons. This dataset demonstrates changes in lake color over time in the arctic and boreal regions of North America. Color is relevant for understanding physical, ecological, and biogeochemical processes in some of the world&rsquo;s highest concentrations of lakes where climate change may have significant impacts. #### Lakes_Ponds_Weekly_Occurrence_2430 This dataset provides weekly surface water occurrence across lakes and ponds in six study regions: the Alaskan Coastal Plain, Yukon Flats, Yukon Kuskokwim Delta, Mackenzie River Delta, Tuktoyaktuk Peninsula, and Anderson Plain. The study regions are in Alaska, US, and Yukon and Northwest Territories, Canada. This binary (water or not water) raster product is built from Sentinel-2 imagery and a maximum lake extent vector product also produced from Sentinel-2 imagery. When cloud-free imagery was available, raster files were produced at 10 m spatial resolution and weekly temporal resolution during the ice-free season (May-September) for the period 2016-2023. Open water was differentiated from land using an adaptive NDWI threshold water classification algorithm and then clipped to the lake and ponds vector product so that only lake and pond water is reported. The data are provided in netCDF format along with two Jupyter notebooks holding code used for this analysis. #### Methane_Flux_BigTrail_Lake_2393 This dataset provides field data and gridded land cover and terrain data for an area north of Big Trail Lake, an active thermokarst lake in Goldstream Valley (near Fairbanks, Alaska, USA). Field samples were collected at 56 locations across the study area in June 2021 and August 2022. Field data include chamber-based methane (CH4) and carbon dioxide (CO2) flux, soil moisture, soil temperature, soil pH, vegetation communities, meteorological data, and soil samples. The soil samples were used to conduct SIMPER microbial community analysis and soil chemical analyses and to quantify methanogen and methanotroph relative abundance. Land cover classifications (10 cm spatial resolution) were derived from supervised random forest classifications using RedEdge-MX and multiSPEC-4C multispectral drone imagery, normalized difference vegetation index (NDVI), and USGS 3D Elevation Program (3DEP) digital surface model (DSM) data. RedEdge-MX drone imagery was collected in July 2021 and multiSPEC-4C drone imagery was collected in August 2019. Gridded microtopography and slope estimates were derived at 1 m spatial resolution using USGS 3DEP digital terrain model (DTM) data. Gridded products are provided in cloud-optimized GeoTIFF format, field data are provided in comma-separated values format, and sample location photos in JPEG format are contained within a compressed file. #### Tundra_Greeness_Temp_Trends_1893 This dataset provides annual tundra greenness and summer air temperatures at a resolution of 50 km over the pan-Arctic tundra biome above 31.5 degrees over the time period 1985 to 2016. Annual tundra greenness was assessed using the maximum Normalized Difference Vegetation Index (NDVImax) derived from surface reflectance measured by sensors on the Landsat satellites. Summer air temperatures were quantified using the Summer Warmth Index (SWI) derived from an ensemble of five global temperature datasets. Tabular data include NDVImax, SWI, and estimates of uncertainty using Monte Carlo simulations at 45,334 vegetated sampling sites. Raster data provide (1) annual SWI from 1985 to 2016; (2) temporal trends in annual NDVImax and SWI from 1985 to 2016 and from 2000 to 2016; and (3) temporal correlations between annual NDVImax - SWI during these two periods. Each raster also includes estimates of uncertainty that were generated using Monte Carlo simulations. This dataset provides a new pan-Arctic product for assessing inter-annual variability in tundra using moderate resolution observations from the Landsat satellites. #### BorealForest_Greenness_Trends_2023 This dataset provides information on interannual trends in annual maximum vegetation greenness from 1985 to 2019 for recently undisturbed areas in the boreal forest biome. Multi-decadal changes in remotely sensed vegetation greenness provide evidence of an emerging boreal biome shift driven by climate warming. Annual maximum vegetation greenness was assessed at about 100,000 random sample locations using an ensemble of spectral vegetation indices (NDVI, EVI2, kNDVI, and NIRv) derived from Landsat products. The dataset provides raster data summarizing vegetation greenness trends for sample locations stratified by Ecological Land Unit in GeoTIFF format. These raster data span the circum-hemispheric boreal forest biome between 45 to 70 degrees north at 300 m resolution. Estimates of uncertainty were generated using Monte Carlo simulations. Interannual trends in annual maximum vegetation greenness from 1985 to 2019 and 2000 to 2019 are provided for sample locations with adequate data for time series analysis; these data are in comma-separated values (CSV) format. #### ABoVE_AGBD_Uncertainty_Maps_2465 This dataset provides annual aboveground biomass (AGB) maps and associated uncertainty maps for Alaska and Canada from 1984 to 2022 at ~30 m resolution (0.00027 degrees). The dataset was derived using predictors from synthetic spectral features from Landsat Collection 2 and Continuous Change Detection and Classification algorithm. Extensive collections of ground plots (n = 45,002) and airborne lidar data (n = 421,942) were compiled for reference AGB in order to calibrate AGB models using Extreme Gradient Boosting (XGBoost) per ecoregion. Fifty AGB predictions were derived, of which the mean and standard deviation was used as per-pixel AGB prediction and uncertainty, respectively. The dataset can promote better understanding of carbon dynamics across arctic and boreal regions of North America. The data are provided in cloud optimized GeoTIFF format. #### ABoVE_ForestDisturbance_Agents_1924 This dataset provides spatial data on disturbance agents of fire, insects, and logging in the Arctic Boreal Vulnerability Experiment (ABoVE) core domain at an annual time step from 1987-2012 and 30 m resolution. Using a time-series of Landsat data, the three disturbance types were identified by abrupt changes in Tasseled Cap (dTC) indices of brightness, greenness, and wetness. Disturbances were detected by a Continuous Change Detection and Classification (CCDC) harmonic regression model applied to the time series. The dTC indices and disturbance results are provided. #### Annual_Landcover_ABoVE_1691 This dataset provides two 30-m resolution time series products of annual land cover classifications over the Arctic Boreal Vulnerability Experiment (ABoVE) core domain for each year of the period 1984-2014. The data are the annual dominant plant functional type in a given 30-m pixel derived from Landsat surface reflectance, landcover training data mapped across the ABoVE domain (using Random Forests modeling, with clustering and interpretation of field photography) and very high resolution imagery to assign land cover classifications. One product has a 15-class land cover classification that breaks out forest and shrub types into several additional classes; the other product provides a simplified, 10-class approach. Classification accuracy assessment results are provided per year. Assessments were based on a probability-based random sample of reference data that supported statistically robust estimation of areas and uncertainties in mapped areas. #### Boreal_LandCoverClasses_AK_CA_2423 This dataset contains a 30-m resolution time series of annual land cover classifications as the dominant plant functional type class for all of boreal Alaska and Canada from 1986 to 2020. The data were derived from a time series of Landsat Collection 2 Surface Reflectance and processed using the Continuous Change Detection and Classification (CCDC) algorithm. This dataset includes a nine-class land cover scheme. Classification accuracy was assessed using a probability-based random sample, ensuring statistically robust area estimates and uncertainty measures. The classifications were produced using a supervised Random Forest classification model and Canadian National Forest Inventory photo plot data. The data are provided in multiband GeoTIFF file format and distributed by tile in the ABoVE Level B grid. #### ABoVE_Fire_Severity_dNBR_1564 This dataset contains differenced Normalized Burned Ratio (dNBR) at 30-m resolution calculated for burn scars from fires that occurred within the Arctic Boreal and Vulnerability Experiment (ABoVE) Project domain in Alaska and Canada during 1985-2015. The fire perimeters were obtained from the Alaskan Interagency Coordination Center (AICC) and the Natural Resources Canada (NRC) fire occurrence datasets. Only burns with an area larger than 200-ha were included. The dNBR for each burn scar at 30-m pixel resolution was derived from pre- and post-burn Landsat 5, 7, and 8 scenes within a 5-km buffered area surrounding each burn scar using Landsat LEDAPS surface reflection image pairs. #### Last_Day_Spring_Snow_1528 This dataset provides the last day of spring snow cover for most of Alaska and the Yukon Territory for 2000 through 2016. The data are based on the MODIS daily snow cover fraction product (MODSCAG) and are provided at 500-m resolution. Pixels in the daily snow cover fraction grids from April 1 through July 31 were flagged as \"Snow\" if the snow fraction exceeded 0.15, resulting in a time series of binary daily snow cover grids for each year. The annual last day of spring snow for each pixel was identified by day of the year ranging from 91 (April 1) to 183 (July 2). #### ABoVE_Footprints_WRF_AK_NWCa_1896 This dataset provides Weather Research and Forecasting (WRF) Stochastic Time-Inverted Lagrangian Transport (STILT) Footprint data products for receptors (observations) located at positions along flight paths and at various fixed observing sites at circumpolar locations at northern latitudes during 2016-2019. Each aircraft and station position is treated as an independent receptor in the WRF-STILT model in order to simulate the land surface influence on observed atmospheric constituents. The footprints are independent of chemical species and can be applied to different flux models and incorporated into formal inversion frameworks. The particle trajectories that determine the footprint field are constrained only by the outer edges of the WRF modeling domain. The measurements included in this data set are crucial for understanding changes in Arctic carbon cycling and the potential threats posed by the thawing of Arctic permafrost. #### ABoVE_Particles_WRF_AK_NWCa_1895 This dataset provides Weather Research and Forecasting (WRF) Stochastic Time-Inverted Lagrangian Transport (STILT) particle trajectory files for receptors located at positions along flight paths and at various fixed observing sites at circumpolar locations above 45 degrees North during 2016-2019. The particle files describe the motion of particles released backward in time over a 10-day period. The particle files are separated into archives by platform type (some platforms are combined) and can be characterized as either low resolution or high resolution depending on whether the subsequent footprint fields were generated on a circumpolar 0.5-degree grid (low-resolution) or both 0.5-degree and 0.1-degree grids (high-resolution). The platforms include flux towers at fixed sites, laboratory measurements of whole air samples collected by Programmable Flask Packages (PFP) onboard aircraft, and observations by NASA's Orbiting Carbon Observatory-2 satellite. These particle files were thinned to retain particle location information only when the particles have non-zero contributions to the corresponding footprint field. These particle files are used to compute the footprint fields available in a companion dataset. The particle trajectories that determine the footprint field are constrained only by the outer edges of the WRF modeling domain. Likewise, the companion footprint files are provided on a regular latitude-longitude grid. This dataset extends previous research on the atmospheric transport of land-surface emissions of greenhouse gases by the Carbon in Arctic Reservoirs Vulnerability Experiment (CARVE) project. In particular, the content of the low-resolution particle files is similar to those for the CARVE dataset. #### ABoVE_Forage_Lichen_Maps_1867 This dataset provides modeled estimates of lichen ground cover at 30 m resolution across the Fortymile study area in interior eastern Alaska, U.S., and the Yukon Territory, Canada, for the nominal year 2015. The mapped lichens are important winter forage for the nine resident caribou (Rangifer tarandus) herds in the region. A random forest modeling approach with vegetation inputs and environmental and spectral predictors was used to estimate lichen cover for 2015. Input data for the model were aggregated from historical in-situ vegetation plots, visual aerial surveys, and recent unmanned aerial system (UAS) imagery to align with 30 m resolution Landsat pixels over the 583,200 km2 study area. The model was also used to estimate lichen cover for the year 2000 by applying the trained model to historical Landsat imagery. An estimate of lichen volume in 2015, based on a published algorithm, is also provided. In addition, site-level presence-absence maps at 30% of global forest area. The estimates were derived with state-of-the-art earth observation datasets collected from space, including lidar observations from NASA's ICESat-2 and imagery from NASA's Harmonized Landsat/Sentinel-2 project. They are designed for circumpolar boreal-wide mapping from local to global scales and provide the northern component of global forest structure estimates, to which complementary estimates from NASA's Global Ecosystem Dynamics Investigation (GEDI) mission contribute temperate and tropical portions. The AGBD and height predictions cover the extent of high latitude boreal forests and shrublands, and while they extend southward outside the boreal domain nominally to ~50 degrees N they are intended to contribute to global estimates northward from 51.6 degrees N. #### CH4_CO2_WaterBodies_YK_Delta_2178 This dataset provides estimates of carbon dioxide (CO2) and methane (CH4) diffusive fluxes from waterbodies, and watershed landcover data for the central-interior of the Yukon-Kuskokwim Delta (YK delta), Alaska. Dissolved concentrations of methane and carbon dioxide were predicted using an integrated terrestrial-aquatic approach to scale observations based on landscape and waterbody remote sensing drivers. The observations include ~300 samples of surface water dissolved gases collected in July 2016-2019 from the central region of the YK Delta, Alaska. A machine learning model was used to generate estimated fluxes. Model inputs include Sentinel-2 MSI with derived normalized difference vegetation index (NDVI) and normalized difference water index (NDWI), an Arctic digital elevation model (DEM) with derived slope and flow accumulation, Sentinel-1 C-band July and December VV and VH composites, and a landcover map. Waterbody size, shape, and reflectance were determined using object-based image analysis in Google Earth Engine. Landscape-level input data were averaged in non-nested sub-basins calculated using the System for Automated Geoscientific Analyses (SAGA) \"channel network\" algorithm at three threshold sizes. Cross validation was used to tune and select variables for gradient boosting models. The trained gradient boosting models were then used to predict dissolved methane and carbon dioxide in all waterbodies (~17,000) in the region. These aquatic concentrations were converted to fluxes using an average gas transfer velocity from observations (0.33 m/d). The data are provided in GeoTIFF and shapefile formats. #### ABoVE_SnowModel_Data_2105 This dataset provides daily SnowModel simulation outputs on a 3-km grid for the period 1 September 1980 through 31 August 2020, covering the Core ABoVE Domain. The daily outputs include: air temperature (deg C), relative humidity (%), wind speed (m/s), wind direction (deg from True North), total precipitation (rain+snow) (m), rainfall (m), snowfall (m), snow melt (m), snow sublimation (m), runoff (m), surface temperature (deg C), bulk snowpack thermal resistance (K/W), snow depth (m), snow density (kg/m3), and snow-water-equivalent (SWE) depth (m). Model data inputs included land cover and topography, ground-based observations of snow, remote sensing observations of snow from satellites and aircraft, and meteorological forcing data from weather stations and reanalysis data. The SnowModel includes the processing modules MicroMet, Enbal, SnowDunes, SnowAssin, SnowPack, and SnowTran-3D. The data are provided in NetCDF format. #### DeciduousFractionl_CanopyCover_2296 This dataset holds deciduous fraction and tree canopy cover at 30-m resolution over the North American boreal domain for 1992 to 2015. Deciduous fraction is the areal percentage of deciduous trees relative to all tree canopy cover within a pixel, and tree canopy cover is the areal percentage of a pixel that is covered by tree canopy. Deciduous fraction values are valid only for pixels with tree canopy cover >25 percent. Normalized difference vegetation index (NDVI)-based median-value image composites were derived from Landsat 5, 7, and 8 Collection 1 surface reflectance datasets for years 1987-1997, 1998-2002, 2003-2007, 2008-2012, and 2013-2018 to create composites for nominal years 1992, 2000, 2005, 2010, and 2015, respectively. These image composites were prepared for early spring, mid-summer, and mid-to-late fall seasons to identify key differences in deciduous and evergreen green-up amplitudes. Random Forest (RF) regression models were used to derive deciduous fraction and tree canopy cover from the image composites. These models were trained with data from in-situ samples across Alaska and Canada from a variety of studies. Seventy percent of the in-situ samples were used for training and 30% for validation. Per-pixel uncertainty for both deciduous fraction and tree canopy cover are included and were based on one standard deviation of output values across all decision trees in the RF regression. These datasets were developed as part of NASA's ABoVE project to capture forest composition changes over the North American boreal domain across the last several decades. The data are provided in GeoTIFF format. #### ArcticTreeLine_Dendrometry_Env_2185 This dataset provides in situ measurements of radial tree growth of selected white spruce (Picea glauca) and black spruce (Picea mariana) trees, as well as simultaneous in situ measurements of environmental variables (air temperature, air pressure, relative humidity, soil temperature, volumetric water content, and solar irradiance) at two Arctic treeline sites: one in the Brooks Range of Alaska (AK), USA, and the other near Inuvik, Northwest Territories (NWT), Canada. In AK, 36 trees were monitored from June 7, 2016 to September 13, 2019, and in NWT, 24 trees were monitored from July 5, 2017 to July 25, 2019 with a sampling interval of 5- or 20-minutes for radial tree growth and 5-minutes for all environmental variables. The dendrometer data included in this dataset are only those gathered from 2016-2017. Dendrometer data from 2018-2019 are available from a related dataset. The data were collected to better understand the influence of environmental variables on radial tree growth dynamics. The data are provided in comma-separated values (CSV) format. #### FieldData_Alaska_Tundra_2177 This dataset, titled the Synthesized Alaskan Tundra Field Database (SATFiD), provides a comprehensive collection of in-situ field data compiled from 37 existing datasets resulting from field surveys conducted at Alaska tundra sites between 1972 to 2020. The data were harmonized prior to being included in this dataset. The variables include active layer thickness, vegetation cover (by plant functional types), soil moisture and temperatures, as well as the wildfire history. SATFiD provides a unique lens into various long-term ecological processes within the tundra (such as the fire-permafrost-vegetation interactions) under a rapidly changing climate. #### Prudhoe_Bay_Veg_Maps_1387 This data set provides a collection of maps of geoecological characteristics of areas within the Beechey Point quadrangle near Prudhoe Bay on the North slope of Alaska: a geobotanical atlas of the Prudhoe Bay region, a land cover map of the Beechey Point quadrangle, and cumulative impact maps in the Prudhoe Bay Oilfield for ten dates from 1968 to 2010. The geobotanical atlas is based on aerial photographs and covers 145 square kilometers of the Prudhoe Bay Oilfield. The land cover map of the Beechey Point quadrangle was derived from the Landsat multispectral scanner, aerial photography, and other field and cartographic methods. The cumulative impact maps of the Prudhoe Bay Oilfield show historical infrastructure and natural changes digitized from aerial photos taken in each successive analysis year (1968, 1970, 1972, 1973, 1977, 1979, 1983, 1990, 2001, and 2010). Nine geoecological attributes are included: dominant vegetation, secondary vegetation, tertiary vegetation, percentage open water, landform, dominant surface form, secondary surface form, dominant soil, and secondary soil. These data document environmental changes in an Arctic region that is affected by both climate change and rapid industrial development. #### GeoCryoAI_PermafrostThaw_CFlux_2371 This dataset provides model code, input data, sample results, and documentation for an artificial intelligence-driven model, GeoCryoAI. GeoCryoAI is a hybridized process-constrained ensemble learning framework consisting of stacked convolutionally layered long short-term memory-encoded recurrent neural networks. The purpose of GeoCryoAI is to quantify permafrost thaw dynamics and greenhouse gas emissions in Alaska. The dataset includes pre-processed input data (i.e., thaw depth, active layer thickness, thaw subsidence; CO2 flux, CH4 flux) acquired from in situ measurements (e.g., CALM, GTNP, ITEX, SMALT STDM, ReSALT, AmeriFlux, NEON), remote sensing platforms (e.g., UAVSAR, AVIRIS-NG), and process-based modeling products. Field data were included to quantify CO2 and CH4 flux (e.g., chamber, eddy-covariance, and tall-tower measurements via flux tower networks) and active layer thickness (e.g., mechanical probing, borehole temperatures, ground-penetrating radar). These measurements were resampled to a 1-km grid, standardized, transformed, and assimilated into GeoCryoAI, a framework that simultaneously ingests, scales, and analyzes input data after resolving disparate spatiotemporal sampling and data densities. Model outputs were generated from two process-based models: SIBBORK-TTE derived thaw subsidence and TCFM-Arctic generated carbon flux outputs. The objective was to quantify how the Arctic is changing in response to climate change and how evidence of the permafrost carbon feedback may contribute toward a better understanding of the uncertainty of nonlinear feedbacks and their impact on the earth system. #### ABoVE_CO2_CH4_Flux_Estimates_2121 This dataset provides gridded estimates of gross primary productivity (GPP), ecosystem respiration (Reco), net ecosystem CO2 exchange (NEE = Reco - GPP), and methane (CH4) emissions from tundra and boreal wetland soils, across the pan-Arctic and Boreal zone (>49 degrees north) at 1-km spatial resolution. The data were produced through simulations of the Arctic Terrestrial Carbon Flux Model (TCFM-Arctic) and are provided at the daily time step for the years 2003-2015. TCFM-Arctic uses a light-use efficiency approach driven by satellite estimates of FPAR (fraction of absorbed photosynthetically active radiation) to estimate GPP, and autotrophic respiration (Rauto) is estimated as a fraction of GPP. Heterotrophic respiration (Rhetero) is estimated using decomposition rates with environmental constraints applied to three near-surface soil organic carbon (SOC) pools, and Reco is determined as the sum of Ra and Rh. Methane production is estimated using optimal CH4 production rates with environmental constraints applied to the labile carbon pool, and transfer of CH4 from the soil to the atmosphere is modeled through vegetation, soil diffusion, and water ebullition pathways. The model estimates were calibrated and evaluated using >60 tower eddy covariance (EC) sites. Baseline carbon pools were initialized by continuously cycling (spinning-up) the model for 1,000 model years using recent climatology from 1985 to 2002 to reach a dynamic steady-state between estimated net primary productivity (NPP = GPP - Rauto) and near-surface SOC pools. The TCFM-Arctic simulations were extended to the full Arctic-boreal domain at a 1-km spatial resolution using land cover maps representing high latitude vegetation communities. The data are provided in NetCDF and comma-separated values (CSV) formats. #### Soil_Carbon_Flux_Maps_1683 This dataset provides gridded estimates of soil CO2 flux (g C m-2 d-1) for the winter non-growing season (NGS) across pan-Arctic and Boreal permafrost regions (>49 Deg N), at 25 km spatial resolution. The data are the daily average flux over a monthly period for two climate periods: the baseline climate period represents 2003-2018 and the future climate scenarios period represents 2018-2100 under Representative Concentration Pathways (RCP) 4.5 and 8.5. The data were produced by applying a Boosted Regression Tree machine learning approach to create gridded estimates of emissions based on in situ observations of NGS fluxes provided in a related dataset. The resulting monthly average flux data records can be used to calculate annual NGS soil CO2 flux budgets from 2003-2100. #### Vegetation_Photos_Toolik_Lake_1718 This dataset contains 731 ground-based nadir vegetation community and ground surface photographs of selected field plots taken as ground reference data for vegetation classification studies at three areas near Toolik Lake, Alaska during the summers of 2014 and 2015. The largest area, 'Toolik', (approximately 6 km2) covers research areas near Toolik Field Station at Toolik Lake, including Arctic LTER installations. The other two areas are each roughly 3 km2: the 'Pipeline' area: a stretch of the Trans-Alaska Pipeline, and the 'Imnavait' area: along Imnavait Creek roughly 10 km east of Toolik Lake. #### Shrub_Biomass_Toolik_Lake_AK_1573 This dataset contains estimates for aboveground shrub biomass and uncertainty at high spatial resolution (0.80-m) across three research areas near Toolik Lake, Alaska. The estimates for August of 2013 were generated and mapped using Random Forest modeling with input variables of optimized LiDAR-derived canopy volume and height, mean NDVI from 4-band RGB color and near-IR orthophotographs, and harvested biomass data. Uncertainty in the final shrub biomass maps was quantified by producing separate maps showing the coefficient of variation (CV) of the Random Forest map estimates. Shrub biomass was harvested at Toolik Lake in 2014 and used to optimize inputs and validate the final model and these biomass data are also provided. #### Vegetation_Maps_Toolik_Lake_1690 This dataset contains vegetation community maps at 20 cm resolution for three landscapes near the Toolik Lake research area in the northern foothills of the Brooks Range, Alaska, USA. The maps were built using a Random Forest modeling approach using predictor layers derived from airborne lidar data and high-resolution digital airborne imagery collected in 2013, and vegetation community training data collected from 800 reference field plots across the lidar footprints in 2014 and 2015. Vegetation community descriptions were based on the commonly used classifications of existing Toolik area vegetation maps. #### LakeBathymetry_Model_NSlope_AK_2243 This dataset provides lake bathymetry maps derived from Landsat surface reflectance products for a portion of the North Slope area of Alaska. A random forest regression algorithm was used to generate depths for each point identified as being part of a lake, creating depth prediction files for each Landsat scene available for the study period: 2016-07-01 to 2018-08-31. These products are fitted to the ABoVE standard projection and reference grid to make them easily scalable and geometrically compatible with other products in the ABoVE study domain. The data are provided in cloud-optimized GeoTIFF (COG) format. #### Lakes_Ponds_Inundation_YKDelta_2450 This dataset provides high resolution (3 m) maps delineating open water and partial inundation in the Yukon-Kuskokwim Delta (YKD), Alaska, and a database that tracks rapid changes in surface area for individual lakes and ponds over 2019-2023. The dataset was built using daily PlanetScope imagery (3 m), allowing for tracking changes in surface water extent at high spatial and temporal resolutions. Two types of maps were produced; (1) open water lakes and ponds and (2) partial inundation, defined as areas that partially contain water (e.g. emergent vegetation, flooded vegetation, or saturated soil). Open water lakes and ponds were mapped using a convolutional neural network, and partial inundation was classified using a pixel-based thresholding approach. For both map categories, monthly climatological composites for the snow and ice-free period are provided. For open water lake and pond maps, monthly composites are provided as well. An accompanying database includes the geometry and surface area time series for each mapped water body. #### Northern_Alaska_Veg_Maps_1359 This data set provides four land cover and ecosystem classification maps for northern Alaska. The maps were produced for several projects and from different data sources including Landsat imagery and existing maps and models, and cover a range of ecosystem and vegetation classes. The data used to derive the maps covered the period 1976-08-04 to 2014-09-01. #### Seward_Peninsula_Veg_Maps_1363 This data set provides two landcover and vegetation maps for the Seward Peninsula, Alaska. These maps were produced from existing maps, Landsat imagery, and color infrared aerial photography covering the period 1976-06-01 to 1999-09-01. #### Arctic_Wildlife_Refuge_Veg_Map_1384 This data set provides a landcover map with 16 landcover classes for the northern coastal plain of the the Arctic National Wildlife Refuge (ANWR) on the North Slope of Alaska. The map was derived from Landsat Thematic Mapper (Landsat TM) data, Digital Elevation Models (DEMs), aerial photographs, existing maps, and extensive ground-truthing. The data used to derive the map cover the period 1982 to 1993. #### ABoVE_Domain_Projected_LULC_2353 This dataset provides projections of land use and land cover (LULC) change within the Arctic Boreal Vulnerability Experiment (ABoVE) domain, spanning from 2015 to 2100 with a spatial resolution of 0.25 degrees. It includes LULC change under two Shared Socioeconomic Pathways (SSP126 and SSP585) derived from Global Change Analysis Model (GCAM) at an annual scale. The specific land types include: needleleaf evergreen tree-temperate, needleleaf evergreen tree-boreal, needleleaf deciduous tree-boreal, broadleaf evergreen tree-tropical, broadleaf evergreen tree-temperate, broadleaf deciduous tree-tropical, broadleaf deciduous tree-temperate, broadleaf deciduous tree-boreal, broadleaf evergreen shrub-temperate, broadleaf deciduous shrub-temperate, broadleaf deciduous shrub-boreal, C3 arctic grass, C3 grass, C4 grass, and C3 unmanaged rainfed crop. The data were generated by integrating regional LULC projections from GCAM with high-resolution MODIS land cover data and applying two alternative spatial downscaling models: FLUS and Demeter. Data are provided in NetCDF format. #### LVISC1B This data set contains Level-1B geolocated return energy waveforms collected by the NASA Land, Vegetation, and Ice Sensor (LVIS) Facility, an imaging lidar and camera sensor suite. #### LVISC2 This data set contains Level-2 geolocated surface elevation and canopy height measurements collected by the NASA Land, Vegetation, and Ice Sensor (LVIS) Facility, an imaging lidar and camera sensor suite. #### CO2Fluxes_Arctic_Boreal_Domain_2377 This dataset provides gridded estimates of gross primary productivity (GPP), ecosystem respiration (Reco), and net ecosystem CO2 exchange (NEE) across the circumpolar terrestrial Arctic-boreal region at a 1-km spatial resolution. Monthly CO2 flux data from 2001 to 2020 were generated using terrestrial eddy covariance and chamber CO2 flux observations, combined with geospatial meteorological, remote sensing, topographical and soil data, all within a random forest modeling framework. Aggregated average annual NEE, average annual NEE with direct fire emissions added based on the Global Fire Emissions Database (GFED) product, and temporal trends in annual NEE rasters over 2002-2020 are also included. The data are provided in NetCDF and GeoTIFF formats. #### Imnavait_Creek_Veg_Maps_1385 This dataset provides the spatial distribution of vegetation types, soil carbon, and physiographic features in the Imnavait Creek area, Alaska. Specific attributes include vegetation, percent water, glacial geology, soil carbon, a digital elevation model (DEM), surficial geology and surficial geomorphology. Data are also provided on the research grids for georeferencing. The map data are from a variety of sources and encompass the period 1970-06-01 to 2015-08-31. #### Kuparuk_Veg_Maps_1378 This data set provides a collection of vegetation, landscape, geobotanical, elevation, hydrology, and geologic maps for the Kuparuk River Basin, North Slope, Alaska. The maps cover either (1) the entire Kuparuk River Basin, from the headwaters on the north side of the Brooks Range to the Beaufort Sea coast, or (2) the selected Upper Kuparuk River Region including the Toolik Lake and Imnavait Creek research areas. The maps were produced from imagery and existing geobotanical maps covering the period 1976-08-04 to 2008-12-31. #### Toolik_Lake_Area_Veg_Maps_1380 This data set provides the spatial distributions of vegetation types, soil carbon, and physiographic features in the Toolik Lake area, Alaska. Specific attributes include vegetation, percent water, glacial geology, soil carbon, a digital elevation model (DEM), surficial geology and surficial geomorphology. #### North_Slope_Transect_Veg_Maps_1386 This dataset includes vegetation cover maps, Normalized Difference Vegetation Index (NDVI) maps, snow depth and thaw depth data that were obtained as part of a biocomplexity project on the North Slope of Alaska, USA, and the Northwest Territories (NWT), Canada. In Alaska, seven sites are located along the Dalton Highway and in the Prudhoe Bay Oilfield area, forming a transect across the climate gradient of the North Slope. From South to North, the sites are Happy Valley, Sagwon (an acidic and nonacidic site), Franklin Bluffs, Deadhorse, West Dock and Howe Island. Four sites are in the NWT, forming a latitudinal gradient from South to North; the sites include Inuvik, Green Cabin, Mould Bay, and Isachsen. #### CH4_Fluxes_ThermokarstLakes_AK_1870 This dataset provides methane fluxes from hot-spot and non-hot spot differing surfaces at Big Trail Lake (BTL) in the Goldstream Valley near Fairbanks, AK, USA. Measurements were taken at a remotely-sensed methane hotspot on the shoreline of a pond, adjacent to BTL with a Los Gatos Ultra-Portable Greenhouse Gas Analyzer (UGGA), and from various non-hotspot surfaces representative of the broader thermokarst lake ecosystem with bucket chambers. All data were collected between 2019-07-04 and 2019-12-04 during the daytime hours of 09:35-17:32 local time. A ground-based CH4 enhancement survey was performed on 2019-07-06 between 13:25-17:15 Alaska Daylight Time (AKDT), approximately two hours following an AVIRIS-NG overflight and hotspot detection at the Eastside Pond. Methane flux is reported in units of both mmol CH4 m-2 hr-1 and mg CH4 m-2 d-1. Flux errors are quantified for each #### ABoVE_Annual_Veg_Resilience_2374 This dataset provides estimates of vegetation resilience in the Arctic Boreal Vulnerability Experiment (ABoVE) core domain at annual time steps for 2000-2019 and at 300-m spatial resolution. Vegetation resilience is defined as the recovery rate from deviations, due to climate perturbations or disturbances, to the equilibrium state. It is quantified as the negative temporal lag-1 autocorrelation of Enhanced Vegetation Index (EVI). Using a time series of MODIS EVI, the vegetation resilience was estimated using a Bayesian dynamic linear model. The mapped vegetation resilience was derived from Terra EVI products (MOD13Q1v061) across 175 ABoVE B grid tiles over the ABoVE core domain. The estimated mean resilience, upper boundary, and lower boundary results are provided for each tile in cloud optimized GeoTIFF (COG) format. #### NDVI_Forest_Structure_1797 This dataset provides leaf area index (LAI), tree species and canopy cover, normalized difference vegetation index (NDVI), and NDVI trends for boreal forests in interior Alaska, U.S. These data were collected to investigate NDVI trends with forest structure and composition as influenced by disturbance and succession. The data are from 102 sites surveyed in 2017 and 2018 and include locations with and without a fire since 1940. A time series of NDVI was developed from Landsat (1999-2018) to measure NDVI trends. The field data cover the period 2017-08-29 to 2018-08-20. The surveyed forest stands spanned a distance of over 425 km across interior Alaska. The sites were selected before visiting the field to include locations with and without a fire since 1940. Recently burned sites were selected to span a range of years since fire, while sites without a recent fire were selected to include a range of Landsat NDVI trends. For each year, the median NDVI during the growing season was calculated. Then, a simple linear regression trend was calculated for years 1999-2018. #### Passive_Microwave_Snowoff_Data_1711 This dataset provides annual maps of the snowoff (SO) date from 1988-2023 across Alaska and parts of Far East Russia and northwest Canada at a resolution of 6.25 km. SO date is defined as the last day of persistent snow and was derived from the MEaSUREs Calibrated Enhanced-Resolution Passive Microwave (PMW) EASE-Grid Brightness Temperature (Tb) Earth System Data Record (ESDR) product. The spatial domain was intended to match MODIS Alaska Snow Metrics and extend its temporal fidelity beyond the MODIS era. SO date estimates were compared to snow depth measurements collected at SNOTEL stations across Alaska and to three SO datasets derived from MODIS, Landsat, and the Interactive Multisensor Snow and Ice Mapping System (IMS). The data from 1988-2016 included a coastal mask removing coastal pixels due to potential water contamination from coarse brightness temperature observations (Dersken et al., 2012). #### Post_Fire_SOC_NWT_2235 This dataset provides site moisture, soil organic layer thickness, soil organic carbon, nonvascular plant functional group, stand dominance, ecozone, time-after-fire, jack pine proportion, and deciduous proportion for 511 forested plots spanning ~140,000 km2 across two ecozones of the Northwest Territories, Canada (NWT). The plots were established during 2015-2018 across 41 wildfire scars and unburned areas (no burn history prior to 1965), with 317 plots in the Plains and 194 plots in the Shield regions. At each plot, two adjacent 30-m transects were established 2 m apart, running north from the plot origin. Soil organic layer (SOL) depth (cm) was measured every 3 m and the mean was taken from the 10 measurements to calculate a plot-level SOL thickness. Three soil organic layer profiles were destructively sampled at 0, 12, and 24 m using a corer that was custom designed for NWT soils. Within the transects, all stems taller than 1.37 m were identified to species to calculate tree density (stems / m2). Nonvascular plant percent cover was identified to functional group at five, 1-m2 quadrats spaced 6 m apart along the belt transect. A subset of 2,067 of 5,137 total increments from 1,803 profiles from 421 plots were analyzed for total percent C using a CHN analyzer. Time-after-fire was established using fire history records. For older plots where no known fire history is recorded, tree age was used. Data are for the period 2015-06-11 to 2018-08-24 and are provided in comma-separated values (CSV) format. #### Gas_Seeps_Lakes_Fairbanks_SAR_2394 This dataset includes maps and locations of potential gas seepage in lakes within the immediate and surrounding area around Fairbanks, Alaska, a region underlain by discontinuous permafrost and characterized by thermokarst lake formation. Gas bubbling from lakes in the Fairbanks area is usually rich in methane, a potent greenhouse gas that is difficult to quantify. A new remote sensing method was used for detecting potential gas seepage, defined as areas of suspected perennial ebullition, by using a previously ground-truthed seep that appeared as a high-backscatter perennial feature in winter L-band Synthetic Aperture Radar (SAR) data from 2006-2011. Based on threshold values determined by the sigma-naught backscatter of this training seep, 1,690 areas of potential seepage were detected in 459 lakes out of 658 lakes analyzed. Results were validated through a different ground-truthed seep. The data are provided in shapefile format. #### ALT_GPR_Barrow_1355 This data set provides estimates of Active Layer Thickness (ALT) determined with ground-based measurements, and calculated soil volumetric water content (VWC) at four selected sites around Barrow, Alaska in August 2013. ALT was determined using a ground-penetrating radar (GPR) system and traditional mechanical probing. Calculated uncertainties are also included. GPR measurements were taken along four transects of varying length (approx. 1 to 7 km). Mechanical probing included several high-density surveys (every 1 m within 100-m survey line) along each GPR transect. VWC of the active layer soil was calculated at 3-8 calibration points per site where the probe measurement was exactly co-located with a GPR trace. #### Alaska_L4_WRF_STILT_Footprints_1544 This dataset provides Stochastic Time-Inverted Lagrangian Transport model outputs for receptors located at the NOAA Barrow Alaska Observatory for 12 selected years (15 August to 15 October) across the 30-year, 1982 to 2011, study timeframe. Meteorological fields from version 3.5.1 of the Weather Research and Forecasting model are used to drive STILT. STILT applies a Lagrangian particle dispersion model backwards in time from a measurement location (the \"receptor\" location), to create the adjoint of the transport model in the form of a \"footprint\" field. The footprint, with units of mixing ratio (ppm --- CO2; ppb --- CH4) per (umol m-2 s-1 --- CO2; nmol m-2 s-1 --- CH4), quantifies the influence of upwind surface fluxes on concentrations measured at the receptor and is computed by counting the number of particles in a surface-influenced volume and the time spent in that volume. The simulation results included in this dataset are crucial for understanding changes in Arctic carbon cycling and are part of a retrospective analysis to link changes in atmospheric composition at Arctic receptor sites with shifts in ecosystem structure and function. Each file provides the surface influence-function footprints on a lat/lon/time grid from WRF-STILT simulations for the receptor location. #### ReSALT_ALT_GPR_1265 This data set includes estimates of permafrost Active Layer Thickness (ALT; cm), and calculated uncertainties, derived using a ground-penetrating radar (GPR) system in the field in August 2014 near Toolik Lake and Happy Valley on the North Slope of Alaska. GPR measurements were taken along 10 transects of varying length (approx. 1 to 7 km). Traditional ALT estimates from mechanical probing every 100 to 500 m along each transect are also included. These data are suitable for future studies of how ALT varies over relatively large geological features, such as hills and valleys, wetland areas, and drained lake basins. #### PreABoVE_AirMOSS_L1_Alaska_1678 This data set provides level 1 (L1) polarimetric radar backscattering coefficient (sigma-0), multi-look complex, polarimetrically calibrated, and georeferenced data products from the Airborne Microwave Observatory of Subcanopy and Subsurface (AirMOSS) radar instrument collected over 10 study sites across Northern Alaska, USA. Flight campaigns took place in August 2014, October 2014, April 2015, August 2015, September 2015, and October 2015. The acquired L1 P-band radar backscatter data will be used to derive estimates of soil water content and permafrost state at the study sites. #### ReSALT_InSAR_Barrow_1266 Active layer thickness (ALT) is a critical parameter for monitoring the status of permafrost that is typically measured at specific locations using probing, in situ temperature sensors, or other ground-based observations. The thickness of the active layer is the average annual thaw depth, in permafrost areas, due to solar heating of the surface. This data set includes the mean Remotely Sensed Active Layer Thickness (ReSALT) over years 2006 to 2011 for the region near Barrow, Alaska. The data were produced by an Interferometric Synthetic Aperture Radar (InSAR) technique that measures seasonal surface subsidence and infers ALT. ReSALT estimates were validated by comparison with ground-based ALT obtained using probing and Ground Penetrating Radar at multiple sites. These results indicate remote sensing techniques based on InSAR could be an effective way to measure and monitor ALT over large areas on the Arctic coastal plain. These data provide gridded (30-m) estimates of active layer thickness (cm; ALT) and seasonal subsidence (cm), as well as calculated uncertainty in each of these parameters. This data set was developed in support of NASA's Arctic-Boreal Vulnerability Experiment (ABoVE) field campaign. The data are presented in one netCDF (.nc) file. #### Freeze_Thaw_NorthernHemisphere_2323 This dataset provides a probabilistic freeze/thaw (FT) data record from 2016 to 2020 for the Northern Hemisphere derived using a deep learning model (U-Net). The model was informed by satellite multi-frequency microwave brightness temperature retrievals from the NASA SMAP (Soil Moisture Active Passive) and JAXA AMSR2 (Advanced Microwave Scanning Radiometer 2) radiometers, and trained using daily soil temperature observations from Northern Hemisphere weather stations and global reanalysis data (ERA-5). Unlike other available FT data records that provide only a binary classification of frozen or non-frozen conditions, this product includes both binary FT and continuous variable estimates of the probability of thawed conditions. This product is designed to complement other established binary FT data records, including the NASA FT Earth System Data Record and SMAP Level 3 FT operational products, by providing a probabilistic FT variable with enhanced accuracy and sensitivity to near-surface (53 Deg N) in continuous, discontinuous, and isolated/sporadic permafrost zones. The CO2 flux measurements were aggregated at the monthly level, or seasonally when monthly data were not available, and are reported as the daily average (g C m-2 day-1) over the interval. Soil moisture and temperature data plus environmental and ecological model driver data (e.g., vegetation type and productivity, soil substrate availability) are also included based on gridded satellite remote sensing and reanalysis sources. #### Arctic_Boreal_CO2_Flux_1934 This Arctic-Boreal CO2 fluxes (ABCflux) dataset contains monthly aggregates of terrestrial net ecosystem CO2 exchange and its derived partitioned component fluxes: gross primary productivity (GPP) and ecosystem respiration. Over 70 supporting variables describe key site conditions (e.g., vegetation and disturbance type), micrometeorological and environmental measurements (e.g., air and soil temperatures), and flux measurement techniques. The data contained in this ABCflux dataset form a standardized monthly database of Arctic-Boreal CO2 fluxes (i.e., ABCflux Database) and include 244 sites and 6,309 monthly observations; 136 sites and 2,217 monthly observations represent tundra, and 108 sites and 4,092 observations represent the boreal biome. The data are for the period 1989 to 2020. #### CubeSat_Arctic_Boreal_LakeArea_1667 This dataset provides near-daily lake area timeseries for 85,358 lakes across four study areas in Northern Canada and Alaska, USA, between May 1 and October 1, 2017. These lake area estimates were produced using digital images from newly developed Planet Labs CubeSats, small satellites with a 4-band (blue, green, red, near-infrared) camera payload. In constellation, CubeSats collected imagery at very high spatial (3-5m) and temporal (near-daily) resolution. From the imagery, each lake's mean, minimum, and maximum areas and seasonal dynamism were derived. The dataset covers four Arctic-Boreal regions: the Yukon Flats Basin (YFB) in eastern interior Alaska, and the Mackenzie River Valley (MRV), Canadian Shield Transect (CST), and Hudson Bay Lowland (HBL) in Canada. #### TowerBased_PhotoSpec_SIF_SK_CA_1887 This dataset includes daily averaged solar-induced chlorophyll fluorescence (SIF) in the red (680-686 nm) and far-red (745-758 nm) wavelength ranges, relative SIF (SIF/Intensity), chlorophyll-carotenoid index (CCI), photochemical reflectance index (PRI), near-infrared vegetation index (NIRv), and normalized difference vegetation index (NDVI) for both black spruce (Picea mariana) and larch (Larix laricina) targets. The study site (Southern Old Black Spruce, SOBS Fluxnet ID CA-Obs) is located near the southern limit of the boreal forest ecotone in Saskatchewan, Canada. Data were collected for the spring transition in both 2019 and 2020 using PhotoSpec. Species-specific averages were calculated over each 30-minute period, then averaged again to report daily averages of SIF relative and reflectance measurements for both black spruce and larch. #### CircumArctic_Trends_Hotspots_2322 This dataset provides estimates of trends in temperature, moisture, and vegetation changes over the circumpolar Arctic. Time series trends were measured by the Theil-Sen slope and associated p-values for a variety of variables including 2-meter air temperature, precipitation, soil moisture, non-frozen season days, permafrost active layer thickness, snow cover, vapor pressure deficit, land surface water fraction, normalized difference vegetation index (NDVI), and vegetation optical depth. Trends were measured annually and over specific seasons of spring (March to May), summer (June to August), autumn (September to November) and winter (December to February), and for the 1980-2020 and 1997-2020 time periods, depending on the variable and original data availability. Emerging hotspots of change were identified for the same variables and seasons, but only over the 1997-2020 period. In addition, a multivariate ranking was used to create combined hotspot layers to show areas of substantial changes in the thermal environment, moisture, and vegetation; these themes reflect landscape changes considered to be detrimental (e.g., a threat) to ecosystems and human populations. Ancillary files provide the boundaries of study regions, Brown permafrost regions, and a land cover product. The data are provided in cloud optimized GeoTIFF (COG) and shapefile formats. #### Tundra_Leaf_Spectra_2005 This dataset provides leaf-level visible-near infrared spectral reflectance, chlorophyll fluorescence spectra, species, plant functional type (PFT), and chlorophyll content of common high latitude plant samples collected near Fairbanks, Utqiagvik, and Toolik, Alaska, U.S., during the summers of 2019, 2020, and 2021. A FluoWat leaf clip was used to measure leaf-level visible-near infrared spectral reflectance and chlorophyll fluorescence spectra. Fluorescence yield (Fyield) was calculated as the ratio of the emitted fluorescence divided by the absorbed radiation for the wavelengths from 400 nm up to the wavelength of the cut off for the FluoWat low pass filter (either 650 or 700 nm). Chlorophyll content of samples was measured using a CCM-300 Chlorophyll Content. The data are provided in comma-separated values (.csv) format. #### TundraVeg_Reflectance_Soil_CO2_1960 This dataset provides measurements at tundra plots collected near Utqiagvik and Atqasuk, AK, including visible-near infrared spectral reflectance, chamber gas exchange measurements of CO2, pulse amplitude modulated (PAM) fluorometry, chlorophyll pigment contents, along with surface temperature, permafrost active layer depth, and soil temperature at 5 cm, through the growing seasons of 2001 and 2002. At all plots, spectral reflectance was measured using a portable spectrometer configured with a straight fiber optic foreoptic, surface temperatures were measured using a handheld Everest Infrared Thermometer, and thaw depth (or active layer depth) was measured using a metal rod graduated in centimeter intervals. At small plots (~15 cm) at Utqiagvik (referred to as Patch plots) chambers were constructed that enclosed an individual patch to determine photosynthetic rate and estimate respiration rate (made by covering the chamber in a dark cloth). Efficiency using PAM fluorometer, ambient yield estimations, and rapid light curve measurements were taken. Chlorophyll concentration was measured with a portable spectrometer configured as a spectrophotometer. At larger plots (approximately 1 m2) which were part of the International Tundra EXperiment (ITEX plots) at Utqiagvik (referred to as Barrow) and Atqasuk, a sub-sample of five control and five warmed plots at each site were fitted with 0.45 m diameter polyvinyl chloride collars for chamber flux measurements. To determine the total fraction of absorbed photosynthetically active radiation (fAPAR), a series of photosynthetically active radiation (PAR) measurements were made using a custom-made light bar consisting of a linear array of GaAsP sensors mounted within an aluminum U-bar under a white plastic diffuser. In addition, a visual estimate was made of the fraction of standing dead vegetation based on percent cover. The data are provided in comma-separated values (.csv) format. In addition, photographs of plots and instruments are provided. #### UAVSAR_Wetland_Peace-Athabasca_2442 This dataset holds UAVSAR imagery products for the Peace-Athabasca Delta region of Canada. UAVSAR data were collected for two flight lines on five dates from 2017 to 2022 and processed to NISAR-like products with spatial resolution of approximately 10 m. Products include double bounce, volume, odd, and helical scatter components. In addition, radiometrically terrain corrected HH backscatter, HV backscatter, and the ratio of HH to HV, as well as the local incidence angle in radians and a valid data mask are provided. These data can be used to estimate the extent of inundation of wetlands in this region. The data are provided in cloud optimized GeoTIFF format. #### Understory_Veg_Biomass_Alaska_2340 This dataset provides measurements of vegetation biomass from 11 locations across Alaska during 2016 to 2018. Vegetation was harvested from plots that were located at the end of previously established 30-m transects at each site, except at one site where plots were randomly selected. Vascular vegetation was clipped from 50 cm x 50 cm plots, and non-vascular vegetation was clipped from 25 cm x 25 cm plots. All harvested vegetation was sorted by functional group or by species where identification was possible. The sorted vegetation was dried and then weighed to determine biomass. Locations were selected to investigate fire disturbance, to span the range of permafrost regions from continuous to sporadic, and to cover vegetation types from boreal forests, tussock tundra, upland willow/herbaceous scrub, and lowland fen and wet tundra sites across Alaska. The data are provided in comma separated values (CSV) format. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.ornldaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Snow_Depth_Data_Images/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--203",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/GPP_MODIS_Alaska_Canada/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--74",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Dall_Sheep_Snowpack/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--42",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Frost_Boils_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--138",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Nongrowing_Season_CO2_Flux/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--210",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Boreal_LandCoverClasses_AK_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--68",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Post_Fire_SOC_NWT/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--192",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Fire_Severity_dNBR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--69",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/PermafrostThaw_CarbonEmissions/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--200",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/TundraTransect_VegRefl_Soil/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--207",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Daily_FineParticulateMatter_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--202",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/YKDelta_EnvChange_InfoExchange/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--132",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Boreal_Forest_Survey_Fairbanks/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--30",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Concise_Experiment_Plan/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Lake_Wetland_Classes_UAVSAR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--59",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Last_Day_Spring_Snow/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--70",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/NDVI_Forest_Structure/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--190",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_ForestDisturbance_Agents/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--66",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/TowerBased_PhotoSpec_SIF_SK_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--213",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Boreal_AGB_Density_ICESat2_V3/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--162",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ALT_GPR_Barrow/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--194",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Great_Slave_Lake_Ecosystem_Map/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--46",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/TundraVeg_Reflectance_Soil_CO2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--216",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/NWT_Burn_Severity_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--31",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AirSWOT_Orthomosaic_WaterMask/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--16",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/NorthSlope_NEE_TVPRM/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--119",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_MODIS_MAIAC_Reflectance/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--20",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/LakeBathymetry_Model_NSlope_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--175",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Boreal_CO2_Flux/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--211",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AK_Tundra_PFT_FractionalCover/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--118",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Seward_Peninsula_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--178",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Maps_AGB_North_Slope_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--51",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CO2Fluxes_Arctic_Boreal_Domain/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--183",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Southern_Boreal_Plot_Attribute/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--35",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Ecosystem_Map_SRD_PAD/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--123",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/BurnedArea_Emissions_AK_YT_NWT/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--56",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Vegetation_Photos_Toolik_Lake/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--172",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Freeze_Thaw_NorthernHemisphere/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--199",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/LVIS/ABLVIS2/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Permafrost_Thaw_Depth_YK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--89",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/UAVSAR_Wetland_Peace-Athabasca/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--217",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Soil_ThawMoisture/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--103",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Soil_Properties/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--205",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfire_Effects_Spruce_Field/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--36",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Vegetation_greenness_trend/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--84",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Vegetation_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--161",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfires_Date_of_Burning/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--127",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Plot_Data_Burned_Sites/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--113",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Airborne_AV3_V1/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--27",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Dissolved_Gases_Alaska_Rivers/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--100",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ArcticTreeLine_Spruce_CO2_WV/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--208",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Toolik_Lake_Area_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--186",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_ReSALT_InSAR_PolSAR_V3/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--11",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Pingo_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--149",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Soil_Radiocarbon_NWT/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--37",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Gas_Seeps_Lakes_Fairbanks_SAR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--193",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_SnowModel_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--164",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Prudhoe_Bay_ArcSEES_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--158",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Domain_Projected_LULC/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--180",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Radial_Growth_PRI/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--90",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/FieldData_Alaska_Tundra/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--167",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Chlorophyll_Fluorescence_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--85",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_PBand_SAR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--8",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_LVIS_VegetationStructure/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--75",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Passive_Microwave_Snowoff_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--191",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Boreal_AGB_Density_ICESat2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--130",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arrigetch_Peaks_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--136",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfires_NWT_Canada/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--32",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Effect_Environment_Moose/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--49",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AK_North_Slope_NEE_CH4_Flux/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--39",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Photos_ThermokarstLakes_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--13",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Frac_FuelComponent_Maps_Tundra/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--45",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Understory_Veg_Biomass_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--218",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Flux_Tower_Zona_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--151",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Frac_Open_Water/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--50",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/End_of_Season_Snow_Depth/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--47",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Soil_ActiveLayer_Properties_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--9",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alaska_Lake_Pond_Occurrence/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--18",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Arctic_CAP/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--25",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Monthly_Hydrological_Fluxes/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--82",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CubeSat_Arctic_Boreal_LakeArea/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--212",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AGB_Great_Slave_Lake_NWT/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--131",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CH4_Fluxes_ThermokarstLakes_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--188",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CircumArctic_Trends_Hotspots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--214",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Annual_Seasonality_Greenness/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--22",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/MODIS_MAIAC_Reflectance/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--40",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/LVIS/LVISC2/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--182",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Canadian_West_Arctic_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--152",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Barter_Barrow_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--155",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Reflectance_Spectra_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--96",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Open_Water_Map/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--14",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/LiDAR_Tundra_Forest_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--115",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Thaw_Depth/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--116",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Dall_Sheep_Population_Dynamics/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--41",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Seasonality_Tundra_Vegetation/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--38",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Soil_Temp_Moisture_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--105",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CH4_Flux_BigTrail_Goldstream/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--77",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Lakes_Ponds_Inundation_YKDelta/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--176",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ALT_Soil_Collection_Protocols/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--104",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Atmospheric_Flask_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--24",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_L1_P_SAR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--57",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Erosion_Vegetation_Yukon/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--98",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Vegetation_Maps_Toolik_Lake/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--174",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/BorealForest_Greenness_Trends/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--64",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Annual_Veg_Resilience/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--189",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/WhiteSpruce_Leaf_Traits_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--125",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alaska_Lake_Pond_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--58",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alaska_Arctic_Tundra_Veg_Map/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--133",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Boreal_CanopyCover_StandAge/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--117",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/MODIS_CCaN_NDVI_Trends_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--79",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Barrow_NGEE_Arctic_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--148",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Veg_Soil_Tundra_Burned_Area/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--91",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Burned_Area_Depth_AK_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--34",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Shrub_Biomass_Toolik_Lake_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--173",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ALT_Maps_AK_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--120",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Decadal_Water_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--112",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_AirSWOT_Radar_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--15",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Plot_Data_Noatak_Seward_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--160",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Tundra_Leaf_Spectra/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--215",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/LVIS/LVISC1B/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--181",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Poplar_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--157",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_ASCENDS_XCO2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Willow_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--154",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/GeoCryoAI_PermafrostThaw_CFlux/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--169",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Toolik_Lake_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--144",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Lakes_Ponds_Weekly_Occurrence/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--61",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Sat_ActiveLayer_Thickness_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--12",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/IceFraction_WaterBodies_ACP_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--54",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Umiat_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--145",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Rain-on-Snow_Data_V2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--95",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Environmental_Disturbances_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--48",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/North_Slope_Transect_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--187",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Atqasuk_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--137",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/SnowMeltDuration_PMicrowave/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--86",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/InundationMap_YkFlats_PeaceAth/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--122",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Uncertainty_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--83",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfires_NWT_Canada_2019/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--94",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Historical_Lake_Shorelines_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--53",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/PostFire_Tree_Regeneration/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--114",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/PreABoVE_AirMOSS_L1_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--197",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Imnavait_Creek_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--184",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/LVIS/ABOLVIS1A/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/USArray_Ground_Temperature/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--106",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/CH4_CO2_WaterBodies_YK_Delta/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--163",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Network_Veg_plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--153",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Imnavait_Creek_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--140",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alder_Shrub_Soil_Alaska_V2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--19",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wolves_Denning_Pups_Climate/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--128",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Main_Melt_Onset_Dates/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--87",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/SAR_Methane_Ebullition_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--99",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Winter_Respiration_v2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--129",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/IMERG_Precip_Canada_Alaska/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--29",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Izaviknek_Field_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--121",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alaska_L4_WRF_STILT_Footprints/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--195",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Active_Layer_Thaw_Depths/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--101",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Barrow_Tundra_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--147",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ArcticTreeLine_Dendrometry_Env/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--166",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Soil_Carbon_Flux_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--171",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Oumalik_Veg_plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--142",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Planning_Field_Sites/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--44",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Forage_Lichen_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--73",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Alaska_Yukon_NDVI/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--81",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_AirSWOT_Water_Mask/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--17",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ATLAS_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--146",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Soil_ThawDepth_Moisture/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--102",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Annual_Thaw_Slump/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--23",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://above-reference-grid-1367.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--109",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Happy_Valley_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--139",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/LandCover_Great_Lakes_Basin/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--159",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Permafrost_ActiveLayer_NSlope/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--10",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Albedo_Boreal_North_America/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--80",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_NWT_2017_Field_Data/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--92",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Boreal_CO2_Flux_V2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Annual_Landcover_ABoVE/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--67",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_ASCENDS_Backscatter/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/North_Slope_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--135",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Methane_Ebullition_Lakes_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--76",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Methane_Flux_BigTrail_Lake/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--62",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_CO2_CH4_Flux_Estimates/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--170",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Footprints_WRF_AK_NWCa/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--71",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Fire_Ignitions_Locations_AK_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--55",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Snow_Cover_Extent_and_Depth/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--52",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_ASCENDS_Merge/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Canada_Boreal_Forest_Greenness/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--88",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Post_Fire_C_Emissions/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--108",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AVHRR_Fire_Products/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--26",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Prudhoe_Bay_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--168",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/River_Ice_Breakup_Freezeup/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--97",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Soil_Temperature_Profiles_AK/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--107",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/LVIS/ABLVIS1B/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Northern_Alaska_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--177",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Snowpack_Dall_Sheep_Track/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--43",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Wildlife_Refuge_Veg_Map/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--179",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Tundra_Greeness_Temp_Trends/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--63",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Unalaska_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--156",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ReSALT_ALT_GPR/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--196",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Particles_WRF_AK_NWCa/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--72",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Annual_30m_AGB/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--21",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Fire_Emissions_NWT/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--126",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Snow_Wildlife_Tracks_AK_WA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--204",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/AK_Yukon_PFT_TopCover/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--78",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Nome_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--141",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_SAR_Surveys/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--209",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Arctic_Boreal_Burned_Area_V2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--134",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_AGBD_Uncertainty_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--65",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Prudhoe_Bay_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--143",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfires_NWT_Canada_2018/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--93",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_GrowingSeason_Lake_Color/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--60",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wetland_VegClassification_PAD/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--124",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_reference_grid_v2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--110",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Tundra_Fire_Veg_Plots/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--150",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Interior_Alaska_Subsistence/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--111",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/GPP_COS_Conductance_SoilFluxes/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--201",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Wildfires_2014_NWT_Canada/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--33",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Soil_Respiration_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--206",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/DeciduousFractionl_CanopyCover/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--165",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ABoVE_Airborne_AVIRIS_NG_V3/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--28",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/Kuparuk_Veg_Maps/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--185",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/above/ReSALT_InSAR_Barrow/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-above--198",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://above.nasa.gov"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-above",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 10.5, DD5 9.7. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "climate",
+        "elevation",
+        "carbon",
+        "cog",
+        "stac",
+        "earth observation",
+        "atmosphere",
+        "land cover",
+        "netcdf",
+        "weather",
+        "satellite imagery",
+        "ice",
+        "soil moisture",
+        "precipitation",
+        "radar",
+        "lidar",
+        "hydrology",
+        "aws-pds",
+        "geospatial",
+        "oceans"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-above/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:18.782629+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-above#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-above",
+      "title": "NASA ABoVE Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

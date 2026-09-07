@@ -1,0 +1,59 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "ERA5 reanalysis data on AWS, preprocessed for use with the Weather Research and Forecasting (WRF) model.",
+      "distribution": [
+        {
+          "accessURL": "https://era5-for-wrf.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/era5-for-wrf--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/moptis/era5-for-wrf/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/era5-for-wrf",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "meteorological",
+        "weather",
+        "model",
+        "sustainability",
+        "aws-pds",
+        "electricity",
+        "atmosphere"
+      ],
+      "landingPage": "https://registry.opendata.aws/era5-for-wrf/",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2026-09-07T07:36:18.056588+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/era5-for-wrf#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:era5-for-wrf",
+      "title": "ERA5-for-WRF Open Data on AWS",
+      "type": "Dataset",
+      "updateCadence": "P1M",
+      "visibility": "public"
+    }
+  ]
+}

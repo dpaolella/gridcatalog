@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The aim of this project is to create an easy-to-use platform where various types of analytics can be performed on a wide range of electrical grid datasets. The aim is to establish an open-source library of algorithms that universities, national labs and other developers can contribute to which can be used on both open-source and proprietary grid data to improve the analysis of electrical distribution systems for the grid modeling community. OEDI Systems Integration (SI) is a grid algorithms and data analytics API created to standardize how data is sent between different modules that are run as part of a co-simulation.",
+      "distribution": [
+        {
+          "accessURL": "https://gadal.s3.us-west-2.amazonaws.com/gadal_ieee123/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gadal--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/openEDI/GADAL"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/gadal",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "model",
+        "environmental",
+        "sustainability",
+        "aws-pds",
+        "energy"
+      ],
+      "landingPage": "https://registry.opendata.aws/gadal/",
+      "license": "http://spdx.org/licenses/CC-BY-3.0",
+      "modified": "2026-09-07T07:36:18.110845+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/gadal#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/gadal#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:gadal",
+      "title": "Grid Algorithms and Data Analytics Library (GADAL)",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

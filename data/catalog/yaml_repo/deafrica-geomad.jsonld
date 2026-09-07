@@ -1,0 +1,103 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "GeoMAD is the Digital Earth Africa (DE Africa) surface reflectance geomedian and triple Median Absolute Deviation data service. It is a cloud-free composite of satellite data compiled over specific timeframes. The geomedian component combines measurements collected over the specified timeframe to produce one representative, multispectral measurement for every pixel unit of the African continent. The end result is a comprehensive dataset that can be used to generate true-colour images for visual inspection of anthropogenic or natural landmarks. The full spectral dataset can be used to develop more complex algorithms. For each pixel, invalid data is discarded, and remaining observations are mathematically summarised using the geomedian statistic. Flyover coverage provided by collecting data over a period of time also helps scope intermittently cloudy areas. Variations between the geomedian and the individual measurements are captured by the three Median Absolute Deviation (MAD) layers. These are higher-order statistical measurements calculating variation relative to the geomedian. The MAD layers can be used on their own or together with geomedian to gain insights about the land surface, and understand change over time. Calculating GeoMAD over different timeframes and sensors provides a range of insights to the environment. An annual timeframe allows better correction for cloud cover and reduces artifacts for comparison over multiple years. A semiannual timeframe, for example six-month blocks, better captures seasonal variation within one year, but can also be used to compare equivalent periods from different years. Likewise, Landsat sensors allows full utility of the surface reflectance archive dating back to 1984, while more recent Sentinel-2 data provides higher-frequency flyovers and better resolution. The Digital Earth Africa GeoMAD service currently provides annual and six-month semiannual datasets, with separate services for Landsat and Sentinel-2 sensors.",
+      "distribution": [
+        {
+          "accessURL": "https://deafrica-services.s3.af-south-1.amazonaws.com/gm_ls8_annual",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-geomad--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-services.s3.af-south-1.amazonaws.com/gm_ls5_ls7_annual",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-geomad--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-services.s3.af-south-1.amazonaws.com/gm_s2_annual",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-geomad--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-services.s3.af-south-1.amazonaws.com/gm_s2_semiannual",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-geomad--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://deafrica-services-inventory.s3.af-south-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/deafrica-geomad--4",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://docs.digitalearthafrica.org/en/latest/data_specs/GeoMAD_specs.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/deafrica-geomad",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "geospatial",
+        "earth observation",
+        "aws-pds",
+        "agriculture",
+        "cog",
+        "deafrica",
+        "disaster response",
+        "natural resource",
+        "satellite imagery",
+        "stac"
+      ],
+      "landingPage": "https://registry.opendata.aws/deafrica-geomad/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.885190+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/deafrica-geomad#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/deafrica-geomad#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:deafrica-geomad",
+      "title": "Digital Earth Africa GeoMAD",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

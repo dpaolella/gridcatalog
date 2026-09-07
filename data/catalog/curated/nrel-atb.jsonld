@@ -1,0 +1,145 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "attribution": "National Renewable Energy Laboratory, Annual Technology Baseline",
+      "bboxMaxLat": 72.0,
+      "bboxMaxLon": -66.0,
+      "bboxMinLat": 18.0,
+      "bboxMinLon": -170.0,
+      "bboxWKT": "POLYGON((-170.0 18.0, -66.0 18.0, -66.0 72.0, -170.0 72.0, -170.0 18.0))",
+      "commercialUseAllowed": true,
+      "completenessLevel": 2,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD6",
+        "https://schema.opengrid.org/concept/data-domain/DD9"
+      ],
+      "description": "The canonical US technology cost stack: capital cost, fixed and variable O&M, capacity factor and financing assumptions by technology and year, under conservative, moderate and advanced trajectories. Cataloged as one dataset with two domain facets rather than as two records — the storage tables and the generation tables are the same publication and splitting them would double every future update.",
+      "distribution": [
+        {
+          "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+          "accessURL": "https://data.openei.org/submissions/6006",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "byteSize": 94371840,
+          "corsEnabled": true,
+          "formatLabel": "CSV, one row per technology, year, scenario and metric",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-atb--csv",
+          "linkHealth": {
+            "consecutiveFailures": 0,
+            "id": "https://catalog.opengrid.org/dist/nrel-atb--csv#health",
+            "lastProbedAt": "2026-09-01T04:00:00+00:00",
+            "linkHealthStatus": "verified",
+            "probeCadence": "P30D",
+            "type": "LinkHealth"
+          },
+          "mediaType": "text/csv",
+          "supportsRangeRequests": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "fully-documented",
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/productionCost"
+      ],
+      "exclusionRationale": "Annual national averages by technology. A dispatch model needs unit-level marginal cost, and applying a technology average to a specific unit misprices the whole merit order.",
+      "harvestSource": "curated",
+      "hasField": [
+        {
+          "dataType": "float64",
+          "definition": "Annual fixed operations and maintenance cost per unit of capacity.",
+          "fieldId": "fixed_om",
+          "fieldSource": [
+            "https://catalog.opengrid.org/ds/nrel-atb"
+          ],
+          "id": "https://catalog.opengrid.org/field/nrel-atb/fom",
+          "label": "Fixed operating cost",
+          "localName": "Fixed O&M",
+          "required": true,
+          "type": "Field",
+          "valueBasis": "modeled"
+        },
+        {
+          "completenessCaveats": "Constant dollars of the ATB base year. Comparing against a figure in another year's dollars without deflating is the most common misuse.",
+          "dataType": "float64",
+          "definition": "Overnight capital cost per unit of nameplate capacity, in constant dollars of the ATB base year.",
+          "fieldId": "CAPEX",
+          "fieldSource": [
+            "https://catalog.opengrid.org/ds/nrel-atb"
+          ],
+          "id": "https://catalog.opengrid.org/field/nrel-atb/capex",
+          "label": "Overnight capital cost",
+          "localName": "CAPEX",
+          "required": true,
+          "type": "Field",
+          "valueBasis": "modeled"
+        },
+        {
+          "completenessCaveats": "DD9's structural note calls WACC almost entirely absent from open sources. This field is one of the few published values and is an assumption, not an observation.",
+          "dataType": "float64",
+          "definition": "Real WACC assumed for the technology and year, before tax credits.",
+          "fieldId": "wacc_real",
+          "fieldSource": [
+            "https://catalog.opengrid.org/ds/nrel-atb"
+          ],
+          "id": "https://catalog.opengrid.org/field/nrel-atb/wacc_real",
+          "label": "Real weighted average cost of capital",
+          "localName": "WACC Real",
+          "required": false,
+          "type": "Field",
+          "valueBasis": "estimated"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/nrel-atb",
+      "issued": "2015-01-01T00:00:00+00:00",
+      "keyword": [
+        "technology",
+        "cost",
+        "projection",
+        "capex",
+        "NREL",
+        "ATB",
+        "storage"
+      ],
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-07-01T00:00:00+00:00",
+      "nativeCRS": "EPSG:4326",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "publisher": "https://catalog.opengrid.org/agent/nrel",
+      "qualityFlags": {
+        "caveat": [
+          "Projections, not observations. Every value is conditional on the scenario it sits in, and comparing figures across scenarios or across ATB vintages is a category error."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-atb#flags",
+        "staleness": "current",
+        "type": "QualityFlags"
+      },
+      "redistributionAllowed": true,
+      "reviewState": "confirmed",
+      "shareAlike": false,
+      "spatialGranularity": "national",
+      "spatialLabel": [
+        "United States"
+      ],
+      "summary": "Cost and performance projections for electricity generation and storage technologies, to 2050, in three scenarios.",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/marketSimulation",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "temporal": {
+        "endDate": "2050-12-31T00:00:00+00:00",
+        "id": "https://catalog.opengrid.org/ds/nrel-atb#temporal",
+        "startDate": "2022-01-01T00:00:00+00:00",
+        "type": "PeriodOfTime"
+      },
+      "tier": 1,
+      "title": "NREL Annual Technology Baseline",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

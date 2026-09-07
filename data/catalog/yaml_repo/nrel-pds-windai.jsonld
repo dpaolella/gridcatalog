@@ -1,0 +1,78 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This data lake contains multiple datasets related to fundamental problems in wind energy research. This includes data for wind plant power production for various layouts/wind flow scenarios, data for two- and three-dimensional flow around different wind turbine airfoils/blades, wind turbine noise production, among others. The purpose of these datasets is to establish a standard benchmark against which new AI/ML methods can be tested, compared, and deployed. Details regarding the generation and formatting of the data for each dataset is included in the metadata as well as example notebooks and documentation that show how to access the data for ML modeling.",
+      "distribution": [
+        {
+          "accessURL": "https://nrel-pds-windai.s3.us-west-2.amazonaws.com/wind_plant_power/floris/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-windai--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-windai.s3.us-west-2.amazonaws.com/aerodynamic_shapes/2D/9K_airfoils/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-windai--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-windai.s3.us-west-2.amazonaws.com/aerodynamic_shapes/2D/2K_airfoils/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-windai--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/NREL/windAI_bench"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nrel-pds-windai",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "machine learning",
+        "aws-pds",
+        "benchmark",
+        "energy"
+      ],
+      "landingPage": "https://registry.opendata.aws/nrel-pds-windai/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:23.562706+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nrel-pds-windai#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-pds-windai#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nrel-pds-windai",
+      "title": "Wind AI Bench",
+      "type": "Dataset",
+      "updateCadence": "P1Y",
+      "visibility": "public"
+    }
+  ]
+}

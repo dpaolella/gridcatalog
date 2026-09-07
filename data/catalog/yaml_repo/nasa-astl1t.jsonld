@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The Terra Advanced Spaceborne Thermal Emission and Reflection Radiometer (ASTER) Level 1 Precision Terrain Corrected Registered At-Sensor Radiance (AST_L1T) data contains calibrated at-sensor radiance, which corresponds with the ASTER Level 1B ([AST_L1B](https://doi.org/10.5067/ASTER/AST_L1B.004)) that has been geometrically corrected and rotated to a north-up UTM projection. The AST_L1T is created from a single resampling of the corresponding ASTER L1A ([AST_L1A](https://doi.org/10.5067/ASTER/AST_L1A.004)) product. The bands available in the AST_L1T depend on the bands in the AST_L1A and can include up to three Visible and Near Infrared (VNIR) bands, six Shortwave Infrared (SWIR) bands, and five Thermal Infrared (TIR) bands. The AST_L1T dataset does not include the aft-looking VNIR band 3. The AST_L1T product has a spatial resolution of 15 meters (m) for the VNIR bands, 30 m for the SWIR bands, and 90 m for the TIR bands. The precision terrain correction process incorporates GLS2000 digital elevation data with derived ground control points (GCPs) to achieve topographic accuracy for all daytime scenes where correlation statistics reach a minimum threshold. Alternate levels of correction are possible (systematic terrain, systematic, or precision) for scenes acquired at night or that otherwise represent a reduced quality ground image (e.g., cloud cover). For daytime images, if the VNIR or SWIR telescope collected data and precision correction was attempted, each precision terrain corrected image will have an accompanying independent quality assessment. It will include the geometric correction available for distribution as both a text file and single band browse images with the valid GCPs overlaid. This multi-file product also includes georeferenced full resolution browse images. The number of browse images and the band combinations of the images depends on the bands available in the corresponding [AST_L1A](https://doi.org/10.5067/ASTER/AST_L1A.004) dataset. Known Issues * Since October 1, 2017, a correction addresses zero-filled scans in low-latitude, ascending orbit (nighttime) TIR data. Additional details are available in the ASTER L1T User Advisory. * Data from the SWIR bands collected after April 2008 may show anomalous saturation and striping. See the ASTER SWIR User Advisory for further information. Improvements/Changes from Previous Versions * Enhanced Geolocation Accuracy: Version 4 uses Collection 2 Ground Control Points (GCPs) compared against Global Land Survey (GLS) 2000 standards to improve positional accuracy. * Radiometric Calibration Update: Version 4 applies Radiometric Calibration Coefficient Version 5 (RCC V5) to improve the radiometric accuracy of the raw DNs, based on research by [Tsuchida and others (2020)](https://doi.org/10.3390/rs12030427), published in Remote Sensing. Read our doc on how to get AWS Credentials to retrieve this data: https://data.lpdaac.earthdatacloud.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://lp-prod-protected.s3.us-west-2.amazonaws.com/AST_L1T.004",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-astl1t--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/ASTER/AST_L1T.004"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-astl1t",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "land",
+        "earth observation",
+        "aws-pds",
+        "cog",
+        "orbit",
+        "global"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-astl1t/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:19.120641+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-astl1t#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-astl1t#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-astl1t",
+      "title": "ASTER Level 1T Precision Terrain Corrected Registered At-Sensor Radiance V004",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

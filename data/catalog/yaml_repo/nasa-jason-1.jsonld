@@ -1,0 +1,118 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The enhanced Jason-1 Microwave Radiometer (JMR) corrections contains better wet tropospheric path delay corrections along with better land, rain and ice flagging for coastal regions than that found in the Jason-1 Geophysical Data Records (GDR). The enhanced corrections can be used in place of the GDR wet troposphere correction to provide more accurate Sea Surface Height Anomalies for coastal regions. #### JASON-1_L2_OST_GPR_E These Sea Surface Height Anomalies (SSHA) are derived from the Jason-1 Geophysical Data Record (GDR). Jason-1 is an altimetric mission whose instruments make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, and position relative to the GPS satellite constellation. Using the various parameter the SSHA can be calculated and are provided in this dataset. The data are in NetCDF format. This dataset only contains the parameters that are directly related to SSHA. #### JASON-1_L2_OST_GPR_E_GEODETIC These Sea Surface Height Anomalies (SSHA) are derived from the Jason-1 Geophysical Data Record (GDR) Geodetic Mission. Jason-1 is an altimetric mission whose instruments make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, and position relative to the GPS satellite constellation. Using the various parameter the SSHA can be calculated and are provided in this dataset. The data are in NetCDF format. #### JASON-1_L2_OST_GPN_E The Jason-1 Geophysical Data Records (GDR) contain full accuracy altimeter data to measure sea surface height, with a high precision orbit (accuracy ~1.5 cm). The instruments on Jason-1 make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, mean sea surface, and position relative to the GPS satellite constellation. The GDR contain all relevant corrections needed to calculate the sea surface height. Sea surface height anomalies calculation and recommended data edit criteria are specified in the Jason-1 GDR User Handbook at https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-docs/jason1/open/L2/gdr_netcdf_e/docs/Handbook_Jason-1_v5.1_April2016.pdf #### JASON-1_L2_OST_GPN_E_GEODETIC The Jason-1 Geophysical Data Records (GDR) Geodetic Mission contain full accuracy altimeter data, with a high precision orbit, provided approximately 35 days after data collection. The data are sorted into cycles that are approximately 11 days long and contain 280 pass files. The instruments on Jason-1 make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, mean sea surface, and position relative to the GPS satellite constellation. The GDR contain all relevant corrections needed to calculate the sea surface height. #### JASON-1_L2_OST_GPS_E The Sensory Geophysical Data Record (SGDR) files contain full accuracy altimeter data, with a high precision orbit (accuracy ~1.5 cm). The instruments on Jason-1 make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, mean sea surface, and position relative to the GPS satellite constellation. The SGDR contain all relevant corrections needed to calculate the sea surface height. It also contains the 20Hz waveforms that are required for retracking. The SGDR is an expert level product, if you do not require the waveforms then the GDR/GPN or GPR will be more suited for your needs. #### JASON-1_L2_OST_GPS_E_GEODETIC The Sensory Geophysical Data Record (SGDR) files from the Geodetic Mission contain full accuracy altimeter data, with a high precision orbit. The instruments on Jason-1 make direct observations of the following quantities: altimeter range, significant wave height, ocean radar backscatter cross-section (a measure of wind speed), ionospheric electron content (derived by a simple formula), tropospheric water content, mean sea surface, and position relative to the GPS satellite constellation. The SGDR contain all relevant corrections needed to calculate the sea surface height. It also contains the 20Hz waveforms that are required for retracking. The SGDR is an expert level product, if you do not require the waveforms then the GDR will be more suited for your needs. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://archive.podaac.earthdata.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPN_E",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPR_E",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPS_E",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPN_E_GEODETIC",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPR_E_GEODETIC",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_L2_OST_GPS_E_GEODETIC",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/JASON-1_JMR_ENH",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-jason-1--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://earthdata.nasa.gov/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-jason-1",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "netcdf",
+        "oceans",
+        "satellite imagery",
+        "ice",
+        "aws-pds",
+        "radar"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-jason-1/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:20.314711+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-jason-1#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-jason-1#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-jason-1",
+      "title": "NASA JASON-1 Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

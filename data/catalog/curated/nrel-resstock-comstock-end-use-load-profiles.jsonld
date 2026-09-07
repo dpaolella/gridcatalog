@@ -1,0 +1,44 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "description": "NREL ResStock / ComStock end-use load profiles, a Load & demand dataset, available at https://data.openei.org/submissions/4520. Also on the OEDI data lake in Parquet on anonymous S3. Strong partial-read candidate and a good early test of the range-request access path. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://data.openei.org/submissions/4520",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-resstock-comstock-end-use-load-profiles--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/nrel-resstock-comstock-end-use-load-profiles",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:34:23.556878+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review.",
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nrel-resstock-comstock-end-use-load-profiles#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD4:nrel-resstock-comstock-end-use-load-profiles",
+      "summary": "Also on the OEDI data lake in Parquet on anonymous S3. Strong partial-read candidate and a good early test of the range-request access path.",
+      "tier": 1,
+      "title": "NREL ResStock / ComStock end-use load profiles",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Input data for nested-grid simulations using the GEOS-Chem Chemical Transport Model. This includes the NASA/GMAO MERRA-2 and GEOS-FP [meteorological products](https://geos-chem.readthedocs.io/en/latest/gcclassic-user-guide/input-overview.html#met), the [HEMCO emission inventories](https://geos-chem.readthedocs.io/en/latest/gcclassic-user-guide/input-overview.html#emis-inputs), and other small data such as [model initial conditions](https://geos-chem.readthedocs.io/en/latest/gcclassic-user-guide/restart-files.html).",
+      "distribution": [
+        {
+          "accessURL": "https://gcgrid.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/geoschem-nested-input-data--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://geos-chem.readthedocs.io/en/stable/geos-chem-shared-docs/doc/gcid-special-portals.html#geos-chem-nested-input-data"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/geoschem-nested-input-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"merra-2\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "environmental",
+        "aws-pds",
+        "chemistry",
+        "atmosphere",
+        "meteorological",
+        "weather",
+        "climate",
+        "air quality",
+        "model"
+      ],
+      "landingPage": "https://registry.opendata.aws/geoschem-nested-input-data/",
+      "license": "http://geos-chem.org/license",
+      "modified": "2026-09-07T07:36:18.154731+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/geoschem-nested-input-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:geoschem-nested-input-data",
+      "title": "GEOS-Chem Nested Input Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

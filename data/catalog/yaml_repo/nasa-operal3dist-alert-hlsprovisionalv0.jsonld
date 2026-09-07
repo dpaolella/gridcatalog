@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The OPERA_L3_DIST-ALERT-HLS Version 0 data product was decommissioned on April 25, 2025. Users are encouraged to use the [OPERA_L3_DIST-ALERT-HLS V1](https://doi.org/10.5067/SNWG/OPERA_L3_DIST-ALERT-HLS_V1.001) data product which was released on March 14, 2024, and has achieved stage 1 validation. The Observational Products for End-Users from Remote Sensing Analysis (OPERA) Land Surface Disturbance Alert from Harmonized Landsat Sentinel-2 (HLS) provisional data product Version 0 maps vegetation disturbance alerts from data collected by Landsat 8 and Landsat 9 Operational Land Imager (OLI) and Sentinel-2A, Sentinel-2B, and Sentinel-2C Multi-Spectral Instrument (MSI). Vegetation disturbance alert is detected at 30 meter (m) spatial resolution when there is an indicated decrease in vegetation cover within an HLS pixel. The product also provides auxiliary generic disturbance information as determined from the variations of the reflectance through the HLS scenes to provide information about more general disturbance trends. HLS data represent the highest temporal frequency data available at medium spatial resolution. The combined observations will provide greater sensitivity to land changes, whether of large magnitude/short duration, or small magnitude/long duration. The OPERA_L3_DIST-ALERT-HLS (or DIST-ALERT) data product is provided in Cloud Optimized GeoTIFF (COG) format, and each layer is distributed as a separate file. There are 19 layers contained within in the DIST-ALERT product: vegetation disturbance status, current vegetation cover indicator, current vegetation anomaly value, historical vegetation cover indicator, max vegetation anomaly value, vegetation disturbance confidence layer, date of initial vegetation disturbance, number of detected vegetation loss anomalies, and vegetation disturbance duration. See the Product Specification for a more detailed description of the individual layers provided in the DIST-ALERT product. Known Issues * Additional usage constraints are provided under Section 5 of the Algorithm Theoretical Basis Document (ATBD). Read our doc on how to get AWS Credentials to retrieve this data: https://data.lpdaac.earthdatacloud.nasa.gov/s3credentialsREADME",
+      "distribution": [
+        {
+          "accessURL": "https://lp-protected.s3.us-west-2.amazonaws.com/OPERA_DIST-ALERT-HLS_PROVISIONAL_V0.000",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-operal3dist-alert-hlsprovisionalv0--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://doi.org/10.5067/SNWG/OPERA_L3_DIST-ALERT-HLS_PROVISIONAL_V0.000"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-operal3dist-alert-hlsprovisionalv0",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "land cover",
+        "land use",
+        "global",
+        "environmental",
+        "land",
+        "earth observation",
+        "aws-pds",
+        "cog"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-operal3dist-alert-hlsprovisionalv0/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.866069+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-operal3dist-alert-hlsprovisionalv0#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-operal3dist-alert-hlsprovisionalv0#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-operal3dist-alert-hlsprovisionalv0",
+      "title": "OPERA Land Surface Disturbance Alert from Harmonized Landsat Sentinel-2 provisional product (Version 0)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "At the Knowledge Portal Network, we aggregate and analyze genetic association results for a wide range of diseases and traits. For any given disease, a large number of individual genetic association datasets may have been generated. To make these results more interpretable, we meta-analyze all datasets for each phenotype, using a method that we term \"bottom-line integrative analysis\". Here we provide the bottom-line summary statistic files for public download.",
+      "distribution": [
+        {
+          "accessURL": "https://dig-open-bottom-line-analysis.s3.us-east-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dig-open-analysis-data--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://kp4cd.org/bottom-line_associations"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/dig-open-analysis-data",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "genome wide association study",
+        "life sciences",
+        "genetic"
+      ],
+      "landingPage": "https://registry.opendata.aws/dig-open-analysis-data/",
+      "license": "https://a2f.hugeamp.org/policies.html",
+      "modified": "2026-09-07T07:36:17.957546+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/dig-open-analysis-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/dig-open-analysis-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:dig-open-analysis-data",
+      "title": "Knowledge Portal Network Bottom-line Genetic Associations",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

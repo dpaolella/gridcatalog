@@ -1,0 +1,66 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "DANRA is a high-resolution meteorological reanalysis dataset for Denmark and Northwestern Europe covering the period September 1990 to December 2023",
+      "distribution": [
+        {
+          "accessURL": "https://dmi-danra-05.s3.eu-north-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/dmi-danra-05--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://dmidk.github.io/danradocs/intro.html"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/dmi-danra-05",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "land",
+        "air temperature",
+        "geospatial",
+        "water",
+        "aws-pds",
+        "near-surface specific humidity",
+        "zarr",
+        "atmosphere",
+        "near-surface air temperature",
+        "meteorological",
+        "near-surface relative humidity",
+        "global",
+        "weather",
+        "model"
+      ],
+      "landingPage": "https://registry.opendata.aws/dmi-danra-05/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.962518+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/dmi-danra-05#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:dmi-danra-05",
+      "title": "Danish Meteorological Institute (DMI) Reanalysis dataset v0.5",
+      "type": "Dataset",
+      "updateCadence": "discontinued",
+      "visibility": "public"
+    }
+  ]
+}

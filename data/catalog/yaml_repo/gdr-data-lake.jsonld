@@ -1,0 +1,157 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Data released from projects funded by the Department of Energy's Geothermal Technologies Office (DOE GTO) that are too large or complex to be conveniently accessed by traditional means. The GDR data lake aims to improve and automate access of high-value geothermal data sets, making data actionable and discoverable by researchers and industry to accelerate analysis and advance innovation. This data lake is a sister-data lake to the Department of Energy’s Open Energy Data Initiative (OEDI) Data Lake.",
+      "distribution": [
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/egs_collab/experiment_2/DAS/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/egs_collab/experiment_2/passive_seismic/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/imperialvalleydas",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/wholescale/subter_seismic/crescent_valley",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/wholescale/2021_seismic",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/FORGE/DAS/april_2024/Neubrex/16b_triggered",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--12",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/egs_collab/experiment_2/active_seismic/CASSM",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/egs_collab/experiment_1/EGS_CASSM",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/soda_lake/raw_seismic/2010",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/wholescale/subter_seismic/san_emidio",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/FORGE/DAS/april_2024/Neubrex/16b_continuous",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gdr-data-lake.s3.us-west-2.amazonaws.com/FORGE/Geophone/april_2024/GES",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gdr-data-lake--11",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://github.com/openEDI/documentation/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/gdr-data-lake",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "geothermal",
+        "aws-pds",
+        "energy"
+      ],
+      "landingPage": "https://registry.opendata.aws/gdr-data-lake/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:18.128547+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/gdr-data-lake#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/gdr-data-lake#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:gdr-data-lake",
+      "title": "Department of Energy’s Geothermal Data Repository (GDR) Data Lake",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

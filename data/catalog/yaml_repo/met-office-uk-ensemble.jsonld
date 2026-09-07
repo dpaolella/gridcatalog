@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "A numerical weather prediction model that produces forecasts for the UK for the next 5 days. Parameters including temperature, pressure, wind, humidity, etc. are forecast at grid points separated by about 2.2 km, and the model has multiple vertical levels. The data is available as NetCDF files. It's offered on a free, unsupported basis, so we don’t recommend using it for any critical business purposes. Met Office Global and Regional Ensemble Prediction System - UK (MOGREPS-UK) is a UK configuration of the Unified Model, which is the Met Office's flagship Numerical Weather Prediction model. The archive contains 30 days of data. The data is typically available approximately 10-11 hours after the model run time. For most parameters, timesteps are provided every hour from 0 to 126 hours",
+      "distribution": [
+        {
+          "accessURL": "https://met-office-uk-ensemble-model-data.s3.eu-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/met-office-uk-ensemble--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://www.metoffice.gov.uk/services/data/external-data-channels"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/met-office-uk-ensemble",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "global",
+        "weather",
+        "model",
+        "geoscience",
+        "air temperature",
+        "geospatial",
+        "aws-pds",
+        "netcdf",
+        "atmosphere",
+        "forecast",
+        "near-surface air temperature",
+        "meteorological",
+        "near-surface relative humidity"
+      ],
+      "landingPage": "https://registry.opendata.aws/met-office-uk-ensemble/",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2026-09-07T07:36:18.482959+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/met-office-uk-ensemble#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:met-office-uk-ensemble",
+      "title": "Met Office Global and Regional Ensemble Prediction System - UK (MOGREPS-UK) on a 30-day rolling archive",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The Capricorn Bunker Group site is in the southern region of the Great Barrier Reef Marine Park World Heritage Area (GBR). The HF ocean radar coverage is from the coast to beyond the edge of the continental shelf. This is an area where the East Australian Current (EAC) meanders as it moves south from the Swain Reefs and loses touch with the western land boundary. The area is dynamic with warm EAC water recirculating and being wind-driven northwards along the coast inside the GBR lagoon. The recirculating warm water contrasts with the upwelling tendency of the parts of the EAC which continue to move southwards. The CBG radar is ideally placed to follow filaments of different water types and to investigate their impacts on coral reefs and fisheries. Applications of the CBG radar data are in the frequency and location of regional upwelling that fuels productivity, and in the connectivity between reefs and islands. At the central point of the CBG area of coverage is the Heron Island Research Station which hosts many coral reef and ecology research programs. The data will also be useful for validation of the operational Bluelink model, and the embedded higher resolution Whole-of-Reef model. The CBG HF ocean radar is a WERA phased array system with 12-element receive arrays located at Tannum Sands (-23.942 S, 151.371 E) and Lady Elliot Island (-24.111 S, 152.713 E). These radars operate at a frequency of 8.348 MHz, with a bandwidth of 33 KHz and a maximum range of 200 Km and a range resolution of 4.5 Km. Within the HF radar coverage area surface currents are measured. Data are also collected from which wind directions and significant wave height can be calculated. The capital funding for this system was provided originally as an ARC LEIF Grant, assisted by contributions from James Cook University, The University of Queensland, the National Oceanic and Atmospheric Administration and the Australian Institute of Marine Science. This site was decommissioned in April 2017.",
+      "distribution": [
+        {
+          "accessURL": "https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/radar_CapricornBunkerGroup_wind_delayed_qc.zarr",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/aodn-radar-capricornbunkergroup-wind-delayed-qc--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://catalogue-imos.aodn.org.au/geonetwork/srv/eng/catalog.search#/metadata/742dc902-b300-4e3e-839f-04d03671aa09"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "hasField": [
+        {
+          "dataType": "float64",
+          "fieldId": "WWDS_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WWDS_quality_control",
+          "label": "quality flag for short wave spread",
+          "localName": "WWDS_quality_control",
+          "type": "Field"
+        },
+        {
+          "dataType": "str392",
+          "fieldId": "filename",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/filename",
+          "localName": "filename",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "WWAV",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WWAV",
+          "label": "Short wave direction towards which the wave is propagating",
+          "localName": "WWAV",
+          "type": "Field",
+          "unitAsStated": "degrees clockwise from true north"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "WWDS",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WWDS",
+          "label": "Short wave directional spreading using Donelan model",
+          "localName": "WWDS",
+          "type": "Field",
+          "unitAsStated": "degrees"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "WWAV_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WWAV_quality_control",
+          "label": "quality flag for short wave direction towards which the wave is propagating",
+          "localName": "WWAV_quality_control",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "WDIR_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WDIR_quality_control",
+          "label": "quality flag for Direction towards which the wind is blowing based on short wave direction",
+          "localName": "WDIR_quality_control",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "WDIR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-wind-delayed-qc/WDIR",
+          "label": "Direction towards which the wind is blowing based on short wave direction",
+          "localName": "WDIR",
+          "type": "Field",
+          "unitAsStated": "degrees clockwise from true north"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-wind-delayed-qc",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10.",
+      "inferredAssignment": true,
+      "keyword": [
+        "ocean currents",
+        "oceans",
+        "meteorological"
+      ],
+      "landingPage": "https://registry.opendata.aws/aodn_radar_capricornbunkergroup_wind_delayed_qc/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:17.314032+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-wind-delayed-qc#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-wind-delayed-qc#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "zarr-v2-consolidated at https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/radar_CapricornBunkerGroup_wind_delayed_qc.zarr",
+      "sourceRecordId": "aws_open_data:aodn_radar_capricornbunkergroup_wind_delayed_qc",
+      "title": "Ocean Radar - Capricorn bunker group site - Wind - Delayed mode",
+      "type": "Dataset",
+      "updateCadence": "on-demand",
+      "visibility": "public"
+    }
+  ]
+}

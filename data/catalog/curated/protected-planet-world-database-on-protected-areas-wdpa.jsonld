@@ -1,0 +1,47 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "commercialUseAllowed": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Protected Planet / World Database on Protected Areas (WDPA), a Geospatial & siting dataset, published as Shapefile, GeoPackage, File Geodatabase, available at https://www.protectedplanet.net. Commercial-use restriction. Flag redistribution constraints clearly. This entry has not been through licence and access-path review; its licence and tier are not authoritative until a steward confirms them.",
+      "distribution": [
+        {
+          "accessURL": "https://www.protectedplanet.net",
+          "formatLabel": "Shapefile, GeoPackage, File Geodatabase",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/protected-planet-world-database-on-protected-areas-wdpa--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/protected-planet-world-database-on-protected-areas-wdpa",
+      "license": "http://spdx.org/licenses/LicenseRef-WDPA",
+      "licenseNote": "World Database on Protected Areas terms: attribution required, commercial use restricted, and redistribution of the database subject to conditions.",
+      "modified": "2026-09-07T07:34:28.440039+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable.",
+          "Assembled for the PRD and not yet reviewed. The licence and tier on this record are not authoritative; treat them as a starting point for review."
+        ],
+        "id": "https://catalog.opengrid.org/ds/protected-planet-world-database-on-protected-areas-wdpa#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "curated:DD10:protected-planet-world-database-on-protected-areas-wdpa",
+      "summary": "Commercial-use restriction. Flag redistribution constraints clearly.",
+      "tier": 2,
+      "title": "Protected Planet / World Database on Protected Areas (WDPA)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

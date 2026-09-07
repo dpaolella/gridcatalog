@@ -1,0 +1,49 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "OpenStreetMap power infrastructure (via earth-osm), a Network topology & parameters dataset, published as CSV, GeoJSON, available at https://pypi.org/project/earth-osm. Share-alike obligation propagates to anything OpenGrid hosts downstream.",
+      "distribution": [
+        {
+          "accessURL": "https://pypi.org/project/earth-osm",
+          "anonymousAccess": true,
+          "bulkDownload": true,
+          "formatLabel": "CSV, GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/openstreetmap-power-infrastructure-via-earth-osm--primary",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://overpass-api.de",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/openstreetmap-power-infrastructure-via-earth-osm--secondary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "partial",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/openstreetmap-power-infrastructure-via-earth-osm",
+      "license": "http://spdx.org/licenses/ODbL-1.0",
+      "modified": "2026-09-07T07:34:19.991494+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "id": "https://catalog.opengrid.org/ds/openstreetmap-power-infrastructure-via-earth-osm#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD1:openstreetmap-power-infrastructure-via-earth-osm",
+      "summary": "Share-alike obligation propagates to anything OpenGrid hosts downstream.",
+      "tier": 2,
+      "title": "OpenStreetMap power infrastructure (via earth-osm)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

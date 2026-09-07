@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "A high-resolution convection-permitting climate change simulation was performed at 4 km grid spacing covering the entire continent of South America. The simulation was performed using Weather Research Forecasting (WRF) model. This dataset is from a 22-year simulation representing the current climate between January 2001 and January 2022. ERA5 data was used to initialize the model and force boundary every 3 hours. This high-resolution simulation allowed for much improved representation of topography, convection, and orographic precipitation and snowpack, resulting in a one-of-a-kind dataset that can be used to study the hydroclimate processes in South America. A second simulation was then performed using the ERA5 weather with a climate perturbation from the CESM2-Large Ensemble (LENS2) for near the end of the 21st century (2060-2080). Monthly mean change signals were computed from the LENS2 and applied to the sub-daily ERA5 data to create the future simulation data used to drive the WRF model. This dataset provides a warmer and wetter 2060-2080 future scenario for South America using the same 2001-2022 day-to-day weather. The combined datasets will enable myriad research studies, spanning fundamental and applied research into regional hydroclimatic change over South America and corresponding impacts across sectors.",
+      "distribution": [
+        {
+          "accessURL": "https://saag-wrf.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/saag-wrf--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "file:///home/user/gridcatalog/"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/saag-wrf",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.1. Source declares DD5, DD10. Determined by the phrase \"era5\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "keyword": [
+        "air temperature",
+        "land",
+        "climate model",
+        "geospatial",
+        "aws-pds",
+        "hydrology",
+        "precipitation",
+        "atmosphere",
+        "climate",
+        "model"
+      ],
+      "landingPage": "https://registry.opendata.aws/saag-wrf/",
+      "license": "https://www.ucar.edu/terms-of-use/data",
+      "modified": "2026-09-07T07:36:23.855739+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/saag-wrf#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:saag-wrf",
+      "title": "Multidecadal Convection-permitting Simulations of Current and Future Climate over South America using WRF",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

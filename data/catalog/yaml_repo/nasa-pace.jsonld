@@ -1,0 +1,164 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The data set consists of weekly gridded Level-3 products of Aquarius L-band radiometer brightness temperature (TB) observations and Sea Surface Salinity (SSS) retrievals from the Aquarius/Satélite de Aplicaciones Científicas (SAC-D) mission, developed collaboratively between the U.S. National Aeronautics and Space Administration (NASA) and Argentina's space agency, Comisión Nacional de Actividades Espaciales (CONAE). #### AQ3_FT This Level-3 (L3) data set includes weekly Northern Hemisphere landscape freeze/thaw (FT) data derived from L-band radiometer brightness temperature observations, acquired by the Aquarius sensor on board Argentina's Satélite de Aplicaciones Científicas (SAC-D) satellite. The data are distributed on the Equal-Area Scalable Earth Grid, Version 2.0 (EASE-Grid 2.0), with a spatial resolution of 36 km. The SAC-D satellite was developed collaboratively between NASA and Argentina's space agency, Comisión Nacional de Actividades Espaciales (CONAE). #### AQ3_NRCS The data set consists of weekly polar-gridded Level-3 products of Aquarius L-band Normalized Radar Cross Section (NRCS) retrievals from the Aquarius/Satélite de Aplicaciones Científicas (SAC-D) mission, developed collaboratively between the U.S. National Aeronautics and Space Administration (NASA) and Argentina's space agency, Comisión Nacional de Actividades Espaciales (CONAE). #### AQ3_SSS This data set consists of weekly gridded Level-3 products of Aquarius L-band radiometer Sea Surface Salinity (SSS) retrievals from the Aquarius/Satélite de Aplicaciones Científicas (SAC-D) mission, developed collaboratively between the U.S. National Aeronautics and Space Administration (NASA) and Argentina's space agency, Comisión Nacional de Actividades Espaciales (CONAE). #### NSIDC-0709 This data set, part of the NASA Making Earth System Data Records for Use in Research Environments (MEaSUREs) program, provides maps of Antarctic ice shelves, Antarctic basins, and the Antarctic coastline. The maps are assembled from 2008-2009 ice-front data from the Japan Aerospace Exploration Agency's (JAXA) ALOS PALSAR and European Space Agency's ENVISAT ASAR data, acquired during International Polar Years 2007-2009 (IPY); the InSAR-based grounding line data (MEaSUREs Antarctic Grounding Line from Differential Satellite Radar Interferometry), augmented with other grounding line sources; the Antarctic ice velocity map (MEaSUREs InSAR-Based Antarctica Ice Velocity Map); and the Bedmap-2 DEM. See Antarctic Ice Sheet Velocity and Mapping Data for related data. #### NSIDC-0498 This data set, part of the NASA Making Earth System Data Records for Use in Research Environments (MEaSUREs) program, provides comprehensive high-resolution mapping of grounding lines in Antarctica from February 1992 through November 2025. The data were derived by applying differential satellite synthetic aperture radar (SAR) interferometry (DInSAR) to SAR data acquired by various space-based platforms. See Antarctic Ice Sheet Velocity and Mapping Data for related data. #### NSIDC-0481 This data set, part of the NASA Making Earth System Data Records for Use in Research Environments (MEaSUREs) program, provides velocity estimates determined from Interferometric Synthetic Aperture Radar (InSAR) data for major glacier outlet areas in Greenland, some of which have shown profound velocity changes over the MEaSUREs observation period. The InSAR Selected Glacier Site Velocity Maps are produced from image pairs measured by the German Aerospace Center's (DLR) twin satellites TerraSAR-X / TanDEM-X (TSX / TDX). The measurements in this data set are provided in addition to the ice sheet-wide data from the related data set, MEaSUREs Greenland Ice Sheet Velocity Map from InSAR Data. See Greenland Ice Mapping Project (GrIMP) for more related data. #### NSIDC-0786 This data set provides twice-daily enhanced-resolution radar backscatter images from 14 GHz NASA Scatterometer (NSCAT) observations by applying the Scatterometer Image Reconstruction with Filtering (SIRF) algorithm. The algorithm incorporates a median filter and a simplified spatial response function. Multiple passes of the spacecraft are combined to produce a higher spatial resolution and fill in coverage gaps between the individual measurement footprints, which are not contiguous and have six-sided shapes. Overlapping imaging periods start each day and extend through 4- and 8-day periods. Data are gridded to Northern Hemisphere, Southern Hemisphere, and Temperate EASE-Grid 2.0 projections at 3.125 km and 25 km resolutions. #### SPL1AP Each Level-1A (L1A) granule incorporates all radiometer data downlinked from the Soil Moisture Active Passive (SMAP) spacecraft for one specific half orbit. The data are scaled instrument counts consisting of the first four raw moments of the fullband channel (vertical and horizontal polarizations); the complex cross-correlations of the fullband channel; and the 16 subband channels (vertical and horizontal polarizations). #### SMAP_L1_L3_ANC_SATELLITE This ancillary SMAP product contains two dynamic data sets describing 1) the attitude and 2) the trajectory of the SMAP satellite. The data files are generated using quaternions from the SMAP spacecraft and inputs from earth receiving stations, respectively. #### SWOT_POSTLAUNCH_L3_MOORING The SWOT Postlaunch Oceanography Field Campaign L3 Moorings collection provides the surface air pressure, GPS, current velocity, and conductivity, temperature and depth (CTD) measurements from moorings at the L3 processing level. The SWOT satellite mission launched in late 2022 and underwent a calibration and validation (cal/val) phase in 2023. As part of cal/val, an array of oceanographic instruments was deployed at a site 300 km offshore of California, including moorings at 11 distinct sites. The S2 mooring site had additional re-deployments from an otherwise independent project to study internal waves, the National Oceanographic Partnership Program – Global Internal Waves (NOPP-GIW), beyond the cal/val phase from September 2023 to October 2024. Data from NOPP-GIW are included in this collection, and described here, because they are closely related to the SWOT cal/val efforts. L3 data are gridded data on a consistent depth-time grid, whereby “depth” is given as pressure. Multiple versions, or layouts, of L3 data are disseminated for slightly different use cases as described in the user guide. L3 data are meant as the primary end-user datasets, and users should determine which version is most suitable for them. A user should consider what time resolution is needed, whether constantly spaced time steps are needed, and if data from more than one mooring at a time are needed. #### SWOT_POSTLAUNCH_L2_MOORING The SWOT Postlaunch Oceanography Field Campaign L2 Moorings collection provides the surface air pressure, GPS, current velocity, and conductivity, temperature and depth (CTD) measurements from moorings at the L2 processing level. The SWOT satellite mission launched in late 2022 and underwent a calibration and validation (cal/val) phase in 2023. As part of cal/val, an array of oceanographic instruments was deployed at a site 300 km offshore of California, including moorings at 11 distinct sites. The S2 mooring site had additional re-deployments from an otherwise independent project to study internal waves, the National Oceanographic Partnership Program – Global Internal Waves (NOPP-GIW), beyond the cal/val phase from September 2023 to October 2024. Data from NOPP-GIW are included in this collection, and described here, because they are closely related to the SWOT cal/val efforts. L2 data are still at the native instrumental resolution in time and space. Data from multiple instruments may be merged into a single file at L2 if the instruments sampled at the same times. Otherwise, they will be in separate files. Data calibration adjustments based on ship-based CTD cast data and water samples, as well as quality control, have been applied. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.nsidc.earthdatacloud.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
+      "distribution": [
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/AQUARIUS/AQ3_FT/5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/MEASURES/NSIDC-0481/4",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/MEASURES/NSIDC-0709/2",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP/SPL1AP/002",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--8",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/SWOT_POSTLAUNCH_L3_MOORING",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--10",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/AQUARIUS/AQ3_SSS/5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/MEASURES/NSIDC-0498/2",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/AQUARIUS/AQ3_TB/5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-ANC/SMAP_L1_L3_ANC_SATELLITE/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--9",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/AQUARIUS/AQ3_NRCS/5",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/SWOT_POSTLAUNCH_L2_MOORING",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--11",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-Related/NSIDC-0786/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-pace--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        }
+      ],
+      "documentation": [
+        "https://nsidc.org/data/aq3_tb/versions/5"
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "yaml_repo",
+      "id": "https://catalog.opengrid.org/ds/nasa-pace",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "keyword": [
+        "satellite imagery",
+        "ice",
+        "aws-pds",
+        "radar",
+        "soil moisture",
+        "oceans"
+      ],
+      "landingPage": "https://registry.opendata.aws/nasa-pace/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:36:21.907111+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nasa-pace#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nasa-pace#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "aws_open_data:nasa-pace",
+      "title": "NASA pace Project",
+      "type": "Dataset",
+      "updateCadence": "irregular",
+      "visibility": "public"
+    }
+  ]
+}

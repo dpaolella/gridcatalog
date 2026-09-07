@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/accountRequired",
+      "anonymousAccess": false,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD8"
+      ],
+      "description": "ENTSO-E TYNDP Scenarios, a Policy & regulatory dataset, available at https://2024.entsos-tyndp-scenarios.eu/download/.",
+      "distribution": [
+        {
+          "accessURL": "https://2024.entsos-tyndp-scenarios.eu/download/",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/entso-e-tyndp-scenarios--primary",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "curated",
+      "id": "https://catalog.opengrid.org/ds/entso-e-tyndp-scenarios",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-07T07:34:26.876154+00:00",
+      "persistentId": "https://doi.org/10.5281/zenodo.14230568",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/curated",
+      "qualityFlags": {
+        "caveat": [
+          "The access barrier has not been checked. The seed inventory records neither anonymous access nor a barrier for this dataset, so the record assumes an account is needed rather than promising open access nobody verified. It may well be freely downloadable."
+        ],
+        "id": "https://catalog.opengrid.org/ds/entso-e-tyndp-scenarios#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "confirmed",
+      "sourceRecordId": "curated:DD8:entso-e-tyndp-scenarios",
+      "tier": 1,
+      "title": "ENTSO-E TYNDP Scenarios",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}
