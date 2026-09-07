@@ -287,3 +287,64 @@ def test_health_is_never_rate_limited(client) -> None:
 
     for _ in range(50):
         assert client.get("/v1/health").status_code == 200
+
+
+def test_a_grant_made_by_email_can_be_revoked(client, people) -> None:
+    """PUT replaces the list. A grant it cannot remove is not replaceable.
+
+    `put_allowlist` skipped any current row with no `principal_id` — `if key not
+    in wanted and row.principal_id` — so an entry granted by address survived
+    every subsequent PUT. The custodian sees it disappear from the response,
+    because the response is rebuilt from the rows the request asked for, and the
+    row is still there and still active. `entitled_principals` still projects
+    the address, so the person keeps access to a restricted dataset indefinitely
+    and there is no way to take it away through the API.
+
+    The guard was not gratuitous: `revoke(iri, None)` renders as
+    `principal_id IS NULL`, which would have revoked every email grant on the
+    dataset at once. The repository takes the address instead.
+    """
+    granted = client.put(
+        f"/v1/allowlists/{HIDDEN}",
+        json={"entries": [{"principal_email": "Contractor@example.org"}]},
+        headers=auth(people["custodian"]),
+    )
+    assert granted.status_code == 200, granted.text[:300]
+    assert [e["principal_email"] for e in granted.json()["entries"]] == ["contractor@example.org"]
+
+    cleared = client.put(
+        f"/v1/allowlists/{HIDDEN}", json={"entries": []}, headers=auth(people["custodian"])
+    )
+    assert cleared.status_code == 200, cleared.text[:300]
+    assert cleared.json()["entries"] == []
+
+    with session_scope() as session:
+        assert not Repositories(session).allowlist.is_allowed(
+            IRI, principal_id=None, email="contractor@example.org"
+        ), "the row is revoked in the response and live in the database"
+
+
+def test_revoking_one_email_grant_does_not_revoke_the_others(client, people) -> None:
+    """The reason the broken guard existed. Asserted so the fix keeps it true."""
+    client.put(
+        f"/v1/allowlists/{HIDDEN}",
+        json={
+            "entries": [
+                {"principal_email": "one@example.org"},
+                {"principal_email": "two@example.org"},
+            ]
+        },
+        headers=auth(people["custodian"]),
+    )
+    client.put(
+        f"/v1/allowlists/{HIDDEN}",
+        json={"entries": [{"principal_email": "two@example.org"}]},
+        headers=auth(people["custodian"]),
+    )
+
+    with session_scope() as session:
+        allowlist = Repositories(session).allowlist
+        assert not allowlist.is_allowed(IRI, principal_id=None, email="one@example.org")
+        assert allowlist.is_allowed(IRI, principal_id=None, email="two@example.org"), (
+            "revoking one address took the rest of the list with it"
+        )

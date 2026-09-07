@@ -369,14 +369,42 @@ class AllowlistRepository(Repository[AllowlistEntry]):
         )
         return self.add(entry)
 
-    def revoke(self, dataset_id: str, principal_id: str) -> bool:
+    def revoke(
+        self,
+        dataset_id: str,
+        principal_id: str | None = None,
+        *,
+        principal_email: str | None = None,
+    ) -> bool:
+        """Withdraw one grant, identified the way it was made.
+
+        By address as well as by id, because `grant` accepts either and a grant
+        that cannot be withdrawn is not a grant, it is a permanent entitlement.
+        `put_allowlist` skipped every email-only row rather than call this —
+        `if key not in wanted and row.principal_id` — so an address added once
+        stayed on a restricted dataset for good, invisibly: the custodian's view
+        is rebuilt from what they asked for, so the entry looked gone.
+
+        Not by passing `None` through the id: `principal_id == None` renders as
+        `IS NULL`, which matches every email grant on the dataset and revokes
+        the lot. The two identities are separate parameters so that cannot be
+        expressed by accident, and one of them is required.
+        """
+        if principal_id is None and principal_email is None:
+            raise ValueError("revoke needs a principal id or an email address")
+
+        identity = (
+            AllowlistEntry.principal_id == principal_id
+            if principal_id is not None
+            else AllowlistEntry.principal_email == (principal_email or "").lower()
+        )
         return bool(
             affected(
                 self.session.execute(
                     update(AllowlistEntry)
                     .where(
                         AllowlistEntry.dataset_id == dataset_id,
-                        AllowlistEntry.principal_id == principal_id,
+                        identity,
                         AllowlistEntry.revoked_at.is_(None),
                     )
                     .values(revoked_at=utcnow())

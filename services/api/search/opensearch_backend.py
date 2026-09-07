@@ -69,7 +69,17 @@ INDEX_MAPPING: dict[str, Any] = {
                 "type": "text",
                 "analyzer": "og_text",
                 "fields": {
-                    "raw": {"type": "keyword"},
+                    # `og_lower` because this sub-field exists to be *sorted*,
+                    # and a bare keyword sorts by bytes: every capitalised
+                    # title ahead of every lowercase one, so "Zenodo archive"
+                    # precedes "aggregated load". The in-memory backend's
+                    # `_SortWrapper` casefolds, so the two backends disagreed on
+                    # the order of the same corpus — and this is the *default*
+                    # sort for a query-less request, which is the catalog's
+                    # front page. ADR-0002: the backends are interchangeable.
+                    # Asserted by `assert_search_sorts_by_title`, whose corpus
+                    # carries a lowercase-initial title for this reason.
+                    "raw": {"type": "keyword", "normalizer": "og_lower"},
                     "prefix": {
                         "type": "text",
                         "analyzer": "og_prefix",

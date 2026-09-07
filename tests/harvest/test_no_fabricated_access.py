@@ -186,3 +186,129 @@ def test_a_barrier_the_inventory_did_record_is_used_instead_of_the_fallback(cata
     """
     rationale = str(catalog["wood-mackenzie-wind-solar"].get("pointerRationale") or "")
     assert "commercial-paywall" in rationale, rationale
+
+
+# ---------------------------------------------------------------------------
+# The same rule, applied to documentation (#25)
+# ---------------------------------------------------------------------------
+
+
+def test_no_seed_record_claims_documentation_by_an_external_standard(catalog) -> None:
+    """An empty column is not evidence of anything (PRD §14.2).
+
+    `_documentation_status` returned `external-standard-only` for any row
+    without a `note` — a specific positive claim, *this dataset's fields are
+    documented by reference to an external standard*, asserted on 48 published
+    records because the seed file has no documentation column at all.
+
+    It is also the one value the Documentation grade special-cases: at level 2
+    it caps the facet at C regardless of the fields the record carries. So the
+    guess did not merely say something untrue, it would have overridden the
+    evidence once there was any.
+    """
+    claimed = sorted(
+        dataset_id
+        for dataset_id, node in catalog.items()
+        if node.get("documentationStatus") == "external-standard-only"
+    )
+    assert not claimed, (
+        "the seed loader cannot know this — it comes from a curated record where "
+        f"somebody checked: {claimed[:6]}"
+    )
+
+
+def test_a_record_with_nothing_recorded_says_so_where_the_reader_looks(catalog) -> None:
+    """`none` is still a claim, so the caveat has to carry the truth.
+
+    The enum has no "not established" member and `og:documentationStatus` is
+    required at level 1, so the record must say something. What keeps that
+    honest is the caveat beside it.
+    """
+    node = catalog["eia-860-annual-electric-generator-report"]
+    assert node.get("documentationStatus") == "none"
+    flags = node.get("qualityFlags") or {}
+    caveats = flags.get("caveat") or []
+    caveats = caveats if isinstance(caveats, list) else [caveats]
+    assert any("records an absence, not a finding" in str(c) for c in caveats), caveats
+
+
+def test_a_row_the_inventory_describes_still_counts_as_partial(catalog) -> None:
+    """The change must not flatten every seed row to `none`: a `note` is real
+    documentation, written by a cataloguer, and saying so is not a guess."""
+    node = catalog["global-transmission-database"]
+    assert node.get("documentationStatus") == "partial"
+
+
+def test_no_record_says_its_publisher_stopped_unless_the_inventory_does(catalog) -> None:
+    """`fragmented` is not `discontinued` (#27).
+
+    `ar:discontinued` means *the publisher has stopped producing the dataset*.
+    Every row the seed file marks `fragmented` is the opposite: a live subject
+    with no canonical source — interconnection study results, data-centre load
+    projections, ELCC studies by ISO — produced continuously as per-jurisdiction
+    PDFs with incompatible methodologies. Six published records asserted that
+    their publishers had stopped.
+
+    No row in the inventory carries a barrier that means discontinued, so the
+    concept should appear on no seed record at all. It stays in the vocabulary
+    for curated records, where somebody establishes it.
+    """
+    claimed = sorted(
+        dataset_id
+        for dataset_id, node in catalog.items()
+        if str(node.get("accessRestriction") or "").endswith("/discontinued")
+    )
+    assert not claimed, f"the seed inventory does not establish this for {claimed}"
+
+
+def test_an_unmapped_barrier_is_still_carried_in_words(catalog) -> None:
+    """Dropping the wrong mapping must not drop the fact.
+
+    D9 has no member for "no canonical source", so the restriction falls back to
+    the conservative default — and the reason has to survive somewhere the
+    reader sees it, or the fix has traded a false statement for a missing one.
+    """
+    node = catalog["elcc-studies-by-iso"]
+    assert node.get("accessBarrier") == "fragmented"
+    flags = node.get("qualityFlags") or {}
+    caveats = flags.get("caveat") or []
+    caveats = caveats if isinstance(caveats, list) else [caveats]
+    text = " ".join(str(c) for c in caveats)
+    assert "fragmented" in text, text
+    assert "has not been checked" in text, (
+        "the restriction on this record is a default, and nothing says so: " + text
+    )
+
+
+def test_no_published_record_carries_text_written_for_a_cataloguer(catalog) -> None:
+    """`SeedLoader.CURATOR_ONLY` names the keys. This is what enforces it (#29).
+
+    Five published descriptions used to carry sentences addressed to whoever was
+    cataloguing the row, including "Confirm with counsel before shipping the
+    extraction" — an unresolved legal question rendered as a dataset's public
+    description. Those sentences moved to `curator_note`, and the exclusion is
+    by construction: nothing builds a record by iterating a row's keys.
+
+    By construction is the strong form and the invisible one. The next person to
+    add a reader-facing field can reintroduce it in one line without noticing,
+    so the constant is inert documentation unless something reads it. This does,
+    against every published record and every value under those keys.
+    """
+    import yaml
+    from datahub.harvest.seed import SeedLoader
+
+    inventory = yaml.safe_load(Path("data/seed-sources.yaml").read_text())
+    rows = [row for block in inventory["seed_datasets"].values() for row in block["datasets"]]
+    private = [
+        (row.get("slug") or row["name"], key, str(row[key]).strip())
+        for row in rows
+        for key in SeedLoader.CURATOR_ONLY
+        if str(row.get(key) or "").strip()
+    ]
+    assert private, "no curator-only text in the inventory, so this test asserts nothing"
+
+    published = " ".join(str(node) for node in catalog.values())
+    leaked = [
+        f"{name} ({key}): {text[:60]}" for name, key, text in private if text[:40] in published
+    ]
+    assert not leaked, f"text written for a cataloguer reached a published record: {leaked}"

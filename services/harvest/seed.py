@@ -10,10 +10,20 @@ licence and access-path review, and:
 > Do not treat the license or tier fields on unverified rows as authoritative.
 
 So an unverified row **cannot reach the catalog graph**. It lands in
-``og:graph/draft`` with ``og:reviewState "draft"`` and a review-queue entry. The
-split is not a convention here; it is a branch with a test on both sides,
-because a reviewed record and an unreviewed one look identical to a user and
-only one of them has had its licence checked.
+``og:graph/draft`` with ``og:reviewState "draft"``. The split is not a
+convention here; it is a branch with a test on both sides, because a reviewed
+record and an unreviewed one look identical to a user and only one of them has
+had its licence checked.
+
+**No review-queue entry, though this used to claim one.** The queue is an
+operational-store table and this loader is handed a ``RecordStore``; only
+``harvest.runner`` enqueues. So the 58 drafted rows are in the draft graph and
+absent from the steward queue, which means nothing surfaces them for review —
+and since a confirm with no queue row is now refused outright (#31), nothing can
+promote them either. Whether ``datahub seed`` should write to the operational
+store is a layering decision that belongs with the ingestion pipeline and
+ADR-0012's promotion policy, not here; what does not belong here is a docstring
+describing a behaviour the module does not have.
 
 **Nothing is inferred.** A field the seed file does not state is left empty and
 the completeness level says so. Most seed rows carry a name, a tier, a licence
@@ -67,11 +77,26 @@ PROVENANCE_MAP: dict[str, str] = {
 #: ``access_barrier`` in the seed file, mapped onto the access-restriction
 #: scheme. ``fragmented`` and ``restricted`` are the file's own words for
 #: barriers that are not licence terms.
+#: The seed file's `access_barrier` vocabulary, where it maps onto D9's.
+#:
+#: `fragmented` is deliberately absent. It used to map to `discontinued`, and
+#: those are not the same claim in either direction: `ar:discontinued` says *the
+#: publisher has stopped producing the dataset*, while every `fragmented` row is
+#: a live subject with no canonical source — interconnection study results,
+#: data-centre load projections, ELCC studies, all being produced right now, as
+#: per-jurisdiction PDFs with incompatible methodologies. Six published records
+#: asserted that their publishers had stopped, which is false about the
+#: publishers and caps the record for the wrong reason.
+#:
+#: D9 has no member for "no canonical source", so an unmapped barrier falls
+#: through to the conservative default in `_access` and the real reason travels
+#: in `og:accessBarrier`, `og:pointerRationale` and the caveat — all three of
+#: which say "fragmented" in words. Inventing a mapping to fill the enum is what
+#: produced the wrong one.
 BARRIER_MAP: dict[str, str] = {
     "restricted": "ceii",
     "commercial-paywall": "commercialPaywall",
     "proprietary": "commercialPaywall",
-    "fragmented": "discontinued",
 }
 
 
@@ -157,11 +182,17 @@ class SeedLoader:
         """Collapse rows that describe the same dataset under several domains.
 
         The seed inventory lists EU ETS / EEA EUTL under both DD7 and DD8, and
-        NREL ATB's note says explicitly to model it as one dataset with domain
-        facets rather than two records. Identity is the slug, which is derived
-        from the name — so two rows with the same name are the same dataset,
-        and treating them as two would mean the second write silently replaced
-        the first.
+        NREL ATB's `curator_note` says explicitly to model it as one dataset
+        with domain facets rather than two records. Treating them as two means
+        the second write silently replaces the first.
+
+        Identity is `_slug_of`: the row's explicit `slug` where it has one,
+        otherwise the slugified name. This docstring used to say identity was
+        the name, which was true until the `slug` keys were added and is what
+        made the NREL ATB case impossible — its two rows are named differently
+        ("NREL ATB (Annual Technology Baseline)" and "NREL ATB (storage and
+        emerging technology tables)"), so a name-keyed merge never fired on the
+        one row whose own note asks for it. The shared slug is what does it.
 
         The row carrying the most detail wins as the base; the others
         contribute only their domain. A verified row always beats an unverified
@@ -272,6 +303,15 @@ class SeedLoader:
 
     #: Seed keys whose text is addressed to the cataloguer, not to the reader.
     #: Never projected into anything published.
+    #:
+    #: Enforced by construction rather than by consulting this tuple: nothing
+    #: builds a record by iterating the row's keys, so a key is published only
+    #: where a line names it. That is the stronger guarantee — a new curator-only
+    #: key is excluded the moment it is added, with nothing to remember — but it
+    #: is also invisible, which is how "Confirm with counsel before shipping the
+    #: extraction" reached five published descriptions in the first place.
+    #: `test_no_published_record_carries_text_written_for_a_cataloguer` is what
+    #: holds it, and this tuple is what that test reads.
     CURATOR_ONLY = ("curator_note",)
 
     def _description(self, entry: dict[str, Any]) -> str:
@@ -386,8 +426,17 @@ class SeedLoader:
 
     @staticmethod
     def _access_is_assumed(entry: dict[str, Any]) -> bool:
-        """Whether the access posture on this record is a default, not a fact."""
-        return entry.get("anonymous") is None and not entry.get("access_barrier")
+        """Whether the access posture on this record is a default, not a fact.
+
+        A barrier `BARRIER_MAP` does not cover counts as assumed too. `fragmented`
+        is one — a real barrier the seed file states, which D9 has no member for
+        — so the restriction that reaches the record is the conservative default
+        rather than a translation of it, and the caveat has to say so.
+        """
+        if entry.get("anonymous") is not None:
+            return False
+        barrier = entry.get("access_barrier")
+        return not barrier or barrier not in BARRIER_MAP
 
     def _provenance(self, entry: dict[str, Any]) -> dict[str, Any]:
         """Map the free-text provenance, or fall back to ``curated``.
@@ -402,9 +451,31 @@ class SeedLoader:
         return {"provenanceClass": f"{SCHEME_PROVENANCE_CLASS}/{concept}"}
 
     def _documentation_status(self, entry: dict[str, Any]) -> str:
+        """What the seed inventory establishes about documentation. Not much.
+
+        The absence of a `note` used to produce `external-standard-only`, which
+        is a specific positive claim — *this dataset's fields are documented by
+        reference to an external standard* — asserted on 48 published records
+        because a column was empty. The seed file says nothing about
+        documentation for any row; it has no field for it.
+
+        `none` instead. Still a claim, because `og:documentationStatus` is
+        `sh:minCount 1` at level 1 and the enum has no "not established" member —
+        the same bind `_access` documents and #39 tracks — but it is the
+        conservative one in both directions that matter. It does not credit a
+        dataset with documentation nobody looked for, and it does not prejudge
+        the grade: `documentation.assess` special-cases only
+        `external-standard-only`, capping it at C, and lets everything else be
+        graded from the fields the record actually carries. So a seed row later
+        enriched to level 2 is graded on its fields rather than on this guess.
+        The caveat in `_caveats` says the value is an absence, not a finding.
+
+        `external-standard-only` is now a value the seed loader never invents.
+        It can only arrive from a curated record, where somebody checked.
+        """
         if entry.get("tier") == 3:
             return "none"
-        return "partial" if entry.get("note") else "external-standard-only"
+        return "partial" if entry.get("note") else "none"
 
     def _pointer_rationale(self, entry: dict[str, Any]) -> str:
         """Why this record has no access path, in the reader's words (#18).
@@ -485,8 +556,16 @@ class SeedLoader:
             "hostedByOpenGrid": False,
         }
         if entry.get("api"):
+            # `formatLabel: "API"` and no `mediaType`. This used to assert
+            # `application/json` for all seven rows with an `api` URL, on no
+            # evidence — the seed file states a media type for none of them —
+            # and wrongly for at least NREL's NSRDB endpoint, which answers CSV.
+            # A media type is a concrete fact a client negotiates on and the
+            # format facet indexes, so inventing one is the same error as
+            # inventing an access URL, in a field that looks more like plumbing.
+            # `dcat:mediaType` is `sh:maxCount 1` and not required; absent is
+            # the honest value until a probe reads the response.
             dist["formatLabel"] = "API"
-            dist["mediaType"] = "application/json"
         return dist
 
     def _caveats(self, entry: dict[str, Any], *, verified: bool) -> list[str]:
@@ -507,6 +586,13 @@ class SeedLoader:
                 "anonymous access nor a barrier for this dataset, so the record assumes an "
                 "account is needed rather than promising open access nobody verified. It may "
                 "well be freely downloadable."
+            )
+        if entry.get("tier") != 3 and not entry.get("note"):
+            caveats.append(
+                "Documentation status records an absence, not a finding. The seed inventory "
+                "has no field for documentation, so this record says none because nothing was "
+                "captured — not because the dataset is undocumented. Many of these are "
+                "extensively documented upstream."
             )
         if entry.get("tier") == 3:
             caveats.append(

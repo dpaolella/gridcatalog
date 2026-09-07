@@ -37,15 +37,19 @@ const nextConfig: NextConfig = {
   /**
    * Which files in `app/` are routes.
    *
-   * The two POST handlers under `app/api/` are named `route.dynamic.ts` and so
-   * only become routes when `dynamic.ts` is in this list. `output: "export"`
-   * cannot emit a POST handler — it emits files — and a build that fails on
-   * one is right to: there is no server to receive the post. Dropping the
-   * extension is how the static build says "these are not part of this
-   * deployment" without a second copy of the tree or a delete step in CI.
+   * The three route handlers under `app/api/` — `reports`, `submissions` and
+   * `session` — are named `route.dynamic.ts` and so only become routes when
+   * `dynamic.ts` is in this list. `output: "export"` cannot emit a POST handler
+   * — it emits files — and a build that fails on one is right to: there is no
+   * server to receive the post. Dropping the extension is how the static build
+   * says "these are not part of this deployment" without a second copy of the
+   * tree or a delete step in CI.
    *
-   * The forms they serve are not silently broken in that build; they are
-   * replaced by `StaticNotice`, which says what a static copy cannot do.
+   * Two serve forms, and those are not silently broken in the static build;
+   * they are replaced by `StaticNotice`, which says what a static copy cannot
+   * do. `session` serves the header's account control, which renders nothing
+   * when the route is absent — there is nobody to be signed in as on a file
+   * host, and a "Sign in" link to a flow that cannot exist is worse than none.
    */
   pageExtensions: isStatic
     ? ["tsx", "ts", "jsx", "js"]

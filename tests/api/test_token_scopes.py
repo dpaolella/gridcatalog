@@ -111,3 +111,74 @@ def test_anonymous_still_reaches_the_endpoints_the_prd_leaves_open(client):
         json={"dataset_id": PUBLIC, "issue_type": "broken-link", "comment": "test"},
     )
     assert response.status_code in (202, 503)
+
+
+def test_a_steward_issuing_a_token_without_naming_scopes_gets_their_own_authority(client):
+    """`POST /v1/auth/tokens` must reach the role defaults it was given.
+
+    `mint` documents `scopes=None` as "as capable as its holder", and
+    `ROLE_SCOPES` exists to be that default — its own comment says why the
+    narrow default was rejected: enforcing the scopes column *and* defaulting to
+    `catalog:read` "would silently revoke every steward's queue access, which is
+    a migration disguised as a bug fix."
+
+    That is what the endpoint did. `scopes=tuple(body.scopes or DEFAULT_SCOPES)`
+    substitutes `("catalog:read",)` before the call, so `None` never arrives and
+    `default_scopes_for` is unreachable over HTTP. A steward who asks for a
+    token and does not enumerate scopes gets one that cannot open their queue,
+    and the API told them nothing.
+    """
+    from datahub.api.entitlement import tokens
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    with session_scope() as session:
+        repos = Repositories(session)
+        user = repos.users.upsert_federated("local", "queue-steward", email="qs@example.org")
+        user.role = "steward"
+        session.flush()
+        bootstrap = tokens.mint(repos, user, name="bootstrap").token
+
+    issued = client.post(
+        "/v1/auth/tokens",
+        json={"name": "no scopes named"},
+        headers={"Authorization": f"Bearer {bootstrap}"},
+    )
+    assert issued.status_code == 201, issued.text[:300]
+    assert "steward:review" in issued.json()["scopes"], issued.json()["scopes"]
+
+    queue = client.get(
+        "/v1/review?state=draft",
+        headers={"Authorization": f"Bearer {issued.json()['token']}"},
+    )
+    assert queue.status_code == 200, (
+        "the steward's own token cannot open the steward queue:\n" + queue.text[:300]
+    )
+
+
+def test_naming_scopes_still_narrows_the_token(client):
+    """The default must not swallow an explicit request for less."""
+    from datahub.api.entitlement import tokens
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    with session_scope() as session:
+        repos = Repositories(session)
+        user = repos.users.upsert_federated("local", "narrowing", email="nr@example.org")
+        user.role = "steward"
+        session.flush()
+        bootstrap = tokens.mint(repos, user, name="bootstrap").token
+
+    issued = client.post(
+        "/v1/auth/tokens",
+        json={"name": "read only", "scopes": ["catalog:read"]},
+        headers={"Authorization": f"Bearer {bootstrap}"},
+    )
+    assert issued.status_code == 201, issued.text[:300]
+    assert issued.json()["scopes"] == ["catalog:read"]
+
+    queue = client.get(
+        "/v1/review?state=draft",
+        headers={"Authorization": f"Bearer {issued.json()['token']}"},
+    )
+    assert queue.status_code == 403, queue.text[:300]

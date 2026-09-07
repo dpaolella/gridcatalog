@@ -144,12 +144,21 @@ def callback(
         samesite="lax",
         secure=settings.environment != "development",
         path="/",
+        # Host-only unless a deployment says otherwise. The web server reads
+        # this cookie back off the incoming request to answer `/api/session`,
+        # which works while the site and the API share a host — a laptop, and
+        # the compose stack, where they differ only by port and cookies ignore
+        # ports. Split them across `api.` and `catalog.` and the browser never
+        # sends it to the site: the reader is signed in and the header says
+        # "Sign in", with nothing logged anywhere. See
+        # `Settings.session_cookie_domain`.
+        domain=settings.session_cookie_domain,
     )
     return redirect
 
 
 @router.post("/logout", status_code=status.HTTP_204_NO_CONTENT, summary="End this session")
-def logout(request: Request, session: SessionDep) -> Response:
+def logout(request: Request, session: SessionDep, settings: SettingsDep) -> Response:
     """Revoke server-side and clear the cookie.
 
     Both: clearing only the cookie leaves a session id that still works for
@@ -160,7 +169,11 @@ def logout(request: Request, session: SessionDep) -> Response:
     if session_id and session is not None:
         Repositories(session).sessions.revoke(session_id)
     response = Response(status_code=status.HTTP_204_NO_CONTENT)
-    response.delete_cookie(SESSION_COOKIE, path="/")
+    # Same `domain` as the `set_cookie` in `callback`. A delete that does not
+    # match the original scope leaves the cookie in place, so a split-domain
+    # deployment would revoke the session server-side — the part that matters —
+    # and still hand the browser a dead id on every request.
+    response.delete_cookie(SESSION_COOKIE, path="/", domain=settings.session_cookie_domain)
     return response
 
 
@@ -169,7 +182,7 @@ def logout(request: Request, session: SessionDep) -> Response:
     status_code=status.HTTP_204_NO_CONTENT,
     summary="End every session for this user",
 )
-def logout_everywhere(caller: CallerDep, session: SessionDep) -> Response:
+def logout_everywhere(caller: CallerDep, session: SessionDep, settings: SettingsDep) -> Response:
     """What a person clicks after losing a laptop."""
     _require_store(session)
     if caller.is_anonymous:
@@ -177,7 +190,7 @@ def logout_everywhere(caller: CallerDep, session: SessionDep) -> Response:
     count = Repositories(session).sessions.revoke_all(caller.principal_id)
     log.info("all sessions revoked", user=caller.principal_id, sessions=count)
     response = Response(status_code=status.HTTP_204_NO_CONTENT)
-    response.delete_cookie(SESSION_COOKIE, path="/")
+    response.delete_cookie(SESSION_COOKIE, path="/", domain=settings.session_cookie_domain)
     return response
 
 
@@ -226,7 +239,15 @@ def create_token(
         repos,
         user,
         name=body.name,
-        scopes=tuple(body.scopes or tokens.DEFAULT_SCOPES),
+        # `None`, not `DEFAULT_SCOPES`, when the caller names none. `mint`
+        # reads `None` as "as capable as its holder" and resolves it through
+        # `ROLE_SCOPES`; substituting the narrow default here meant `None` never
+        # arrived and `default_scopes_for` was unreachable over HTTP. A steward
+        # who issued a token without enumerating scopes got `catalog:read` and a
+        # credential that could not open their own queue — exactly the silent
+        # revocation `ROLE_SCOPES` was written to avoid, and the API said
+        # nothing about it.
+        scopes=tuple(body.scopes) if body.scopes else None,
         ttl=timedelta(days=body.expires_in_days) if body.expires_in_days else None,
     )
     return IssuedTokenResponse(

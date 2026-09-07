@@ -170,3 +170,95 @@ def test_reindex_is_idempotent(corpus) -> None:
     before = search(corpus, q="grid").total
     corpus.index([corpus.get("pypsa-eur")])
     assert search(corpus, q="grid").total == before
+
+
+def test_indexing_a_concept_with_no_label_does_not_crash(search_backend) -> None:
+    """`ConceptRef.label` is `str | None`, and the None case is not an edge.
+
+    Its own docstring says so: a record can carry a concept IRI this deployment
+    holds no label for — a crosswalk target, or a concept added to the
+    vocabulary after the record was written — and "returning the IRI with no
+    label is honest; inventing a label from the IRI's last segment is not."
+
+    The keyword field concatenated those labels with `" ".join`, which raises
+    `TypeError: sequence item 0: expected str instance, NoneType found`. Not a
+    degraded index — the `index()` call itself dies, so one unlabelled concept
+    anywhere in the corpus takes down the reindex that meets it.
+    """
+    search_backend.index(
+        [
+            doc(
+                id="unlabelled",
+                iri="urn:unlabelled",
+                title="A record citing a concept we hold no label for",
+                data_domains=[ConceptRef(iri="c:DD1", label="Network topology & parameters")],
+                concepts=[ConceptRef(iri="c:not-in-this-vocabulary")],
+            )
+        ]
+    )
+    search_backend.refresh()
+
+    found = search(search_backend, q="citing", limit=10)
+    assert [hit.document.id for hit in found.hits] == ["unlabelled"]
+
+
+def test_an_unlabelled_concept_is_skipped_rather_than_indexed_as_its_iri(search_backend) -> None:
+    """The fix must not paper over the hole by indexing the IRI as text.
+
+    `c:not-in-this-vocabulary` is not a word anyone searches for, and making it
+    matchable means a query for "vocabulary" hits a record whose only connection
+    to the word is an internal identifier.
+    """
+    search_backend.index(
+        [
+            doc(
+                id="unlabelled",
+                iri="urn:unlabelled",
+                title="Quiet record",
+                concepts=[ConceptRef(iri="c:not-in-this-vocabulary")],
+            )
+        ]
+    )
+    search_backend.refresh()
+
+    found = search(search_backend, q="vocabulary", limit=10)
+    assert [hit.document.id for hit in found.hits] == []
+
+
+def test_a_failed_index_leaves_nothing_the_next_one_cannot_clean_up(
+    search_backend, monkeypatch
+) -> None:
+    """An `index()` that raises must not corrupt the index it half-wrote.
+
+    `_doc_terms` is what `_remove_postings` reads to find a document's postings
+    in time proportional to that document rather than to the vocabulary. It was
+    assigned *after* the posting loop finished, so a raise partway through left
+    the record in `_docs` with postings in `_postings` and no ownership entry —
+    and the next `index()` of the same id saw it in `_docs`, called
+    `_remove_postings`, got `()` back and removed nothing. The orphaned tokens
+    stayed matchable forever, so the record answered to words it no longer had.
+
+    Reachable: `_field_text` raised `TypeError` on any concept with no label
+    until the fix above. This asserts the recovery rather than that one cause.
+    """
+    real = type(search_backend)._field_text
+
+    def explode_on_keywords(document, name):
+        if name == "keywords":
+            raise RuntimeError("a field this index cannot read")
+        return real(document, name)
+
+    monkeypatch.setattr(type(search_backend), "_field_text", staticmethod(explode_on_keywords))
+    with pytest.raises(RuntimeError):
+        search_backend.index(
+            [doc(id="halfway", iri="urn:halfway", title="Ephemeral zzyzx placeholder")]
+        )
+
+    monkeypatch.undo()
+    search_backend.index([doc(id="halfway", iri="urn:halfway", title="Corrected title")])
+    search_backend.refresh()
+
+    assert [hit.document.id for hit in search(search_backend, q="zzyzx").hits] == [], (
+        "the record still answers to a word from the write that failed"
+    )
+    assert [hit.document.id for hit in search(search_backend, q="Corrected").hits] == ["halfway"]

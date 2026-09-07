@@ -67,20 +67,55 @@ class Provider:
     token_headers: dict[str, str] = field(default_factory=lambda: {"Accept": "application/json"})
 
 
+# An address read here is not a display detail. `AllowlistRepository` grants by
+# email, `entitled_principals` projects addresses into the index, and
+# `Entitlement._entitled` matches on them — so whatever these functions return
+# is an *authorization identity*. A caller who can make a provider emit an
+# address they do not control inherits every grant made to it.
+#
+# So each provider returns an address only where it is asserting one, and `None`
+# otherwise. `None` is a safe answer: the user is still created and signed in on
+# `(provider, subject)`, and simply matches no grant made by address.
+
+
 def _github(payload: dict[str, Any]) -> tuple[str, str | None, str | None]:
+    """`/user`'s `email` is the *public profile* address.
+
+    GitHub only lets a user select one of their verified addresses as the public
+    one, so this is asserted rather than typed. It is null for the many users
+    who keep it private, which is the ordinary case and not an error.
+    """
     return str(payload["id"]), payload.get("email"), payload.get("name") or payload.get("login")
 
 
 def _google(payload: dict[str, Any]) -> tuple[str, str | None, str | None]:
-    return str(payload["sub"]), payload.get("email"), payload.get("name")
+    """Only when Google says it verified it.
+
+    `email_verified` is part of the userinfo response and was ignored, so an
+    account Google flags as unverified — a Workspace account federated from an
+    external IdP, among others — had its address treated as proof of identity.
+    Absent is treated as unverified: a payload with no such key is not a payload
+    from the endpoint this reads.
+    """
+    verified = payload.get("email_verified")
+    email = payload.get("email") if verified in (True, "true") else None
+    return str(payload["sub"]), email, payload.get("name")
 
 
 def _microsoft(payload: dict[str, Any]) -> tuple[str, str | None, str | None]:
-    return (
-        str(payload["id"]),
-        payload.get("mail") or payload.get("userPrincipalName"),
-        payload.get("displayName"),
-    )
+    """Graph's `mail`, and deliberately not `userPrincipalName`.
+
+    A UPN is a sign-in name that is *shaped* like an address and need not be
+    one: `alice@contoso.onmicrosoft.com` is the common form, and a tenant may
+    set it to anything in a domain it has verified. Falling back to it meant a
+    login name was matched against allow-list grants.
+
+    `mail` is the mailbox the directory holds. Still a tenant assertion rather
+    than a proof — this is a multi-tenant app, and a tenant administrator
+    controls it — which is as far as Graph goes, and is recorded here rather
+    than described as verification.
+    """
+    return str(payload["id"]), payload.get("mail"), payload.get("displayName")
 
 
 PROVIDERS: dict[str, Provider] = {

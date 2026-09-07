@@ -28,13 +28,23 @@ const SESSION_ENDPOINT = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/session
  * changes to a name is worse than one that appears a moment late — the first
  * invites a signed-in steward to sign in again.
  */
-type Session = { authenticated: boolean; email?: string | null; is_steward?: boolean };
+type Session = {
+  authenticated: boolean;
+  email?: string | null;
+  is_steward?: boolean;
+  /** The API did not answer, so `authenticated: false` is a placeholder rather
+   *  than a finding. Set by `/api/session`, and it was ignored here: a
+   *  signed-in reader whose API blipped saw "Sign in", and pressing it started
+   *  a flow that could not succeed either. */
+  unreachable?: boolean;
+};
 
 export function AccountMenu() {
   const t = useTranslations("nav");
   const router = useRouter();
   const pathname = usePathname();
   const [session, setSession] = useState<Session | null>(null);
+  const [failedSignOut, setFailedSignOut] = useState(false);
 
   useEffect(() => {
     let live = true;
@@ -54,7 +64,11 @@ export function AccountMenu() {
     };
   }, []);
 
-  if (session === null) return null;
+  // Nothing, until it knows — and "the API did not answer" is not knowing. The
+  // two cases were collapsed, so an unreachable API rendered "Sign in" at a
+  // steward who was already signed in, which is the exact swap the docstring
+  // above rejects, plus a link to a flow that would fail the same way.
+  if (session === null || session.unreachable) return null;
 
   if (!session.authenticated) {
     return (
@@ -83,7 +97,19 @@ export function AccountMenu() {
       <button
         type="button"
         onClick={async () => {
-          await fetch(SESSION_ENDPOINT, { method: "POST" });
+          // The result decides. It was discarded, so a refused logout — the API
+          // down, the store unreachable — still cleared the header and called
+          // it done. Signing out is the one action where saying it happened
+          // when it did not is the whole harm: the session id keeps working for
+          // anyone holding it, which is what the person clicking was trying to
+          // stop. `/v1/auth/logout`'s own docstring makes that the reason it
+          // revokes server-side rather than only clearing the cookie.
+          const response = await fetch(SESSION_ENDPOINT, { method: "POST" }).catch(() => null);
+          if (!response?.ok) {
+            setFailedSignOut(true);
+            return;
+          }
+          setFailedSignOut(false);
           setSession({ authenticated: false });
           router.refresh();
         }}
@@ -91,6 +117,14 @@ export function AccountMenu() {
       >
         {t("signOut")}
       </button>
+      {failedSignOut ? (
+        <span
+          role="status"
+          className="text-[color:var(--status-alert)]"
+        >
+          {t("signOutFailed")}
+        </span>
+      ) : null}
     </span>
   );
 }

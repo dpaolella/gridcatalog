@@ -121,7 +121,13 @@ def _doc(id_: str, title: str, **kw: Any) -> SearchDocument:
 CORPUS = [
     _doc("p-wind", "Global Wind Atlas", license_id="CC-BY-4.0", provenance_class="curated"),
     _doc("p-solar", "Solar Resource Atlas", license_id="CC-BY-4.0", provenance_class="modeled"),
-    _doc("p-load", "Hourly Load Series", license_id="ODbL-1.0", provenance_class="primary"),
+    # Lowercase initial, deliberately. Every other title here is Title Case, and
+    # with three of those `assert_search_sorts_by_title` passed on both backends
+    # while they disagreed about case — a keyword field sorts by bytes and puts
+    # every capital ahead of every lowercase letter. Real titles are not all
+    # Title Case ("earth-osm", "gridpath"), so this is the ordinary case, not a
+    # contrived one.
+    _doc("p-load", "hourly load series", license_id="ODbL-1.0", provenance_class="primary"),
 ]
 
 
@@ -183,13 +189,23 @@ def assert_search_sorts_by_title(backend: Any) -> None:
     checks the request body without a container. This is the assertion that
     checks OpenSearch *accepts* it, which is the different half of the claim and
     is the reason this file exists.
+
+    Sorting *the same way* is the other half again. `sorted(titles)` would be
+    the wrong expectation to assert against: Python's default string order is
+    by code point, which is what a bare keyword field does and what the
+    in-memory backend's casefolding deliberately does not. Asserting it would
+    have ratified the divergence rather than caught it, so the expected order is
+    written out.
     """
     _seed(backend)
     response = backend.search(
         SearchRequest(sort=(SortSpec(field="title"),), entitlement=Entitlement.anonymous())
     )
     titles = [h.document.title for h in response.hits]
-    assert titles == sorted(titles)
+    assert titles == ["Global Wind Atlas", "hourly load series", "Solar Resource Atlas"], (
+        "case-insensitive order, on both backends: a reader scanning an "
+        "alphabetical list does not know which titles the publisher capitalised"
+    )
 
 
 def assert_search_total_is_the_match_count_not_the_page(backend: Any) -> None:

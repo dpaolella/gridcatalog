@@ -16,7 +16,8 @@
     "skipToContent": "Skip to content",
     "review": "Review queue",
     "account": "Account",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "signOutFailed": "Sign-out failed — you are still signed in. Try again."
   },
   "search": {
     "placeholder": "Search datasets — try \"nodal LMP\", \"wind speed\", \"ERA5\"",
@@ -330,7 +331,9 @@
     "yes": "Yes",
     "no": "No",
     "notCaptured": "Not captured",
-    "tokensHelp": "Personal access tokens are issued through the API — POST /v1/auth/tokens — and shown once. Only a keyed hash is stored, so there is no way to show one again."
+    "tokensHelp": "Personal access tokens are issued through the API — POST /v1/auth/tokens — and shown once. Only a keyed hash is stored, so there is no way to show one again.",
+    "unavailable": "Your account cannot be shown right now.",
+    "unavailableHelp": "The API did not answer ({status}), so this page cannot say who you are. You have not been signed out — try again in a moment."
   },
   "cadence": {
     "yearly": "yearly",

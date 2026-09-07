@@ -299,6 +299,34 @@ class RecordStore:
 
         self._replace(name, existing, owned, ancillary)
 
+        # A dataset lives in exactly one graph. `promote` and `demote` both
+        # preserve that by deleting the copy they moved from; a direct `put`
+        # into the catalog did not, and the composed catalog ended up with six
+        # datasets in both graphs at once — a curated record published, and a
+        # thin seed row for the same slug sitting in the review queue under the
+        # same IRI.
+        #
+        # That is not a cosmetic duplicate. Confirming the queued draft calls
+        # `promote`, which writes the draft over the catalog copy: `eia-930`
+        # went from the curated level 2 record to the seed row's level 1, and
+        # the reviewed licence IRI was replaced by the unreviewed one. A steward
+        # doing the ordinary thing destroys the better record, and ADR-0012's
+        # auto-promotion would do it with nobody watching.
+        #
+        # Catalog-side only, deliberately. The mirror rule — a put into draft
+        # clearing the catalog — would make the outcome depend on load order and
+        # would break `demote`, which puts a flagged record into draft *before*
+        # removing the published one.
+        if name is NamedGraph.CATALOG:
+            superseded = self._gather(dataset_iri, NamedGraph.DRAFT)
+            if len(superseded):
+                self._remove(NamedGraph.DRAFT, superseded)
+                log.info(
+                    "draft superseded by a published record",
+                    dataset=str(dataset_iri),
+                    triples=len(superseded),
+                )
+
         log.info(
             "record written",
             dataset=str(dataset_iri),

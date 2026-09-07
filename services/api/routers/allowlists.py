@@ -103,9 +103,20 @@ def put_allowlist(
 
     removed = 0
     for key, row in current.items():
-        if key not in wanted and row.principal_id:
-            repos.allowlist.revoke(iri, row.principal_id)
-            removed += 1
+        if key in wanted:
+            continue
+        # By whichever identity the grant carries. This used to skip any row
+        # with no `principal_id`, which meant an entry granted by address could
+        # never be removed: it vanished from the response — rebuilt from the
+        # entries the request asked for — and stayed live in the database, so
+        # the person kept access to a restricted dataset and the custodian had
+        # no way to see it, let alone stop it.
+        repos.allowlist.revoke(
+            iri,
+            row.principal_id,
+            principal_email=row.principal_email if not row.principal_id else None,
+        )
+        removed += 1
 
     added = 0
     for key, entry in wanted.items():

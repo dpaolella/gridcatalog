@@ -26,8 +26,9 @@ from datahub.api.entitlement import tokens
 from datahub.api.models.repositories import Repositories
 from datahub.api.reproject import reproject
 from datahub.api.schemas import ReviewConfirm, ReviewItem, ReviewQueueResponse
-from datahub.errors import NotAuthenticated, NotEntitled, NotFound
+from datahub.errors import NotAuthenticated, NotEntitled, NotFound, ValidationFailed
 from datahub.logging import get_logger
+from datahub.namespaces import agent_iri
 from fastapi import APIRouter, Path, Query
 
 log = get_logger(__name__)
@@ -154,12 +155,49 @@ def _publish(dataset_id: str, caller: CallerDep, records: RecordsDep, session: A
     once, being confirmed again for more fields — is not an error and is not
     re-promoted: `promote` reads the draft subgraph, and for a published record
     that is empty.
+
+    "Not in the draft graph" used to be taken to mean exactly that case. It also
+    covers a record in *neither* graph, which a delete or an abandoned harvest
+    leaves a queue row pointing at, and that came back as a 200 with the queue
+    marked confirmed and an audit row recording the publication of nothing.
+    The two are distinguished below.
     """
     from datahub.graph.graphs import NamedGraph
 
     if not records.exists(dataset_id, graph=NamedGraph.DRAFT):
-        return False
+        if records.exists(dataset_id, graph=NamedGraph.CATALOG):
+            return False
+        raise NotFound(
+            f"{dataset_id!r} has a review item but no record in either graph",
+            dataset_id=dataset_id,
+        )
 
-    records.promote(dataset_id, reviewed_by=caller.principal_id)
+    try:
+        # `agent_iri`, not the raw principal id: `promote` writes this into the
+        # published record as `og:reviewedBy` via `URIRef`, and a bare
+        # `uuid4().hex` is a relative IRI that resolves to nothing outside this
+        # database. The audit row keeps the raw id, which is the right form for
+        # a foreign key into `users`.
+        records.promote(dataset_id, reviewed_by=agent_iri(caller.principal_id))
+    except ValidationFailed:
+        # The check above and this promote are not one operation, and two
+        # stewards confirming the same record is exactly what a shared queue
+        # invites. The winner promotes and deletes the draft; this call then
+        # reads an empty draft subgraph, assembles a record consisting of three
+        # review triples, and fails SHACL — so the loser was told its record has
+        # no title and no licence. It has both, and is published.
+        #
+        # Nothing is corrupted by the race: `put` validates before it writes, so
+        # the failed promote wrote nothing and the winner's record stands. Only
+        # the answer was wrong. Re-read rather than assume: a record that is in
+        # the catalog and no longer in draft is one somebody else just
+        # published, and any other state is a real validation failure.
+        if records.exists(dataset_id, graph=NamedGraph.CATALOG) and not records.exists(
+            dataset_id, graph=NamedGraph.DRAFT
+        ):
+            log.info("confirm lost a race and the record is already published", dataset=dataset_id)
+            return False
+        raise
+
     reproject(str(records._iri(dataset_id)), records, session)
     return True

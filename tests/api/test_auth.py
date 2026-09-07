@@ -428,3 +428,44 @@ def test_a_bearer_token_wins_over_a_session_cookie(client, user) -> None:
     body = client.get("/v1/auth/me", headers=auth(other_token)).json()
 
     assert body["principal_id"] == other_id
+
+
+def test_the_session_cookie_is_host_only_unless_a_deployment_widens_it(client, monkeypatch):
+    """The web UI reads this cookie back off its own incoming request (#13).
+
+    `/api/session` in the Next app answers "who is signed in" by forwarding the
+    cookie the browser sent *to the site*. `/v1/auth/callback` sets it on the
+    API's host, so the whole scheme depends on the two sharing a host — which
+    its docstring claimed it did not.
+
+    Host-only is right by default and right for the compose stack, where the two
+    differ only by port and cookies ignore ports. A split deployment needs the
+    shared parent, and needs the logout delete to match it or the browser keeps
+    a cookie the server has revoked.
+    """
+    from datahub.api.deps import settings_dep
+
+    def cookie_attributes(response) -> dict[str, str]:
+        header = response.headers.get("set-cookie", "")
+        parts = [p.strip() for p in header.split(";")]
+        return {
+            k.strip().lower(): v.strip() for k, _, v in (p.partition("=") for p in parts[1:]) if k
+        }
+
+    default = client.post("/v1/auth/logout")
+    assert "domain" not in cookie_attributes(default), (
+        "the default widened the cookie beyond the host that issued it"
+    )
+
+    base = settings_dep()
+    client.app.dependency_overrides[settings_dep] = lambda: base.model_copy(
+        update={"session_cookie_domain": ".example.org"}
+    )
+    try:
+        widened = client.post("/v1/auth/logout")
+        assert cookie_attributes(widened).get("domain") == ".example.org", (
+            "logout does not clear the cookie at the scope callback set it, so a "
+            "revoked session id stays in the browser: " + widened.headers.get("set-cookie", "")
+        )
+    finally:
+        client.app.dependency_overrides.pop(settings_dep, None)

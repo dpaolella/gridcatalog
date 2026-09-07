@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { IS_SNAPSHOT, type MeResponse, me } from "@/lib/api";
+import { ApiError, IS_SNAPSHOT, type MeResponse, me } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { Rule } from "@/components/Brand";
 import { StaticNotice } from "@/components/StaticNotice";
@@ -41,8 +41,20 @@ async function Session() {
   let caller: MeResponse;
   try {
     caller = await me();
-  } catch {
-    caller = { authenticated: false, is_agent: false, is_steward: false, custodian_of: [] };
+  } catch (error) {
+    // "The API did not answer" is not "you are signed out". This used to
+    // fabricate `authenticated: false` and render "You are not signed in" with
+    // a Sign in button, so a reader with a perfectly good session was told they
+    // had none and sent into a flow that was failing for the same reason. The
+    // page's own docstring says everything here comes from `/v1/auth/me` rather
+    // than from anything this side decided; an invented answer is this side
+    // deciding.
+    const status = error instanceof ApiError ? error.status : 0;
+    return (
+      <EmptyState title={t("unavailable")}>
+        <p>{t("unavailableHelp", { status: status || "no response" })}</p>
+      </EmptyState>
+    );
   }
 
   if (!caller.authenticated) {

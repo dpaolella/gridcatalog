@@ -7,12 +7,23 @@
  * makes a catalog page fast. So the account control is a client component and
  * this is what it calls.
  *
- * Same-origin on purpose. The session cookie belongs to the API's host and is
- * `HttpOnly`, so the browser cannot read it and a cross-origin `fetch` would
- * need `credentials: "include"` plus a CORS allowance for every deployment
- * topology. Here the Next server forwards the cookie it already received, the
- * credential never reaches JavaScript, and nothing depends on where the API is
- * hosted relative to the site.
+ * Same-origin on purpose. The session cookie is `HttpOnly`, so the browser
+ * cannot read it and a cross-origin `fetch` would need `credentials: "include"`
+ * plus a CORS allowance for every deployment topology. Here the Next server
+ * forwards the cookie it already received and the credential never reaches
+ * JavaScript.
+ *
+ * **This does depend on where the API is hosted** — the docstring used to say
+ * it did not, and that was the wrong way round. `/v1/auth/callback` sets the
+ * cookie on the API's host, and the forwarding above works by reading it back
+ * off the request the *browser* made to this server. A host-only cookie set on
+ * `api.example.org` is never sent to `catalog.example.org`, so the reader is
+ * signed in and this route answers `authenticated: false` for ever, with no
+ * error anywhere to explain it.
+ *
+ * It works unchanged where the two share a host: a laptop, and the compose
+ * stack, where they differ only by port and cookies ignore ports. A split
+ * deployment sets `DATAHUB_SESSION_COOKIE_DOMAIN` to the shared parent.
  *
  * `.dynamic.ts`, so the static build does not try to emit it — a file host has
  * nobody to sign in as. See `pageExtensions` in `next.config.ts`.

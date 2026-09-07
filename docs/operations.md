@@ -71,6 +71,26 @@ plumbing:
 | `DATAHUB_MCP_PAYLOAD_CAP_BYTES` | 102400 | Hard cap so bulk data cannot enter an agent's context |
 | `DATAHUB_RATE_LIMIT_AGENT_PER_MIN` | 600 | Agent traffic is several times chattier than human traffic |
 
+### Splitting the site and the API across hosts
+
+| Setting | Default | What it decides |
+|---|---|---|
+| `DATAHUB_SESSION_COOKIE_DOMAIN` | unset (host-only) | The `Domain` on the session cookie |
+
+Leave it unset wherever the web UI and the API answer on the same host — a
+laptop, and the compose stack, where they differ only by port and cookies ignore
+ports.
+
+Set it to the shared parent (`.example.org`) if you run them as
+`catalog.example.org` and `api.example.org`. `/v1/auth/callback` sets the cookie
+on the API's host, and the web server answers "who is signed in" by reading that
+cookie back off the browser's request to *the site* — so without this a reader
+signs in successfully and the header still says **Sign in**, with nothing logged
+anywhere to explain it.
+
+It is opt-in rather than derived because a parent domain widens the cookie to
+every host under it, and the deployment knows which hosts it owns.
+
 ### The web container's two addresses
 
 The Next server is the one component that reads its environment directly rather

@@ -65,12 +65,21 @@ class Entitlement:
     """
 
     principal_id: str | None = None
-    #: The caller's verified address, matched against allow-list grants made by
-    #: email. `AllowlistRepository.entitled_principals` projects ids *and*
-    #: addresses into the document precisely so a grant made before its subject
-    #: had an account keeps working — but nothing here read the address, so
-    #: every email grant was recorded, displayed to the custodian as active, and
-    #: matched by nobody.
+    #: The caller's address as their identity provider asserts it, matched
+    #: against allow-list grants made by email.
+    #: `AllowlistRepository.entitled_principals` projects ids *and* addresses
+    #: into the document precisely so a grant made before its subject had an
+    #: account keeps working — but nothing here read the address, so every email
+    #: grant was recorded, displayed to the custodian as active, and matched by
+    #: nobody.
+    #:
+    #: This used to say "verified". It is not, quite, and the difference is an
+    #: authorization boundary: `oidc.py` now drops a Google address the provider
+    #: flags unverified and no longer reads a Microsoft UPN as one, so what
+    #: arrives here is an address a provider asserts the caller controls. For
+    #: Microsoft that is a tenant administrator's word. A custodian granting by
+    #: address is trusting the provider that owns the domain, which is the
+    #: property the model actually has.
     email: str | None = None
     custodian_of: frozenset[str] = frozenset()
     #: Set only for the steward UI, which reads the draft graph deliberately.
@@ -432,13 +441,33 @@ class InMemorySearchBackend(SearchBackend):
         with self._lock:
             for doc in documents:
                 # Only when there is something to remove. A full reindex writes
-                # into a cleared index, where by definition there is not, and
-                # this call used to run anyway: 10,000 records took 48 seconds
-                # against 1.2 with it guarded.
+                # into a cleared index, where by definition there is not.
+                #
+                # This guard used to be credited with "10,000 records took 48
+                # seconds against 1.2", and that number belongs to `_doc_terms`,
+                # not to this line. Measured on 10,000 synthetic records: the
+                # guard is worth 1.90s against 1.96s — 3%, because
+                # `_remove_postings` on an absent id already pops nothing and
+                # returns. Against the vocabulary-walking removal it replaced,
+                # the same corpus takes 38.4s, so the win is 20x and it is
+                # `_doc_terms` that buys it. Kept because skipping a call that
+                # cannot do anything is still right, not because it is fast.
                 if doc.id in self._docs:
                     self._remove_postings(doc.id)
                 self._docs[doc.id] = doc
+                # Registered before the loop that fills it, not after. `owned`
+                # is the same list either way — `_remove_postings` reads it to
+                # retract a document in time proportional to that document
+                # rather than to the vocabulary — but assigning it afterwards
+                # meant a raise partway through left postings in the index with
+                # nothing recording that this record owned them. The next
+                # `index()` of the same id then found it in `_docs`, called
+                # `_remove_postings`, got `()` and removed nothing: the orphans
+                # stayed matchable and the record answered to words from a write
+                # that failed. Publishing the ownership first makes the recovery
+                # the next write's job, which it can now actually do.
                 owned: list[tuple[str, str]] = []
+                self._doc_terms[doc.id] = owned
                 for fname in FIELD_BOOSTS:
                     text = self._field_text(doc, fname)
                     tokens = tokenize(text)
@@ -449,7 +478,6 @@ class InMemorySearchBackend(SearchBackend):
                     for token, freq in freqs.items():
                         self._postings[fname][token][doc.id] = freq
                         owned.append((fname, token))
-                self._doc_terms[doc.id] = owned
                 count += 1
             self._terms_dirty = True
         return count
@@ -457,14 +485,30 @@ class InMemorySearchBackend(SearchBackend):
     @staticmethod
     def _field_text(doc: SearchDocument, name: str) -> str:
         if name == "keywords":
+            # `filter(None, ...)`, because `ConceptRef.label` is `str | None`
+            # and the None case is ordinary: a crosswalk target, or a concept
+            # added to the vocabulary after the record was written. This used to
+            # concatenate the labels raw, so `" ".join` raised `TypeError:
+            # sequence item 0: expected str instance, NoneType found` — not a
+            # weaker index, a dead `index()` call, so one unlabelled concept
+            # anywhere in the corpus took down the reindex that reached it.
+            #
+            # Dropped rather than substituted. The obvious repair is to fall
+            # back to the IRI, and that indexes `c:not-in-this-vocabulary` as
+            # searchable text: a query for "vocabulary" would then hit a record
+            # whose only connection to the word is an internal identifier.
+            # A concept with no label contributes no words, which is true.
             return " ".join(
-                doc.keywords
-                + [c.label for c in doc.data_domains]
-                + [c.label for c in doc.concepts]
-                + [c.label for c in doc.supported_analysis]
-                + doc.spatial.place_labels
-                + doc.formats
-                + ([doc.license_id] if doc.license_id else [])
+                filter(
+                    None,
+                    doc.keywords
+                    + [c.label for c in doc.data_domains]
+                    + [c.label for c in doc.concepts]
+                    + [c.label for c in doc.supported_analysis]
+                    + doc.spatial.place_labels
+                    + doc.formats
+                    + [doc.license_id],
+                )
             )
         if name == "publisher":
             return " ".join(filter(None, [doc.publisher, *doc.creators]))

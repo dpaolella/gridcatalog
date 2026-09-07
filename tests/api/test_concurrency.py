@@ -110,3 +110,56 @@ def test_a_cold_sparql_parser_survives_eight_threads(attempt: int) -> None:
     assert result.stdout.startswith("0 "), (
         f"a cold parser raced across threads: {result.stdout.strip()}"
     )
+
+
+def test_the_rate_limiter_counts_every_request_it_is_given(api_env):
+    """`rate_limit` is a sync dependency, so FastAPI runs it on the threadpool.
+
+    `_count` was `self._counts[key] = self._counts.get(key, 0) + cost` — a read
+    and a write with a bytecode boundary between them. Two threads that read the
+    same value both write one more than it, and one request goes uncounted. The
+    consequence is quiet and in the wrong direction: a limit that under-counts
+    lets a caller through, and it under-counts most under exactly the concurrent
+    load it exists to stop.
+
+    The dict rebuild in the same method is worse than one lost increment. It
+    replaces `self._counts` wholesale, so a thread holding the old dict writes
+    into an object nothing reads again — a whole window's counts, gone.
+
+    At the default switch interval this is invisible: 8 threads incrementing
+    500 times each lose nothing, because 5 ms is long enough that a thread
+    finishes its loop before the interpreter preempts it. `setswitchinterval`
+    makes the window the code actually has visible rather than hoping the
+    scheduler cooperates — measured at 1 ns, 16 threads × 3,000 counted 14,483
+    of 48,000. A test that only fails on a busy production box is not a test.
+    """
+    import sys
+    import threading
+
+    from datahub.api.ratelimit import RateLimiter
+
+    limiter = RateLimiter()
+    threads, per_thread = 16, 2000
+    start = threading.Barrier(threads)
+
+    def hammer() -> None:
+        start.wait()
+        for _ in range(per_thread):
+            limiter._count("user:same", 1, 1)
+
+    original = sys.getswitchinterval()
+    sys.setswitchinterval(1e-9)
+    try:
+        workers = [threading.Thread(target=hammer) for _ in range(threads)]
+        for worker in workers:
+            worker.start()
+        for worker in workers:
+            worker.join()
+    finally:
+        sys.setswitchinterval(original)
+
+    counted = limiter._counts[("user:same", 1)]
+    assert counted == threads * per_thread, (
+        f"counted {counted} of {threads * per_thread}: increments were lost, so "
+        "the limiter lets a caller past its budget"
+    )

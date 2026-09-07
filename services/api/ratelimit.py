@@ -28,6 +28,7 @@ here — a 429 with no ``Retry-After`` teaches a client to hammer.
 
 from __future__ import annotations
 
+import threading
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -82,6 +83,9 @@ class RateLimiter:
     def __init__(self, settings: Settings | None = None, *, session_factory: Any = None) -> None:
         self.settings = settings or get_settings()
         self._counts: dict[tuple[str, int], int] = {}
+        # `rate_limit` is a sync FastAPI dependency, which means the threadpool,
+        # which means `_count` runs concurrently. See its docstring.
+        self._lock = threading.Lock()
         self._session_factory = session_factory
 
     def budget(self, *, principal_id: str | None, is_agent: bool) -> int:
@@ -121,17 +125,38 @@ class RateLimiter:
         )
 
     def _count(self, bucket: str, window: int, cost: int) -> int:
-        """Increment and return the count. The one seam a backend swaps."""
+        """Increment and return the count. The one seam a backend swaps.
+
+        Locked, because `rate_limit` is a **sync** dependency and FastAPI runs
+        those on the threadpool. `counts[key] = counts.get(key, 0) + cost` is a
+        read and a write with a bytecode boundary between them: two threads read
+        the same value, both write one more than it, and a request goes
+        uncounted. Quiet, and in the wrong direction — a limit that under-counts
+        lets a caller through, and it under-counts hardest under exactly the
+        concurrent load it exists to stop. Measured with the switch interval
+        forced low: 16 threads counting 2,000 each recorded about half.
+
+        The rebuild below is the worse half. It replaces `self._counts`
+        wholesale, so any thread that read the old dict is writing into an
+        object nothing will read again — not one lost increment, a whole
+        window's worth.
+
+        A `Lock` rather than an atomic-ish idiom: the two statements have to be
+        one operation, and the section is a dict write, so contention is
+        nothing next to the request it is counting.
+        """
         key = (bucket, window)
-        self._counts[key] = self._counts.get(key, 0) + cost
-        # Windows older than the current one can never be counted against
-        # again; without this the dict is a slow memory leak keyed by minute.
-        if len(self._counts) > 4096:
-            self._counts = {k: v for k, v in self._counts.items() if k[1] >= window - 1}
-        return self._counts[key]
+        with self._lock:
+            self._counts[key] = self._counts.get(key, 0) + cost
+            # Windows older than the current one can never be counted against
+            # again; without this the dict is a slow memory leak keyed by minute.
+            if len(self._counts) > 4096:
+                self._counts = {k: v for k, v in self._counts.items() if k[1] >= window - 1}
+            return self._counts[key]
 
     def reset(self) -> None:
-        self._counts.clear()
+        with self._lock:
+            self._counts.clear()
 
 
 def exempt(path: str) -> bool:

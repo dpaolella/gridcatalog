@@ -140,6 +140,22 @@ class Settings(BaseSettings):
     secret_key: str = DEV_SECRET_KEY
     token_ttl_s: int = 3600
     session_ttl_s: int = 14 * 24 * 3600
+    #: ``Domain`` on the session cookie. Unset means host-only, which is the
+    #: safer default and is correct wherever the web UI and the API answer on
+    #: the same host — a laptop, and the compose stack, where they differ only
+    #: by port and cookies ignore ports.
+    #:
+    #: It is *not* correct for a split deployment. `/v1/auth/callback` sets the
+    #: cookie on the API's host; the web server reads it back off the incoming
+    #: request to answer `/api/session`, so with `api.example.org` and
+    #: `catalog.example.org` the browser never sends it to the site and a
+    #: signed-in reader sees "Sign in" for ever, with no error anywhere. Set
+    #: this to the shared parent (``.example.org``) for that topology.
+    #:
+    #: A parent domain widens the cookie to every host under it, so this is
+    #: opt-in rather than derived: the deployment knows which hosts it owns and
+    #: this file does not.
+    session_cookie_domain: str | None = None
     oidc_providers: str = "github,google,microsoft"
     oidc_github_client_id: str | None = None
     oidc_github_client_secret: str | None = None

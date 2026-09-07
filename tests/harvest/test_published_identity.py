@@ -108,3 +108,68 @@ def test_a_curated_record_lands_on_its_seed_row_rather_than_beside_it(published)
             enriched += 1
 
     assert enriched >= 5, f"only {enriched} curated records reached the catalog"
+
+
+def test_no_dataset_is_in_both_the_draft_graph_and_the_catalog() -> None:
+    """One dataset, one graph. The invariant `promote` and `demote` maintain.
+
+    A composed catalog broke it six times. The seed inventory carries rows for
+    datasets that also have curated records — that is the point of the shared
+    slug, and `test_a_curated_record_lands_on_its_seed_row_rather_than_beside_it`
+    above is about making it work — but four of those rows are `verified: false`
+    and one is matched by slugified name, so they load into the *draft* graph
+    while the curated record publishes into the catalog under the same IRI.
+
+    The duplicate is not the damage. Confirming the queued draft calls
+    `promote`, which writes it over the catalog copy: `eia-930` reverts from the
+    curated level 2 record to the seed row's level 1, and the reviewed licence
+    is replaced by the unreviewed one the file's own header says not to trust.
+    A steward clearing their queue destroys the better record, and ADR-0012's
+    auto-promotion would do it unattended.
+
+    Asserted on the composed corpus rather than on `put` alone, because the
+    composition is where it appeared and a unit test of the invariant would not
+    have found it.
+    """
+    from fixtures.loader import load_record, record_names
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    SeedLoader(records).load()
+    for name in record_names():
+        if name not in NOT_PUBLISHED:
+            records.put(load_record(name))
+
+    draft = {i.rsplit("/", 1)[-1] for i in records.list_ids(graph=NamedGraph.DRAFT)}
+    catalog = {i.rsplit("/", 1)[-1] for i in records.list_ids(graph=NamedGraph.CATALOG)}
+    assert not draft & catalog, (
+        "these datasets are published and queued for review at the same IRI, so "
+        f"confirming the queue entry overwrites the published record: {sorted(draft & catalog)}"
+    )
+
+
+def test_publishing_a_record_does_not_disturb_other_drafts() -> None:
+    """The fix clears the draft *of the record being published*, not the queue.
+
+    A rule that reached wider would empty the review queue on every harvest,
+    which is a worse bug than the one it replaced and would look like the
+    projector losing records.
+    """
+    import json
+
+    from fixtures.loader import load_record
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+
+    other = json.loads(
+        json.dumps(load_record("ecmwf-era5")).replace("/ds/ecmwf-era5", "/ds/still-in-review")
+    )
+    other["@graph"][0]["reviewState"] = "draft"
+    records.put(other, graph=NamedGraph.DRAFT)
+    records.put(load_record("esa-worldcover"))
+
+    assert records.exists("still-in-review", graph=NamedGraph.DRAFT)
+    assert records.exists("esa-worldcover", graph=NamedGraph.CATALOG)

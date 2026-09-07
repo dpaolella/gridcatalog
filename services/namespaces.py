@@ -50,6 +50,29 @@ FILE_BASE = "https://catalog.opengrid.org/file/"
 LINK_BASE = "https://catalog.opengrid.org/link/"
 AGENT_BASE = "https://catalog.opengrid.org/agent/"
 
+
+def agent_iri(principal_id: str | None) -> str | None:
+    """A principal's IRI, for the graph.
+
+    `Caller.principal_id` is `User.id`, which is `uuid4().hex` — 32 hex
+    characters with no scheme. Handed to `URIRef` unchanged it becomes a
+    *relative* IRI, which resolves against whatever base the consumer happens to
+    have and for most of them resolves to nothing. `og:reviewedBy` on every
+    published record carried one, and nothing caught it: `sh:nodeKind sh:IRI` is
+    satisfied by a relative IRI, which is the same trap the licence constraint
+    documents for free text like "CC BY 4.0".
+
+    Idempotent on an id that is already absolute, so a caller identified by an
+    IRI — a federated principal, later — is passed through rather than nested
+    under this base.
+    """
+    if not principal_id:
+        return None
+    if "://" in principal_id:
+        return principal_id
+    return f"{AGENT_BASE}{principal_id}"
+
+
 #: Prefixes bound on every graph the project creates and prepended to every
 #: SPARQL query built by :func:`datahub.graph.sparql.prologue`.
 PREFIXES: dict[str, Namespace | str] = {
@@ -107,4 +130,5 @@ __all__ = [
     "UNIT",
     "VOID",
     "XSD",
+    "agent_iri",
 ]
