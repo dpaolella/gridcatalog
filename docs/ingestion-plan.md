@@ -455,6 +455,9 @@ fields on one record:
 - Gap markers become the common case, not the exception. 273 ERA5 variables
   will produce perhaps 30 concept hits and 240 honest gaps, and the record page
   must not read as broken because of it.
+- ~~A schema too large for the MCP payload cap has no way to be read in full.~~
+  Done: `get_dataset_schema` takes `limit` and `offset`, and an incomplete
+  response carries `next_offset` and the count still missing.
 - ~~The web schema tab renders every field in one table with no search.~~ Done
   with WP-11.4: above 25 fields the tab grows a filter over name, description,
   unit and concept, with a count of what is showing. Ordering

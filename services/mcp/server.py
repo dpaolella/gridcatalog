@@ -132,10 +132,21 @@ def create_server(tools: Tools | None = None, **kwargs: Any) -> Any:
         return _wrap(tools.get_dataset)(dataset_id=dataset_id)
 
     @mcp.tool(name="get_dataset_schema")
-    def get_dataset_schema(dataset_id: str) -> dict[str, Any]:
+    def get_dataset_schema(
+        dataset_id: str,
+        limit: Annotated[
+            int | None, Field(description="Fields per page. Omit for as many as fit.")
+        ] = None,
+        offset: Annotated[
+            int, Field(description="Where to start. Use `next_offset` from a prior call.")
+        ] = 0,
+    ) -> dict[str, Any]:
         """Field-level metadata, including the fields that resolve to nothing
-        and the stated reason why."""
-        return _wrap(tools.get_dataset_schema)(dataset_id=dataset_id)
+        and the stated reason why.
+
+        Large schemas are normal: ERA5 has 273 fields. A response that did not
+        fit carries `next_offset` and says how many are missing."""
+        return _wrap(tools.get_dataset_schema)(dataset_id=dataset_id, limit=limit, offset=offset)
 
     @mcp.tool(name="explain_connection")
     def explain_connection(dataset_id: str, other_dataset_id: str) -> dict[str, Any]:

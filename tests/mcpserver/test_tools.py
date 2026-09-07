@@ -347,3 +347,64 @@ def _tools_of(server) -> list:
         return list(await server.list_tools())
 
     return anyio.run(_list)
+
+
+# ---- schema paging -------------------------------------------------------
+
+
+def test_a_schema_can_be_paged_through(tools) -> None:
+    """Reading a dataset's own schema surface made large schemas normal.
+
+    ERA5 has 273 fields and does not fit under the 100 KB payload cap.
+    Truncation was already reported rather than silent, which is honest and
+    not on its own useful: an agent told the answer is incomplete and given no
+    way to ask for the rest has been informed of a dead end.
+    """
+    first = tools.get_dataset_schema(ERA5, limit=2, offset=0).data
+    second = tools.get_dataset_schema(ERA5, limit=2, offset=2).data
+
+    assert first["returned"] == 2
+    assert first["offset"] == 0
+    assert second["offset"] == 2
+    assert first["total"] == second["total"]
+    names = {f["local_name"] for f in first["fields"]}
+    assert not names & {f["local_name"] for f in second["fields"]}, "pages do not overlap"
+
+
+def test_a_page_is_a_page_of_a_stable_order(tools) -> None:
+    """Sliced after sorting, so page two is the second page of one order
+    rather than of whatever order the graph happened to return."""
+    whole = [f["local_name"] for f in tools.get_dataset_schema(ERA5, limit=10).data["fields"]]
+    halves = [f["local_name"] for f in tools.get_dataset_schema(ERA5, limit=5).data["fields"]] + [
+        f["local_name"] for f in tools.get_dataset_schema(ERA5, limit=5, offset=5).data["fields"]
+    ]
+    assert whole == halves
+
+
+def test_an_incomplete_answer_says_how_to_ask_for_the_rest(tools) -> None:
+    """`next_offset` in the payload, because an agent should not have to work
+    out that this tool takes an offset."""
+    result = tools.get_dataset_schema(ERA5, limit=2).data
+
+    assert result["next_offset"] == 2
+    assert "not in this response" in result["more"]
+    assert "offset=2" in result["more"]
+
+
+def test_the_last_page_does_not_offer_a_next_one(tools) -> None:
+    total = tools.get_dataset_schema(ERA5, limit=1).data["total"]
+    last = tools.get_dataset_schema(ERA5, limit=50, offset=max(0, total - 1)).data
+
+    assert last["returned"] >= 1
+    assert "next_offset" not in last
+    assert "more" not in last
+
+
+def test_an_unpaged_call_still_works_and_is_what_it_always_was(tools) -> None:
+    """`limit` is absent by default, so a caller written before paging existed
+    gets exactly what it got before — plus the count it needs to notice that
+    more exist."""
+    result = tools.get_dataset_schema(ERA5).data
+
+    assert result["fields"]
+    assert result["total"] >= result["returned"]

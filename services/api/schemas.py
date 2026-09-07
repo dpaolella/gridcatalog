@@ -247,6 +247,12 @@ class SchemaResponse(ApiModel):
     dataset_id: str
     completeness_level: int
     fields: list[FieldDetail] = Field(default_factory=list)
+    #: Fields this record has, which is not always how many came back. A Zarr
+    #: store's schema runs to hundreds — ERA5 has 273 — and a caller handed a
+    #: page needs to know a page is what it got.
+    total: int = 0
+    returned: int = 0
+    offset: int = 0
     #: Set when there is no field-level metadata to show, explaining why rather
     #: than returning an empty list (PRD §F3: an absent schema tab explains
     #: itself; it is not an empty table).
@@ -259,6 +265,8 @@ class SchemaResponse(ApiModel):
         doc: SearchDocument,
         *,
         labels: dict[str, dict[str, str]] | None = None,
+        limit: int | None = None,
+        offset: int = 0,
     ) -> Self:
         """Build from a JSON-LD record, read out of the graph.
 
@@ -278,11 +286,18 @@ class SchemaResponse(ApiModel):
             raw = [raw]
         fields = [FieldDetail(**_field_kwargs(f, labels or {})) for f in raw if isinstance(f, dict)]
 
+        ordered = sorted(fields, key=lambda f: f.local_name)
+        # Sliced after sorting, so page two is the second page of a stable
+        # order rather than of whatever order the graph happened to return.
+        page = ordered[offset : offset + limit] if limit is not None else ordered[offset:]
         return cls(
             dataset_id=doc.id,
             completeness_level=doc.completeness_level,
-            fields=sorted(fields, key=lambda f: f.local_name),
-            unavailable_reason=None if fields else _no_schema_reason(doc),
+            fields=page,
+            total=len(ordered),
+            returned=len(page),
+            offset=offset,
+            unavailable_reason=None if ordered else _no_schema_reason(doc),
         )
 
 

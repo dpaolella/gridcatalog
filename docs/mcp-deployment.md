@@ -136,12 +136,21 @@ never in the byte path. An agent that wants rows is told, in the payload, how
 to fetch them itself, and for an anonymous tier-1 dataset it simply can:
 ERA5's Zarr store is a public range-readable URL.
 
-### A known limit
+### Large schemas
 
 Every read tool is capped at 100 KB (PRD §F9, so bulk data cannot flood an
 agent's context), and truncation is *reported* rather than silent. ERA5's
-schema is 273 fields and comes back as roughly 237 of them with
-`truncated: true`. The agent is told the answer is incomplete, which is honest,
-but `get_dataset_schema` has no paging so there is currently no way to ask for
-the rest. Worth fixing when field counts of this size become normal rather
-than exceptional.
+schema is 273 fields, which does not fit.
+
+`get_dataset_schema` takes `limit` and `offset`, and a response that did not
+fit says so in a way the caller can act on:
+
+```json
+{"total": 273, "returned": 237, "offset": 0, "next_offset": 237,
+ "more": "36 of 273 fields not in this response. Call get_dataset_schema again with offset=237."}
+```
+
+Both are optional and default to the old behaviour, so nothing written before
+paging existed has to change — it just gains a `total` telling it that more
+exist. `next_offset` is absent on the last page, which is how a caller knows
+to stop.

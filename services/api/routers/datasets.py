@@ -198,18 +198,27 @@ def get_schema(
     caller: CallerDep,
     backend: SearchDep,
     records: RecordsDep,
+    limit: Annotated[int | None, Query(ge=1, le=1000)] = None,
+    offset: Annotated[int, Query(ge=0)] = 0,
 ) -> SchemaResponse:
     """The record's fields, with units and concepts where they resolve.
 
     Read from the graph rather than the index: the index carries a field
     *count* because that is what a list view needs, and this endpoint exists
     for the caller who wants the fields themselves.
+
+    Paged, because a schema is no longer always small. Reading a Zarr store's
+    own metadata gives ERA5 273 fields, and a caller that cannot ask for the
+    rest of them is told there are more and left unable to see them. `limit`
+    is absent by default so an existing caller gets what it always got.
     """
     document, full = entitled_document(dataset_id, caller, backend)
     if not full:
         raise absent(dataset_id)
     record = records.get(document.iri)
-    return SchemaResponse.from_record(record, document, labels=_labels(record, records))
+    return SchemaResponse.from_record(
+        record, document, labels=_labels(record, records), limit=limit, offset=offset
+    )
 
 
 @router.get(

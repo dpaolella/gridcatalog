@@ -131,17 +131,44 @@ class Tools:
         body = self.client.get(f"/v1/datasets/{dataset_id}")
         return self._capped(body, ids=[body.get("id")], what="the record")
 
-    def get_dataset_schema(self, dataset_id: str) -> ToolResult:
+    def get_dataset_schema(
+        self, dataset_id: str, *, limit: int | None = None, offset: int = 0
+    ) -> ToolResult:
         """Field-level metadata: names, definitions, units, concepts, gaps.
 
         The gaps are the part an agent most needs. A field with no concept
         carries a stated reason, and an agent told "this column is unmapped
         because no concept covers a compiler's confidence class" will not
         invent one.
+
+        **Paged**, because reading a dataset's own schema surface made large
+        schemas normal: ERA5 has 273 fields and does not fit under the payload
+        cap. Truncation was already *reported* rather than silent, which is
+        honest but not useful on its own — an agent told the answer is
+        incomplete and given no way to ask for the rest has been informed of a
+        dead end. `offset` is that way.
         """
         self._require("get_dataset_schema")
-        body = self.client.get(f"/v1/datasets/{dataset_id}/schema")
-        return self._capped(body, ids=[body.get("dataset_id")], what="the field list")
+        body = self.client.get(
+            f"/v1/datasets/{dataset_id}/schema",
+            limit=limit,
+            offset=offset or None,
+        )
+        result = self._capped(body, ids=[body.get("dataset_id")], what="the field list")
+        # The cap can still bite on a page that is itself too big. Say what to
+        # ask for next in the payload, rather than leaving an agent to work out
+        # that this tool takes an offset.
+        data = result.data if isinstance(result.data, dict) else {}
+        total, returned = data.get("total"), data.get("returned")
+        if isinstance(total, int) and isinstance(returned, int):
+            seen = (data.get("offset") or 0) + returned
+            if seen < total:
+                data["next_offset"] = seen
+                data["more"] = (
+                    f"{total - seen} of {total} fields not in this response. "
+                    f"Call get_dataset_schema again with offset={seen}."
+                )
+        return result
 
     def explain_connection(self, dataset_id: str, other_dataset_id: str) -> ToolResult:
         """Why two datasets are linked — including the correlation warning.
