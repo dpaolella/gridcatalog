@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { DatasetSummary } from "@/lib/api";
-import { formatCadence, formatSpan, iriTail } from "@/lib/format";
+import { cadenceText, formatCadence, formatSpan, iriTail } from "@/lib/format";
 import { CoverageMap, CoverageTimeline } from "@/components/Coverage";
 import { QualityBadges } from "@/components/QualityBadges";
 
@@ -19,7 +19,10 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
   const c = await getTranslations("coverage");
 
   const span = formatSpan(dataset.temporal?.start, dataset.temporal?.end);
-  const cadence = formatCadence(dataset.temporal?.update_cadence);
+  const cadence = cadenceText(
+    formatCadence(dataset.temporal?.update_cadence),
+    await getTranslations("cadence"),
+  );
   const levelKey = String(dataset.completeness_level) as "1" | "2" | "3";
 
   return (
@@ -39,7 +42,7 @@ export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
                 style={{
                   borderRadius: "var(--radius)",
                   background: "color-mix(in srgb, var(--accent) 14%, transparent)",
-                  color: "var(--accent)",
+                  color: "var(--accent-text)",
                 }}
                 title={t("referenceOnlyHelp")}
               >

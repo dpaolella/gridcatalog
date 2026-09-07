@@ -10,6 +10,7 @@ Nothing outside this package constructs a SPARQL client.
 
 from __future__ import annotations
 
+import io
 import logging
 import threading
 from abc import ABC, abstractmethod
@@ -22,7 +23,7 @@ import httpx
 import rdflib.plugins.sparql
 from datahub.config import GraphBackend, Settings, get_settings
 from datahub.graph.graphs import NamedGraph
-from datahub.graph.sparql import bind, prologue
+from datahub.graph.sparql import bind, parsing, prologue
 from rdflib import Dataset, Graph, URIRef
 from rdflib.query import Result
 from rdflib.term import Node
@@ -120,6 +121,21 @@ class GraphStore(ABC):
         """Merge triples into a named graph."""
 
     @abstractmethod
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        """Remove specific triples from a named graph.
+
+        The mirror of :meth:`add_graph`, and the only backend-neutral way to
+        retract computed state. Without it the semantic runner reached for
+        ``get_graph`` and removed triples from the copy it got back, so a value
+        that should have disappeared simply accumulated alongside its
+        replacement — a record ending up with two grades and whichever the
+        query returned first winning.
+
+        Triples that are not present are not an error: a retraction that has
+        already happened is the state the caller wanted.
+        """
+
+    @abstractmethod
     def drop_graph(self, name: NamedGraph | str) -> None:
         """Remove a named graph and everything in it."""
 
@@ -197,11 +213,16 @@ class RdflibStore(GraphStore):
         return self.dataset.graph(URIRef(str(name)))
 
     def _raw_query(self, query: str) -> Result:
-        with self._lock:
+        # Two locks, guarding two different things. `self._lock` keeps this
+        # store's dataset consistent; `parsing()` is process-wide, because the
+        # thing rdflib is not thread-safe about is the *parser*, whose state is
+        # global — so a second store instance, or a bare `Graph.query`
+        # elsewhere, races with this one however well locked it is.
+        with self._lock, parsing():
             return self.dataset.query(query)
 
     def _raw_update(self, update: str) -> None:
-        with self._lock:
+        with self._lock, parsing():
             self.dataset.update(update)
         self._maybe_flush()
 
@@ -233,6 +254,13 @@ class RdflibStore(GraphStore):
             target = self._named(name)
             for triple in data:
                 target.add(triple)
+        self._maybe_flush()
+
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        with self._lock:
+            target = self._named(name)
+            for triple in data:
+                target.remove(triple)
         self._maybe_flush()
 
     def drop_graph(self, name: NamedGraph | str) -> None:
@@ -307,7 +335,14 @@ class FusekiStore(GraphStore):
             graph = Graph()
             graph.parse(data=response.text, format="nt")
             return Result.parse(source=None, format=None, graph=graph, type_="CONSTRUCT")  # type: ignore[arg-type]
-        return Result.parse(source=_BytesSource(response.content), format="json")
+        # A plain byte stream, not a SAX `InputSource`. rdflib's JSON result
+        # parser calls `source.read()`; the adapter that used to sit here
+        # implemented `getByteStream`/`getCharacterStream` instead, so every
+        # SELECT against Fuseki raised `AttributeError: '_BytesSource' object
+        # has no attribute 'read'` — `count`, `graph_names` and every query the
+        # API makes on the production backend. Nothing caught it because
+        # nothing had ever run against a real Fuseki.
+        return Result.parse(source=io.BytesIO(response.content), format="json")
 
     def _raw_update(self, update: str) -> None:
         response = self._client.post(self.update_endpoint, data={"update": update})
@@ -345,6 +380,15 @@ class FusekiStore(GraphStore):
         )
         _raise_for_status(response, f"POST graph {name}")
 
+    def remove_graph(self, name: NamedGraph | str, data: Graph) -> None:
+        triples = data.serialize(format="nt").strip()
+        if not triples:
+            return
+        # DELETE DATA rather than a DELETE WHERE pattern: these are ground
+        # triples the caller already holds, and a pattern would risk matching
+        # more than it was given.
+        self.update(f"DELETE DATA {{ GRAPH <{name}> {{ {triples} }} }}")
+
     def drop_graph(self, name: NamedGraph | str) -> None:
         self.update(f"DROP SILENT GRAPH <{name}>")
 
@@ -363,30 +407,6 @@ class FusekiStore(GraphStore):
     def close(self) -> None:
         if self._owns_client:
             self._client.close()
-
-
-class _BytesSource:
-    """Minimal adapter so rdflib's result parser can read a bytes payload."""
-
-    def __init__(self, data: bytes) -> None:
-        self._data = data
-
-    def getByteStream(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        import io
-
-        return io.BytesIO(self._data)
-
-    def getCharacterStream(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getPublicId(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getSystemId(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getEncoding(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
 
 
 def _is_graph_query(query: str) -> bool:

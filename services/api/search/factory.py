@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-import functools
-
 from datahub.api.search.backend import InMemorySearchBackend, SearchBackend
 from datahub.config import SearchBackend as SearchBackendKind
 from datahub.config import Settings, get_settings
+from datahub.singleton import once
 
 
 def make_search_backend(settings: Settings | None = None) -> SearchBackend:
@@ -25,7 +24,6 @@ def make_search_backend(settings: Settings | None = None) -> SearchBackend:
     return InMemorySearchBackend(settings.search_store_path)
 
 
-@functools.lru_cache(maxsize=1)
-def get_search_backend() -> SearchBackend:
-    """Process-wide backend. Cleared by tests via ``get_search_backend.cache_clear()``."""
-    return make_search_backend()
+#: Process-wide backend, built once. `Once`, not `lru_cache`: see
+#: `datahub.singleton`. Cleared with ``get_search_backend.clear()``.
+get_search_backend = once(make_search_backend)

@@ -101,9 +101,15 @@ jobs:
             done
           fi
 
-          .venv/bin/datahub index reindex
+          # Grade and link BEFORE indexing. The index is a projection of the
+          # graph, and grades are written to the computed graph by `semantic
+          # run` — so an index built first captures the catalog without them,
+          # and the snapshot exports what the index holds. It did exactly that:
+          # every published record read "Not yet assessed" until this order was
+          # corrected.
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run
+          .venv/bin/datahub index reindex
 
       - name: Check what the exporter publishes
         # Before the export, not after. These tests are the reason it is safe
@@ -135,6 +141,12 @@ jobs:
       # itself, so it is explained here and in docs/hosting.md.
       - name: Check the export is Pages-shaped
         run: test -f web/out/.nojekyll && test -f web/out/404.html
+
+      # The static site's search runs in the browser over the whole catalog, so
+      # the whole catalog is in the landing page. That is fine at this size and
+      # will not be, and nothing enforced the limit until this step.
+      - name: Check the landing page has not outgrown one file
+        run: ops/check-page-weight.sh web/out/index.html
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

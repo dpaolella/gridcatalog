@@ -4,7 +4,6 @@
     {
       "id": "https://catalog.opengrid.org/ds/wri-global-power-plant-database",
       "type": "Dataset",
-      "persistentId": "https://doi.org/10.60893/gpwd-1234",
       "title": "WRI Global Power Plant Database",
       "summary": "Global plant-level generation capacity database, version 1.3.0, no longer maintained.",
       "description": "A global inventory of power plants with capacity, fuel, location and, where available, generation. Version 1.3.0 was released in 2021 and the database is no longer maintained. It is superseded by the Global Energy Monitor Global Integrated Power Tracker, which covers the same ground at unit rather than plant level and is actively updated. The record is kept because it is still widely cited and because the supersession link is what lets a user discover that the paper they are reading used a stale source.",

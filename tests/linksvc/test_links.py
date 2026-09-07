@@ -389,3 +389,89 @@ def test_describe_reads_evidence_not_the_score(doc) -> None:
     scored = score(signals, load(), described)
 
     assert described.descriptor == scored.descriptor
+
+
+def test_the_inbound_link_tie_break_actually_breaks_the_tie() -> None:
+    """`tie_break` in `link-weights.yaml` names `inbound_link_count`.
+
+    `rank` looked it up with `name in pair.signals`, and it is not a signal —
+    it is a property of the target — so every candidate scored a constant 0 and
+    the configured tie-break did nothing. Ties then fell through to the dataset
+    id, which is stable but arbitrary: the widely cited record sorted below one
+    nothing points at whenever its id came later.
+    """
+    from datahub.linksvc.rank import Link, rank
+    from datahub.linksvc.signals import PairSignals
+    from datahub.linksvc.weights import Weights
+
+    def link(target: str) -> Link:
+        # Identical in every ranked respect, which is the case a tie-break is
+        # for. `zulu` sorts after `alpha`, so the id alone would put it last.
+        return Link(
+            source="s",
+            target=target,
+            score=0.5,
+            tier=3,
+            relation="related",
+            descriptor="",
+            reasons=("shared concepts",),
+        )
+
+    pairs = {
+        "alpha": PairSignals(source="s", target="alpha", signals={}, target_inbound_links=1),
+        "zulu": PairSignals(source="s", target="zulu", signals={}, target_inbound_links=12),
+    }
+    weights = Weights(
+        version=1,
+        signals={},
+        shared_origin_penalty=0.0,
+        shared_origin_floor_tier=1,
+        tiers={1: 0.0},
+        max_candidates_per_dataset=10,
+        top_n=10,
+        tie_break=("inbound_link_count", "dataset_id"),
+    )
+
+    ordered = [item.target for item in rank([link("alpha"), link("zulu")], pairs, weights)]
+    assert ordered == ["zulu", "alpha"], (
+        "the record twelve others cite should be suggested first; this order is "
+        "what the dataset id alone produces"
+    )
+
+
+def test_the_tie_break_is_stable_when_nothing_separates_two_candidates() -> None:
+    """The id is last in the list precisely so the order is total. Without it a
+    ranking over unchanged data can differ between two runs, and a reader who
+    refreshes watches the suggestions move for no reason."""
+    from datahub.linksvc.rank import Link, rank
+    from datahub.linksvc.signals import PairSignals
+    from datahub.linksvc.weights import Weights
+
+    def link(target: str) -> Link:
+        return Link(
+            source="s",
+            target=target,
+            score=0.5,
+            tier=3,
+            relation="related",
+            descriptor="",
+            reasons=("shared concepts",),
+        )
+
+    pairs = {
+        name: PairSignals(source="s", target=name, signals={}, target_inbound_links=4)
+        for name in ("zulu", "alpha")
+    }
+    weights = Weights(
+        version=1,
+        signals={},
+        shared_origin_penalty=0.0,
+        shared_origin_floor_tier=1,
+        tiers={1: 0.0},
+        max_candidates_per_dataset=10,
+        top_n=10,
+        tie_break=("inbound_link_count", "dataset_id"),
+    )
+
+    for order in ([link("zulu"), link("alpha")], [link("alpha"), link("zulu")]):
+        assert [item.target for item in rank(order, pairs, weights)] == ["alpha", "zulu"]

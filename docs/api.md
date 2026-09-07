@@ -228,7 +228,8 @@ Search the catalog.
 | `q` | query | no | Free text. Prefix-matched on the last token. |
 | `data_domain` | query | no | DD1-DD10, or the concept IRI. |
 | `provenance_class` | query | no |  |
-| `license_id` | query | no |  |
+| `license` | query | no | SPDX id or LicenseRef. |
+| `concept` | query | no | Concept IRI carried by a field of the dataset. |
 | `spatial_granularity` | query | no |  |
 | `format` | query | no | Distribution format label. |
 | `completeness_level` | query | no |  |

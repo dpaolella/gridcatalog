@@ -57,9 +57,22 @@ async function Queue({ searchParams }: { searchParams: SearchParams }) {
     queue = await reviewQueue(state);
   } catch (error) {
     const status = error instanceof ApiError ? error.status : 0;
+    if (status === 403) {
+      return (
+        <EmptyState title={t("forbidden")}>
+          <p>{t("forbiddenHelp")}</p>
+        </EmptyState>
+      );
+    }
+    // 401, or the API not answering at all. Both leave a steward at a wall, and
+    // until now the wall said "sign in" with nowhere to do it.
     return (
-      <EmptyState title={status === 403 ? t("forbidden") : t("signIn")}>
-        <p>{status === 403 ? t("forbiddenHelp") : t("signIn")}</p>
+      <EmptyState title={t("signIn")}>
+        <p>
+          <Link href={{ pathname: "/signin", query: { next: "/admin/review" } }} className="og-cta">
+            {t("signInAction")}
+          </Link>
+        </p>
       </EmptyState>
     );
   }
@@ -80,7 +93,7 @@ async function Queue({ searchParams }: { searchParams: SearchParams }) {
             className="og-tag px-3 py-1"
             style={
               name === state
-                ? { borderColor: "var(--accent)", color: "var(--accent)", fontWeight: 600 }
+                ? { borderColor: "var(--accent)", color: "var(--accent-text)", fontWeight: 600 }
                 : undefined
             }
           >

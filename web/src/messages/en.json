@@ -14,7 +14,9 @@
     "help": "Help",
     "signIn": "Sign in",
     "skipToContent": "Skip to content",
-    "review": "Review queue"
+    "review": "Review queue",
+    "account": "Account",
+    "signOut": "Sign out"
   },
   "search": {
     "placeholder": "Search datasets — try \"nodal LMP\", \"wind speed\", \"ERA5\"",
@@ -291,7 +293,8 @@
     "confirmed": "Confirmed fields",
     "notes": "Steward notes",
     "reviewedBy": "Reviewed by",
-    "open": "Open record"
+    "open": "Open record",
+    "signInAction": "Sign in"
   },
   "static": {
     "badge": "Static preview",
@@ -299,5 +302,44 @@
     "help": "These pages were built from a snapshot of the public catalog and are served as files, so there is no service behind them to receive a form or to check who you are. Everything that only reads — search, records, schemas, quality, connections — works exactly as it does on the live site. Anything that writes, or that depends on your identity, needs the live deployment.",
     "runIt": "Run the full service",
     "searchNote": "Filtered in your browser over the whole public catalog. The live site ranks results with a real scoring function; this matches on words, so the order is not the same."
+  },
+  "signin": {
+    "title": "Sign in",
+    "subtitle": "Through an identity provider you already have. The Hub holds no passwords, so there is nothing here to register.",
+    "browsingIsOpen": "Browsing needs none of this. Public records are readable signed out; a session is what the steward queue, restricted records you are entitled to, and personal access tokens require.",
+    "continueWith": "Continue with {provider}",
+    "unavailable": "Sign-in is not answering.",
+    "unavailableHelp": "The API did not respond ({status}). Nothing is wrong with your account — try again shortly.",
+    "noneConfigured": "No sign-in provider is configured.",
+    "noneConfiguredHelp": "This deployment has no identity provider credentials, so there is nobody to sign in with. Whoever runs it sets DATAHUB_OIDC_PROVIDERS and the matching client id and secret."
+  },
+  "account": {
+    "title": "Your account",
+    "signedOut": "You are not signed in.",
+    "signIn": "Sign in",
+    "email": "Email",
+    "role": "Role",
+    "steward": "Steward",
+    "stewardHelp": "Stewards review harvested records before they are published.",
+    "custodian": "Custodian",
+    "custodianCount": "{count, plural, one {# dataset} other {# datasets}}",
+    "custodianHelp": "A custodian manages who may see a restricted dataset.",
+    "openQueue": "Open the review queue",
+    "yes": "Yes",
+    "no": "No",
+    "notCaptured": "Not captured",
+    "tokensHelp": "Personal access tokens are issued through the API — POST /v1/auth/tokens — and shown once. Only a keyed hash is stored, so there is no way to show one again."
+  },
+  "cadence": {
+    "yearly": "yearly",
+    "twiceAYear": "twice a year",
+    "quarterly": "quarterly",
+    "monthly": "monthly",
+    "weekly": "weekly",
+    "daily": "daily",
+    "hourly": "hourly",
+    "irregular": "irregular",
+    "onDemand": "on demand",
+    "discontinued": "discontinued"
   }
 }

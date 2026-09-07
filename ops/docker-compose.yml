@@ -88,35 +88,16 @@ services:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
 
-  worker:
-    build:
-      context: ..
-      dockerfile: ops/Dockerfile
-    command: ["celery", "-A", "datahub.worker.app", "worker", "-l", "info", "-Q", "harvest,projector,probe,semantic"]
-    environment:
-      DATAHUB_GRAPH_BACKEND: fuseki
-      DATAHUB_SEARCH_BACKEND: opensearch
-      DATAHUB_QUEUE_BACKEND: celery
-      DATAHUB_FUSEKI_URL: http://fuseki:3030
-      DATAHUB_FUSEKI_USER: admin
-      DATAHUB_FUSEKI_PASSWORD: ${FUSEKI_PASSWORD:-admin}
-      DATAHUB_OPENSEARCH_URL: http://opensearch:9200
-      DATAHUB_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-datahub}:${POSTGRES_PASSWORD:-datahub}@postgres:5432/${POSTGRES_DB:-datahub}
-      DATAHUB_REDIS_URL: redis://redis:6379/0
-    depends_on:
-      api: { condition: service_started }
-
-  beat:
-    build:
-      context: ..
-      dockerfile: ops/Dockerfile
-    command: ["celery", "-A", "datahub.worker.app", "beat", "-l", "info"]
-    environment:
-      DATAHUB_QUEUE_BACKEND: celery
-      DATAHUB_REDIS_URL: redis://redis:6379/0
-      DATAHUB_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-datahub}:${POSTGRES_PASSWORD:-datahub}@postgres:5432/${POSTGRES_DB:-datahub}
-    depends_on:
-      redis: { condition: service_healthy }
+  # `worker` and `beat` used to live here, running `celery -A datahub.worker.app`.
+  # There is no `datahub.worker` module — the stack could never start — and there
+  # was nothing for it to do either: `services/queue.py` defines the JobQueue
+  # protocol and a CeleryQueue, and no task is registered against it anywhere in
+  # the tree. Background jobs are run from the CLI today (`datahub harvest`,
+  # `datahub index reindex`, `datahub semantic run`, `datahub links run`).
+  #
+  # Bring them back together with the first real queued task, not before: a
+  # worker container that consumes an empty queue is a healthy-looking process
+  # that does nothing, which is worse than an absent one.
 
   web:
     build:

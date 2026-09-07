@@ -64,6 +64,13 @@ class Entitlement:
     """
 
     principal_id: str | None = None
+    #: The caller's verified address, matched against allow-list grants made by
+    #: email. `AllowlistRepository.entitled_principals` projects ids *and*
+    #: addresses into the document precisely so a grant made before its subject
+    #: had an account keeps working — but nothing here read the address, so
+    #: every email grant was recorded, displayed to the custodian as active, and
+    #: matched by nobody.
+    email: str | None = None
     custodian_of: frozenset[str] = frozenset()
     #: Set only for the steward UI, which reads the draft graph deliberately.
     include_unconfirmed: bool = False
@@ -93,7 +100,15 @@ class Entitlement:
             return True
         if doc.custodian_id == self.principal_id:
             return True
-        return self.principal_id in doc.entitled_principals
+        if self.principal_id in doc.entitled_principals:
+            return True
+        # Case-insensitively, because an address is not case-sensitive in the
+        # half that matters and a custodian typing it with different casing than
+        # the identity provider returned should not silently grant nothing.
+        email = self.email
+        if not email:
+            return False
+        return email.lower() in {value.lower() for value in doc.entitled_principals}
 
 
 @dataclass(frozen=True, slots=True)
@@ -401,6 +416,9 @@ class InMemorySearchBackend(SearchBackend):
             lambda: defaultdict(dict)
         )
         self._lengths: dict[str, dict[str, int]] = defaultdict(dict)
+        #: Which postings each document owns, so removing it costs the document
+        #: rather than the vocabulary. See `_remove_postings`.
+        self._doc_terms: dict[str, list[tuple[str, str]]] = {}
         self._terms_sorted: list[str] = []
         self._terms_dirty = True
         if self.path and self.path.exists():
@@ -412,8 +430,14 @@ class InMemorySearchBackend(SearchBackend):
         count = 0
         with self._lock:
             for doc in documents:
-                self._remove_postings(doc.id)
+                # Only when there is something to remove. A full reindex writes
+                # into a cleared index, where by definition there is not, and
+                # this call used to run anyway: 10,000 records took 48 seconds
+                # against 1.2 with it guarded.
+                if doc.id in self._docs:
+                    self._remove_postings(doc.id)
                 self._docs[doc.id] = doc
+                owned: list[tuple[str, str]] = []
                 for fname in FIELD_BOOSTS:
                     text = self._field_text(doc, fname)
                     tokens = tokenize(text)
@@ -423,6 +447,8 @@ class InMemorySearchBackend(SearchBackend):
                         freqs[token] += 1
                     for token, freq in freqs.items():
                         self._postings[fname][token][doc.id] = freq
+                        owned.append((fname, token))
+                self._doc_terms[doc.id] = owned
                 count += 1
             self._terms_dirty = True
         return count
@@ -444,15 +470,22 @@ class InMemorySearchBackend(SearchBackend):
         return getattr(doc, name, None) or ""
 
     def _remove_postings(self, doc_id: str) -> None:
-        for fname, tokens in self._postings.items():
-            empty = [
-                t
-                for t, posting in tokens.items()
-                if posting.pop(doc_id, None) is not None and not posting
-            ]
-            for token in empty:
-                tokens.pop(token, None)
-            self._lengths[fname].pop(doc_id, None)
+        """Retract one document's postings, in time proportional to *it*.
+
+        It used to walk every token of every field — the whole vocabulary — to
+        find the few thousand postings one document owns. `_doc_terms` records
+        which those are at index time, so a re-index of one record costs that
+        record instead of the catalog.
+        """
+        for fname, token in self._doc_terms.pop(doc_id, ()):
+            posting = self._postings[fname].get(token)
+            if posting is None:
+                continue
+            posting.pop(doc_id, None)
+            if not posting:
+                self._postings[fname].pop(token, None)
+        for lengths in self._lengths.values():
+            lengths.pop(doc_id, None)
 
     def delete(self, ids: Iterable[str]) -> int:
         removed = 0
@@ -469,6 +502,7 @@ class InMemorySearchBackend(SearchBackend):
             self._docs.clear()
             self._postings.clear()
             self._lengths.clear()
+            self._doc_terms.clear()
             self._terms_sorted = []
             self._terms_dirty = False
 

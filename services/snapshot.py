@@ -109,6 +109,7 @@ class Snapshot:
             # `export()`. Nothing here needs startup; the exporter only reads.
             client = TestClient(create_app(), base_url="http://snapshot")
             summaries = self._walk(client)
+            self._with_search_text(client, summaries)
             self._write("index.json", self._index(summaries))
             self._write("domains.json", self._get(client, "/v1/domains"))
             self._write("facets.json", self._facets(client))
@@ -218,6 +219,31 @@ class Snapshot:
         record come to disagree.
         """
         return {"total": len(summaries), "results": summaries}
+
+    def _with_search_text(self, client: Any, summaries: list[dict[str, Any]]) -> None:
+        """Give each summary the descriptive text the browser needs to match on.
+
+        The API indexes `description` at weight 1.0, but `DatasetSummary` — the
+        list payload — does not carry it, and the static site has only the list
+        payload. On the published catalog that made 38 of 66 records unfindable
+        by any word describing them, while the same query against the live API
+        found them: the two modes disagreeing about what exists, which is
+        exactly what the note at the top of `StaticSearch.tsx` warns against.
+
+        Added here rather than to `DatasetSummary`, because that model is the
+        API's contract with every caller and most of them do not want a
+        paragraph of prose per row on every list request. This is a
+        snapshot-only field for a snapshot-only problem.
+        """
+        for summary in summaries:
+            if summary.get("summary"):
+                continue
+            record = self._try(
+                client, f"/v1/datasets/{summary['id']}", summary["id"], "record", quiet=True
+            )
+            description = (record or {}).get("description")
+            if description:
+                summary["search_text"] = description
 
     def _facets(self, client: Any) -> dict[str, Any]:
         page = self._get(

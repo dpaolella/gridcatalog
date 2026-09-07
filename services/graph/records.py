@@ -27,13 +27,14 @@ from datahub.config import Settings, get_settings
 from datahub.errors import NotFound, ValidationFailed
 from datahub.graph.graphs import NamedGraph, record_graph
 from datahub.graph.skolem import skolemize
+from datahub.graph.sparql import parsing
 from datahub.graph.store import GraphStore
 from datahub.harvest.validate import ValidationReport, ValidationRunner
 from datahub.logging import get_logger
 from datahub.namespaces import DATASET_BASE, OG
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
-from rdflib.query import ResultRow
+from rdflib.query import Result, ResultRow
 
 log = get_logger(__name__)
 
@@ -412,7 +413,7 @@ class RecordStore:
         path = " | ".join(f"<{p}>" for p in CONTAINMENT_PREDICATES)
         reachable = cast(
             "Iterable[ResultRow]",
-            incoming.query(f"SELECT ?s WHERE {{ <{dataset_iri}> ({path})* ?s }}"),
+            _query(incoming, f"SELECT ?s WHERE {{ <{dataset_iri}> ({path})* ?s }}"),
         )
         owned_nodes = {row[0] for row in reachable}
         owned, ancillary = Graph(), Graph()
@@ -764,6 +765,17 @@ def _ntriples(graph: Graph) -> str:
     nothing that changes meaning depending on the surrounding query's base.
     """
     return graph.serialize(format="nt").strip()
+
+
+def _query(graph: Graph, query: str) -> Result:
+    """A SPARQL query against a loose graph, under the process-wide parse lock.
+
+    This one is not a store query — it runs against the incoming record before
+    it is written — but it goes through rdflib's parser like every other, and
+    that parser's state is global. See ``datahub.graph.sparql.parsing``.
+    """
+    with parsing():
+        return graph.query(query)
 
 
 def read_bbox(graph: Graph, dataset_iri: URIRef) -> list[float] | None:

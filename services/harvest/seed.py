@@ -170,7 +170,7 @@ class SeedLoader:
         """
         by_slug: dict[str, list[HarvestedRecord]] = {}
         for record in harvested:
-            by_slug.setdefault(slugify(record.payload["name"]), []).append(record)
+            by_slug.setdefault(_slug_of(record.payload), []).append(record)
 
         merged: list[tuple[HarvestedRecord, list[str]]] = []
         for rows in by_slug.values():
@@ -184,7 +184,7 @@ class SeedLoader:
             others = [r.payload["data_domain"] for r in rows if r is not base]
             log.info(
                 "seed rows merged",
-                slug=slugify(base.payload["name"]),
+                slug=_slug_of(base.payload),
                 domains=[base.payload["data_domain"], *others],
             )
             merged.append((base, others))
@@ -201,7 +201,7 @@ class SeedLoader:
         entry = harvested.payload
         domain = entry["data_domain"]
         name = entry["name"]
-        slug = slugify(name)
+        slug = _slug_of(entry)
         iri = f"{DATASET_BASE}{slug}"
         verified = bool(entry.get("verified"))
         tier = entry.get("tier")
@@ -251,12 +251,22 @@ class SeedLoader:
         record["qualityFlags"] = {
             "id": f"{iri}#flags",
             "type": "QualityFlags",
-            "staleness": "unknown" if not verified else "current",
+            # Always unknown, because the seed inventory states nothing about
+            # currency. It used to say "current" for every verified row, which
+            # conflated two different things: `verified: true` means a
+            # cataloguer checked this row's licence and tier, not that the
+            # dataset upstream is up to date. 56 records asserted a currency
+            # posture nobody had looked at.
+            "staleness": "unknown",
             "caveat": self._caveats(entry, verified=verified),
         }
         return record
 
     # ---- field groups ----------------------------------------------------
+
+    #: Seed keys whose text is addressed to the cataloguer, not to the reader.
+    #: Never projected into anything published.
+    CURATOR_ONLY = ("curator_note",)
 
     def _description(self, entry: dict[str, Any]) -> str:
         """A description assembled only from what the file states.
@@ -264,6 +274,13 @@ class SeedLoader:
         The seed file has no description field, so this is built from the facts
         it does carry rather than invented. Saying less than the source is
         honest; saying more is not.
+
+        `note` and `pointer_rationale` are reader-facing and go in. Editorial
+        instructions do not: five published records used to carry text written
+        for whoever was cataloguing them, including "Confirm with counsel before
+        shipping the extraction" — an unresolved legal question rendered as a
+        dataset's public description. Those sentences now live in
+        `curator_note`, which nothing reads.
         """
         parts = [f"{entry['name']}, a {entry.get('domain_name', 'grid')} dataset"]
         if entry.get("format"):
@@ -329,15 +346,42 @@ class SeedLoader:
         }
 
     def _access(self, entry: dict[str, Any]) -> dict[str, Any]:
+        """One decision, two coherent fields — and a caveat when it is a default.
+
+        These used to be defaulted independently, and the two defaults
+        disagreed: a row with neither ``anonymous`` nor ``access_barrier`` — 42
+        of the 56 verified rows — was published as ``accessRestriction: none``
+        *and* ``anonymousAccess: false``. "Nothing stands between you and this
+        dataset" beside "you cannot retrieve it without an account", on the same
+        record, about a row the seed inventory says nothing about either way.
+
+        PRD §14.2 wants silence recorded as "not captured", and the model has
+        nowhere to put that: ``og:anonymousAccess`` is ``sh:minCount 1`` at level
+        1 because it is a Tier 1 criterion an unauthenticated evaluator filters
+        on, and ``og:accessRestriction`` takes one of the six concepts PRD D9
+        fixes, none of which means "not established". So the record has to say
+        something, and what it says is derived once, conservatively, and
+        flagged: assume a barrier until somebody checks, rather than promise
+        open access nobody verified. A reader told they may need an account and
+        finding they do not has lost nothing; the reverse sends them at a wall.
+
+        The caveat is where the truth goes — that this is an assumption and not
+        a finding — until the schema can hold it. See #39.
+        """
         anonymous = entry.get("anonymous")
         barrier = entry.get("access_barrier")
         restriction = BARRIER_MAP.get(barrier or "")
         if restriction is None:
-            restriction = "none" if anonymous is not False else "accountRequired"
+            restriction = "none" if anonymous is True else "accountRequired"
         return {
             "accessRestriction": f"{SCHEME_ACCESS_RESTRICTION}/{restriction}",
-            "anonymousAccess": bool(anonymous) if anonymous is not None else False,
+            "anonymousAccess": anonymous is True,
         }
+
+    @staticmethod
+    def _access_is_assumed(entry: dict[str, Any]) -> bool:
+        """Whether the access posture on this record is a default, not a fact."""
+        return entry.get("anonymous") is None and not entry.get("access_barrier")
 
     def _provenance(self, entry: dict[str, Any]) -> dict[str, Any]:
         """Map the free-text provenance, or fall back to ``curated``.
@@ -364,6 +408,19 @@ class SeedLoader:
         "where do I get it", which is one of the four things the catalog exists
         to do.
         """
+        # FIXME(#18): this URL is fabricated, which PRD §14.4 forbids outright,
+        # and the UI renders it as a live "Open at source" button on 23 of 66
+        # published records.
+        #
+        # Not fixed here because omitting it is not the fix: level 1 requires at
+        # least one distribution and a distribution requires exactly one
+        # accessURL, so a record with no access path cannot validate — dropping
+        # the sentinel fails 34 seed rows rather than publishing them honestly.
+        # All 34 are tier 3 pointers with no access URL, no DOI and no secondary
+        # access, so there is genuinely nothing to point at. It needs either 34
+        # curated landing pages or a promotion-policy decision about publishing a
+        # record that cannot answer "where do I get it" — both of which belong
+        # with the ingestion work, not here.
         url = entry.get("access") or "https://opengrid.org/catalog/no-known-access-path"
         dist: dict[str, Any] = {
             "id": f"{DISTRIBUTION_BASE}{slug}--primary",
@@ -412,12 +469,47 @@ class SeedLoader:
                 f"Access barrier recorded as {entry['access_barrier']}: this dataset is "
                 "catalogued for discovery, not because it can be obtained."
             )
+        if self._access_is_assumed(entry):
+            caveats.append(
+                "The access barrier has not been checked. The seed inventory records neither "
+                "anonymous access nor a barrier for this dataset, so the record assumes an "
+                "account is needed rather than promising open access nobody verified. It may "
+                "well be freely downloadable."
+            )
         if entry.get("tier") == 3:
             caveats.append(
                 "Reference only. Tier 3 records carry no field-level metadata and no "
                 "inter-dataset links; they exist so the gap is visible."
             )
         return caveats
+
+
+def _slug_of(entry: dict[str, Any]) -> str:
+    """This row's identity: the ``slug`` key if the file gives one, else the name.
+
+    The identifier used to be the slugified name and nothing else, which made
+    two things impossible to say.
+
+    A seed row and a curated record are the same dataset. Six of them were
+    published twice — "PyPSA-Eur grid dataset (pre-built OSM network)" and
+    "PyPSA-Eur Grid Dataset (pre-built OSM network)", byte-identical to a reader,
+    with different completeness levels and different grades. A duplicate is
+    worse than a missing record: nobody can tell which copy is authoritative,
+    and the link service treats one dataset as two related ones.
+
+    Two seed rows in different domains are the same dataset. The merge below
+    has always handled that and keyed on the *name*, so it only fired when the
+    names matched exactly. NREL ATB is in the file twice with the instruction
+    "Model as one dataset with domain facets, not two records" written in its
+    own note, and the names differ, so it published as two records — three,
+    with the curated one.
+
+    The alternative was fuzzy matching on titles or access URLs, which would
+    silently merge two datasets that happen to share a landing page. An explicit
+    key says what a person decided, and shows up in a diff.
+    """
+    declared = str(entry.get("slug") or "").strip()
+    return declared or slugify(entry["name"])
 
 
 def _clean(text: str) -> str:

@@ -21,6 +21,7 @@ import hashlib
 from typing import Any
 
 from datahub.api.deps import CallerDep, SessionDep, SettingsDep
+from datahub.api.entitlement import tokens
 from datahub.api.models.operational import IssueReport, Submission
 from datahub.api.models.repositories import Repositories
 from datahub.api.schemas import (
@@ -75,6 +76,9 @@ def create_submission(
     look at, and saying "created" would imply otherwise. What has happened is
     that the form is in a queue a human reads.
     """
+    # Anonymous is allowed here by design (PRD §F3: no login required), but a
+    # caller who chose to present a narrower token is held to it.
+    tokens.require_scope(caller, "catalog:write", allow_anonymous=True)
     _require(session)
     _rate_limit(session, request, "submission", SUBMISSION_LIMIT)
 
@@ -127,6 +131,9 @@ def create_report(
     download 404s is whoever tried to download it. Requiring an account here
     would mean the reports that matter most never arrive.
     """
+    # Anonymous is allowed here by design (PRD §F3: no login required), but a
+    # caller who chose to present a narrower token is held to it.
+    tokens.require_scope(caller, "catalog:write", allow_anonymous=True)
     _require(session)
     _rate_limit(session, request, "report", REPORT_LIMIT)
 

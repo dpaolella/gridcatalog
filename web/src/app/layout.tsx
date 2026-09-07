@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { HexWash, Logo, Mark, Rule } from "@/components/Brand";
+import { AccountMenu } from "@/components/AccountMenu";
+import { IS_SNAPSHOT } from "@/lib/api";
 import "./globals.css";
 
 /**
@@ -95,6 +97,16 @@ async function Header() {
             </Link>
           ))}
         </nav>
+        {/* Last, and pushed right. It is the only thing in the header that
+            differs per reader, which is why it fetches its own state rather
+            than being resolved here — see `AccountMenu`. Omitted from the
+            static build: there is no session endpoint in a site made of files,
+            and rendering it would put a 404 on every page load. */}
+        {IS_SNAPSHOT ? null : (
+          <div className="ms-auto flex items-center gap-4 text-sm">
+            <AccountMenu />
+          </div>
+        )}
       </div>
     </header>
   );

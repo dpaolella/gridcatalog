@@ -19,10 +19,12 @@ rather than overwriting a person's decision.
 
 from __future__ import annotations
 
-from typing import Annotated
+from typing import Annotated, Any
 
-from datahub.api.deps import CallerDep, SessionDep
+from datahub.api.deps import CallerDep, RecordsDep, SessionDep
+from datahub.api.entitlement import tokens
 from datahub.api.models.repositories import Repositories
+from datahub.api.reproject import reproject
 from datahub.api.schemas import ReviewConfirm, ReviewItem, ReviewQueueResponse
 from datahub.errors import NotAuthenticated, NotEntitled, NotFound
 from datahub.logging import get_logger
@@ -38,6 +40,10 @@ def _steward(caller: CallerDep, session: SessionDep) -> None:
         raise NotAuthenticated("the review store is unreachable")
     if caller.is_anonymous:
         raise NotAuthenticated("sign in as a steward to see the review queue")
+    # Role *and* scope. The role says who this person is; the scope says what
+    # they asked this particular credential to be able to do. A steward's
+    # read-only token should not confirm records just because its holder could.
+    tokens.require_scope(caller, "steward:review")
     if not caller.entitlement.is_steward:
         raise NotEntitled(
             "the review queue is for stewards. This is a 403 rather than a 404 because the "
@@ -75,6 +81,7 @@ def confirm(
     body: ReviewConfirm,
     caller: CallerDep,
     session: SessionDep,
+    records: RecordsDep,
 ) -> ReviewItem:
     """Mark a record reviewed.
 
@@ -85,6 +92,20 @@ def confirm(
     """
     _steward(caller, session)
     repos = Repositories(session)
+
+    # Publish first, record second. PRD §7.6 makes confirming and publishing one
+    # act — "og:reviewState moves to confirmed and the record becomes visible" —
+    # and this endpoint used to do only the recording: the queue row said
+    # confirmed, an audit row said it happened, and the record stayed in the
+    # draft graph where the projector never looks. The only thing that actually
+    # published was the out-of-band CLI, which the review UI does not invoke.
+    #
+    # Order matters. A validation failure during promotion must surface as an
+    # error with the queue untouched; the reverse leaves a record marked
+    # confirmed that was never published, which is the bug being fixed and is
+    # invisible from the queue.
+    published = _publish(dataset_id, caller, records, session)
+
     item = repos.review.confirm(
         dataset_id,
         reviewed_by=caller.principal_id or "unknown",
@@ -102,5 +123,28 @@ def confirm(
         principal_id=caller.principal_id,
         reason=f"{len(body.confirmed_fields)} field(s) confirmed",
     )
-    log.info("record confirmed", dataset=dataset_id, steward=caller.principal_id)
+    log.info(
+        "record confirmed",
+        dataset=dataset_id,
+        steward=caller.principal_id,
+        published=published,
+    )
     return ReviewItem.from_row(item)
+
+
+def _publish(dataset_id: str, caller: CallerDep, records: RecordsDep, session: Any) -> bool:
+    """Move the record from the draft graph to the catalog, and index it.
+
+    Returns whether anything moved. A record already in the catalog — confirmed
+    once, being confirmed again for more fields — is not an error and is not
+    re-promoted: `promote` reads the draft subgraph, and for a published record
+    that is empty.
+    """
+    from datahub.graph.graphs import NamedGraph
+
+    if not records.exists(dataset_id, graph=NamedGraph.DRAFT):
+        return False
+
+    records.promote(dataset_id, reviewed_by=caller.principal_id)
+    reproject(str(records._iri(dataset_id)), records, session)
+    return True

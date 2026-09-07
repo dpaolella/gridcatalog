@@ -25,9 +25,11 @@ from __future__ import annotations
 
 from typing import Annotated, Any
 
-from datahub.api.deps import CallerDep, RecordsDep, SessionDep
-from datahub.api.entitlement import Caller
+from datahub.api.deps import CallerDep, RecordsDep, SearchDep, SessionDep
+from datahub.api.entitlement import Caller, tokens
+from datahub.api.entitlement.visibility import absent, entitled_document
 from datahub.api.models.repositories import Repositories, audit_out_of_band
+from datahub.api.reproject import reproject
 from datahub.api.schemas import AllowlistEntryModel, AllowlistResponse, AllowlistUpdate
 from datahub.errors import NotAuthenticated, NotEntitled, NotFound
 from datahub.logging import get_logger
@@ -50,8 +52,9 @@ def get_allowlist(
     caller: CallerDep,
     session: SessionDep,
     records: RecordsDep,
+    backend: SearchDep,
 ) -> AllowlistResponse:
-    iri = _custodian_check(dataset_id, caller, session, records)
+    iri = _custodian_check(dataset_id, caller, session, records, backend)
     entries = Repositories(session).allowlist.principals_for(iri)
     return AllowlistResponse(
         dataset_id=dataset_id,
@@ -78,6 +81,7 @@ def put_allowlist(
     caller: CallerDep,
     session: SessionDep,
     records: RecordsDep,
+    backend: SearchDep,
 ) -> AllowlistResponse:
     """Replace the whole list.
 
@@ -86,7 +90,7 @@ def put_allowlist(
     ordering — and the safe resolution of that ambiguity is "revoked", not
     "granted".
     """
-    iri = _custodian_check(dataset_id, caller, session, records)
+    iri = _custodian_check(dataset_id, caller, session, records, backend)
     repos = Repositories(session)
 
     wanted = {_key(entry): entry for entry in body.entries if _key(entry)}
@@ -132,9 +136,9 @@ def put_allowlist(
     # is a grant that does not work. Reprojecting here rather than waiting for
     # the next reindex: a custodian who adds a colleague expects them to be
     # able to search for the dataset immediately.
-    _reproject(iri, records, session)
+    reproject(iri, records, session)
 
-    return get_allowlist(dataset_id, caller, session, records)
+    return get_allowlist(dataset_id, caller, session, records, backend)
 
 
 # ---------------------------------------------------------------------------
@@ -142,17 +146,37 @@ def put_allowlist(
 # ---------------------------------------------------------------------------
 
 
-def _custodian_check(dataset_id: str, caller: Caller, session: Any, records: RecordsDep) -> str:
+def _custodian_check(
+    dataset_id: str, caller: Caller, session: Any, records: RecordsDep, backend: SearchDep
+) -> str:
     """Resolve the dataset and confirm the caller is its custodian.
 
     Not a steward, not an admin. The list belongs to the dataset's custodian,
     and an admin who could edit it would be arbitrating its contents — exactly
     what PRD §F8 forbids.
+
+    The record is resolved from the graph, not through the entitlement
+    predicate, and that is deliberate: a custodian must be able to manage the
+    list of a record whose existence is restricted, and such a record is
+    invisible to the predicate until somebody is on the list. Resolving through
+    it locked custodians out of exactly the datasets the endpoint exists for.
+
+    What entitlement decides here is the *shape of the refusal*. This used to
+    raise 404 for a record that was not there and 403 for one that was but was
+    not yours, so any signed-in stranger could tell the two apart — an existence
+    oracle for precisely the records whose existence is the secret (PRD §F7,
+    ADR-0006). A caller who may not know the record exists now gets the same 404
+    as for one that does not.
+
+    For a record whose existence *is* public, 403 remains the honest answer: it
+    discloses nothing the catalog does not already publish, and it tells a
+    mistyping custodian something useful.
     """
     if session is None:
         raise NotAuthenticated("the allow-list store is unreachable")
     if caller.is_anonymous:
         raise NotAuthenticated("sign in as the dataset's custodian")
+    tokens.require_scope(caller, "custodian:manage")
 
     iri = _iri(dataset_id, records)
     repos = Repositories(session)
@@ -182,6 +206,11 @@ def _custodian_check(dataset_id: str, caller: Caller, session: Any, records: Rec
         principal_id=caller.principal_id,
         reason="not the custodian",
     )
+    if not _may_know_it_exists(dataset_id, caller, backend):
+        # Same answer as for a record that is not there. The audit row above
+        # distinguishes the two; the caller cannot.
+        raise absent(dataset_id)
+
     raise NotEntitled(
         "only this dataset's custodian may see or change its allow-list",
         dataset_id=dataset_id,
@@ -189,10 +218,25 @@ def _custodian_check(dataset_id: str, caller: Caller, session: Any, records: Rec
 
 
 def _iri(dataset_id: str, records: RecordsDep) -> str:
+    """Resolve the slug against the graph, 404 if there is no such record."""
     iri = str(records._iri(dataset_id))
     if not records.exists(iri):
-        raise NotFound(f"no dataset {dataset_id!r}", dataset_id=dataset_id)
+        raise absent(dataset_id)
     return iri
+
+
+def _may_know_it_exists(dataset_id: str, caller: Caller, backend: SearchDep) -> bool:
+    """Whether this caller is allowed to learn that the record is there at all.
+
+    Through the index, because that is where the entitlement predicate is
+    compiled (ADR-0006). Used only to choose between two refusals — never to
+    grant anything.
+    """
+    try:
+        entitled_document(dataset_id, caller, backend)
+    except NotFound:
+        return False
+    return True
 
 
 def _key(entry: AllowlistEntryModel) -> str | None:
@@ -201,31 +245,3 @@ def _key(entry: AllowlistEntryModel) -> str | None:
     if entry.principal_email:
         return f"email:{entry.principal_email.lower()}"
     return None
-
-
-def _reproject(iri: str, records: RecordsDep, session: Any) -> None:
-    """Push the change into the search index, on this request's own session.
-
-    The session matters twice over. It must exist, because
-    ``entitled_principals`` is read from the operational store during
-    projection — a projector built without one writes a document with an empty
-    allow-list, and the grant just recorded silently does not work. And it must
-    be *this* session: opening a second one blocks on the write lock this
-    request is holding, which on SQLite is "database is locked" and on
-    PostgreSQL is a stall until the statement timeout.
-
-    Never fatal: a grant that is recorded but not yet indexed becomes visible
-    at the next reindex, whereas refusing the write because the index is down
-    would lose it entirely.
-    """
-    from contextlib import nullcontext
-
-    try:
-        from datahub.api.deps import search_backend
-        from datahub.projector import Projector
-
-        Projector(records, search_backend(), session_factory=lambda: nullcontext(session)).project(
-            iri
-        )
-    except Exception as exc:
-        log.warning("allow-list change not yet indexed", dataset=iri, error=str(exc))

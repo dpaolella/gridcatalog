@@ -80,7 +80,7 @@ export function SubmitForm() {
         <button
           type="button"
           onClick={() => setUrls([...urls, ""])}
-          className="text-xs text-[color:var(--accent)] hover:underline"
+          className="text-xs text-[color:var(--accent-text)] hover:underline"
         >
           + {t("addUrl")}
         </button>

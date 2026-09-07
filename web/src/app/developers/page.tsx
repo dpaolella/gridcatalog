@@ -1,4 +1,4 @@
-import { apiUrl } from "@/lib/api";
+import { apiUrl, isReachableByStrangers } from "@/lib/api";
 import { perRequest } from "@/lib/rendering";
 import Link from "next/link";
 
@@ -9,6 +9,11 @@ import Link from "next/link";
 export default async function DevelopersPage() {
   await perRequest();
   const api = apiUrl();
+  // A localhost API is right on a developer's own machine and useless on a
+  // published site, where these were two dead links to the reader's own
+  // computer. Say where the API would be rather than linking somewhere that
+  // cannot answer.
+  const reachable = isReachableByStrangers(api);
   return (
     <div className="max-w-3xl space-y-8">
       <header>
@@ -21,19 +26,41 @@ export default async function DevelopersPage() {
 
       <section className="space-y-2">
         <h2 className="font-medium">REST</h2>
-        <ul className="space-y-1 text-sm">
-          <li>
-            <a href={`${api}/docs`} className="font-medium underline decoration-[color:var(--rule)] underline-offset-2 hover:decoration-2">
-              Interactive documentation
-            </a>
-          </li>
-          <li>
-            <a href={`${api}/openapi.json`} className="font-medium underline decoration-[color:var(--rule)] underline-offset-2 hover:decoration-2">
-              OpenAPI 3.1 document
-            </a>{" "}
-            <span className="text-[color:var(--muted)]">— generate a client from this</span>
-          </li>
-        </ul>
+        {reachable ? (
+          <ul className="space-y-1 text-sm">
+            <li>
+              <a
+                href={`${api}/docs`}
+                className="font-medium underline decoration-[color:var(--rule)] underline-offset-2 hover:decoration-2"
+              >
+                Interactive documentation
+              </a>
+            </li>
+            <li>
+              <a
+                href={`${api}/openapi.json`}
+                className="font-medium underline decoration-[color:var(--rule)] underline-offset-2 hover:decoration-2"
+              >
+                OpenAPI 3.1 document
+              </a>{" "}
+              <span className="text-[color:var(--muted)]">— generate a client from this</span>
+            </li>
+          </ul>
+        ) : (
+          <div className="space-y-2 text-sm">
+            <p className="text-[color:var(--muted)]">
+              This copy of the site has no API behind it. Run one and the interactive
+              documentation is at <code className="font-mono text-xs">{api}/docs</code>, with the
+              OpenAPI 3.1 document — enough to generate a client — at{" "}
+              <code className="font-mono text-xs">{api}/openapi.json</code>.
+            </p>
+            <p>
+              <Link href="/connect" className="og-cta">
+                How to run it
+              </Link>
+            </p>
+          </div>
+        )}
       </section>
 
       <section className="space-y-3">

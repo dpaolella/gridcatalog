@@ -93,7 +93,11 @@ def rank(links: list[Link], pairs: dict[str, PairSignals], weights: Weights) -> 
         for name in weights.tie_break:
             if name == "dataset_id":
                 parts.append(link.target)
-            elif pair is not None and name in pair.signals:
+            elif pair is not None:
+                # `pair.value` and not `name in pair.signals`: the tie-break list
+                # names `inbound_link_count`, which is not a signal, so the
+                # membership test sent it to the constant-0 branch and the
+                # configured tie-break did nothing at all.
                 parts.append(-pair.value(name))
             else:
                 parts.append(0)

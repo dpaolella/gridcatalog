@@ -1,10 +1,12 @@
 "use client";
 
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useCallback, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { FacetGroup } from "@/components/FacetGroup";
+import { SortSelect, compareBySort } from "@/components/SortSelect";
 
 /**
  * Search, in the browser, over the snapshot.
@@ -41,35 +43,87 @@ export function StaticSearch({
   const t = useTranslations("search");
   const empty = useTranslations("empty");
 
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<Record<string, string[]>>({});
+  /**
+   * The URL is the state, exactly as it is on the server-rendered build.
+   *
+   * Holding it in `useState` instead was a quiet bug: the Domains page links to
+   * `/?data_domain=<iri>`, nobody read the query string, and every domain card
+   * landed the reader on the unfiltered catalog. It also meant no filtered view
+   * was linkable and the back button did not restore a search — three
+   * behaviours the reader has no reason to expect to differ between the two
+   * builds of the same page.
+   */
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+
+  const query = params.get("q") ?? "";
+  const selected = useMemo(() => {
+    const out: Record<string, string[]> = {};
+    for (const key of new Set(params.keys())) {
+      if (key === "q" || key === "offset") continue;
+      out[key] = params.getAll(key);
+    }
+    return out;
+  }, [params]);
+
+  const write = useCallback(
+    (next: URLSearchParams) => {
+      const search = next.toString();
+      // `replace`, not `push`: typing eight characters should leave one history
+      // entry, not eight. Same reasoning as SearchBar on the live build.
+      router.replace(search ? `${pathname}?${search}` : pathname, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const setQuery = useCallback(
+    (value: string) => {
+      const next = new URLSearchParams(params.toString());
+      if (value) next.set("q", value);
+      else next.delete("q");
+      write(next);
+    },
+    [params, write],
+  );
 
   const haystacks = useMemo(
     () => new Map(datasets.map((d) => [d.id, haystack(d)])),
     [datasets],
   );
 
+  const sort = params.get("sort") ?? "";
+
   const results = useMemo(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
-    return datasets.filter((dataset) => {
+    const matched = datasets.filter((dataset) => {
       const text = haystacks.get(dataset.id) ?? "";
       if (!terms.every((term) => text.includes(term))) return false;
       return Object.entries(selected).every(
         ([field, values]) => values.length === 0 || values.some((v) => matches(dataset, field, v)),
       );
     });
-  }, [datasets, haystacks, query, selected]);
+    // An explicit sort is deterministic, so both builds genuinely agree on it.
+    // Relevance is the absence of one: the server ranks, and here the order the
+    // exporter gave is left alone rather than a second scoring function being
+    // invented — see the note at the top of this file.
+    return sort ? [...matched].sort(compareBySort(sort)) : matched;
+  }, [datasets, haystacks, query, selected, sort]);
 
   function toggle(field: string, value: string) {
-    setSelected((current) => {
-      const values = current[field] ?? [];
-      return {
-        ...current,
-        [field]: values.includes(value)
-          ? values.filter((v) => v !== value)
-          : [...values, value],
-      };
-    });
+    const next = new URLSearchParams(params.toString());
+    const current = next.getAll(field);
+    next.delete(field);
+    for (const item of current) if (item !== value) next.append(field, item);
+    if (!current.includes(value)) next.append(field, value);
+    write(next);
+  }
+
+  function clearFilters() {
+    const next = new URLSearchParams();
+    const q = params.get("q");
+    if (q) next.set("q", q);
+    write(next);
   }
 
   const hasFilters = Object.values(selected).some((v) => v.length > 0);
@@ -100,8 +154,8 @@ export function StaticSearch({
             {hasFilters ? (
               <button
                 type="button"
-                onClick={() => setSelected({})}
-                className="text-xs font-medium text-[color:var(--accent)] hover:underline"
+                onClick={clearFilters}
+                className="text-xs font-medium text-[color:var(--accent-text)] hover:underline"
               >
                 {t("clearFilters")}
               </button>
@@ -120,9 +174,12 @@ export function StaticSearch({
         </aside>
 
         <div className="min-w-0 space-y-4">
-          <p className="og-eyebrow" aria-live="polite">
-            {t("resultsCount", { count: results.length })}
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="og-eyebrow" aria-live="polite">
+              {t("resultsCount", { count: results.length })}
+            </p>
+            <SortSelect />
+          </div>
 
           {results.length === 0 ? (
             <EmptyState title={empty("noResults")}>
@@ -147,6 +204,10 @@ function haystack(dataset: DatasetSummary): string {
   return [
     dataset.title,
     dataset.summary,
+    // The exporter supplies this for records the API has a description for and
+    // a summary for. Without it 38 of 66 published records matched on their
+    // title and licence and nothing else.
+    dataset.search_text,
     dataset.publisher,
     ...(dataset.creators ?? []),
     ...dataset.data_domains.map((d) => d.label ?? d.iri),

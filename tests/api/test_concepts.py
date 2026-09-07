@@ -24,6 +24,22 @@ def test_domains_come_back_in_their_own_order(client) -> None:
     assert [d["id"] for d in body] == [f"DD{n}" for n in range(1, 11)]
 
 
+def test_domain_synonyms_reach_the_response(client) -> None:
+    """`alt_labels` has been on `DomainResponse` since M4 and nothing filled it.
+
+    The vocabulary defines eleven synonyms across the ten domains — the words a
+    modeller would actually type — and every client saw an empty list, so a
+    search for "power flow" found nothing while the domain's own prefLabel did.
+    """
+    body = client.get("/v1/domains").json()
+    with_synonyms = [d for d in body if d["alt_labels"]]
+
+    assert with_synonyms, "no domain returned a synonym; the vocabulary defines eleven"
+    for domain in with_synonyms:
+        assert domain["alt_labels"] == sorted(domain["alt_labels"])
+        assert domain["label"] not in domain["alt_labels"]
+
+
 def test_every_domain_carries_its_structural_note(client) -> None:
     """PRD §5 treats these as a product feature, not a disclaimer. A catalog
     that says "transmission line impedances for most of the world are not

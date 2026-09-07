@@ -66,9 +66,14 @@ def documents(loaded):
 def test_every_seed_row_loads(loaded) -> None:
     _, result = loaded
     assert result.failures == [], f"seed rows failed validation: {result.failures[:5]}"
-    # 114 rows, one cross-domain pair merged into a single record.
+    # 114 rows, three cross-domain pairs merged into one record each: the EU ETS
+    # entry across DD7/DD8, NREL ATB across DD6/DD9 — whose own note says "Model
+    # as one dataset with domain facets, not two records" — and the World Bank
+    # Pink Sheet across DD7/DD9. The last two merge because the file now gives
+    # them a shared `slug`; before that the merge keyed on the name and their
+    # names differ, so they published twice (#20).
     assert result.total == 114
-    assert result.confirmed + result.drafted == 113
+    assert result.confirmed + result.drafted == 111
 
 
 def test_every_record_is_in_the_store(loaded) -> None:
@@ -319,3 +324,109 @@ def test_summary_reports_failures_rather_than_hiding_them(store) -> None:
     result = SeedLoadResult(total=3, confirmed=1, drafted=1, by_level={1: 2})
     result.failures.append(("ds/x", "boom"))
     assert "1 failed validation" in result.summary
+
+
+# ---- silence in the seed file is not a claim (PRD §14.2) -----------------
+
+
+def test_the_access_posture_never_contradicts_itself(documents) -> None:
+    """ "No restriction" and "not retrievable anonymously" cannot both be true.
+
+    They were, on 42 of the 56 verified rows: the two fields were defaulted
+    independently and the defaults disagreed. A reader saw a record saying
+    nothing stands between them and the dataset, next to a field saying they
+    cannot retrieve it without an account.
+    """
+    contradictions = []
+    for dataset_id, (_, node) in documents.items():
+        restriction = str(node.get("accessRestriction") or "").rsplit("/", 1)[-1]
+        if restriction == "none" and node.get("anonymousAccess") is not True:
+            contradictions.append(dataset_id)
+    assert not contradictions, (
+        f"{len(contradictions)} records claim no access restriction while denying anonymous "
+        f"access: {sorted(contradictions)[:5]}"
+    )
+
+
+def test_a_row_that_states_nothing_optional_claims_nothing(loaded) -> None:
+    """The case #39 asks for: every optional key absent.
+
+    Two fields cannot simply be left out. `og:anonymousAccess` is `sh:minCount 1`
+    at level 1 — it is a Tier 1 criterion an unauthenticated evaluator filters on
+    — and `og:accessRestriction` takes one of the six concepts PRD D9 fixes, none
+    of which means "not established". So the record makes the conservative
+    assumption, and the caveat carries what the schema cannot: that this was
+    assumed rather than checked.
+    """
+    from datahub.harvest.adapters.base import HarvestedRecord
+
+    records, _ = loaded
+    bare = HarvestedRecord(
+        source_id="seed",
+        source="curated",
+        payload={
+            "name": "A dataset the seed file barely mentions",
+            "data_domain": "DD1",
+            "tier": 2,
+            "verified": True,
+        },
+    )
+    record = SeedLoader(records).to_record(bare)
+
+    assert record["accessRestriction"].endswith("/accountRequired")
+    assert record["anonymousAccess"] is False
+    assert record["qualityFlags"]["staleness"] == "unknown"
+    assert any("has not been checked" in caveat for caveat in record["qualityFlags"]["caveat"]), (
+        record["qualityFlags"]["caveat"]
+    )
+
+    # Nothing else is invented either. An unstated licence gets the explicit
+    # `LicenseRef-Unstated` marker and a note saying so — the same pattern as
+    # the access caveat, and the reason it is the right one: a required field
+    # that cannot be omitted says "not captured" in words rather than picking a
+    # plausible value. A DOI and a summary are optional, so they are simply
+    # absent.
+    assert record["license"].endswith("LicenseRef-Unstated")
+    assert "records no licence" in record["licenseNote"]
+    assert record["redistributionAllowed"] is False
+    assert "persistentId" not in record
+    assert "summary" not in record
+
+
+def test_a_stated_access_posture_is_not_flagged_as_an_assumption(loaded) -> None:
+    """The caveat has to mean something. A row that says `anonymous: false` has
+    been checked, and adding "not checked" to it would be the same class of
+    untruth in the other direction."""
+    from datahub.harvest.adapters.base import HarvestedRecord
+
+    records, _ = loaded
+    stated = HarvestedRecord(
+        source_id="seed",
+        source="curated",
+        payload={
+            "name": "A dataset whose access the seed file does state",
+            "data_domain": "DD1",
+            "tier": 2,
+            "verified": True,
+            "anonymous": False,
+        },
+    )
+    record = SeedLoader(records).to_record(stated)
+
+    assert record["anonymousAccess"] is False
+    assert not any("has not been checked" in caveat for caveat in record["qualityFlags"]["caveat"])
+
+
+def test_no_record_asserts_a_currency_it_was_never_told(documents) -> None:
+    """`verified: true` in the seed file means a cataloguer checked the row's
+    licence and tier. It was being read as "this dataset is up to date", and 56
+    records published `staleness: current` on the strength of it. The seed
+    inventory has no currency field at all."""
+    asserted = [
+        dataset_id
+        for dataset_id, (_, node) in documents.items()
+        if (node.get("qualityFlags") or {}).get("staleness") not in (None, "unknown")
+    ]
+    assert not asserted, (
+        f"{len(asserted)} records state a staleness the seed file does not: {sorted(asserted)[:5]}"
+    )

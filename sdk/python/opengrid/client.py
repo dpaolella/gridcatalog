@@ -31,7 +31,7 @@ _ALIASES: dict[str, str] = {
     "domains": "data_domain",
     "region": "place",
     "concepts": "concept",
-    "license": "license_id",
+    "license": "license",
     "format": "format",
     "free": "anonymous_access",
 }

@@ -19,13 +19,14 @@ from __future__ import annotations
 
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
-from typing import Any
+from typing import Any, Literal
 
 from datahub.api.deps import RecordsDep, SearchDep, SessionDep, SettingsDep, StoreDep
 from datahub.api.schemas import HealthResponse
 from datahub.graph.graphs import NamedGraph
 from datahub.logging import get_logger
 from fastapi import APIRouter
+from sqlalchemy import text
 
 log = get_logger(__name__)
 
@@ -71,7 +72,7 @@ def ready(
     one.
     """
     checks: dict[str, str] = {}
-    state = "ok"
+    state: Literal["ok", "degraded", "unhealthy"] = "ok"
 
     try:
         store.count(NamedGraph.CATALOG)
@@ -94,10 +95,21 @@ def ready(
         checks["database"] = "unreachable"
         state = "degraded" if state == "ok" else state
     else:
-        checks["database"] = "ok"
+        # Execute something. SQLAlchemy connects lazily, so the Session object
+        # is non-None whether or not the database is answering — this branch
+        # used to test only that dependency injection had produced an object,
+        # and so reported "ok" through a total database outage. A readiness
+        # probe that cannot go unready is the one thing a readiness probe must
+        # not be.
+        try:
+            session.execute(text("SELECT 1"))
+            checks["database"] = "ok"
+        except Exception as exc:
+            checks["database"] = f"unreachable: {type(exc).__name__}"
+            state = "degraded" if state == "ok" else state
 
     return HealthResponse(
-        status=state,  # type: ignore[arg-type]
+        status=state,
         version=_version(),
         graph_backend=str(settings.graph_backend),
         search_backend=str(settings.search_backend),

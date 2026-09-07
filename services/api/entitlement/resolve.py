@@ -59,6 +59,15 @@ class Caller:
     role: str = "anonymous"
     token_id: str | None = None
     is_agent: bool = False
+    #: The scopes of the token this request carried, or ``None`` when the caller
+    #: did not present one.
+    #:
+    #: The distinction matters. A browser session *is* the user, so it carries
+    #: whatever their role carries — narrowing does not apply. An API token is a
+    #: deliberately weaker credential its holder chose the reach of, and honouring
+    #: that choice is the whole point of scopes. ``None`` means "unscoped", not
+    #: "no permissions".
+    scopes: tuple[str, ...] | None = None
 
     @property
     def is_anonymous(self) -> bool:
@@ -129,7 +138,7 @@ def _from_token(token: str, session: Any, settings: Settings) -> Caller:
         return anonymous()
 
     repos.tokens.mark_used(row.id)
-    return _caller_for(user, repos, token_id=row.id)
+    return _caller_for(user, repos, token_id=row.id, scopes=tuple(row.scopes or ()))
 
 
 def _from_cookie(session_id: str, session: Any) -> Caller:
@@ -154,7 +163,13 @@ def _from_cookie(session_id: str, session: Any) -> Caller:
     return _caller_for(user, repos)
 
 
-def _caller_for(user: Any, repos: Repositories, *, token_id: str | None = None) -> Caller:
+def _caller_for(
+    user: Any,
+    repos: Repositories,
+    *,
+    token_id: str | None = None,
+    scopes: tuple[str, ...] | None = None,
+) -> Caller:
     # Allow-list membership is NOT resolved here. It is projected onto each
     # search document as `entitled_principals`, so the predicate is evaluated
     # inside the query rather than against its results (ADR-0006). Resolving it
@@ -166,6 +181,7 @@ def _caller_for(user: Any, repos: Repositories, *, token_id: str | None = None) 
     return Caller(
         entitlement=Entitlement(
             principal_id=user.id,
+            email=user.email,
             custodian_of=frozenset(custodian_of),
             is_steward=user.role in ("steward", "admin"),
         ),
@@ -174,6 +190,7 @@ def _caller_for(user: Any, repos: Repositories, *, token_id: str | None = None) 
         role=user.role,
         token_id=token_id,
         is_agent=user.is_agent,
+        scopes=scopes,
     )
 
 

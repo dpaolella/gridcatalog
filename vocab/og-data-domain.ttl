@@ -55,7 +55,7 @@ dd:DD1
                 "bus-branch model"@en, "transmission lines"@en, "substations"@en,
                 "impedance"@en, "transfer capacity"@en, "power flow case"@en ;
   skos:definition "Datasets describing the physical and electrical structure of transmission and, where available, distribution networks: buses, branches, substations and transformers with their ratings, impedances and transfer limits. Includes bus-branch and node-breaker models, zonal transfer-capacity tables, and georeferenced infrastructure layers that carry no electrical parameters."@en ;
-  og:structuralNote "Investment-grade US transmission network data is CEII-designated and permanently out of reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic topology. State this in the domain page rather than letting users discover it.\n" ;
+  og:structuralNote "Investment-grade US transmission network data is CEII-designated and permanently out of reach. DD1 coverage is bounded to capacity-only, OSM-derived, and synthetic topology.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "etl" .
 
@@ -69,7 +69,7 @@ dd:DD2
                 "plant inventory"@en, "installed capacity"@en, "heat rate"@en,
                 "retirements"@en, "emissions rates"@en ;
   skos:definition "Datasets inventorying generating and storage units and their characteristics: location, technology, fuel, nameplate and net capacity, commissioning and retirement dates, ownership, heat rate, emissions rates and operating history, at unit or plant granularity."@en ;
-  og:structuralNote "Unit-level global coverage is genuinely good here, unlike DD1. The binding constraint is entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS codes and ENTSO-E EIC codes, not availability. This domain is the strongest argument for the identifier-reconciliation work.\n" ;
+  og:structuralNote "Unit-level global coverage is genuinely good here, unlike DD1. The binding constraint is entity resolution across EIA plant IDs, GEM unit IDs, eGRID ORIS codes and ENTSO-E EIC codes, not availability.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "harvest-only" .
 
@@ -83,7 +83,7 @@ dd:DD3
                 "generator interconnection"@en, "queued projects"@en,
                 "cluster study"@en, "interconnection costs"@en ;
   skos:definition "Datasets tracking proposed generation, storage and load projects through interconnection study and construction: queue position and request date, requested capacity and technology, point of interconnection, study phase, withdrawal or in-service outcome, and network upgrade cost allocations."@en ;
-  og:structuralNote "US-only in practice. No comparable international source exists. Every ISO publishes its own schema, so this domain is entirely a Tier 2 normalization problem. LBNL has already solved it once; do not re-solve it.\n" ;
+  og:structuralNote "US-only in practice. No comparable international source exists. Every ISO publishes its own schema, so this domain is a normalization problem rather than an availability one; LBNL's Queued Up series already normalizes much of it.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "harvest-only" .
 
@@ -112,7 +112,7 @@ dd:DD5
                 "capacity factors"@en, "solar resource"@en, "wind resource"@en,
                 "weather cutouts"@en ;
   skos:definition "Datasets describing the meteorological and hydrological conditions that drive variable generation: irradiance, wind speed, temperature, humidity, precipitation and inflow. Covers observations, reanalysis, resource atlases, and the capacity-factor and cutout products derived from them."@en ;
-  og:structuralNote "The only domain where data volume, not availability, is the constraint. Broker to existing cloud-native copies. Do not re-host the ERA5 archive.\n" ;
+  og:structuralNote "The only domain where data volume, not availability, is the constraint. OpenGrid brokers access to existing cloud-native copies rather than re-hosting archives of this size.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "etl" .
 
@@ -126,7 +126,7 @@ dd:DD6
                 "long-duration storage"@en, "hydrogen"@en, "electrolyzer"@en,
                 "vehicle-to-grid"@en, "ELCC"@en, "technology parameters"@en ;
   skos:definition "Cost, performance, degradation and lifetime parameter sets for technologies with no operating fleet large enough to observe directly: battery and long-duration storage, hydrogen production and end use, vehicle-to-grid, and the effective-load-carrying-capability studies that accompany them."@en ;
-  og:structuralNote "Almost no primary data. This domain is dominated by modeled and elicited parameter sets, which makes the Provenance facet (grade B, derived and traced) the norm rather than the exception. Say so on the domain page.\n" ;
+  og:structuralNote "Almost no primary data. This domain is dominated by modeled and elicited parameter sets, which makes the Provenance facet (grade B, derived and traced) the norm here rather than the exception.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "harvest-only" .
 
@@ -140,7 +140,7 @@ dd:DD7
                 "coal prices"@en, "commodity prices"@en, "carbon price"@en,
                 "emissions allowances"@en, "pipeline capacity"@en ;
   skos:definition "Datasets on the price, availability and delivery of fuels and traded commodities that enter production-cost and capacity-expansion models: natural gas, coal and oil prices, carbon and emissions-allowance prices and auction results, and gas pipeline capacity and flows."@en ;
-  og:structuralNote "Historical prices are open. Forward curves are uniformly commercial and will remain so. Do not promise forward price coverage.\n" ;
+  og:structuralNote "Historical prices are open. Forward curves are uniformly commercial and will remain so, so this domain does not cover them.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "harvest-only" .
 
@@ -154,7 +154,7 @@ dd:DD8
                 "capacity market rules"@en, "renewable targets"@en, "incentives"@en,
                 "market rules"@en ;
   skos:definition "Datasets and documents encoding the rules a model must respect: reliability standards, regulatory orders, market and capacity-market rules, renewable and clean-energy targets, incentives, and national energy and climate plans."@en ;
-  og:structuralNote "The only domain where the binding constraint is format, not license. NERC standards, FERC orders and ISO capacity market rules are all freely accessible and bulk-downloadable as PDFs. They fail only on model-readiness. Structured extraction here is high-effort and high-value, and is the strongest argument for an LLM-assisted extraction pipeline.\n" ;
+  og:structuralNote "The only domain where the binding constraint is format, not license. NERC standards, FERC orders and ISO capacity market rules are all freely accessible and bulk-downloadable as PDFs. They fail only on model-readiness, so structured extraction here is high-effort and high-value.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "etl" .
 
@@ -182,6 +182,6 @@ dd:DD10
                 "protected areas"@en, "elevation"@en, "administrative boundaries"@en,
                 "basemap"@en, "GIS layers"@en, "flood hazard"@en ;
   skos:definition "Base and constraint geospatial layers used to site infrastructure: land cover and land use, elevation and terrain, administrative and jurisdictional boundaries, protected and conservation areas, natural-hazard layers, and the exclusion masks assembled from them."@en ;
-  og:structuralNote "Global base layers are excellent and openly licensed. The gap is everything jurisdiction-specific: permitting status, parcel ownership, ROW. Those are county-level in the US and have no global analogue. Scope DD10 v1 to global base layers and exclusion masks; do not attempt parcel data.\n" ;
+  og:structuralNote "Global base layers are excellent and openly licensed. The gap is everything jurisdiction-specific: permitting status, parcel ownership, ROW. Those are county-level in the US and have no global analogue, so v1 covers global base layers and exclusion masks only.\n" ;
   og:v1CatalogScope true ;
   og:v1IngestionScope "harvest-only" .

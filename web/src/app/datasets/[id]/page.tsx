@@ -112,6 +112,21 @@ export default async function DatasetPage({ params }: { params: Params }) {
 
         {dataset.summary ? <p className="max-w-prose">{dataset.summary}</p> : null}
 
+        {/* Visible on the page where a reader decides whether to use the
+            dataset, with the explanation in the page rather than in a `title`
+            attribute — a tooltip is invisible on touch and unreliable to a
+            screen reader. It showed only in search results before, so the one
+            caveat that matters most disappeared at exactly the moment it became
+            relevant. A quarter of the published catalog is reference-only. */}
+        {dataset.reference_only ? (
+          <p className="og-card max-w-prose p-3 text-sm">
+            <span className="font-semibold text-[color:var(--accent-text)]">
+              {t("referenceOnly")}
+            </span>{" "}
+            <span className="text-[color:var(--muted)]">{t("referenceOnlyHelp")}</span>
+          </p>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-3">
           <span className="og-tag" title={t(`levelHelp.${levelKey}`)}>
             {t("level", { level: dataset.completeness_level })} · {t(`levelNames.${levelKey}`)}

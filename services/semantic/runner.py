@@ -226,9 +226,11 @@ class SemanticRunner:
         if _isomorphic(existing, computed):
             return False
 
-        graph = self.store.get_graph(NamedGraph.COMPUTED)
-        for triple in existing:
-            graph.remove(triple)
+        # `remove_graph`, not `get_graph(...).remove(...)`: `get_graph` returns a
+        # copy, so removing from it discarded the retraction and left the old
+        # triples in place beside the new ones. A record whose grade changed
+        # ended up carrying both, and whichever the query returned first won.
+        self.store.remove_graph(NamedGraph.COMPUTED, existing)
         self.store.add_graph(NamedGraph.COMPUTED, computed)
         return True
 

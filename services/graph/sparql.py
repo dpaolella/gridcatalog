@@ -9,13 +9,49 @@ the shape of a query.
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping
+import threading
+from collections.abc import Iterator, Mapping
+from contextlib import contextmanager
 from datetime import date, datetime
 from typing import Any
 
 from datahub.namespaces import PREFIXES
 from rdflib import BNode, Literal, URIRef
 from rdflib.term import Node
+
+#: Serialises every rdflib SPARQL evaluation in this process.
+#:
+#: rdflib parses SPARQL with pyparsing, and pyparsing keeps **mutable global
+#: state**: each parse action is wrapped by ``_trim_arity``, which discovers the
+#: action's arity by calling it, catching ``TypeError`` and retrying with one
+#: argument fewer, then remembers the answer in a closure shared by every
+#: caller. Two threads parsing at once corrupt that closure — one sets
+#: "arity found" while the other is still probing — and the loser gets
+#: ``TypeError: expandTriples() missing 1 required positional argument`` out of
+#: a query that is perfectly well-formed.
+#:
+#: It is a cold-start race: once every parse action has resolved its arity, the
+#: state stops changing and the same code runs for hours without trouble. That
+#: is exactly what makes it nasty — it fires on the first page load after a
+#: deploy, on a request that would succeed on retry, and never again.
+#: A record page fetches its tabs in parallel, and FastAPI runs sync handlers in
+#: a threadpool, so the very first record page anybody opens is the race.
+#:
+#: A lock, not a warm-up: warming would mean enumerating every grammar branch
+#: the project can reach and staying right as queries are added, and getting
+#: that wrong restores the bug silently. Serialising costs nothing real —
+#: ``RdflibStore`` already serialises its own queries, and it is the in-process
+#: development backend. Production is Fuseki, where parsing happens in the
+#: server and this lock is never taken.
+_PARSE_LOCK = threading.RLock()
+
+
+@contextmanager
+def parsing() -> Iterator[None]:
+    """Hold the process-wide lock around an rdflib SPARQL evaluation."""
+    with _PARSE_LOCK:
+        yield
+
 
 _PLACEHOLDER = re.compile(r"\?\?([A-Za-z_][A-Za-z0-9_]*)")
 
