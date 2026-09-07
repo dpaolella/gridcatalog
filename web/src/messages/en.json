@@ -20,7 +20,7 @@
     "signOutFailed": "Sign-out failed — you are still signed in. Try again."
   },
   "search": {
-    "placeholder": "Search datasets — try \"nodal LMP\", \"wind speed\", \"ERA5\"",
+    "placeholder": "Search datasets — try \"transmission\", \"wind speed\", \"ERA5\"",
     "label": "Search the catalog",
     "resultsCount": "{count, plural, =0 {No datasets} one {1 dataset} other {# datasets}}",
     "showing": "Showing {from}–{to} of {total}",
@@ -56,7 +56,7 @@
   },
   "empty": {
     "noResults": "No datasets match this search.",
-    "noResultsHelp": "The catalog holds {total} datasets. Try removing a filter, or searching for the quantity you need rather than the dataset's name — a column called {example} resolves to a concept, so searching for the concept finds every dataset that carries it.",
+    "noResultsHelp": "The catalog holds {total} datasets. Try removing a filter, or searching for the quantity you need rather than the dataset's name. ERA5's column {column} resolves to the concept {concept} — search for the concept and you find every dataset that carries the quantity, whatever each one calls its column.",
     "noResultsAction": "Clear all filters",
     "notFound": "No such dataset.",
     "notFoundHelp": "Either this record does not exist, or it is one whose existence is restricted. The catalog answers both the same way, deliberately: a distinguishable refusal would tell you which.",

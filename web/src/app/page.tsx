@@ -130,7 +130,8 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
               <p>
                 {empty("noResultsHelp", {
                   total: response.total || "all",
-                  example: "ssrd",
+                  column: "ssrd",
+                  concept: "globalHorizontalIrradiance",
                 })}
               </p>
             </EmptyState>
