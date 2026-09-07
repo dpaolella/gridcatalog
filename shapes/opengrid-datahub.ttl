@@ -255,6 +255,17 @@ og:DatasetShape a sh:NodeShape ;
     sh:path og:qualityFlags ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
   ] ;
 
+  # ---- Usage evidence, level 1, always optional ----
+  # Optional at every level and deliberately so. Coverage depends entirely on
+  # whether a source records it — the AWS registry has a DataAtWork block, most
+  # CKAN and STAC sources have nothing of the kind — so requiring it would fail
+  # datasets for their catalogue's schema rather than for anything about them.
+  # PRD §14.2: a missing field means not captured, never does not exist.
+  sh:property [
+    sh:path og:usageEvidence ; sh:nodeKind sh:IRI ; sh:node og:UsageEvidenceShape ;
+    og:appliesAtLevel 1 ;
+  ] ;
+
   # ---- D14 spatial, level 1 ----
   sh:property [
     sh:path og:bboxMinLon ; sh:maxCount 1 ; sh:datatype xsd:double ;
@@ -502,6 +513,45 @@ og:DistributionShape a sh:NodeShape ;
   ] ;
   sh:property [
     sh:path og:linkHealth ; sh:maxCount 1 ; sh:node og:LinkHealthShape ; og:appliesAtLevel 1 ;
+  ] .
+
+og:UsageEvidenceShape a sh:NodeShape ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """A study, tutorial or tool that used this dataset.
+
+  Every constraint here exists to stop this becoming a place where a plausible
+  citation can be invented. A fabricated reference is worse than none, because a
+  reader carries it into their own bibliography and it acquires a second life
+  there — PRD §14.4 forbids fabricating a URL, and this is that rule where it
+  bites hardest.
+
+  So a title and a resolvable URL are both required: an entry nobody can follow
+  is an assertion, not evidence. And og:assertedBy is required because a
+  provider's self-report, a citation index and a steward's reading are three
+  different kinds of claim, and a reader who cannot tell them apart is being
+  asked to trust the weakest one at the strength of the strongest.""" ;
+  sh:property [
+    sh:path dct:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "Usage evidence needs the title of the thing being cited." ;
+  ] ;
+  sh:property [
+    sh:path dcat:accessURL ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "Usage evidence needs a resolvable URL. A citation a reader cannot follow is an assertion, not evidence, and is exactly what a model asked for 'studies that used this' will invent." ;
+  ] ;
+  sh:property [
+    sh:path og:assertedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "Usage evidence must say who asserts it — a harvest source id, or 'curated' for a steward. Anonymous evidence cannot be weighed." ;
+  ] ;
+  sh:property [
+    sh:path og:evidenceKind ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "publication" "tutorial" "tool" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:evidenceKind is one of publication, tutorial, tool. A peer-reviewed study and a demo notebook are not the same evidence and must not render the same." ;
+  ] ;
+  sh:property [
+    sh:path og:authorName ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
   ] .
 
 og:LinkHealthShape a sh:NodeShape ;

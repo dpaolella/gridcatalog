@@ -142,7 +142,45 @@
       "title": "NREL National Solar Radiation Database",
       "type": "Dataset",
       "updateCadence": "P1Y",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#usage-0",
+          "type": "UsageEvidence",
+          "title": "The National Solar Radiation Data Base (NSRDB)",
+          "accessURL": "https://www.sciencedirect.com/science/article/pii/S136403211830087X",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Manajit Sengupta, Yu Xe, Anthony Lopez, Aron Habte, Galen Maclaurin, James Shelby"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#usage-1",
+          "type": "UsageEvidence",
+          "title": "Physics-guided machine learning for improved accuracy of the National Solar Radiation Database",
+          "accessURL": "https://www.sciencedirect.com/science/article/abs/pii/S0038092X22000044",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Grant Buster, Mike Bannister, Aron Habte, Dylan Hettinger, Galen Maclaurin, Michael Rossol, Manajit Sengupta, Yu Xie"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#usage-2",
+          "type": "UsageEvidence",
+          "title": "NSRDB Viewer",
+          "accessURL": "https://nsrdb.nrel.gov/nsrdb-viewer",
+          "evidenceKind": "tool",
+          "assertedBy": "aws_open_data",
+          "authorName": "Manajit Sengupta, Yu Xe, Anthony Lopez, Aron Habte, Galen Maclaurin, James Shelby, Paul Edwards"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-nsrdb#usage-3",
+          "type": "UsageEvidence",
+          "title": "HSDS Examples",
+          "accessURL": "https://github.com/NREL/hsds-examples",
+          "evidenceKind": "tool",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caleb Phillips, Caroline Draxl, John Readey, Jordan Perr-Sauer, Michael Rossol"
+        }
+      ]
     }
   ]
 }

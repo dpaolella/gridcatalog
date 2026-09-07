@@ -280,6 +280,8 @@ function matches(dataset: DatasetSummary, field: string, value: string): boolean
       return String(dataset.anonymous_access) === value;
     case "link_health":
       return dataset.worst_link_health === value;
+    case "has_usage_evidence":
+      return String(Boolean(dataset.has_usage_evidence)) === value;
     default:
       return true;
   }

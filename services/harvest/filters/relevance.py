@@ -341,7 +341,7 @@ class RelevanceFilter:
         self,
         settings: Settings | None = None,
         *,
-        classifier: Classifier | None | object = _DEFAULT,
+        classifier: Classifier | object | None = _DEFAULT,
         vocabulary_terms: Iterable[str] | None = None,
     ) -> None:
         self.settings = settings or get_settings()

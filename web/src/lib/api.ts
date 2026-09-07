@@ -288,9 +288,25 @@ export interface DatasetSummary {
   distribution_count?: number;
   reference_only?: boolean;
   worst_link_health?: string | null;
+  has_usage_evidence?: boolean | null;
+  usage_evidence_count?: number | null;
+}
+
+export interface UsageEvidence {
+  title: string;
+  url: string;
+  kind: "publication" | "tutorial" | "tool";
+  author?: string | null;
+  /** Who says so — a harvest source id, or "curated" for a steward. Rendered,
+   *  because a provider's self-report and a steward's reading are different
+   *  strengths of claim and the reader has to be able to weigh them. */
+  asserted_by: string;
 }
 
 export interface DatasetDetail extends DatasetSummary {
+  /** Studies, tutorials and tools a source records as having used this
+   *  dataset. Absent or empty means nothing recorded, never "unused". */
+  usage_evidence?: UsageEvidence[];
   iri: string;
   description?: string | null;
   persistent_id?: string | null;

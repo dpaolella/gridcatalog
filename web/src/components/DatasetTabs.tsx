@@ -216,6 +216,36 @@ function Overview({ dataset }: { dataset: DatasetDetail }) {
         </p>
       </section>
 
+      {dataset.usage_evidence?.length ? (
+        <section>
+          <h2 className="mb-1 font-semibold">{t("usedBy")}</h2>
+          <p className="mb-3 max-w-prose text-sm text-[color:var(--muted)]">
+            {t("usedByHelp")}
+          </p>
+          <ul className="space-y-2">
+            {dataset.usage_evidence.map((e) => (
+              <li key={e.url} className="text-sm">
+                <a
+                  href={e.url}
+                  className="font-medium hover:underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {e.title}
+                </a>
+                <span className="og-tag ml-2 text-[11px]">{t(`usageKind.${e.kind}`)}</span>
+                {e.author ? (
+                  <span className="ml-2 text-[color:var(--muted)]">{e.author}</span>
+                ) : null}
+                <span className="ml-2 text-[11px] text-[color:var(--muted)]">
+                  {t("assertedBy", { source: e.asserted_by })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <section>
         <h2 className="mb-3 font-semibold">{t("structure")}</h2>
         <Rows>

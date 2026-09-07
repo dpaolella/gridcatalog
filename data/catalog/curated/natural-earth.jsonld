@@ -41,7 +41,18 @@
       "tier": 1,
       "title": "Natural Earth",
       "type": "Dataset",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/natural-earth#usage-0",
+          "type": "UsageEvidence",
+          "title": "Natural Earth Vector (2009)",
+          "accessURL": "http://shadedrelief.com/NEV/natural_earth_vector_cp64.pdf",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Nathaniel Vaughn Kelso, Tom Patterson"
+        }
+      ]
     }
   ]
 }

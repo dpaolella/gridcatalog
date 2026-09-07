@@ -36,6 +36,7 @@ from datahub.api.search.document import (
     SearchDocument,
     SpatialCoverage,
     TemporalCoverage,
+    UsageEvidenceRef,
     Visibility,
 )
 from pydantic import BaseModel, ConfigDict, Field
@@ -506,6 +507,10 @@ class DatasetDetail(DatasetSummary):
     has_impedance: bool | None = None
     voltage_classes: list[str] = Field(default_factory=list)
     field_count: int = 0
+    #: Studies, tutorials and tools a source records as having used this
+    #: dataset. Empty means nothing recorded, never "nobody uses it" — most
+    #: sources have no field that could carry this.
+    usage_evidence: list[UsageEvidenceRef] = Field(default_factory=list)
     last_computed_at: dict[str, datetime] = Field(default_factory=dict)
     issued: datetime | None = None
 
@@ -536,6 +541,7 @@ class DatasetDetail(DatasetSummary):
             has_impedance=doc.has_impedance,
             voltage_classes=doc.voltage_classes,
             field_count=doc.field_count,
+            usage_evidence=doc.usage_evidence,
             last_computed_at=doc.last_computed_at,
             issued=doc.issued,
         )

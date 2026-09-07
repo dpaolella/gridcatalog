@@ -36,7 +36,90 @@
       "tier": 1,
       "title": "NREL WIND Toolkit",
       "type": "Dataset",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-0",
+          "type": "UsageEvidence",
+          "title": "Power from wind: Open data on AWS",
+          "accessURL": "https://aws.amazon.com/blogs/big-data/power-from-wind-open-data-on-aws/",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caleb Phillips, Caroline Draxl, John Readey, Jordan Perr-Sauer"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-1",
+          "type": "UsageEvidence",
+          "title": "The Wind Integration National Dataset (WIND) Toolkit",
+          "accessURL": "https://www.sciencedirect.com/science/article/pii/S0306261915004237?via%3Dihub/",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caroline Draxl, Andrew Clifton, Bri-Mathias Hodge, Jim McCaa"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-2",
+          "type": "UsageEvidence",
+          "title": "Overview and Meteorological Validation of the Wind Integration National Dataset Toolkit",
+          "accessURL": "https://www.nrel.gov/docs/fy15osti/61740.pdf",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caroline Draxl, Bri-Mathias Hodge, Andrew Clifton, Jim McCaa"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-3",
+          "type": "UsageEvidence",
+          "title": "Validation of Power Output for the WIND Toolkit",
+          "accessURL": "https://www.nrel.gov/docs/fy14osti/61714.pdf",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "J. King, Andrew Clifton, Bri-Mathias Hodge"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-4",
+          "type": "UsageEvidence",
+          "title": "A Twenty-Year Analysis of Winds in California for Offshore Wind Energy Production Using WRF v4.1.2",
+          "accessURL": "https://gmd.copernicus.org/preprints/gmd-2021-50/gmd-2021-50.pdf",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Alex Rybchuk, Mike Optis, Julie K. Lundquist, Michael Rossol, Walt Musial"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-5",
+          "type": "UsageEvidence",
+          "title": "WTK-LED: The WIND Toolkit Long-Term Ensemble Dataset",
+          "accessURL": "https://www.osti.gov/servlets/purl/2473210/",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caroline Draxl, Jiali Wang, Lindsay Sheridan, et al."
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-6",
+          "type": "UsageEvidence",
+          "title": "HSDS Examples",
+          "accessURL": "https://github.com/NREL/hsds-examples",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caleb Phillips, Caroline Draxl, John Readey, Jordan Perr-Sauer, Michael Rossol"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-7",
+          "type": "UsageEvidence",
+          "title": "Wind Visualization",
+          "accessURL": "https://github.com/NREL/hsds-viz",
+          "evidenceKind": "tool",
+          "assertedBy": "aws_open_data",
+          "authorName": "Jordan Perr-Sauer"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/nrel-wind-toolkit#usage-8",
+          "type": "UsageEvidence",
+          "title": "Wind Prospector",
+          "accessURL": "https://maps.nrel.gov/wind-prospector/",
+          "evidenceKind": "tool",
+          "assertedBy": "aws_open_data",
+          "authorName": "Paul Edwards"
+        }
+      ]
     }
   ]
 }

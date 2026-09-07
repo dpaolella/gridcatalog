@@ -89,6 +89,27 @@ class DistributionSummary(BaseModel):
     link_health: str | None = None  # verified | degraded | unreachable | redirected
 
 
+class UsageEvidenceRef(BaseModel):
+    """A study, tutorial or tool that used this dataset.
+
+    `asserted_by` is not decoration. A data provider's self-report through the
+    AWS registry, a citation index, and a steward's reading are three different
+    strengths of claim, and a reader who cannot tell them apart is being asked
+    to trust the weakest at the strength of the strongest. The UI renders it.
+
+    `url` is required all the way down (see `og:UsageEvidenceShape`): a citation
+    a reader cannot follow is an assertion, and this is the one field where an
+    unverifiable one does real damage — it gets carried into somebody's
+    bibliography and acquires a second life there.
+    """
+
+    title: str
+    url: str
+    kind: str  # publication | tutorial | tool
+    author: str | None = None
+    asserted_by: str
+
+
 class SearchDocument(BaseModel):
     """One catalog record, flattened for retrieval."""
 
@@ -132,6 +153,27 @@ class SearchDocument(BaseModel):
     has_range_requests: bool = False
     subsetting_protocols: list[str] = Field(default_factory=list)
     worst_link_health: str | None = None
+    #: How many studies, tutorials or tools a source records as having used this
+    #: dataset. A count, not the entries: the list belongs on the record page,
+    #: and what a search needs is "is there any".
+    #:
+    #: Zero means **nothing recorded**, never "unused". Coverage is entirely a
+    #: property of the source — the AWS registry has a DataAtWork block and most
+    #: CKAN and STAC sources have nothing of the kind — so this ranks
+    #: catalogues, not datasets, and every label built on it has to say so.
+    usage_evidence_count: int = 0
+    #: The facet field. A boolean rather than the count, because faceting on a
+    #: count gives one bucket per distinct number and answers a question nobody
+    #: asked; what a reader wants is "show me the ones somebody has used".
+    #:
+    #: Named for what it is. "Has recorded usage" is true; "is used" is not
+    #: something this catalog knows, and a facet labelled that way would present
+    #: a gap in a source's schema as a fact about a dataset.
+    has_usage_evidence: bool = False
+    #: The entries themselves, for the record page. Carried on the document for
+    #: the same reason `distributions` is: the record response is built from the
+    #: document, so anything the page renders has to be here.
+    usage_evidence: list[UsageEvidenceRef] = Field(default_factory=list)
     all_distributions_unreachable: bool = False
 
     # -- coverage --
@@ -227,6 +269,7 @@ FACET_FIELDS: dict[str, str] = {
     "voltage_class": "voltage_classes",
     "reference_only": "reference_only",
     "link_health": "worst_link_health",
+    "has_usage_evidence": "has_usage_evidence",
 }
 
 #: Sortable fields. Relevance is the default and is not listed here.
