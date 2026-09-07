@@ -49,6 +49,22 @@ class Once[T]:
         with self._lock:
             self._value = None
 
+    def take(self) -> T | None:
+        """Detach and return the instance, atomically.
+
+        What a shutdown wants, and what `peek()` then `clear()` is not: between
+        those two calls another thread can `__call__` the same instance and
+        carry on using it while the first thread closes it. Taking it under the
+        lock means the closer is the last holder — a caller arriving afterwards
+        builds a fresh one rather than being handed a closed store.
+
+        Two concurrent shutdowns are also handled by this: the loser gets
+        `None` and closes nothing, instead of both closing the same object.
+        """
+        with self._lock:
+            value, self._value = self._value, None
+            return value
+
 
 def once[T](build: Callable[[], T]) -> Once[T]:
     """Wrap *build* so it runs at most once per process."""

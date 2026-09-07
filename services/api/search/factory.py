@@ -5,7 +5,6 @@ from __future__ import annotations
 from datahub.api.search.backend import InMemorySearchBackend, SearchBackend
 from datahub.config import SearchBackend as SearchBackendKind
 from datahub.config import Settings, get_settings
-from datahub.singleton import once
 
 
 def make_search_backend(settings: Settings | None = None) -> SearchBackend:
@@ -24,6 +23,9 @@ def make_search_backend(settings: Settings | None = None) -> SearchBackend:
     return InMemorySearchBackend(settings.search_store_path)
 
 
-#: Process-wide backend, built once. `Once`, not `lru_cache`: see
-#: `datahub.singleton`. Cleared with ``get_search_backend.clear()``.
-get_search_backend = once(make_search_backend)
+# There was a `get_search_backend = once(make_search_backend)` here, and it had
+# no callers. `datahub.api.deps._backend` is the process-wide instance: a second
+# `Once` over the same factory means the first code to reach for this one gets a
+# *different* backend, which `deps.reset()` neither flushes nor clears. That is
+# the two-instances bug `datahub.singleton` exists to prevent, reintroduced by
+# having two singletons instead of one broken one. One factory, one holder.

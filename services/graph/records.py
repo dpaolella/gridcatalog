@@ -370,6 +370,12 @@ class RecordStore:
         """
         subgraph = self.get_graph(dataset_id, graph=NamedGraph.DRAFT)
         iri = self._iri(dataset_id)
+        # The record's uncatalogued upstreams travel with it. `_gather` walks
+        # containment only, so without this the published record names an
+        # upstream whose triples stayed behind in the draft graph. `put` merges
+        # them rather than replacing, so a node two records share is safe.
+        for triple in self._gather_ancillary(iri, NamedGraph.DRAFT):
+            subgraph.add(triple)
         subgraph.remove((iri, OG.reviewState, None))
         subgraph.add((iri, OG.reviewState, Literal("confirmed")))
         if reviewed_by:
@@ -419,6 +425,47 @@ class RecordStore:
               GRAPH <{graph}> {{
                 ??root ({path})* ?s .
                 ?s ?p ?o .
+              }}
+            }}
+            """,
+            {"root": dataset_iri},
+        )
+
+    def _gather_ancillary(self, dataset_iri: URIRef, graph: NamedGraph) -> Graph:
+        """The nodes `_split` stored beside a record, described in *graph*.
+
+        The counterpart to `_split`, and the piece `promote` was missing.
+        `_split` puts an uncatalogued upstream — the mesoscale run behind the
+        Global Wind Atlas, the satellite retrieval behind NSRDB — into whichever
+        graph the record went to. `_gather` walks containment predicates only,
+        by design, so it never sees them again: promoting a record carried the
+        record and left its upstream in the draft graph, four triples that the
+        catalog-scoped queries do not read.
+
+        The published record still says `og:upstreamSource <…gwa-wrf-mesoscale>`.
+        The node it names has no triples in the catalog, so the link resolves to
+        nothing — which is exactly what `_split`'s docstring says these nodes
+        exist to prevent: "PRD §4.1 D4 is explicit that an absent upstream link
+        reads as 'no source' rather than 'not catalogued'."
+
+        One hop from the record's own subgraph, not transitive: `_split`
+        classifies the subjects a document describes, and a document describing
+        an upstream of an upstream is not a shape that occurs. Datasets are
+        excluded — `pypsa-eur-weather-cutouts` names `ecmwf-era5` as its
+        upstream, and dragging a catalogued record along with another record's
+        promotion is a different bug from the one being fixed.
+        """
+        path = " | ".join(f"<{p}>" for p in CONTAINMENT_PREDICATES)
+        return self.store.construct(
+            f"""
+            CONSTRUCT {{ ?node ?p ?o }}
+            WHERE {{
+              GRAPH <{graph}> {{
+                ??root ({path})* ?s .
+                ?s ?link ?node .
+                ?node ?p ?o .
+                FILTER (?node != ??root)
+                FILTER NOT EXISTS {{ ?node a <{DCAT.Dataset}> }}
               }}
             }}
             """,

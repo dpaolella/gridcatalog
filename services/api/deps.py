@@ -50,12 +50,20 @@ def reset() -> None:
     each one, which is precisely why the gap was invisible: the only way to
     lose data was to construct the store with `autoflush=False`, and then it
     lost everything.
+
+    `take()` rather than `peek()` then `clear()`. Those are two operations with
+    a gap between them, and in the gap another thread calls `graph_store()`,
+    gets the instance this one is about to close, and goes on using it — a
+    closed store handed out by the accessor whose whole job is to hand out a
+    working one. Detaching under the lock makes the closer the last holder;
+    anyone arriving after gets a fresh instance. It also makes two concurrent
+    shutdowns safe, where before both closed the same object.
     """
-    store = _store.peek()
+    store = _store.take()
     if store is not None:
         store.flush()
         store.close()
-    backend = _backend.peek()
+    backend = _backend.take()
     if backend is not None:
         # The search backend needs this for the same reason the store does, and
         # for a sharper one: allow-list grants are re-projected into the index
@@ -66,8 +74,6 @@ def reset() -> None:
         # custodian's list still showed the person they had added.
         backend.flush()
         backend.close()
-    _store.clear()
-    _backend.clear()
 
 
 def settings_dep() -> Settings:

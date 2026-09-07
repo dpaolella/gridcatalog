@@ -42,6 +42,13 @@ export default async function SignInPage({ searchParams }: { searchParams: Searc
           anyway. */}
       {IS_SNAPSHOT ? <StaticNotice /> : <Providers searchParams={searchParams} />}
       <p className="text-sm text-[color:var(--muted)]">{t("browsingIsOpen")}</p>
+      {/* This page used to promise that a session also buys "restricted records
+          you are entitled to". It does not, on this site: `lib/api.ts` sends
+          `authenticated: true` on exactly two calls — `me` and `reviewQueue` —
+          and every catalog read goes out anonymous so the pages stay cacheable.
+          A signed-in reader entitled to a restricted record still cannot see it
+          here. Saying where they can beats a promise the UI does not keep. */}
+      <p className="text-sm text-[color:var(--muted)]">{t("restrictedNote")}</p>
     </div>
   );
 }

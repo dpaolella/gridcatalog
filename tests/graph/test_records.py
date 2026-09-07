@@ -267,3 +267,72 @@ def test_validation_can_be_skipped_only_explicitly(loaded) -> None:
 
     loaded.put(load_record("eia-natural-gas-prices"))
     assert dataset_node(loaded.get(minimal))["completenessLevel"] == 1
+
+
+def test_promoting_a_record_carries_its_uncatalogued_upstream_with_it() -> None:
+    """The counterpart to the test above, for the write that publishes.
+
+    `_split` puts an upstream that is not itself a dataset —
+    `upstream/gwa-wrf-mesoscale` — into whichever graph the record went to, so
+    a drafted Global Wind Atlas has its mesoscale run in the draft graph.
+    `_gather` walks containment predicates only, by design, and `promote` was
+    built on it alone: the record moved and its upstream did not.
+
+    The published record still says `og:upstreamSource
+    <…gwa-wrf-mesoscale>`, and the node it names has no triples in the catalog.
+    Every catalog-scoped query resolves the link to nothing, which is precisely
+    what `_split`'s docstring says these nodes exist to prevent — PRD §4.1 D4,
+    an absent upstream link reads as "no source" rather than "not catalogued".
+    Q1's shared-origin detection joins on the same node, so two records derived
+    from one run stop being detectably correlated.
+    """
+    upstream = URIRef("https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale")
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+
+    document = load_record("global-wind-atlas")
+    document["@graph"][0]["reviewState"] = "draft"
+    records.put(document, graph=NamedGraph.DRAFT)
+
+    def triples_in(graph: NamedGraph) -> bool:
+        return records.store.ask(
+            "ASK { GRAPH ??g { ??s ?p ?o } }", {"g": URIRef(str(graph)), "s": upstream}
+        )
+
+    assert triples_in(NamedGraph.DRAFT) and not triples_in(NamedGraph.CATALOG)
+
+    records.promote("global-wind-atlas")
+
+    assert triples_in(NamedGraph.CATALOG), (
+        "the published record cites an upstream whose description stayed in the "
+        "draft graph, so the link resolves to nothing for every reader"
+    )
+
+
+def test_promoting_does_not_drag_a_catalogued_dataset_along() -> None:
+    """`pypsa-eur-weather-cutouts` names `ecmwf-era5` as its upstream.
+
+    That one *is* a catalogued dataset with its own review state, and copying it
+    into the catalog as a side effect of promoting something else would publish
+    a record nobody confirmed. The exclusion is the reason `_gather_ancillary`
+    filters on `dcat:Dataset` rather than taking every referenced node.
+    """
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+
+    era5 = load_record("ecmwf-era5")
+    era5["@graph"][0]["reviewState"] = "draft"
+    records.put(era5, graph=NamedGraph.DRAFT)
+
+    cutouts = load_record("pypsa-eur-weather-cutouts")
+    cutouts["@graph"][0]["reviewState"] = "draft"
+    records.put(cutouts, graph=NamedGraph.DRAFT)
+
+    records.promote("pypsa-eur-weather-cutouts")
+
+    assert not records.exists("ecmwf-era5", graph=NamedGraph.CATALOG), (
+        "promoting one record published another that no steward confirmed"
+    )
+    assert records.exists("ecmwf-era5", graph=NamedGraph.DRAFT)

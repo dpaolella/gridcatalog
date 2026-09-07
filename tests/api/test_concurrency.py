@@ -163,3 +163,61 @@ def test_the_rate_limiter_counts_every_request_it_is_given(api_env):
         f"counted {counted} of {threads * per_thread}: increments were lost, so "
         "the limiter lets a caller past its budget"
     )
+
+
+def test_a_shutdown_does_not_hand_out_the_store_it_is_closing(api_env):
+    """`reset()` detaches before it closes, so nobody is left holding a corpse.
+
+    It used to `peek()`, close, then `clear()` — three steps with two gaps. In
+    the gap another thread calls `graph_store()`, is handed the very instance
+    the first thread is about to close, and goes on using it: the accessor whose
+    job is to return a working store returns a closed one, and the failure
+    surfaces later and somewhere else.
+
+    `Once.take()` swaps the value out under the lock, so the closer is the last
+    holder and a caller arriving afterwards builds a fresh instance. Asserted by
+    interleaving deterministically rather than racing threads and hoping.
+    """
+    from datahub.api import deps
+
+    first = deps.graph_store()
+    closed: list[object] = []
+    original = type(first).close
+
+    def record_and_close(self) -> None:
+        # Whoever asks *while* the shutdown is closing must not get this one.
+        assert deps.graph_store() is not self, "the accessor handed out the store being closed"
+        closed.append(self)
+        original(self)
+
+    try:
+        type(first).close = record_and_close
+        deps.reset()
+    finally:
+        type(first).close = original
+
+    assert closed == [first]
+    assert deps.graph_store() is not first
+
+
+def test_two_shutdowns_do_not_close_the_same_store_twice(api_env):
+    """The loser takes nothing, which is the point of taking rather than peeking."""
+    from datahub.api import deps
+
+    store = deps.graph_store()
+    closed: list[object] = []
+    original = type(store).close
+
+    def counting_close(self) -> None:
+        closed.append(self)
+        original(self)
+
+    try:
+        type(store).close = counting_close
+        deps.reset()
+        deps._store.peek()  # nothing built in between
+        deps.reset()
+    finally:
+        type(store).close = original
+
+    assert closed == [store], f"closed {len(closed)} times: {closed}"

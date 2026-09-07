@@ -309,12 +309,13 @@
   "signin": {
     "title": "Sign in",
     "subtitle": "Through an identity provider you already have. The Hub holds no passwords, so there is nothing here to register.",
-    "browsingIsOpen": "Browsing needs none of this. Public records are readable signed out; a session is what the steward queue, restricted records you are entitled to, and personal access tokens require.",
+    "browsingIsOpen": "Browsing needs none of this. Public records are readable signed out; a session is what the steward queue and personal access tokens require.",
     "continueWith": "Continue with {provider}",
     "unavailable": "Sign-in is not answering.",
     "unavailableHelp": "The API did not respond ({status}). Nothing is wrong with your account — try again shortly.",
     "noneConfigured": "No sign-in provider is configured.",
-    "noneConfiguredHelp": "This deployment has no identity provider credentials, so there is nobody to sign in with. Whoever runs it sets DATAHUB_OIDC_PROVIDERS and the matching client id and secret."
+    "noneConfiguredHelp": "This deployment has no identity provider credentials, so there is nobody to sign in with. Whoever runs it sets DATAHUB_OIDC_PROVIDERS and the matching client id and secret.",
+    "restrictedNote": "Restricted records you are entitled to are reachable through the API and the SDK with a personal access token. This site reads the catalog anonymously so pages can be cached, so signing in here does not reveal them."
   },
   "account": {
     "title": "Your account",

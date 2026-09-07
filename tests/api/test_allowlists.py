@@ -348,3 +348,31 @@ def test_revoking_one_email_grant_does_not_revoke_the_others(client, people) -> 
         assert allowlist.is_allowed(IRI, principal_id=None, email="two@example.org"), (
             "revoking one address took the rest of the list with it"
         )
+
+
+def test_probing_a_slug_that_does_not_exist_is_audited_too(client, people) -> None:
+    """Both refusals leave a trail, or the quieter one is the one to use (#10).
+
+    The two 404s are deliberately identical in content — a caller cannot tell a
+    missing record from a hidden one — and only the hidden case was recorded.
+    So enumerating slugs against the allow-list endpoint was audited exactly
+    when it found something, and invisible while it was searching.
+    """
+    from datahub.api.models.operational import AuthorizationEvent
+
+    response = client.get("/v1/allowlists/no-such-slug", headers=auth(people["stranger"]))
+    assert response.status_code == 404
+
+    with session_scope() as session:
+        rows = (
+            session.query(AuthorizationEvent)
+            .filter(
+                AuthorizationEvent.action == "allowlist.read",
+                AuthorizationEvent.outcome == "refused",
+            )
+            .all()
+        )
+        assert any(row.resource_id == "no-such-slug" for row in rows), (
+            "a stranger probed the endpoint and nothing recorded it: "
+            f"{[row.resource_id for row in rows]}"
+        )

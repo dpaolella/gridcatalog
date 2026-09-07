@@ -182,6 +182,19 @@ def _custodian_check(
     For a record whose existence *is* public, 403 remains the honest answer: it
     discloses nothing the catalog does not already publish, and it tells a
     mistyping custodian something useful.
+
+    **The two 404s are identical in content and not in latency.** A slug with no
+    record is refused after one `exists` query; a hidden one is refused after a
+    custodianship lookup, a full CONSTRUCT of the record, an audit write and a
+    search query. That is a timing oracle over the same secret the identical
+    bodies protect, and it is not closed here: equalising it means doing the
+    expensive path for every unknown slug, which hands an unauthenticated
+    caller a way to make each probe cost a CONSTRUCT. The trade is deliberate —
+    a remote attacker measuring across a network, against a variable-cost graph
+    query, gets a far noisier signal than the response bodies used to give away
+    outright, and the cost of closing it is a denial-of-service amplifier.
+    What is closed is the *audit* asymmetry: both refusals are now recorded, so
+    somebody enumerating slugs leaves the same trail either way.
     """
     if session is None:
         raise NotAuthenticated("the allow-list store is unreachable")
@@ -189,7 +202,22 @@ def _custodian_check(
         raise NotAuthenticated("sign in as the dataset's custodian")
     tokens.require_scope(caller, "custodian:manage")
 
-    iri = _iri(dataset_id, records)
+    try:
+        iri = _iri(dataset_id, records)
+    except NotFound:
+        # Probing for slugs that do not exist is the same behaviour as probing
+        # for ones that do, and it used to be the only one of the two that left
+        # no trace. Out of band for the same reason as the refusal below: this
+        # is about to raise, and an exception rolls the session back.
+        audit_out_of_band(
+            action="allowlist.read",
+            outcome="refused",
+            resource_kind="dataset",
+            resource_id=dataset_id,
+            principal_id=caller.principal_id,
+            reason="no such record",
+        )
+        raise
     repos = Repositories(session)
     if repos.custodians.may_manage(iri, caller.principal_id):
         return iri
