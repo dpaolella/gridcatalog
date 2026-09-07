@@ -162,9 +162,13 @@ def assert_search_facets_count_the_whole_result_set(backend: Any) -> None:
 def assert_search_sorts_by_title(backend: Any) -> None:
     """Every sortable field must actually sort on every backend.
 
-    `title` is the one that broke: it is an analysed text field in the
-    OpenSearch mapping, which cannot be sorted without a keyword sub-field, so
-    `?sort=title` is a 500 there and fine in process.
+    `title` is the one that broke: it is analysed text in the OpenSearch
+    mapping, which cannot be sorted, so `?sort=title` was a 500 there and fine
+    in process. It sorts on the `title.raw` sub-field now
+    (`opensearch_backend.SORT_SUBFIELDS`), and `tests/search/test_opensearch_query.py`
+    checks the request body without a container. This is the assertion that
+    checks OpenSearch *accepts* it, which is the different half of the claim and
+    is the reason this file exists.
     """
     _seed(backend)
     response = backend.search(

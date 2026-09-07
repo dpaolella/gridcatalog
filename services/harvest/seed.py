@@ -251,7 +251,13 @@ class SeedLoader:
         record["qualityFlags"] = {
             "id": f"{iri}#flags",
             "type": "QualityFlags",
-            "staleness": "unknown" if not verified else "current",
+            # Always unknown, because the seed inventory states nothing about
+            # currency. It used to say "current" for every verified row, which
+            # conflated two different things: `verified: true` means a
+            # cataloguer checked this row's licence and tier, not that the
+            # dataset upstream is up to date. 56 records asserted a currency
+            # posture nobody had looked at.
+            "staleness": "unknown",
             "caveat": self._caveats(entry, verified=verified),
         }
         return record
@@ -340,15 +346,42 @@ class SeedLoader:
         }
 
     def _access(self, entry: dict[str, Any]) -> dict[str, Any]:
+        """One decision, two coherent fields — and a caveat when it is a default.
+
+        These used to be defaulted independently, and the two defaults
+        disagreed: a row with neither ``anonymous`` nor ``access_barrier`` — 42
+        of the 56 verified rows — was published as ``accessRestriction: none``
+        *and* ``anonymousAccess: false``. "Nothing stands between you and this
+        dataset" beside "you cannot retrieve it without an account", on the same
+        record, about a row the seed inventory says nothing about either way.
+
+        PRD §14.2 wants silence recorded as "not captured", and the model has
+        nowhere to put that: ``og:anonymousAccess`` is ``sh:minCount 1`` at level
+        1 because it is a Tier 1 criterion an unauthenticated evaluator filters
+        on, and ``og:accessRestriction`` takes one of the six concepts PRD D9
+        fixes, none of which means "not established". So the record has to say
+        something, and what it says is derived once, conservatively, and
+        flagged: assume a barrier until somebody checks, rather than promise
+        open access nobody verified. A reader told they may need an account and
+        finding they do not has lost nothing; the reverse sends them at a wall.
+
+        The caveat is where the truth goes — that this is an assumption and not
+        a finding — until the schema can hold it. See #39.
+        """
         anonymous = entry.get("anonymous")
         barrier = entry.get("access_barrier")
         restriction = BARRIER_MAP.get(barrier or "")
         if restriction is None:
-            restriction = "none" if anonymous is not False else "accountRequired"
+            restriction = "none" if anonymous is True else "accountRequired"
         return {
             "accessRestriction": f"{SCHEME_ACCESS_RESTRICTION}/{restriction}",
-            "anonymousAccess": bool(anonymous) if anonymous is not None else False,
+            "anonymousAccess": anonymous is True,
         }
+
+    @staticmethod
+    def _access_is_assumed(entry: dict[str, Any]) -> bool:
+        """Whether the access posture on this record is a default, not a fact."""
+        return entry.get("anonymous") is None and not entry.get("access_barrier")
 
     def _provenance(self, entry: dict[str, Any]) -> dict[str, Any]:
         """Map the free-text provenance, or fall back to ``curated``.
@@ -435,6 +468,13 @@ class SeedLoader:
             caveats.append(
                 f"Access barrier recorded as {entry['access_barrier']}: this dataset is "
                 "catalogued for discovery, not because it can be obtained."
+            )
+        if self._access_is_assumed(entry):
+            caveats.append(
+                "The access barrier has not been checked. The seed inventory records neither "
+                "anonymous access nor a barrier for this dataset, so the record assumes an "
+                "account is needed rather than promising open access nobody verified. It may "
+                "well be freely downloadable."
             )
         if entry.get("tier") == 3:
             caveats.append(

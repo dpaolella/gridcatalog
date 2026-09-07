@@ -322,7 +322,7 @@ def build_query(request: SearchRequest) -> dict[str, Any]:
     if request.sort:
         body["sort"] = [
             {
-                SORT_FIELDS[spec.field]: {
+                _sort_path(spec.field): {
                     "order": "desc" if spec.descending else "asc",
                     "missing": "_last",  # parity: missing always last, both directions
                 }
@@ -330,13 +330,30 @@ def build_query(request: SearchRequest) -> dict[str, Any]:
             for spec in request.sort
         ]
     elif not request.q:
-        body["sort"] = [{"title.raw": {"order": "asc", "missing": "_last"}}]
+        body["sort"] = [{_sort_path("title"): {"order": "asc", "missing": "_last"}}]
 
     if request.facets:
         body["aggs"] = {
             name: {"terms": {"field": _keyword_path(name), "size": 50}} for name in request.facets
         }
     return body
+
+
+#: Fields whose sortable form is a sub-field rather than the field itself.
+#:
+#: `title` is `text` with the `og_text` analyzer, and an analysed field cannot
+#: be sorted — OpenSearch refuses with "Fielddata is disabled on text fields by
+#: default", which reached the caller as a 500. The mapping has carried a
+#: `title.raw` keyword sub-field all along and the *default* sort already used
+#: it; only an explicit `?sort=title` went to the analysed field, because it
+#: resolved through `SORT_FIELDS`, which is the in-memory backend's document
+#: path and knows nothing about sub-fields.
+SORT_SUBFIELDS: dict[str, str] = {"title": "title.raw"}
+
+
+def _sort_path(name: str) -> str:
+    """Where this field is sortable in the index."""
+    return SORT_SUBFIELDS.get(name) or SORT_FIELDS[name]
 
 
 def _keyword_path(name: str) -> str:

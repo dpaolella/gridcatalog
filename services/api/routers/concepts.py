@@ -118,6 +118,7 @@ def list_domains(caller: CallerDep, store: StoreDep, backend: SearchDep) -> list
         {"vocab": NamedGraph.VOCAB.uri(), "scheme": URIRef(SCHEME_DATA_DOMAIN)},
     )
     counts = _domain_counts(caller, backend)
+    synonyms = _alt_labels(store, URIRef(SCHEME_DATA_DOMAIN))
     domains = [
         DomainResponse(
             id=str(row["concept"]).rsplit("/", 1)[-1],
@@ -128,10 +129,38 @@ def list_domains(caller: CallerDep, store: StoreDep, backend: SearchDep) -> list
             structural_note=_opt(row.get("note")),
             v1_ingestion_scope=_opt(row.get("scope")),
             dataset_count=counts.get(str(row["concept"]), 0),
+            alt_labels=synonyms.get(str(row["concept"]), []),
         )
         for row in rows
     ]
     return sorted(domains, key=_domain_order)
+
+
+def _alt_labels(store: StoreDep, scheme: URIRef) -> dict[str, list[str]]:
+    """Each concept's synonyms, keyed by IRI.
+
+    A second query rather than an ``OPTIONAL`` in the first: a concept with
+    three alt-labels would come back as three rows, and every field on it would
+    have to be de-duplicated by hand.
+
+    `DomainResponse` has carried this field since M4 and nothing populated it,
+    so "power flow" found nothing while "Network topology & parameters" did —
+    the eleven synonyms the vocabulary defines were invisible to every client.
+    """
+    rows = store.select(
+        """
+        SELECT ?concept ?alt WHERE {
+          GRAPH ??vocab {
+            ?concept a skos:Concept ; skos:inScheme ??scheme ; skos:altLabel ?alt .
+          }
+        }
+        """,
+        {"vocab": NamedGraph.VOCAB.uri(), "scheme": scheme},
+    )
+    out: dict[str, list[str]] = {}
+    for row in rows:
+        out.setdefault(str(row["concept"]), []).append(str(row["alt"]))
+    return {iri: sorted(labels) for iri, labels in out.items()}
 
 
 def _domain_order(domain: DomainResponse) -> tuple[int, str]:
