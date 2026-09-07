@@ -101,6 +101,17 @@ jobs:
             done
           fi
 
+          # Read each record's own schema surface (WP-11.4). Here rather than
+          # nowhere, because most of this catalog did not arrive through the
+          # harvester — the seed inventory and the golden set are loaded with
+          # `record load`, which writes a record exactly as given and does not
+          # reach the network. Without this step ERA5 publishes the four fields
+          # somebody typed instead of the 273 its store documents.
+          #
+          # Allowed to fail: a source being unreachable on the morning of a
+          # build is a thinner catalog, not a broken deploy.
+          .venv/bin/datahub schema probe || true
+
           # Order, and both halves of it are load-bearing in opposite
           # directions.
           #

@@ -35,6 +35,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Any
+from urllib.parse import urlsplit
 
 import httpx
 from datahub.config import Settings, get_settings
@@ -64,7 +65,13 @@ MAX_BYTES = 4 * 1024 * 1024
 #: room for a very wide one and nothing else.
 HEADER_BYTES = 64 * 1024
 
-TIMEOUT = httpx.Timeout(30.0, connect=10.0)
+#: Deliberately short. A schema surface is a small document served by a store
+#: that either answers quickly or is not worth waiting for, and this stage runs
+#: once per record across thousands of them — so the cost that matters is the
+#: cost of a *failure*, not of a success. At the harvester's default 10-second
+#: connect timeout a run of 1,199 records against unreachable hosts spends
+#: hours doing nothing.
+TIMEOUT = httpx.Timeout(10.0, connect=3.0)
 
 
 @dataclass(frozen=True, slots=True)
@@ -162,6 +169,13 @@ class SchemaProber:
         self.max_bytes = max_bytes
         self._client = client
         self._owned = client is None
+        #: Hosts that could not be reached this run. A catalog points at the
+        #: same few hosts over and over — the AWS registry has hundreds of
+        #: records on a handful of domains — so a host that is down, blocked or
+        #: simply not serving schemas costs one timeout rather than one per
+        #: record. Per-run and in memory: the next run asks again, because a
+        #: host being unreachable this morning is not a fact about the host.
+        self._dead_hosts: set[str] = set()
 
     @property
     def client(self) -> httpx.Client:
@@ -201,6 +215,9 @@ class SchemaProber:
         # KB, which is not a download but is seven times what was asked for,
         # and on a larger file the same ratio is not harmless.
         cap = HEADER_BYTES if ranged else self.max_bytes
+        host = urlsplit(url).netloc
+        if host in self._dead_hosts:
+            return None
         try:
             with self.client.stream("GET", url, headers=headers) as response:
                 if response.status_code >= 400:
@@ -226,6 +243,14 @@ class SchemaProber:
                         return None
                 body = b"".join(chunks)
                 return body[:cap] if ranged else body
+        except (httpx.ConnectError, httpx.ConnectTimeout) as exc:
+            # The host itself is unreachable, which is a property of the host
+            # and not of this URL. Remember it.
+            self._dead_hosts.add(host)
+            log.debug(
+                "schema host unreachable; skipping it for this run", host=host, error=str(exc)
+            )
+            return None
         except (httpx.HTTPError, ValueError) as exc:
             log.debug("schema surface unreachable", url=url, error=str(exc))
             return None

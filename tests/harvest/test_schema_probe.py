@@ -468,3 +468,62 @@ def test_a_ranged_read_is_capped_on_what_arrives_not_on_what_was_asked_for() -> 
     assert payload is not None
     assert len(payload) == 65536, "capped at the header allowance, whatever arrived"
     assert [f.local_name for f in from_csv_header(payload)] == ["col_a", "col_b"]
+
+
+def test_an_unreachable_host_is_tried_once_per_run_not_once_per_record() -> None:
+    """The cost that matters here is the cost of a *failure*.
+
+    A catalog points at the same few hosts over and over — the AWS registry has
+    hundreds of records across a handful of domains — and this stage runs once
+    per record. Retrying a dead host every time took a 1,199-record harvest
+    from 4.6 records/s to 0.27, which is hours of waiting for nothing.
+    """
+    attempts: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        attempts.append(str(request.url))
+        raise httpx.ConnectError("no route to host", request=request)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    prober = SchemaProber(client=client)
+    for _ in range(5):
+        prober.probe_distribution("https://down.example/a.csv", "text/csv")
+
+    assert len(attempts) == 1, "the host was tried once and then skipped"
+
+
+def test_a_dead_host_does_not_poison_a_different_one() -> None:
+    """The memo is per host, because one store being down says nothing about
+    another."""
+    seen: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request.url.host)
+        if request.url.host == "down.example":
+            raise httpx.ConnectError("no route", request=request)
+        return httpx.Response(200, content=b"a,b\n1,2")
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    prober = SchemaProber(client=client)
+    prober.probe_distribution("https://down.example/a.csv", "text/csv")
+    fields, _, _ = prober.probe_distribution("https://up.example/a.csv", "text/csv")
+
+    assert [f.local_name for f in fields] == ["a", "b"]
+    assert "up.example" in seen
+
+
+def test_a_404_does_not_mark_the_host_dead() -> None:
+    """A store that answers "no schema here" is working. Only a failure to
+    reach the host at all is a fact about the host."""
+    attempts: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        attempts.append(str(request.url))
+        return httpx.Response(404)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    prober = SchemaProber(client=client)
+    prober.probe_distribution("https://up.example/a.csv", "text/csv")
+    prober.probe_distribution("https://up.example/b.csv", "text/csv")
+
+    assert len(attempts) == 2

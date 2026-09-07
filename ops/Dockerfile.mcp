@@ -53,6 +53,7 @@ RUN set -eux; \
     if compgen -G "data/catalog/*/*.jsonld" > /dev/null; then \
       for source in data/catalog/*/; do datahub record load "$source"; done; \
     fi; \
+    datahub schema probe || true; \
     datahub semantic run; \
     datahub index reindex; \
     datahub links run; \

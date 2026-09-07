@@ -52,6 +52,9 @@ app.add_typer(record_app)
 app.add_typer(index_app)
 app.add_typer(query_app)
 probe_app = typer.Typer(name="probe", help="Link health.", no_args_is_help=True)
+schema_app = typer.Typer(
+    name="schema", help="Field-level metadata read from datasets.", no_args_is_help=True
+)
 semantic_app = typer.Typer(
     name="semantic", help="Concept resolution and quality grading.", no_args_is_help=True
 )
@@ -62,6 +65,7 @@ snapshot_app = typer.Typer(
 
 app.add_typer(harvest_app)
 app.add_typer(probe_app)
+app.add_typer(schema_app)
 app.add_typer(semantic_app)
 app.add_typer(links_app)
 app.add_typer(snapshot_app)
@@ -1000,6 +1004,99 @@ def harvest_audit(
 # ---------------------------------------------------------------------------
 # status
 # ---------------------------------------------------------------------------
+
+
+@schema_app.command("probe")
+def schema_probe(
+    graph: Annotated[str, typer.Option("--graph", help="catalog or draft.")] = "catalog",
+    limit: Annotated[int, typer.Option(help="Stop after N records.")] = 100_000,
+    only: Annotated[
+        str | None, typer.Option("--only", help="One dataset id, for checking a single record.")
+    ] = None,
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Report what would be read; write nothing.")
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Read each record's own schema surface and add the fields it states.
+
+    The same stage the harvester runs (WP-11.4), over records that are already
+    in the catalog. It exists because most of the catalog did not arrive
+    through the harvester: the seed inventory and the golden set are loaded
+    with `record load`, which writes a record exactly as given and has no
+    business reaching the network. Without this command their schemas are
+    whatever a human typed, which for ERA5 was four fields out of 273.
+
+    Additive and idempotent. An existing field is never overwritten — a
+    hand-authored one carries a concept, a unit and a caveat that a probe
+    cannot produce — and a field already present is not added twice, so
+    running this repeatedly changes nothing after the first time.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore, dataset_node
+    from datahub.graph.store import make_store
+    from datahub.harvest.schema import SchemaProber
+    from datahub.harvest.schema import apply as schema_apply
+
+    target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
+    probed: list[dict[str, Any]] = []
+    unchanged = 0
+    fields_before = fields_after = 0
+
+    with make_store() as store, SchemaProber() as prober:
+        records = RecordStore(store)
+        ids = [only] if only else records.list_ids(graph=target, limit=limit)
+        for dataset_id in ids:
+            document = records.get(dataset_id, graph=target)
+            node = dataset_node(document)
+            before = len(node.get("hasField") or [])
+            fields_before += before
+
+            outcome = prober.probe(node)
+            if not outcome.found:
+                unchanged += 1
+                fields_after += before
+                continue
+
+            schema_apply(node, outcome, slug=dataset_id.rsplit("/", 1)[-1])
+            after = len(node.get("hasField") or [])
+            fields_after += after
+            if after == before:
+                unchanged += 1
+                continue
+
+            probed.append(
+                {
+                    "id": dataset_id,
+                    "added": after - before,
+                    "total": after,
+                    "surface": outcome.surface,
+                }
+            )
+            if not dry_run:
+                # `validate=False`: the fields a source states are what they
+                # are, and a record that fails a level it never claimed should
+                # not lose its schema over it. The level is recomputed by the
+                # loader and the shapes still gate publication.
+                records.put(document, graph=target, validate=False)
+
+    verb = "would add" if dry_run else "added"
+    for entry in sorted(probed, key=lambda e: -e["added"]):
+        typer.echo(
+            f"  +{entry['added']:4d} -> {entry['total']:4d}  "
+            f"{entry['id'].rsplit('/', 1)[-1]:38s} {entry['surface']}"
+        )
+    _emit(
+        {
+            "probed": probed,
+            "unchanged": unchanged,
+            "fields_before": fields_before,
+            "fields_after": fields_after,
+        },
+        f"{len(probed)} record(s) {verb} fields; {unchanged} unchanged; "
+        f"{fields_before} -> {fields_after} fields",
+        as_json=json_out,
+    )
 
 
 @app.command("status")
