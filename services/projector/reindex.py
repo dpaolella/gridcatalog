@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from datahub.api.search.backend import SearchBackend
 from datahub.api.search.document import SearchDocument
 from datahub.config import Settings, get_settings
-from datahub.graph.graphs import NamedGraph
+from datahub.graph.graphs import PUBLISHED_STATES, NamedGraph
 from datahub.graph.records import RecordStore, slug_of
 from datahub.logging import get_logger
 from datahub.projector.index import Projector
@@ -76,7 +76,7 @@ def reindex(
             errors.append(f"{slug_of(dataset_id)}: {type(exc).__name__}: {exc}")
             log.warning("reindex skipped a record", dataset=dataset_id, error=str(exc))
             continue
-        if doc is None or doc.review_state != "confirmed":
+        if doc is None or doc.review_state not in PUBLISHED_STATES:
             skipped += 1
             continue
         pending.append(doc)

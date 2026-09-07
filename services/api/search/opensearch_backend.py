@@ -24,6 +24,7 @@ from datahub.api.search.backend import (
     SearchResponse,
 )
 from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS, SearchDocument
+from datahub.graph.graphs import PUBLISHED_STATES
 
 #: Explicit mapping. Dynamic mapping is disabled so a stray field cannot become
 #: searchable without passing through the document contract first.
@@ -231,7 +232,7 @@ def entitlement_clause(entitlement: Entitlement) -> dict[str, Any]:
     clause: dict[str, Any] = {"bool": {"should": visible, "minimum_should_match": 1}}
     if entitlement.include_unconfirmed:
         return clause
-    return {"bool": {"filter": [clause, {"term": {"review_state": "confirmed"}}]}}
+    return {"bool": {"filter": [clause, {"terms": {"review_state": sorted(PUBLISHED_STATES)}}]}}
 
 
 def build_query(request: SearchRequest) -> dict[str, Any]:

@@ -30,6 +30,7 @@ from datahub.api.search.document import (
     SORT_FIELDS,
     SearchDocument,
 )
+from datahub.graph.graphs import PUBLISHED_STATES
 
 _TOKEN = re.compile(r"[a-z0-9]+")
 
@@ -264,7 +265,7 @@ def _flatten(items: Sequence[Any]) -> Iterable[Any]:
 def matches_filters(doc: SearchDocument, request: SearchRequest) -> bool:
     if request.ids is not None and doc.id not in request.ids:
         return False
-    if not request.entitlement.include_unconfirmed and doc.review_state != "confirmed":
+    if not request.entitlement.include_unconfirmed and doc.review_state not in PUBLISHED_STATES:
         return False
     if not request.entitlement.can_see_existence(doc):
         return False

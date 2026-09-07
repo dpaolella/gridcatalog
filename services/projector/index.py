@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING
 from datahub.api.search.backend import SearchBackend
 from datahub.api.search.document import SearchDocument
 from datahub.config import Settings, get_settings
-from datahub.graph.graphs import NamedGraph
+from datahub.graph.graphs import PUBLISHED_STATES, NamedGraph
 from datahub.graph.records import RecordStore, slug_of
 from datahub.logging import get_logger
 from datahub.projector.build import build_document
@@ -131,7 +131,7 @@ class Projector:
         doc = self.document_for(dataset_id)
         slug = slug_of(str(self.records._iri(dataset_id)))
 
-        if doc is None or doc.review_state != "confirmed":
+        if doc is None or doc.review_state not in PUBLISHED_STATES:
             # Removal, not a skip. A record demoted to draft that stays indexed
             # is visible to every anonymous search, and nothing would surface
             # the mistake.
@@ -162,7 +162,7 @@ class Projector:
                 log.warning("projection failed", dataset=dataset_id, error=str(exc))
                 continue
             slug = slug_of(str(self.records._iri(dataset_id)))
-            if doc is None or doc.review_state != "confirmed":
+            if doc is None or doc.review_state not in PUBLISHED_STATES:
                 removals.append(slug)
                 continue
             pending.append(doc)
