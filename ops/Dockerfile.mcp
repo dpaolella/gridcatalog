@@ -1,0 +1,101 @@
+# syntax=docker/dockerfile:1
+#
+# One container serving the catalog's REST API and a remote MCP endpoint.
+#
+#   /mcp   the URL a Claude connector is pointed at
+#   /      the REST API
+#
+# Two stages, and the split is the point: the catalog is *built* in the first
+# and only its output crosses into the second. The build needs the golden-set
+# records, which live under `tests/` — a wart worth naming rather than hiding —
+# and a production image has no business shipping a test tree. So it does not.
+
+# ---------------------------------------------------------------------------
+FROM python:3.12-slim AS builder
+# ---------------------------------------------------------------------------
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_NO_CACHE_DIR=1
+WORKDIR /build
+
+COPY pyproject.toml README.md ./
+COPY services ./services
+RUN pip install --no-cache-dir ".[mcp]"
+
+COPY schemas ./schemas
+COPY shapes ./shapes
+COPY vocab ./vocab
+COPY data ./data
+COPY config ./config
+COPY ops/alembic.ini ./ops/alembic.ini
+COPY ops/migrations ./ops/migrations
+# Production content that lives in a test directory; see data/golden-set/README.md.
+# Copied into the *builder* only.
+COPY tests/fixtures/records ./tests/fixtures/records
+
+ENV DATAHUB_GRAPH_STORE_PATH=/build/var/site/graph.nq \
+    DATAHUB_SEARCH_STORE_PATH=/build/var/site/index.json \
+    DATAHUB_DATABASE_URL=sqlite+pysqlite:////build/var/site/ops.sqlite3 \
+    DATAHUB_HARVEST_PROBE_SCHEMAS=false
+
+# The same sequence pages.yml runs, and the order is load-bearing in two
+# opposite directions: `semantic run` writes grades to the graph so it must
+# precede an index built from that graph, and `links run` reads the *search
+# index* so it must follow one. Grade, index, link, index again.
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN set -eux; \
+    mkdir -p var/site/curated; \
+    cp tests/fixtures/records/*.jsonld var/site/curated/; \
+    rm -f var/site/curated/caiso-nodal-lmp-restricted.jsonld \
+          var/site/curated/utility-load-shapes-allowlisted.jsonld; \
+    datahub db upgrade; \
+    datahub graph bootstrap; \
+    datahub seed load; \
+    datahub record load var/site/curated; \
+    if compgen -G "data/catalog/*/*.jsonld" > /dev/null; then \
+      for source in data/catalog/*/; do datahub record load "$source"; done; \
+    fi; \
+    datahub semantic run; \
+    datahub index reindex; \
+    datahub links run; \
+    datahub index reindex
+
+# ---------------------------------------------------------------------------
+FROM python:3.12-slim AS runtime
+# ---------------------------------------------------------------------------
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_NO_CACHE_DIR=1
+WORKDIR /app
+
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends curl ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY pyproject.toml README.md ./
+COPY services ./services
+RUN pip install --no-cache-dir ".[mcp]"
+
+COPY schemas ./schemas
+COPY shapes ./shapes
+COPY vocab ./vocab
+COPY data ./data
+COPY config ./config
+
+# The built catalog, and nothing else from the builder: no test tree, no
+# migrations, no build toolchain.
+COPY --from=builder /build/var/site /app/var/site
+
+# Baked at build time rather than assembled at start. A container that scales
+# to zero and back has to answer its first request, not begin a catalog build.
+ENV DATAHUB_GRAPH_STORE_PATH=/app/var/site/graph.nq \
+    DATAHUB_SEARCH_STORE_PATH=/app/var/site/index.json \
+    DATAHUB_DATABASE_URL=sqlite+pysqlite:////app/var/site/ops.sqlite3 \
+    DATAHUB_ENVIRONMENT=production \
+    DATAHUB_LOG_JSON=true \
+    PORT=8000
+
+RUN useradd --create-home --uid 10001 datahub && chown -R datahub /app
+USER datahub
+
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD curl -fsS "http://localhost:${PORT}/v1/health" || exit 1
+
+CMD ["sh", "-c", "uvicorn datahub.mcp.asgi:app --host 0.0.0.0 --port ${PORT}"]

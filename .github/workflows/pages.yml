@@ -101,13 +101,24 @@ jobs:
             done
           fi
 
-          # Grade and link BEFORE indexing. The index is a projection of the
-          # graph, and grades are written to the computed graph by `semantic
-          # run` — so an index built first captures the catalog without them,
-          # and the snapshot exports what the index holds. It did exactly that:
-          # every published record read "Not yet assessed" until this order was
-          # corrected.
+          # Order, and both halves of it are load-bearing in opposite
+          # directions.
+          #
+          # `semantic run` writes grades to the computed graph, so it must come
+          # BEFORE an index built from that graph — an index built first
+          # captures the catalog ungraded, and every published record reads
+          # "Not yet assessed".
+          #
+          # `links run` reads the *search index* rather than the graph, so it
+          # must come AFTER one exists. Run before, it sees nothing and writes
+          # no links at all: 0 instead of 104, and the shared-origin warnings
+          # PRD §1 calls out as the differentiating feature silently absent.
+          #
+          # So: grade, index, link, index again. Reindex is idempotent and
+          # takes seconds; the second pass is what carries the links into the
+          # index that serves them.
           .venv/bin/datahub semantic run
+          .venv/bin/datahub index reindex
           .venv/bin/datahub links run
           .venv/bin/datahub index reindex
 

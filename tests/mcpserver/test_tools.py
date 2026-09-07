@@ -279,6 +279,43 @@ def test_a_tool_call_through_the_server_returns_real_catalog_data(tools) -> None
     assert result["data"]["id"] == ERA5
 
 
+#: Every tool, with arguments that exercise the ones the shell has to forward
+#: by name. Kept as data so adding a tool without adding a row here is a
+#: visible omission rather than a silent gap.
+SERVER_CALLS: list[tuple[str, dict]] = [
+    ("search_datasets", {"q": "wind", "license_id": "CC-BY-4.0", "limit": 3}),
+    ("get_dataset", {"dataset_id": ERA5}),
+    ("get_dataset_schema", {"dataset_id": ERA5}),
+    ("preview_dataset", {"dataset_id": ERA5, "rows": 3}),
+    ("get_access_plan", {"dataset_id": ERA5}),
+    ("explain_connection", {"dataset_id": ERA5, "other_dataset_id": ERA5}),
+    ("author_workflow", {"goal": "x", "dataset_ids": [ERA5], "steps": ["a"]}),
+]
+
+
+@pytest.mark.parametrize(("name", "arguments"), SERVER_CALLS, ids=[c[0] for c in SERVER_CALLS])
+def test_every_tool_is_wired_to_the_signature_it_calls(tools, name, arguments) -> None:
+    """The protocol shell forwards arguments **by keyword**, so a renamed
+    parameter is a TypeError at call time and nothing catches it earlier.
+
+    `search_datasets` passed `license=` to a method taking `license_id=` and had
+    therefore never worked. The end-to-end test above did not catch it because
+    it exercised one tool of seven, and the tool tests did not because they call
+    the `Tools` object directly and never cross the shell.
+
+    A 403 is a pass here: a tier-gated tool answering "you need tier 1" has
+    been wired correctly and refused correctly, which is what PRD §F9 asks for.
+    """
+    try:
+        from datahub.mcp.server import create_server
+    except ImportError as exc:  # pragma: no cover - depends on the install
+        pytest.skip(f"fastmcp server support not installed: {exc}")
+
+    result = _call(create_server(tools=tools), name, arguments)
+
+    assert "error" not in result or result.get("status") == 403, result
+
+
 def test_the_instructions_state_the_control_plane_rule() -> None:
     from datahub.mcp.server import INSTRUCTIONS
 

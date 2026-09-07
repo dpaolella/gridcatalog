@@ -41,6 +41,7 @@ da = ds.open(time=slice("2019-01", "2019-12"))   # read in your process, not our
 | Python SDK | [`sdk/python/README.md`](sdk/python/README.md) |
 | Running it | [`docs/operations.md`](docs/operations.md) |
 | Publishing the catalog to GitHub Pages | [`docs/hosting.md`](docs/hosting.md) |
+| Serving MCP to a colleague's Claude | [`docs/mcp-deployment.md`](docs/mcp-deployment.md) |
 | The OpenGrid identity in the UI | [`docs/brand.md`](docs/brand.md) |
 
 ---
