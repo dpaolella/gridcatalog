@@ -4,10 +4,14 @@ The corpus is used by the conformance suite, the graph suite, the search tests,
 the broker tests and the MCP grounding tests, so it is loaded through one place
 and cached: parsing fifteen JSON-LD documents on every test would dominate the
 suite's runtime.
+
+Cached, and copied on the way out. See :func:`load_record` for why the second
+half is not optional.
 """
 
 from __future__ import annotations
 
+import copy
 import functools
 import json
 from pathlib import Path
@@ -37,19 +41,36 @@ def invalid_names() -> tuple[str, ...]:
 
 
 @functools.lru_cache(maxsize=64)
-def load_record(name: str) -> dict[str, Any]:
-    """A fixture document with the project context substituted in.
-
-    Fixtures reference the context by URL so they read like a record a
-    publisher would actually write. Resolving it locally keeps the suite off
-    the network.
-    """
+def _cached_record(name: str) -> dict[str, Any]:
     path = RECORDS_DIR / f"{name}.jsonld"
     if not path.exists():
         path = INVALID_DIR / f"{name}.jsonld"
     document = json.loads(path.read_text())
     document["@context"] = context()["@context"]
     return document
+
+
+def load_record(name: str) -> dict[str, Any]:
+    """A fixture document with the project context substituted in.
+
+    Fixtures reference the context by URL so they read like a record a
+    publisher would actually write. Resolving it locally keeps the suite off
+    the network.
+
+    **A fresh copy every call.** This used to be the `lru_cache` itself, which
+    hands every caller the same mutable dict — so one test doing
+    `load_record("ecmwf-era5")["@graph"][0]["reviewState"] = "draft"` changed
+    what every later test in the session loaded, and ERA5 went to the draft
+    graph everywhere. That failed 63 tests across the projector, link service,
+    semantic layer, snapshot exporter and SDK, all of them assuming ERA5 is
+    published — and only under an ordering that put the mutating module first,
+    so it passed in isolation and passed with `-p no:randomly`.
+
+    The cache stays: it is the file read and the context substitution that are
+    worth avoiding, and neither is what made it unsafe. Callers get their own
+    copy, so mutating a fixture is a local act again.
+    """
+    return copy.deepcopy(_cached_record(name))
 
 
 @functools.lru_cache(maxsize=64)

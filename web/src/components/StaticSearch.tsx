@@ -204,7 +204,11 @@ export function StaticSearch({
 
           {results.length === 0 ? (
             <EmptyState title={empty("noResults")}>
-              <p>{empty("noResultsHelp", { total: datasets.length, example: "ssrd" })}</p>
+              <p>{empty("noResultsHelp", {
+                total: datasets.length,
+                column: "ssrd",
+                concept: "globalHorizontalIrradiance",
+              })}</p>
             </EmptyState>
           ) : (
             <>

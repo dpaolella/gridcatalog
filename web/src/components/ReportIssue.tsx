@@ -21,11 +21,17 @@ export function ReportIssue({
   datasetTitle,
   fieldId,
   distributionId,
+  compact = false,
 }: {
   datasetId: string;
   datasetTitle: string;
   fieldId?: string;
   distributionId?: string;
+  /** Rendered beside one row of a table or inside one distribution card rather
+   *  than in the record header. A quieter control, because there is one per
+   *  row and 273 copies of the header button would be the loudest thing on a
+   *  Zarr store's schema tab. */
+  compact?: boolean;
 }) {
   const t = useTranslations("report");
   const [open, setOpen] = useState(false);
@@ -49,7 +55,16 @@ export function ReportIssue({
   }
 
   if (!open) {
-    return (
+    return compact ? (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="whitespace-nowrap text-xs text-[color:var(--muted)] underline decoration-dotted underline-offset-2 hover:text-[color:var(--foreground)]"
+        title={t("titleFor", { what: fieldId ?? distributionId ?? datasetTitle })}
+      >
+        {t("short")}
+      </button>
+    ) : (
       <button
         type="button"
         onClick={() => setOpen(true)}
@@ -62,7 +77,7 @@ export function ReportIssue({
 
   return (
     <div
-      className="og-card w-full max-w-sm p-4">
+      className={compact ? "og-card mt-2 w-full min-w-[16rem] p-3" : "og-card w-full max-w-sm p-4"}>
       <div className="flex items-baseline justify-between">
         <h2 className="font-semibold">{t("title")}</h2>
         <button
