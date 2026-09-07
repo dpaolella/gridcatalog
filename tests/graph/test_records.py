@@ -37,6 +37,20 @@ from rdflib import URIRef
 ERA5 = "https://catalog.opengrid.org/ds/ecmwf-era5"
 
 
+def drafted(name: str) -> dict:
+    """A fixture record marked unpublished, without touching the fixture.
+
+    `load_record` hands out its own copy, so this is a local edit. It did not
+    always: the loader cached one dict and returned it to everybody, and these
+    two tests setting `reviewState` on it sent ERA5 to the draft graph for the
+    rest of the session — 63 failures across five suites, none of them here,
+    and only under an ordering that ran this module first.
+    """
+    document = load_record(name)
+    document["@graph"][0]["reviewState"] = "draft"
+    return document
+
+
 @pytest.fixture(scope="module")
 def loaded():
     store = RdflibStore()
@@ -291,8 +305,10 @@ def test_promoting_a_record_carries_its_uncatalogued_upstream_with_it() -> None:
     bootstrap(store)
     records = RecordStore(store)
 
-    document = load_record("global-wind-atlas")
-    document["@graph"][0]["reviewState"] = "draft"
+    # `load_record` copies now, but say so locally: this mutates the document
+    # before writing it, and a reader should not have to check the loader to
+    # know whether that is safe.
+    document = drafted("global-wind-atlas")
     records.put(document, graph=NamedGraph.DRAFT)
 
     def triples_in(graph: NamedGraph) -> bool:
@@ -322,13 +338,8 @@ def test_promoting_does_not_drag_a_catalogued_dataset_along() -> None:
     bootstrap(store)
     records = RecordStore(store)
 
-    era5 = load_record("ecmwf-era5")
-    era5["@graph"][0]["reviewState"] = "draft"
-    records.put(era5, graph=NamedGraph.DRAFT)
-
-    cutouts = load_record("pypsa-eur-weather-cutouts")
-    cutouts["@graph"][0]["reviewState"] = "draft"
-    records.put(cutouts, graph=NamedGraph.DRAFT)
+    records.put(drafted("ecmwf-era5"), graph=NamedGraph.DRAFT)
+    records.put(drafted("pypsa-eur-weather-cutouts"), graph=NamedGraph.DRAFT)
 
     records.promote("pypsa-eur-weather-cutouts")
 
