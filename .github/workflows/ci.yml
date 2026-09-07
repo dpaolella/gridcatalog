@@ -157,11 +157,12 @@ jobs:
           discovery.type: single-node
           DISABLE_SECURITY_PLUGIN: "true"
           OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
-          # Three hundred lines of plugin-loading chatter get printed into this
-          # job's log at teardown, *after* the test output, which buries the
-          # thing anybody opening a failed run came to read. At WARN the log is
-          # empty unless something is wrong, which is when it is worth having.
-          logger.level: WARN
+          # Plugin-loading chatter gets printed into this job's log at teardown,
+          # *after* the test output, which buries the thing anybody opening a
+          # failed run came to read. `logger.level: WARN` cut three hundred
+          # lines to eighty and left the shard-allocation warnings, which fire
+          # once per index the suite creates and say nothing about anything.
+          logger.level: ERROR
         ports: ["9200:9200"]
       postgres:
         image: postgres:16
@@ -240,4 +241,17 @@ jobs:
         # `-rf` and a one-line traceback: a parity failure is "this backend
         # differs", and the assertion line says which. The full traceback adds
         # nothing and pushes the summary further from the end of the log.
-        run: .venv/bin/pytest -q -m integration --tb=line -rf
+        #
+        # Also to a file, because the runner prints every service container's
+        # log after the last step: on a failed run the summary is buried under
+        # a hundred lines of Postgres and OpenSearch startup, where a log tail
+        # never reaches it. The artefact is the copy you can actually read.
+        run: |
+          set -o pipefail
+          .venv/bin/pytest -q -m integration --tb=line -rf 2>&1 | tee integration.log
+      - name: Keep the result where it can be read
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-log
+          path: integration.log

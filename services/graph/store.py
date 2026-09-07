@@ -10,6 +10,7 @@ Nothing outside this package constructs a SPARQL client.
 
 from __future__ import annotations
 
+import io
 import logging
 import threading
 from abc import ABC, abstractmethod
@@ -334,7 +335,14 @@ class FusekiStore(GraphStore):
             graph = Graph()
             graph.parse(data=response.text, format="nt")
             return Result.parse(source=None, format=None, graph=graph, type_="CONSTRUCT")  # type: ignore[arg-type]
-        return Result.parse(source=_BytesSource(response.content), format="json")
+        # A plain byte stream, not a SAX `InputSource`. rdflib's JSON result
+        # parser calls `source.read()`; the adapter that used to sit here
+        # implemented `getByteStream`/`getCharacterStream` instead, so every
+        # SELECT against Fuseki raised `AttributeError: '_BytesSource' object
+        # has no attribute 'read'` — `count`, `graph_names` and every query the
+        # API makes on the production backend. Nothing caught it because
+        # nothing had ever run against a real Fuseki.
+        return Result.parse(source=io.BytesIO(response.content), format="json")
 
     def _raw_update(self, update: str) -> None:
         response = self._client.post(self.update_endpoint, data={"update": update})
@@ -399,30 +407,6 @@ class FusekiStore(GraphStore):
     def close(self) -> None:
         if self._owns_client:
             self._client.close()
-
-
-class _BytesSource:
-    """Minimal adapter so rdflib's result parser can read a bytes payload."""
-
-    def __init__(self, data: bytes) -> None:
-        self._data = data
-
-    def getByteStream(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        import io
-
-        return io.BytesIO(self._data)
-
-    def getCharacterStream(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getPublicId(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getSystemId(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
-
-    def getEncoding(self) -> Any:  # noqa: N802 - rdflib InputSource API
-        return None
 
 
 def _is_graph_query(query: str) -> bool:
