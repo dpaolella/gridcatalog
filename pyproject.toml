@@ -79,6 +79,8 @@ packages = [
   "datahub.harvest.filters",
   "datahub.harvest.normalizers",
   "datahub.harvest.normalizers.mappings",
+  "datahub.harvest.promote",
+  "datahub.harvest.schema",
   "datahub.harvest.validate",
   "datahub.linksvc",
   "datahub.mcp",
