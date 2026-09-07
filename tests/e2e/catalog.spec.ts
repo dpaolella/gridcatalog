@@ -65,15 +65,28 @@ test("a correlated pair is flagged and still shown", async ({ page }) => {
 });
 
 test("a restricted record answers exactly as an absent one does", async ({ page }) => {
-  const restricted = await page.goto("/datasets/utility-load-shapes-allowlisted");
-  const restrictedBody = await page.locator("body").innerText();
+  // The header settles asynchronously — `AccountMenu` renders nothing until
+  // `/api/session` answers — so reading the whole body straight after
+  // navigation compares one page that has the account control against one that
+  // does not yet, and reports a difference in the header as a difference in the
+  // refusal. It failed exactly that way once the suite got busy enough for the
+  // second navigation to find a warm route.
+  //
+  // Waited for rather than filtered out: the assertion is that these two pages
+  // are textually identical, and excluding a region from the comparison is how
+  // a leak in that region stops being caught.
+  async function settledBody(path: string) {
+    const response = await page.goto(path);
+    await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
+    return { status: response?.status(), text: await page.locator("body").innerText() };
+  }
 
-  const absent = await page.goto("/datasets/there-is-no-such-dataset");
-  const absentBody = await page.locator("body").innerText();
+  const restricted = await settledBody("/datasets/utility-load-shapes-allowlisted");
+  const absent = await settledBody("/datasets/there-is-no-such-dataset");
 
-  expect(restricted?.status()).toBe(404);
-  expect(absent?.status()).toBe(404);
-  expect(restrictedBody).toBe(absentBody);
+  expect(restricted.status).toBe(404);
+  expect(absent.status).toBe(404);
+  expect(restricted.text).toBe(absent.text);
 });
 
 test("an empty search explains itself", async ({ page }) => {
@@ -109,4 +122,48 @@ test("the connections graph is capped with a way to see more", async ({ page }) 
   const rows = page.getByTestId("connection");
   expect(await rows.count()).toBeLessThanOrEqual(12);
   await expect(page.getByTestId("connection-list")).toBeVisible();
+});
+
+test("a concept on a schema row links to every dataset that carries it", async ({ page }) => {
+  // PRD §F3: "Each concept links to the semantic layer." The Schema tab used to
+  // render concept names as plain text, which is the one thing a modeller wants
+  // to pull on — the useful question at that cell is "what else has this
+  // quantity", and the answer is a filter the search backend already compiles.
+  await page.goto("/datasets/ecmwf-era5");
+  await page.getByRole("tab", { name: "Schema" }).click();
+
+  const concept = page.locator("table a[href*='concept=']").first();
+  await expect(concept).toBeVisible();
+  await concept.click();
+
+  await expect(page).toHaveURL(/concept=/);
+  await expect(page.getByRole("link", { name: /ERA5/i }).first()).toBeVisible();
+});
+
+test("an issue can be reported against one field and one distribution", async ({ page }) => {
+  // §F3 asks for a report on any record, *field* or distribution, with the
+  // reference captured automatically. The API has taken `field_id` and
+  // `distribution_id` since it was written; the UI passed neither, so a wrong
+  // unit on one column and a dead URL on one of several paths both had to be
+  // filed against the whole record.
+  await page.goto("/datasets/ecmwf-era5");
+
+  await page.getByRole("tab", { name: "Schema" }).click();
+  await page.locator("table").getByRole("button", { name: "Report" }).first().click();
+  // The form names what it is about, so a reporter can see the reference was
+  // captured rather than having to trust that it was.
+  await expect(page.getByText(/About/).first()).toBeVisible();
+  await expect(page.getByRole("combobox").first()).toBeVisible();
+
+  await page.getByRole("tab", { name: "Downloads" }).click();
+  await expect(page.getByRole("button", { name: "Report" }).first()).toBeVisible();
+});
+
+test("field-level provenance reaches the schema table", async ({ page }) => {
+  // It was fetched, exported, shipped to the browser and dropped at render
+  // time. It is the evidence behind the Provenance grade.
+  await page.goto("/datasets/global-wind-atlas");
+  await page.getByRole("tab", { name: "Schema" }).click();
+
+  await expect(page.getByRole("columnheader", { name: "Provenance" })).toBeVisible();
 });

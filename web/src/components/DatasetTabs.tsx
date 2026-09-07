@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import type {
   DatasetDetail,
   DistributionDetail,
+  FieldDetail,
   LinkHealth,
   LinksResponse,
   QualityResponse,
@@ -14,6 +15,7 @@ import type {
 import { BboxSummary, CoverageMap, CoverageTimeline, bboxToWkt } from "@/components/Coverage";
 import { Connections } from "@/components/Connections";
 import { EmptyState, NotCaptured } from "@/components/EmptyState";
+import { ReportIssue } from "@/components/ReportIssue";
 import {
   cadenceText,
   formatBytes,
@@ -142,7 +144,9 @@ export function DatasetTabs({
               <Provenance dataset={dataset} distributions={distributions} />
             ) : null}
             {tab === "coverage" ? <Coverage dataset={dataset} /> : null}
-            {tab === "schema" ? <Schema schema={schema} /> : null}
+            {tab === "schema" ? (
+              <Schema schema={schema} datasetId={dataset.id} datasetTitle={dataset.title} />
+            ) : null}
             {tab === "quality" ? <Quality quality={quality} dataset={dataset} /> : null}
             {tab === "connections" ? <ConnectionsTab links={links} /> : null}
             {tab === "downloads" ? (
@@ -394,7 +398,15 @@ function Coverage({ dataset }: { dataset: DatasetDetail }) {
  */
 const FILTER_THRESHOLD = 25;
 
-function Schema({ schema }: { schema: SchemaResponse | null }) {
+function Schema({
+  schema,
+  datasetId,
+  datasetTitle,
+}: {
+  schema: SchemaResponse | null;
+  datasetId: string;
+  datasetTitle: string;
+}) {
   const t = useTranslations("schema");
   const empty = useTranslations("empty");
   const [query, setQuery] = useState("");
@@ -447,7 +459,11 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
             <th className="py-2 pr-4 font-medium">{t("type")}</th>
             <th className="py-2 pr-4 font-medium">{t("unit")}</th>
             <th className="py-2 pr-4 font-medium">{t("concept")}</th>
-            <th className="py-2 font-medium">{t("basis")}</th>
+            <th className="py-2 pr-4 font-medium">{t("basis")}</th>
+            <th className="py-2 pr-4 font-medium">{t("provenance")}</th>
+            <th className="py-2">
+              <span className="sr-only">{t("report")}</span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -474,7 +490,18 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
               <td className="py-2 pr-4">
                 {field.concept ? (
                   <span title={field.concept.definition ?? undefined}>
-                    {field.concept.label ?? iriTail(field.concept.iri)}
+                    {/* §F3: "Each concept links to the semantic layer." It goes
+                        to the catalog filtered by this concept rather than to a
+                        concept page, because the useful question a reader has
+                        here is "what else carries this quantity" — `concept` is
+                        already a filter the search backend compiles, so the
+                        answer is one link away rather than a page away. */}
+                    <Link
+                      href={{ pathname: "/", query: { concept: field.concept.iri } }}
+                      className="underline decoration-dotted underline-offset-2"
+                    >
+                      {field.concept.label ?? iriTail(field.concept.iri)}
+                    </Link>
                     {field.concept_inferred ? (
                       <span
                         className="ml-1.5 px-1 text-[10px] font-medium"
@@ -500,12 +527,81 @@ function Schema({ schema }: { schema: SchemaResponse | null }) {
                   <NotCaptured />
                 )}
               </td>
-              <td className="py-2">{field.value_basis ?? <NotCaptured />}</td>
+              <td className="py-2 pr-4">{field.value_basis ?? <NotCaptured />}</td>
+              {/* Field-level provenance, which §F3 asks for per field and which
+                  this table used to drop on the floor — the API sends it, the
+                  exporter writes it, the browser received it and nothing
+                  rendered it. It is the evidence behind the Provenance grade,
+                  so a reader who wants to know why a dataset grades B can see
+                  which fields are the reason. */}
+              <td className="py-2 pr-4">
+                <FieldProvenance field={field} />
+              </td>
+              {/* §F3 asks for a report on any record, *field* or distribution,
+                  with the reference captured automatically. `ReportIssue` has
+                  taken `fieldId` since it was written and nothing ever passed
+                  one, so the most reportable defect there is — a wrong unit on
+                  one column — had to be filed against the whole record. */}
+              <td className="py-2">
+                <ReportIssue
+                  compact
+                  datasetId={datasetId}
+                  datasetTitle={datasetTitle}
+                  fieldId={field.id}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="mt-3 max-w-prose text-sm text-[color:var(--muted)]">{t("gapHelp")}</p>
+    </div>
+  );
+}
+
+/**
+ * Where one field's values came from.
+ *
+ * Two different statements, kept apart because they answer different questions:
+ * `field_sources` is where a value was read from, `derived_from` is what it was
+ * computed out of. A field can have both — a capacity factor derived from a
+ * wind speed that was itself read from a reanalysis.
+ *
+ * IRIs are shown by their tail. The full IRI is the title, because the tail is
+ * what a reader recognises and the whole thing is what they would paste into a
+ * query.
+ */
+function FieldProvenance({ field }: { field: FieldDetail }) {
+  const t = useTranslations("schema");
+  const sources = field.field_sources ?? [];
+  const derived = field.derived_from ?? [];
+
+  if (sources.length === 0 && derived.length === 0) return <NotCaptured />;
+
+  return (
+    <div className="space-y-1 text-xs">
+      {sources.length > 0 ? (
+        <div>
+          <span className="text-[color:var(--muted)]">{t("readFrom")}: </span>
+          {sources.map((source, index) => (
+            <span key={source}>
+              {index > 0 ? ", " : null}
+              <code title={source}>{iriTail(source)}</code>
+            </span>
+          ))}
+        </div>
+      ) : null}
+      {derived.length > 0 ? (
+        <div>
+          <span className="text-[color:var(--muted)]">{t("derivedFrom")}: </span>
+          {derived.map((source, index) => (
+            <span key={source}>
+              {index > 0 ? ", " : null}
+              <code title={source}>{iriTail(source)}</code>
+            </span>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -653,15 +749,29 @@ function Downloads({
               ) : null}
             </dl>
 
-            {dist.access_url ? (
-              <a
-                href={dist.access_url}
-                rel="noreferrer noopener"
-                className="og-cta mt-3"
-              >
-                {t("openSource")} ↗
-              </a>
-            ) : null}
+            <div className="mt-3 flex flex-wrap items-baseline gap-4">
+              {dist.access_url ? (
+                <a
+                  href={dist.access_url}
+                  rel="noreferrer noopener"
+                  className="og-cta"
+                >
+                  {t("openSource")} ↗
+                </a>
+              ) : null}
+              {/* Per distribution, not per record. A dataset commonly has an
+                  anonymous bulk copy and an account-gated API, and "this link
+                  is broken" is about one of them — which is why the API has
+                  taken `distribution_id` since it was written, and why filing
+                  every dead URL against the whole record made the reports
+                  harder to act on than the defects. */}
+              <ReportIssue
+                compact
+                datasetId={dataset.id}
+                datasetTitle={dataset.title}
+                distributionId={dist.id}
+              />
+            </div>
           </li>
         ))}
       </ul>

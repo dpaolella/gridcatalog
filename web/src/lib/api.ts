@@ -351,6 +351,17 @@ export interface FieldDetail {
   inference_basis?: string | null;
   concept_gap_reason?: string | null;
   value_basis?: string | null;
+  /** Where this field's values came from — the upstream field or dataset it was
+   *  read out of. The API has always sent it; this type did not declare it and
+   *  the Schema tab did not render it, so field-level provenance arrived in the
+   *  browser and was dropped (§F3, #40). It is the evidence behind the
+   *  Provenance grade: a reader told a dataset grades B deserves to see which
+   *  fields are the reason. */
+  field_sources?: string[];
+  /** The fields this one was computed from, where it is derived rather than
+   *  measured. Distinct from `field_sources`: that says where a value came
+   *  from, this says what it was made out of. */
+  derived_from?: string[];
   required?: boolean | null;
   completeness_caveats?: string | null;
 }

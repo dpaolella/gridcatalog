@@ -153,7 +153,11 @@
     "caveat": "Caveat",
     "filterPlaceholder": "Filter fields by name, description, unit or concept",
     "fieldCount": "{shown} of {total} fields",
-    "noneMatch": "No field matches that filter."
+    "noneMatch": "No field matches that filter.",
+    "provenance": "Provenance",
+    "readFrom": "Read from",
+    "derivedFrom": "Derived from",
+    "report": "Report an issue with this field"
   },
   "quality": {
     "title": "Three independent facets",
@@ -225,7 +229,9 @@
     "submit": "Send report",
     "sending": "Sending…",
     "thanks": "Thank you — the report is with the curation team.",
-    "failed": "That did not send. Please try again."
+    "failed": "That did not send. Please try again.",
+    "short": "Report",
+    "titleFor": "Report an issue with {what}"
   },
   "submit": {
     "title": "Submit a dataset",
