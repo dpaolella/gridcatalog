@@ -303,6 +303,8 @@ The record's fields, with units and concepts where they resolve.
 | Name | In | Required | Description |
 |---|---|---|---|
 | `dataset_id` | path | yes | The dataset's slug, which is the last segment of its IRI — `ecmwf-era5` for `https://catalog.opengrid.org/ds/ecmwf-era5`. A caller holding the IRI takes its last segment; a full IRI is not accepted in the path, because its slashes are indistinguishable from the sub-resource paths (`/schema`, `/quality`) that follow it. |
+| `limit` | query | no |  |
+| `offset` | query | no |  |
 | `authorization` | header | no |  |
 
 ### `POST /v1/reports`
