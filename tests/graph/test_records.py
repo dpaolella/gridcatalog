@@ -15,7 +15,6 @@ compaction and datatype coercion each broke this store at least once.
 from __future__ import annotations
 
 import sys
-from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -368,11 +367,7 @@ def test_a_description_containing_a_placeholder_sequence_still_writes() -> None:
     bootstrap(store)
     records = RecordStore(store)
 
-    # Deep-copied: `load_record` is `lru_cache`d and hands out the *same* dict
-    # to every caller, so mutating it here would rewrite the fixture for the
-    # rest of the session. (Measured, the hard way: 62 failures across the
-    # snapshot, semantic, SDK and MCP suites, all downstream of this record.)
-    document = deepcopy(load_record("global-wind-atlas"))
+    document = load_record("global-wind-atlas")
     node = dataset_node(document)
     node["description"] = (
         "PNV, as defined here, does not necessarily represent the world'??s "
