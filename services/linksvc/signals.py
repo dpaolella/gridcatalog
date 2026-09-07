@@ -56,10 +56,36 @@ class PairSignals:
     target: str
     signals: dict[str, Signal]
     shared_origins: tuple[SharedOrigin, ...] = ()
+    target_inbound_links: int = 0
+    """How many records point at the target.
+
+    Not a signal, and deliberately not in ``signals``: it says nothing about
+    *this* pairing — two unrelated datasets do not become related because one of
+    them is widely cited — so it contributes no strength and no reason. It is a
+    property of the target, used only to break a tie between two candidates the
+    signals could not separate, where "the one twelve other records cite" is the
+    better suggestion.
+
+    It lives here because ranking has no other way to reach it: ``rank`` sees
+    :class:`Link` objects and this ``PairSignals``, not the documents.
+    """
 
     def value(self, name: str) -> float:
+        """The named quantity, for weighting or for a tie-break.
+
+        Falls through to the pair-level attributes, so ``tie_break`` in
+        ``link-weights.yaml`` can name ``inbound_link_count`` — which it does,
+        and which silently resolved to a constant 0 for every candidate until
+        this existed, leaving ties to whatever order the store happened to
+        return. Non-deterministic ordering across backends is precisely what
+        ADR-0002 says must not happen.
+        """
         signal = self.signals.get(name)
-        return signal.value if signal else 0.0
+        if signal is not None:
+            return signal.value
+        if name == "inbound_link_count":
+            return float(self.target_inbound_links)
+        return 0.0
 
     def evidence(self, name: str) -> dict[str, Any]:
         signal = self.signals.get(name)
@@ -92,6 +118,7 @@ def compute(
         target=target.id,
         signals={s.name: s for s in signals},
         shared_origins=origins,
+        target_inbound_links=target.inbound_link_count,
     )
 
 

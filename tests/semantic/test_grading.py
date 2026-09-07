@@ -436,3 +436,19 @@ def test_a_changed_grade_replaces_the_old_one_instead_of_joining_it(tmp_path):
         "this test is no longer exercising a change and cannot catch the bug"
     )
     store.close()
+
+
+def test_grade_a_says_that_allowed_range_was_not_assessed():
+    """PRD §F5's grade A is "definition, unit and allowed range".
+
+    This build checks two of the three, because the third is carried by fields
+    PRD §4.3 defers — so a reader who takes "Fully documented" at face value
+    would be told something that was not checked. The rationale is where that
+    gets said, and it is what the API and the record page render.
+    """
+    parts = [col("x", definition="what x is", unit="urn:unit:mw")]
+    assessment = grade_documentation(dataset(), DS, parts, completeness_level=2)
+
+    assert assessment.grade == "A"
+    assert "range" in assessment.rationale.lower(), assessment.rationale
+    assert "not assessed" in assessment.rationale.lower(), assessment.rationale

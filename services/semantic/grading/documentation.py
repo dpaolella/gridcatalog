@@ -5,6 +5,14 @@ PRD §F5:
 | Grade | Label | Condition |
 |---|---|---|
 | A | Fully documented | Every field has definition, unit and allowed range, native or curated |
+
+**Grade A is awarded on definition and unit, not on allowed range.** The field
+family that carries a range is C11–C16, deferred by PRD §4.3: defined in the
+context so data may carry it, enforced by no shape, populated by no harvester.
+Requiring it would put every record in the catalog at B — a grade measuring what
+this build collects rather than what the publisher documented. The grade-A
+rationale states the limitation rather than leaving the label to imply the full
+check; see ``DEFERRED_REQUIREMENTS``.
 | B | Partially documented | Some fields lack definitions or units |
 | C | Documented via external standard only | Fields meaningful only if the user knows the standard |
 | D | Minimal | No dedicated metadata beyond a filename and a loose description |
@@ -37,7 +45,22 @@ from rdflib.namespace import DCTERMS
 #: A field is documented when it carries all of these. ``unit`` is excused for
 #: dimensionless and categorical fields — a status code has no unit, and
 #: requiring one would mark every code list down.
-ATTRIBUTE_REQUIREMENTS: tuple[str, ...] = ("definition", "unit", "range")
+ATTRIBUTE_REQUIREMENTS: tuple[str, ...] = ("definition", "unit")
+
+#: The half of PRD §F5's grade-A condition this build cannot assess.
+#:
+#: The table says "definition, unit **and allowed range**". The range is carried
+#: by ``og:valueRange`` / ``schema:minValue`` / ``schema:maxValue``, which are
+#: C11–C16 — deferred by PRD §4.3, defined in the context so data *may* carry
+#: them, enforced by no shape and populated by no harvester. Requiring them
+#: would put every record in the catalog at B and say nothing true about any of
+#: them: the grade would measure what this build collects, not what the
+#: publisher documented, which is the failure PRD principle 2 is about.
+#:
+#: This constant is not decoration. It names the gap where the gap is, and the
+#: grade-A rationale says the same thing to the reader, because "Fully
+#: documented" otherwise implies a check that was not made.
+DEFERRED_REQUIREMENTS: tuple[str, ...] = ("range",)
 
 #: What a geometry column is documented by instead.
 GEOMETRY_REQUIREMENTS: tuple[str, ...] = ("geometry_type", "crs")
@@ -195,12 +218,19 @@ def _counts(incomplete: dict[str, list[str]]) -> dict[str, int]:
 def _full_rationale(attributes: int, geometry: int) -> str:
     base = f"All {attributes} attribute field(s) carry a definition and a unit where one applies"
     if geometry:
-        return (
+        base = (
             f"{base}, and all {geometry} geometry field(s) carry a type and a CRS. Geometry is "
             "checked against what documents a geometry rather than against units and ranges it "
-            "does not have."
+            "does not have"
         )
-    return f"{base}."
+    # Said out loud, every time. A reader who sees "Fully documented" will take
+    # it for PRD §F5's condition, which includes an allowed range; this grade is
+    # awarded on the two thirds of it the build can see.
+    return (
+        f"{base}. Allowed ranges are not assessed: the fields that carry them are deferred "
+        "(PRD §4.3), so no record in this catalog states one and grading against them would "
+        "mark every record down for the same absent field."
+    )
 
 
 def _external_only(graph: Graph, iri: URIRef, parts: list[Part]) -> bool:
