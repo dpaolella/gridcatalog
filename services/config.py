@@ -163,9 +163,26 @@ class Settings(BaseSettings):
     oidc_google_client_secret: str | None = None
     oidc_microsoft_client_id: str | None = None
     oidc_microsoft_client_secret: str | None = None
-    rate_limit_human_per_min: int = 120
-    rate_limit_agent_per_min: int = 600
-    rate_limit_anonymous_per_min: int = 60
+    # Per *request*, and they used to be sized as though one budget unit were
+    # one page view. Measured against the running stack: a record page costs
+    # **six** API requests — the record, its schema, quality, distributions and
+    # links, server-side, plus `/api/session` from the header. So 60/min for an
+    # anonymous caller was ten record pages a minute *for a whole address*, and
+    # `RateLimiter`'s own docstring names the motivating case as "a shared
+    # office NAT is one address and forty people".
+    #
+    # Nobody hit it, because the counter was losing increments under
+    # concurrency (see `RateLimiter._count`). Fixing the counter made the
+    # mis-sizing bite, and the e2e job — a whole suite from one address in ten
+    # seconds — was the first thing to feel it.
+    #
+    # All three multiplied by five, which corrects the unit and preserves every
+    # relationship the design states: anonymous below human, agent several times
+    # human. 300/min is about fifty record pages, or five people browsing at one
+    # page every six seconds, which is what a shared address looks like.
+    rate_limit_human_per_min: int = 600
+    rate_limit_agent_per_min: int = 3000
+    rate_limit_anonymous_per_min: int = 300
     rate_limit_enabled: bool = True
     """Off only where the caller is not a caller.
 

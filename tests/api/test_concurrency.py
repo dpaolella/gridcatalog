@@ -221,3 +221,38 @@ def test_two_shutdowns_do_not_close_the_same_store_twice(api_env):
         type(store).close = original
 
     assert closed == [store], f"closed {len(closed)} times: {closed}"
+
+
+def test_the_anonymous_budget_fits_more_than_a_handful_of_page_views(api_env):
+    """The limits are per request, and were sized as though per page view.
+
+    Measured against the running stack: one record page costs **six** API
+    requests — the record, its schema, quality, distributions and links,
+    server-side, plus `/api/session` from the header. At the old anonymous
+    default of 60/min that was ten record pages a minute *for a whole address*,
+    and `RateLimiter`'s docstring names the motivating case as "a shared office
+    NAT is one address and forty people".
+
+    Nobody hit it because the counter was losing increments; fixing that made
+    the mis-sizing bite, and the e2e suite — about seventy requests in six
+    seconds from one address — was the first thing to go red.
+
+    Pinned as arithmetic rather than as three magic numbers, so the next person
+    to change one has to disagree with the reasoning rather than with a literal.
+    """
+    from datahub.config import Settings
+
+    settings = Settings()
+    per_record_page = 6
+
+    anonymous_pages = settings.rate_limit_anonymous_per_min / per_record_page
+    assert anonymous_pages >= 40, (
+        f"an anonymous address gets {anonymous_pages:.0f} record pages a minute, "
+        "which is below what a few colleagues behind one NAT read"
+    )
+    assert settings.rate_limit_human_per_min > settings.rate_limit_anonymous_per_min, (
+        "identifying yourself has to buy something"
+    )
+    assert settings.rate_limit_agent_per_min >= 4 * settings.rate_limit_human_per_min, (
+        "PRD §F9 sizes agent traffic at several times human; the budgets should say so"
+    )

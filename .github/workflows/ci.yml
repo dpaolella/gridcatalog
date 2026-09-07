@@ -102,6 +102,19 @@ jobs:
           DATAHUB_DATABASE_URL: sqlite+pysqlite:///var/e2e/ops.sqlite3
           DATAHUB_API_URL: http://127.0.0.1:8000
           E2E_BASE_URL: http://127.0.0.1:3210
+          # This suite is not human traffic and must not be sized as though it
+          # were: twelve tests over two workers make about seventy requests in
+          # six seconds, all from 127.0.0.1 — the exact shape a rate limit
+          # exists to catch. It went red at the old anonymous default of 60,
+          # once the limiter stopped losing increments under concurrency and
+          # started counting properly.
+          #
+          # Raised here rather than left to the product default, which is now
+          # 300 and would fit. Tying the suite's health to a number chosen for
+          # real readers means the next correct tightening of that number turns
+          # e2e red for no product reason. Limiting stays *on*, so the
+          # middleware is still in the path on every request this suite makes.
+          DATAHUB_RATE_LIMIT_ANONYMOUS_PER_MIN: 10000
         run: |
           .venv/bin/python -m uvicorn datahub.api.app:app --port 8000 &
           npm start --prefix web -- -p 3210 &
