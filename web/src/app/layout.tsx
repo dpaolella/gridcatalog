@@ -5,6 +5,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { HexWash, Logo, Mark, Rule } from "@/components/Brand";
 import { AccountMenu } from "@/components/AccountMenu";
+import { WorldOutlineDefs } from "@/components/WorldOutline";
 import { IS_SNAPSHOT } from "@/lib/api";
 import "./globals.css";
 
@@ -48,6 +49,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <body className={`${inter.variable} ${mono.variable} antialiased`}>
+        {/* The coastline every CoverageMap on the page draws, defined once.
+            Twenty results would otherwise carry twenty copies of a 9 KB path.
+            Coupled to `CoverageMap`, which renders a `<use>` against it. */}
+        <WorldOutlineDefs />
         <NextIntlClientProvider messages={messages}>
           {/* First in the tab order, invisible until focused. An evaluator on a
               keyboard should not tab through a filter panel to reach a result. */}

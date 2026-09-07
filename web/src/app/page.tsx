@@ -153,27 +153,27 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
 
 /**
  * The same search, filtered in the browser over a catalog that shipped with the
- * page. No pagination: everything public is already here, and a page control
- * over a list the reader is holding would be furniture.
+ * page.
+ *
+ * The whole catalog ships as data, and `StaticSearch` renders a page of it at a
+ * time. It used to also build every row here and pass them down, so each record
+ * travelled twice — as the summary the filter reads and again as a serialised
+ * element tree that, because `StaticSearch` reads the query string, was never
+ * rendered into the built HTML at all. That was tolerable at 66 records and
+ * became a 9 MB landing page at 444, where `ops/check-page-weight.sh` stopped
+ * the deploy and the published site froze at the last build that passed.
+ *
+ * Measured on this catalog: 9,082 KB before, 3,224 KB once `snapshot.py`
+ * stopped shipping whole descriptions, 1,718 KB with the second copy gone.
  */
 async function SnapshotResults() {
   const response = await search({});
-  const rows = Object.fromEntries(
-    response.results.map((dataset) => [
-      dataset.id,
-      <ResultRow key={dataset.id} dataset={dataset} />,
-    ]),
-  );
   return (
     // `useSearchParams` needs a boundary: the shell prerenders without a query
     // string and the filter applies on hydration, which is the most a static
     // page can honestly do.
     <Suspense>
-      <StaticSearch
-        datasets={response.results}
-        facets={response.facets}
-        rows={rows}
-      />
+      <StaticSearch datasets={response.results} facets={response.facets} />
     </Suspense>
   );
 }

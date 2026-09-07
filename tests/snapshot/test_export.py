@@ -14,12 +14,16 @@ exporter asked as an anonymous caller and wrote down nothing more than it got.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from datahub.snapshot import _distinct_words
+from fixtures.loader import load_record, record_names
 
 PUBLIC = "ecmwf-era5"
 RESTRICTED = "caiso-nodal-lmp-restricted"
@@ -53,6 +57,41 @@ def test_index_holds_the_anonymous_catalog(exported):
         "filters it in the browser and cannot fetch a second page"
     )
     assert result.datasets == len(ids)
+
+
+@pytest.mark.parametrize("name", record_names())
+def test_search_text_carries_every_word_of_the_description(name: str) -> None:
+    """`search_text` is packed, and packing must not lose a search.
+
+    The static site has no server, so it matches queries against this field, and
+    it used to be the full description — 7.0 MB of prose across 444 records, in
+    a landing page `ops/check-page-weight.sh` caps at 2 MB. The distinct words
+    are 1.0 MB of the same information, because the only thing that reads this
+    lowercases it and asks whether a query term is a substring.
+
+    What this asserts is that the trade was lossless: every word a reader could
+    have searched for still finds the record. A truncation would pass a size
+    check and fail this, which is the point — the static site and the API
+    silently disagreeing about what exists is the failure `_with_search_text`
+    was added to fix, and shrinking the field is exactly how it would come
+    back.
+
+    Over the real fixture descriptions rather than an invented string, because
+    what breaks a tokeniser is real punctuation: `10-m`, `t2m`, `CO2`, an
+    em dash, a parenthesis against a word.
+    """
+    description = load_record(name)["@graph"][0].get("description") or ""
+    packed = _distinct_words(description)
+    words = set(re.findall(r"[a-z0-9]+(?:[-_.][a-z0-9]+)*", description.lower()))
+    assert words, f"{name} has a description to draw words from"
+    missing = sorted(word for word in words if word not in packed)
+    assert not missing, f"{name} lost {len(missing)} searchable words: {missing[:5]}"
+
+
+def test_search_text_packing_actually_shrinks_repetitive_prose() -> None:
+    """The other half. Lossless is free if nothing is dropped."""
+    prose = "sea surface temperature. " * 200
+    assert len(_distinct_words(prose)) < len(prose) / 20
 
 
 def test_allowlisted_existence_is_absent_entirely(exported):

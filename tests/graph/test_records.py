@@ -15,6 +15,7 @@ compaction and datatype coercion each broke this store at least once.
 from __future__ import annotations
 
 import sys
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -336,3 +337,37 @@ def test_promoting_does_not_drag_a_catalogued_dataset_along() -> None:
         "promoting one record published another that no steward confirmed"
     )
     assert records.exists("ecmwf-era5", graph=NamedGraph.DRAFT)
+
+
+def test_a_description_containing_a_placeholder_sequence_still_writes() -> None:
+    """A record is data, and `??s` in a description is two question marks.
+
+    `INSERT DATA` cannot take parameters — SPARQL has no way to parameterise a
+    triple block — so the record's triples are serialised into the update text,
+    and the finished update was then scanned for `??name` placeholders. Three
+    NASA datasets in the AWS Registry of Open Data carry the mojibake
+    `world'??s` where a curly apostrophe was meant, and each was refused with
+    `unbound SPARQL placeholders: ['s']`.
+
+    Nothing was wrong with those records, and the cost was not three records:
+    the harvest step exited non-zero, so the 521 records it had already
+    normalised never reached promotion, export or the pull request.
+    """
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+
+    # Deep-copied: `load_record` is `lru_cache`d and hands out the *same* dict
+    # to every caller, so mutating it here would rewrite the fixture for the
+    # rest of the session. (Measured, the hard way: 62 failures across the
+    # snapshot, semantic, SDK and MCP suites, all downstream of this record.)
+    document = deepcopy(load_record("global-wind-atlas"))
+    node = dataset_node(document)
+    node["description"] = (
+        "PNV, as defined here, does not necessarily represent the world'??s "
+        "natural pre-human-disturbance vegetation. See also ??NPV and ??top."
+    )
+    records.put(document, graph=NamedGraph.DRAFT)
+
+    read_back = dataset_node(records.get("global-wind-atlas"))
+    assert "world'??s" in read_back["description"]

@@ -1,12 +1,26 @@
 "use client";
 
-import { Fragment, useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
+import { ResultRow } from "@/components/ResultRow";
 import { FacetGroup } from "@/components/FacetGroup";
 import { SortSelect, compareBySort } from "@/components/SortSelect";
+
+/** Results per page.
+ *
+ * The page used to show every match at once, on the reasoning that everything
+ * public had shipped with it anyway. It stopped being true of what the reader
+ * pays for. `ResultRow` is still the one row component both modes render — the
+ * server-rendered copies the page used to pass down were a *second* copy of
+ * every record in the payload, and at 444 records that made a 9 MB landing page
+ * that `ops/check-page-weight.sh` refused to deploy.
+ *
+ * Only the rendering is paged. Filtering still runs over the whole catalog in
+ * the browser, so a search narrows the real catalog and not a page of it. */
+const PAGE_SIZE = 20;
 
 /**
  * Search, in the browser, over the snapshot.
@@ -27,18 +41,9 @@ import { SortSelect, compareBySort } from "@/components/SortSelect";
 export function StaticSearch({
   datasets,
   facets,
-  rows,
 }: {
   datasets: DatasetSummary[];
   facets: Record<string, FacetBucket[]>;
-  /** The rows, already rendered on the server, keyed by dataset id.
-   *
-   * A function prop cannot cross the server/client boundary, but an element
-   * can — so the server renders every row with the same `ResultRow` the live
-   * site uses and this component decides which of them to show. One row
-   * component, two modes; the alternative was a second row renderer that would
-   * drift from the first the week after it was written. */
-  rows: Record<string, React.ReactNode>;
 }) {
   const t = useTranslations("search");
   const empty = useTranslations("empty");
@@ -109,6 +114,22 @@ export function StaticSearch({
     // invented — see the note at the top of this file.
     return sort ? [...matched].sort(compareBySort(sort)) : matched;
   }, [datasets, haystacks, query, selected, sort]);
+
+  /**
+   * How many of `results` are rendered. Reset whenever the URL changes, because
+   * the URL *is* the query: a reader who narrows a 400-hit search to 12 should
+   * see all 12, not the first 20 of a list that no longer exists.
+   *
+   * Adjusted during render rather than in an effect — React's own advice for
+   * state derived from a prop change, and it avoids rendering one frame of the
+   * previous page's length.
+   */
+  const [shown, setShown] = useState(PAGE_SIZE);
+  const [pagedFor, setPagedFor] = useState(params.toString());
+  if (pagedFor !== params.toString()) {
+    setPagedFor(params.toString());
+    setShown(PAGE_SIZE);
+  }
 
   function toggle(field: string, value: string) {
     const next = new URLSearchParams(params.toString());
@@ -186,11 +207,26 @@ export function StaticSearch({
               <p>{empty("noResultsHelp", { total: datasets.length, example: "ssrd" })}</p>
             </EmptyState>
           ) : (
-            <ul className="space-y-4">
-              {results.map((dataset) => (
-                <Fragment key={dataset.id}>{rows[dataset.id]}</Fragment>
-              ))}
-            </ul>
+            <>
+              <ul className="space-y-4">
+                {results.slice(0, shown).map((dataset) => (
+                  <ResultRow key={dataset.id} dataset={dataset} />
+                ))}
+              </ul>
+              {shown < results.length ? (
+                <button
+                  type="button"
+                  onClick={() => setShown((n) => n + PAGE_SIZE)}
+                  className="mt-4 w-full border px-4 py-2 text-sm"
+                  style={{ borderColor: "var(--border)", borderRadius: "var(--radius)" }}
+                >
+                  {t("loadMore", {
+                    count: Math.min(PAGE_SIZE, results.length - shown),
+                    total: results.length,
+                  })}
+                </button>
+              ) : null}
+            </>
           )}
         </div>
       </div>

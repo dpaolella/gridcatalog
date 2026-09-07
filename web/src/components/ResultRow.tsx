@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import type { DatasetSummary } from "@/lib/api";
 import { cadenceText, formatCadence, formatSpan, iriTail } from "@/lib/format";
 import { CoverageMap, CoverageTimeline } from "@/components/Coverage";
@@ -13,15 +15,35 @@ import { QualityBadges } from "@/components/QualityBadges";
  * Everything a modeller needs to reject a dataset without opening it. Rejecting
  * quickly is most of what a catalog is for — there are ten thousand datasets
  * and one of them is right.
+ *
+ * **A client component, and the reason is payload.** The page used to build
+ * every row on the server and hand the lot to `StaticSearch` as elements, so
+ * the landing page carried each record twice: once as the summary the filter
+ * reads, and again as a serialised React element tree in the flight payload.
+ * At 444 records that was 9 MB and `ops/check-page-weight.sh` stopped the
+ * deploy.
+ *
+ * The second copy bought nothing. `StaticSearch` calls `useSearchParams`, so
+ * Next bails out of prerendering its whole subtree and the built HTML contains
+ * no result rows either way — measured, not assumed: the old build's
+ * `index.html` has zero links to a dataset in it. Those 443 rows were paid for
+ * on every page load and rendered on none of them.
+ *
+ * Rendering here, from the data that already ships, means the page carries each
+ * record once and renders a page of them at a time.
  */
-export async function ResultRow({ dataset }: { dataset: DatasetSummary }) {
-  const t = await getTranslations("dataset");
-  const c = await getTranslations("coverage");
+export function ResultRow({ dataset }: { dataset: DatasetSummary }) {
+  const t = useTranslations("dataset");
+  const c = useTranslations("coverage");
+  // Hoisted rather than called inline: a hook inside an argument list reads as
+  // conditional even where it is not, and the rules-of-hooks lint is right to
+  // dislike it.
+  const cadenceMessages = useTranslations("cadence");
 
   const span = formatSpan(dataset.temporal?.start, dataset.temporal?.end);
   const cadence = cadenceText(
     formatCadence(dataset.temporal?.update_cadence),
-    await getTranslations("cadence"),
+    cadenceMessages,
   );
   const levelKey = String(dataset.completeness_level) as "1" | "2" | "3";
 

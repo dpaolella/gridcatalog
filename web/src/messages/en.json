@@ -36,7 +36,8 @@
     "next": "Next",
     "previous": "Previous",
     "typing": "Results update as you type. There is no submit step.",
-    "showMore": "+{count} more"
+    "showMore": "+{count} more",
+    "loadMore": "Show {count} more of {total}"
   },
   "facets": {
     "data_domain": "Domain",
@@ -183,7 +184,7 @@
       "derived-from": "Related by lineage",
       "related": "Related"
     },
-    "capHelp": "The twelve strongest are shown. A full graph of a well-connected catalog is an unreadable hairball."
+    "capHelp": "The twelve strongest are shown first."
   },
   "downloads": {
     "title": "Access paths",

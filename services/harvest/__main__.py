@@ -102,10 +102,24 @@ def main(argv: list[str] | None = None) -> int:
         for result in results:
             print(result.summary)
 
-    # Non-zero when every source failed, zero when some worked: a partial
-    # harvest is a success with a warning, and a cron job that alerts on every
-    # transient source failure is a cron job nobody reads.
-    return 0 if any(not r.errors for r in results) else 1
+    # Non-zero when the harvest accomplished nothing; zero when it accomplished
+    # something and logged what it could not do.
+    #
+    # This used to read `any(not r.errors ...)` — a source with a single error
+    # was a failed source. That is the right rule for a *source* error and the
+    # wrong one for a *record* error, and `errors` holds both. The scheduled run
+    # of 2026-09-07 read 1,199 AWS registry files, normalised 521 of them, and
+    # tripped over three NASA descriptions containing the mojibake `??s`. Three
+    # records out of 1,199 made the step exit 1, so the promote, export and
+    # open-a-pull-request steps after it never ran and none of the 521 reached
+    # `data/catalog` — a harvest that did its job and threw the result away.
+    #
+    # So: a source that produced records worked, whatever else it also hit. A
+    # source that produced none did not, and that is worth waking someone for —
+    # an unreachable endpoint, a changed schema, a bad credential all land here.
+    # Every error is logged and counted in the summary either way; this decides
+    # only whether the run is a failure.
+    return 0 if any(r.accepted for r in results) else 1
 
 
 def _describe(args: argparse.Namespace, sources: list[dict[str, Any]]) -> int:
