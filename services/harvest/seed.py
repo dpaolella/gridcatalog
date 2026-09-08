@@ -1,6 +1,6 @@
 """Loading the curated seed inventory into the catalog (WP-2.5).
 
-130 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
+131 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
 
 **The rule this module exists to enforce.** The seed file's header says the
 DD1/DD5/DD8/DD9 entries came from a reviewed feasibility analysis and carry
@@ -17,7 +17,7 @@ had its licence checked.
 
 **No review-queue entry, though this used to claim one.** The queue is an
 operational-store table and this loader is handed a ``RecordStore``; only
-``harvest.runner`` enqueues. So the 74 drafted rows are in the draft graph and
+``harvest.runner`` enqueues. So the 75 drafted rows are in the draft graph and
 absent from the steward queue, which means nothing surfaces them for review —
 and since a confirm with no queue row is now refused outright (#31), nothing can
 promote them either. Whether ``datahub seed`` should write to the operational
@@ -50,6 +50,7 @@ from datahub.namespaces import (
     DATASET_BASE,
     DISTRIBUTION_BASE,
     SCHEME_ACCESS_RESTRICTION,
+    SCHEME_ANALYSIS_TYPE,
     SCHEME_DATA_DOMAIN,
     SCHEME_PROVENANCE_CLASS,
     SPDX,
@@ -284,6 +285,17 @@ class SeedLoader:
             record["timeResolution"] = resolution
         if (metres := entry.get("spatial_resolution_m")) is not None:
             record["spatialResolutionMeters"] = float(metres)
+
+        # Lineage (#52) and direction (#51). `derived_from` takes a catalog
+        # slug where the upstream is catalogued and a URL where it is not —
+        # both are IRIs to the graph, and the depth computation treats an
+        # uncatalogued parent as an unresolved chain rather than a root.
+        if upstream := entry.get("derived_from"):
+            record["derivedFrom"] = [
+                value if "://" in str(value) else f"{DATASET_BASE}{value}" for value in upstream
+            ]
+        if produced := entry.get("output_of_analysis"):
+            record["outputOfAnalysis"] = [f"{SCHEME_ANALYSIS_TYPE}/{a}" for a in produced]
 
         if tier is not None:
             record["tier"] = tier

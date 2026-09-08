@@ -288,7 +288,6 @@ export interface DatasetSummary {
   formats?: string[];
   distribution_count?: number;
   reference_only?: boolean;
-  caveats?: string[];
   worst_link_health?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;
@@ -306,6 +305,16 @@ export interface UsageEvidence {
 }
 
 export interface DatasetDetail extends DatasetSummary {
+  /** What using this dataset is actually like — a finding somebody hit, or a
+   *  statement about what the catalog does and does not know (#55). */
+  caveats?: string[];
+  /** Analyses this dataset is a product OF, rather than an input to (#51). */
+  output_of_analysis?: { iri: string; label?: string | null }[];
+  /** What it was built from, by IRI (#52). */
+  derived_from?: string[];
+  /** Layers of assumption between this and an observation. Null means the
+   *  chain is not established — which is not the same as zero. */
+  assumption_depth?: number | null;
   /** Studies, tutorials and tools a source records as having used this
    *  dataset. Absent or empty means nothing recorded, never "unused". */
   usage_evidence?: UsageEvidence[];

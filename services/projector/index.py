@@ -29,6 +29,7 @@ from datahub.graph.records import RecordStore, slug_of
 from datahub.graph.store import bind, prologue
 from datahub.logging import get_logger
 from datahub.projector.build import build_document
+from datahub.semantic.lineage import depths
 from datahub.semantic.queries import scoped
 from rdflib import Graph, URIRef
 
@@ -114,6 +115,9 @@ class Projector:
         #: Set only inside `bulk`. See its docstring for why a snapshot is safe
         #: for a rebuild and wrong for anything that interleaves writes.
         self._merged: Graph | None = None
+        #: Lineage depth for the whole catalog, computed once. See
+        #: `_assumption_depths`.
+        self._depths: dict[str, int | None] | None = None
 
     # ---- projecting ------------------------------------------------------
 
@@ -128,6 +132,7 @@ class Projector:
             iri,
             entitled_principals=self._entitled_principals(str(iri)),
             inbound_link_count=self._inbound_links(iri),
+            assumption_depth=self._assumption_depths().get(str(iri)),
         )
 
     def project(self, dataset_id: str) -> ProjectionResult:
@@ -267,6 +272,41 @@ class Projector:
             return []
         with self._session_factory() as session:  # type: ignore[operator]
             return AllowlistRepository(session).entitled_principals(dataset_iri)
+
+    def _assumption_depths(self) -> dict[str, int | None]:
+        """How deep each record's `og:derivedFrom` chain runs (#52).
+
+        Computed across the whole catalog rather than per record, for the same
+        reason `_inbound_links` is: depth is a property of the graph, not of
+        one node. Cached for the life of the indexer, which makes a bulk
+        rebuild one query instead of one per record — and means a lineage edge
+        added mid-run is not seen until the next one, which is the same
+        staleness `_merged` already documents and accepts.
+        """
+        if self._depths is None:
+            rows = self.records.store.select(
+                """
+                SELECT ?s ?class ?parent WHERE {
+                  GRAPH ??g {
+                    ?s a dcat:Dataset .
+                    OPTIONAL { ?s og:provenanceClass ?class }
+                    OPTIONAL { ?s og:derivedFrom ?parent }
+                  }
+                }
+                """,
+                {"g": NamedGraph.CATALOG.uri()},
+            )
+            upstream: dict[str, list[str]] = {}
+            provenance: dict[str, str] = {}
+            for row in rows:
+                subject = str(row["s"])
+                provenance.setdefault(subject, "")
+                if row.get("class"):
+                    provenance[subject] = str(row["class"]).rsplit("/", 1)[-1]
+                if row.get("parent"):
+                    upstream.setdefault(subject, []).append(str(row["parent"]))
+            self._depths = depths(upstream, provenance)
+        return self._depths
 
     def _inbound_links(self, iri: URIRef) -> int:
         """How many records point at this one.

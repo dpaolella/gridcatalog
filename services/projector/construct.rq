@@ -65,7 +65,7 @@ WHERE {
     OPTIONAL { ?domain skos:notation ?domainNotation }
   }
   UNION {
-    ??root (og:supportedAnalysis | og:excludedAnalysis) ?analysis .
+    ??root (og:supportedAnalysis | og:excludedAnalysis | og:outputOfAnalysis) ?analysis .
     ?analysis skos:prefLabel ?analysisLabel .
   }
 }

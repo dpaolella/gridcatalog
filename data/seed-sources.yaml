@@ -213,6 +213,7 @@ seed_datasets:
         tier: 2
         license: MIT (code), ODbL-1.0 (data)
         provenance: osm-derived + curated
+        derived_from: [openstreetmap-power-infrastructure-via-earth-osm]
         access: https://zenodo.org/records/13358976
         format: CSV (buses, lines, links, transformers, substations)
         spatial_granularity: nodal
@@ -225,6 +226,7 @@ seed_datasets:
         tier: 2
         license: MIT (code), ODbL-1.0 (data)
         provenance: osm-derived
+        derived_from: [openstreetmap-power-infrastructure-via-earth-osm]
         access: https://github.com/pypsa-meets-earth/pypsa-earth
         format: PyPSA standard
         spatial_granularity: national
@@ -311,6 +313,7 @@ seed_datasets:
         tier: 3
         license: open access, no formal license stated
         provenance: osm-derived
+        derived_from: [openstreetmap-power-infrastructure-via-earth-osm]
         access: https://github.com/bdw/GridKit
         format: CSV
         spatial_granularity: nodal
@@ -323,6 +326,7 @@ seed_datasets:
         tier: 3
         license: open access, no formal license stated
         provenance: osm-derived
+        derived_from: [openstreetmap-power-infrastructure-via-earth-osm]
         format: CSV
         spatial_granularity: nodal
         anonymous: true
@@ -866,6 +870,7 @@ seed_datasets:
         tier: 1
         license: CC-BY-3.0
         provenance: derived
+        derived_from: [ecmwf-era5]
         access: https://data.openei.org/submissions/57
         api: https://developer.nrel.gov/api/nsrdb
         format: HDF5
@@ -891,6 +896,7 @@ seed_datasets:
         tier: 1
         license: CC-BY-4.0
         provenance: derived
+        derived_from: [ecmwf-era5]
         access: https://zenodo.org/records/14936211
         format: Zarr
         spatial_granularity: gridded
@@ -949,6 +955,7 @@ seed_datasets:
         tier: 3
         license: CC-BY-4.0
         provenance: derived
+        derived_from: [ecmwf-era5, nasa-merra-2]
         access: https://www.renewables.ninja/
         format: JSON
         anonymous: true
@@ -959,6 +966,7 @@ seed_datasets:
         tier: 3
         license: CC-BY-4.0
         provenance: derived
+        derived_from: [ecmwf-era5]
         format: Zarr
         spatial_granularity: gridded
         anonymous: true
@@ -1059,6 +1067,7 @@ seed_datasets:
         verified: false
       - name: ELCC studies by ISO
         tier: 3
+        output_of_analysis: [resourceAdequacy]
         access_barrier: fragmented
         pointer_rationale: >
           Published per-ISO as PDF study reports with incompatible methodologies.
@@ -1280,6 +1289,8 @@ seed_datasets:
         tier: 1
         license: CC-BY-4.0
         provenance: modeled
+        derived_from: [nrel-reeds-model-inputs]
+        output_of_analysis: [capacityExpansion]
         access: https://scenarioviewer.nrel.gov
         format: Parquet, CSV
         anonymous: true
@@ -1391,6 +1402,44 @@ seed_datasets:
   # =========================================================================
   # DD10 - Geospatial & siting
   # =========================================================================
+      - name: OSeMOSYS Starter Data Kits (49 Sub-Saharan African countries)
+        slug: osemosys-starter-data-kits
+        tier: 2
+        provenance: curated
+        access: https://starter-data-kit.github.io/osemosys/
+        secondary_access: https://zenodo.org/records/22086328
+        doi: 10.33774/coe-2026-tjsdk
+        format: XLSX
+        spatial_granularity: national
+        time_resolution: P1Y
+        anonymous: true
+        bulk: true
+        note: >-
+          One whole-energy-system starter kit per country, identically structured: 199
+          technologies, 30 useful energy demands and 12 parameters over 2023-2050, spanning
+          primary energy, electricity, hydrogen, secondary fuels, agriculture, buildings,
+          industry and transport. Separate calculation workbooks show how derived values were
+          obtained, and each kit carries technology and parameter definitions, source
+          information and data-quality coding.
+        caveats:
+          - >-
+            Explicitly starter kits, not definitive representations of national energy systems.
+            The authors ask users to replace assumptions and calibrate against recent local and
+            official data before any policy or investment application. The modular design exists
+            to make that substitution easy rather than to hide the need for it.
+        curator_note: >-
+          Licence not established. The browser at starter-data-kit.github.io states only
+          "(c) 2025-2026 CCG and contributors" and links no terms; the Zenodo collection would
+          carry them and was unreachable from the build environment. Resolve before publishing
+          - the row is verified: false and carries LicenseRef-Unstated until somebody does.
+
+          Two further things to check at review. The per-country downloads are served through
+          Google Drive rather than from a stable URL, so there is no per-country access path to
+          catalogue yet and this row stands for all 49. And the seed file already carries an
+          "OSeMOSYS starter kits" row from the 2025 data inventory pointing at
+          osemosys.org/starter-kits.html; establish whether this supersedes it, in which case
+          that row wants og:supersededBy pointing here.
+        verified: false
       - name: NREL ReEDS model inputs
         tier: 2
         provenance: curated

@@ -491,6 +491,20 @@ class DatasetDetail(DatasetSummary):
     supported_analysis: list[ConceptRef] = Field(default_factory=list)
     excluded_analysis: list[ConceptRef] = Field(default_factory=list)
     exclusion_rationale: str | None = None
+    #: Analyses this dataset is a product OF, as opposed to an input to. The
+    #: direction is the half that makes a supply chain visible (#51).
+    output_of_analysis: list[ConceptRef] = Field(default_factory=list)
+    #: What it was built from, by IRI (#52).
+    derived_from: list[str] = Field(default_factory=list)
+    assumption_depth: int | None = Field(
+        default=None,
+        description=(
+            "Layers of assumption between this dataset and an observation, over the "
+            "recorded og:derivedFrom chain. **Null is not zero**: it means the chain is "
+            "not established, and a modelled product with no lineage recorded must not "
+            "read as one hop from measurement."
+        ),
+    )
     #: Why a reference-only record has no access path. The Downloads tab's whole
     #: content for the 34 records that have none — without it the reader gets an
     #: empty tab instead of "CEII-designated, permanently out of reach" (#18).
@@ -533,6 +547,9 @@ class DatasetDetail(DatasetSummary):
             doi=doc.doi,
             supported_analysis=doc.supported_analysis,
             excluded_analysis=doc.excluded_analysis,
+            output_of_analysis=doc.output_of_analysis,
+            derived_from=doc.derived_from,
+            assumption_depth=doc.assumption_depth,
             pointer_rationale=doc.pointer_rationale,
             caveats=doc.caveats,
             upstream_count=doc.upstream_count,

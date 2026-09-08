@@ -127,7 +127,7 @@ PRD §F1, §3.1.
   harvest runs, review queue, reports, submissions, probe history. Alembic.
 - **WP-2.4** Projector: `construct.rq`, incremental index on commit, full
   reindex as one command, projector lag exposed as a metric.
-- **WP-2.5** Curated seed loader: 130 seed datasets across ten domains from
+- **WP-2.5** Curated seed loader: 131 seed datasets across ten domains from
   `data/seed-sources.yaml`, carrying `verified: false` through to
   `og:reviewState` so unreviewed rows cannot be mistaken for confirmed ones.
 - **WP-2.6** The `datahub` CLI. Added to the plan during M2 rather than

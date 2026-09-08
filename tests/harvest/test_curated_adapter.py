@@ -42,7 +42,7 @@ def test_emits_every_seed_row(adapter, seed_document) -> None:
     )
     records, summary = adapter.harvest()
 
-    assert expected == 130, "the seed inventory should hold 130 anchor datasets"
+    assert expected == 131, "the seed inventory should hold 131 anchor datasets"
     assert len(records) == expected
     assert summary.emitted == summary.seen == expected
     assert summary.errors == []
@@ -67,7 +67,7 @@ def test_the_verified_split_is_carried_through_untouched(adapter) -> None:
     unverified = [r for r in records if r.payload.get("verified") is False]
 
     assert len(verified) == 56
-    assert len(unverified) == 74
+    assert len(unverified) == 75
     assert len(verified) + len(unverified) == len(records), "every row states `verified`"
 
 
@@ -81,7 +81,7 @@ def test_domain_metadata_carries_the_structural_notes(adapter) -> None:
     domains = adapter.domains()
     assert len(domains) == 10
     assert all(d["structural_note"] for d in domains.values())
-    assert sum(d["dataset_count"] for d in domains.values()) == 130
+    assert sum(d["dataset_count"] for d in domains.values()) == 131
 
 
 # ---- identity and idempotency -------------------------------------------

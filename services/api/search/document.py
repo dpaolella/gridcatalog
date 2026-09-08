@@ -137,6 +137,15 @@ class SearchDocument(BaseModel):
     provenance_class: str | None = None
     supported_analysis: list[ConceptRef] = Field(default_factory=list)
     excluded_analysis: list[ConceptRef] = Field(default_factory=list)
+    #: Analyses this dataset is a PRODUCT of, as opposed to an input to (#51).
+    output_of_analysis: list[ConceptRef] = Field(default_factory=list)
+    #: What this dataset was built from, by IRI — a catalog record where the
+    #: upstream is catalogued, its own URL where it is not (#52).
+    derived_from: list[str] = Field(default_factory=list)
+    #: Longest recorded chain from here to an observational root, or `None`
+    #: when it is not established. **None is not zero.** A modelled product
+    #: with no lineage recorded must not read as one hop from measurement.
+    assumption_depth: int | None = None
     concepts: list[ConceptRef] = Field(default_factory=list)
     concept_iris_expanded: list[str] = Field(default_factory=list)
     """Concept IRIs plus every broader ancestor, so a query for a parent concept
