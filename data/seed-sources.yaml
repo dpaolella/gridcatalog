@@ -177,6 +177,7 @@ seed_datasets:
         access: https://zenodo.org/records/15527469
         doi: 10.1016/j.dib.2024.110420
         format: CSV
+        spatial_granularity: national
         anonymous: true
         bulk: true
         update_frequency: Annual
@@ -200,6 +201,7 @@ seed_datasets:
         provenance: osm-derived + curated
         access: https://zenodo.org/records/13358976
         format: CSV (buses, lines, links, transformers, substations)
+        spatial_granularity: nodal
         anonymous: true
         bulk: true
         note: Electrical parameters estimated from voltage-class lookup, not measured.
@@ -211,6 +213,7 @@ seed_datasets:
         provenance: osm-derived
         access: https://github.com/pypsa-meets-earth/pypsa-earth
         format: PyPSA standard
+        spatial_granularity: national
         anonymous: true
         note: ~193 countries. Coverage quality varies with OSM completeness and is not documented per country.
         verified: true
@@ -220,6 +223,7 @@ seed_datasets:
         provenance: synthetic
         access: https://electricgrids.engr.tamu.edu/electric-grid-test-cases/
         format: PSSE RAW, MATPOWER
+        spatial_granularity: nodal
         anonymous: true
         bulk: true
         verified: true
@@ -229,6 +233,7 @@ seed_datasets:
         license: CEII-designated (18 CFR 388.113)
         provenance: institutional
         format: PSSE RAW
+        spatial_granularity: nodal
         anonymous: false
         bulk: false
         access_barrier: restricted
@@ -256,6 +261,7 @@ seed_datasets:
         provenance: curated
         access: https://github.com/NREL/ReEDS-2.0
         format: CSV
+        spatial_granularity: zonal
         anonymous: true
         bulk: true
         update_frequency: Not regular
@@ -277,6 +283,7 @@ seed_datasets:
         license: CC0
         provenance: curated
         format: CSV, XML
+        spatial_granularity: national
         anonymous: true
         bulk: true
         last_update: "2015"
@@ -288,6 +295,7 @@ seed_datasets:
         provenance: osm-derived
         access: https://github.com/bdw/GridKit
         format: CSV
+        spatial_granularity: nodal
         anonymous: true
         bulk: true
         last_update: "2016"
@@ -298,6 +306,7 @@ seed_datasets:
         license: open access, no formal license stated
         provenance: osm-derived
         format: CSV
+        spatial_granularity: nodal
         anonymous: true
         bulk: true
         last_update: "2017"
@@ -600,6 +609,8 @@ seed_datasets:
         provenance: reanalysis
         access: https://cds.climate.copernicus.eu
         format: Zarr, NetCDF, GRIB
+        spatial_granularity: gridded
+        time_resolution: PT1H
         anonymous: true
         bulk: true
         note: CF-compliant Zarr on anonymous S3. Directly ingestible by atlite and xarray.
@@ -610,6 +621,8 @@ seed_datasets:
         provenance: reanalysis
         access: https://disc.gsfc.nasa.gov
         format: NetCDF-4, HDF5
+        spatial_granularity: gridded
+        time_resolution: PT1H
         anonymous: true
         bulk: true
         verified: true
@@ -620,6 +633,8 @@ seed_datasets:
         access: https://data.openei.org/submissions/57
         api: https://developer.nrel.gov/api/nsrdb
         format: HDF5
+        spatial_granularity: gridded
+        time_resolution: PT30M
         anonymous: true
         bulk: true
         verified: true
@@ -629,6 +644,8 @@ seed_datasets:
         provenance: derived
         access: https://data.openei.org/submissions/54
         format: HDF5
+        spatial_granularity: gridded
+        time_resolution: PT2M
         anonymous: true
         bulk: true
         verified: true
@@ -638,6 +655,7 @@ seed_datasets:
         provenance: derived
         access: https://zenodo.org/records/14936211
         format: Zarr
+        spatial_granularity: gridded
         anonymous: true
         bulk: true
         verified: true
@@ -647,6 +665,8 @@ seed_datasets:
         provenance: derived
         access: https://globalsolaratlas.info/download
         format: GeoTIFF
+        spatial_granularity: gridded
+        time_resolution: P1Y
         anonymous: true
         bulk: true
         note: Annual GHI averages in GeoTIFF. Needs a PV simulation step before any CEM can use it.
@@ -657,6 +677,8 @@ seed_datasets:
         provenance: derived
         access: https://globalwindatlas.info/download
         format: GeoTIFF
+        spatial_granularity: gridded
+        time_resolution: P1Y
         anonymous: true
         verified: true
       - name: ENTSO-E Transparency Platform (renewable generation)
@@ -693,6 +715,7 @@ seed_datasets:
         license: CC-BY-4.0
         provenance: derived
         format: Zarr
+        spatial_granularity: gridded
         anonymous: true
         verified: true
       - name: OPSD (Open Power System Data)
@@ -885,6 +908,7 @@ seed_datasets:
         access: https://ember-energy.org/data
         api: https://api.ember-energy.org
         format: CSV, JSON
+        spatial_granularity: national
         anonymous: true
         bulk: true
         verified: true
@@ -1025,6 +1049,8 @@ seed_datasets:
         provenance: curated
         access: https://www.irena.org/Data
         format: XLSX
+        spatial_granularity: national
+        time_resolution: P1Y
         anonymous: false
         bulk: true
         verified: true
