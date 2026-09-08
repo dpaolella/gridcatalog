@@ -14,6 +14,7 @@ import {
 import { QualityBadges } from "@/components/QualityBadges";
 import { Rule } from "@/components/Brand";
 import { DatasetTabs } from "@/components/DatasetTabs";
+import { Lineage } from "@/components/Lineage";
 import { ReportIssue } from "@/components/ReportIssue";
 import { iriTail } from "@/lib/format";
 
@@ -158,6 +159,11 @@ export default async function DatasetPage({ params }: { params: Params }) {
         </div>
 
         <QualityBadges facets={quality?.facets ?? dataset.quality} size="lg" />
+
+        {/* Beside the Provenance grade, because it is the evidence behind it:
+            the grade says "modeled" and this says how far from an observation
+            that leaves you (#52). */}
+        <Lineage dataset={dataset} />
       </header>
 
       <DatasetTabs

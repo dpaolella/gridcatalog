@@ -129,6 +129,16 @@ INDEX_MAPPING: dict[str, Any] = {
                     "notation": {"type": "keyword"},
                 },
             },
+            "output_of_analysis": {
+                "type": "object",
+                "properties": {
+                    "iri": {"type": "keyword"},
+                    "label": {"type": "text", "analyzer": "og_text"},
+                    "notation": {"type": "keyword"},
+                },
+            },
+            "derived_from": {"type": "keyword"},
+            "assumption_depth": {"type": "integer"},
             # Projected since `og:usageEvidence` was added and never declared
             # here, and the mapping is `dynamic: strict` — so every bulk index
             # failed, not only these three fields. `title` is searchable

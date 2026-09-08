@@ -58,6 +58,7 @@ def build_document(
     *,
     entitled_principals: list[str] | None = None,
     inbound_link_count: int = 0,
+    assumption_depth: int | None = None,
 ) -> SearchDocument:
     """Project one record's subgraph into a search document.
 
@@ -92,6 +93,9 @@ def build_document(
         provenance_class=_local(graph.value(iri, OG.provenanceClass)),
         supported_analysis=_concept_refs(graph, iri, OG.supportedAnalysis),
         excluded_analysis=_concept_refs(graph, iri, OG.excludedAnalysis),
+        output_of_analysis=_concept_refs(graph, iri, OG.outputOfAnalysis),
+        derived_from=sorted(str(u) for u in graph.objects(iri, OG.derivedFrom)),
+        assumption_depth=assumption_depth,
         concepts=concepts,
         concept_iris_expanded=_expanded_concepts(graph, concepts),
         license_id=_local(graph.value(iri, DCTERMS.license)),

@@ -254,6 +254,16 @@ og:DatasetShape a sh:NodeShape ;
     sh:path og:excludedAnalysis ; sh:node og:AnalysisTypeConceptShape ; og:appliesAtLevel 2 ;
     sh:message "og:excludedAnalysis takes concepts from the analysis-type scheme. This is the half users cannot get anywhere else: a catalog that says what a dataset is not for saves a study." ;
   ] ;
+  sh:property [
+    sh:path og:outputOfAnalysis ; sh:node og:AnalysisTypeConceptShape ; og:appliesAtLevel 2 ;
+    sh:message "og:outputOfAnalysis takes concepts from the analysis-type scheme, and says this dataset is a PRODUCT of that analysis rather than an input to it. og:supportedAnalysis is a flat 'relates to' and cannot express direction, which is the half that makes a data supply chain visible: demand forecasting's output in DD4 is capacity expansion's input in DD4, and a modeller who cannot see that is stacking a projection on a projection." ;
+  ] ;
+
+  # ---- D4/D5 lineage at the dataset level, level 1 ----
+  sh:property [
+    sh:path og:derivedFrom ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "og:derivedFrom points by IRI at what this dataset was built from — a catalog record where the upstream is catalogued, the upstream's own URL where it is not. og:derivedFromField already does this per field; a dataset built from another dataset had nowhere to say so, and og:provenanceClass alone is one hop: NREL ATB, a capacity expansion portfolio built on it, and a resource adequacy study built on that are all 'modeled' and read as peers." ;
+  ] ;
 
   # ---- D13 quality flags, level 1 ----
   sh:property [

@@ -37,7 +37,11 @@
   owl:versionInfo "1.0.0" ;
   skos:hasTopConcept at:capacityExpansion, at:productionCost, at:resourceAdequacy,
                      at:powerFlow, at:marketSimulation, at:siting,
-                     at:transmissionPlanning, at:emissionsAccounting .
+                     at:transmissionPlanning, at:emissionsAccounting,
+                     at:distributionPlanning, at:demandForecasting,
+                     at:interconnectionStudy, at:generationRetirementStudy,
+                     at:costBenefitAnalysis, at:integratedResourcePlan,
+                     at:longTermTransmissionPlan, at:tyndp, at:tpl001 .
 
 
 at:capacityExpansion
@@ -196,3 +200,142 @@ at:interconnectionAnalysis
   skos:definition "Studying the pipeline of proposed projects: volumes, durations, withdrawal rates and cost allocation outcomes. Distinct from transmission planning in that its subject is the process rather than the network, and it is US-only in practice because no comparable international source exists."@en ;
   og:typicalInputDomain dd:DD1, dd:DD3, dd:DD9 ;
   og:requiresGranularity "point" .
+
+
+# ---------------------------------------------------------------------------
+# Two Tier 2 classes the OpenGrid data-landscape framework names and this
+# scheme did not. Both have data needs the existing eight do not cover:
+# distribution work is the only one that wants three-phase unbalanced feeder
+# models, and demand forecasting is the only one whose *primary output* is a
+# DD4 time series.
+# ---------------------------------------------------------------------------
+
+at:distributionPlanning
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "distribution-planning" ;
+  skos:prefLabel "Distribution Planning & Hosting Capacity"@en ;
+  skos:altLabel "hosting capacity"@en, "DER integration"@en, "feeder planning"@en,
+                "volt-VAR optimisation"@en, "QSTS"@en ;
+  skos:definition "Feeder-level analysis of how much distributed generation and load a distribution network can absorb, using three-phase unbalanced power flow and quasi-static time series. The only analysis class here whose network model is a feeder rather than a transmission system."@en ;
+  skos:scopeNote "A transmission dataset serves this badly or not at all: the interviews behind the framework record that CIM works at TSO scale and breaks at the DSO level, and that generation increasingly sits in distribution networks TSO models do not represent. Phase connectivity and conductor specification are the parameters that decide fitness, and almost no open dataset carries them."@en ;
+  og:typicalInputDomain dd:DD1, dd:DD3, dd:DD4, dd:DD5, dd:DD6, dd:DD8, dd:DD10 ;
+  og:requiresGranularity "nodal" .
+
+at:demandForecasting
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "demand-forecasting" ;
+  skos:prefLabel "Demand Forecasting & Load Modeling"@en ;
+  skos:altLabel "load forecasting"@en, "electrification scenarios"@en,
+                "behind-the-meter estimation"@en ;
+  skos:definition "Predicting load shapes and their evolution — electrification, EV charging, heat pumps, data centres — from historical measured demand plus weather and adoption assumptions. Consumes DD4 as its primary input and produces DD4 as its primary output, which is why the direction of og:supportedAnalysis matters here more than anywhere else."@en ;
+  skos:scopeNote "Its output is another analysis's input: a load forecast feeds capacity expansion, production cost and resource adequacy alike, carrying its adoption assumptions with it. A dataset that is a forecast rather than a measurement should say so with og:outputOfAnalysis, or a modeller stacks a projection on a projection without noticing."@en ;
+  og:typicalInputDomain dd:DD4, dd:DD5, dd:DD6, dd:DD8 ;
+  og:requiresGranularity "zonal" .
+
+# ---------------------------------------------------------------------------
+# Tier 3: composite workflows.
+#
+# These are what a utility or a regulator actually runs, and each is a chain of
+# the Tier 2 classes above rather than a new kind of analysis. `og:composedOf`
+# says which — so a dataset fit for every constituent is fit for the workflow,
+# and the catalog derives that rather than being told it twice.
+#
+# They are top concepts rather than `skos:broader` anything: a composite is not
+# a specialisation of its parts, and making IRP `broader` capacity expansion
+# would let a broader-transitive query conclude that an IRP dataset is a
+# capacity expansion dataset, which is the wrong direction entirely.
+# ---------------------------------------------------------------------------
+
+at:interconnectionStudy
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "interconnection-study" ;
+  skos:prefLabel "Interconnection Study"@en ;
+  skos:altLabel "cluster study"@en, "IC study"@en, "system impact study"@en ;
+  skos:definition "The study process a proposed generator passes through: full power flow and contingency analysis against a base case, producing network upgrade requirements and cost allocations for the applicant."@en ;
+  og:composedOf at:powerFlow, at:transmissionPlanning ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD3, dd:DD4, dd:DD5, dd:DD8, dd:DD9, dd:DD10 ;
+  og:requiresGranularity "nodal" .
+
+at:generationRetirementStudy
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "generation-retirement-study" ;
+  skos:prefLabel "Generation Retirement Study"@en ;
+  skos:altLabel "RMR study"@en, "deactivation study"@en ;
+  skos:definition "Whether a unit can retire without a local reliability violation, and what must replace it. Chains local power flow against resource adequacy and a market impact assessment."@en ;
+  og:composedOf at:powerFlow, at:resourceAdequacy, at:productionCost ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD5, dd:DD6, dd:DD7, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "nodal" .
+
+at:costBenefitAnalysis
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "cost-benefit-analysis" ;
+  skos:prefLabel "Cost-Benefit Analysis"@en ;
+  skos:altLabel "CBA"@en, "benefit case"@en ;
+  skos:definition "Valuing a transmission or resource investment against a benefit taxonomy — avoided production cost, congestion relief, avoided outage cost, emissions value — as FERC Order 1920 and the ENTSO-E CBA methodology require."@en ;
+  skos:scopeNote "Its inputs are largely other analyses' outputs: production cost results supply the avoided-cost term and resource adequacy supplies the reliability term. It is the clearest case in the scheme of embedded assumptions stacking, so a dataset used here should carry its og:derivedFrom chain."@en ;
+  og:composedOf at:productionCost, at:resourceAdequacy, at:transmissionPlanning ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD7, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "zonal" .
+
+at:integratedResourcePlan
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "integrated-resource-plan" ;
+  skos:prefLabel "Integrated Resource Plan"@en ;
+  skos:altLabel "IRP"@en, "resource plan"@en ;
+  skos:definition "A regulated utility's filed plan for meeting demand over a planning horizon, assembled from every other analysis class and submitted to a commission."@en ;
+  skos:scopeNote "The framework's worked example of assumption depth: an IRP stacks NREL ATB cost projections, a capacity expansion portfolio, a production cost dispatch and resource adequacy metrics, and each layer looks like data to the layer above it."@en ;
+  og:composedOf at:capacityExpansion, at:productionCost, at:resourceAdequacy,
+                at:demandForecasting, at:transmissionPlanning ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD3, dd:DD4, dd:DD5, dd:DD6, dd:DD7, dd:DD8, dd:DD9, dd:DD10 ;
+  og:requiresGranularity "zonal" .
+
+at:longTermTransmissionPlan
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "long-term-transmission-plan" ;
+  skos:prefLabel "Long-Term Transmission Plan (FERC Order 1920)"@en ;
+  skos:altLabel "FERC 1920"@en, "long-term regional transmission planning"@en,
+                "multi-value planning"@en ;
+  skos:definition "The twenty-year scenario-based regional transmission plan FERC Order 1920 requires, evaluated against a prescribed set of benefit categories."@en ;
+  og:composedOf at:transmissionPlanning, at:capacityExpansion, at:productionCost,
+                at:costBenefitAnalysis ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD5, dd:DD8, dd:DD9, dd:DD10 ;
+  og:requiresGranularity "zonal" .
+
+at:tyndp
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "tyndp" ;
+  skos:prefLabel "Ten-Year Network Development Plan (ENTSO-E)"@en ;
+  skos:altLabel "TYNDP"@en ;
+  skos:definition "ENTSO-E's biennial pan-European network development plan, built on a common scenario framework and a published CBA methodology."@en ;
+  og:composedOf at:transmissionPlanning, at:capacityExpansion, at:productionCost,
+                at:costBenefitAnalysis ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD4, dd:DD5, dd:DD8, dd:DD9 ;
+  og:requiresGranularity "zonal" .
+
+at:tpl001
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/analysis-type> ;
+  skos:notation "tpl-001-compliance" ;
+  skos:prefLabel "NERC TPL-001 Compliance Assessment"@en ;
+  skos:altLabel "TPL-001"@en, "transmission planning standard"@en, "N-1-1"@en ;
+  skos:definition "The mandatory North American planning assessment: steady-state and dynamic performance under a defined contingency set, on peak and off-peak, with IBR models where inverter-based resources are material."@en ;
+  og:composedOf at:powerFlow, at:transmissionPlanning ;
+  og:typicalInputDomain dd:DD1, dd:DD2, dd:DD3, dd:DD4, dd:DD8 ;
+  og:requiresGranularity "nodal" .
