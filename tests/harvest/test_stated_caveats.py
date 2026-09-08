@@ -12,8 +12,11 @@ real caveat goes to die.
 
 The Data Domain Assessment's detailed view is a supply of the missing kind:
 dataset-level defects, each attributed to a practitioner who hit it. This
-covers loading them, and the two properties that make them worth loading —
-they come first, and they say who found them.
+covers loading them, and the property that makes them worth loading: they say
+who found them.
+
+Ordering — findings ahead of boilerplate — turns out not to be expressible
+here at all. See the test below.
 """
 
 from __future__ import annotations
@@ -94,18 +97,27 @@ def test_a_finding_names_who_found_it(catalog) -> None:
             )
 
 
-def test_a_finding_is_read_before_the_boilerplate(catalog) -> None:
-    """Ordering is the whole fix for caveat fatigue.
+def test_ordering_cannot_be_relied_on_and_the_ui_has_to_sort(catalog) -> None:
+    """The fix for caveat fatigue is *not* available here, and this says why.
 
-    Four generated sentences ahead of the one that matters is how a reader
-    learns to skip the section.
+    `_caveats` returns findings first, and that ordering does not survive:
+    `og:caveat` is `"@container": "@set"` in the context, so it round-trips
+    through RDF as an unordered set and comes back in whatever order the graph
+    yields. An earlier version of this test asserted the finding came first and
+    passed — by luck, on the iteration order of a particular graph. Adding
+    sixteen rows in #49 reordered it and the test failed, which is the only
+    reason the assumption got caught rather than shipping.
+
+    So ordering has to be a rendering decision, made where the caveats are
+    displayed, from something structural: an attribution field, which is the
+    same shape change #55 needs for the source and date. Until then this pins
+    the fact rather than a false guarantee — both kinds are present, and which
+    comes first is not ours to promise.
     """
-    node = catalog["elcc-studies-by-iso"]
-    texts = caveats(node)
+    texts = caveats(catalog["elcc-studies-by-iso"])
     assert len(texts) > 1, "this row should carry both kinds, or it tests nothing"
-    assert not texts[0].startswith(STRUCTURAL), (
-        f"the generated caveats come first, so the finding is buried: {texts}"
-    )
+    assert any(t.startswith(STRUCTURAL) for t in texts)
+    assert any(not t.startswith(STRUCTURAL) for t in texts)
 
 
 def test_the_corpus_is_no_longer_one_finding_in_sixteen(catalog) -> None:

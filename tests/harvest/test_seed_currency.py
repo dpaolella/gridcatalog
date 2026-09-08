@@ -75,6 +75,7 @@ def test_a_vintage_is_present_exactly_where_a_row_states_one(catalog) -> None:
         "scigrid-german-hv-tx-network",
         "wri-global-power-plant-database",
         "opsd-open-power-system-data",
+        "geonucleardata",
     }, sorted(stated)
 
 

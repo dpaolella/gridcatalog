@@ -66,14 +66,14 @@ def documents(loaded):
 def test_every_seed_row_loads(loaded) -> None:
     _, result = loaded
     assert result.failures == [], f"seed rows failed validation: {result.failures[:5]}"
-    # 114 rows, three cross-domain pairs merged into one record each: the EU ETS
+    # 130 rows, three cross-domain pairs merged into one record each: the EU ETS
     # entry across DD7/DD8, NREL ATB across DD6/DD9 — whose own note says "Model
     # as one dataset with domain facets, not two records" — and the World Bank
     # Pink Sheet across DD7/DD9. The last two merge because the file now gives
     # them a shared `slug`; before that the merge keyed on the name and their
     # names differ, so they published twice (#20).
-    assert result.total == 114
-    assert result.confirmed + result.drafted == 111
+    assert result.total == 130
+    assert result.confirmed + result.drafted == 127
 
 
 def test_every_record_is_in_the_store(loaded) -> None:
@@ -90,7 +90,7 @@ def test_every_record_declares_the_level_it_was_validated_at(documents) -> None:
 def test_all_ten_domains_are_populated(loaded) -> None:
     _, result = loaded
     assert set(result.by_domain) == {f"DD{n}" for n in range(1, 11)}
-    assert sum(result.by_domain.values()) == 114, "the merged record counts under both domains"
+    assert sum(result.by_domain.values()) == 130, "the merged record counts under both domains"
 
 
 # ---- the boundary: unreviewed rows cannot reach the catalog --------------
