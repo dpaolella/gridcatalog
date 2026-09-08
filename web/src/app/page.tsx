@@ -35,6 +35,11 @@ const FACETS = [
   "spatial_granularity",
   "anonymous_access",
   "link_health",
+  // Offered by the static site since it was built and never by this one, so
+  // the same page had different filters depending on which build you opened.
+  // Found by diffing this list against `services/snapshot.py`, which claimed
+  // to be a copy of it; `tests/snapshot/test_facet_parity.py` now checks that.
+  "has_usage_evidence",
 ];
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

@@ -35,14 +35,27 @@ log = get_logger(__name__)
 #: How many records to pull per search page while walking the catalog.
 PAGE = 100
 
-#: Facets the static site can filter on. The same list the server-rendered
-#: search asks for, so the two show the same filter panel.
+#: Facets the static site can filter on.
+#:
+#: The same list `web/src/app/page.tsx` asks for, and it has to be, because the
+#: static site renders its filter panel from `facets.json` while the
+#: server-rendered one renders from a live query. A name in one and not the
+#: other is a filter that exists on one build of the same page and not the
+#: other — silent, because a facet the response omits simply does not render.
+#:
+#: It had already drifted when `field_count_bucket` was added: this list
+#: carried `has_usage_evidence`, which the page never requested, and lacked
+#: `link_health`'s neighbour. `tests/snapshot/test_facet_parity.py` compares
+#: the two by machine now, for the same reason `test_filter_facet_parity`
+#: exists — the licence filter was broken in both directions at once because a
+#: name had to be kept identical by hand in two places.
 FACETS = (
     "data_domain",
     "provenance_class",
     "license",
     "format",
     "completeness_level",
+    "field_count_bucket",
     "spatial_granularity",
     "anonymous_access",
     "link_health",
