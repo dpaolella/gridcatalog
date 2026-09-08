@@ -191,7 +191,13 @@ class HarvestRunner:
                 fetched_at=record.fetched_at,
             )
 
-            decision = self.relevance.decide(text_of(record.payload), title=self._title_of(record))
+            decision = self.relevance.decide(
+                text_of(record.payload),
+                title=self._title_of(record),
+                # The same key the harvester is idempotent on, so a recorded
+                # decision follows the dataset across re-harvests.
+                key=record.source_id,
+            )
             repos.relevance.record(
                 raw_record_id=stored.row.id,
                 source_id=self.source_id,

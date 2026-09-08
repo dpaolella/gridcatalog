@@ -94,6 +94,7 @@ class Mapping:
         self.identity: dict[str, Any] = spec.get("identity", {})
         self.fields: dict[str, Any] = spec.get("fields", {})
         self.distributions: dict[str, Any] = spec.get("distributions", {})
+        self.usage_evidence: dict[str, Any] = spec.get("usage_evidence", {})
         self.defaults: dict[str, Any] = spec.get("defaults", {})
         self.notes: str = spec.get("notes", "")
 
@@ -718,6 +719,10 @@ class Normalizer:
         distributions = self._distributions(payload, slug, result)
         if distributions:
             document["distribution"] = distributions
+
+        usage = self._usage_evidence(payload, slug, result)
+        if usage:
+            document["usageEvidence"] = usage
             result.from_source.add("distribution")
         else:
             result.missing.add("distribution")
@@ -978,6 +983,61 @@ class Normalizer:
                 if value is not None:
                     dist[term] = value
             out.append(dist)
+        return out
+
+    def _usage_evidence(
+        self, payload: dict[str, Any], slug: str, result: NormalizedRecord
+    ) -> list[dict[str, Any]]:
+        """Studies, tutorials and tools the source says used this dataset.
+
+        Mirrors :meth:`_distributions` rather than sharing code with it: they
+        look alike and are not the same rule. A distribution with no URL is a
+        record worth keeping and a fact to surface; a *citation* with no URL is
+        something a reader cannot check, and the only safe thing to do with one
+        is drop it. That difference is the whole reason this exists separately,
+        and merging them later would quietly delete it.
+
+        Nothing here is inferred. Every entry comes from a field the source
+        published, and ``assertedBy`` records which source said so.
+        """
+        spec = self.mapping.usage_evidence
+        if not spec:
+            return []
+        items = resolve(payload, spec["path"]) or []
+        if isinstance(items, dict):
+            items = [items]
+        if not isinstance(items, list):
+            return []
+
+        asserted_by = spec.get("asserted_by") or self.mapping.name
+        out: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for index, item in enumerate(items):
+            if not isinstance(item, dict):
+                continue
+            title, _ = self._field(item, spec.get("title", "title"))
+            url = _t_iri((self._field(item, spec.get("accessURL", "url")))[0])
+            # Both, or neither. A title with no link cannot be followed and a
+            # link with no title cannot be read; either alone is an assertion
+            # rather than evidence, and this is the field where that matters
+            # most (og:UsageEvidenceShape says why).
+            if not title or not url or url in seen:
+                continue
+            seen.add(url)
+            node: dict[str, Any] = {
+                "id": f"{DATASET_BASE}{slug}#usage-{index}",
+                "type": "UsageEvidence",
+                "title": str(title),
+                "accessURL": url,
+                "assertedBy": str(asserted_by),
+            }
+            for term, field_spec in spec.get("fields", {}).items():
+                value, warning = self._field(item, field_spec)
+                if warning:
+                    result.warnings.append(f"usageEvidence[{index}].{term}: {warning}")
+                if value is not None:
+                    node[term] = value
+            out.append(node)
         return out
 
     def _flags(self, result: NormalizedRecord, slug: str) -> dict[str, Any]:

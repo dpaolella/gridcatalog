@@ -491,6 +491,42 @@ def test_the_module_refuses_to_run_everything_by_accident(capsys) -> None:
     assert "nothing to do" in capsys.readouterr().err
 
 
+@pytest.mark.parametrize(
+    ("results", "expected"),
+    [
+        # The regression. One source, 521 records normalised, three rejected
+        # for a mojibake in their description — and the step exited 1, so
+        # promotion, export and the pull request never ran.
+        ([(521, ["nasa-islscp-ii", "nasa-lba-eco", "nasa-nacp"])], 0),
+        # Nothing came back. An unreachable endpoint, a changed schema, a bad
+        # credential — worth failing for, because a green run that harvested
+        # nothing is how a catalog goes stale unnoticed.
+        ([(0, ["could not fetch"])], 1),
+        ([(0, [])], 1),
+        # A clean run.
+        ([(400, [])], 0),
+        # One source down, another working: a partial harvest is a success with
+        # a warning, and a cron job that alerts on every transient source
+        # failure is a cron job nobody reads.
+        ([(0, ["could not fetch"]), (400, [])], 0),
+    ],
+)
+def test_the_exit_code_says_whether_the_harvest_accomplished_anything(
+    monkeypatch, results: list[tuple[int, list[str]]], expected: int
+) -> None:
+    """Record errors and source failures are both in `errors`, and they are not
+    the same event. What decides the exit code is whether records came back."""
+    from datahub.harvest.__main__ import main
+    from datahub.harvest.runner import SourceResult
+
+    rows = [
+        SourceResult(source_id=f"s{i}", adapter="stub", seen=n, accepted=n, queued=n, errors=errs)
+        for i, (n, errs) in enumerate(results)
+    ]
+    monkeypatch.setattr("datahub.harvest.__main__.run_sources", lambda *a, **k: rows)
+    assert main(["--source", "oedi"]) == expected
+
+
 def test_the_module_filters_by_priority(capsys) -> None:
     from datahub.harvest.__main__ import main
 

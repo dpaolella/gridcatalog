@@ -42,7 +42,18 @@
       "tier": 3,
       "title": "GridKit",
       "type": "Dataset",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/gridkit#usage-c0",
+          "type": "UsageEvidence",
+          "title": "Gridkit Extract Of Entso-E Interactive Map",
+          "accessURL": "https://doi.org/10.5281/zenodo.55853",
+          "evidenceKind": "publication",
+          "authorName": "Wiegmans, Bart",
+          "assertedBy": "curated"
+        }
+      ]
     }
   ]
 }

@@ -22,6 +22,7 @@ served to everyone. This one cannot, because it never sees it.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -45,7 +46,20 @@ FACETS = (
     "spatial_granularity",
     "anonymous_access",
     "link_health",
+    "has_usage_evidence",
 )
+
+
+#: A word for `_distinct_words`. Hyphens, underscores and dots are kept
+#: *inside* a token, because `ne_110m`, `t2m` and `sea-surface` are how these
+#: datasets name things and splitting them would make a search for the name
+#: miss.
+_WORD = re.compile(r"[a-z0-9]+(?:[-_.][a-z0-9]+)*")
+
+
+def _distinct_words(text: str) -> str:
+    """The distinct lowercase words of *text*, sorted and space-separated."""
+    return " ".join(sorted(set(_WORD.findall(text.lower()))))
 
 
 @dataclass
@@ -234,6 +248,22 @@ class Snapshot:
         API's contract with every caller and most of them do not want a
         paragraph of prose per row on every list request. This is a
         snapshot-only field for a snapshot-only problem.
+
+        **Distinct words, not the prose.** `StaticSearch` is the only consumer
+        and all it does is lowercase this and ask whether each query term is a
+        substring — so word order, punctuation and repetition are weight the
+        reader downloads and nothing reads. Some of these descriptions are
+        mission dossiers: NASA's NPP/JPSS record is 684 KB of text on its own,
+        and across 444 records the prose came to 7.0 MB of the 7.7 MB index
+        payload, inside a 9.1 MB landing page that `ops/check-page-weight.sh`
+        had refused to deploy on every run since the catalog grew. The same
+        words, deduplicated and sorted, are 1.0 MB.
+
+        Lossless for the matcher, which is why it is done here rather than by
+        truncating: every term that matched the prose still matches the word
+        list, so the static site and the API do not start disagreeing about what
+        exists — the failure mode this method was written to fix in the first
+        place. Truncation would trade the whole point of the field for bytes.
         """
         for summary in summaries:
             if summary.get("summary"):
@@ -243,7 +273,7 @@ class Snapshot:
             )
             description = (record or {}).get("description")
             if description:
-                summary["search_text"] = description
+                summary["search_text"] = _distinct_words(description)
 
     def _facets(self, client: Any) -> dict[str, Any]:
         page = self._get(

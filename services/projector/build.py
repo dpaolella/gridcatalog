@@ -32,6 +32,7 @@ from datahub.api.search.document import (
     SearchDocument,
     SpatialCoverage,
     TemporalCoverage,
+    UsageEvidenceRef,
 )
 from datahub.graph.records import read_bbox, slug_of
 from datahub.namespaces import OG
@@ -70,6 +71,7 @@ def build_document(
     level = _int(graph.value(iri, OG.completenessLevel), default=1)
     tier = _int(graph.value(iri, OG.tier))
     distributions = _distributions(graph, iri)
+    usage_evidence = _usage_evidence(graph, iri)
     quality, assessed = _quality(graph, iri, level)
     concepts = _concepts(graph, iri)
 
@@ -107,6 +109,9 @@ def build_document(
             {d.subsetting_protocol for d in distributions if d.subsetting_protocol}
         ),
         worst_link_health=_worst_health(distributions),
+        usage_evidence=usage_evidence,
+        usage_evidence_count=len(usage_evidence),
+        has_usage_evidence=bool(usage_evidence),
         all_distributions_unreachable=bool(distributions)
         and all(d.link_health == "unreachable" for d in distributions),
         spatial=_spatial(graph, iri),
@@ -143,6 +148,37 @@ def build_document(
 # ---------------------------------------------------------------------------
 # Field groups
 # ---------------------------------------------------------------------------
+
+
+def _usage_evidence(graph: Graph, iri: URIRef) -> list[UsageEvidenceRef]:
+    """Studies, tutorials and tools a source records as having used this dataset.
+
+    An entry missing a title or a URL is dropped rather than rendered partial.
+    The shape already requires both, so reaching this is a record written before
+    the shape existed or by a path that bypassed validation — and a citation
+    with a title and no link is worse than no citation, because it looks like
+    something a reader can check.
+    """
+    out: list[UsageEvidenceRef] = []
+    for node in sorted(graph.objects(iri, OG.usageEvidence), key=str):
+        title = _str(graph.value(node, DCTERMS.title))
+        url = graph.value(node, DCAT.accessURL)
+        if not title or url is None:
+            continue
+        out.append(
+            UsageEvidenceRef(
+                title=title,
+                url=str(url),
+                kind=_str(graph.value(node, OG.evidenceKind)) or "publication",
+                author=_str(graph.value(node, OG.authorName)),
+                asserted_by=_str(graph.value(node, OG.assertedBy)) or "unknown",
+            )
+        )
+    # Publications first: a peer-reviewed study is the evidence a modeller is
+    # actually asking for, and a list that opens with three demo notebooks
+    # answers a different question.
+    order = {"publication": 0, "tool": 1, "tutorial": 2}
+    return sorted(out, key=lambda e: (order.get(e.kind, 3), e.title.lower()))
 
 
 def _distributions(graph: Graph, iri: URIRef) -> list[DistributionSummary]:

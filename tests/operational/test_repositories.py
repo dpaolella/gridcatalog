@@ -271,7 +271,7 @@ def test_rejections_are_auditable(repos) -> None:
         raw_record_id=raw.id,
         source_id="zenodo",
         accepted=True,
-        stage="llm",
+        stage="decided",
         reason="describes transmission line ratings",
         score=0.88,
         model="test-model",
@@ -284,7 +284,7 @@ def test_rejections_are_auditable(repos) -> None:
     assert "no grid vocabulary term" in rejected[0].reason
     assert repos.relevance.rates() == {
         "keyword": {"accepted": 0, "rejected": 1},
-        "llm": {"accepted": 1, "rejected": 0},
+        "decided": {"accepted": 1, "rejected": 0},
     }
 
 

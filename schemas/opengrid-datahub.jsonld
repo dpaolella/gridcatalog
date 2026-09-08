@@ -110,6 +110,13 @@
     "excludedAnalysis": { "@id": "og:excludedAnalysis", "@type": "@id", "@container": "@set" },
     "exclusionRationale": { "@id": "og:exclusionRationale", "@language": "en" },
 
+    "__comment_usage": "Usage evidence — a study, tutorial or tool that used this dataset. Evidence of use, NOT a claim about capability: og:supportedAnalysis is a steward saying what the data can support, this is a record of what somebody actually did with it. og:assertedBy names who says so, because a provider's self-report and a steward's reading are different kinds of claim and the reader must be able to tell.",
+    "usageEvidence": { "@id": "og:usageEvidence", "@type": "@id", "@container": "@set" },
+    "UsageEvidence": "og:UsageEvidence",
+    "evidenceKind": "og:evidenceKind",
+    "authorName": "og:authorName",
+    "assertedBy": "og:assertedBy",
+
     "__comment_d13": "D13 — quality flags. Not the graded facets; these are the caveats a steward records.",
     "qualityFlags": { "@id": "og:qualityFlags", "@type": "@id" },
     "QualityFlags": "og:QualityFlags",

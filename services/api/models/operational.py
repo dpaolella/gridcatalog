@@ -267,7 +267,7 @@ class RelevanceDecision(Base, IdMixin):
     source_id: Mapped[str] = mapped_column(String(64), index=True)
     decided_at: Mapped[datetime] = mapped_column(default=utcnow, index=True)
     accepted: Mapped[bool] = mapped_column(Boolean, index=True)
-    stage: Mapped[str] = mapped_column(String(16))  # keyword | vocabulary | llm
+    stage: Mapped[str] = mapped_column(String(16))  # keyword | vocabulary | decided
     reason: Mapped[str] = mapped_column(Text)
     score: Mapped[float | None] = mapped_column(Float)
     matched_terms: Mapped[list[str]] = mapped_column(JSON, default=list)
@@ -275,7 +275,11 @@ class RelevanceDecision(Base, IdMixin):
     prompt_version: Mapped[str | None] = mapped_column(String(32))
 
     __table_args__ = (
-        CheckConstraint("stage in ('keyword','vocabulary','llm')", name="stage_known"),
+        # `decided` rather than `llm`: the third stage records that a verdict
+        # existed, not how it was reached (ADR-0013). Renaming the value without
+        # this constraint cost every decided record its audit row — and, because
+        # the insert raised inside the per-record try, the record itself.
+        CheckConstraint("stage in ('keyword','vocabulary','decided')", name="stage_known"),
     )
 
 

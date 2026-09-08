@@ -4,6 +4,13 @@ Queries are written as templates with ``?var`` placeholders bound through
 :func:`bind`, which serialises RDF terms in N3 form. Never interpolate a string
 into a query with an f-string; a title containing ``"}"`` is enough to change
 the shape of a query.
+
+:func:`bind` and :func:`placeholders` tokenise the template rather than
+scanning it, so a ``??name`` sequence inside a comment, an IRI or a string
+literal is left alone. That matters because ground triples cannot be bound as
+parameters: ``INSERT DATA`` is assembled by serialising them into the update
+text, and the finished update is still handed to :func:`bind` on its way to the
+store. See :data:`_SCANNER`.
 """
 
 from __future__ import annotations
@@ -53,7 +60,38 @@ def parsing() -> Iterator[None]:
         yield
 
 
-_PLACEHOLDER = re.compile(r"\?\?([A-Za-z_][A-Za-z0-9_]*)")
+#: The scanner :func:`bind` and :func:`placeholders` walk the template with.
+#:
+#: It matches a placeholder **and** the three constructs a placeholder must not
+#: be read inside — a comment, an IRI, and a string literal — so that a query is
+#: tokenised rather than pattern-matched. Order matters: the longer literal
+#: forms come before the shorter ones, and every construct comes before the
+#: placeholder itself.
+#:
+#: The reason it is not just ``\?\?(name)``. Ground triples cannot be passed as
+#: parameters — SPARQL has no way to parameterise a triple block — so
+#: ``INSERT DATA`` is assembled by serialising the triples into the update text,
+#: which is safe because N-Triples escaping is what makes it safe. That finished
+#: update then still went through :func:`bind`, which re-read the *data* looking
+#: for placeholders. A NASA description in the AWS registry contains the
+#: mojibake ``world'??s``, so three records were rejected with
+#: ``unbound SPARQL placeholders: ['s']`` — and the harvest, which then failed a
+#: source for any error at all, exited non-zero on a run that had already
+#: normalised 521 records, so none of them reached the catalog.
+#:
+#: ``??`` inside a literal is text. This is what makes that true.
+_SCANNER = re.compile(
+    r"""
+      (?P<comment>\#[^\n]*)
+    | (?P<iri><[^<>"{}|^`\\\s]*>)
+    | (?P<long1>\"{3}(?:[^"\\]|\\.|\"(?!\"\"))*\"{3})
+    | (?P<long2>'{3}(?:[^'\\]|\\.|'(?!''))*'{3})
+    | (?P<short1>\"(?:[^"\\\n]|\\.)*\")
+    | (?P<short2>'(?:[^'\\\n]|\\.)*')
+    | (?P<placeholder>\?\?(?P<name>[A-Za-z_][A-Za-z0-9_]*))
+    """,
+    re.VERBOSE,
+)
 
 PROLOGUE = "\n".join(f"PREFIX {p}: <{ns}>" for p, ns in PREFIXES.items()) + "\n"
 
@@ -108,9 +146,10 @@ def placeholders(template: str) -> list[str]:
     the caller never wrote.
     """
     seen: list[str] = []
-    for match in _PLACEHOLDER.finditer(template):
-        if match.group(1) not in seen:
-            seen.append(match.group(1))
+    for match in _SCANNER.finditer(template):
+        name = match.group("name")
+        if name is not None and name not in seen:
+            seen.append(name)
     return seen
 
 
@@ -127,7 +166,12 @@ def bind(template: str, params: Mapping[str, Any] | None = None) -> str:
     missing: list[str] = []
 
     def _sub(match: re.Match[str]) -> str:
-        name = match.group(1)
+        name = match.group("name")
+        if name is None:
+            # A comment, an IRI or a string literal. Whatever it contains is
+            # data, and returning it unchanged is the whole point of scanning
+            # rather than pattern-matching.
+            return match.group(0)
         if name not in params:
             missing.append(name)
             return match.group(0)
@@ -148,7 +192,7 @@ def bind(template: str, params: Mapping[str, Any] | None = None) -> str:
             )
         return n3(value)
 
-    out = _PLACEHOLDER.sub(_sub, template)
+    out = _SCANNER.sub(_sub, template)
     if missing:
         raise KeyError(f"unbound SPARQL placeholders: {sorted(set(missing))}")
     return out

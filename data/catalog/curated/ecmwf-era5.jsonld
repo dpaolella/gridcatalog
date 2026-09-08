@@ -207,7 +207,99 @@
       "title": "ECMWF ERA5 reanalysis",
       "type": "Dataset",
       "updateCadence": "P1D",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-0",
+          "type": "UsageEvidence",
+          "title": "Potential changes in cooling degree day under different global warming levels and shared socioeconomic pathways in West Africa",
+          "accessURL": "https://iopscience.iop.org/article/10.1088/1748-9326/acbc8f",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "Oluwarotimi Delano Thierry Odou, Heidi Heinrichs Ursula, Rabani Adamou, Thierry Godjo, and Mounkaila S Moussa"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-1",
+          "type": "UsageEvidence",
+          "title": "Temperature and salinity trends in the northern limit of the Canary Current Upwelling System",
+          "accessURL": "https://doi.org/10.1016/j.scitotenv.2023.165791",
+          "evidenceKind": "publication",
+          "assertedBy": "aws_open_data",
+          "authorName": "P. Otero, A. Cabrero, F. Alonso-Pérez, J. Gago, E. Nogueira"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-2",
+          "type": "UsageEvidence",
+          "title": "Accessing ERA5 Data on S3 Using Boto",
+          "accessURL": "https://github.com/planet-os/notebooks/blob/master/aws/era5-s3-via-boto.ipynb",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Intertrust Technologies Corporation"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-3",
+          "type": "UsageEvidence",
+          "title": "ERA5 tutorial using the Planet OS API",
+          "accessURL": "https://github.com/planet-os/notebooks/blob/master/api-examples/ERA5_tutorial.ipynb",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Intertrust Technologies Corporation"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-4",
+          "type": "UsageEvidence",
+          "title": "Processing ERA5 data in NetCDF Format",
+          "accessURL": "https://nbviewer.jupyter.org/github/awslabs/amazon-asdi/blob/main/examples/dask/notebooks/era5.ipynb",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Zac Flamig"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-5",
+          "type": "UsageEvidence",
+          "title": "Processing ERA5 data in Zarr Format",
+          "accessURL": "https://nbviewer.jupyter.org/github/awslabs/amazon-asdi/blob/main/examples/dask/notebooks/era5_zarr.ipynb",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Zac Flamig"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-6",
+          "type": "UsageEvidence",
+          "title": "Intro to Amazon EMR Studio",
+          "accessURL": "https://www.youtube.com/watch?v=rZ3zeJ6WKPY&list=RDCMUCd6MoB9NC6uYN2grvUNT-Zg",
+          "evidenceKind": "tutorial",
+          "assertedBy": "aws_open_data",
+          "authorName": "Damon Cortesi"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c7",
+          "type": "UsageEvidence",
+          "title": "The ERA5 global reanalysis",
+          "accessURL": "https://doi.org/10.1002/qj.3803",
+          "evidenceKind": "publication",
+          "authorName": "Hans Hersbach, Bill Bell, Paul Berrisford, Shoji Hirahara et al.",
+          "assertedBy": "curated"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c8",
+          "type": "UsageEvidence",
+          "title": "Long-term patterns of European PV output using 30 years of validated hourly reanalysis and satellite data",
+          "accessURL": "https://doi.org/10.1016/j.energy.2016.08.060",
+          "evidenceKind": "publication",
+          "authorName": "Stefan Pfenninger, Iain Staffell",
+          "assertedBy": "curated"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c9",
+          "type": "UsageEvidence",
+          "title": "Using bias-corrected reanalysis to simulate current and future wind power output",
+          "accessURL": "https://doi.org/10.1016/j.energy.2016.08.068",
+          "evidenceKind": "publication",
+          "authorName": "Iain Staffell, Stefan Pfenninger",
+          "assertedBy": "curated"
+        }
+      ]
     }
   ]
 }

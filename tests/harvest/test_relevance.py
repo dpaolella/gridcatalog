@@ -21,6 +21,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from datahub.harvest.filters.relevance import (
     RelevanceFilter,
+    Undecided,
     Verdict,
     text_of,
     vocabulary_phrases,
@@ -171,7 +172,7 @@ def test_every_decision_explains_itself(rfilter) -> None:
         decision = rfilter.decide(description, title=title)
         assert decision.reason, title
         assert "score" in decision.reason
-        assert decision.stage in ("keyword", "vocabulary", "llm")
+        assert decision.stage in ("keyword", "vocabulary", "decided")
 
 
 def test_a_rejection_says_which_kind_of_rejection_it_is(rfilter) -> None:
@@ -228,12 +229,12 @@ def test_a_custom_vocabulary_changes_the_outcome() -> None:
 
 
 class _Rejecting:
-    def classify(self, text: str, *, title: str | None = None) -> Verdict:
+    def classify(self, text: str, *, title: str | None = None, key: str | None = None) -> Verdict:
         return Verdict(relevant=False, reason="not about power systems", confidence=0.9, model="t")
 
 
 class _Exploding:
-    def classify(self, text: str, *, title: str | None = None) -> Verdict:
+    def classify(self, text: str, *, title: str | None = None, key: str | None = None) -> Verdict:
         raise RuntimeError("upstream 503")
 
 
@@ -253,9 +254,9 @@ def test_the_classifier_sees_only_the_ambiguous_middle(monkeypatch, settings) ->
     junk = rfilter.decide("Books and loan records", title="Library catalogue")
     middle = rfilter.decide(AMBIGUOUS[1], title=AMBIGUOUS[0])
 
-    assert clear.accepted and clear.stage != "llm"
-    assert not junk.accepted and junk.stage != "llm"
-    assert middle.stage == "llm"
+    assert clear.accepted and clear.stage != "decided"
+    assert not junk.accepted and junk.stage != "decided"
+    assert middle.stage == "decided"
     assert not middle.accepted
     assert middle.model == "t"
     assert middle.prompt_version
@@ -277,19 +278,48 @@ def test_a_broken_classifier_includes_rather_than_drops(monkeypatch) -> None:
     assert decision.stage == "vocabulary", "a failed call is not an LLM decision"
 
 
-def test_no_classifier_configured_includes(rfilter) -> None:
+def test_no_classifier_configured_includes(settings) -> None:
+    """`classifier=None` is the deliberate off switch, and off still means
+    include — the middle carries some grid signal and dropping it silently is
+    the failure this filter is built to avoid."""
+    rfilter = RelevanceFilter(settings, classifier=None)
     decision = rfilter.decide(AMBIGUOUS[1], title=AMBIGUOUS[0])
     assert decision.accepted
     assert "no classifier configured" in decision.reason
 
 
-def test_enrichment_disabled_skips_the_classifier(settings) -> None:
-    """A configured classifier is not a licence to call it: the enrichment
-    switch is off by default and governs every model call."""
+def test_an_undecided_record_is_included_and_says_so(settings) -> None:
+    """ "Nobody has looked" is not "not relevant", and the reason has to carry
+    the difference: a recall audit needs to find the uncovered records, and
+    inferring them from an accept is exactly what it cannot do."""
+
+    class _Undecided:
+        def classify(self, text, *, title=None, key=None):
+            raise Undecided(f"no recorded decision for {key!r}")
+
+    rfilter = RelevanceFilter(settings, classifier=_Undecided())
+    decision = rfilter.decide(AMBIGUOUS[1], title=AMBIGUOUS[0], key="a_source:a-record")
+
+    assert decision.accepted
+    assert "undecided" in decision.reason
+    assert decision.stage == "vocabulary", "an undecided record is not a decision"
+
+
+def test_the_classifier_runs_with_enrichment_switched_off(settings) -> None:
+    """The coupling this replaces was a bug.
+
+    `_classify` used to require `enrichment_enabled`, which is off by default
+    and exists to govern *model* calls. The default classifier reads a
+    committed file — no key, no budget, no vendor — so gating it on that switch
+    meant the third stage was dead in every deployment, and the ambiguous
+    middle took the accept-everything branch. 52% of the harvested catalog was
+    published that way.
+    """
+    assert not settings.enrichment_enabled, "the default this test is about"
     rfilter = RelevanceFilter(settings, classifier=_Rejecting())
     decision = rfilter.decide(AMBIGUOUS[1], title=AMBIGUOUS[0])
-    assert decision.accepted
-    assert decision.stage != "llm"
+    assert not decision.accepted
+    assert decision.stage == "decided"
 
 
 # ---- pulling text out of a source payload -------------------------------

@@ -123,7 +123,57 @@ class YamlRepoAdapter(Adapter):
         # documented exception, and where it applies the caller pays to read,
         # which is a commercial barrier rather than open access.
         prepared["_anonymous"] = not requester_pays_anywhere
+        prepared["_usage"] = self._usage_evidence(entry)
         return prepared
+
+    #: The registry's `DataAtWork` sections, and what each is evidence *of*.
+    #: A peer-reviewed study and a demo notebook both show the dataset was
+    #: used, and they are not the same claim — so the section a citation came
+    #: from is carried through rather than flattened away.
+    USAGE_SECTIONS: dict[str, str] = {
+        "Publications": "publication",
+        "Tutorials": "tutorial",
+        "Tools & Applications": "tool",
+    }
+
+    @classmethod
+    def _usage_evidence(cls, entry: dict[str, Any]) -> list[dict[str, Any]]:
+        """`DataAtWork` flattened into one list, each item keeping its kind.
+
+        Three sibling lists under one key cannot be expressed as a field-mapping
+        path, and which list an entry came from is the part worth keeping — so
+        the reshaping happens here, where `Resources[].ARN` is already reshaped
+        for the same reason.
+
+        This is the registry's own record of who has used each dataset, fetched
+        on every harvest since the beginning and, until now, read only as text
+        for the relevance score — where a paper title was being scored as
+        evidence that the *dataset* is about power systems, which it is not.
+        """
+        at_work = entry.get("DataAtWork")
+        if not isinstance(at_work, dict):
+            return []
+        out: list[dict[str, Any]] = []
+        for section, kind in cls.USAGE_SECTIONS.items():
+            for item in at_work.get(section) or []:
+                if not isinstance(item, dict):
+                    continue
+                title, url = item.get("Title"), item.get("URL")
+                # Both required. An entry with no URL is a claim a reader
+                # cannot follow, and this is the one field where an
+                # unverifiable assertion does real damage — see
+                # og:UsageEvidenceShape.
+                if not isinstance(title, str) or not isinstance(url, str):
+                    continue
+                out.append(
+                    {
+                        "_title": title.strip(),
+                        "_url": url.strip(),
+                        "_kind": kind,
+                        "_author": (item.get("AuthorName") or "").strip() or None,
+                    }
+                )
+        return out
 
     @staticmethod
     def _resource_url(resource: dict[str, Any]) -> str | None:

@@ -40,6 +40,7 @@ WHERE {
            | <https://schema.opengrid.org/ns#qualityFlags>
            | <https://schema.opengrid.org/ns#linkHealth>
            | <https://schema.opengrid.org/ns#conceptGap>
+           | <https://schema.opengrid.org/ns#usageEvidence>
            | <https://schema.opengrid.org/ns#codeList>
            | <https://schema.opengrid.org/ns#qualityGrade>
            | <https://schema.opengrid.org/ns#lastComputedAt>

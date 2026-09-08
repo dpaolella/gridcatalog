@@ -36,7 +36,8 @@
     "next": "Next",
     "previous": "Previous",
     "typing": "Results update as you type. There is no submit step.",
-    "showMore": "+{count} more"
+    "showMore": "+{count} more",
+    "loadMore": "Show {count} more of {total}"
   },
   "facets": {
     "data_domain": "Domain",
@@ -52,7 +53,8 @@
     "provenance_grade": "Provenance grade",
     "documentation_grade": "Documentation grade",
     "currency_grade": "Currency grade",
-    "link_health": "Link health"
+    "link_health": "Link health",
+    "has_usage_evidence": "Has recorded usage"
   },
   "empty": {
     "noResults": "No datasets match this search.",
@@ -106,7 +108,15 @@
     "hasImpedance": "Impedances",
     "voltageClasses": "Voltage classes",
     "notCaptured": "Not captured",
-    "notCapturedHelp": "Absent means this has not been catalogued — never that the dataset lacks it."
+    "notCapturedHelp": "Absent means this has not been catalogued — never that the dataset lacks it.",
+    "usedBy": "Used by",
+    "usedByHelp": "Studies, tutorials and tools recorded as having used this dataset. An empty section means nothing has been recorded — most catalogues have no field that could carry it — not that nobody uses the data.",
+    "assertedBy": "via {source}",
+    "usageKind": {
+      "publication": "Publication",
+      "tutorial": "Tutorial",
+      "tool": "Tool"
+    }
   },
   "provenance": {
     "class": "Provenance class",
@@ -187,7 +197,7 @@
       "derived-from": "Related by lineage",
       "related": "Related"
     },
-    "capHelp": "The twelve strongest are shown. A full graph of a well-connected catalog is an unreadable hairball."
+    "capHelp": "The twelve strongest are shown first."
   },
   "downloads": {
     "title": "Access paths",

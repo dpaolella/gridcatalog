@@ -112,7 +112,7 @@ test("a field the catalog could not map says why", async ({ page }) => {
   await expect(gap.first()).toBeVisible();
 });
 
-test("the connections graph is capped with a way to see more", async ({ page }) => {
+test("the connections list is capped with a way to see more", async ({ page }) => {
   await page.goto("/datasets/pypsa-eur-grid");
   await page.getByRole("tab", { name: "Connections" }).click();
 

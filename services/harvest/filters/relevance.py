@@ -28,11 +28,19 @@ Three stages, in increasing cost:
 2. **vocabulary** — labels from the 164-concept grid vocabulary and the ten
    data-domain concepts, so the filter improves when the vocabulary does
    rather than when this file is edited.
-3. **llm** — only the middle, only when enabled, and a failure to reach it
-   accepts rather than rejects.
+3. **decided** — only the middle, and a failure to reach a verdict accepts
+   rather than rejects.
 
-That last rule matters more than it looks. If the classifier is down, an
-unavailable third party must not silently start shrinking the catalog.
+That last rule matters more than it looks. If the classifier cannot answer, it
+must not silently start shrinking the catalog.
+
+The third stage was specified as an LLM call per record and is now a lookup
+into a committed decision file — same protocol, no key, no budget, and the
+verdict lands in a pull request where somebody can disagree with it. See
+:mod:`datahub.harvest.filters.decisions`. The stage is named ``decided`` rather
+than ``llm`` because what it records is that a verdict existed, not how it was
+reached; a runtime classifier plugged into the same protocol reports the same
+stage and names itself in ``model``.
 """
 
 from __future__ import annotations
@@ -264,6 +272,12 @@ COUNTER_TERMS: frozenset[str] = frozenset(
     }
 )
 
+#: Distinguishes "no classifier argument given", which takes the default
+#: decision-file classifier, from an explicit ``classifier=None``, which means
+#: run the first two stages only. Without it there is no way to switch the
+#: third stage off, and a test that means to cannot.
+_DEFAULT = object()
+
 #: Score at or above which a record is accepted without reaching the classifier.
 ACCEPT_AT = 1.0
 #: Score below which a record is rejected without reaching the classifier.
@@ -298,6 +312,22 @@ class RelevanceDecision:
         }
 
 
+def _default_classifier(settings: Settings) -> Classifier | None:
+    """The decision-file classifier, or None if it cannot be built.
+
+    Imported here rather than at module scope because `decisions` imports
+    `Verdict` and `Undecided` from this module. None on failure, which restores
+    the previous behaviour instead of failing a harvest over a missing file.
+    """
+    try:
+        from datahub.harvest.filters.decisions import StaticClassifier
+
+        return StaticClassifier(settings=settings)
+    except Exception as exc:  # pragma: no cover - defensive
+        log.warning("relevance decision file unavailable", error=str(exc))
+        return None
+
+
 class RelevanceFilter:
     """Decides whether a harvested record is worth a steward's attention.
 
@@ -311,11 +341,17 @@ class RelevanceFilter:
         self,
         settings: Settings | None = None,
         *,
-        classifier: Classifier | None = None,
+        classifier: Classifier | object | None = _DEFAULT,
         vocabulary_terms: Iterable[str] | None = None,
     ) -> None:
         self.settings = settings or get_settings()
-        self.classifier = classifier
+        # Defaults to the committed decision file rather than to nothing. The
+        # old default — no classifier at all — meant the ambiguous middle took
+        # the accept-everything branch on every deployment, which is how half
+        # the catalog got published without anything having decided it belongs.
+        self.classifier: Classifier | None = (
+            _default_classifier(self.settings) if classifier is _DEFAULT else classifier  # type: ignore[assignment]
+        )
         self._vocabulary = (
             frozenset(vocabulary_terms)
             if vocabulary_terms is not None
@@ -324,12 +360,17 @@ class RelevanceFilter:
 
     # ---- the decision ----------------------------------------------------
 
-    def decide(self, text: str, *, title: str | None = None) -> RelevanceDecision:
+    def decide(
+        self, text: str, *, title: str | None = None, key: str | None = None
+    ) -> RelevanceDecision:
         """Classify one record's text.
 
         ``title`` is scored twice if given: a grid term in a title is a much
         stronger signal than the same term in the fourth paragraph of a
         boilerplate licence notice.
+
+        ``key`` is the record's ``source_id``, passed through to the classifier
+        for the ambiguous middle.
         """
         haystack = _normalise(f"{title or ''} {title or ''} {text}")
         score, matched = self.score(haystack)
@@ -361,18 +402,29 @@ class RelevanceFilter:
                 matched_terms=matched,
             )
 
-        return self._classify(text, title, score, matched)
+        return self._classify(text, title, score, matched, key)
 
     def _classify(
-        self, text: str, title: str | None, score: float, matched: list[str]
+        self,
+        text: str,
+        title: str | None,
+        score: float,
+        matched: list[str],
+        key: str | None = None,
     ) -> RelevanceDecision:
         """The ambiguous middle.
 
-        Every path that does not reach a working classifier **accepts**. An
+        Every path that does not reach a *deciding* classifier **accepts**. An
         unavailable third party must never quietly start shrinking the catalog,
         and a record that reaches this branch already carries some grid signal.
+
+        **Not gated on `enrichment_enabled`.** It used to be, and that coupling
+        was a bug of its own: the default classifier reads a committed file and
+        needs no model, no key and no budget, so switching off enrichment has
+        no business switching it off. The two were only ever related by both
+        having been described as "the LLM bits".
         """
-        if self.classifier is None or not self.settings.enrichment_enabled:
+        if self.classifier is None:
             return RelevanceDecision(
                 accepted=True,
                 stage="vocabulary",
@@ -385,7 +437,18 @@ class RelevanceFilter:
                 matched_terms=matched,
             )
         try:
-            verdict = self.classifier.classify(text, title=title)
+            verdict = self.classifier.classify(text, title=title, key=key)
+        except Undecided as exc:
+            # "Nobody has looked", which is not "not relevant". Accepted, and
+            # the reason says which of the two it is so a recall audit can find
+            # the uncovered records rather than inferring them.
+            return RelevanceDecision(
+                accepted=True,
+                stage="vocabulary",
+                reason=self._reason(matched, score, f"ambiguous and undecided ({exc}); included"),
+                score=score,
+                matched_terms=matched,
+            )
         except Exception as exc:
             log.warning("relevance classifier unavailable", error=str(exc))
             return RelevanceDecision(
@@ -400,7 +463,7 @@ class RelevanceFilter:
             )
         return RelevanceDecision(
             accepted=verdict.relevant,
-            stage="llm",
+            stage="decided",
             reason=verdict.reason,
             score=verdict.confidence,
             matched_terms=matched,
@@ -460,6 +523,16 @@ class RelevanceFilter:
 # ---------------------------------------------------------------------------
 
 
+class Undecided(LookupError):
+    """A classifier has no opinion about this record.
+
+    Distinct from a negative verdict, and the distinction is the whole point:
+    "we looked and it is not relevant" and "nobody has looked" call for
+    different handling, and collapsing them is how a filter starts quietly
+    excluding things nobody chose to exclude.
+    """
+
+
 @dataclass(slots=True)
 class Verdict:
     relevant: bool
@@ -469,20 +542,49 @@ class Verdict:
 
 
 class Classifier:
-    """What the LLM stage needs to provide.
+    """What the third stage must provide.
 
     A protocol rather than a concrete client so the filter is testable without
     a network and without an API key, and so a deployment that has neither
     still runs the first two stages.
+
+    ``key`` is the harvest record's ``source_id``. A classifier that reads the
+    record does not need it; one that looks a decision up — see
+    :mod:`datahub.harvest.filters.decisions`, which is the default — needs
+    nothing else. Raising :class:`~datahub.harvest.filters.decisions.Undecided`
+    means "no opinion", and is not the same as returning an irrelevant verdict.
     """
 
-    def classify(self, text: str, *, title: str | None = None) -> Verdict:  # pragma: no cover
+    def classify(
+        self, text: str, *, title: str | None = None, key: str | None = None
+    ) -> Verdict:  # pragma: no cover
         raise NotImplementedError
 
 
 # ---------------------------------------------------------------------------
 # Vocabulary terms
 # ---------------------------------------------------------------------------
+
+
+#: Vocabulary files whose labels say what a dataset is *about*.
+#:
+#: Not every scheme does. `og-access-restriction` and `og-provenance-class`
+#: describe how you get a dataset and where it came from, and their labels —
+#: "open access", "data use agreement", "crowd-sourced", "bias-corrected" —
+#: are true of a protein structure database and a locational marginal price
+#: series alike. Globbing the directory put all 41 of them into the filter,
+#: each worth 0.35, which is enough on its own to clear the rejection floor and
+#: reach the auto-accepting middle. That is how the Human Cell Atlas, Tabula
+#: Sapiens and a marmoset connectivity study came to be published in a
+#: power-system catalog.
+#:
+#: An allow-list rather than a deny-list, so adding a vocabulary is not a
+#: silent widening of the filter: a new scheme has to be named here to count.
+SUBJECT_SCHEMES: tuple[str, ...] = (
+    "og-grid-concept.ttl",
+    "og-data-domain.ttl",
+    "og-analysis-type.ttl",
+)
 
 
 @functools.lru_cache(maxsize=4)
@@ -493,8 +595,10 @@ def _vocabulary_phrases(vocab_dir: str) -> frozenset[str]:
     from rdflib.namespace import SKOS
 
     graph = Graph()
-    for path in sorted(Path(vocab_dir).glob("*.ttl")):
-        graph.parse(path)
+    for name in SUBJECT_SCHEMES:
+        path = Path(vocab_dir) / name
+        if path.exists():
+            graph.parse(path)
 
     phrases: set[str] = set()
     for predicate in (SKOS.prefLabel, SKOS.altLabel):
@@ -508,12 +612,14 @@ def _vocabulary_phrases(vocab_dir: str) -> frozenset[str]:
 
 
 def vocabulary_phrases(settings: Settings | None = None) -> frozenset[str]:
-    """Multi-word labels from the SKOS schemes.
+    """Multi-word labels from the subject SKOS schemes.
 
     Only multi-word: "bus", "line" and "node" are concept labels and also match
     a bus timetable, a queueing study and a graph-theory paper. The multi-word
     labels — "transmission line", "capacity factor", "balancing authority" —
     are the ones that carry the domain with them.
+
+    Only *subject* schemes: see :data:`SUBJECT_SCHEMES`.
     """
     settings = settings or get_settings()
     return _vocabulary_phrases(str(settings.vocab_dir))
@@ -584,6 +690,7 @@ __all__ = [
     "Classifier",
     "RelevanceDecision",
     "RelevanceFilter",
+    "Undecided",
     "Verdict",
     "text_of",
     "vocabulary_phrases",

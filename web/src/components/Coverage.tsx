@@ -1,16 +1,21 @@
 import { bboxToWkt, formatSpan, isGlobal } from "@/lib/format";
+import { WORLD_LAND_ID } from "@/components/WorldOutline";
 
 /**
  * Coverage, drawn rather than described.
  *
- * Inline SVG and no map library: a world outline as a path is a few hundred
- * bytes and works offline, while a tile-based map is a third-party request on
- * every catalog row and a dependency on somebody else's uptime for a picture
- * that only has to say "roughly here".
+ * Inline SVG and no map library: a coastline as a path works offline, while a
+ * tile-based map is a third-party request on every catalog row and a dependency
+ * on somebody else's uptime for a picture that only has to say "roughly here".
  *
  * The projection is equirectangular, which is wrong for area and right for
  * this: a bounding box is an axis-aligned rectangle in lon/lat, and any
  * projection that curved it would draw a shape the data does not have.
+ *
+ * The land comes from {@link WorldOutlineDefs}, which the root layout renders
+ * once per document. Without it this degrades to the graticule alone — which is
+ * what it used to be, and what made a reader unable to tell a box over the
+ * eastern Pacific from one over California.
  */
 export function CoverageMap({
   bbox,
@@ -39,10 +44,11 @@ export function CoverageMap({
       }
       style={{ background: "var(--surface-sunken)", ...style }}
     >
-      {/* Graticule every 30°, so a reader can place the box without a
-          coastline. Cheaper and more honest than a low-resolution outline
-          that would be recognisably wrong at this size. */}
-      <g stroke="var(--border)" strokeWidth="0.5" fill="none">
+      {/* Land first, so the graticule reads over it and the box over both. */}
+      <use href={`#${WORLD_LAND_ID}`} fill="var(--border)" fillOpacity={0.85} />
+
+      {/* Graticule every 30°: the coastline says where, the grid says how far. */}
+      <g stroke="var(--surface)" strokeWidth="0.5" fill="none" strokeOpacity={0.7}>
         {[-150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150].map((lon) => (
           <line key={lon} x1={x(lon)} y1={0} x2={x(lon)} y2={H} />
         ))}
