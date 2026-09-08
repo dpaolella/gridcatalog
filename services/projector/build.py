@@ -100,7 +100,7 @@ def build_document(
         redistribution_allowed=_bool(graph.value(iri, OG.redistributionAllowed)),
         access_restriction=_local(graph.value(iri, OG.accessRestriction)),
         anonymous_access=_bool(graph.value(iri, OG.anonymousAccess)),
-        bulk_download=any(d.bulk_download for d in distributions) or None,
+        bulk_download=_bulk_download(graph, iri, distributions),
         formats=sorted({d.media_type for d in distributions if d.media_type}),
         distributions=distributions,
         distribution_count=len(distributions),
@@ -205,6 +205,25 @@ def _distributions(graph: Graph, iri: URIRef) -> list[DistributionSummary]:
             )
         )
     return out
+
+
+def _bulk_download(
+    graph: Graph, iri: URIRef, distributions: list[DistributionSummary]
+) -> bool | None:
+    """Whether the data can be had in bulk.
+
+    A distribution saying yes settles it: one bulk archive alongside a
+    rate-limited API means bulk is available, and the distribution is the
+    specific claim. Otherwise the dataset's own statement, which is the only
+    place the fact can live for a reference-only record — there are 23 of
+    those, and three of them state bulk availability the catalog used to drop
+    on the floor (#57).
+
+    Still `None` when nobody says anything, because absent means not captured.
+    """
+    if any(d.bulk_download for d in distributions):
+        return True
+    return _bool(graph.value(iri, OG.bulkDownload))
 
 
 def _worst_health(distributions: list[DistributionSummary]) -> str | None:

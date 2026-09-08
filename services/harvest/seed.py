@@ -456,10 +456,18 @@ class SeedLoader:
             restriction = "discontinued"
         if restriction is None:
             restriction = "none" if anonymous is True else "accountRequired"
-        return {
+        access: dict[str, Any] = {
             "accessRestriction": f"{SCHEME_ACCESS_RESTRICTION}/{restriction}",
             "anonymousAccess": anonymous is True,
         }
+        # Also on the dataset, not only on the distribution. `_distribution`
+        # returns None for a row with no access path, so `bulk` on a
+        # reference-only row had nowhere to go and was silently dropped —
+        # PLEXOS-World, SciGRID and the GridPath RA Toolkit each state bulk
+        # availability the catalog was told and discarded (#57).
+        if entry.get("bulk") is not None:
+            access["bulkDownload"] = bool(entry["bulk"])
+        return access
 
     @staticmethod
     def _access_is_assumed(entry: dict[str, Any]) -> bool:
