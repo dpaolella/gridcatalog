@@ -1,6 +1,6 @@
 """Loading the curated seed inventory into the catalog (WP-2.5).
 
-114 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
+130 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
 
 **The rule this module exists to enforce.** The seed file's header says the
 DD1/DD5/DD8/DD9 entries came from a reviewed feasibility analysis and carry
@@ -17,7 +17,7 @@ had its licence checked.
 
 **No review-queue entry, though this used to claim one.** The queue is an
 operational-store table and this loader is handed a ``RecordStore``; only
-``harvest.runner`` enqueues. So the 58 drafted rows are in the draft graph and
+``harvest.runner`` enqueues. So the 74 drafted rows are in the draft graph and
 absent from the steward queue, which means nothing surfaces them for review —
 and since a confirm with no queue row is now refused outright (#31), nothing can
 promote them either. Whether ``datahub seed`` should write to the operational

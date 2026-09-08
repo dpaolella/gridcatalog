@@ -5,14 +5,28 @@
 #   seed_datasets   : hand-curated anchor datasets per data domain, used to bootstrap
 #                     the catalog and to act as the golden set for harvester QA.
 #
-# Provenance of the DD1/DD5/DD8/DD9 entries: OpenGrid Tier 1/2/3 feasibility analysis
-# (Notion, "What data domains will OpenGrid cover"). Those entries are marked
-# verified: true.
+# Where the rows come from. `verified: true` means a source document established
+# the licence and the access path; `verified: false` means nobody has, and the
+# loader sends those to the draft graph for review rather than publishing them.
 #
-# Provenance of the DD2/DD3/DD4/DD6/DD7/DD10 entries: assembled for this PRD. They have
-# NOT been through the same license and access-path review. Every one carries
-# verified: false and MUST go through the review queue before it is published to the
-# catalog. Do not treat the license or tier fields on unverified rows as authoritative.
+#   verified: true   - the DD1/DD5/DD8/DD9 entries, from the OpenGrid Tier 1/2/3
+#                      feasibility analysis (Notion, "What data domains will
+#                      OpenGrid cover").
+#
+#   verified: false  - the DD2/DD3/DD4/DD6/DD7/DD10 entries assembled for the PRD,
+#                      and the sixteen rows added from the Open Energy Data
+#                      Inventory (Levi, Breakthrough Energy Grids, 2025) under
+#                      DD1/DD2/DD4/DD9. Do not treat the licence or tier on an
+#                      unverified row as authoritative.
+#
+# The workbook has NO licence column, so no row sourced from it states a licence
+# unless another document does. A row with no `license` gets LicenseRef-Unstated
+# and redistribution is refused, which is the honest default and not an oversight.
+#
+# Two documents fill the per-row facts, and both are cited rather than summarised:
+# the Notion assessment above for provenance, resolution and access posture, and
+# the workbook for update cadence, format and machine-readability. Where neither
+# states something, the field is absent - PRD 14.2, absent means not captured.
 
 schema_version: "0.1.0"
 
