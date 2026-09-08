@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { Challenge } from "@/components/Challenge";
 
 /**
  * Report an issue on any record, field or distribution (PRD §F3).
@@ -36,6 +37,8 @@ export function ReportIssue({
   const t = useTranslations("report");
   const [open, setOpen] = useState(false);
   const [state, setState] = useState<"idle" | "sending" | "done" | "failed">("idle");
+  const [token, setToken] = useState<string | null>(null);
+  const onToken = useCallback((value: string | null) => setToken(value), []);
 
   async function submit(form: FormData) {
     setState("sending");
@@ -49,6 +52,7 @@ export function ReportIssue({
         issue_type: form.get("issue_type"),
         comment: form.get("comment") || null,
         reporter_email: form.get("email") || null,
+        captcha_token: token,
       }),
     }).catch(() => null);
     setState(response?.ok ? "done" : "failed");
@@ -140,6 +144,8 @@ export function ReportIssue({
               {t("failed")}
             </p>
           ) : null}
+
+          <Challenge onToken={onToken} />
 
           <button
             type="submit"

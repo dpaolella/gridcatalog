@@ -20,6 +20,7 @@ from __future__ import annotations
 import hashlib
 from typing import Any
 
+from datahub.api import captcha
 from datahub.api.deps import CallerDep, SessionDep, SettingsDep
 from datahub.api.entitlement import tokens
 from datahub.api.models.operational import IssueReport, Submission
@@ -80,6 +81,7 @@ def create_submission(
     # caller who chose to present a narrower token is held to it.
     tokens.require_scope(caller, "catalog:write", allow_anonymous=True)
     _require(session)
+    _challenge(payload, request, settings)
     _rate_limit(session, request, "submission", SUBMISSION_LIMIT)
 
     repos = Repositories(session)
@@ -135,6 +137,7 @@ def create_report(
     # caller who chose to present a narrower token is held to it.
     tokens.require_scope(caller, "catalog:write", allow_anonymous=True)
     _require(session)
+    _challenge(payload, request, settings)
     _rate_limit(session, request, "report", REPORT_LIMIT)
 
     repos = Repositories(session)
@@ -177,6 +180,37 @@ def _require(session: Any) -> None:
     if session is None:
         raise IntakeUnavailable(
             "the intake store is unreachable; nothing was recorded. Please try again later."
+        )
+
+
+class ChallengeFailed(DataHubError):
+    """The human-verification challenge was not satisfied (PRD §F3).
+
+    400 rather than 403: nothing here is about authorisation, and a 403 on an
+    endpoint that is deliberately anonymous reads as "you need an account",
+    which is the opposite of what this path promises.
+    """
+
+    status_code = 400
+    code = "challenge_failed"
+
+
+def _challenge(payload: Any, request: Request, settings: Any) -> None:
+    """Refuse a submission whose challenge the provider rejected.
+
+    Only a provider *rejection* refuses. An unconfigured deployment and an
+    unreachable provider both pass, for the reasons `datahub.api.captcha`
+    states: the first has not turned this on, and the second is an outage that
+    is not evidence about the person filing the report.
+    """
+    outcome = captcha.verify(
+        getattr(payload, "captcha_token", None),
+        settings,
+        remote_ip=request.client.host if request.client else None,
+    )
+    if outcome is captcha.Outcome.FAILED:
+        raise ChallengeFailed(
+            "the human-verification challenge was not completed; please try again"
         )
 
 

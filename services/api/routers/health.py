@@ -143,6 +143,13 @@ def status(
     except Exception as exc:
         checks["graph"] = f"unreachable: {type(exc).__name__}"
 
+    # PRD §F3 asks for a CAPTCHA on the intake path, and "we thought it was on"
+    # is the failure mode a config-driven control has. Reported here so the
+    # answer does not require reading the deployment's environment.
+    from datahub.api import captcha
+
+    checks["intake_challenge"] = "configured" if captcha.is_configured(settings) else "off"
+
     try:
         checks["indexed_documents"] = str(backend.count())
     except Exception as exc:

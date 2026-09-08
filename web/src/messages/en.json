@@ -54,7 +54,8 @@
     "documentation_grade": "Documentation grade",
     "currency_grade": "Currency grade",
     "link_health": "Link health",
-    "has_usage_evidence": "Has recorded usage"
+    "has_usage_evidence": "Has recorded usage",
+    "field_count_bucket": "Fields described"
   },
   "empty": {
     "noResults": "No datasets match this search.",
@@ -106,7 +107,9 @@
       "quality": "Data quality",
       "connections": "Connections",
       "downloads": "Downloads"
-    }
+    },
+    "fieldsDescribed": "{count, plural, one {# field described} other {# fields described}}",
+    "fieldsDescribedHelp": "How many of this dataset's fields the catalog can describe. Separate from the completeness level: level 1 means no field metadata by definition, and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply."
   },
   "overview": {
     "fitness": "Fitness for purpose",

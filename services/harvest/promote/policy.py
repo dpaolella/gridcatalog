@@ -262,6 +262,15 @@ def promote(record: dict[str, Any], health: Mapping[str, str] | None = None) -> 
     A record already ``confirmed`` by a person is never touched: a human
     judgement outranks this one, and silently restamping it as auto-confirmed
     would erase the fact that somebody looked.
+
+    A ``flagged`` record is refused for the mirror-image reason. ``flagged`` is
+    what ``RecordStore.demote`` stamps, and it means *something about this
+    record needs a person* — a source change landed under a steward-confirmed
+    field (PRD §7.6), or the relevance filter retracted it (#47). Both put the
+    record in the draft graph, which is exactly where this command looks, so
+    without this branch the next `auto-promote` republishes it and the demotion
+    silently undoes itself one step later. That made §7.6's flag decorative and
+    would have made retraction a no-op.
     """
     node = _node(record)
     state = str(node.get("reviewState") or "draft")
@@ -270,6 +279,14 @@ def promote(record: dict[str, Any], health: Mapping[str, str] | None = None) -> 
             dataset_id=str(node.get("id") or ""),
             promoted=False,
             decisions=[Decision("already-confirmed", False, "a steward has already confirmed it")],
+        )
+    if state == "flagged":
+        return PromotionResult(
+            dataset_id=str(node.get("id") or ""),
+            promoted=False,
+            decisions=[
+                Decision("flagged", False, "demoted for review; a person has to clear the flag")
+            ],
         )
 
     result = verdict(node, health)

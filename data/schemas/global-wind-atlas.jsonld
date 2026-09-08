@@ -1,0 +1,23 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "completenessCaveats": "A ten-year mean, not a time series. Two sites with the same mean can have very different generation profiles.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+      "dataType": "float32",
+      "definition": "Long-term mean wind speed at 100 metres above ground, over the 2008-2017 simulation period.",
+      "fieldId": "wind-speed_100m",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale"
+      ],
+      "id": "https://catalog.opengrid.org/field/global-wind-atlas/wind-speed-100m",
+      "label": "Mean wind speed at 100 m",
+      "localName": "wind-speed_100m",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+      "valueBasis": "modeled"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/global-wind-atlas"
+}

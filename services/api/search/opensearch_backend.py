@@ -251,6 +251,7 @@ INDEX_MAPPING: dict[str, Any] = {
             "has_impedance": {"type": "boolean"},
             "voltage_classes": {"type": "keyword"},
             "field_count": {"type": "integer"},
+            "field_count_bucket": {"type": "keyword"},
             "upstream_count": {"type": "integer"},
             "inbound_link_count": {"type": "integer"},
             "superseded_by": {"type": "keyword"},

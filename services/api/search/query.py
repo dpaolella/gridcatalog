@@ -88,6 +88,7 @@ class SearchParams:
     temporal_end: datetime | None = None
     completeness_min: int | None = None
     resolution_max_m: float | None = None
+    field_count_min: int | None = None
     sort: str | None = None
     offset: int = 0
     limit: int = DEFAULT_LIMIT
@@ -296,6 +297,13 @@ def _ranges(params: SearchParams) -> dict[str, RangeFilter]:
                 got=params.resolution_max_m,
             )
         ranges["spatial_resolution_m"] = RangeFilter(lte=params.resolution_max_m)
+    if params.field_count_min is not None:
+        if params.field_count_min < 0:
+            raise BadSearchRequest(
+                "field_count_min is a count of described fields and cannot be negative",
+                got=params.field_count_min,
+            )
+        ranges["field_count"] = RangeFilter(gte=params.field_count_min)
     return ranges
 
 

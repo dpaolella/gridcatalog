@@ -1,0 +1,34 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "dataType": "int16",
+      "definition": "Total shortwave radiation on a horizontal surface, as an instantaneous value at the half-hour timestamp.",
+      "fieldId": "GHI",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/goes-psm"
+      ],
+      "id": "https://catalog.opengrid.org/field/nrel-nsrdb/ghi",
+      "label": "Global horizontal irradiance",
+      "localName": "GHI",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "int16",
+      "definition": "Beam radiation on a surface normal to the sun.",
+      "fieldId": "DNI",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/goes-psm"
+      ],
+      "id": "https://catalog.opengrid.org/field/nrel-nsrdb/dni",
+      "label": "Direct normal irradiance",
+      "localName": "DNI",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "modeled"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/nrel-nsrdb"
+}

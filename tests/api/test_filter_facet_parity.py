@@ -44,11 +44,25 @@ def _query_parameters() -> set[str]:
         "bbox",
         "temporal_start",
         "temporal_end",
-        "resolution_max_m",
     }
     return {
-        name for name in inspect.signature(search_datasets).parameters if name not in not_filters
+        name
+        for name in inspect.signature(search_datasets).parameters
+        if name not in not_filters and not _is_bound(name)
     }
+
+
+#: Suffixes that mark a route parameter as a bound rather than an exact match.
+#: Derived rather than listed, because the list was hand-kept and this test
+#: exists to stop hand-keeping: adding `field_count_min` broke it, exactly as
+#: adding `resolution_max_m` had, and the fix both times was to name the new
+#: parameter in one more place. A convention the route already follows costs
+#: nothing to honour and cannot fall behind.
+BOUND_SUFFIXES = ("_min", "_max", "_max_m")
+
+
+def _is_bound(name: str) -> bool:
+    return name.endswith(BOUND_SUFFIXES)
 
 
 def _probe_value(name: str) -> str:
@@ -144,7 +158,7 @@ def test_every_range_parameter_resolves_to_a_field_the_backends_can_bound():
     """
     from datahub.api.search.query import SearchParams, _ranges
 
-    named = set(_ranges(SearchParams(completeness_min=1, resolution_max_m=1.0)))
+    named = set(_ranges(SearchParams(completeness_min=1, resolution_max_m=1.0, field_count_min=1)))
     assert named, "no range parameter is wired, so this test covers nothing"
     for name in named:
         assert range_path(name), name

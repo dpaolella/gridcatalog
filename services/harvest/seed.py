@@ -251,7 +251,7 @@ class SeedLoader:
             # The load-bearing line. An unverified row cannot be confirmed,
             # whatever else it carries.
             "reviewState": "confirmed" if verified else "draft",
-            "harvestSource": "curated",
+            "harvestSource": CURATED_SOURCE,
             "sourceRecordId": harvested.source_id,
             "visibility": "public",
         }
@@ -678,6 +678,24 @@ class SeedLoader:
                 "inter-dataset links; they exist so the gap is visible."
             )
         return caveats
+
+
+#: The `og:harvestSource` marker this loader stamps, and the set of markers
+#: that mean *the build regenerates this record from a committed input*.
+#:
+#: `curated` covers both things loaded from source rather than harvested: the
+#: seed inventory read from `data/seed-sources.yaml`, and the golden set read
+#: from its own directory by `record load`. Neither is a harvest result, so
+#: neither belongs in `data/catalog` — which `data/catalog/README.md` defines
+#: as the system of record "for everything that did not come from
+#: ../seed-sources.yaml".
+#:
+#: `record export` reads this to decide what not to write. Exporting a
+#: regenerable record freezes a second copy that `pages.yml` then loads *last*,
+#: so it wins over the corrected one: that is #18's regression, and the reason
+#: 91 files were deleted in `d0ef0a5`.
+CURATED_SOURCE = "curated"
+REGENERABLE_SOURCES: frozenset[str] = frozenset({CURATED_SOURCE})
 
 
 #: `og:spatialGranularity`'s controlled vocabulary, per the shape at

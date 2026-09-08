@@ -16,6 +16,7 @@ from datahub.harvest.schema.prober import (
     SchemaProber,
     Surface,
     apply,
+    merge_fields,
     surfaces_for,
 )
 from datahub.harvest.schema.surfaces import ProbedField
@@ -29,6 +30,7 @@ __all__ = [
     "Surface",
     "apply",
     "is_object_store",
+    "merge_fields",
     "surfaces_for",
     "to_http",
 ]

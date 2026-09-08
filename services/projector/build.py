@@ -133,7 +133,8 @@ def build_document(
         has_topology=_bool(graph.value(iri, OG.hasTopology)),
         has_impedance=_bool(graph.value(iri, OG.hasImpedance)),
         voltage_classes=sorted(_strs(graph, iri, OG.voltageClass)),
-        field_count=len(list(graph.objects(iri, OG.hasField))),
+        field_count=(field_count := len(list(graph.objects(iri, OG.hasField)))),
+        field_count_bucket=_field_count_bucket(field_count),
         upstream_count=len(
             set(graph.objects(iri, OG.upstreamSource)) | set(graph.objects(iri, OG.wasDerivedFrom))
         ),
@@ -376,6 +377,29 @@ def _int(term: Any, *, default: int | None = None) -> int | None:
         return int(term)
     except (TypeError, ValueError):
         return default
+
+
+#: The bands `field_count_bucket` reports (#46). Read as "at least this many",
+#: highest first, so the first match wins.
+FIELD_COUNT_BUCKETS: tuple[tuple[int, str], ...] = (
+    (50, "50+"),
+    (10, "10-49"),
+    (1, "1-9"),
+    (0, "none"),
+)
+
+
+def _field_count_bucket(count: int) -> str:
+    """Which band a record's schema size falls in.
+
+    `none` rather than `0` because this is a keyword facet and the reader is
+    picking a description, not a number — and because "none" is the answer for
+    410 of 444 records, which is the fact the facet exists to make visible.
+    """
+    for floor, label in FIELD_COUNT_BUCKETS:
+        if count >= floor:
+            return label
+    return "none"  # pragma: no cover - the 0 floor above always matches
 
 
 def _caveats(graph: Graph, iri: URIRef) -> list[str]:

@@ -662,6 +662,16 @@ class SubmissionRequest(ApiModel):
     submitter_contact: str | None = Field(default=None, max_length=320)
     format_hint: str | None = Field(default=None, max_length=120)
     approximate_size: str | None = Field(default=None, max_length=64)
+    captcha_token: str | None = Field(
+        default=None,
+        max_length=4096,
+        description=(
+            "A human-verification token from the intake form's challenge widget. "
+            "Optional: deployments that have not configured a challenge ignore it, "
+            "and the field is absent from the form there."
+        ),
+    )
+
     update_cadence: str | None = Field(default=None, max_length=64)
     documentation_urls: list[str] = Field(default_factory=list, max_length=10)
 
@@ -688,6 +698,16 @@ class ReportRequest(ApiModel):
         "other",
     ]
     target_kind: Literal["dataset", "field", "distribution"] = "dataset"
+    captcha_token: str | None = Field(
+        default=None,
+        max_length=4096,
+        description=(
+            "A human-verification token from the intake form's challenge widget. "
+            "Optional: deployments that have not configured a challenge ignore it, "
+            "and the field is absent from the form there."
+        ),
+    )
+
     target_id: str | None = Field(
         default=None,
         description="The exact thing flagged, captured by the UI rather than typed.",

@@ -24,6 +24,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+from collections.abc import Iterable
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -88,6 +89,22 @@ def err(message: str) -> None:
 
 def _emit(payload: dict[str, Any] | list[Any], text: str, *, as_json: bool) -> None:
     typer.echo(json.dumps(payload, indent=2, default=str) if as_json else text)
+
+
+def _lines(lines: Iterable[str], *, as_json: bool) -> None:
+    """Per-entry human output, suppressed under ``--json``.
+
+    ``--json`` has to emit one JSON document and nothing else, because that is
+    how it is consumed: ``harvest.yml`` pipes ``record auto-promote --json``
+    straight into ``json.load``. Five commands printed their per-entry lines
+    ahead of the payload whatever the flag said, so ``schema probe --json``,
+    ``probe run --json`` and ``graph materialize --json`` all emitted output
+    that does not parse — silently, because nothing consumed them yet.
+    """
+    if as_json:
+        return
+    for line in lines:
+        typer.echo(line)
 
 
 @app.callback()
@@ -231,7 +248,10 @@ def graph_materialize(
     with make_store() as store:
         result = materialize(store) if force else materialize_if_stale(store)
     if result is None:
-        typer.echo("entailments already current")
+        # Through `_emit`, not a bare echo: this branch returns early, so under
+        # `--json` it was the one path that printed a sentence where a caller
+        # was parsing a document.
+        _emit({"materialized": False}, "entailments already current", as_json=json_out)
         return
     _emit(result.counts, result.summary, as_json=json_out)
 
@@ -571,7 +591,14 @@ def record_export(
     ] = False,
     json_out: Annotated[bool, typer.Option("--json")] = False,
 ) -> None:
-    """Write every record in a graph as JSON-LD, one file each.
+    """Write each harvested record in a graph as JSON-LD, one file each.
+
+    Harvested, not every: a record whose ``og:harvestSource`` is in
+    ``REGENERABLE_SOURCES`` is skipped, because the build rebuilds it from a
+    committed input and a frozen copy of it in this tree does not add a fact —
+    it *overrides* one. ``pages.yml`` loads ``data/catalog/*/`` after
+    ``seed load``, so the exported copy wins, and a correction made upstream
+    stops reaching the site. That is #18's regression and it was live.
 
     The exact inverse of ``record load``, and the reason it exists is that the
     catalog has no database that survives a build: the site is a static export
@@ -588,11 +615,15 @@ def record_export(
 
     ``--prune`` removes files for records no longer in the graph, and only
     inside the source directories this run actually wrote. A harvest that died
-    half way must not be able to empty the catalog.
+    half way must not be able to empty the catalog. Note that ``--prune`` never
+    reaches a skipped record's directory either, because this run does not
+    touch it — so turning the skip on does not itself delete anything. The 91
+    stale files it would have recreated were removed separately.
     """
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.records import RecordStore, dataset_node
     from datahub.graph.store import make_store
+    from datahub.harvest.seed import REGENERABLE_SOURCES
 
     try:
         target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
@@ -606,6 +637,7 @@ def record_export(
     written: list[str] = []
     touched_sources: set[Path] = set()
     kept: set[Path] = set()
+    regenerable = 0
 
     with make_store() as store:
         records = RecordStore(store)
@@ -617,6 +649,22 @@ def record_export(
             # which is the same mistake the promotion gates made and the reason
             # `dataset_node` exists.
             source = str(dataset_node(document).get("harvestSource") or "unknown")
+            if source in REGENERABLE_SOURCES:
+                # `data/catalog/README.md`: this tree is the system of record
+                # "for everything that did not come from ../seed-sources.yaml".
+                # A `curated` record came from exactly there — `seed load`
+                # rebuilds it, and the golden set is loaded by `record load`
+                # from its own directory — so exporting it writes a second,
+                # frozen copy of a record the build already regenerates.
+                #
+                # That is not merely redundant, it is the #18 regression:
+                # `pages.yml` loads `data/catalog/*/` last, so the stale copy
+                # wins over the corrected one and a fix made upstream never
+                # reaches the site. 91 such files were deleted in `d0ef0a5`
+                # after the fabricated `no-known-access-path` URL went live
+                # again; without this line the next harvest recreates them.
+                regenerable += 1
+                continue
             folder = root / _safe_name(source)
             folder.mkdir(parents=True, exist_ok=True)
             touched_sources.add(folder)
@@ -638,8 +686,14 @@ def record_export(
                     removed.append(str(path.relative_to(root)))
 
     _emit(
-        {"written": written, "removed": removed, "graph": str(target)},
-        f"{len(written)} record(s) written, {len(removed)} removed",
+        {
+            "written": written,
+            "removed": removed,
+            "graph": str(target),
+            "regenerable_skipped": regenerable,
+        },
+        f"{len(written)} record(s) written, {len(removed)} removed, "
+        f"{regenerable} regenerable skipped",
         as_json=json_out,
     )
 
@@ -648,6 +702,160 @@ def _safe_name(value: str) -> str:
     """A path segment that cannot escape the export root."""
     cleaned = "".join(c if c.isalnum() or c in "-_." else "-" for c in value).strip("-.")
     return cleaned or "unnamed"
+
+
+@record_app.command("retract")
+def record_retract(
+    dry_run: Annotated[
+        bool, typer.Option("--dry-run", help="Report what would retract; change nothing.")
+    ] = False,
+    limit: Annotated[int, typer.Option(help="Stop after N published records.")] = 100_000,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Demote published records the relevance filter would no longer accept.
+
+    #47: rejection only ever applied to records that had never been published.
+    `harvest.yml` runs `record load data/catalog/*/` **before** the harvest, so
+    a record the filter now rejects is dropped at the filter (`result.rejected
+    += 1; return`, nothing written) while its existing copy is already back in
+    the catalog graph — and `record export --prune`, which removes files whose
+    record is *not* in the graph, therefore keeps it.
+
+    The net effect was that once a record reached `data/catalog` it was immune
+    to every later tightening of the filter. The only signal was its continued
+    presence, which looks exactly like a record that passed. That is backwards
+    for the direction that matters: a record wrongly excluded is recovered by
+    widening the filter and re-harvesting, while a record wrongly included was
+    permanent until somebody deleted the file by hand — which is what #44
+    required, 138 times.
+
+    **Relevance only.** A record that stops validating is far more likely to be
+    a mapping regression than a reason to unpublish, and retracting on shape
+    failure would let one bad deploy empty the catalog. Relevance is the clear
+    case because it is a statement that the record does not belong in this
+    catalog at all.
+
+    **Demoted, not deleted.** The record moves to the draft graph carrying the
+    reason, so the act is reversible and auditable; `record export --prune`
+    then removes the file because the record genuinely left the catalog graph.
+    The one-off deletion in `72ad14e` was a correction, not a precedent.
+    """
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore, dataset_node
+    from datahub.graph.store import make_store
+    from datahub.harvest.filters.relevance import RelevanceFilter, text_of
+    from datahub.harvest.runner import harvest_sources
+
+    _require_schema()
+    configured = {str(source["id"]) for source in harvest_sources()}
+    relevance = RelevanceFilter()
+
+    retracted: list[dict[str, Any]] = []
+    kept = 0
+    # Two different abstentions, counted apart because they call for different
+    # actions. `not_harvested` is the healthy majority — curated records were
+    # never filtered, so there is no decision to re-take. `no_payload` means a
+    # harvested record whose stored payload is gone, and a catalog where that
+    # number is large has records nothing can re-decide, which is the condition
+    # #47 exists to prevent becoming permanent.
+    not_harvested = 0
+    no_text = 0
+    by_basis: dict[str, int] = {"payload": 0, "record": 0}
+
+    with make_store() as store, session_scope() as session:
+        records = RecordStore(store)
+        repos = Repositories(session)
+        for dataset_id in records.list_ids(graph=NamedGraph.CATALOG, limit=limit):
+            node = dataset_node(records.get(dataset_id, graph=NamedGraph.CATALOG))
+
+            # `og:sourceRecordId` is `<source id>:<the adapter's own id>`, and
+            # `og:harvestSource` is the *adapter* name — `yaml_repo` rather
+            # than `aws_open_data` — so the source has to come from here.
+            source_record_id = str(node.get("sourceRecordId") or "")
+            source_id, _, remainder = source_record_id.partition(":")
+            if not remainder or source_id not in configured:
+                # A curated record, or one from a source no longer configured.
+                # Neither is a relevance decision this command may re-take: the
+                # first was never filtered, and the second has no filter to
+                # re-run. Counted rather than skipped silently.
+                not_harvested += 1
+                continue
+
+            raw = repos.raw.by_source_record(source_id, remainder)
+            if raw is not None:
+                basis, text = "payload", text_of(raw.payload)
+            else:
+                # **The common case, and the reason this falls back rather than
+                # abstaining.** `harvest.yml` runs `db upgrade` in a fresh
+                # runner, so the operational store holds payloads only for
+                # records harvested in *that* run — and those are precisely the
+                # ones the filter has just decided. Abstaining without a payload
+                # would therefore make this command a no-op on every record it
+                # exists to re-decide: measured 215 of 274 on the committed
+                # catalog, with 0 re-decidable.
+                #
+                # So fall back to the record's own text. It is a slightly
+                # different question — the record is what the normaliser made of
+                # the payload, not the payload — and the difference is recorded
+                # per retraction rather than hidden, because a retraction
+                # decided on the thinner text deserves a closer look.
+                from_record = " ".join(
+                    str(node.get(key) or "") for key in ("title", "description")
+                ).strip()
+                if not from_record:
+                    no_text += 1
+                    continue
+                basis, text = "record", from_record
+
+            decision = relevance.decide(
+                text,
+                title=str(node.get("title") or "") or None,
+                key=source_record_id,
+            )
+            by_basis[basis] += 1
+            if decision.accepted:
+                kept += 1
+                continue
+
+            retracted.append(
+                {
+                    "id": dataset_id,
+                    "source": source_id,
+                    "reason": decision.reason,
+                    "score": decision.score,
+                    "basis": basis,
+                }
+            )
+            if not dry_run:
+                records.demote(
+                    dataset_id, reason=f"retracted by the relevance filter: {decision.reason}"
+                )
+
+    verb = "would retract" if dry_run else "retracted"
+    _lines(
+        (
+            f"  - {str(entry['id']).rsplit('/', 1)[-1]:44s} [{entry['basis']}] {entry['reason']}"
+            for entry in sorted(retracted, key=lambda e: str(e["id"]))
+        ),
+        as_json=json_out,
+    )
+    _emit(
+        {
+            "retracted": retracted,
+            "kept": kept,
+            "not_harvested": not_harvested,
+            "no_text": no_text,
+            "decided_on": by_basis,
+            "dry_run": dry_run,
+        },
+        f"{len(retracted)} record(s) {verb}; {kept} still pass; "
+        f"{not_harvested} never filtered; {no_text} had no text to judge "
+        f"({by_basis['payload']} decided on a stored payload, "
+        f"{by_basis['record']} on the record itself)",
+        as_json=json_out,
+    )
 
 
 @record_app.command("promote")
@@ -1087,11 +1295,14 @@ def schema_probe(
                 records.put(document, graph=target, validate=False)
 
     verb = "would add" if dry_run else "added"
-    for entry in sorted(probed, key=lambda e: -e["added"]):
-        typer.echo(
+    _lines(
+        (
             f"  +{entry['added']:4d} -> {entry['total']:4d}  "
             f"{entry['id'].rsplit('/', 1)[-1]:38s} {entry['surface']}"
-        )
+            for entry in sorted(probed, key=lambda e: -e["added"])
+        ),
+        as_json=json_out,
+    )
     _emit(
         {
             "probed": probed,
@@ -1101,6 +1312,160 @@ def schema_probe(
         },
         f"{len(probed)} record(s) {verb} fields; {unchanged} unchanged; "
         f"{fields_before} -> {fields_after} fields",
+        as_json=json_out,
+    )
+
+
+@schema_app.command("export")
+def schema_export(
+    directory: Annotated[Path, typer.Argument(help="Where to write the schema sidecars.")] = Path(
+        "data/schemas"
+    ),
+    graph: Annotated[str, typer.Option("--graph", help="catalog or draft.")] = "catalog",
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Persist probed fields as a sidecar per record, so a build stops re-probing.
+
+    #45: `schema probe` ran only inside `pages.yml`, wrote into a graph the
+    runner throws away, and never reached git. So ERA5 held 4 fields in the
+    repository and showed 273 on the site, every deploy re-fetched them from
+    `gs://gcp-public-data-arco-era5`, and the published catalog was not
+    reproducible from a checkout.
+
+    **Why a sidecar and not `record export`.** ERA5 is a *curated* record, and
+    a curated record must not be written into `data/catalog` — the build
+    regenerates it from `data/seed-sources.yaml` and the golden set, and a
+    frozen copy loaded afterwards overrides the regenerated one. That is #18's
+    regression, and it was live. A sidecar carries only `og:hasField`, so it
+    *adds* to whatever the build produced instead of replacing it, and the
+    licence, access path and caveats keep coming from their one source.
+
+    The file is the fields and nothing else, for the same reason `record
+    export` sorts its keys: the point is a readable diff. "ERA5 gained 269
+    fields" is a thing a person can review.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore, dataset_node
+    from datahub.graph.store import make_store
+
+    target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
+    root = Path(directory)
+    root.mkdir(parents=True, exist_ok=True)
+
+    written: list[str] = []
+    fields_total = 0
+    with make_store() as store:
+        records = RecordStore(store)
+        for dataset_id in records.list_ids(graph=target, limit=1_000_000):
+            node = dataset_node(records.get(dataset_id, graph=target))
+            fields = node.get("hasField") or []
+            if isinstance(fields, dict):
+                fields = [fields]
+            # A bare IRI is a reference to a field node the record does not
+            # carry, so there is nothing to persist and writing one would
+            # produce a sidecar that says a field exists and not what it is.
+            fields = [f for f in fields if isinstance(f, dict)]
+            if not fields:
+                continue
+
+            slug = dataset_id.rsplit("/", 1)[-1]
+            sidecar: dict[str, Any] = {
+                "@context": node.get("@context")
+                or f"{get_settings().catalog_base_url}/context/opengrid-datahub.jsonld",
+                "id": dataset_id,
+                "hasField": fields,
+            }
+            if source := node.get("schemaSource"):
+                sidecar["schemaSource"] = source
+
+            path = root / f"{_safe_name(slug)}.jsonld"
+            payload = json.dumps(sidecar, indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+            if not path.exists() or path.read_text() != payload:
+                path.write_text(payload)
+                written.append(slug)
+            fields_total += len(fields)
+
+    _emit(
+        {"written": written, "fields": fields_total},
+        f"{len(written)} sidecar(s) written; {fields_total} field(s) persisted",
+        as_json=json_out,
+    )
+
+
+@schema_app.command("load")
+def schema_load(
+    directory: Annotated[Path, typer.Argument(help="Where the sidecars live.")] = Path(
+        "data/schemas"
+    ),
+    graph: Annotated[str, typer.Option("--graph", help="catalog or draft.")] = "catalog",
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Apply persisted schema sidecars to the records already in the graph.
+
+    The inverse of `schema export`, and **strictly additive** — it shares
+    `merge_fields` with the live probe, so a field the record already carries
+    is kept exactly as it is. A hand-authored `ssrd` that states its
+    accumulation basis and its unit caveat survives a sidecar that knows only
+    its long name.
+
+    A sidecar for a record that is not in the graph is skipped rather than
+    creating one: this command adds fields to datasets, it does not decide
+    which datasets the catalog holds.
+    """
+    from datahub.graph.graphs import NamedGraph
+    from datahub.graph.records import RecordStore, dataset_node
+    from datahub.graph.store import make_store
+    from datahub.harvest.schema import merge_fields
+
+    target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
+    root = Path(directory)
+    if not root.exists():
+        _emit(
+            {"applied": [], "missing": []},
+            "no sidecar directory; nothing to load",
+            as_json=json_out,
+        )
+        return
+
+    applied: list[dict[str, Any]] = []
+    missing: list[str] = []
+    with make_store() as store:
+        records = RecordStore(store)
+        known = set(records.list_ids(graph=target, limit=1_000_000))
+        for path in sorted(root.glob("*.jsonld")):
+            sidecar = json.loads(path.read_text())
+            dataset_id = sidecar.get("id")
+            if dataset_id not in known:
+                missing.append(path.stem)
+                continue
+
+            document = records.get(dataset_id, graph=target)
+            node = dataset_node(document)
+            before = len(node.get("hasField") or [])
+            merge_fields(
+                node,
+                [f for f in sidecar.get("hasField") or [] if isinstance(f, dict)],
+                schema_source=sidecar.get("schemaSource"),
+            )
+            after = len(node.get("hasField") or [])
+            if after == before:
+                continue
+            # `validate=False` for the reason `schema probe` gives: the fields a
+            # source states are what they are, and a record should not lose its
+            # schema over a level it never claimed.
+            records.put(document, graph=target, validate=False)
+            applied.append({"id": dataset_id, "added": after - before, "total": after})
+
+    _lines(
+        (
+            f"  +{entry['added']:4d} -> {entry['total']:4d}  {str(entry['id']).rsplit('/', 1)[-1]}"
+            for entry in sorted(applied, key=lambda e: -int(e["added"]))
+        ),
+        as_json=json_out,
+    )
+    _emit(
+        {"applied": applied, "missing": missing},
+        f"{len(applied)} record(s) gained fields; {len(missing)} sidecar(s) had no record",
         as_json=json_out,
     )
 
@@ -1192,7 +1557,7 @@ def probe_run(
                 targets = due_targets(records, Repositories(session), limit=limit)
 
         if not targets:
-            typer.echo("nothing due")
+            _emit({"probed": 0, "targets": 0}, "nothing due", as_json=json_out)
             return
         with Prober() as prober:
             result = prober.run(targets, limit=limit)

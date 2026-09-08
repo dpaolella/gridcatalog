@@ -1,0 +1,96 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "dataType": "str424",
+      "fieldId": "filename",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/filename",
+      "localName": "filename",
+      "type": "Field"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "NOBS2",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/NOBS2",
+      "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS2",
+      "type": "Field",
+      "unitAsStated": "1"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "NOBS1",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/NOBS1",
+      "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS1",
+      "type": "Field",
+      "unitAsStated": "1"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "VCUR",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/VCUR",
+      "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+      "localName": "VCUR",
+      "type": "Field",
+      "unitAsStated": "m s-1"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "VCUR_sd",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/VCUR_sd",
+      "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+      "localName": "VCUR_sd",
+      "type": "Field",
+      "unitAsStated": "m s-1"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "UCUR",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/UCUR",
+      "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+      "localName": "UCUR",
+      "type": "Field",
+      "unitAsStated": "m s-1"
+    },
+    {
+      "dataType": "float64",
+      "definition": "This angle is used to assess the impact of Geometric Dilution of Precision. If angle >= 150 or <= 30, then QC flag will not be lower than 4 (see abstract).",
+      "fieldId": "GDOP",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/GDOP",
+      "label": "radar beam intersection angle",
+      "localName": "GDOP",
+      "type": "Field",
+      "unitAsStated": "Degrees"
+    },
+    {
+      "dataType": "float64",
+      "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+      "fieldId": "VCUR_quality_control",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
+      "label": "quality flag for northward_sea_water_velocity",
+      "localName": "VCUR_quality_control",
+      "type": "Field"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "UCUR_sd",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/UCUR_sd",
+      "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+      "localName": "UCUR_sd",
+      "type": "Field",
+      "unitAsStated": "m s-1"
+    },
+    {
+      "dataType": "float64",
+      "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+      "fieldId": "UCUR_quality_control",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc/UCUR_quality_control",
+      "label": "quality flag for eastward_sea_water_velocity",
+      "localName": "UCUR_quality_control",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/aodn-radar-coffsharbour-velocity-hourly-averaged-delayed-qc",
+  "schemaSource": "zarr-v2-consolidated at https://aodn-cloud-optimised.s3.ap-southeast-2.amazonaws.com/radar_CoffsHarbour_velocity_hourly_averaged_delayed_qc.zarr"
+}

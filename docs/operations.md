@@ -70,6 +70,57 @@ plumbing:
 | `DATAHUB_ENRICHMENT_ENABLED` | false | The LLM enricher is opt-in |
 | `DATAHUB_MCP_PAYLOAD_CAP_BYTES` | 102400 | Hard cap so bulk data cannot enter an agent's context |
 | `DATAHUB_RATE_LIMIT_AGENT_PER_MIN` | 600 | Agent traffic is several times chattier than human traffic |
+| `DATAHUB_CAPTCHA_SECRET_KEY` | unset | Turns on the intake challenge. Unset means rate limiting alone |
+| `DATAHUB_CAPTCHA_SITE_KEY` | unset | The public half, also needed by the web build as `NEXT_PUBLIC_CAPTCHA_SITE_KEY` |
+
+### Turning on the intake challenge
+
+PRD §F3 asks for "CAPTCHA and rate limiting" on `/v1/submissions` and
+`/v1/reports`. The limiter has always been there; it caps *one* client per
+hour, and the flood the requirement is about is distributed, where every
+request comes from a different address and each is comfortably under the cap.
+
+Off by default, and this repository holds no keys, because a key belongs to a
+deployment. To turn it on:
+
+1. Create a **Cloudflare Turnstile** widget (free, no card) at
+   <https://dash.cloudflare.com/?to=/:account/turnstile>, with the hostname the
+   site answers on. `localhost` is allowed for testing.
+2. Set both halves where the API runs:
+
+   ```
+   DATAHUB_CAPTCHA_SITE_KEY=0x4AAA...
+   DATAHUB_CAPTCHA_SECRET_KEY=0x4AAA...
+   ```
+
+3. Set the public half for the web build too, because the widget renders in the
+   browser and Next inlines it at build time:
+
+   ```
+   NEXT_PUBLIC_CAPTCHA_SITE_KEY=0x4AAA...
+   ```
+
+4. Confirm: `GET /health/status` reports `intake_challenge: configured`. Until
+   both the API secret and the web site key are set it reads `off`, and the
+   forms submit exactly as they do today.
+
+**Both `DATAHUB_` halves, or the challenge stays off.** `is_configured`
+requires the secret *and* the site key, because a secret alone would refuse
+every submission — no widget renders, no token is sent, and a missing token
+counts as a failure — so the form would look fine and nothing would arrive.
+Half a configuration is far more likely to be a half-finished rollout than an
+intent to reject everybody, so it reads as off rather than as on-and-broken.
+
+The one case configuration cannot catch is setting both `DATAHUB_` halves and
+forgetting `NEXT_PUBLIC_CAPTCHA_SITE_KEY` on the web build: the server cannot
+see the browser bundle's environment. Check `/health/status` and then submit
+the form once.
+
+The provider is behind `services/api/captcha.py`. An unreachable provider is a
+**pass**, not a rejection: an outage at Cloudflare must not silently stop every
+bug report reaching this catalog, which would be worse than the spam the
+challenge exists to stop and undiagnosable from outside. Only an active
+rejection refuses.
 
 ### Splitting the site and the API across hosts
 

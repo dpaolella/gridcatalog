@@ -102,6 +102,10 @@ def search_datasets(
     format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
     completeness_level: Annotated[list[int] | None, Query()] = None,
     anonymous_access: Annotated[bool | None, Query()] = None,
+    field_count_bucket: Annotated[
+        list[str] | None,
+        Query(description="How much of the schema is described: none, 1-9, 10-49, 50+."),
+    ] = None,
     resolution_max_m: Annotated[
         float | None,
         Query(
@@ -111,6 +115,20 @@ def search_datasets(
                 "metres. Records that do not state one are excluded, because 'not "
                 "captured' is not 'fine enough' — see `spatial_granularity` for the "
                 "class, which most records do carry."
+            ),
+        ),
+    ] = None,
+    field_count_min: Annotated[
+        int | None,
+        Query(
+            ge=0,
+            description=(
+                "Keep only datasets that describe at least this many fields. "
+                "`field_count_min=1` is 'show me the datasets I can actually "
+                "interpret' — the question completeness_level cannot answer, "
+                "because level 1 means no field metadata by definition and "
+                "level 2 additionally requires a definition and a value basis "
+                "on every field, which a schema probe cannot supply."
             ),
         ),
     ] = None,
@@ -148,9 +166,11 @@ def search_datasets(
             format=format,
             completeness_level=completeness_level,
             anonymous_access=anonymous_access,
+            field_count_bucket=field_count_bucket,
         ),
         bbox=_bbox(bbox),
         resolution_max_m=resolution_max_m,
+        field_count_min=field_count_min,
         temporal_start=_when(temporal_start, "temporal_start"),
         temporal_end=_when(temporal_end, "temporal_end"),
         sort=sort,

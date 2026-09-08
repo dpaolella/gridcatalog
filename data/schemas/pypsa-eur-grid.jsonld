@@ -1,0 +1,94 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "concept": "https://schema.opengrid.org/concept/grid-concept/branchLength",
+      "dataType": "float64",
+      "definition": "Route length of the line, from the OSM geometry.",
+      "fieldId": "length",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/length",
+      "label": "Line length",
+      "localName": "length",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/KiloM",
+      "valueBasis": "measured"
+    },
+    {
+      "completenessCaveats": "Present where the OSM way carries a voltage tag; inferred from neighbours otherwise, and those rows are not distinguished in the published file.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/nominalVoltage",
+      "dataType": "float64",
+      "definition": "Voltage class of the bus, taken from the OSM voltage tag.",
+      "fieldId": "v_nom",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom",
+      "label": "Nominal voltage",
+      "localName": "v_nom",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
+      "valueBasis": "measured"
+    },
+    {
+      "completenessCaveats": "A lookup, not a measurement. Real ratings vary with conductor type and ambient conditions by a wide margin.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/continuousRating",
+      "dataType": "float64",
+      "definition": "Thermal rating of the line, estimated from voltage class and circuit count using a standard conductor assumption.",
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/v_nom"
+      ],
+      "fieldId": "s_nom",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/s_nom",
+      "label": "Nominal apparent power rating",
+      "localName": "s_nom",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/MegaV-A",
+      "valueBasis": "modeled"
+    },
+    {
+      "completenessCaveats": "Voltage-class lookup times length. The absence of a measured resistance is why this dataset supports DC and not AC power flow.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/reactance",
+      "dataType": "float64",
+      "definition": "Line series reactance in ohms, computed from length and a per-kilometre value looked up by voltage class.",
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/pypsa-eur-grid/length"
+      ],
+      "fieldId": "x",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/x",
+      "label": "Series reactance",
+      "localName": "x",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/OHM",
+      "valueBasis": "modeled"
+    },
+    {
+      "concept": "https://schema.opengrid.org/concept/grid-concept/branchEndpoints",
+      "dataType": "string",
+      "definition": "Identifier of the bus at the line's first end.",
+      "fieldId": "bus0",
+      "fieldSource": [
+        "https://catalog.opengrid.org/upstream/openstreetmap-power"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-grid/bus0",
+      "label": "From bus",
+      "localName": "bus0",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "measured"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+}

@@ -1,0 +1,2499 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "dataType": "float32",
+      "fieldId": "lblt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lblt",
+      "label": "Lake bottom temperature",
+      "localName": "lblt",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "src",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/src",
+      "label": "Skin reservoir content",
+      "localName": "src",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "istl4",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/istl4",
+      "label": "Ice temperature layer 4",
+      "localName": "istl4",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wss",
+      "label": "Wave Spectral Skewness",
+      "localName": "wss",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "siconc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/siconc",
+      "label": "Sea ice area fraction",
+      "localName": "siconc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ssr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssr",
+      "label": "Surface net solar radiation",
+      "localName": "ssr",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dl",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dl",
+      "label": "Lake total depth",
+      "localName": "dl",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tsrc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tsrc",
+      "label": "Top net solar radiation, clear sky",
+      "localName": "tsrc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dwps",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dwps",
+      "label": "Wave spectral directional width for swell",
+      "localName": "dwps",
+      "type": "Field",
+      "unitAsStated": "radians"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p59.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p59.162",
+      "label": "Vertical integral of kinetic energy",
+      "localName": "p59.162",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcslw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcslw",
+      "label": "Total column supercooled liquid water",
+      "localName": "tcslw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mror",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mror",
+      "label": "Mean runoff rate",
+      "localName": "mror",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140125",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140125",
+      "label": "Mean wave direction of second swell partition",
+      "localName": "p140125",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "v100",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/v100",
+      "label": "100 metre V wind component",
+      "localName": "v100",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p68.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p68.162",
+      "label": "Vertical integral of northward kinetic energy flux",
+      "localName": "p68.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdrswrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdrswrf",
+      "label": "Mean surface direct short-wave radiation flux",
+      "localName": "msdrswrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "istl1",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/istl1",
+      "label": "Ice temperature layer 1",
+      "localName": "istl1",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "fg10",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/fg10",
+      "label": "10 metre wind gust since previous post-processing",
+      "localName": "fg10",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140122",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140122",
+      "label": "Mean wave direction of first swell partition",
+      "localName": "p140122",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdrswrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdrswrfcs",
+      "label": "Mean surface direct short-wave radiation flux, clear sky",
+      "localName": "msdrswrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msqs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msqs",
+      "label": "Mean square slope of waves",
+      "localName": "msqs",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lcc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lcc",
+      "label": "Low cloud cover",
+      "localName": "lcc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdwswrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdwswrfcs",
+      "label": "Mean surface downward short-wave radiation flux, clear sky",
+      "localName": "msdwswrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "smlt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/smlt",
+      "label": "Snowmelt",
+      "localName": "smlt",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "flsr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/flsr",
+      "label": "Forecast logarithm of surface roughness for heat",
+      "localName": "flsr",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdwlwrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdwlwrfcs",
+      "label": "Mean surface downward long-wave radiation flux, clear sky",
+      "localName": "msdwlwrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "csf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/csf",
+      "label": "Convective snowfall",
+      "localName": "csf",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msmr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msmr",
+      "label": "Mean snowmelt rate",
+      "localName": "msmr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tvh",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tvh",
+      "label": "Type of high vegetation",
+      "localName": "tvh",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dwww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dwww",
+      "label": "Wave spectral directional width for wind waves",
+      "localName": "dwww",
+      "type": "Field",
+      "unitAsStated": "radians"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "shww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/shww",
+      "label": "Significant height of wind waves",
+      "localName": "shww",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "blh",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/blh",
+      "label": "Boundary layer height",
+      "localName": "blh",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "hmax",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/hmax",
+      "label": "Maximum individual wave height",
+      "localName": "hmax",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sst",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sst",
+      "label": "Sea surface temperature",
+      "localName": "sst",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p91.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p91.162",
+      "label": "Vertical integral of northward cloud frozen water flux ",
+      "localName": "p91.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mbld",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mbld",
+      "label": "Mean boundary layer dissipation",
+      "localName": "mbld",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p87.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p87.162",
+      "label": "Vertical integral of divergence of ozone flux",
+      "localName": "p87.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p88.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p88.162",
+      "label": "Vertical integral of eastward cloud liquid water flux",
+      "localName": "p88.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "t",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/t",
+      "label": "Temperature",
+      "localName": "t",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mngwss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mngwss",
+      "label": "Mean northward gravity wave surface stress",
+      "localName": "mngwss",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "stl3",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/stl3",
+      "label": "Soil temperature level 3",
+      "localName": "stl3",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p1ps",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p1ps",
+      "label": "Mean wave period based on first moment for swell",
+      "localName": "p1ps",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lmlt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lmlt",
+      "label": "Lake mix-layer temperature",
+      "localName": "lmlt",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtnswrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtnswrf",
+      "label": "Mean top net short-wave radiation flux",
+      "localName": "mtnswrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wmb",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wmb",
+      "label": "Model bathymetry",
+      "localName": "wmb",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ilspf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ilspf",
+      "label": "Instantaneous large-scale surface precipitation fraction",
+      "localName": "ilspf",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140128",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140128",
+      "label": "Mean wave direction of third swell partition",
+      "localName": "p140128",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcrw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcrw",
+      "label": "Total column rain water",
+      "localName": "tcrw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "alnid",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/alnid",
+      "label": "Near IR albedo for diffuse radiation",
+      "localName": "alnid",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cdww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cdww",
+      "label": "Coefficient of drag with waves",
+      "localName": "cdww",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "u",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/u",
+      "label": "U component of wind",
+      "localName": "u",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "fal",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/fal",
+      "label": "Forecast albedo",
+      "localName": "fal",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "strdc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/strdc",
+      "label": "Surface thermal radiation downward clear-sky",
+      "localName": "strdc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "vst",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/vst",
+      "label": "V-component stokes drift",
+      "localName": "vst",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lsrr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lsrr",
+      "label": "Large scale rain rate",
+      "localName": "lsrr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "vimd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/vimd",
+      "label": "Vertically integrated moisture divergence",
+      "localName": "vimd",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "v",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/v",
+      "label": "V component of wind",
+      "localName": "v",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tmax",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tmax",
+      "label": "Period corresponding to maximum individual wave height",
+      "localName": "tmax",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mlspr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mlspr",
+      "label": "Mean large-scale precipitation rate",
+      "localName": "mlspr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p2ps",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p2ps",
+      "label": "Mean wave period based on second moment for swell",
+      "localName": "p2ps",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "licd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/licd",
+      "label": "Lake ice total depth",
+      "localName": "licd",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "completenessCaveats": "Accumulated, not instantaneous. A consumer treating the raw value as W/m2 overstates irradiance by a factor of 3600.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/globalHorizontalIrradiance",
+      "dataType": "float32",
+      "definition": "Shortwave radiation reaching a horizontal surface, accumulated over the hour. Equivalent to global horizontal irradiance once divided by the accumulation period, which is the conversion most consumers forget.",
+      "fieldId": "ssrd",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssrd",
+      "label": "Surface solar radiation downwards",
+      "localName": "ssrd",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/W-PER-M2",
+      "unitAsStated": "J m**-2 accumulated over 1 hour",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mper",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mper",
+      "label": "Mean potential evaporation rate",
+      "localName": "mper",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p66.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p66.162",
+      "label": "Vertical integral of northward mass flux",
+      "localName": "p66.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mcc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mcc",
+      "label": "Medium cloud cover",
+      "localName": "mcc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "e",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/e",
+      "label": "Evaporation",
+      "localName": "e",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cl",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cl",
+      "label": "Lake cover",
+      "localName": "cl",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p78.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p78.162",
+      "label": "Vertical integral of northward ozone flux",
+      "localName": "p78.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "fsr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/fsr",
+      "label": "Forecast surface roughness",
+      "localName": "fsr",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lai_lv",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lai_lv",
+      "label": "Leaf area index, low vegetation",
+      "localName": "lai_lv",
+      "type": "Field",
+      "unitAsStated": "m**2 m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tisr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tisr",
+      "label": "TOA incident solar radiation",
+      "localName": "tisr",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "aluvp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/aluvp",
+      "label": "UV visible albedo for direct radiation",
+      "localName": "aluvp",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mntss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mntss",
+      "label": "Mean northward turbulent surface stress",
+      "localName": "mntss",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "shts",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/shts",
+      "label": "Significant height of total swell",
+      "localName": "shts",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "o3",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/o3",
+      "label": "Ozone mass mixing ratio",
+      "localName": "o3",
+      "type": "Field",
+      "unitAsStated": "kg kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msnlwrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msnlwrfcs",
+      "label": "Mean surface net long-wave radiation flux, clear sky",
+      "localName": "msnlwrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mp1",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mp1",
+      "label": "Mean wave period based on first moment",
+      "localName": "mp1",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lsm",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lsm",
+      "label": "Land-sea mask",
+      "localName": "lsm",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ssrc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssrc",
+      "label": "Surface net solar radiation, clear sky",
+      "localName": "ssrc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lmld",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lmld",
+      "label": "Lake mix-layer depth",
+      "localName": "lmld",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p65.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p65.162",
+      "label": "Vertical integral of eastward mass flux",
+      "localName": "p65.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mx2t",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mx2t",
+      "label": "Maximum temperature at 2 metres since previous post-processing",
+      "localName": "mx2t",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mer",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mer",
+      "label": "Mean evaporation rate",
+      "localName": "mer",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "concept": "https://schema.opengrid.org/concept/grid-concept/airTemperature",
+      "dataType": "float32",
+      "definition": "Air temperature at two metres above the surface.",
+      "fieldId": "t2m",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/t2m",
+      "label": "2 metre temperature",
+      "localName": "t2m",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/DEG_C",
+      "unitAsStated": "K",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p77.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p77.162",
+      "label": "Vertical integral of eastward ozone flux",
+      "localName": "p77.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sdor",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sdor",
+      "label": "Standard deviation of orography",
+      "localName": "sdor",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p89.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p89.162",
+      "label": "Vertical integral of northward cloud liquid water flux",
+      "localName": "p89.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p64.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p64.162",
+      "label": "Vertical integral of energy conversion",
+      "localName": "p64.162",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cdir",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cdir",
+      "label": "Clear-sky direct solar radiation at surface",
+      "localName": "cdir",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tauoc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tauoc",
+      "label": "Normalized stress into ocean",
+      "localName": "tauoc",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ttr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ttr",
+      "label": "Top net thermal radiation",
+      "localName": "ttr",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ssrdc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssrdc",
+      "label": "Surface solar radiation downward clear-sky",
+      "localName": "ssrdc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sp",
+      "label": "Surface pressure",
+      "localName": "sp",
+      "type": "Field",
+      "unitAsStated": "Pa"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "swvl2",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/swvl2",
+      "label": "Volumetric soil water layer 2",
+      "localName": "swvl2",
+      "type": "Field",
+      "unitAsStated": "m**3 m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "d2m",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/d2m",
+      "label": "2 metre dewpoint temperature",
+      "localName": "d2m",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lshf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lshf",
+      "label": "Lake shape factor",
+      "localName": "lshf",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "strc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/strc",
+      "label": "Surface net thermal radiation, clear sky",
+      "localName": "strc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "csfr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/csfr",
+      "label": "Convective snowfall rate water equivalent",
+      "localName": "csfr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "v10n",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/v10n",
+      "label": "Neutral wind at 10 m v-component",
+      "localName": "v10n",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p85.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p85.162",
+      "label": "Vertical integral of divergence of geopotential flux",
+      "localName": "p85.162",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ltlt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ltlt",
+      "label": "Lake total layer temperature",
+      "localName": "ltlt",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p76.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p76.162",
+      "label": "Vertical integral of northward total energy flux",
+      "localName": "p76.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "pv",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/pv",
+      "label": "Potential vorticity",
+      "localName": "pv",
+      "type": "Field",
+      "unitAsStated": "K m**2 kg**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p53.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p53.162",
+      "label": "Vertical integral of mass of atmosphere",
+      "localName": "p53.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "w",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/w",
+      "label": "Vertical velocity",
+      "localName": "w",
+      "type": "Field",
+      "unitAsStated": "Pa s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "istl3",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/istl3",
+      "label": "Ice temperature layer 3",
+      "localName": "istl3",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "nsss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/nsss",
+      "label": "Northward turbulent surface stress",
+      "localName": "nsss",
+      "type": "Field",
+      "unitAsStated": "N m**-2 s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "megwss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/megwss",
+      "label": "Mean eastward gravity wave surface stress",
+      "localName": "megwss",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mdww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mdww",
+      "label": "Mean direction of wind waves",
+      "localName": "mdww",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "gwd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/gwd",
+      "label": "Gravity wave dissipation",
+      "localName": "gwd",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msnswrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msnswrf",
+      "label": "Mean surface net short-wave radiation flux",
+      "localName": "msnswrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p81.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p81.162",
+      "label": "Vertical integral of divergence of mass flux",
+      "localName": "p81.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cp",
+      "label": "Convective precipitation",
+      "localName": "cp",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "skt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/skt",
+      "label": "Skin temperature",
+      "localName": "skt",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "hcc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/hcc",
+      "label": "High cloud cover",
+      "localName": "hcc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mdts",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mdts",
+      "label": "Mean direction of total swell",
+      "localName": "mdts",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mpts",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mpts",
+      "label": "Mean period of total swell",
+      "localName": "mpts",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "completenessCaveats": "Complete over the full record; no gaps.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+      "dataType": "float32",
+      "definition": "Eastward component of the horizontal wind at 100 metres above the surface. Combined with v100 it gives wind speed at approximately modern turbine hub height, which is why ERA5 is usable for wind yield without extrapolation from 10 metres.",
+      "fieldId": "u100",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/u100",
+      "label": "100 metre U wind component",
+      "localName": "u100",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140208",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140208",
+      "label": "Free convective velocity over the oceans",
+      "localName": "p140208",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lgws",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lgws",
+      "label": "Eastward gravity wave surface stress",
+      "localName": "lgws",
+      "type": "Field",
+      "unitAsStated": "N m**-2 s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "strd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/strd",
+      "label": "Surface thermal radiation downwards",
+      "localName": "strd",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p2ww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p2ww",
+      "label": "Mean wave period based on second moment for wind waves",
+      "localName": "p2ww",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wsk",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wsk",
+      "label": "Wave spectral kurtosis",
+      "localName": "wsk",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140121",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140121",
+      "label": "Significant wave height of first swell partition",
+      "localName": "p140121",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cc",
+      "label": "Fraction of cloud cover",
+      "localName": "cc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ptype",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ptype",
+      "label": "Precipitation type",
+      "localName": "ptype",
+      "type": "Field",
+      "unitAsStated": "code table (4.201)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "rsn",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/rsn",
+      "label": "Snow density",
+      "localName": "rsn",
+      "type": "Field",
+      "unitAsStated": "kg m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "swvl4",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/swvl4",
+      "label": "Volumetric soil water layer 4",
+      "localName": "swvl4",
+      "type": "Field",
+      "unitAsStated": "m**3 m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "geopotential_at_surface",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/geopotential_at_surface",
+      "label": "Geopotential",
+      "localName": "geopotential_at_surface",
+      "type": "Field",
+      "unitAsStated": "m**2 s**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cvl",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cvl",
+      "label": "Low vegetation cover",
+      "localName": "cvl",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p60.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p60.162",
+      "label": "Vertical integral of thermal energy",
+      "localName": "p60.162",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msnswrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msnswrfcs",
+      "label": "Mean surface net short-wave radiation flux, clear sky",
+      "localName": "msnswrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "bfi",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/bfi",
+      "label": "Benjamin-Feir index",
+      "localName": "bfi",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mntpr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mntpr",
+      "label": "Minimum total precipitation rate since previous post-processing",
+      "localName": "mntpr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mslhf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mslhf",
+      "label": "Mean surface latent heat flux",
+      "localName": "mslhf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "swvl3",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/swvl3",
+      "label": "Volumetric soil water layer 3",
+      "localName": "swvl3",
+      "type": "Field",
+      "unitAsStated": "m**3 m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cin",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cin",
+      "label": "Convective inhibition",
+      "localName": "cin",
+      "type": "Field",
+      "unitAsStated": "J kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "i10fg",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/i10fg",
+      "label": "Instantaneous 10 metre wind gust",
+      "localName": "i10fg",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "v10",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/v10",
+      "label": "10 metre V wind component",
+      "localName": "v10",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dctb",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dctb",
+      "label": "Duct base height",
+      "localName": "dctb",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "phioc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/phioc",
+      "label": "Normalized energy flux into ocean",
+      "localName": "phioc",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tplb",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tplb",
+      "label": "Trapping layer base height",
+      "localName": "tplb",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "slt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/slt",
+      "label": "Soil type",
+      "localName": "slt",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140127",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140127",
+      "label": "Significant wave height of third swell partition",
+      "localName": "p140127",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tco3",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tco3",
+      "label": "Total column ozone",
+      "localName": "tco3",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sf",
+      "label": "Snowfall",
+      "localName": "sf",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ciwc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ciwc",
+      "label": "Specific cloud ice water content",
+      "localName": "ciwc",
+      "type": "Field",
+      "unitAsStated": "kg kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mgws",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mgws",
+      "label": "Northward gravity wave surface stress",
+      "localName": "mgws",
+      "type": "Field",
+      "unitAsStated": "N m**-2 s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcc",
+      "label": "Total cloud cover",
+      "localName": "tcc",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "crr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/crr",
+      "label": "Convective rain rate",
+      "localName": "crr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lai_hv",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lai_hv",
+      "label": "Leaf area index, high vegetation",
+      "localName": "lai_hv",
+      "type": "Field",
+      "unitAsStated": "m**2 m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p69.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p69.162",
+      "label": "Vertical integral of eastward heat flux",
+      "localName": "p69.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msl",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msl",
+      "label": "Mean sea level pressure",
+      "localName": "msl",
+      "type": "Field",
+      "unitAsStated": "Pa"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "stl4",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/stl4",
+      "label": "Soil temperature level 4",
+      "localName": "stl4",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msror",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msror",
+      "label": "Mean surface runoff rate",
+      "localName": "msror",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdwlwrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdwlwrf",
+      "label": "Mean surface downward long-wave radiation flux",
+      "localName": "msdwlwrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sdfor",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sdfor",
+      "label": "Standard deviation of filtered subgrid orography",
+      "localName": "sdfor",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p83.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p83.162",
+      "label": "Vertical integral of divergence of thermal energy flux",
+      "localName": "p83.162",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "swvl1",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/swvl1",
+      "label": "Volumetric soil water layer 1",
+      "localName": "swvl1",
+      "type": "Field",
+      "unitAsStated": "m**3 m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "phiaw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/phiaw",
+      "label": "Normalized energy flux into waves",
+      "localName": "phiaw",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "totalx",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/totalx",
+      "label": "Total totals index",
+      "localName": "totalx",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mxtpr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mxtpr",
+      "label": "Maximum total precipitation rate since previous post-processing",
+      "localName": "mxtpr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p90.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p90.162",
+      "label": "Vertical integral of eastward cloud frozen water flux",
+      "localName": "p90.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "clwc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/clwc",
+      "label": "Specific cloud liquid water content",
+      "localName": "clwc",
+      "type": "Field",
+      "unitAsStated": "kg kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cvh",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cvh",
+      "label": "High vegetation cover",
+      "localName": "cvh",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p62.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p62.162",
+      "label": "Vertical integral of potential+internal+latent energy",
+      "localName": "p62.162",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "geopotential",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/geopotential",
+      "label": "Geopotential",
+      "localName": "geopotential",
+      "type": "Field",
+      "unitAsStated": "m**2 s**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p92.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p92.162",
+      "label": "Vertical integral of mass tendency",
+      "localName": "p92.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "completenessCaveats": "Not a reservoir inflow. Using it directly as hydro availability without routing overstates responsiveness.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/hydroInflow",
+      "dataType": "float32",
+      "definition": "Water leaving the surface and sub-surface as runoff, accumulated hourly. Used as a hydro inflow proxy after catchment aggregation.",
+      "fieldId": "ro",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ro",
+      "inferenceBasis": "Resolved to hydro inflow by alt-label match on 'runoff' at confidence 0.87. ERA5 documents this as a land-surface water balance term, not as a hydro inflow; the mapping holds only after catchment aggregation, which this dataset does not perform.",
+      "inferredAssignment": true,
+      "label": "Runoff",
+      "localName": "ro",
+      "required": false,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/MilliM",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "pev",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/pev",
+      "label": "Potential evaporation",
+      "localName": "pev",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tsn",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tsn",
+      "label": "Temperature of snow layer",
+      "localName": "tsn",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mp2",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mp2",
+      "label": "Mean zero-crossing wave period",
+      "localName": "mp2",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140124",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140124",
+      "label": "Significant wave height of second swell partition",
+      "localName": "p140124",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lsf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lsf",
+      "label": "Large-scale snowfall",
+      "localName": "lsf",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cape",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cape",
+      "label": "Convective available potential energy",
+      "localName": "cape",
+      "type": "Field",
+      "unitAsStated": "J kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ust",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ust",
+      "label": "U-component stokes drift",
+      "localName": "ust",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcw",
+      "label": "Total column water",
+      "localName": "tcw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mlspf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mlspf",
+      "label": "Mean large-scale precipitation fraction",
+      "localName": "mlspf",
+      "type": "Field",
+      "unitAsStated": "Proportion"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "aluvd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/aluvd",
+      "label": "UV visible albedo for diffuse radiation",
+      "localName": "aluvd",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtnlwrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtnlwrfcs",
+      "label": "Mean top net long-wave radiation flux, clear sky",
+      "localName": "mtnlwrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sshf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sshf",
+      "label": "Surface sensible heat flux",
+      "localName": "sshf",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "iews",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/iews",
+      "label": "Instantaneous eastward turbulent surface stress",
+      "localName": "iews",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lspf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lspf",
+      "label": "Large-scale precipitation fraction",
+      "localName": "lspf",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "q",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/q",
+      "label": "Specific humidity",
+      "localName": "q",
+      "type": "Field",
+      "unitAsStated": "kg kg**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "str",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/str",
+      "label": "Surface net thermal radiation",
+      "localName": "str",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mwp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mwp",
+      "label": "Mean wave period",
+      "localName": "mwp",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "pp1d",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/pp1d",
+      "label": "Peak wave period",
+      "localName": "pp1d",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "slor",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/slor",
+      "label": "Slope of sub-gridscale orography",
+      "localName": "slor",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "cbh",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/cbh",
+      "label": "Cloud base height",
+      "localName": "cbh",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p80.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p80.162",
+      "label": "Vertical integral of divergence of cloud frozen water flux",
+      "localName": "p80.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p71.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p71.162",
+      "label": "Vertical integral of eastward water vapour flux",
+      "localName": "p71.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wdw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wdw",
+      "label": "Wave spectral directional width",
+      "localName": "wdw",
+      "type": "Field",
+      "unitAsStated": "radians"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mcsr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mcsr",
+      "label": "Mean convective snowfall rate",
+      "localName": "mcsr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "isor",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/isor",
+      "label": "Anisotropy of sub-gridscale orography",
+      "localName": "isor",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "uvb",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/uvb",
+      "label": "Downward UV radiation at the surface",
+      "localName": "uvb",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dndzn",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dndzn",
+      "label": "Minimum vertical gradient of refractivity inside trapping layer",
+      "localName": "dndzn",
+      "type": "Field",
+      "unitAsStated": "m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p82.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p82.162",
+      "label": "Vertical integral of divergence of kinetic energy flux",
+      "localName": "p82.162",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "anor",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/anor",
+      "label": "Angle of sub-gridscale orography",
+      "localName": "anor",
+      "type": "Field",
+      "unitAsStated": "radians"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tplt",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tplt",
+      "label": "Trapping layer top height",
+      "localName": "tplt",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dndza",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dndza",
+      "label": "Mean vertical gradient of refractivity inside trapping layer",
+      "localName": "dndza",
+      "type": "Field",
+      "unitAsStated": "m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdwswrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdwswrf",
+      "label": "Mean surface downward short-wave radiation flux",
+      "localName": "msdwswrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msshf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msshf",
+      "label": "Mean surface sensible heat flux",
+      "localName": "msshf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtdwswrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtdwswrf",
+      "label": "Mean top downward short-wave radiation flux",
+      "localName": "mtdwswrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "asn",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/asn",
+      "label": "Snow albedo",
+      "localName": "asn",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtnswrfcs",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtnswrfcs",
+      "label": "Mean top net short-wave radiation flux, clear sky",
+      "localName": "mtnswrfcs",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p63.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p63.162",
+      "label": "Vertical integral of total energy",
+      "localName": "p63.162",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "kx",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/kx",
+      "label": "K index",
+      "localName": "kx",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mlssr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mlssr",
+      "label": "Mean large-scale snowfall rate",
+      "localName": "mlssr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lict",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lict",
+      "label": "Lake ice surface temperature",
+      "localName": "lict",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p73.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p73.162",
+      "label": "Vertical integral of eastward geopotential flux",
+      "localName": "p73.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p54.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p54.162",
+      "label": "Vertical integral of temperature",
+      "localName": "p54.162",
+      "type": "Field",
+      "unitAsStated": "K kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tclw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tclw",
+      "label": "Total column cloud liquid water",
+      "localName": "tclw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "metss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/metss",
+      "label": "Mean eastward turbulent surface stress",
+      "localName": "metss",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p72.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p72.162",
+      "label": "Vertical integral of northward water vapour flux",
+      "localName": "p72.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-1 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mcpr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mcpr",
+      "label": "Mean convective precipitation rate",
+      "localName": "mcpr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sro",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sro",
+      "label": "Surface runoff",
+      "localName": "sro",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "u10",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/u10",
+      "label": "10 metre U wind component",
+      "localName": "u10",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140209",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140209",
+      "label": "Air density over the oceans",
+      "localName": "p140209",
+      "type": "Field",
+      "unitAsStated": "kg m**-3"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mgwd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mgwd",
+      "label": "Mean gravity wave dissipation",
+      "localName": "mgwd",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tsr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tsr",
+      "label": "Top net solar radiation",
+      "localName": "tsr",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p67.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p67.162",
+      "label": "Vertical integral of eastward kinetic energy flux",
+      "localName": "p67.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mser",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mser",
+      "label": "Mean snow evaporation rate",
+      "localName": "mser",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140123",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140123",
+      "label": "Mean wave period of first swell partition",
+      "localName": "p140123",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wind",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wind",
+      "label": "10 metre wind speed",
+      "localName": "wind",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140129",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140129",
+      "label": "Mean wave period of third swell partition",
+      "localName": "p140129",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lssfr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lssfr",
+      "label": "Large scale snowfall rate water equivalent",
+      "localName": "lssfr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mn2t",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mn2t",
+      "label": "Minimum temperature at 2 metres since previous post-processing",
+      "localName": "mn2t",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msdwuvrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msdwuvrf",
+      "label": "Mean surface downward UV radiation flux",
+      "localName": "msdwuvrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "deg0l",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/deg0l",
+      "label": "0 degrees C isothermal level (atm)",
+      "localName": "deg0l",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "fdir",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/fdir",
+      "label": "Total sky direct solar radiation at surface",
+      "localName": "fdir",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "alnip",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/alnip",
+      "label": "Near IR albedo for direct radiation",
+      "localName": "alnip",
+      "type": "Field",
+      "unitAsStated": "(0 - 1)"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ie",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ie",
+      "label": "Instantaneous moisture flux",
+      "localName": "ie",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "u10n",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/u10n",
+      "label": "Neutral wind at 10 m u-component",
+      "localName": "u10n",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "lsp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/lsp",
+      "label": "Large-scale precipitation",
+      "localName": "lsp",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p1ww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p1ww",
+      "label": "Mean wave period based on first moment for wind waves",
+      "localName": "p1ww",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mwd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mwd",
+      "label": "Mean wave direction",
+      "localName": "mwd",
+      "type": "Field",
+      "unitAsStated": "Degree true"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tvl",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tvl",
+      "label": "Type of low vegetation",
+      "localName": "tvl",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtpr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtpr",
+      "label": "Mean total precipitation rate",
+      "localName": "mtpr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ttrc",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ttrc",
+      "label": "Top net thermal radiation, clear sky",
+      "localName": "ttrc",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "inss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/inss",
+      "label": "Instantaneous northward turbulent surface stress",
+      "localName": "inss",
+      "type": "Field",
+      "unitAsStated": "N m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p140126",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p140126",
+      "label": "Mean wave period of second swell partition",
+      "localName": "p140126",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "slhf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/slhf",
+      "label": "Surface latent heat flux",
+      "localName": "slhf",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "dwi",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/dwi",
+      "label": "10 metre wind direction",
+      "localName": "dwi",
+      "type": "Field",
+      "unitAsStated": "degrees"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ishf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ishf",
+      "label": "Instantaneous surface sensible heat flux",
+      "localName": "ishf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "wsp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/wsp",
+      "label": "Wave spectral peakedness",
+      "localName": "wsp",
+      "type": "Field",
+      "unitAsStated": "dimensionless"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msr",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msr",
+      "label": "Mean snowfall rate",
+      "localName": "msr",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "swh",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/swh",
+      "label": "Significant height of combined wind waves and swell",
+      "localName": "swh",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mtnlwrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mtnlwrf",
+      "label": "Mean top net long-wave radiation flux",
+      "localName": "mtnlwrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tciw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tciw",
+      "label": "Total column cloud ice water",
+      "localName": "tciw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "stl2",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/stl2",
+      "label": "Soil temperature level 2",
+      "localName": "stl2",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "istl2",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/istl2",
+      "label": "Ice temperature layer 2",
+      "localName": "istl2",
+      "type": "Field",
+      "unitAsStated": "K"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "es",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/es",
+      "label": "Snow evaporation",
+      "localName": "es",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p70.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p70.162",
+      "label": "Vertical integral of northward heat flux",
+      "localName": "p70.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mssror",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mssror",
+      "label": "Mean sub-surface runoff rate",
+      "localName": "mssror",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "zust",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/zust",
+      "label": "Friction velocity",
+      "localName": "zust",
+      "type": "Field",
+      "unitAsStated": "m s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ewss",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ewss",
+      "label": "Eastward turbulent surface stress",
+      "localName": "ewss",
+      "type": "Field",
+      "unitAsStated": "N m**-2 s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p75.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p75.162",
+      "label": "Vertical integral of eastward total energy flux",
+      "localName": "p75.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "ssro",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/ssro",
+      "label": "Sub-surface runoff",
+      "localName": "ssro",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mpww",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mpww",
+      "label": "Mean period of wind waves",
+      "localName": "mpww",
+      "type": "Field",
+      "unitAsStated": "s"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcsw",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcsw",
+      "label": "Total column snow water",
+      "localName": "tcsw",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p84.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p84.162",
+      "label": "Vertical integral of divergence of moisture flux",
+      "localName": "p84.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p74.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p74.162",
+      "label": "Vertical integral of northward geopotential flux",
+      "localName": "p74.162",
+      "type": "Field",
+      "unitAsStated": "W m**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "mvimd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/mvimd",
+      "label": "Mean vertically integrated moisture divergence",
+      "localName": "mvimd",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p79.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p79.162",
+      "label": "Vertical integral of divergence of cloud liquid water flux",
+      "localName": "p79.162",
+      "type": "Field",
+      "unitAsStated": "kg m**-2 s**-1"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "chnk",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/chnk",
+      "label": "Charnock",
+      "localName": "chnk",
+      "type": "Field",
+      "unitAsStated": "~"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "sd",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/sd",
+      "label": "Snow depth",
+      "localName": "sd",
+      "type": "Field",
+      "unitAsStated": "m of water equivalent"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p61.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p61.162",
+      "label": "Vertical integral of potential+internal energy",
+      "localName": "p61.162",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "msnlwrf",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/msnlwrf",
+      "label": "Mean surface net long-wave radiation flux",
+      "localName": "msnlwrf",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "bld",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/bld",
+      "label": "Boundary layer dissipation",
+      "localName": "bld",
+      "type": "Field",
+      "unitAsStated": "J m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "p86.162",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/p86.162",
+      "label": "Vertical integral of divergence of total energy flux",
+      "localName": "p86.162",
+      "type": "Field",
+      "unitAsStated": "W m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tp",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tp",
+      "label": "Total precipitation",
+      "localName": "tp",
+      "type": "Field",
+      "unitAsStated": "m"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "tcwv",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/tcwv",
+      "label": "Total column vertically-integrated water vapour",
+      "localName": "tcwv",
+      "type": "Field",
+      "unitAsStated": "kg m**-2"
+    },
+    {
+      "dataType": "float32",
+      "fieldId": "stl1",
+      "id": "https://catalog.opengrid.org/field/ecmwf-era5/stl1",
+      "label": "Soil temperature level 1",
+      "localName": "stl1",
+      "type": "Field",
+      "unitAsStated": "K"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ecmwf-era5",
+  "schemaSource": "zarr-v2-consolidated at https://storage.googleapis.com/gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3"
+}

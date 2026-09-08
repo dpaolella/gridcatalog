@@ -1,0 +1,28 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "dataType": "float64",
+      "definition": "Hourly electricity demand within the balancing authority, as reported by the authority.",
+      "fieldId": "D",
+      "id": "https://catalog.opengrid.org/field/eia-930/demand",
+      "label": "Demand",
+      "localName": "D",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "measured"
+    },
+    {
+      "dataType": "float64",
+      "definition": "Hourly net generation within the balancing authority, summed across fuel categories.",
+      "fieldId": "NG",
+      "id": "https://catalog.opengrid.org/field/eia-930/net_generation",
+      "label": "Net generation",
+      "localName": "NG",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "measured"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/eia-930"
+}

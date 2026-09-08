@@ -352,6 +352,32 @@ def apply(document: dict[str, Any], outcome: ProbeOutcome, *, slug: str) -> dict
     if not outcome.found:
         return document
 
+    source = (
+        f"{outcome.surface} at {outcome.source_url}"
+        if outcome.source_url
+        else str(outcome.surface or "")
+    )
+    return merge_fields(
+        document,
+        [f.as_node(FIELD_BASE, slug) for f in outcome.fields],
+        schema_source=source,
+    )
+
+
+def merge_fields(
+    document: dict[str, Any],
+    incoming: list[dict[str, Any]],
+    *,
+    schema_source: str | None = None,
+) -> dict[str, Any]:
+    """Add field nodes to a record, keeping any the record already has.
+
+    Split out of :func:`apply` so a sidecar read back from ``data/schemas``
+    merges by exactly the rule a live probe does. The two must not drift: a
+    persisted probe that overwrote a hand-authored field would lose the concept
+    IRI and the caveat on the second build rather than the first, which is
+    strictly harder to notice.
+    """
     existing = document.get("hasField") or []
     if isinstance(existing, dict):
         existing = [existing]
@@ -362,18 +388,13 @@ def apply(document: dict[str, Any], outcome: ProbeOutcome, *, slug: str) -> dict
     # one that carries the concept and the caveat.
     known = {_local_name(f) for f in existing}
     known.discard("")
-    added = [
-        f.as_node(FIELD_BASE, slug) for f in outcome.fields if f.local_name.lower() not in known
-    ]
+    added = [f for f in incoming if str(_local_name(f)).lower() not in known]
     if not added:
         return document
 
     document["hasField"] = [*existing, *added]
-    document["schemaSource"] = (
-        f"{outcome.surface} at {outcome.source_url}"
-        if outcome.source_url
-        else str(outcome.surface or "")
-    )
+    if schema_source:
+        document["schemaSource"] = schema_source
     return document
 
 

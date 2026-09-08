@@ -186,6 +186,25 @@ class Settings(BaseSettings):
     # relationship the design states: anonymous below human, agent several times
     # human. 300/min is about fifty record pages, or five people browsing at one
     # page every six seconds, which is what a shared address looks like.
+    captcha_secret_key: str = ""
+    """The intake challenge's server-side secret (PRD §F3, #40).
+
+    Empty by default and empty in this repository, because a secret belongs to
+    a deployment. Empty means the challenge is off and intake behaves exactly
+    as it did — rate limiting alone — so this is not a switch that has to be
+    set before the app will run. `/v1/status` reports which state it is in.
+    """
+
+    captcha_site_key: str = ""
+    """The challenge's public key, served to the browser so the widget renders.
+
+    Public by design — it appears in the page source — and still configuration
+    rather than a constant, because it is paired with the secret above and
+    changes with the deployment. With no site key the form renders without a
+    widget, which is the correct look for a deployment that has not turned the
+    challenge on.
+    """
+
     rate_limit_human_per_min: int = 600
     rate_limit_agent_per_min: int = 3000
     rate_limit_anonymous_per_min: int = 300

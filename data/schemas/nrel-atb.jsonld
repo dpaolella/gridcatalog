@@ -1,0 +1,57 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "completenessCaveats": "Constant dollars of the ATB base year. Comparing against a figure in another year's dollars without deflating is the most common misuse.",
+      "dataType": "float64",
+      "definition": "Overnight capital cost per unit of nameplate capacity, in constant dollars of the ATB base year.",
+      "fieldId": "CAPEX",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "id": "https://catalog.opengrid.org/field/nrel-atb/capex",
+      "label": "Overnight capital cost",
+      "localName": "CAPEX",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "modeled"
+    },
+    {
+      "dataType": "float64",
+      "definition": "Annual fixed operations and maintenance cost per unit of capacity.",
+      "fieldId": "fixed_om",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "id": "https://catalog.opengrid.org/field/nrel-atb/fom",
+      "label": "Fixed operating cost",
+      "localName": "Fixed O&M",
+      "required": true,
+      "type": "Field",
+      "valueBasis": "modeled"
+    },
+    {
+      "completenessCaveats": "DD9's structural note calls WACC almost entirely absent from open sources. This field is one of the few published values and is an assumption, not an observation.",
+      "dataType": "float64",
+      "definition": "Real WACC assumed for the technology and year, before tax credits.",
+      "fieldId": "wacc_real",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/nrel-atb"
+      ],
+      "id": "https://catalog.opengrid.org/field/nrel-atb/wacc_real",
+      "label": "Real weighted average cost of capital",
+      "localName": "WACC Real",
+      "required": false,
+      "type": "Field",
+      "valueBasis": "estimated"
+    },
+    {
+      "fieldId": "<!DOCTYPE html>",
+      "id": "https://catalog.opengrid.org/field/nrel-atb/DOCTYPE-html",
+      "localName": "<!DOCTYPE html>",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/nrel-atb",
+  "schemaSource": "csv-header at https://data.openei.org/submissions/6006"
+}

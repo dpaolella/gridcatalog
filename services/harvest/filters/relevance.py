@@ -648,13 +648,34 @@ def _normalise(text: str) -> str:
 
 
 def _contains(haystack: str, term: str) -> bool:
-    """Whole-token containment.
+    """Whole-token containment, in either the hyphenated or the split form.
 
     Substring matching would have "iso" hit "isotope" and "wind" hit
     "winding", which is exactly the kind of silent false positive that makes a
-    filter's score meaningless.
+    filter's score meaningless. So the match is whole-token, and the term has
+    to appear as a contiguous run.
+
+    **The split form is why a hyphenated term matched nothing (#31).**
+    `_normalise` expands a hyphenated token into the token *and* its parts, so
+    "feed-in tariff" arrives as ``feed-in feed in tariff`` — and the term
+    ``feed-in tariff`` is not a contiguous run of that, because the split parts
+    are interleaved. Every multi-word hyphenated term therefore scored zero
+    against a document that literally contained it. All three of them were in
+    `STRONG_TERMS`, where one match alone reaches `ACCEPT_AT` and accepts a
+    record outright, so these were the filter's highest-confidence signals and
+    they were dead.
+
+    Checking the de-hyphenated form fixes it without widening anything:
+    `_normalise` already emits the split parts adjacently, so ``feed in
+    tariff`` *is* a contiguous run of the same haystack, and the match stays
+    whole-token in both forms.
     """
-    return f" {term} " in f" {haystack} "
+    padded = f" {haystack} "
+    if f" {term} " in padded:
+        return True
+    if "-" not in term:
+        return False
+    return f" {term.replace('-', ' ')} " in padded
 
 
 def text_of(payload: dict[str, Any], *fields: str) -> str:

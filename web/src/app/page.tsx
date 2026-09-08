@@ -26,6 +26,12 @@ const FACETS = [
   "license",
   "format",
   "completeness_level",
+  // Next to completeness deliberately, because the two read as the same thing
+  // and are not (#46). Completeness answers *how well described*; this answers
+  // *described at all*. Level 1 means no field metadata by definition, so 27
+  // records with real probed schemas sat at level 1 and were indistinguishable
+  // from the 410 with none through every control the site offered.
+  "field_count_bucket",
   "spatial_granularity",
   "anonymous_access",
   "link_health",

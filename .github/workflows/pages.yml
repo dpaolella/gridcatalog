@@ -108,8 +108,21 @@ jobs:
           # reach the network. Without this step ERA5 publishes the four fields
           # somebody typed instead of the 273 its store documents.
           #
-          # Allowed to fail: a source being unreachable on the morning of a
-          # build is a thinner catalog, not a broken deploy.
+          # Persisted fields first, from git, with no network at all. #45: the
+          # probe used to run only here, into a graph the runner throws away,
+          # so ERA5 held 4 fields in the repository and showed 273 on the site
+          # and every deploy re-fetched them. Now `harvest.yml` commits what it
+          # reads and this replays it, which is what makes the published site
+          # reproducible from a checkout.
+          .venv/bin/datahub schema load data/schemas
+
+          # Then probe, for records no sidecar covers yet. Allowed to fail: a
+          # source being unreachable on the morning of a build is a thinner
+          # catalog, not a broken deploy — and now it is not even that, because
+          # the merge is additive, so an unreachable source costs the fields it
+          # would have *added* and never the ones already committed. That is
+          # #45's "stop `|| true` hiding a collapse", answered by making a
+          # collapse impossible rather than by warning about one.
           .venv/bin/datahub schema probe || true
 
           # Order, and both halves of it are load-bearing in opposite

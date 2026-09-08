@@ -357,3 +357,62 @@ def test_json_output_is_parseable_with_logging_on(runner, store_env) -> None:
 
     assert result.exit_code == 0
     assert json.loads(result.stdout)["checksum"]
+
+
+def test_export_skips_records_the_build_regenerates(runner, bootstrapped, tmp_path) -> None:
+    """`record export` must not write a `curated` record into `data/catalog`.
+
+    This is #18's regression at its origin. Deleting the 91 stale files in
+    `d0ef0a5` fixed the symptom; `harvest.yml` still ran
+
+        datahub seed load                                  # curated records
+        ...
+        datahub record export data/catalog --graph catalog --prune
+
+    and the exporter wrote every record in the graph, `curated` included. So
+    the next harvest would have recreated all 91 and put the fabricated
+    `no-known-access-path` URL back on the live site.
+
+    Asserted through the CLI rather than the function, because the defect was
+    in what the workflow's command line actually does.
+    """
+    assert runner.invoke(app, ["seed", "load", "--limit", "8"]).exit_code == 0
+
+    out = tmp_path / "exported"
+    result = runner.invoke(app, ["record", "export", str(out), "--graph", "catalog", "--json"])
+    assert result.exit_code == 0, result.output
+
+    assert not (out / "curated").exists(), (
+        "record export recreated data/catalog/curated/ — the directory whose 91 "
+        "stale files put #18's fabricated access URL back on the published site"
+    )
+    payload = json.loads(result.stdout)
+    assert payload["regenerable_skipped"] > 0, (
+        "seed load put curated records in the catalog graph, so the export "
+        "should have counted them as skipped rather than silently writing none"
+    )
+    assert payload["written"] == [], f"nothing harvested was loaded: {payload['written']}"
+
+
+def test_export_still_writes_harvested_records(runner, bootstrapped, tmp_path) -> None:
+    """The other half, so the fix cannot become "export nothing".
+
+    A harvested record has no committed input to be rebuilt from, so git is the
+    only place it can live and the exporter must still write it.
+    """
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+
+    source = FIXTURES / "records" / "ecmwf-era5.jsonld"
+    document = json.loads(source.read_text())
+    node = document["@graph"][0] if "@graph" in document else document
+    node["harvestSource"] = "zenodo"
+
+    with make_store() as store:
+        RecordStore(store).put(document, validate=False)
+
+    out = tmp_path / "exported"
+    result = runner.invoke(app, ["record", "export", str(out), "--graph", "catalog", "--json"])
+    assert result.exit_code == 0, result.output
+    written = sorted(p.name for p in (out / "zenodo").glob("*.jsonld"))
+    assert written, "a harvested record was not exported; git is its only home"

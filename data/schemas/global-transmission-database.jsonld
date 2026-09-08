@@ -1,0 +1,55 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "concept": "https://schema.opengrid.org/concept/grid-concept/nominalVoltage",
+      "dataType": "float64",
+      "definition": "Nominal voltage class of the circuits the row aggregates.",
+      "fieldId": "voltage_kv",
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/voltage_kv",
+      "label": "Voltage class",
+      "localName": "voltage_kv",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
+      "valueBasis": "measured"
+    },
+    {
+      "conceptGap": {
+        "gapReason": "No concept in the grid-concept scheme covers a compiler's self-assessed confidence. It is metadata about the row rather than a physical, economic or categorical quantity, and inventing a concept for one dataset's internal grading would pollute a shared vocabulary. Recorded as a gap rather than omitted so a reader can see the field was considered (PRD X4).",
+        "id": "https://catalog.opengrid.org/field/global-transmission-database/confidence_class#gap",
+        "type": "ConceptGap"
+      },
+      "dataType": "string",
+      "definition": "The compilers' own three-level assessment of how well-attested a row is, from a published operator figure down to an inference from line count and voltage.",
+      "fieldId": "confidence_class",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/global-transmission-database"
+      ],
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/confidence_class",
+      "label": "Compiler confidence class",
+      "localName": "confidence_class",
+      "required": false,
+      "type": "Field",
+      "valueBasis": "estimated"
+    },
+    {
+      "completenessCaveats": "Zonal by construction. This is not a branch rating and must not be substituted for one.",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/transferCapacity",
+      "dataType": "float64",
+      "definition": "Maximum power transferable between the two zones named in the row, aggregating the limiting effect of all circuits in that voltage class.",
+      "fieldId": "transfer_capacity_mw",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/global-transmission-database"
+      ],
+      "id": "https://catalog.opengrid.org/field/global-transmission-database/transfer_capacity_mw",
+      "label": "Inter-zonal transfer capacity",
+      "localName": "transfer_capacity_mw",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/MegaW",
+      "valueBasis": "estimated"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/global-transmission-database"
+}

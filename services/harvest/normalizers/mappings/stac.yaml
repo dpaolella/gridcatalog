@@ -43,6 +43,15 @@ fields:
     transform: [number]
   geospatialPrimary:
     const: true
+  # Derived by the adapter from the assets' media types, and absent where they
+  # do not say. A STAC collection is geospatial-primary by definition, so the
+  # shape requires a geometry type at level 1 and every STAC record was flagged
+  # without one (#31). Only `raster` is derived: a GeoTIFF is a grid by
+  # construction, while a GeoJSON may hold points, lines or polygons and the
+  # media type does not say which.
+  geometryTypes:
+    path: _geometry_types
+    transform: [list]
   nativeCRS:
     path: _crs
     transform: [text]
@@ -76,3 +85,10 @@ distributions:
     supportsRangeRequests:
       path: _range
       transform: [boolean]
+    # Paired with the flag above, never set alone. `og:AccessPathShape` refuses
+    # a distribution that advertises range requests without saying how to find
+    # the bytes, and the adapter derives both from one media type so they
+    # cannot disagree (#31).
+    chunkIndexMethod:
+      path: _chunk_index
+      transform: [text]

@@ -1,0 +1,47 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "completenessCaveats": "Horizontal, not normal. A PV model expecting DNI must divide by cos(zenith).",
+      "concept": "https://schema.opengrid.org/concept/grid-concept/directNormalIrradiance",
+      "dataType": "float32",
+      "definition": "Direct-beam shortwave radiation on a horizontal surface, derived from the ERA5 radiation fields by atlite's decomposition.",
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/ecmwf-era5/ssrd"
+      ],
+      "fieldId": "influx_direct",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-weather-cutouts/influx_direct",
+      "inferenceBasis": "Resolved by alt-label similarity at 0.84. atlite's influx_direct is horizontal direct irradiance, whereas the concept is direct NORMAL irradiance; the two differ by the cosine of the solar zenith angle. Recorded as inferred rather than confirmed so a consumer sees the caveat.",
+      "inferredAssignment": true,
+      "label": "Direct solar influx",
+      "localName": "influx_direct",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/W-PER-M2",
+      "valueBasis": "modeled"
+    },
+    {
+      "concept": "https://schema.opengrid.org/concept/grid-concept/windSpeed",
+      "dataType": "float32",
+      "definition": "Wind speed magnitude at 100 metres, computed from the ERA5 u100 and v100 components.",
+      "derivedFromField": [
+        "https://catalog.opengrid.org/field/ecmwf-era5/u100"
+      ],
+      "fieldId": "wnd100m",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/ecmwf-era5"
+      ],
+      "id": "https://catalog.opengrid.org/field/pypsa-eur-weather-cutouts/wnd100m",
+      "label": "Wind speed at 100 metres",
+      "localName": "wnd100m",
+      "required": true,
+      "type": "Field",
+      "unit": "http://qudt.org/vocab/unit/M-PER-SEC",
+      "valueBasis": "modeled"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/pypsa-eur-weather-cutouts"
+}

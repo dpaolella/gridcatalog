@@ -1,0 +1,421 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "biomass",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/biomass",
+      "localName": "biomass",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Economics",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/Economics",
+      "localName": "Economics",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and entries contain information on plant capacity",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/and-entries-contain-information-on-plant-capacity",
+      "localName": "and entries contain information on plant capacity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"Version 1.1.0 (deprecated)\"}",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Version-1.1.0-deprecated",
+      "localName": "name:\"Version 1.1.0 (deprecated)\"}",
+      "type": "Field"
+    },
+    {
+      "fieldId": "which are publicly available on the internet",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/which-are-publicly-available-on-the-internet",
+      "localName": "which are publicly available on the internet",
+      "type": "Field"
+    },
+    {
+      "fieldId": "the ordering of the fuels should not be taken to indicate any priority or preference of the fuel for operating the power plant or generating units.\\nThough the &quot;Other Fuel&quot; columns in the database are numbered sequentially from 1",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/the-ordering-of-the-fuels-should-not-be-taken-to-indicate-any-priority-or-preference-of-the-fuel-for-operating-the-power-plant-or-generating-units.-nThough-the-quot-Other-Fuel-quot-columns-in-the-database-are-numbered-sequentially-from-1",
+      "localName": "the ordering of the fuels should not be taken to indicate any priority or preference of the fuel for operating the power plant or generating units.\\nThough the &quot;Other Fuel&quot; columns in the database are numbered sequentially from 1",
+      "type": "Field"
+    },
+    {
+      "fieldId": [
+        "name:\"Global Power Plant Database\"}",
+        "name:\"Global Power Plant Database"
+      ],
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Global-Power-Plant-Database",
+      "localName": [
+        "name:\"Global Power Plant Database",
+        "name:\"Global Power Plant Database\"}"
+      ],
+      "type": "Field"
+    },
+    {
+      "fieldId": "nuclear",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/nuclear",
+      "localName": "nuclear",
+      "type": "Field"
+    },
+    {
+      "fieldId": "follow\" data-next-head=\"\"/><meta name=\"description\" content=\"A comprehensive",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/follow-data-next-head-meta-name-description-content-A-comprehensive",
+      "localName": "follow\" data-next-head=\"\"/><meta name=\"description\" content=\"A comprehensive",
+      "type": "Field"
+    },
+    {
+      "fieldId": "url:\"http://www.opendefinition.org/licenses/cc-by\"}",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/url-http-www.opendefinition.org-licenses-cc-by",
+      "localName": "url:\"http://www.opendefinition.org/licenses/cc-by\"}",
+      "type": "Field"
+    },
+    {
+      "fieldId": "{\"@type\":\"DataDownload",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/type-DataDownload",
+      "localName": "{\"@type\":\"DataDownload",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"WRI Data Explorer",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-WRI-Data-Explorer",
+      "localName": "name:\"WRI Data Explorer",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Enipedia",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/Enipedia",
+      "localName": "Enipedia",
+      "type": "Field"
+    },
+    {
+      "fieldId": "open source database of power plants. \" data-next-head=\"\"/><meta property=\"og:url\" content=\"https://datasets.wri.org//datasets/global-power-plant-database\" data-next-head=\"\"/><meta property=\"og:image\" content=\"https://datasets.wri.org//images/WRI_logo_4c.png\" data-next-head=\"\"/><meta property=\"og:image:alt\" content=\"Og Image Alt\" data-next-head=\"\"/><meta property=\"og:image:width\" content=\"800\" data-next-head=\"\"/><meta property=\"og:image:height\" content=\"600\" data-next-head=\"\"/><script type=\"application/ld+json\" data-next-head=\"\">{\"@context\":\"https://schema.org",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/open-source-database-of-power-plants.-data-next-head-meta-property-og-url-content-https-datasets.wri.org-datasets-global-power-plant-database-data-next-head-meta-property-og-image-content-https-datasets.wri.org-images-WRI_logo_4c.png-data-next-head-meta-property-og-image-alt-content-Og-Image-Alt-data-next-head-meta-property-og-image-width-content-800-data-next-head-meta-property-og-image-height-content-600-data-next-head-script-type-application-ld-json-data-next-head-context-https-schema.org",
+      "localName": "open source database of power plants. \" data-next-head=\"\"/><meta property=\"og:url\" content=\"https://datasets.wri.org//datasets/global-power-plant-database\" data-next-head=\"\"/><meta property=\"og:image\" content=\"https://datasets.wri.org//images/WRI_logo_4c.png\" data-next-head=\"\"/><meta property=\"og:image:alt\" content=\"Og Image Alt\" data-next-head=\"\"/><meta property=\"og:image:width\" content=\"800\" data-next-head=\"\"/><meta property=\"og:image:height\" content=\"600\" data-next-head=\"\"/><script type=\"application/ld+json\" data-next-head=\"\">{\"@context\":\"https://schema.org",
+      "type": "Field"
+    },
+    {
+      "fieldId": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/26669133-9493-4f38-a32f-ce35d5ea6ab9/download/globalpowerplantdatabasev110.zip",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/contentUrl-https-datasets.wri.org-private-admin-dataset-53623dfd-3df6-4f15-a091-67457cdb571f-resource-26669133-9493-4f38-a32f-ce35d5ea6ab9-download-globalpowerplantdatabasev110.zip",
+      "localName": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/26669133-9493-4f38-a32f-ce35d5ea6ab9/download/globalpowerplantdatabasev110.zip",
+      "type": "Field"
+    },
+    {
+      "fieldId": "open source database of power plants. \" data-next-head=\"\"/><meta name=\"twitter:card\" content=\"summary_large_image\" data-next-head=\"\"/><meta name=\"twitter:site\" content=\"https://datasets.wri.org/\" data-next-head=\"\"/><meta name=\"twitter:creator\" content=\"@WorldResources\" data-next-head=\"\"/><meta property=\"og:title\" content=\"Global Power Plant Database - Datasets\" data-next-head=\"\"/><meta property=\"og:description\" content=\"A comprehensive",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/open-source-database-of-power-plants.-data-next-head-meta-name-twitter-card-content-summary_large_image-data-next-head-meta-name-twitter-site-content-https-datasets.wri.org-data-next-head-meta-name-twitter-creator-content-WorldResources-data-next-head-meta-property-og-title-content-Global-Power-Plant-Database---Datasets-data-next-head-meta-property-og-description-content-A-comprehensive",
+      "localName": "open source database of power plants. \" data-next-head=\"\"/><meta name=\"twitter:card\" content=\"summary_large_image\" data-next-head=\"\"/><meta name=\"twitter:site\" content=\"https://datasets.wri.org/\" data-next-head=\"\"/><meta name=\"twitter:creator\" content=\"@WorldResources\" data-next-head=\"\"/><meta property=\"og:title\" content=\"Global Power Plant Database - Datasets\" data-next-head=\"\"/><meta property=\"og:description\" content=\"A comprehensive",
+      "type": "Field"
+    },
+    {
+      "fieldId": "contentUrl:\"https://api.resourcewatch.org/v1/dataset/a86d906d-9862-4783-9e30-cdb68cd808b8/layer/2a694289-fec9-4bfe-a6d2-56c3864ec349",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/contentUrl-https-api.resourcewatch.org-v1-dataset-a86d906d-9862-4783-9e30-cdb68cd808b8-layer-2a694289-fec9-4bfe-a6d2-56c3864ec349",
+      "localName": "contentUrl:\"https://api.resourcewatch.org/v1/dataset/a86d906d-9862-4783-9e30-cdb68cd808b8/layer/2a694289-fec9-4bfe-a6d2-56c3864ec349",
+      "type": "Field"
+    },
+    {
+      "fieldId": "keywords:[\"powerplant",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/keywords-powerplant",
+      "localName": "keywords:[\"powerplant",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"Version 1.3.0\"}]",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Version-1.3.0",
+      "localName": "name:\"Version 1.3.0\"}]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "reports from companies that build power plants or provide their components",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/reports-from-companies-that-build-power-plants-or-provide-their-components",
+      "localName": "reports from companies that build power plants or provide their components",
+      "type": "Field"
+    },
+    {
+      "fieldId": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/66bcdacc-3d0e-46ad-9271-a5a76b1853d2/download/globalpowerplantdatabasev130.zip",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/contentUrl-https-datasets.wri.org-private-admin-dataset-53623dfd-3df6-4f15-a091-67457cdb571f-resource-66bcdacc-3d0e-46ad-9271-a5a76b1853d2-download-globalpowerplantdatabasev130.zip",
+      "localName": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/66bcdacc-3d0e-46ad-9271-a5a76b1853d2/download/globalpowerplantdatabasev130.zip",
+      "type": "Field"
+    },
+    {
+      "fieldId": "solar).\\nEach power plant is geolocated",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/solar-.-nEach-power-plant-is-geolocated",
+      "localName": "solar).\\nEach power plant is geolocated",
+      "type": "Field"
+    },
+    {
+      "fieldId": "hydro",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/hydro",
+      "localName": "hydro",
+      "type": "Field"
+    },
+    {
+      "fieldId": "000 power plants from 164 countries and includes thermal plants (e.g.",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/000-power-plants-from-164-countries-and-includes-thermal-plants-e.g",
+      "localName": "000 power plants from 164 countries and includes thermal plants (e.g.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and fuel type.\\n\\nCautions:\\nThe &quot;Primary Fuel&quot; is the fuel that has been identified to provide the largest portion of generated electricity for the plant or has been identified as the primary fuel by the data source.\\n\\nFor power plants that have data in multiple Other Fuel fields",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/and-fuel-type.-n-nCautions-nThe-quot-Primary-Fuel-quot-is-the-fuel-that-has-been-identified-to-provide-the-largest-portion-of-generated-electricity-for-the-plant-or-has-been-identified-as-the-primary-fuel-by-the-data-source.-n-nFor-power-plants-that-have-data-in-multiple-Other-Fuel-fields",
+      "localName": "and fuel type.\\n\\nCautions:\\nThe &quot;Primary Fuel&quot; is the fuel that has been identified to provide the largest portion of generated electricity for the plant or has been identified as the primary fuel by the data source.\\n\\nFor power plants that have data in multiple Other Fuel fields",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ownership",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/ownership",
+      "localName": "ownership",
+      "type": "Field"
+    },
+    {
+      "fieldId": "encodingFormat:\"LAYER",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/encodingFormat-LAYER",
+      "localName": "encodingFormat:\"LAYER",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and information from multinational organizations.\\nCurrently the Global Power Plant Database uses more…",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/and-information-from-multinational-organizations.-nCurrently-the-Global-Power-Plant-Database-uses-more",
+      "localName": "and information from multinational organizations.\\nCurrently the Global Power Plant Database uses more…",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Economy &amp; Industry",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/Economy-amp-Industry",
+      "localName": "Economy &amp; Industry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "the ordering is insignificant.\\nGeneration is provided at the year scale for the years 2013-2017.\\nThe generation values may correspond to a calendar year or a fiscal or regulatory year; no distinction is provided in the database.",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/the-ordering-is-insignificant.-nGeneration-is-provided-at-the-year-scale-for-the-years-2013-2017.-nThe-generation-values-may-correspond-to-a-calendar-year-or-a-fiscal-or-regulatory-year-no-distinction-is-provided-in-the-database",
+      "localName": "the ordering is insignificant.\\nGeneration is provided at the year scale for the years 2013-2017.\\nThe generation values may correspond to a calendar year or a fiscal or regulatory year; no distinction is provided in the database.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/wind",
+      "localName": "wind",
+      "type": "Field"
+    },
+    {
+      "fieldId": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">Global Power Plant Database - Datasets - WRI Data Explorer</title><meta name=\"robots\" content=\"index",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/DOCTYPE-html-html-lang-en-head-meta-charSet-utf-8-data-next-head-meta-name-viewport-content-width-device-width-data-next-head-title-data-next-head-Global-Power-Plant-Database---Datasets---WRI-Data-Explorer-title-meta-name-robots-content-index",
+      "localName": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\" data-next-head=\"\"/><meta name=\"viewport\" content=\"width=device-width\" data-next-head=\"\"/><title data-next-head=\"\">Global Power Plant Database - Datasets - WRI Data Explorer</title><meta name=\"robots\" content=\"index",
+      "type": "Field"
+    },
+    {
+      "fieldId": "spatialCoverage:\"Global",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/spatialCoverage-Global",
+      "localName": "spatialCoverage:\"Global",
+      "type": "Field"
+    },
+    {
+      "fieldId": "open source database of power plants around the world.\\nIt centralizes power plant data to make it easier to navigate",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/open-source-database-of-power-plants-around-the-world.-nIt-centralizes-power-plant-data-to-make-it-easier-to-navigate",
+      "localName": "open source database of power plants around the world.\\nIt centralizes power plant data to make it easier to navigate",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Power Sector]",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/Power-Sector",
+      "localName": "Power Sector]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "creator:{\"@type\":\"Organization",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/creator-type-Organization",
+      "localName": "creator:{\"@type\":\"Organization",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and Finance\"}",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/and-Finance",
+      "localName": "and Finance\"}",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"Climate",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Climate",
+      "localName": "name:\"Climate",
+      "type": "Field"
+    },
+    {
+      "fieldId": "license:{\"@type\":\"CreativeWork",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/license-type-CreativeWork",
+      "localName": "license:{\"@type\":\"CreativeWork",
+      "type": "Field"
+    },
+    {
+      "fieldId": "url:\"https://datasets.wri.org/\"}}</script><script>",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/url-https-datasets.wri.org-script-script",
+      "localName": "url:\"https://datasets.wri.org/\"}}</script><script>",
+      "type": "Field"
+    },
+    {
+      "fieldId": "oil",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/oil",
+      "localName": "oil",
+      "type": "Field"
+    },
+    {
+      "fieldId": "citation:\"Global Energy Observatory",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/citation-Global-Energy-Observatory",
+      "localName": "citation:\"Global Energy Observatory",
+      "type": "Field"
+    },
+    {
+      "fieldId": "data from public utilities",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/data-from-public-utilities",
+      "localName": "data from public utilities",
+      "type": "Field"
+    },
+    {
+      "fieldId": "includedInDataCatalog:{\"@type\":\"DataCatalog",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/includedInDataCatalog-type-DataCatalog",
+      "localName": "includedInDataCatalog:{\"@type\":\"DataCatalog",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gas",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/gas",
+      "localName": "gas",
+      "type": "Field"
+    },
+    {
+      "fieldId": "geothermal) and renewables (e.g.",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/geothermal-and-renewables-e.g",
+      "localName": "geothermal) and renewables (e.g.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "waste",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/waste",
+      "localName": "waste",
+      "type": "Field"
+    },
+    {
+      "fieldId": "distribution:[{\"@type\":\"DataDownload",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/distribution-type-DataDownload",
+      "localName": "distribution:[{\"@type\":\"DataDownload",
+      "type": "Field"
+    },
+    {
+      "fieldId": "KTH Royal Institute of Technology in Stockholm",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/KTH-Royal-Institute-of-Technology-in-Stockholm",
+      "localName": "KTH Royal Institute of Technology in Stockholm",
+      "type": "Field"
+    },
+    {
+      "fieldId": "including data from national government agencies",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/including-data-from-national-government-agencies",
+      "localName": "including data from national government agencies",
+      "type": "Field"
+    },
+    {
+      "fieldId": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/9a7587a6-964e-4bfc-8c09-0ba1f611f18b/download/globalpowerplantdatabasev120.zip",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/contentUrl-https-datasets.wri.org-private-admin-dataset-53623dfd-3df6-4f15-a091-67457cdb571f-resource-9a7587a6-964e-4bfc-8c09-0ba1f611f18b-download-globalpowerplantdatabasev120.zip",
+      "localName": "contentUrl:\"https://datasets.wri.org/private-admin/dataset/53623dfd-3df6-4f15-a091-67457cdb571f/resource/9a7587a6-964e-4bfc-8c09-0ba1f611f18b/download/globalpowerplantdatabasev120.zip",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dateModified:\"2025-10-06T15:54:16.241513",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/dateModified-2025-10-06T15-54-16.241513",
+      "localName": "dateModified:\"2025-10-06T15:54:16.241513",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"Version 1.2.0 (deprecated)\"}",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Version-1.2.0-deprecated",
+      "localName": "name:\"Version 1.2.0 (deprecated)\"}",
+      "type": "Field"
+    },
+    {
+      "fieldId": "measurementTechnique:\"The Global Power Plant Database leverages existing data sources and methodologies to build a comprehensive and open-access power sector database.\\nThe database was built entirely from open sources",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/measurementTechnique-The-Global-Power-Plant-Database-leverages-existing-data-sources-and-methodologies-to-build-a-comprehensive-and-open-access-power-sector-database.-nThe-database-was-built-entirely-from-open-sources",
+      "localName": "measurementTechnique:\"The Global Power Plant Database leverages existing data sources and methodologies to build a comprehensive and open-access power sector database.\\nThe database was built entirely from open sources",
+      "type": "Field"
+    },
+    {
+      "fieldId": "name:\"Creative Commons Attribution",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/name-Creative-Commons-Attribution",
+      "localName": "name:\"Creative Commons Attribution",
+      "type": "Field"
+    },
+    {
+      "fieldId": "url:\"https://datasets.wri.org//datasets/global-power-plant-database",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/url-https-datasets.wri.org-datasets-global-power-plant-database",
+      "localName": "url:\"https://datasets.wri.org//datasets/global-power-plant-database",
+      "type": "Field"
+    },
+    {
+      "fieldId": "compare",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/compare",
+      "localName": "compare",
+      "type": "Field"
+    },
+    {
+      "fieldId": "isAccessibleForFree:true",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/isAccessibleForFree-true",
+      "localName": "isAccessibleForFree:true",
+      "type": "Field"
+    },
+    {
+      "fieldId": "description:\"The Global Power Plant Database is a comprehensive",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/description-The-Global-Power-Plant-Database-is-a-comprehensive",
+      "localName": "description:\"The Global Power Plant Database is a comprehensive",
+      "type": "Field"
+    },
+    {
+      "fieldId": "identifier:\"http://www.wri.org/publication/global-power-plant-database",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/identifier-http-www.wri.org-publication-global-power-plant-database",
+      "localName": "identifier:\"http://www.wri.org/publication/global-power-plant-database",
+      "type": "Field"
+    },
+    {
+      "fieldId": "global",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/global",
+      "localName": "global",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Google",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/Google",
+      "localName": "Google",
+      "type": "Field"
+    },
+    {
+      "fieldId": "@type:\"Dataset",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/type-Dataset",
+      "localName": "@type:\"Dataset",
+      "type": "Field"
+    },
+    {
+      "fieldId": "World Resources Institute. 2021. Global Power Plant Database version 1.3.0. Accessed through https://datasets.wri.org/datasets/global-power-plant-database on &lt;date&gt;",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/World-Resources-Institute.-2021.-Global-Power-Plant-Database-version-1.3.0.-Accessed-through-https-datasets.wri.org-datasets-global-power-plant-database-on-lt-date-gt",
+      "localName": "World Resources Institute. 2021. Global Power Plant Database version 1.3.0. Accessed through https://datasets.wri.org/datasets/global-power-plant-database on &lt;date&gt;",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and draw insights for one’s own analysis.\\nThe database covers approximately 30",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/and-draw-insights-for-one-s-own-analysis.-nThe-database-covers-approximately-30",
+      "localName": "and draw insights for one’s own analysis.\\nThe database covers approximately 30",
+      "type": "Field"
+    },
+    {
+      "fieldId": "coal",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/coal",
+      "localName": "coal",
+      "type": "Field"
+    },
+    {
+      "fieldId": "generation",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/generation",
+      "localName": "generation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "encodingFormat:\"ZIP",
+      "id": "https://catalog.opengrid.org/field/wri-global-power-plant-database/encodingFormat-ZIP",
+      "localName": "encodingFormat:\"ZIP",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/wri-global-power-plant-database",
+  "schemaSource": "csv-header at https://datasets.wri.org/dataset/globalpowerplantdatabase"
+}

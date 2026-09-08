@@ -151,6 +151,17 @@ export default async function DatasetPage({ params }: { params: Params }) {
           <span className="og-tag" title={t(`levelHelp.${levelKey}`)}>
             {t("level", { level: dataset.completeness_level })} · {t(`levelNames.${levelKey}`)}
           </span>
+          {/* Beside the level, not folded into it (#46). Level 1 means no field
+              metadata *by definition* and level 2 needs a definition and a value
+              basis on every field, which a probe cannot supply — so a record
+              with 273 genuinely probed fields sits at level 1 wearing the same
+              badge as one with none. These are different objects and the reader
+              is deciding between them. */}
+          {schema && schema.fields.length > 0 ? (
+            <span className="og-tag" title={t("fieldsDescribedHelp")}>
+              {t("fieldsDescribed", { count: schema.fields.length })}
+            </span>
+          ) : null}
           {dataset.data_domains.map((domain) => (
             <span key={domain.iri} className="og-tag">
               {domain.label ?? iriTail(domain.iri)}

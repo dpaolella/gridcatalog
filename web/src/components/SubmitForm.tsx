@@ -1,7 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { Challenge } from "@/components/Challenge";
 
 /**
  * The intake form (PRD §F3).
@@ -19,6 +20,8 @@ export function SubmitForm() {
   const t = useTranslations("submit");
   const [urls, setUrls] = useState([""]);
   const [state, setState] = useState<"idle" | "sending" | "done" | "failed">("idle");
+  const [token, setToken] = useState<string | null>(null);
+  const onToken = useCallback((value: string | null) => setToken(value), []);
 
   async function submit(form: FormData) {
     setState("sending");
@@ -37,6 +40,7 @@ export function SubmitForm() {
         update_cadence: form.get("cadence") || null,
         documentation_url: form.get("docs") || null,
         submitter_email: form.get("contact"),
+        captcha_token: token,
       }),
     }).catch(() => null);
     setState(response?.ok ? "done" : "failed");
@@ -99,6 +103,7 @@ export function SubmitForm() {
         <p style={{ color: "var(--status-alert)" }}>{t("failed")}</p>
       ) : null}
 
+      <Challenge onToken={onToken} />
       <button
         type="submit"
         disabled={state === "sending"}

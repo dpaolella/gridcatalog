@@ -69,6 +69,11 @@ class SourceResult:
     queued: int = 0
     #: Did not validate. In the graph's draft space, out of the review queue.
     flagged: int = 0
+    #: Published records this run took *out* of the catalog, because a
+    #: re-harvest conflicted with a confirmed field or stopped validating
+    #: (#31). Counted separately from `flagged`: that one counts review-queue
+    #: items, this counts records that stopped being published.
+    demoted: int = 0
     #: Re-harvest found a source change under a steward-confirmed field.
     conflicted: int = 0
     enriched: int = 0
@@ -91,6 +96,8 @@ class SourceResult:
             parts.append(f"{self.unchanged} unchanged")
         if self.flagged:
             parts.append(f"{self.flagged} flagged")
+        if self.demoted:
+            parts.append(f"{self.demoted} demoted")
         if self.schema_probed:
             parts.append(f"{self.schema_probed} schemas ({self.fields_found} fields)")
         if self.conflicted:
@@ -261,8 +268,46 @@ class HarvestRunner:
 
         conflicts = self._conflicts(dataset_id, document)
 
+        # #31: one IRI, one graph. This wrote every re-harvest to the draft
+        # graph unconditionally, so re-harvesting an already-published dataset
+        # left the same IRI in *both* graphs with contradictory `og:reviewState`
+        # and contradictory licence triples — the published copy still serving
+        # stale metadata to search while a newer draft disagreed with it, and
+        # which one a query saw deciding the answer. ADR-0001 makes the graph
+        # the system of record; two records for one IRI breaks that.
+        published = self.records.exists(dataset_id, graph=NamedGraph.CATALOG)
+        target = NamedGraph.DRAFT
+        if published:
+            if report.conforms and not conflicts:
+                # A clean refresh of something already published belongs in
+                # place: the record was gated when it was published, and this
+                # is the same dataset saying something new about itself. Its
+                # review state is *not* taken from the incoming document —
+                # the normaliser drafts every record as `draft`, and letting
+                # that through would silently unpublish a steward's decision.
+                document["reviewState"] = self._published_state(dataset_id, document)
+                target = NamedGraph.CATALOG
+            else:
+                # A conflict under a confirmed field (PRD §7.6) or a record
+                # that no longer validates. Either way the published copy must
+                # stop serving, and `demote` is how a record leaves the catalog
+                # reversibly — it carries the reason and lands in the draft
+                # graph, where the write below then replaces it.
+                reason = (
+                    f"re-harvest conflicts with a confirmed field: "
+                    f"{', '.join(c['field'] for c in conflicts)}"
+                    if conflicts
+                    else "re-harvest no longer validates at its completeness level"
+                )
+                try:
+                    self.records.demote(dataset_id, reason=reason)
+                except Exception as exc:  # pragma: no cover - defensive
+                    result.errors.append(f"{dataset_id}: could not demote: {exc}")
+                    return
+                result.demoted += 1
+
         try:
-            put = self.records.put(document, graph=NamedGraph.DRAFT, validate=False)
+            put = self.records.put(document, graph=target, validate=False)
         except ValidationFailed as exc:  # pragma: no cover - validate=False
             result.errors.append(f"{dataset_id}: {exc.message}")
             return
@@ -308,6 +353,22 @@ class HarvestRunner:
                 result.conflicted += 1
 
     # ---- steward-confirmed fields ---------------------------------------
+
+    def _published_state(self, dataset_id: str, document: dict[str, Any]) -> str:
+        """The review state a refreshed published record keeps.
+
+        The record's own, not the incoming document's. Every normalised record
+        is drafted as `draft`, so writing that into the catalog graph would
+        turn a steward's `confirmed` into `draft` on the next harvest and read
+        as though nobody had ever checked it.
+        """
+        from datahub.graph.records import dataset_node
+
+        try:
+            current = dataset_node(self.records.get(dataset_id, graph=NamedGraph.CATALOG))
+        except Exception:  # pragma: no cover - defensive
+            return str(document.get("reviewState") or "draft")
+        return str(current.get("reviewState") or document.get("reviewState") or "draft")
 
     def _conflicts(self, dataset_id: str, document: dict[str, Any]) -> list[dict[str, Any]]:
         """Where a re-harvest disagrees with something a steward confirmed.

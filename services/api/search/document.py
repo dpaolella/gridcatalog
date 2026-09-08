@@ -222,6 +222,26 @@ class SearchDocument(BaseModel):
     has_impedance: bool | None = None
     voltage_classes: list[str] = Field(default_factory=list)
     field_count: int = 0
+    field_count_bucket: str = "none"
+    """How much of the schema is described, as a facetable band (#46).
+
+    `field_count` itself has been projected and indexed since M4 and appears in
+    no facet, range or sort map, so no caller could reach it — the same shape
+    of defect as `og:caveat` in #55 and `spatialResolutionInMeters` in #53.
+
+    Bucketed rather than faceted raw, because faceting a count gives one bucket
+    per distinct value. The bands answer the question a modeller actually asks
+    — *is there a schema worth opening* — and the boundaries are drawn where
+    the catalog's own distribution sits: 410 records have nothing at all, and
+    the largest hand-authored schema is in the tens, so `50+` separates a
+    probed store like ERA5's 273 from a curator's dozen.
+
+    Deliberately **not** completeness level. Level 1 means *no field metadata
+    by definition* and level 2 requires every field to carry a definition and a
+    value basis, which a probe cannot supply — so 27 records with real,
+    probed schemas sit at level 1, indistinguishable through every control the
+    site offers from the 410 with none. Completeness answers *how well
+    described*; this answers *described at all*."""
 
     # -- relationships (counts only; the graph holds the edges) --
     upstream_count: int = 0
@@ -288,6 +308,7 @@ FACET_FIELDS: dict[str, str] = {
     "supported_analysis": "supported_analysis.iri",
     "concept": "concepts.iri",
     "harvest_source": "harvest_source",
+    "field_count_bucket": "field_count_bucket",
     "review_state": "review_state",
     "voltage_class": "voltage_classes",
     "reference_only": "reference_only",
@@ -302,6 +323,7 @@ FACET_FIELDS: dict[str, str] = {
 RANGE_FIELDS: dict[str, str] = {
     "completeness_level": "completeness_level",
     "spatial_resolution_m": "spatial.resolution_meters",
+    "field_count": "field_count",
 }
 
 #: Sortable fields. Relevance is the default and is not listed here.
@@ -314,6 +336,7 @@ SORT_FIELDS: dict[str, str] = {
     "completeness_level": "completeness_level",
     "distribution_count": "distribution_count",
     "inbound_link_count": "inbound_link_count",
+    "field_count": "field_count",
 }
 
 

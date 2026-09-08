@@ -534,3 +534,90 @@ def test_the_module_filters_by_priority(capsys) -> None:
     out = capsys.readouterr().out
     assert "oedi" in out
     assert "datacite" not in out
+
+
+# ---- one IRI, one graph (#31 item 1) -------------------------------------
+
+
+def _changed_payload() -> Any:
+    """The same records, with the source having revised its notes.
+
+    **A re-harvest of an unchanged payload short-circuits** at
+    `stored.needs_processing` and never reaches `_publish` — which is the
+    correct optimisation and makes a naive version of the tests below pass
+    whatever `_publish` does. Verified: with the fix disabled they were still
+    green. So the source has to actually say something new.
+    """
+    body = ckan_payload()
+    for record in body["result"]["results"]:
+        record["notes"] = f"{record.get('notes', '')} Revised for the second harvest."
+    return body
+
+
+def _publish_everything(records: RecordStore) -> list[str]:
+    """Move whatever the run drafted into the catalog, as a steward would."""
+    ids = list(records.list_ids(graph=NamedGraph.DRAFT))
+    for dataset_id in ids:
+        records.promote(dataset_id, reviewed_by="a-steward")
+    return ids
+
+
+def _second_runner(records, settings, db) -> HarvestRunner:
+    return HarvestRunner(
+        OEDI, records, settings, adapter=ckan_adapter(_changed_payload()), session_factory=db
+    )
+
+
+def test_a_re_harvest_never_leaves_one_iri_in_two_graphs(runner, records, settings, db) -> None:
+    """The defect: `_publish` wrote to the draft graph unconditionally.
+
+    So re-harvesting an already-published dataset left the same IRI in *both*
+    graphs, with contradictory `og:reviewState` and contradictory licence
+    triples. The published copy kept serving stale metadata to search while a
+    newer draft disagreed with it, and which graph a query hit decided the
+    answer. ADR-0001 makes the graph the system of record; two records for one
+    IRI breaks that.
+    """
+    runner.run()
+    published = _publish_everything(records)
+    assert published, "nothing was published, so this test proves nothing"
+
+    result = _second_runner(records, settings, db).run()
+    assert result.unchanged == 0, (
+        "the second harvest short-circuited, so `_publish` never ran and this "
+        "test would pass whatever it does"
+    )
+
+    catalog = set(records.list_ids(graph=NamedGraph.CATALOG))
+    draft = set(records.list_ids(graph=NamedGraph.DRAFT))
+    both = sorted(catalog & draft)
+    assert not both, f"these IRIs exist in the catalog and the draft graph at once: {both}"
+
+
+def test_a_clean_re_harvest_refreshes_in_place_and_keeps_the_review_state(
+    runner, records, settings, db
+) -> None:
+    """A steward's decision must survive the next harvest.
+
+    Refreshing in place is only safe if the review state comes from the record
+    rather than the incoming document — the normaliser drafts *every* record as
+    `draft`, so taking it from the document would silently unpublish everything
+    a steward had confirmed, once per harvest.
+    """
+    runner.run()
+    published = _publish_everything(records)
+
+    result = _second_runner(records, settings, db).run()
+    assert result.unchanged == 0, "the second harvest short-circuited"
+
+    for dataset_id in published:
+        assert records.exists(dataset_id, graph=NamedGraph.CATALOG), (
+            f"{dataset_id} left the catalog on a clean re-harvest"
+        )
+        node = dataset_node(records.get(dataset_id, graph=NamedGraph.CATALOG))
+        assert node["reviewState"] == "confirmed", (
+            "the steward's confirmation was overwritten by the incoming draft state"
+        )
+        assert "Revised for the second harvest" in str(node.get("description") or ""), (
+            "the refresh did not actually reach the published record"
+        )
