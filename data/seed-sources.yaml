@@ -226,6 +226,10 @@ seed_datasets:
         slug: wecc-ferc-ceii
         tier: 3
         license: CEII-designated (18 CFR 388.113)
+        provenance: institutional
+        format: PSSE RAW
+        anonymous: false
+        bulk: false
         access_barrier: restricted
         pointer_rationale: NDA plus FERC clearance. Permanently out of reach.
         curator_note: Catalog as a documented gap.
@@ -233,6 +237,10 @@ seed_datasets:
       - name: HIFLD
         tier: 3
         license: US Government public domain
+        provenance: institutional
+        format: GeoJSON, Shapefile
+        anonymous: false
+        bulk: false
         pointer_rationale: >
           Access surface has changed.
         curator_note: >
@@ -241,22 +249,45 @@ seed_datasets:
         verified: true
       - name: NREL ReEDS Transmission Network
         tier: 3
+        provenance: curated
+        access: https://github.com/NREL/ReEDS-2.0
+        format: CSV
+        anonymous: true
+        bulk: true
         verified: true
       - name: ENTSO-E Grid Map
         tier: 3
+        provenance: institutional
+        access: https://www.entsoe.eu/data/
+        format: PDF
+        anonymous: true
+        bulk: false
         pointer_rationale: PDF only, positions not geographically accurate.
         verified: true
       - name: PLEXOS-World 2015
         tier: 3
         license: CC0
+        provenance: curated
+        format: CSV, XML
+        anonymous: true
+        bulk: true
         pointer_rationale: Stale vintage.
         verified: true
       - name: GridKit
         tier: 3
+        provenance: osm-derived
+        access: https://github.com/bdw/GridKit
+        format: CSV
+        anonymous: true
+        bulk: true
         pointer_rationale: 2016 vintage, superseded by PyPSA-Eur OSM extraction.
         verified: true
       - name: SciGRID (German HV Tx Network)
         tier: 3
+        provenance: osm-derived
+        format: CSV
+        anonymous: true
+        bulk: true
         pointer_rationale: 2017 vintage, superseded.
         verified: true
       # --- additions beyond the four-domain analysis ---
@@ -319,6 +350,7 @@ seed_datasets:
         tier: 1
         license: US Government public domain
         access: https://www.epa.gov/egrid
+        format: CSV
         note: Emission rates by plant and by eGRID subregion. Annual, lagged ~2 years.
         verified: false
       - name: EPA CAMD Clean Air Markets (CAMPD)
@@ -352,8 +384,11 @@ seed_datasets:
       - name: ENTSO-E Transparency Platform (installed capacity, unit outages)
         tier: 2
         license: ENTSO-E Open Data Licence
+        provenance: primary
         access: https://transparency.entsoe.eu
+        format: XML
         anonymous: false
+        bulk: true
         note: Free account required.
         verified: true
       - name: JRC Open Power Plants Database (JRC-PPDB-OPEN)
@@ -369,6 +404,8 @@ seed_datasets:
       - name: WRI Global Power Plant Database
         tier: 3
         license: CC-BY-4.0
+        access: https://github.com/wri/global-power-plant-database
+        format: CSV
         pointer_rationale: >
           v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT.
         curator_note: >
@@ -494,8 +531,11 @@ seed_datasets:
       - name: ENTSO-E Transparency Platform (actual total load, forecast load)
         tier: 2
         license: ENTSO-E Open Data Licence
+        provenance: primary
         access: https://transparency.entsoe.eu
+        format: XML
         anonymous: false
+        bulk: true
         verified: true
       - name: NREL ResStock / ComStock end-use load profiles
         tier: 1
@@ -551,70 +591,132 @@ seed_datasets:
       - name: NASA MERRA-2
         tier: 1
         license: US Government public domain
+        provenance: reanalysis
         access: https://disc.gsfc.nasa.gov
+        format: NetCDF-4, HDF5
+        anonymous: true
+        bulk: true
         verified: true
       - name: NREL NSRDB
         tier: 1
         license: CC-BY-3.0
+        provenance: derived
         access: https://data.openei.org/submissions/57
         api: https://developer.nrel.gov/api/nsrdb
+        format: HDF5
+        anonymous: true
+        bulk: true
         verified: true
       - name: NREL WIND Toolkit
         tier: 1
         license: CC-BY-3.0
+        provenance: derived
         access: https://data.openei.org/submissions/54
+        format: HDF5
+        anonymous: true
+        bulk: true
         verified: true
       - name: PyPSA-Eur weather cutouts
         tier: 1
         license: CC-BY-4.0
+        provenance: derived
         access: https://zenodo.org/records/14936211
+        format: Zarr
+        anonymous: true
+        bulk: true
         verified: true
       - name: Global Solar Atlas
         tier: 2
         license: CC-BY-4.0
+        provenance: derived
         access: https://globalsolaratlas.info/download
+        format: GeoTIFF
+        anonymous: true
+        bulk: true
         note: Annual GHI averages in GeoTIFF. Needs a PV simulation step before any CEM can use it.
         verified: true
       - name: Global Wind Atlas
         tier: 2
         license: CC-BY-4.0
+        provenance: derived
         access: https://globalwindatlas.info/download
+        format: GeoTIFF
+        anonymous: true
         verified: true
       - name: ENTSO-E Transparency Platform (renewable generation)
         tier: 2
         license: ENTSO-E Open Data Licence
+        provenance: primary
         access: https://transparency.entsoe.eu
+        format: XML
         anonymous: false
+        bulk: true
         verified: true
       - name: NREL PVWatts
         tier: 3
+        license: CC-BY-3.0
+        provenance: derived
+        access: https://pvwatts.nrel.gov
+        format: JSON
+        anonymous: true
+        bulk: false
         pointer_rationale: Calculator, not an ingestible artifact.
         verified: true
       - name: Renewables.ninja
         tier: 3
         license: CC-BY-4.0
+        provenance: derived
+        access: https://www.renewables.ninja/
+        format: JSON
+        anonymous: true
+        bulk: false
         pointer_rationale: No bulk download path at scale.
         verified: true
       - name: PyPSA-Earth weather cutouts
         tier: 3
+        license: CC-BY-4.0
+        provenance: derived
+        format: Zarr
+        anonymous: true
         verified: true
       - name: OPSD (Open Power System Data)
         tier: 3
+        license: MIT
+        provenance: primary
+        access: https://data.open-power-system-data.org
+        format: CSV, JSON
+        anonymous: true
+        bulk: true
         pointer_rationale: 2020 vintage, unmaintained.
         verified: true
       - name: GridPath RA Toolkit (weather component)
         tier: 3
+        provenance: curated
+        format: CSV
+        anonymous: true
+        bulk: true
         pointer_rationale: License unresolved.
         verified: true
       - name: USGS Resource Maps
         tier: 3
+        license: US Government public domain
+        provenance: primary
+        access: https://www.usgs.gov/programs/energy-resources-program
+        format: GeoTIFF
+        anonymous: true
+        bulk: true
         verified: true
       - name: 4C Offshore Wind Database
         tier: 3
+        provenance: primary
+        anonymous: false
+        bulk: false
         access_barrier: commercial-paywall
         verified: true
       - name: Wood Mackenzie Wind/Solar
         tier: 3
+        anonymous: false
+        bulk: false
         access_barrier: commercial-paywall
         verified: true
 
@@ -701,14 +803,21 @@ seed_datasets:
         slug: world-bank-pink-sheet
         tier: 2
         license: CC-BY-4.0
+        provenance: primary
         access: https://www.worldbank.org/en/research/commodity-markets
         format: XLSX
+        anonymous: true
+        bulk: true
         note: Monthly XLSX, trivially convertible. Global coverage.
         verified: true
       - name: EU ETS / EEA EUTL
         tier: 1
         license: EEA re-use policy (CC-BY equivalent)
+        provenance: primary
         access: https://www.eea.europa.eu/en/datahub
+        format: CSV
+        anonymous: true
+        bulk: true
         verified: true
       - name: RGGI auction results
         tier: 2
@@ -751,25 +860,40 @@ seed_datasets:
         slug: ember-electricity-review
         tier: 1
         license: CC-BY-4.0
+        provenance: curated
         access: https://ember-energy.org/data
         api: https://api.ember-energy.org
+        format: CSV, JSON
+        anonymous: true
+        bulk: true
         verified: true
       - name: ENTSO-E TYNDP Scenarios
         tier: 1
         license: CC-BY-4.0
+        provenance: curated
         access: https://2024.entsos-tyndp-scenarios.eu/download/
         doi: 10.5281/zenodo.14230568
+        format: CSV, JSON
+        anonymous: true
+        bulk: true
         verified: true
       - name: EU ETS / EEA EUTL
         tier: 1
         license: EEA re-use policy
+        provenance: primary
         access: https://www.eea.europa.eu/en/datahub
+        format: CSV
+        anonymous: true
+        bulk: true
         verified: true
       - name: NERC Reliability Standards (TPL-001, MOD-032, FAC-001, FAC-008)
         tier: 2
         license: NERC copyright, free to access, redistribution restricted
+        provenance: primary
         access: https://www.nerc.com/pa/stand/pages/reliabilitystandards.aspx
         format: PDF
+        anonymous: true
+        bulk: true
         note: >
           Redistribution restriction means OpenGrid can publish extracted structured parameters with
           citation but cannot mirror the PDFs.
@@ -779,17 +903,24 @@ seed_datasets:
       - name: FERC Orders (1920, 2023, 881, 2222, 1000, 2000)
         tier: 2
         license: US Government public domain
+        provenance: primary
         access: https://www.ferc.gov/media/orders
         format: PDF
+        anonymous: true
+        bulk: true
         verified: true
       - name: ISO/RTO capacity market publications
         tier: 2
         license: varies by ISO
+        provenance: primary
         access: https://www.pjm.com/markets-and-operations/rpm
+        format: PDF
+        anonymous: true
         verified: true
       - name: DSIRE
         tier: 2
         license: CC-BY-SA-4.0
+        provenance: curated
         access: https://www.dsireusa.org
         api: https://www.dsireusa.org/dsire-api/
         note: Share-alike. Any OpenGrid derivative inherits the SA obligation.
@@ -801,10 +932,17 @@ seed_datasets:
         verified: false
       - name: IEA Policies and Measures Database (PAMS)
         tier: 3
+        provenance: curated
+        access: https://www.iea.org/policies
+        anonymous: true
+        bulk: false
         pointer_rationale: No bulk download path regardless of cost.
         verified: true
       - name: Sustainable Views Policy Tracker
         tier: 3
+        provenance: curated
+        anonymous: false
+        bulk: false
         access_barrier: commercial-paywall
         verified: true
 
@@ -822,39 +960,67 @@ seed_datasets:
         slug: nrel-atb
         tier: 1
         license: CC-BY-4.0
+        provenance: modeled
         access: https://data.openei.org/submissions/6006
         secondary_access: https://atb.nrel.gov/electricity/2024/data
+        format: Parquet, CSV
+        anonymous: true
+        bulk: true
         note: The canonical US cost stack. Also the best worked example of a well-documented assumption set.
         verified: true
       - name: NREL Cambium
         tier: 1
         license: CC-BY-4.0
+        provenance: modeled
         access: https://scenarioviewer.nrel.gov
+        format: Parquet, CSV
+        anonymous: true
+        bulk: true
         verified: true
       - name: PUDL / FERC Form 1
         tier: 1
         license: CC-BY-4.0 (PUDL output)
+        provenance: primary
         access: https://data.catalyst.coop
+        format: Parquet
+        anonymous: true
+        bulk: true
         verified: true
       - name: EIA-860 construction costs
         tier: 1
         license: US Government public domain
+        provenance: primary
         access: https://www.eia.gov/electricity/generatorcosts/
+        format: XLSX
+        anonymous: true
+        bulk: true
         verified: true
       - name: IRENA Renewable Cost Data
         tier: 2
         license: IRENA terms, free with attribution
+        provenance: curated
         access: https://www.irena.org/Data
+        format: XLSX
+        anonymous: false
+        bulk: true
         verified: true
       - name: World Bank Pink Sheet
         tier: 2
         license: CC-BY-4.0
+        provenance: primary
         access: https://www.worldbank.org/en/research/commodity-markets
+        format: XLSX
+        anonymous: true
+        bulk: true
         verified: true
       - name: IEA WEO Free Dataset
         tier: 2
         license: CC-BY-NC-SA-4.0
+        provenance: modeled
         access: https://www.iea.org/data-and-statistics/data-product/world-energy-outlook-2024-free-dataset
+        format: Parquet, XLSB, CSV
+        anonymous: false
+        bulk: true
         note: >
           Non-commercial only. This is the one seed dataset whose license restricts a class of
           downstream user, so it is the natural test case for surfacing redistribution flags
@@ -862,10 +1028,19 @@ seed_datasets:
         verified: true
       - name: FERC Form 1 (raw)
         tier: 3
+        license: US Government public domain
+        provenance: primary
+        access: https://www.ferc.gov/migrated-data-downloads
+        anonymous: true
+        bulk: true
         pointer_rationale: PUDL republishes this in a cleaned form.
         verified: true
       - name: Lazard LCOE+
         tier: 3
+        provenance: modeled
+        format: PDF
+        anonymous: true
+        bulk: false
         pointer_rationale: Free to read, no open license, PDF only.
         verified: true
       - name: Aurora, BNEF, LevelTen, ACER AEGIS
@@ -874,10 +1049,19 @@ seed_datasets:
         verified: true
       - name: NREL ORBIT
         tier: 3
+        license: Apache-2.0
+        provenance: modeled
+        anonymous: true
+        bulk: false
         pointer_rationale: Parametric model, not a dataset.
         verified: true
       - name: Decarb America
         tier: 3
+        provenance: curated
+        access: https://decarbamerica.org/methodology/
+        format: XLSX
+        anonymous: true
+        bulk: true
         pointer_rationale: Terms not specified.
         verified: true
 
