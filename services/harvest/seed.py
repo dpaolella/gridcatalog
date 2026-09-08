@@ -268,6 +268,21 @@ class SeedLoader:
         if cadence := _cadence(entry.get("update_frequency")):
             record["updateCadence"] = cadence
 
+        # Fit-for-purpose (#53). `og:spatialGranularity` is a controlled term
+        # and the shape rejects anything else, so a typo in the seed file loses
+        # the record rather than the field — hence the check here, where the
+        # row name is still in hand to name in the error.
+        if granularity := entry.get("spatial_granularity"):
+            if granularity not in SPATIAL_GRANULARITY:
+                raise ValidationFailed(
+                    f"{entry.get('name')!r} states spatial_granularity "
+                    f"{granularity!r}, which is not one of "
+                    f"{', '.join(sorted(SPATIAL_GRANULARITY))}"
+                )
+            record["spatialGranularity"] = granularity
+        if resolution := _cadence(entry.get("time_resolution")):
+            record["timeResolution"] = resolution
+
         if tier is not None:
             record["tier"] = tier
             if tier == 3:
@@ -624,6 +639,15 @@ class SeedLoader:
                 "inter-dataset links; they exist so the gap is visible."
             )
         return caveats
+
+
+#: `og:spatialGranularity`'s controlled vocabulary, per the shape at
+#: `shapes/opengrid-datahub.ttl`. Repeated here rather than read from the
+#: shape because the loader has to reject a bad value *before* the record is
+#: built, while it can still say which seed row is wrong.
+SPATIAL_GRANULARITY: frozenset[str] = frozenset(
+    {"nodal", "zonal", "gridded", "administrative", "point", "national", "global"}
+)
 
 
 #: `update_frequency` in the seed file, mapped onto `og:updateCadence`'s

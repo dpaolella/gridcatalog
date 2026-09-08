@@ -137,3 +137,59 @@ def test_every_cadence_the_loader_emits_satisfies_the_shape(catalog) -> None:
     emitted = {str(node["updateCadence"]) for node in catalog.values() if node.get("updateCadence")}
     assert emitted, "no seed row states a cadence; this test has stopped covering anything"
     assert all(pattern.match(cadence) for cadence in emitted), sorted(emitted)
+
+
+# ---- fit-for-purpose (#53) -------------------------------------------------
+
+
+def test_the_seed_inventory_states_a_resolution_where_a_document_does(catalog) -> None:
+    """Coverage was 9 records of 306 for granularity and 4 for resolution.
+
+    Every value here is read off the domain assessment's own format cell —
+    "hourly global 0.25° grid", "30-min 4 km CONUS", "134-node US zonal
+    representation" — not inferred from a dataset's reputation.
+    """
+    assert catalog["ecmwf-era5"]["spatialGranularity"] == "gridded"
+    assert catalog["ecmwf-era5"]["timeResolution"] == "PT1H"
+    assert catalog["nrel-nsrdb"]["timeResolution"] == "PT30M"
+    assert catalog["nrel-reeds-transmission-network"]["spatialGranularity"] == "zonal"
+    assert catalog["gridkit"]["spatialGranularity"] == "nodal"
+    assert catalog["global-transmission-database"]["spatialGranularity"] == "national"
+
+
+def test_an_annual_mean_says_so_rather_than_passing_as_a_time_series(catalog) -> None:
+    """The Global Wind and Solar Atlases are long-term annual means.
+
+    A siting analyst who filters for sub-hourly must not find them, and one who
+    reads "GeoTIFF, 250 m" without a temporal resolution could reasonably assume
+    a time series is in there. It is not.
+    """
+    for dataset_id in ("global-wind-atlas", "global-solar-atlas"):
+        assert catalog[dataset_id]["timeResolution"] == "P1Y", dataset_id
+
+
+def test_a_bad_granularity_names_the_row_rather_than_losing_it(tmp_path) -> None:
+    """`og:spatialGranularity` is `sh:in`-constrained, so a typo fails SHACL and
+    the record never reaches the store — which surfaces as a dataset quietly
+    going missing rather than as a mistake in one line of YAML."""
+    from datahub.errors import ValidationFailed
+    from datahub.harvest.seed import SPATIAL_GRANULARITY
+
+    assert "gridded" in SPATIAL_GRANULARITY
+    assert "hourly" not in SPATIAL_GRANULARITY  # a plausible wrong answer
+
+    from datahub.harvest.adapters.base import HarvestedRecord
+
+    store = RdflibStore()
+    bootstrap(store)
+    loader = SeedLoader(RecordStore(store))
+    row = {
+        "name": "Fictional Dataset",
+        "tier": 1,
+        "data_domain": "DD1",
+        "spatial_granularity": "county",
+    }
+    with pytest.raises(ValidationFailed, match="Fictional Dataset"):
+        loader.to_record(
+            HarvestedRecord(source_id="curated:DD1:fictional", source="curated", payload=row)
+        )

@@ -256,6 +256,12 @@ FACET_FIELDS: dict[str, str] = {
     "format": "formats",
     "completeness_level": "completeness_level",
     "spatial_granularity": "spatial.granularity",
+    # Indexed and projected since it was written, and absent from this map, so
+    # nothing could ask for it (#53). Sub-hourly is the single most repeated
+    # requirement in the domain assessment — "15-min temporal resolution is
+    # needed to model flexibility products" — and it was the one axis of
+    # fitness a modeller could not filter on.
+    "time_resolution": "temporal.time_resolution",
     "update_cadence": "temporal.update_cadence",
     "provenance_grade": "quality.provenance",
     "documentation_grade": "quality.documentation",
