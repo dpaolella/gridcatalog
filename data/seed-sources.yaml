@@ -254,6 +254,10 @@ seed_datasets:
         curator_note: >
           Verify current endpoint and whether the power infrastructure layers are still public before
           cataloging.
+        caveats:
+          - >-
+            Line locations and voltage class only, with no electrical parameters, so it cannot
+            support power flow on its own (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL ReEDS Transmission Network
         tier: 3
@@ -413,6 +417,11 @@ seed_datasets:
         anonymous: false
         bulk: true
         note: Free account required.
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: JRC Open Power Plants Database (JRC-PPDB-OPEN)
         tier: 2
@@ -561,6 +570,11 @@ seed_datasets:
         format: XML
         anonymous: false
         bulk: true
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: NREL ResStock / ComStock end-use load profiles
         tier: 1
@@ -614,6 +628,11 @@ seed_datasets:
         anonymous: true
         bulk: true
         note: CF-compliant Zarr on anonymous S3. Directly ingestible by atlite and xarray.
+        caveats:
+          - >-
+            IRP CoLab reports the 30 km grid is too coarse for siting work. It is the standard
+            reanalysis for system-scale modelling and the wrong tool for choosing where to put
+            a turbine (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NASA MERRA-2
         tier: 1
@@ -689,6 +708,11 @@ seed_datasets:
         format: XML
         anonymous: false
         bulk: true
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: NREL PVWatts
         tier: 3
@@ -762,6 +786,11 @@ seed_datasets:
         anonymous: false
         bulk: false
         access_barrier: commercial-paywall
+        caveats:
+          - >-
+            RMI notes forward technology costs from the commercial providers are paywalled and
+            not integrated with open historical sources, so a cost stack assembled from both
+            carries a seam (Data Domain Assessment, 2026-05-05).
         verified: true
 
   # =========================================================================
@@ -814,6 +843,12 @@ seed_datasets:
           Published per-ISO as PDF study reports with incompatible methodologies.
           Extraction is possible but the resulting values are not comparable across ISOs,
           which is a modeling hazard rather than a service.
+        caveats:
+          - >-
+            IRP CoLab reports black-box ELCC studies of the same resource returning results
+            from 3% to 90%, which discriminates against newer technologies. Treat any single
+            study's number as one methodology's answer, not as the capacity credit (Data Domain
+            Assessment, 2026-05-05).
         verified: false
       - name: V2G parameters
         tier: 3
@@ -1014,6 +1049,11 @@ seed_datasets:
         anonymous: true
         bulk: true
         note: The canonical US cost stack. Also the best worked example of a well-documented assumption set.
+        caveats:
+          - >-
+            RMI notes the ATB carries forward technology costs but no market clearing prices,
+            so pairing it with open historical sources such as PUDL is a join the user has to
+            make (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL Cambium
         tier: 1
@@ -1093,10 +1133,19 @@ seed_datasets:
         anonymous: true
         bulk: false
         pointer_rationale: Free to read, no open license, PDF only.
+        caveats:
+          - >-
+            RMI notes this is published as a PDF report with no structured artifact, so every
+            value has to be transcribed by hand (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: Aurora, BNEF, LevelTen, ACER AEGIS
         tier: 3
         access_barrier: commercial-paywall
+        caveats:
+          - >-
+            RMI notes forward technology costs from the commercial providers are paywalled and
+            not integrated with open historical sources, so a cost stack assembled from both
+            carries a seam (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL ORBIT
         tier: 3

@@ -616,7 +616,24 @@ class SeedLoader:
         return dist
 
     def _caveats(self, entry: dict[str, Any], *, verified: bool) -> list[str]:
-        caveats: list[str] = []
+        """Findings first, then what the pipeline knows about itself.
+
+        The corpus carries 478 caveats over 16 distinct texts, and fifteen of
+        the sixteen are the ones generated below — honest, and all about the
+        state of the catalog rather than the state of the data. A reader who
+        opens five records meets the same four sentences five times and learns
+        to skip the section, which is where a real caveat goes to die.
+
+        So a `caveats:` list in the seed file comes first. Those are findings
+        from use: somebody tried the dataset and hit something. Each carries
+        its attribution in the text, because "ENTSO-E has gaps at 15-minute
+        resolution" is a claim the Hub is making and "Bruegel reports gaps at
+        15-minute resolution" is one it is relaying, and the second is both
+        more useful and more defensible (#55). `og:caveat` is a plain
+        `rdf:langString`, so the attribution travels inline until the shape can
+        hold it as a field.
+        """
+        caveats: list[str] = [_clean(text) for text in entry.get("caveats") or []]
         if not verified:
             caveats.append(
                 "Assembled for the PRD and not yet reviewed. The licence and tier on this "
