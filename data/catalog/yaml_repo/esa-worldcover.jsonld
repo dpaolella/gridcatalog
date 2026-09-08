@@ -61,7 +61,18 @@
       "sourceRecordId": "aws_open_data:esa-worldcover",
       "title": "ESA WorldCover",
       "type": "Dataset",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-c0",
+          "type": "UsageEvidence",
+          "title": "ESA WorldCover 10 m 2021 v200",
+          "accessURL": "https://doi.org/10.5281/zenodo.7254221",
+          "evidenceKind": "publication",
+          "authorName": "Zanaga, Daniele, Van De Kerchove, Ruben, Daems, Dirk, De Keersmaecker, Wanda et al.",
+          "assertedBy": "curated"
+        }
+      ]
     }
   ]
 }

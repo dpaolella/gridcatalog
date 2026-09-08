@@ -271,6 +271,33 @@
           "evidenceKind": "tutorial",
           "assertedBy": "aws_open_data",
           "authorName": "Damon Cortesi"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c7",
+          "type": "UsageEvidence",
+          "title": "The ERA5 global reanalysis",
+          "accessURL": "https://doi.org/10.1002/qj.3803",
+          "evidenceKind": "publication",
+          "authorName": "Hans Hersbach, Bill Bell, Paul Berrisford, Shoji Hirahara et al.",
+          "assertedBy": "curated"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c8",
+          "type": "UsageEvidence",
+          "title": "Long-term patterns of European PV output using 30 years of validated hourly reanalysis and satellite data",
+          "accessURL": "https://doi.org/10.1016/j.energy.2016.08.060",
+          "evidenceKind": "publication",
+          "authorName": "Stefan Pfenninger, Iain Staffell",
+          "assertedBy": "curated"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/ecmwf-era5#usage-c9",
+          "type": "UsageEvidence",
+          "title": "Using bias-corrected reanalysis to simulate current and future wind power output",
+          "accessURL": "https://doi.org/10.1016/j.energy.2016.08.068",
+          "evidenceKind": "publication",
+          "authorName": "Iain Staffell, Stefan Pfenninger",
+          "assertedBy": "curated"
         }
       ]
     }

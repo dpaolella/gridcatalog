@@ -51,7 +51,18 @@
       "tier": 1,
       "title": "EIA-930 Hourly Electric Grid Monitor",
       "type": "Dataset",
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/eia-930#usage-c0",
+          "type": "UsageEvidence",
+          "title": "Developing reliable hourly electricity demand data through screening and imputation",
+          "accessURL": "https://doi.org/10.1038/s41597-020-0483-x",
+          "evidenceKind": "publication",
+          "authorName": "Tyler H. Ruggles, David J. Farnham, Dan Tong, Ken Caldeira",
+          "assertedBy": "curated"
+        }
+      ]
     }
   ]
 }

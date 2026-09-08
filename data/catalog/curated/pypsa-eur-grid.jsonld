@@ -199,6 +199,26 @@
         "500 kV",
         "750 kV",
         "220 kV"
+      ],
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/pypsa-eur-grid#usage-c0",
+          "type": "UsageEvidence",
+          "title": "PyPSA-Eur: An open optimisation model of the European transmission system",
+          "accessURL": "https://doi.org/10.1016/j.esr.2018.08.012",
+          "evidenceKind": "publication",
+          "authorName": "Jonas Hörsch, Fabian Hofmann, David Schlachtberger, Tom Brown",
+          "assertedBy": "curated"
+        },
+        {
+          "id": "https://catalog.opengrid.org/ds/pypsa-eur-grid#usage-c1",
+          "type": "UsageEvidence",
+          "title": "PyPSA: Python for Power System Analysis",
+          "accessURL": "https://doi.org/10.5334/jors.188",
+          "evidenceKind": "publication",
+          "authorName": "Thomas Brown, Jonas Hörsch, David Schlachtberger",
+          "assertedBy": "curated"
+        }
       ]
     }
   ]

@@ -119,7 +119,18 @@
       "upstreamSource": [
         "https://catalog.opengrid.org/upstream/gwa-wrf-mesoscale"
       ],
-      "visibility": "public"
+      "visibility": "public",
+      "usageEvidence": [
+        {
+          "id": "https://catalog.opengrid.org/ds/global-wind-atlas#usage-c0",
+          "type": "UsageEvidence",
+          "title": "The Global Wind Atlas: A High-Resolution Dataset of Climatologies and Associated Web-Based Application",
+          "accessURL": "https://doi.org/10.1175/bams-d-21-0075.1",
+          "evidenceKind": "publication",
+          "authorName": "Neil N. Davis, Jake Badger, Andrea N. Hahmann, Brian O. Hansen et al.",
+          "assertedBy": "curated"
+        }
+      ]
     }
   ]
 }
