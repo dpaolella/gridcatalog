@@ -301,9 +301,9 @@ og:DatasetShape a sh:NodeShape ;
     sh:message "og:spatialGranularity is one of nodal, zonal, gridded, administrative, point, national, global. It decides whether a dataset can serve power flow at all, so it is controlled." ;
   ] ;
   sh:property [
-    sh:path dcat:spatialResolutionInMeters ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+    sh:path dcat:spatialResolutionInMeters ; sh:maxCount 1 ; sh:datatype xsd:double ;
     sh:minExclusive 0 ; og:appliesAtLevel 1 ;
-    sh:message "dcat:spatialResolutionInMeters is the grid cell size or positional precision, in metres, and must be positive. It is the companion to og:spatialGranularity, not a replacement: the enum answers 'can this serve power flow at all' and cannot distinguish ERA5 at 30 km from NSRDB at 4 km, which is the difference that decides whether either can serve a siting study." ;
+    sh:message "dcat:spatialResolutionInMeters is the grid cell size or positional precision, in metres, as an xsd:double and positive. DCAT types this xsd:decimal; the context does not, because a JSON number coerced to xsd:decimal yields a decimal-typed literal holding a float and SHACL rejects it — see test_numeric_terms_are_doubles_not_decimals. It is the companion to og:spatialGranularity, not a replacement: the enum answers 'can this serve power flow at all' and cannot distinguish ERA5 at 30 km from NSRDB at 4 km, which is the difference that decides whether either can serve a siting study." ;
   ] ;
 
   # ---- D15 temporal, level 1 ----
