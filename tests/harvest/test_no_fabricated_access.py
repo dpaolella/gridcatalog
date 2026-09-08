@@ -246,26 +246,67 @@ def test_a_row_the_inventory_describes_still_counts_as_partial(catalog) -> None:
     assert node.get("documentationStatus") == "partial"
 
 
-def test_no_record_says_its_publisher_stopped_unless_the_inventory_does(catalog) -> None:
-    """`fragmented` is not `discontinued` (#27).
+#: The only rows a source document says the publisher has stopped producing.
+#: HIFLD Open closed on 2025-09-30; WRI's v1.3.0 notes "no further support
+#: planned"; OPSD is the worked example in `ar:discontinued`'s own `skos:example`.
+DISCONTINUED = {"hifld", "wri-global-power-plant-database", "opsd-open-power-system-data"}
+
+
+def test_a_record_says_its_publisher_stopped_only_where_the_inventory_does(catalog) -> None:
+    """`fragmented` is not `discontinued` (#27), and a stale vintage is not either.
 
     `ar:discontinued` means *the publisher has stopped producing the dataset*.
     Every row the seed file marks `fragmented` is the opposite: a live subject
     with no canonical source — interconnection study results, data-centre load
     projections, ELCC studies by ISO — produced continuously as per-jurisdiction
     PDFs with incompatible methodologies. Six published records asserted that
-    their publishers had stopped.
+    their publishers had stopped, which is what #27 was about.
 
-    No row in the inventory carries a barrier that means discontinued, so the
-    concept should appear on no seed record at all. It stays in the vocabulary
-    for curated records, where somebody establishes it.
+    This used to assert the concept appeared on *no* seed record, because the
+    inventory had no way to state it. It does now — `update_frequency:
+    discontinued`, which `_access` reads — so the assertion is the one that was
+    always meant: exactly the rows a document says it about, and no others.
+
+    The line that matters is between these three and GridKit (2016), SciGRID
+    (2017) and PLEXOS-World (2015). Those carry a vintage and no cadence,
+    because "last updated 2016" is evidence of dormancy and not a statement
+    that the publisher withdrew. They are stale; these are stopped.
     """
-    claimed = sorted(
+    claimed = {
         dataset_id
         for dataset_id, node in catalog.items()
         if str(node.get("accessRestriction") or "").endswith("/discontinued")
+    }
+    assert claimed == DISCONTINUED, (
+        "og:accessRestriction is ar:discontinued on records the inventory does not "
+        f"say it about, or missing from ones it does: {sorted(claimed ^ DISCONTINUED)}"
     )
-    assert not claimed, f"the seed inventory does not establish this for {claimed}"
+
+
+def test_a_stale_vintage_is_not_read_as_a_withdrawal(catalog) -> None:
+    """The other side of the line above, asserted directly.
+
+    These three are the oldest datasets in the catalog. If a later change makes
+    "old" imply "discontinued" — a tempting shortcut, and wrong about the
+    publisher — this is what catches it.
+    """
+    for dataset_id, expected in (
+        ("gridkit", "2016"),
+        ("scigrid-german-hv-tx-network", "2017"),
+        ("plexos-world-2015", "2015"),
+    ):
+        node = catalog[dataset_id]
+        assert str(node.get("modified", "")).startswith(expected), (
+            f"{dataset_id} should state its {expected} vintage: {node.get('modified')!r}"
+        )
+        assert not str(node.get("accessRestriction") or "").endswith("/discontinued"), (
+            f"{dataset_id} is dormant, not withdrawn; nothing establishes that its "
+            "publisher stopped"
+        )
+        assert node.get("updateCadence") is None, (
+            f"{dataset_id} states no cadence, so Currency has nothing to be past due "
+            "against and must stay unassessed rather than guess one"
+        )
 
 
 def test_an_unmapped_barrier_is_still_carried_in_words(catalog) -> None:

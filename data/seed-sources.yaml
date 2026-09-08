@@ -179,6 +179,7 @@ seed_datasets:
         format: CSV
         anonymous: true
         bulk: true
+        update_frequency: Annual
         note: Zonal MW transfer limits by country and voltage class. No bus-branch, no impedance.
         verified: true
       - name: OpenStreetMap power infrastructure (via earth-osm)
@@ -241,6 +242,8 @@ seed_datasets:
         format: GeoJSON, Shapefile
         anonymous: false
         bulk: false
+        update_frequency: discontinued
+        last_update: "2025-09-30"
         pointer_rationale: >
           Access surface has changed.
         curator_note: >
@@ -255,6 +258,7 @@ seed_datasets:
         format: CSV
         anonymous: true
         bulk: true
+        update_frequency: Not regular
         verified: true
       - name: ENTSO-E Grid Map
         tier: 3
@@ -264,6 +268,8 @@ seed_datasets:
         format: PDF
         anonymous: true
         bulk: false
+        update_frequency: Not regular
+        last_update: "2024-11"
         pointer_rationale: PDF only, positions not geographically accurate.
         verified: true
       - name: PLEXOS-World 2015
@@ -273,6 +279,7 @@ seed_datasets:
         format: CSV, XML
         anonymous: true
         bulk: true
+        last_update: "2015"
         pointer_rationale: Stale vintage.
         verified: true
       - name: GridKit
@@ -283,6 +290,7 @@ seed_datasets:
         format: CSV
         anonymous: true
         bulk: true
+        last_update: "2016"
         pointer_rationale: 2016 vintage, superseded by PyPSA-Eur OSM extraction.
         verified: true
       - name: SciGRID (German HV Tx Network)
@@ -292,6 +300,7 @@ seed_datasets:
         format: CSV
         anonymous: true
         bulk: true
+        last_update: "2017"
         pointer_rationale: 2017 vintage, superseded.
         verified: true
       # --- additions beyond the four-domain analysis ---
@@ -355,6 +364,7 @@ seed_datasets:
         license: US Government public domain
         access: https://www.epa.gov/egrid
         format: CSV
+        update_frequency: Annual
         note: Emission rates by plant and by eGRID subregion. Annual, lagged ~2 years.
         verified: false
       - name: EPA CAMD Clean Air Markets (CAMPD)
@@ -410,6 +420,8 @@ seed_datasets:
         license: CC-BY-4.0
         access: https://github.com/wri/global-power-plant-database
         format: CSV
+        update_frequency: discontinued
+        last_update: "2021"
         pointer_rationale: >
           v1.3.0 (2021) and no longer maintained. Superseded by GEM GIPT.
         curator_note: >
@@ -691,6 +703,8 @@ seed_datasets:
         format: CSV, JSON
         anonymous: true
         bulk: true
+        update_frequency: discontinued
+        last_update: "2020"
         pointer_rationale: 2020 vintage, unmaintained.
         verified: true
       - name: GridPath RA Toolkit (weather component)
@@ -1003,6 +1017,7 @@ seed_datasets:
         format: XLSX
         anonymous: true
         bulk: true
+        update_frequency: Annual
         verified: true
       - name: IRENA Renewable Cost Data
         tier: 2
@@ -1063,6 +1078,7 @@ seed_datasets:
         provenance: modeled
         anonymous: true
         bulk: false
+        update_frequency: Ongoing
         pointer_rationale: Parametric model, not a dataset.
         verified: true
       - name: Decarb America

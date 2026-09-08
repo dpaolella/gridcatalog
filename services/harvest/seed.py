@@ -33,6 +33,7 @@ labelled is the whole point of PRD §6.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
@@ -252,8 +253,20 @@ class SeedLoader:
             "harvestSource": "curated",
             "sourceRecordId": harvested.source_id,
             "visibility": "public",
-            "modified": datetime.now(UTC).isoformat().replace("+00:00", "Z"),
         }
+
+        # `dct:modified` is the *dataset's* vintage, and the Currency grade
+        # reads it as one. This line used to be
+        # `datetime.now(UTC).isoformat()` — the moment the loader ran — which
+        # is a fact about the pipeline wearing the clothes of a fact about the
+        # data. No seed row graded on it only because none carried a cadence;
+        # the moment one does, a 2016 dataset reads Current on the strength of
+        # today's date. `_t_datetime` in the normaliser states the rule this
+        # restores: "a wrong `modified` timestamp is worse than a missing one".
+        if vintage := _vintage(entry.get("last_update")):
+            record["modified"] = vintage
+        if cadence := _cadence(entry.get("update_frequency")):
+            record["updateCadence"] = cadence
 
         if tier is not None:
             record["tier"] = tier
@@ -417,6 +430,15 @@ class SeedLoader:
         anonymous = entry.get("anonymous")
         barrier = entry.get("access_barrier")
         restriction = BARRIER_MAP.get(barrier or "")
+        if restriction is None and _cadence(entry.get("update_frequency")) == "discontinued":
+            # `ar:discontinued` is on this axis by design, and its scope note
+            # says why: "not an access gate — og:blocksAnonymousAccess is false
+            # because a discontinued dataset is often still anonymously
+            # downloadable — but it belongs on this axis because it is the
+            # reason a path stops resolving". Its own worked example is OPSD,
+            # one of these rows. A stated barrier still wins: CEII and a
+            # paywall are harder gates than a publisher having stopped.
+            restriction = "discontinued"
         if restriction is None:
             restriction = "none" if anonymous is True else "accountRequired"
         return {
@@ -435,6 +457,8 @@ class SeedLoader:
         """
         if entry.get("anonymous") is not None:
             return False
+        if _cadence(entry.get("update_frequency")) == "discontinued":
+            return False  # derived from a stated fact, not defaulted
         barrier = entry.get("access_barrier")
         return not barrier or barrier not in BARRIER_MAP
 
@@ -600,6 +624,83 @@ class SeedLoader:
                 "inter-dataset links; they exist so the gap is visible."
             )
         return caveats
+
+
+#: `update_frequency` in the seed file, mapped onto `og:updateCadence`'s
+#: grammar: an ISO 8601 duration, or one of irregular / on-demand /
+#: discontinued. The workbook writes cadence as prose, so this covers the
+#: forms it actually uses and nothing else.
+#:
+#: `discontinued` is deliberately hard to reach. It says *the publisher has
+#: stopped producing this*, which is a claim about the publisher, and
+#: `BARRIER_MAP`'s comment records what happened last time it was mapped
+#: loosely. "Last updated 2016" is evidence of dormancy, not a statement of
+#: discontinuation, so it yields a vintage and no cadence — the record then
+#: says 2016 plainly and Currency stays unassessed, which is the honest pair.
+#: Only an explicit withdrawal reaches it.
+CADENCE_MAP: dict[str, str] = {
+    "annual": "P1Y",
+    "~annual": "P1Y",
+    "annual but w 2-3 yr lag": "P1Y",
+    "annual w 2 year delay": "P1Y",
+    "quarterly": "P3M",
+    "monthly": "P1M",
+    "ongoing": "irregular",
+    "not regular": "irregular",
+    # The controlled tokens, so a row may state one directly.
+    "irregular": "irregular",
+    "on-demand": "on-demand",
+    "varies by country": "irregular",
+    "discontinued": "discontinued",
+    "no further support planned": "discontinued",
+}
+
+
+def _cadence(raw: Any) -> str | None:
+    """The cadence a seed row states, or nothing.
+
+    Nothing is the common answer and the right one. `NA`, `?`, `-`, `Sub-annual`
+    and `Real time` are all in the workbook and none is an interval; inventing
+    one would put a number into a grade that compares against it.
+    """
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if not text:
+        return None
+    # Case matters here and nowhere else: `P1M` is a month and `PT1M` a minute,
+    # so the duration is matched against the text as written and only the
+    # prose lookup is case-folded.
+    if _DURATION_TOKEN.match(text):
+        return text
+    return CADENCE_MAP.get(text.lower())
+
+
+_DURATION_TOKEN = re.compile(r"^P(?:\d+[YMWD])+(?:T(?:\d+[HMS])+)?$|^PT(?:\d+[HMS])+$")
+_YEAR_ONLY = re.compile(r"^\d{4}$")
+_YEAR_MONTH = re.compile(r"^(\d{4})-(\d{2})$")
+
+
+def _vintage(raw: Any) -> str | None:
+    """The dataset's last known update, as an xsd:dateTime.
+
+    A bare year means the year, not mid-year: `2016` becomes 2016-01-01, the
+    earliest moment consistent with what was stated. Rounding the other way
+    would make a dataset look up to twelve months fresher than the evidence
+    supports, and this feeds a staleness grade.
+    """
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if _YEAR_ONLY.match(text):
+        return f"{text}-01-01T00:00:00Z"
+    if _YEAR_MONTH.match(text):
+        return f"{text}-01T00:00:00Z"
+    try:
+        return datetime.fromisoformat(text).replace(tzinfo=UTC).isoformat().replace("+00:00", "Z")
+    except ValueError:
+        log.warning("seed row states an unparseable last_update", value=text)
+        return None
 
 
 def _slug_of(entry: dict[str, Any]) -> str:
