@@ -18,7 +18,52 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 #: nobody has to keep two copies of the literal in step.
 DEV_SECRET_KEY = "dev-only-not-a-secret-change-me"
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+
+def _asset_root_candidates() -> tuple[Path, ...]:
+    """Where to look for the asset directories, best guess first.
+
+    Split out, and `_asset_root` takes them as an argument, so that
+    `tests/test_packaging.py` can exercise a wheel-shaped layout without
+    installing one — the case that was broken is the one nothing could reach.
+    """
+    return (Path(__file__).resolve().parent.parent, Path.cwd())
+
+
+def _asset_root(candidates: tuple[Path, ...] | None = None) -> Path:
+    """Where `vocab/`, `shapes/`, `schemas/`, `data/` and `config/` are.
+
+    These are not packaged — they are top-level directories beside the source
+    tree — so finding them means knowing how this code was installed.
+
+    An **editable install** puts `datahub/config.py` inside the checkout, so the
+    module's grandparent is the repository root and the asset directories sit
+    beside it. Every developer, every CI job and `pages.yml` work this way, and
+    for as long as that was the only way this ran, the grandparent alone was a
+    correct answer.
+
+    A **wheel** puts the module in `site-packages`, whose grandparent holds no
+    assets at all. `ops/Dockerfile.mcp` copies them next to its `WORKDIR`
+    instead, and the result was a bootstrap that reported `files=0 triples=0`
+    and then died parsing a shapes file that was never there. The image had
+    never been built, so nothing had ever noticed (issue #64, stage 0).
+
+    The working directory is consulted second because that is where the
+    Dockerfiles put them. The probe asks for two directories rather than one:
+    a lone `vocab/` or `shapes/` in somebody's working directory should not be
+    mistaken for a deployment of this application.
+
+    Both candidates can fail — a wheel run from an unrelated directory — and
+    then this returns the first, so the error names a path that was actually
+    looked for rather than raising during import of a settings module.
+    """
+    candidates = candidates or _asset_root_candidates()
+    for candidate in candidates:
+        if (candidate / "vocab").is_dir() and (candidate / "shapes").is_dir():
+            return candidate
+    return candidates[0]
+
+
+REPO_ROOT = _asset_root()
 
 
 class GraphBackend(StrEnum):

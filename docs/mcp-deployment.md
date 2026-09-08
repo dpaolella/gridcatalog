@@ -66,6 +66,14 @@ fly deploy
 
 Or push to the default branch and let the workflow do it.
 
+The image is built and booted by `.github/workflows/image.yml` on every push
+that touches it, so a deploy is not the first time anyone has run it. That
+workflow exists because for a long time a deploy *would* have been: nothing
+built this image, and when it was finally built it did not work — both
+`datahub db upgrade` and `graph bootstrap` looked for their files relative to
+the repository root, which is where an editable install puts them and is not
+where a wheel does (issue #64).
+
 ### 4. Check it
 
 ```bash
@@ -119,8 +127,12 @@ caller here is anonymous. The snapshot tests
 this endpoint serves.
 
 **Why 512 MB.** The whole catalog is an in-memory rdflib graph plus a JSON
-index. Comfortable at the current size, and the first number to revisit when
-the catalog passes a few thousand records.
+index. This used to say "comfortable at the current size" on no evidence; it is
+now measured. At 306 records — a 66,589-triple graph and an 8 MB index — the
+container holds **151 MiB**, under a third of the limit. `.github/workflows/image.yml`
+boots the image under `--memory 512m` on every build, so the day that stops
+being true is a red build rather than a restart loop on a machine you are
+paying for.
 
 ---
 

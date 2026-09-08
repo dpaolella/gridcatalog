@@ -1,0 +1,17 @@
+# `web/Dockerfile` runs `npm ci` and then `COPY . .`, so anything here that
+# survives into the context is both uploaded and copied *over* what the build
+# just installed. `node_modules` alone is 715 MB of the wrong platform's
+# binaries; `.next` and `out` are a previous build's output.
+#
+# The root `.dockerignore` does not cover this: that one applies to a build
+# whose context is the repository root, and this image is built from `web/`.
+node_modules/
+.next/
+out/
+tsconfig.tsbuildinfo
+.env
+.env.*
+!.env.example
+playwright-report/
+test-results/
+.DS_Store

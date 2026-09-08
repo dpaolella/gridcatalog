@@ -113,10 +113,41 @@ def main(
 # ---------------------------------------------------------------------------
 
 
+def _alembic_root() -> Path:
+    """The directory holding ``ops/alembic.ini`` and ``ops/migrations``.
+
+    ``repo_root`` rather than ``Path(__file__).parents[1]``, which is what this
+    was. The two agree for an editable install — the only way this had ever
+    been run — and disagree for a wheel, where ``parents[1]`` is
+    ``site-packages`` and holds no ``ops/``. The failure surfaced as alembic's
+    rather than ours, naming a path nobody had asked for::
+
+        CommandError: Path doesn't exist:
+        /usr/local/lib/python3.12/site-packages/ops/migrations.
+
+    That is `datahub db upgrade`, the first command in the catalog build, so
+    ``ops/Dockerfile.mcp`` could not build at all. Nothing had noticed because
+    no workflow has ever built it (issue #64, stage 0).
+
+    Checked, and the check is not redundant: the runtime stage of that image
+    deliberately ships no ``ops/`` — it carries an already-migrated database —
+    so a migration attempted there should say what is missing rather than
+    hand back alembic's traceback about a scripts folder.
+    """
+    root = get_settings().repo_root
+    if not (root / "ops" / "alembic.ini").is_file():
+        err(
+            f"cannot find the migrations: no ops/alembic.ini under {root}. "
+            "Set DATAHUB_REPO_ROOT if the application's assets are elsewhere."
+        )
+        raise typer.Exit(1)
+    return root
+
+
 def _alembic_config() -> Any:
     from alembic.config import Config
 
-    root = Path(__file__).resolve().parents[1]
+    root = _alembic_root()
     # `stdout` is bound explicitly: alembic's Config takes it as a *default
     # argument*, so it captures whatever sys.stdout was when alembic.config was
     # first imported. Anything that redirects stdout afterwards — a test

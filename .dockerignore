@@ -1,0 +1,65 @@
+# What `docker build` may not send to the daemon.
+#
+# There was no such file. From a clean checkout that meant about 23 MB, which
+# is survivable; from a working tree it meant **1.4 GB**, because
+# `web/node_modules` is 715 MB and `var/` is 231 MB and neither is referenced by
+# any Dockerfile here. `fly deploy` from a laptop — the documented path in
+# `docs/mcp-deployment.md` — runs `--remote-only`, so that context goes over
+# the network to Fly's builder. It is now 12 MB either way.
+#
+# The list below names the known offenders. It is not the whole defence: a
+# directory nobody has thought of yet would slip past it silently, so CI also
+# asserts a ceiling on the context size (`ci.yml`, the image job). This file
+# keeps the number small; that check notices when something new makes it big.
+
+# Dependency trees. Both images install their own.
+node_modules/
+web/node_modules/
+.venv/
+venv/
+
+# Build output, of every kind. `ops/Dockerfile.mcp` builds its own catalog in
+# its first stage; a `var/` from somebody's laptop would be shadowed by it at
+# best and stale at worst.
+var/
+web/.next/
+web/out/
+web/tsconfig.tsbuildinfo
+*.egg-info/
+dist/
+build/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# History and CI machinery. The image is built from a checkout, not a clone.
+.git/
+.github/
+.gitignore
+
+# Local configuration and anything that might carry a credential. A `.env` in
+# the context is a `.env` in the image if any COPY is wide enough to catch it.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Editors, platforms, scratch.
+.vscode/
+.idea/
+.DS_Store
+*.swp
+playwright-report/
+test-results/
+
+# Documentation and tests. `ops/Dockerfile.mcp` needs exactly one thing from
+# `tests/` — the golden-set records under `tests/fixtures/records`, which are
+# production content living in a test directory (see
+# `data/golden-set/README.md`) — so the tree is not excluded wholesale here.
+docs/
