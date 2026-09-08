@@ -62,6 +62,11 @@ links_app = typer.Typer(name="links", help="Inter-dataset links.", no_args_is_he
 snapshot_app = typer.Typer(
     name="snapshot", help="Static export of the catalog.", no_args_is_help=True
 )
+literature_app = typer.Typer(
+    name="literature",
+    help="How much energy research names each dataset.",
+    no_args_is_help=True,
+)
 
 app.add_typer(harvest_app)
 app.add_typer(probe_app)
@@ -69,6 +74,7 @@ app.add_typer(schema_app)
 app.add_typer(semantic_app)
 app.add_typer(links_app)
 app.add_typer(snapshot_app)
+app.add_typer(literature_app)
 
 
 def err(message: str) -> None:
@@ -1666,3 +1672,190 @@ def snapshot_export(
 
 if __name__ == "__main__":
     app()
+
+
+# ---------------------------------------------------------------------------
+# literature
+# ---------------------------------------------------------------------------
+
+
+@literature_app.command("scan")
+def literature_scan(
+    out: Annotated[Path, typer.Option("--out", help="Where to write the scores.")] = Path(
+        "data/literature-scores.yaml"
+    ),
+    catalog: Annotated[
+        Path, typer.Option("--catalog", help="Directory of exported records to score.")
+    ] = Path("data/catalog"),
+    limit: Annotated[int, typer.Option(help="Stop after N datasets.")] = 100_000,
+    rescan: Annotated[
+        bool,
+        typer.Option("--rescan", help="Re-measure records that already have a score."),
+    ] = False,
+    mailto: Annotated[
+        str | None, typer.Option("--mailto", help="Contact address for OpenAlex's polite pool.")
+    ] = None,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Ask OpenAlex how much energy research names each dataset (issue #58).
+
+    **Resumable, because OpenAlex bills per request.** A request costs $0.001
+    against a daily allowance that resets at midnight UTC, and a full pass over
+    this catalog is about 600 of them. When the budget runs out the scan stops,
+    writes what it has, and exits 0 — the next run picks up the records it did
+    not reach. That is why the default skips records that already have a score:
+    the expensive thing is asking, and the answer does not change weekly.
+
+    `OPENALEX_API_KEY` in the environment raises the allowance. Without one this
+    runs against the free daily budget, which is enough for a catalog this size
+    but not for a rescan of it on the same day.
+
+    A record this never reaches is **unscored, which is not a score of zero**.
+    Nothing downstream may read it as one.
+    """
+    import json as _json
+    import os
+
+    from datahub.harvest.filters.literature import (
+        BudgetExhausted,
+        OpenAlexScorer,
+        load_scores,
+        write_scores,
+    )
+
+    records: list[tuple[str, str]] = []
+    for path in sorted(catalog.glob("*/*.jsonld")):
+        try:
+            document = _json.loads(path.read_text())
+        except ValueError:
+            continue
+        node = next((n for n in document.get("@graph", []) if n.get("type") == "Dataset"), None)
+        title = (node or {}).get("title")
+        if title:
+            # The title up to a parenthesis or dash: "NOAA HRRR (2016-)" queries
+            # far better as "NOAA HRRR", and a phrase search on the whole thing
+            # matches nothing.
+            name = str(title).split("(")[0].split(" - ")[0].strip()
+            if name:
+                records.append((path.stem, name))
+
+    if not records:
+        err(f"no records under {catalog}")
+        raise typer.Exit(1)
+
+    scores = load_scores(out)
+    todo = [(s, n) for s, n in records if rescan or s not in scores][:limit]
+
+    scorer = OpenAlexScorer(mailto=mailto, api_key=os.environ.get("OPENALEX_API_KEY"))
+    scanned = 0
+    stopped = ""
+    for slug, name in todo:
+        try:
+            scores[slug] = scorer.score(slug, name)
+            scanned += 1
+        except BudgetExhausted:
+            stopped = "budget exhausted; resumes on the next run"
+            break
+        except Exception as exc:  # pragma: no cover - network shapes vary
+            err(f"{slug}: {type(exc).__name__}: {exc}")
+            stopped = f"stopped after an error on {slug}"
+            break
+
+    if scanned or rescan:
+        write_scores(out, scores)
+
+    remaining = len(records) - len(scores)
+    result = {
+        "records": len(records),
+        "scanned": scanned,
+        "scored_total": len(scores),
+        "unscored": remaining,
+        "stopped": stopped,
+    }
+    if json_out:
+        typer.echo(_json.dumps(result, indent=2))
+    else:
+        typer.echo(
+            f"scored {scanned} this run; {len(scores)} of {len(records)} have a score, "
+            f"{remaining} still unscored" + (f" ({stopped})" if stopped else "")
+        )
+
+
+@literature_app.command("review")
+def literature_review(
+    scores_path: Annotated[
+        Path, typer.Option("--scores", help="The committed literature scores.")
+    ] = Path("data/literature-scores.yaml"),
+    catalog: Annotated[Path, typer.Option("--catalog")] = Path("data/catalog"),
+    decisions: Annotated[Path, typer.Option("--decisions")] = Path("data/relevance-decisions.yaml"),
+    apply: Annotated[
+        bool,
+        typer.Option("--apply", help="Move refused records out of the catalog directory."),
+    ] = False,
+    json_out: Annotated[bool, typer.Option("--json")] = False,
+) -> None:
+    """Report the records every signal of use says do not belong.
+
+    A conjunction, never a threshold. A record is refused only when energy
+    literature does not name it, *and* nothing records it being used, *and* it
+    was admitted for the class of data it is rather than for its own subject.
+    Each of those has a known failure mode — NOAA HRRR scores 5 because its
+    forecasting papers are classified in Meteorology — so no one of them is
+    allowed to decide alone.
+
+    Reports by default. `--apply` moves the record files into
+    `<catalog>/../retracted/`, which keeps them in git: a wrong call is then a
+    visible diff somebody can revert, rather than an absence nobody can see.
+    """
+    import json as _json
+    import shutil
+
+    from datahub.harvest.filters.decisions import load_decisions
+    from datahub.harvest.filters.literature import load_scores, refuses_publication
+
+    scores = load_scores(scores_path)
+    if not scores:
+        err(f"no scores at {scores_path}; run `datahub literature scan` first")
+        raise typer.Exit(1)
+    verdicts = load_decisions(decisions)
+    # Decisions are keyed `<source id>:<slug>` — `aws_open_data:pgc-arcticdem` —
+    # while a record's `og:harvestSource` holds the *adapter* name, `yaml_repo`.
+    # Two different identifiers for the same thing, so an exact key lookup finds
+    # nothing and every record silently passes the gate. Indexed by slug, with
+    # the exact source preferred where a record does carry one.
+    by_slug: dict[str, dict[str, object]] = {}
+    for key, entry in verdicts.items():
+        by_slug.setdefault(key.split(":", 1)[-1], entry)
+
+    refused: list[dict[str, object]] = []
+    kept = 0
+    for path in sorted(catalog.glob("*/*.jsonld")):
+        document = _json.loads(path.read_text())
+        node = next((n for n in document.get("@graph", []) if n.get("type") == "Dataset"), None)
+        if not node:
+            continue
+        slug = path.stem
+        source = str(node.get("harvestSource") or "")
+        decision = verdicts.get(f"{source}:{slug}") or by_slug.get(slug) or {}
+        verdict = refuses_publication(
+            slug,
+            scores=scores,
+            usage_evidence_count=len(node.get("usageEvidence") or []),
+            relevance_reason=decision.get("reason"),
+        )
+        if not verdict.refused:
+            kept += 1
+            continue
+        refused.append({"slug": slug, "title": node.get("title"), "why": verdict.reason})
+        if apply:
+            destination = catalog.parent / "retracted"
+            destination.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(path), str(destination / path.name))
+
+    if json_out:
+        typer.echo(_json.dumps({"kept": kept, "refused": refused}, indent=2))
+    else:
+        for row in refused:
+            typer.echo(f"  {row['slug']:38} {str(row['title'])[:44]}")
+        verb = "moved to retracted/" if apply else "would be refused"
+        typer.echo(f"\n{len(refused)} {verb}; {kept} kept")

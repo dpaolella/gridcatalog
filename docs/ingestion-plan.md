@@ -692,6 +692,39 @@ request whose diff is readable, and merging it changes the published catalog.
 
 ---
 
+## 7a. Filtering on use, not on category (issue #58)
+
+Every relevance signal above reads a dataset's *description*. That is how
+ArcticDEM came to be published: the decision file says elevation is a siting
+input, which is true of the category and inherited by a dataset of the Arctic.
+
+`datahub literature scan` asks a different question — **how many papers
+classified in an energy field name this dataset?** — and writes the answer to
+`data/literature-scores.yaml`. Measured: NSRDB 282, Global Wind Atlas 204,
+ArcticDEM 1 out of 1,704 papers that name it at all.
+
+Three things about it are load-bearing rather than incidental:
+
+* **Topic classification, not energy keywords.** The keyword version reports 123
+  energy papers for ArcticDEM, every one a glaciology paper containing "energy
+  balance" or a volcanology paper containing "load stress".
+* **The phrase is quoted.** Unquoted, `Wind Integration National Dataset`
+  returns 179,365 works instead of 549 — which does not weaken the signal, it
+  inverts it.
+* **A low score never removes anything on its own.** `refuses_publication` is a
+  conjunction: no energy literature, *and* nothing recording its use (§F3
+  usage evidence), *and* admitted for its category rather than its subject.
+  NOAA HRRR scores 5 because its forecasting papers are classified in
+  Meteorology, and would be deleted by any threshold on the score alone.
+
+**OpenAlex meters requests** — $0.001 each against a daily allowance — so the
+scan is resumable: it scores what the budget allows, writes what it got, and
+the next run continues. A record with no entry is *unmeasured*, never a zero.
+`.github/workflows/literature.yml` runs it monthly and on demand and opens a
+pull request; `OPENALEX_API_KEY` raises the allowance and is optional.
+
+---
+
 ## 8. Executing this with an agent
 
 The plan is written to be run by Claude, one work package per pull request,
