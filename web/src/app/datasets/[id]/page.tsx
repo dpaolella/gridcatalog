@@ -127,6 +127,25 @@ export default async function DatasetPage({ params }: { params: Params }) {
           </p>
         ) : null}
 
+        {/* Held in the graph since M2 and projected nowhere until #55: 478
+            caveats reached no caller and no page. They are the one thing on a
+            record that comes from somebody having tried the dataset, so they
+            sit above the fold rather than in a tab — a reader deciding whether
+            to use this should not have to go looking. Rendered as a list
+            because a record commonly carries three or four, and the order is
+            not meaningful: `og:caveat` is an RDF set, so the projector sorts
+            them for a stable document rather than pretending to rank them. */}
+        {dataset.caveats?.length ? (
+          <section className="og-card max-w-prose space-y-2 p-3 text-sm">
+            <h2 className="font-semibold text-[color:var(--accent-text)]">{t("caveats")}</h2>
+            <ul className="list-disc space-y-1 pl-5 text-[color:var(--muted)]">
+              {dataset.caveats.map((caveat) => (
+                <li key={caveat}>{caveat}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
         <div className="flex flex-wrap items-center gap-3">
           <span className="og-tag" title={t(`levelHelp.${levelKey}`)}>
             {t("level", { level: dataset.completeness_level })} · {t(`levelNames.${levelKey}`)}

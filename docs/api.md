@@ -234,6 +234,7 @@ Search the catalog.
 | `format` | query | no | Distribution format label. |
 | `completeness_level` | query | no |  |
 | `anonymous_access` | query | no |  |
+| `resolution_max_m` | query | no | Keep only datasets whose spatial resolution is this fine or finer, in metres. Records that do not state one are excluded, because 'not captured' is not 'fine enough' — see `spatial_granularity` for the class, which most records do carry. |
 | `bbox` | query | no | west,south,east,north in WGS 84. |
 | `temporal_start` | query | no | ISO 8601. |
 | `temporal_end` | query | no | ISO 8601. |

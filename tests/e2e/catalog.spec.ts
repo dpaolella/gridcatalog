@@ -13,7 +13,9 @@ import { expect, test } from "@playwright/test";
  * explains itself.
  */
 
-test("a modeller reaches a DD5 access path from the landing page", async ({ page }) => {
+test("a modeller reaches a DD5 access path from the landing page", async ({
+  page,
+}) => {
   const started = Date.now();
 
   await page.goto("/");
@@ -28,28 +30,40 @@ test("a modeller reaches a DD5 access path from the landing page", async ({ page
   await expect(result).toBeVisible();
   await result.click();
 
-  await expect(page.getByRole("heading", { name: /Global Wind Atlas/i })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Global Wind Atlas/i }),
+  ).toBeVisible();
   await page.getByRole("tab", { name: "Downloads" }).click();
 
   // "A correct access plan" means a path the modeller can act on: a format and
   // a link to the source. The Hub never serves the bytes, so what the page owes
   // them is where to get them.
-  await expect(page.getByRole("link", { name: /Open at source/i }).first()).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Open at source/i }).first(),
+  ).toBeVisible();
 
   expect(Date.now() - started).toBeLessThan(60_000);
 });
 
-test("an unauthenticated evaluator reads all three quality grades", async ({ page }) => {
+test("an unauthenticated evaluator reads all three quality grades", async ({
+  page,
+}) => {
   await page.goto("/datasets/ecmwf-era5");
   await page.getByRole("tab", { name: "Data quality" }).click();
 
   const panel = page.getByRole("tabpanel", { name: "Data quality" });
-  for (const facet of ["Provenance", "Documentation", "Currency & maintenance"]) {
+  for (const facet of [
+    "Provenance",
+    "Documentation",
+    "Currency & maintenance",
+  ]) {
     await expect(panel.getByText(facet, { exact: true })).toBeVisible();
   }
 
   // And no composite anywhere on the page (ADR-0007).
-  await expect(page.getByText(/overall score|composite|total quality/i)).toHaveCount(0);
+  await expect(
+    page.getByText(/overall score|composite|total quality/i),
+  ).toHaveCount(0);
 });
 
 test("a correlated pair is flagged and still shown", async ({ page }) => {
@@ -64,7 +78,9 @@ test("a correlated pair is flagged and still shown", async ({ page }) => {
   await expect(page.getByText(/ERA5/).first()).toBeVisible();
 });
 
-test("a restricted record answers exactly as an absent one does", async ({ page }) => {
+test("a restricted record answers exactly as an absent one does", async ({
+  page,
+}) => {
   // The header settles asynchronously — `AccountMenu` renders nothing until
   // `/api/session` answers — so reading the whole body straight after
   // navigation compares one page that has the account control against one that
@@ -78,10 +94,15 @@ test("a restricted record answers exactly as an absent one does", async ({ page 
   async function settledBody(path: string) {
     const response = await page.goto(path);
     await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
-    return { status: response?.status(), text: await page.locator("body").innerText() };
+    return {
+      status: response?.status(),
+      text: await page.locator("body").innerText(),
+    };
   }
 
-  const restricted = await settledBody("/datasets/utility-load-shapes-allowlisted");
+  const restricted = await settledBody(
+    "/datasets/utility-load-shapes-allowlisted",
+  );
   const absent = await settledBody("/datasets/there-is-no-such-dataset");
 
   expect(restricted.status).toBe(404);
@@ -93,7 +114,9 @@ test("an empty search explains itself", async ({ page }) => {
   await page.goto("/?q=zzzznothingmatchesthis");
 
   await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
-  await expect(page.getByRole("link", { name: /Clear all filters/i })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Clear all filters/i }),
+  ).toBeVisible();
 });
 
 test("a level 1 record says why its schema tab is empty", async ({ page }) => {
@@ -108,11 +131,15 @@ test("a field the catalog could not map says why", async ({ page }) => {
   await page.goto("/datasets/global-transmission-database");
   await page.getByRole("tab", { name: "Schema" }).click();
 
-  const gap = page.getByTitle(/No concept in the .* scheme covers|pollute a shared vocabulary/i);
+  const gap = page.getByTitle(
+    /No concept in the .* scheme covers|pollute a shared vocabulary/i,
+  );
   await expect(gap.first()).toBeVisible();
 });
 
-test("the connections list is capped with a way to see more", async ({ page }) => {
+test("the connections list is capped with a way to see more", async ({
+  page,
+}) => {
   await page.goto("/datasets/pypsa-eur-grid");
   await page.getByRole("tab", { name: "Connections" }).click();
 
@@ -124,7 +151,9 @@ test("the connections list is capped with a way to see more", async ({ page }) =
   await expect(page.getByTestId("connection-list")).toBeVisible();
 });
 
-test("a concept on a schema row links to every dataset that carries it", async ({ page }) => {
+test("a concept on a schema row links to every dataset that carries it", async ({
+  page,
+}) => {
   // PRD §F3: "Each concept links to the semantic layer." The Schema tab used to
   // render concept names as plain text, which is the one thing a modeller wants
   // to pull on — the useful question at that cell is "what else has this
@@ -140,7 +169,9 @@ test("a concept on a schema row links to every dataset that carries it", async (
   await expect(page.getByRole("link", { name: /ERA5/i }).first()).toBeVisible();
 });
 
-test("an issue can be reported against one field and one distribution", async ({ page }) => {
+test("an issue can be reported against one field and one distribution", async ({
+  page,
+}) => {
   // §F3 asks for a report on any record, *field* or distribution, with the
   // reference captured automatically. The API has taken `field_id` and
   // `distribution_id` since it was written; the UI passed neither, so a wrong
@@ -149,14 +180,20 @@ test("an issue can be reported against one field and one distribution", async ({
   await page.goto("/datasets/ecmwf-era5");
 
   await page.getByRole("tab", { name: "Schema" }).click();
-  await page.locator("table").getByRole("button", { name: "Report" }).first().click();
+  await page
+    .locator("table")
+    .getByRole("button", { name: "Report" })
+    .first()
+    .click();
   // The form names what it is about, so a reporter can see the reference was
   // captured rather than having to trust that it was.
   await expect(page.getByText(/About/).first()).toBeVisible();
   await expect(page.getByRole("combobox").first()).toBeVisible();
 
   await page.getByRole("tab", { name: "Downloads" }).click();
-  await expect(page.getByRole("button", { name: "Report" }).first()).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Report" }).first(),
+  ).toBeVisible();
 });
 
 test("field-level provenance reaches the schema table", async ({ page }) => {
@@ -165,5 +202,23 @@ test("field-level provenance reaches the schema table", async ({ page }) => {
   await page.goto("/datasets/global-wind-atlas");
   await page.getByRole("tab", { name: "Schema" }).click();
 
-  await expect(page.getByRole("columnheader", { name: "Provenance" })).toBeVisible();
+  await expect(
+    page.getByRole("columnheader", { name: "Provenance" }),
+  ).toBeVisible();
+});
+
+test("the caveats a steward wrote are on the page", async ({ page }) => {
+  // They were held in the graph from M2 and projected nowhere: `og:caveat`
+  // hangs off the `og:QualityFlags` node and `build_document` never followed
+  // the edge, so 478 of them — including the two hand-written ones on the ERA5
+  // golden record — reached no API caller and no page. A caveat is the one
+  // thing on a record that comes from somebody having *used* the dataset, so
+  // this asserts it is above the fold rather than behind a tab.
+  await page.goto("/datasets/ecmwf-era5");
+
+  const caveats = page.getByRole("heading", { name: /Before you use this/i });
+  await expect(caveats).toBeVisible();
+  await expect(
+    page.getByText(/does not resolve individual wind farms/i),
+  ).toBeVisible();
 });

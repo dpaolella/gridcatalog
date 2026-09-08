@@ -495,6 +495,11 @@ class DatasetDetail(DatasetSummary):
     #: content for the 34 records that have none — without it the reader gets an
     #: empty tab instead of "CEII-designated, permanently out of reach" (#18).
     pointer_rationale: str | None = None
+    #: What using this dataset is actually like: a finding somebody hit, or a
+    #: statement about what the catalog does and does not know. Held in the
+    #: graph since M2 and projected nowhere until #55, so 478 of them reached
+    #: no caller and no page.
+    caveats: list[str] = Field(default_factory=list)
     upstream_count: int = 0
     supersedes: list[str] = Field(default_factory=list)
     superseded_by: str | None = None
@@ -529,6 +534,7 @@ class DatasetDetail(DatasetSummary):
             supported_analysis=doc.supported_analysis,
             excluded_analysis=doc.excluded_analysis,
             pointer_rationale=doc.pointer_rationale,
+            caveats=doc.caveats,
             upstream_count=doc.upstream_count,
             supersedes=doc.supersedes,
             superseded_by=doc.superseded_by,

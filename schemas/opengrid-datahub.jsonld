@@ -156,6 +156,7 @@
     "hasTopology": { "@id": "og:hasTopology", "@type": "xsd:boolean" },
     "hasImpedance": { "@id": "og:hasImpedance", "@type": "xsd:boolean" },
     "spatialGranularity": "og:spatialGranularity",
+    "spatialResolutionMeters": { "@id": "dcat:spatialResolutionInMeters", "@type": "xsd:decimal" },
     "networkElementCount": { "@id": "og:networkElementCount", "@type": "xsd:integer" },
 
     "__comment_d17_d19": "D17/D19 — schema. Hierarchical structure, not a flattened column list.",

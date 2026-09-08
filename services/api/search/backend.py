@@ -27,8 +27,10 @@ from typing import Any
 
 from datahub.api.search.document import (
     FACET_FIELDS,
+    RANGE_FIELDS,
     SORT_FIELDS,
     SearchDocument,
+    range_path,
 )
 from datahub.graph.graphs import PUBLISHED_STATES
 
@@ -173,6 +175,13 @@ class SearchRequest:
         for spec in self.sort:
             if spec.field not in SORT_FIELDS:
                 raise ValueError(f"unknown sort field: {spec.field}")
+        # Ranges were unvalidated, and both backends resolved the path with
+        # `FACET_FIELDS.get(name) or SORT_FIELDS[name]` — so an unknown name
+        # silently matched nothing in memory and raised KeyError against
+        # OpenSearch. Same request, two answers, neither of them "no".
+        for name in self.ranges:
+            if name not in RANGE_FIELDS and name not in FACET_FIELDS and name not in SORT_FIELDS:
+                raise ValueError(f"unknown range field: {name}")
 
 
 @dataclass(frozen=True, slots=True)
@@ -283,10 +292,7 @@ def matches_filters(doc: SearchDocument, request: SearchRequest) -> bool:
         if not any(_eq(v, a) for v in found for a in accepted):
             return False
     for name, rng in request.ranges.items():
-        path = FACET_FIELDS.get(name) or SORT_FIELDS.get(name)
-        if path is None:
-            return False
-        found = [v for v in extract(doc, path) if v is not None]
+        found = [v for v in extract(doc, range_path(name)) if v is not None]
         if not found:
             return False
         value = found[0]

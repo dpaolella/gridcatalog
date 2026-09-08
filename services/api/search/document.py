@@ -51,6 +51,9 @@ class SpatialCoverage(BaseModel):
     native_crs: str | None = None
     geometry_types: list[str] = Field(default_factory=list)
     granularity: str | None = None  # nodal | zonal | gridded | administrative | point
+    #: Grid cell size or positional precision, in metres. The companion to
+    #: `granularity`, which is a class and cannot say 30 km versus 4 km (#53).
+    resolution_meters: float | None = None
     feature_count: int | None = None
 
 
@@ -199,6 +202,11 @@ class SearchDocument(BaseModel):
     documentation_status: str | None = None
     quality: QualityBadges = Field(default_factory=QualityBadges)
     quality_assessed: bool = False
+    #: What a steward or the pipeline recorded about using this dataset.
+    #: Projected but never surfaced until #55: 478 of them sat in the graph,
+    #: carried through `construct.rq`, and stopped at the document boundary —
+    #: so no API caller and no page ever saw one.
+    caveats: list[str] = Field(default_factory=list)
 
     # -- structural --
     has_topology: bool | None = None
@@ -278,6 +286,15 @@ FACET_FIELDS: dict[str, str] = {
     "has_usage_evidence": "has_usage_evidence",
 }
 
+#: Fields a caller may bound with a range rather than match exactly. Kept
+#: separate from FACET_FIELDS: faceting a continuous quantity gives one bucket
+#: per distinct value and answers a question nobody asked, and `RangeFilter`
+#: needs a numeric path rather than a keyword one.
+RANGE_FIELDS: dict[str, str] = {
+    "completeness_level": "completeness_level",
+    "spatial_resolution_m": "spatial.resolution_meters",
+}
+
 #: Sortable fields. Relevance is the default and is not listed here.
 SORT_FIELDS: dict[str, str] = {
     "title": "title",
@@ -289,3 +306,15 @@ SORT_FIELDS: dict[str, str] = {
     "distribution_count": "distribution_count",
     "inbound_link_count": "inbound_link_count",
 }
+
+
+def range_path(name: str) -> str:
+    """Where a range filter reads its value from.
+
+    `RANGE_FIELDS` first, then the facet and sort maps, because two fields were
+    range-filterable before this map existed and callers may still name them.
+    """
+    path = RANGE_FIELDS.get(name) or FACET_FIELDS.get(name) or SORT_FIELDS.get(name)
+    if path is None:
+        raise KeyError(f"unknown range field: {name}")
+    return path

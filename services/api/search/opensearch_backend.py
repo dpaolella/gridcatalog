@@ -23,7 +23,7 @@ from datahub.api.search.backend import (
     SearchRequest,
     SearchResponse,
 )
-from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS, SearchDocument
+from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS, SearchDocument, range_path
 from datahub.graph.graphs import PUBLISHED_STATES
 
 #: Explicit mapping. Dynamic mapping is disabled so a stray field cannot become
@@ -198,6 +198,7 @@ INDEX_MAPPING: dict[str, Any] = {
                     "native_crs": {"type": "keyword"},
                     "geometry_types": {"type": "keyword"},
                     "granularity": {"type": "keyword"},
+                    "resolution_meters": {"type": "float"},
                     "feature_count": {"type": "long"},
                 },
             },
@@ -235,6 +236,7 @@ INDEX_MAPPING: dict[str, Any] = {
                 },
             },
             "quality_assessed": {"type": "boolean"},
+            "caveats": {"type": "text", "analyzer": "og_text"},
             "has_topology": {"type": "boolean"},
             "has_impedance": {"type": "boolean"},
             "voltage_classes": {"type": "keyword"},
@@ -302,7 +304,7 @@ def build_query(request: SearchRequest) -> dict[str, Any]:
         filters.append({"terms": {_keyword_path(name): [_norm(v) for v in accepted]}})
 
     for name, rng in request.ranges.items():
-        path = FACET_FIELDS.get(name) or SORT_FIELDS[name]
+        path = range_path(name)
         body: dict[str, Any] = {}
         if rng.gte is not None:
             body["gte"] = rng.gte

@@ -282,6 +282,8 @@ class SeedLoader:
             record["spatialGranularity"] = granularity
         if resolution := _cadence(entry.get("time_resolution")):
             record["timeResolution"] = resolution
+        if (metres := entry.get("spatial_resolution_m")) is not None:
+            record["spatialResolutionMeters"] = float(metres)
 
         if tier is not None:
             record["tier"] = tier

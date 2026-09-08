@@ -287,6 +287,7 @@ export interface DatasetSummary {
   formats?: string[];
   distribution_count?: number;
   reference_only?: boolean;
+  caveats?: string[];
   worst_link_health?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;

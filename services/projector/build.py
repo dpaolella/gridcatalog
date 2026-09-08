@@ -125,6 +125,7 @@ def build_document(
         documentation_status=_str(graph.value(iri, OG.documentationStatus)),
         quality=quality,
         quality_assessed=assessed,
+        caveats=_caveats(graph, iri),
         has_topology=_bool(graph.value(iri, OG.hasTopology)),
         has_impedance=_bool(graph.value(iri, OG.hasImpedance)),
         voltage_classes=sorted(_strs(graph, iri, OG.voltageClass)),
@@ -321,6 +322,7 @@ def _spatial(graph: Graph, iri: URIRef) -> SpatialCoverage:
         native_crs=_str(graph.value(iri, OG.nativeCRS)),
         geometry_types=sorted(_strs(graph, iri, OG.geometryTypes)),
         granularity=_str(graph.value(iri, OG.spatialGranularity)),
+        resolution_meters=_float(graph.value(iri, DCAT.spatialResolutionInMeters)),
         feature_count=_int(graph.value(iri, OG.featureCount)),
     )
 
@@ -370,6 +372,34 @@ def _int(term: Any, *, default: int | None = None) -> int | None:
         return int(term)
     except (TypeError, ValueError):
         return default
+
+
+def _caveats(graph: Graph, iri: URIRef) -> list[str]:
+    """What a steward or the pipeline recorded about using this dataset.
+
+    They hang off the `og:QualityFlags` node rather than the dataset, which is
+    why they were missed: `construct.rq` carries `og:qualityFlags` into the
+    projected graph, and the document stopped one hop short. 478 caveats in the
+    corpus, reaching nobody (#55).
+
+    Sorted for a stable document. Ordering by meaning is not available — the
+    context declares `og:caveat` as `"@container": "@set"`, so RDF hands them
+    back in whatever order it likes and any ordering here would be a lie the
+    next graph tells differently.
+    """
+    flags = graph.value(iri, OG.qualityFlags)
+    if flags is None:
+        return []
+    return sorted(str(text) for text in graph.objects(flags, OG.caveat))
+
+
+def _float(term: Any) -> float | None:
+    if term is None:
+        return None
+    try:
+        return float(term)
+    except (TypeError, ValueError):
+        return None
 
 
 def _bool(term: Any) -> bool | None:

@@ -840,6 +840,7 @@ seed_datasets:
         access: https://cds.climate.copernicus.eu
         format: Zarr, NetCDF, GRIB
         spatial_granularity: gridded
+        spatial_resolution_m: 30000
         time_resolution: PT1H
         anonymous: true
         bulk: true
@@ -869,6 +870,7 @@ seed_datasets:
         api: https://developer.nrel.gov/api/nsrdb
         format: HDF5
         spatial_granularity: gridded
+        spatial_resolution_m: 4000
         time_resolution: PT30M
         anonymous: true
         bulk: true
@@ -880,6 +882,7 @@ seed_datasets:
         access: https://data.openei.org/submissions/54
         format: HDF5
         spatial_granularity: gridded
+        spatial_resolution_m: 2000
         time_resolution: PT2M
         anonymous: true
         bulk: true
@@ -901,6 +904,7 @@ seed_datasets:
         access: https://globalsolaratlas.info/download
         format: GeoTIFF
         spatial_granularity: gridded
+        spatial_resolution_m: 1000
         time_resolution: P1Y
         anonymous: true
         bulk: true
@@ -913,6 +917,7 @@ seed_datasets:
         access: https://globalwindatlas.info/download
         format: GeoTIFF
         spatial_granularity: gridded
+        spatial_resolution_m: 250
         time_resolution: P1Y
         anonymous: true
         verified: true

@@ -131,3 +131,56 @@ def test_the_corpus_is_no_longer_one_finding_in_sixteen(catalog) -> None:
     assert len(stated) >= 7, (
         f"only {len(stated)} distinct findings-from-use in the whole seed corpus: {stated}"
     )
+
+
+# ---- the projection they were missing (#55) --------------------------------
+
+
+def test_a_caveat_reaches_the_projected_document() -> None:
+    """They were held in the graph and stopped one hop short of every reader.
+
+    `og:caveat` hangs off the `og:QualityFlags` node, not the dataset.
+    `construct.rq` carries `og:qualityFlags` into the projected graph, and
+    `build_document` never followed the edge — so 478 caveats sat in the store,
+    survived every round trip, and reached no API caller and no page. Writing
+    good ones, as this module's other tests check, was doing nothing at all.
+    """
+    from datahub.projector.build import build_document
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    SeedLoader(records).load()
+
+    documents = {
+        dataset_id.rsplit("/", 1)[-1]: build_document(
+            records.get_graph(dataset_id, graph=NamedGraph.CATALOG), dataset_id
+        )
+        for dataset_id in records.list_ids(graph=NamedGraph.CATALOG)
+    }
+
+    carrying = [doc for doc in documents.values() if doc.caveats]
+    assert len(carrying) > 30, (
+        f"only {len(carrying)} of {len(documents)} documents carry caveats; the "
+        "projector has stopped following og:qualityFlags again"
+    )
+    assert any("30 km grid is too coarse" in text for text in documents["ecmwf-era5"].caveats), (
+        documents["ecmwf-era5"].caveats
+    )
+
+
+def test_the_api_record_carries_them() -> None:
+    """A caveat the API drops is a caveat nobody reads."""
+    from datahub.api.schemas import DatasetDetail
+    from datahub.projector.build import build_document
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    SeedLoader(records).load()
+    iri = next(i for i in records.list_ids(graph=NamedGraph.CATALOG) if i.endswith("/ecmwf-era5"))
+    document = build_document(records.get_graph(iri, graph=NamedGraph.CATALOG), iri)
+
+    detail = DatasetDetail.from_document(document)
+    assert detail.caveats == document.caveats
+    assert detail.caveats, "the record model dropped them"

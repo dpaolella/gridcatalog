@@ -81,6 +81,8 @@
     },
     "referenceOnly": "Reference only",
     "referenceOnlyHelp": "The catalog records where this dataset is and who publishes it, and does not describe its contents.",
+    "caveats": "Before you use this",
+    "caveatsHelp": "What the catalog knows about working with this dataset, including what it does not know.",
     "publisher": "Publisher",
     "creators": "Creators",
     "license": "Licence",
