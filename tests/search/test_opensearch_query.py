@@ -62,3 +62,33 @@ def test_every_sortable_field_resolves_to_something_the_mapping_can_sort() -> No
             unsortable.append((field, resolved))
 
     assert not unsortable, f"sort fields resolving to an analysed text field: {unsortable}"
+
+
+def test_every_projected_field_is_declared_in_the_mapping() -> None:
+    """`dynamic: strict` means an undeclared field fails the whole bulk write.
+
+    Not the one field, and not the one document — the entire batch. So adding
+    something to `SearchDocument` without adding it here takes the index down
+    for every record, and it surfaces as `strict_dynamic_mapping_exception` in
+    a container-backed test rather than anywhere near the change that caused it.
+
+    That has now happened twice. `og:usageEvidence` added `usage_evidence`,
+    `usage_evidence_count` and `has_usage_evidence` to the projected document
+    and not to the mapping, and CI's Integration job was red across five runs.
+    Checked against `SearchDocument.model_fields` rather than a list, so the
+    next field is caught by this assertion at unit-test speed and with no
+    Docker.
+    """
+    from datahub.api.search.document import SearchDocument
+
+    declared = set(INDEX_MAPPING["mappings"]["properties"])  # type: ignore[index]
+    projected = set(SearchDocument.model_fields)
+
+    assert not (projected - declared), (
+        "projected but not declared, so `dynamic: strict` rejects every bulk write: "
+        f"{sorted(projected - declared)}"
+    )
+    assert not (declared - projected), (
+        "declared in the mapping and never projected, which is dead weight in the "
+        f"index and usually a rename that only landed on one side: {sorted(declared - projected)}"
+    )

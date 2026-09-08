@@ -211,6 +211,7 @@ async function snapshotRead<T>(path: string): Promise<T> {
 function snapshotFile(path: string): string | null {
   const [route] = path.split("?");
   if (route === "/v1/domains") return "domains.json";
+  if (route === "/v1/gaps") return "gaps.json";
   if (route === "/v1/datasets") return "index.json";
 
   const detail = /^\/v1\/datasets\/([^/]+)(?:\/(schema|quality|distributions|links))?$/.exec(
@@ -287,6 +288,7 @@ export interface DatasetSummary {
   formats?: string[];
   distribution_count?: number;
   reference_only?: boolean;
+  caveats?: string[];
   worst_link_health?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;
@@ -496,6 +498,50 @@ async function snapshotFacets(): Promise<Record<string, FacetBucket[]>> {
 }
 
 /** Every dataset id in the snapshot, for `generateStaticParams`. */
+export type DataGap = {
+  id: string;
+  title: string;
+  domain: string;
+  category: string;
+  reason: string;
+  observed_by: string;
+  observed: string;
+  review_after?: string | null;
+  stale?: boolean;
+  needed_by?: string[];
+  kind?: string | null;
+};
+
+/**
+ * Requirements nothing open supplies, matching a query.
+ *
+ * Matched here rather than server-side, in both modes. The register is
+ * nineteen entries and the snapshot ships all of them under one file, so
+ * asking the API to filter would give the static site a different answer from
+ * the live one — and the empty state is exactly where the two must agree,
+ * because the static site is what most readers see.
+ */
+export async function searchGaps(query: string, limit = 3): Promise<DataGap[]> {
+  const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return [];
+  try {
+    const { gaps } = await request<{ gaps: DataGap[] }>("/v1/gaps?limit=100", {
+      revalidate: LIST_REVALIDATE,
+    });
+    return (gaps ?? [])
+      .filter((gap) =>
+        tokens.every((token) =>
+          `${gap.title} ${gap.category} ${gap.reason}`.toLowerCase().includes(token),
+        ),
+      )
+      .slice(0, limit);
+  } catch {
+    // An empty result set is already the unhappy path. Failing to enrich it
+    // must not turn "no datasets match" into an error page.
+    return [];
+  }
+}
+
 export async function snapshotDatasetIds(): Promise<string[]> {
   if (!IS_SNAPSHOT) return [];
   const index = await request<{ results: DatasetSummary[] }>("/v1/datasets");

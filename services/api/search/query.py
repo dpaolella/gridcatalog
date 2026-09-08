@@ -87,6 +87,7 @@ class SearchParams:
     temporal_start: datetime | None = None
     temporal_end: datetime | None = None
     completeness_min: int | None = None
+    resolution_max_m: float | None = None
     sort: str | None = None
     offset: int = 0
     limit: int = DEFAULT_LIMIT
@@ -288,6 +289,13 @@ def _ranges(params: SearchParams) -> dict[str, RangeFilter]:
         if params.completeness_min not in (1, 2, 3):
             raise BadSearchRequest("completeness_min is 1, 2 or 3", got=params.completeness_min)
         ranges["completeness_level"] = RangeFilter(gte=params.completeness_min)
+    if params.resolution_max_m is not None:
+        if params.resolution_max_m <= 0:
+            raise BadSearchRequest(
+                "resolution_max_m is a distance in metres and must be positive",
+                got=params.resolution_max_m,
+            )
+        ranges["spatial_resolution_m"] = RangeFilter(lte=params.resolution_max_m)
     return ranges
 
 

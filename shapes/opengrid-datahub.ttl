@@ -222,6 +222,11 @@ og:DatasetShape a sh:NodeShape ;
     og:appliesAtLevel 1 ;
     sh:message "og:anonymousAccess is required: it is one of the five Tier 1 criteria and it is what an unauthenticated evaluator filters on." ;
   ] ;
+  sh:property [
+    sh:path og:bulkDownload ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:bulkDownload on a dataset says whether the data can be obtained in bulk at all. It lives on og:Distribution too, where it is the precise claim; this is for the case a distribution cannot cover — a reference-only record, which has none. Optional, unlike og:anonymousAccess: a Tier 1 evaluator must know whether an account is needed, and 'bulk availability not established' is a real and common answer (#57)." ;
+  ] ;
 
   # ---- D11 distributions, level 1 ----
   #
@@ -294,6 +299,11 @@ og:DatasetShape a sh:NodeShape ;
     sh:path og:spatialGranularity ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
     sh:in ( "nodal" "zonal" "gridded" "administrative" "point" "national" "global" ) ;
     sh:message "og:spatialGranularity is one of nodal, zonal, gridded, administrative, point, national, global. It decides whether a dataset can serve power flow at all, so it is controlled." ;
+  ] ;
+  sh:property [
+    sh:path dcat:spatialResolutionInMeters ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minExclusive 0 ; og:appliesAtLevel 1 ;
+    sh:message "dcat:spatialResolutionInMeters is the grid cell size or positional precision, in metres, as an xsd:double and positive. DCAT types this xsd:decimal; the context does not, because a JSON number coerced to xsd:decimal yields a decimal-typed literal holding a float and SHACL rejects it — see test_numeric_terms_are_doubles_not_decimals. It is the companion to og:spatialGranularity, not a replacement: the enum answers 'can this serve power flow at all' and cannot distinguish ERA5 at 30 km from NSRDB at 4 km, which is the difference that decides whether either can serve a siting study." ;
   ] ;
 
   # ---- D15 temporal, level 1 ----

@@ -5,14 +5,28 @@
 #   seed_datasets   : hand-curated anchor datasets per data domain, used to bootstrap
 #                     the catalog and to act as the golden set for harvester QA.
 #
-# Provenance of the DD1/DD5/DD8/DD9 entries: OpenGrid Tier 1/2/3 feasibility analysis
-# (Notion, "What data domains will OpenGrid cover"). Those entries are marked
-# verified: true.
+# Where the rows come from. `verified: true` means a source document established
+# the licence and the access path; `verified: false` means nobody has, and the
+# loader sends those to the draft graph for review rather than publishing them.
 #
-# Provenance of the DD2/DD3/DD4/DD6/DD7/DD10 entries: assembled for this PRD. They have
-# NOT been through the same license and access-path review. Every one carries
-# verified: false and MUST go through the review queue before it is published to the
-# catalog. Do not treat the license or tier fields on unverified rows as authoritative.
+#   verified: true   - the DD1/DD5/DD8/DD9 entries, from the OpenGrid Tier 1/2/3
+#                      feasibility analysis (Notion, "What data domains will
+#                      OpenGrid cover").
+#
+#   verified: false  - the DD2/DD3/DD4/DD6/DD7/DD10 entries assembled for the PRD,
+#                      and the sixteen rows added from the Open Energy Data
+#                      Inventory (Levi, Breakthrough Energy Grids, 2025) under
+#                      DD1/DD2/DD4/DD9. Do not treat the licence or tier on an
+#                      unverified row as authoritative.
+#
+# The workbook has NO licence column, so no row sourced from it states a licence
+# unless another document does. A row with no `license` gets LicenseRef-Unstated
+# and redistribution is refused, which is the honest default and not an oversight.
+#
+# Two documents fill the per-row facts, and both are cited rather than summarised:
+# the Notion assessment above for provenance, resolution and access posture, and
+# the workbook for update cadence, format and machine-readability. Where neither
+# states something, the field is absent - PRD 14.2, absent means not captured.
 
 schema_version: "0.1.0"
 
@@ -254,6 +268,10 @@ seed_datasets:
         curator_note: >
           Verify current endpoint and whether the power infrastructure layers are still public before
           cataloging.
+        caveats:
+          - >-
+            Line locations and voltage class only, with no electrical parameters, so it cannot
+            support power flow on its own (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL ReEDS Transmission Network
         tier: 3
@@ -346,6 +364,36 @@ seed_datasets:
   # =========================================================================
   # DD2 - Generator fleet
   # =========================================================================
+      - name: Open Infrastructure Map
+        tier: 2
+        provenance: osm-derived
+        access: https://openinframap.org
+        format: GIS
+        spatial_granularity: nodal
+        update_frequency: Ongoing
+        note: >-
+          An OSM extract restricted to electrical infrastructure. Easier to consume than raw OSM
+          and inherits OSM's coverage and accuracy exactly.
+        curator_note: >-
+          Establish the licence before publishing. An OSM derivative is ODbL-1.0 in practice and
+          the site does not state it, so the share-alike obligation needs confirming rather than
+          assuming.
+        verified: false
+      - name: Xiong et al. 2025 European transmission network
+        tier: 3
+        provenance: osm-derived + curated
+        access: https://www.nature.com/articles/s41597-025-04550-7
+        spatial_granularity: nodal
+        pointer_rationale: >-
+          A paper and a replication workflow rather than a distributed artifact. The workbook
+          records no format, no GUI and no API.
+        note: >-
+          European transmission network built from OSM and augmented into a network model with
+          line parameters. One of very few open European sources with electrical parameters.
+        curator_note: >-
+          Check whether the authors deposited the built network anywhere citable. If they did it
+          is a strong DD1 addition; if not it stays a pointer to a method.
+        verified: false
   DD2:
     domain_name: Generator fleet
     structural_note: >
@@ -413,6 +461,11 @@ seed_datasets:
         anonymous: false
         bulk: true
         note: Free account required.
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: JRC Open Power Plants Database (JRC-PPDB-OPEN)
         tier: 2
@@ -453,6 +506,105 @@ seed_datasets:
   # =========================================================================
   # DD3 - Interconnection queue & project pipeline
   # =========================================================================
+      - name: GeoNuclearData
+        tier: 2
+        provenance: curated
+        access: https://github.com/cristianst85/GeoNuclearData
+        format: CSV
+        anonymous: true
+        bulk: true
+        last_update: "2024-03"
+        note: Nuclear power plants worldwide, with locations.
+        curator_note: >-
+          The workbook rates quality "Unverified". Spot-check against the IAEA PRIS registry
+          before this is confirmed.
+        verified: false
+      - name: OpenNEM (Australian National Electricity Market)
+        tier: 3
+        provenance: primary
+        access: https://explore.openelectricity.org.au
+        update_frequency: Ongoing
+        pointer_rationale: >-
+          The workbook records a GUI and no machine-readable format or API for the surface it
+          reviewed.
+        note: >-
+          Operational power plants and grid operational data for Australia. One of the few
+          non-US, non-EU operational sources in the inventory.
+        curator_note: >-
+          OpenNEM has historically offered an API. Re-check for a bulk or programmatic path
+          before settling on tier 3.
+        verified: false
+      - name: ENTSO-E Transparency Platform (unavailability of production and generation units)
+        tier: 3
+        license: ENTSO-E Open Data Licence
+        provenance: primary
+        access: https://transparency.entsoe.eu/outage-domain/r2/unavailabilityOfProductionAndGenerationUnits/show
+        anonymous: false
+        update_frequency: Ongoing
+        pointer_rationale: >-
+          The workbook records GUI access and no API for the outage domain specifically.
+        note: >-
+          Planned and forced outage data by unit. The gap the domain assessment names under DD2
+          quality — generator models going stale between five-yearly NERC tests — is partly
+          answerable from this.
+        curator_note: >-
+          The Transparency Platform API covers other domains; confirm whether the outage domain
+          is reachable through it before leaving this as a pointer.
+        verified: false
+      - name: ASEAN Energy Database System (AEDS)
+        tier: 3
+        provenance: institutional
+        access: https://aseanenergy.org/aeds/
+        spatial_granularity: national
+        update_frequency: Ongoing
+        pointer_rationale: >-
+          The workbook records the output as graphics, not machine-readable.
+        note: Installed capacity by technology and country across Southeast Asia.
+        curator_note: >-
+          Regional coverage the catalog has almost none of. Worth asking the ASEAN Centre for
+          Energy whether an underlying tabular export exists.
+        verified: false
+      - name: TransitionZero Coal Asset Transition Tool
+        tier: 3
+        provenance: curated
+        access: https://www.transitionzero.org/products/coal-asset-transition-tool
+        pointer_rationale: >-
+          The workbook records a GUI and no machine-readable format.
+        note: Coal asset nameplate and financial information for Indonesia, the Philippines and Malaysia.
+        curator_note: >-
+          The workbook rates data quality "Unclear" and states no terms. Establish both.
+        verified: false
+      - name: TransitionZero Solar Asset Mapper
+        tier: 2
+        license: free for academic and non-commercial use only
+        provenance: derived
+        access: https://www.transitionzero.org/products/solar-asset-mapper/download
+        format: CSV
+        bulk: true
+        update_frequency: quarterly
+        note: >-
+          Solar asset locations with estimated nameplate capacity, globally. Nameplate is
+          estimated rather than reported.
+        curator_note: >-
+          Non-commercial only, per the workbook — commercial users must pay. This is the second
+          seed row whose licence restricts a class of downstream user, so it belongs in the same
+          redistribution-flag test case as the IEA WEO free dataset.
+        verified: false
+      - name: OSeMOSYS starter kits
+        tier: 2
+        provenance: curated
+        access: http://www.osemosys.org/starter-kits.html
+        format: CSV
+        spatial_granularity: national
+        anonymous: true
+        bulk: true
+        note: >-
+          Country-level starter inputs including projected fuel costs and resource potential.
+          The format is generic rather than OSeMOSYS-specific.
+        curator_note: >-
+          Quality and availability vary by country per the workbook, so a single tier for the
+          whole collection will be wrong somewhere. Consider splitting by country at review.
+        verified: false
   DD3:
     domain_name: IC queue & project pipeline
     structural_note: >
@@ -561,6 +713,11 @@ seed_datasets:
         format: XML
         anonymous: false
         bulk: true
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: NREL ResStock / ComStock end-use load profiles
         tier: 1
@@ -597,6 +754,79 @@ seed_datasets:
   # =========================================================================
   # DD5 - Renewable resource & weather
   # =========================================================================
+      - name: ENTSO-E Power Statistics
+        tier: 2
+        license: ENTSO-E Open Data Licence
+        provenance: primary
+        access: https://www.entsoe.eu/data/power-stats/
+        format: CSV
+        spatial_granularity: national
+        time_resolution: PT1H
+        anonymous: true
+        bulk: true
+        update_frequency: Annual
+        note: Hourly load by country. Distinct from the Transparency Platform's operational feed.
+        verified: false
+      - name: Our World in Data energy dataset
+        tier: 2
+        provenance: curated
+        access: https://github.com/owid/energy-data
+        format: CSV, XLSX
+        spatial_granularity: national
+        time_resolution: P1Y
+        anonymous: true
+        bulk: true
+        update_frequency: Ongoing
+        note: >-
+          Energy consumption, energy mix, electricity generation and per-capita measures by
+          country. A compilation of other sources rather than a primary record.
+        curator_note: >-
+          OWID publishes under CC-BY-4.0 for its own work, but this dataset restates IEA, EI and
+          Ember figures whose terms differ. Resolve per-column provenance before confirming.
+        verified: false
+      - name: Awesome Electricity Demand
+        tier: 3
+        provenance: curated
+        access: https://github.com/open-energy-transition/Awesome-Electricity-Demand
+        pointer_rationale: >-
+          An index of demand sources rather than a dataset. The workbook records mixed formats
+          and varying access per entry.
+        note: >-
+          Hourly and sub-hourly historical demand for many global regions, catalogued by source.
+        curator_note: >-
+          This is a harvest source, not a seed dataset. The entries it points at are the
+          catalogable things; consider it for `harvest_sources` instead.
+        verified: false
+      - name: NREL dsgrid
+        tier: 3
+        provenance: modeled
+        access: https://www.nrel.gov/analysis/dsgrid
+        pointer_rationale: >-
+          A modelling toolkit rather than a dataset. The workbook records the deliverable as
+          code and rates ease of use "Low. Requires programming skill & significant sectoral
+          knowledge".
+        note: >-
+          Demand forecasting at granular spatial resolution, built for the NREL Electrification
+          Futures Study.
+        verified: false
+      - name: DemandCast
+        tier: 3
+        provenance: modeled
+        access: https://github.com/open-energy-transition/demandcast
+        pointer_rationale: >-
+          A Python forecasting model rather than a dataset. The workbook records the format as
+          Python and ease of use as "Requires programming skill".
+        note: Forecasted demand for selected countries.
+        verified: false
+      - name: STRIDE
+        tier: 3
+        provenance: modeled
+        access: https://dsgrid.github.io/stride/index.html
+        pointer_rationale: >-
+          Not yet public. The workbook records it as an ongoing NREL effort with format, access
+          and ease all unknown.
+        curator_note: Re-check periodically; there is nothing to catalogue until it is released.
+        verified: false
   DD5:
     domain_name: Renewable resource & weather
     structural_note: >
@@ -610,10 +840,16 @@ seed_datasets:
         access: https://cds.climate.copernicus.eu
         format: Zarr, NetCDF, GRIB
         spatial_granularity: gridded
+        spatial_resolution_m: 30000
         time_resolution: PT1H
         anonymous: true
         bulk: true
         note: CF-compliant Zarr on anonymous S3. Directly ingestible by atlite and xarray.
+        caveats:
+          - >-
+            IRP CoLab reports the 30 km grid is too coarse for siting work. It is the standard
+            reanalysis for system-scale modelling and the wrong tool for choosing where to put
+            a turbine (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NASA MERRA-2
         tier: 1
@@ -634,6 +870,7 @@ seed_datasets:
         api: https://developer.nrel.gov/api/nsrdb
         format: HDF5
         spatial_granularity: gridded
+        spatial_resolution_m: 4000
         time_resolution: PT30M
         anonymous: true
         bulk: true
@@ -645,6 +882,7 @@ seed_datasets:
         access: https://data.openei.org/submissions/54
         format: HDF5
         spatial_granularity: gridded
+        spatial_resolution_m: 2000
         time_resolution: PT2M
         anonymous: true
         bulk: true
@@ -666,6 +904,7 @@ seed_datasets:
         access: https://globalsolaratlas.info/download
         format: GeoTIFF
         spatial_granularity: gridded
+        spatial_resolution_m: 1000
         time_resolution: P1Y
         anonymous: true
         bulk: true
@@ -678,6 +917,7 @@ seed_datasets:
         access: https://globalwindatlas.info/download
         format: GeoTIFF
         spatial_granularity: gridded
+        spatial_resolution_m: 250
         time_resolution: P1Y
         anonymous: true
         verified: true
@@ -689,6 +929,11 @@ seed_datasets:
         format: XML
         anonymous: false
         bulk: true
+        caveats:
+          - >-
+            Bruegel and Ember report gaps and inconsistencies in the 15-minute generation, flow
+            and price series. Check coverage for your period before relying on it (Data Domain
+            Assessment, 2026-05-05).
         verified: true
       - name: NREL PVWatts
         tier: 3
@@ -762,6 +1007,11 @@ seed_datasets:
         anonymous: false
         bulk: false
         access_barrier: commercial-paywall
+        caveats:
+          - >-
+            RMI notes forward technology costs from the commercial providers are paywalled and
+            not integrated with open historical sources, so a cost stack assembled from both
+            carries a seam (Data Domain Assessment, 2026-05-05).
         verified: true
 
   # =========================================================================
@@ -814,6 +1064,12 @@ seed_datasets:
           Published per-ISO as PDF study reports with incompatible methodologies.
           Extraction is possible but the resulting values are not comparable across ISOs,
           which is a modeling hazard rather than a service.
+        caveats:
+          - >-
+            IRP CoLab reports black-box ELCC studies of the same resource returning results
+            from 3% to 90%, which discriminates against newer technologies. Treat any single
+            study's number as one methodology's answer, not as the capacity credit (Data Domain
+            Assessment, 2026-05-05).
         verified: false
       - name: V2G parameters
         tier: 3
@@ -1014,6 +1270,11 @@ seed_datasets:
         anonymous: true
         bulk: true
         note: The canonical US cost stack. Also the best worked example of a well-documented assumption set.
+        caveats:
+          - >-
+            RMI notes the ATB carries forward technology costs but no market clearing prices,
+            so pairing it with open historical sources such as PUDL is a join the user has to
+            make (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL Cambium
         tier: 1
@@ -1093,10 +1354,19 @@ seed_datasets:
         anonymous: true
         bulk: false
         pointer_rationale: Free to read, no open license, PDF only.
+        caveats:
+          - >-
+            RMI notes this is published as a PDF report with no structured artifact, so every
+            value has to be transcribed by hand (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: Aurora, BNEF, LevelTen, ACER AEGIS
         tier: 3
         access_barrier: commercial-paywall
+        caveats:
+          - >-
+            RMI notes forward technology costs from the commercial providers are paywalled and
+            not integrated with open historical sources, so a cost stack assembled from both
+            carries a seam (Data Domain Assessment, 2026-05-05).
         verified: true
       - name: NREL ORBIT
         tier: 3
@@ -1121,6 +1391,26 @@ seed_datasets:
   # =========================================================================
   # DD10 - Geospatial & siting
   # =========================================================================
+      - name: NREL ReEDS model inputs
+        tier: 2
+        provenance: curated
+        access: https://www.nrel.gov/analysis/reeds/
+        format: CSV
+        anonymous: true
+        bulk: true
+        update_frequency: Ongoing
+        note: >-
+          The full input set required to run the ReEDS capacity expansion model. Spans several
+          domains — cost, generator fleet, transmission and resource — rather than sitting in one.
+        caveats:
+          - >-
+            Metadata and methodology are not documented in a way clearly tied to the current
+            GitHub version; the user has to parse file names and formats to work out what each
+            input is (Open Energy Data Inventory, 2025).
+        curator_note: >-
+          Cross-domain. Consider listing under DD1 and DD2 as well once the cross-domain merge
+          is exercised for a row this broad.
+        verified: false
   DD10:
     domain_name: Geospatial & siting
     structural_note: >

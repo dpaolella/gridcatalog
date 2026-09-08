@@ -1,6 +1,6 @@
 """Loading the curated seed inventory into the catalog (WP-2.5).
 
-114 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
+130 anchor datasets across DD1–DD10, from ``data/seed-sources.yaml``.
 
 **The rule this module exists to enforce.** The seed file's header says the
 DD1/DD5/DD8/DD9 entries came from a reviewed feasibility analysis and carry
@@ -17,7 +17,7 @@ had its licence checked.
 
 **No review-queue entry, though this used to claim one.** The queue is an
 operational-store table and this loader is handed a ``RecordStore``; only
-``harvest.runner`` enqueues. So the 58 drafted rows are in the draft graph and
+``harvest.runner`` enqueues. So the 74 drafted rows are in the draft graph and
 absent from the steward queue, which means nothing surfaces them for review —
 and since a confirm with no queue row is now refused outright (#31), nothing can
 promote them either. Whether ``datahub seed`` should write to the operational
@@ -282,6 +282,8 @@ class SeedLoader:
             record["spatialGranularity"] = granularity
         if resolution := _cadence(entry.get("time_resolution")):
             record["timeResolution"] = resolution
+        if (metres := entry.get("spatial_resolution_m")) is not None:
+            record["spatialResolutionMeters"] = float(metres)
 
         if tier is not None:
             record["tier"] = tier
@@ -456,10 +458,18 @@ class SeedLoader:
             restriction = "discontinued"
         if restriction is None:
             restriction = "none" if anonymous is True else "accountRequired"
-        return {
+        access: dict[str, Any] = {
             "accessRestriction": f"{SCHEME_ACCESS_RESTRICTION}/{restriction}",
             "anonymousAccess": anonymous is True,
         }
+        # Also on the dataset, not only on the distribution. `_distribution`
+        # returns None for a row with no access path, so `bulk` on a
+        # reference-only row had nowhere to go and was silently dropped —
+        # PLEXOS-World, SciGRID and the GridPath RA Toolkit each state bulk
+        # availability the catalog was told and discarded (#57).
+        if entry.get("bulk") is not None:
+            access["bulkDownload"] = bool(entry["bulk"])
+        return access
 
     @staticmethod
     def _access_is_assumed(entry: dict[str, Any]) -> bool:
@@ -608,7 +618,24 @@ class SeedLoader:
         return dist
 
     def _caveats(self, entry: dict[str, Any], *, verified: bool) -> list[str]:
-        caveats: list[str] = []
+        """Findings first, then what the pipeline knows about itself.
+
+        The corpus carries 478 caveats over 16 distinct texts, and fifteen of
+        the sixteen are the ones generated below — honest, and all about the
+        state of the catalog rather than the state of the data. A reader who
+        opens five records meets the same four sentences five times and learns
+        to skip the section, which is where a real caveat goes to die.
+
+        So a `caveats:` list in the seed file comes first. Those are findings
+        from use: somebody tried the dataset and hit something. Each carries
+        its attribution in the text, because "ENTSO-E has gaps at 15-minute
+        resolution" is a claim the Hub is making and "Bruegel reports gaps at
+        15-minute resolution" is one it is relaying, and the second is both
+        more useful and more defensible (#55). `og:caveat` is a plain
+        `rdf:langString`, so the attribution travels inline until the shape can
+        hold it as a field.
+        """
+        caveats: list[str] = [_clean(text) for text in entry.get("caveats") or []]
         if not verified:
             caveats.append(
                 "Assembled for the PRD and not yet reviewed. The licence and tier on this "

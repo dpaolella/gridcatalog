@@ -23,7 +23,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from datahub.api.routers.datasets import search_datasets
-from datahub.api.search.document import FACET_FIELDS
+from datahub.api.search.document import FACET_FIELDS, RANGE_FIELDS, range_path
 
 
 def _query_parameters() -> set[str]:
@@ -37,9 +37,14 @@ def _query_parameters() -> set[str]:
         "offset",
         "limit",
         "include_unconfirmed",
+        # Bounds, not exact matches. These resolve through RANGE_FIELDS and
+        # the bbox clause rather than FACET_FIELDS, so the parity rule below
+        # does not apply to them — `test_every_range_parameter_resolves`
+        # covers them instead.
         "bbox",
         "temporal_start",
         "temporal_end",
+        "resolution_max_m",
     }
     return {
         name for name in inspect.signature(search_datasets).parameters if name not in not_filters
@@ -128,3 +133,22 @@ def test_a_bad_field_name_is_a_client_error(client, params):
     response = client.get("/v1/datasets", params=params)
     assert response.status_code == 400, response.text[:200]
     assert "unknown" in response.json()["title"]
+
+
+def test_every_range_parameter_resolves_to_a_field_the_backends_can_bound():
+    """The same rule as above, for the parameters that are bounds not matches.
+
+    A range name the backends cannot resolve fails in two different ways —
+    silently matching nothing in memory, `KeyError` against OpenSearch — so it
+    needs the same machine check that `FACET_FIELDS` gets, not a hand-kept list.
+    """
+    from datahub.api.search.query import SearchParams, _ranges
+
+    named = set(_ranges(SearchParams(completeness_min=1, resolution_max_m=1.0)))
+    assert named, "no range parameter is wired, so this test covers nothing"
+    for name in named:
+        assert range_path(name), name
+    assert named <= set(RANGE_FIELDS), (
+        f"a range parameter resolves through a fallback rather than RANGE_FIELDS: "
+        f"{sorted(named - set(RANGE_FIELDS))}"
+    )

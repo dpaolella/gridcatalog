@@ -74,6 +74,12 @@ Search and read catalog records.
 | `GET` | `/v1/datasets/{dataset_id}/quality` | The three quality facets |
 | `GET` | `/v1/datasets/{dataset_id}/schema` | Field-level metadata |
 
+### gaps
+
+| Method | Path | Summary |
+|---|---|---|
+| `GET` | `/v1/gaps` | Data requirements with no known open supplier |
+
 ### intake
 
 Submit a dataset, or report a problem with one.
@@ -234,6 +240,7 @@ Search the catalog.
 | `format` | query | no | Distribution format label. |
 | `completeness_level` | query | no |  |
 | `anonymous_access` | query | no |  |
+| `resolution_max_m` | query | no | Keep only datasets whose spatial resolution is this fine or finer, in metres. Records that do not state one are excluded, because 'not captured' is not 'fine enough' — see `spatial_granularity` for the class, which most records do carry. |
 | `bbox` | query | no | west,south,east,north in WGS 84. |
 | `temporal_start` | query | no | ISO 8601. |
 | `temporal_end` | query | no | ISO 8601. |
@@ -305,6 +312,18 @@ The record's fields, with units and concepts where they resolve.
 | `dataset_id` | path | yes | The dataset's slug, which is the last segment of its IRI — `ecmwf-era5` for `https://catalog.opengrid.org/ds/ecmwf-era5`. A caller holding the IRI takes its last segment; a full IRI is not accepted in the path, because its slashes are indistinguishable from the sub-resource paths (`/schema`, `/quality`) that follow it. |
 | `limit` | query | no |  |
 | `offset` | query | no |  |
+| `authorization` | header | no |  |
+
+### `GET /v1/gaps`
+
+Search the gap register.
+
+| Name | In | Required | Description |
+|---|---|---|---|
+| `q` | query | no | Free text, matched against the title, category and reason. |
+| `data_domain` | query | no | DD1-DD10. |
+| `needed_by` | query | no | An analysis class that needs this, from the analysis-type scheme — capacityExpansion, productionCost, reliabilityAssessment, acPowerFlow. |
+| `limit` | query | no |  |
 | `authorization` | header | no |  |
 
 ### `POST /v1/reports`

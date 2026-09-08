@@ -23,7 +23,7 @@ from datahub.api.search.backend import (
     SearchRequest,
     SearchResponse,
 )
-from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS, SearchDocument
+from datahub.api.search.document import FACET_FIELDS, SORT_FIELDS, SearchDocument, range_path
 from datahub.graph.graphs import PUBLISHED_STATES
 
 #: Explicit mapping. Dynamic mapping is disabled so a stray field cannot become
@@ -129,6 +129,24 @@ INDEX_MAPPING: dict[str, Any] = {
                     "notation": {"type": "keyword"},
                 },
             },
+            # Projected since `og:usageEvidence` was added and never declared
+            # here, and the mapping is `dynamic: strict` — so every bulk index
+            # failed, not only these three fields. `title` is searchable
+            # because a reader looking for "Pfenninger" should find the
+            # datasets that paper used; `url`, `kind` and `asserted_by` are
+            # keywords because they are filtered and faceted, never matched on.
+            "usage_evidence": {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "text", "analyzer": "og_text"},
+                    "url": {"type": "keyword"},
+                    "kind": {"type": "keyword"},
+                    "author": {"type": "text", "analyzer": "og_text"},
+                    "asserted_by": {"type": "keyword"},
+                },
+            },
+            "usage_evidence_count": {"type": "integer"},
+            "has_usage_evidence": {"type": "boolean"},
             "concepts": {
                 "type": "object",
                 "properties": {
@@ -180,6 +198,7 @@ INDEX_MAPPING: dict[str, Any] = {
                     "native_crs": {"type": "keyword"},
                     "geometry_types": {"type": "keyword"},
                     "granularity": {"type": "keyword"},
+                    "resolution_meters": {"type": "float"},
                     "feature_count": {"type": "long"},
                 },
             },
@@ -217,6 +236,7 @@ INDEX_MAPPING: dict[str, Any] = {
                 },
             },
             "quality_assessed": {"type": "boolean"},
+            "caveats": {"type": "text", "analyzer": "og_text"},
             "has_topology": {"type": "boolean"},
             "has_impedance": {"type": "boolean"},
             "voltage_classes": {"type": "keyword"},
@@ -284,7 +304,7 @@ def build_query(request: SearchRequest) -> dict[str, Any]:
         filters.append({"terms": {_keyword_path(name): [_norm(v) for v in accepted]}})
 
     for name, rng in request.ranges.items():
-        path = FACET_FIELDS.get(name) or SORT_FIELDS[name]
+        path = range_path(name)
         body: dict[str, Any] = {}
         if rng.gte is not None:
             body["gte"] = rng.gte

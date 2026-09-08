@@ -102,6 +102,18 @@ def search_datasets(
     format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
     completeness_level: Annotated[list[int] | None, Query()] = None,
     anonymous_access: Annotated[bool | None, Query()] = None,
+    resolution_max_m: Annotated[
+        float | None,
+        Query(
+            gt=0,
+            description=(
+                "Keep only datasets whose spatial resolution is this fine or finer, in "
+                "metres. Records that do not state one are excluded, because 'not "
+                "captured' is not 'fine enough' — see `spatial_granularity` for the "
+                "class, which most records do carry."
+            ),
+        ),
+    ] = None,
     bbox: Annotated[str | None, Query(description="west,south,east,north in WGS 84.")] = None,
     temporal_start: Annotated[str | None, Query(description="ISO 8601.")] = None,
     temporal_end: Annotated[str | None, Query(description="ISO 8601.")] = None,
@@ -138,6 +150,7 @@ def search_datasets(
             anonymous_access=anonymous_access,
         ),
         bbox=_bbox(bbox),
+        resolution_max_m=resolution_max_m,
         temporal_start=_when(temporal_start, "temporal_start"),
         temporal_end=_when(temporal_end, "temporal_end"),
         sort=sort,

@@ -100,7 +100,7 @@ def build_document(
         redistribution_allowed=_bool(graph.value(iri, OG.redistributionAllowed)),
         access_restriction=_local(graph.value(iri, OG.accessRestriction)),
         anonymous_access=_bool(graph.value(iri, OG.anonymousAccess)),
-        bulk_download=any(d.bulk_download for d in distributions) or None,
+        bulk_download=_bulk_download(graph, iri, distributions),
         formats=sorted({d.media_type for d in distributions if d.media_type}),
         distributions=distributions,
         distribution_count=len(distributions),
@@ -125,6 +125,7 @@ def build_document(
         documentation_status=_str(graph.value(iri, OG.documentationStatus)),
         quality=quality,
         quality_assessed=assessed,
+        caveats=_caveats(graph, iri),
         has_topology=_bool(graph.value(iri, OG.hasTopology)),
         has_impedance=_bool(graph.value(iri, OG.hasImpedance)),
         voltage_classes=sorted(_strs(graph, iri, OG.voltageClass)),
@@ -205,6 +206,25 @@ def _distributions(graph: Graph, iri: URIRef) -> list[DistributionSummary]:
             )
         )
     return out
+
+
+def _bulk_download(
+    graph: Graph, iri: URIRef, distributions: list[DistributionSummary]
+) -> bool | None:
+    """Whether the data can be had in bulk.
+
+    A distribution saying yes settles it: one bulk archive alongside a
+    rate-limited API means bulk is available, and the distribution is the
+    specific claim. Otherwise the dataset's own statement, which is the only
+    place the fact can live for a reference-only record — there are 23 of
+    those, and three of them state bulk availability the catalog used to drop
+    on the floor (#57).
+
+    Still `None` when nobody says anything, because absent means not captured.
+    """
+    if any(d.bulk_download for d in distributions):
+        return True
+    return _bool(graph.value(iri, OG.bulkDownload))
 
 
 def _worst_health(distributions: list[DistributionSummary]) -> str | None:
@@ -302,6 +322,7 @@ def _spatial(graph: Graph, iri: URIRef) -> SpatialCoverage:
         native_crs=_str(graph.value(iri, OG.nativeCRS)),
         geometry_types=sorted(_strs(graph, iri, OG.geometryTypes)),
         granularity=_str(graph.value(iri, OG.spatialGranularity)),
+        resolution_meters=_float(graph.value(iri, DCAT.spatialResolutionInMeters)),
         feature_count=_int(graph.value(iri, OG.featureCount)),
     )
 
@@ -351,6 +372,34 @@ def _int(term: Any, *, default: int | None = None) -> int | None:
         return int(term)
     except (TypeError, ValueError):
         return default
+
+
+def _caveats(graph: Graph, iri: URIRef) -> list[str]:
+    """What a steward or the pipeline recorded about using this dataset.
+
+    They hang off the `og:QualityFlags` node rather than the dataset, which is
+    why they were missed: `construct.rq` carries `og:qualityFlags` into the
+    projected graph, and the document stopped one hop short. 478 caveats in the
+    corpus, reaching nobody (#55).
+
+    Sorted for a stable document. Ordering by meaning is not available — the
+    context declares `og:caveat` as `"@container": "@set"`, so RDF hands them
+    back in whatever order it likes and any ordering here would be a lie the
+    next graph tells differently.
+    """
+    flags = graph.value(iri, OG.qualityFlags)
+    if flags is None:
+        return []
+    return sorted(str(text) for text in graph.objects(flags, OG.caveat))
+
+
+def _float(term: Any) -> float | None:
+    if term is None:
+        return None
+    try:
+        return float(term)
+    except (TypeError, ValueError):
+        return None
 
 
 def _bool(term: Any) -> bool | None:
