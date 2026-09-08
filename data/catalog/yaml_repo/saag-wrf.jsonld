@@ -20,7 +20,7 @@
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -28,20 +28,20 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.1. Source declares DD5, DD10. Determined by the phrase \"era5\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "air temperature",
         "land",
         "climate model",
         "geospatial",
-        "aws-pds",
-        "hydrology",
-        "precipitation",
-        "atmosphere",
+        "model",
         "climate",
-        "model"
+        "precipitation",
+        "air temperature",
+        "hydrology",
+        "atmosphere",
+        "aws-pds"
       ],
       "landingPage": "https://registry.opendata.aws/saag-wrf/",
       "license": "https://www.ucar.edu/terms-of-use/data",
-      "modified": "2026-09-07T07:36:23.855739+00:00",
+      "modified": "2026-09-08T21:57:38.686540+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -55,6 +55,26 @@
       "sourceRecordId": "aws_open_data:saag-wrf",
       "title": "Multidecadal Convection-permitting Simulations of Current and Future Climate over South America using WRF",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.1175/BAMS-D-22-0226.1",
+          "assertedBy": "aws_open_data",
+          "authorName": "Dominguez et al. (2024), Bull. Amer. Meteor. Soc., 105, E32–E44",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/saag-wrf#usage-0",
+          "title": "Advancing South American Water and Climate Science through Multidecadal Convection-Permitting Modeling",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/NCAR/SAAG/blob/main/SAAG_readin.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Erin Dougherty",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/saag-wrf#usage-1",
+          "title": "SAAG_readin.ipnyb",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

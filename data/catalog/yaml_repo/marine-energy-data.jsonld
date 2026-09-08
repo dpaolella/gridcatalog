@@ -6,8 +6,8 @@
       "anonymousAccess": true,
       "completenessLevel": 1,
       "dataDomain": [
-        "https://schema.opengrid.org/concept/data-domain/DD5",
-        "https://schema.opengrid.org/concept/data-domain/DD10"
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
       ],
       "description": "Data released from projects funded by the Department of Energy's Water Power Technologies Office (DOE WPTO) that are too large or complex to be conveniently accessed by traditional means. The Marine Energy data lake aims to improve and automate access of high-value MHK data sets, making data actionable and discoverable by researchers and industry to accelerate analysis and advance innovation. This data lake is a sister-data lake to the Department of Energy’s Open Energy Data Initiative (OEDI) data lake.",
       "distribution": [
@@ -20,14 +20,6 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/uw-passive-acoustics/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/marine-energy-data--6",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/pacwave/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -36,11 +28,19 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/us-tidal/",
+          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/marine-energy-data--4",
+          "id": "https://catalog.opengrid.org/dist/marine-energy-data--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/uw-passive-acoustics/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/marine-energy-data--6",
           "type": "Distribution"
         },
         {
@@ -60,11 +60,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/",
+          "accessURL": "https://marine-energy-data.s3.us-west-2.amazonaws.com/us-tidal/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/marine-energy-data--0",
+          "id": "https://catalog.opengrid.org/dist/marine-energy-data--4",
           "type": "Distribution"
         }
       ],
@@ -78,13 +78,13 @@
       "inferredAssignment": true,
       "keyword": [
         "water",
-        "aws-pds",
         "energy",
+        "aws-pds",
         "marine"
       ],
       "landingPage": "https://registry.opendata.aws/marine-energy-data/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.393578+00:00",
+      "modified": "2026-09-08T21:57:31.943740+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/marine-energy-data#provenance-gap",
@@ -92,8 +92,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/marine-energy-data#flags",
         "staleness": "unknown",

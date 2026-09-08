@@ -1,0 +1,120 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Tanzania Electric Supply Company Limited (TANESCO) is a parastatal organization under the Ministry of Energy and Minerals. The Company generates, transmits, distributes and sells electricity to Tanzania Mainland and sells bulk power to the Zanzibar Electricity Corporation (ZECO) which in turn sells it to the public in islands Unguja and Pemba. TANESCO owns most of the electricity Generating, Transmitting and Distributing facilities in Tanzania Mainland. The dataset provides information on existing, under construction and proposed power stations for hydro, thermal and substations, as well as existing and under construction transmission lines. The data is geo-referenced , digitized and extracted from the national grid system map published in 2015 by TANESCO. The following links are datasets related to Tanzania's power systems that are provided by other sources and are available for data comparisons. Tanzania - Power Plants (2015) https://energydata.info/dataset/tanzania---power-plants--2015- Tanzania - Electricity Transmission Network (2014) https://energydata.info/dataset/tanzania-electricity-transmission-networ... Tanzania - Transmission Grid Network (2015) https://energydata.info/dataset/transmission-network-tanzania",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052987/tanesco_national_grid_map-2015.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052981/substations2015.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052979/thermal_plants.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052986/transmission_lines_under_construction.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052983/existing_transmissions_lines2015.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052977/hydro_plants.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052978/hydro.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052984/existing_transmission_lines.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052982/substations_0.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052980/thermal.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042310/DR0052985/under_construction.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-tanesco-power-systems--8",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/tanzania-tanesco-power-systems",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/tanzania-tanesco-power-systems#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/tanzania-tanesco-power-systems#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:4f9bd6ba-a4de-4f3b-833f-8385a076ad2b",
+      "title": "Tanzania - TANESCO Power Systems",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -29,21 +29,21 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1, DD10 2.5. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "global",
-        "opendap",
-        "land",
-        "earth observation",
-        "geospatial",
-        "aws-pds",
-        "water",
-        "evapotranspiration",
         "atmosphere",
+        "water",
         "land cover",
+        "evapotranspiration",
+        "aws-pds",
+        "land",
+        "geospatial",
+        "global",
+        "earth observation",
+        "opendap",
         "hdf"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-mod16a2/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:21.174139+00:00",
+      "modified": "2026-09-08T21:57:35.532949+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -58,6 +58,17 @@
       "title": "MODIS/Terra Net Evapotranspiration 8-Day L4 Global 500m SIN Grid V061",
       "type": "Dataset",
       "updateCadence": "P1M",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/nasa/LPDAAC-Data-Resources/blob/7f58ad3abeca7f0d17637ddb812642c0120a57ab/python/how-tos/Earthdata_Cloud__Download_file_from_S3.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "LPDAAC",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nasa-mod16a2#usage-0",
+          "title": "Download Files from S3 Using boto3",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

@@ -20,51 +20,6 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_NOAH0125_H.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--3",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_NOAH0125_M.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--4",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_VIC0125_H.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--12",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_MOS0125_MC.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--2",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_MOS0125_M.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--1",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_VIC0125_MC.2.0",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -74,11 +29,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORA0125_M.2.0",
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORA0125_H.2.0",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--7",
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--6",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -92,24 +47,6 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_H.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--9",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_MC.2.0",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--11",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_MOS0125_H.2.0",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -119,11 +56,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_M.2.0",
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORA0125_M.2.0",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--10",
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--7",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -137,11 +74,74 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORA0125_H.2.0",
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_MOS0125_MC.2.0",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-nldas--6",
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_MC.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--11",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_NOAH0125_H.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_VIC0125_H.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--12",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_H.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--9",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_FORB0125_M.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--10",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_MOS0125_M.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://gesdisc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/NLDAS/NLDAS_NOAH0125_M.2.0",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-nldas--4",
           "requesterPays": false,
           "type": "Distribution"
         }
@@ -155,19 +155,19 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 5.7, DD10 2.1. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "satellite imagery",
         "ice",
-        "weather",
-        "soil moisture",
-        "netcdf",
-        "precipitation",
-        "climate",
         "aws-pds",
-        "radar"
+        "radar",
+        "soil moisture",
+        "climate",
+        "netcdf",
+        "weather",
+        "satellite imagery",
+        "precipitation"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-nldas/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:21.436125+00:00",
+      "modified": "2026-09-08T21:57:35.845751+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

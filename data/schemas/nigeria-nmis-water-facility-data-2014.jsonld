@@ -1,0 +1,109 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "date_of_survey",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/date_of_survey",
+      "localName": "date_of_survey",
+      "type": "Field"
+    },
+    {
+      "fieldId": "breakdown",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/breakdown",
+      "localName": "breakdown",
+      "type": "Field"
+    },
+    {
+      "fieldId": "is_improved",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/is_improved",
+      "localName": "is_improved",
+      "type": "Field"
+    },
+    {
+      "fieldId": "longitude",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/longitude",
+      "localName": "longitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "facility_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/facility_id",
+      "localName": "facility_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "facility_name",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/facility_name",
+      "localName": "facility_name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "functional",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/functional",
+      "localName": "functional",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ward",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/ward",
+      "localName": "ward",
+      "type": "Field"
+    },
+    {
+      "fieldId": "water_point_type",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/water_point_type",
+      "localName": "water_point_type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "lift_mechanism",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/lift_mechanism",
+      "localName": "lift_mechanism",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gps",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/gps",
+      "localName": "gps",
+      "type": "Field"
+    },
+    {
+      "fieldId": "latitude",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/latitude",
+      "localName": "latitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "survey_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/survey_id",
+      "localName": "survey_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sector",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/sector",
+      "localName": "sector",
+      "type": "Field"
+    },
+    {
+      "fieldId": "formhub_photo_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/formhub_photo_id",
+      "localName": "formhub_photo_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "unique_lga",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/unique_lga",
+      "localName": "unique_lga",
+      "type": "Field"
+    },
+    {
+      "fieldId": "community",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/community",
+      "localName": "community",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/nigeria-nmis-water-facility-data-2014",
+  "schemaSource": "csv-header at https://energydata.info/dataset/33cbdf76-db76-447b-a02d-779a4b562147/resource/f9d82d17-72b0-49de-80c3-53af06e6e98b/download/watermopupandbaselinenmisfacility.csv"
+}

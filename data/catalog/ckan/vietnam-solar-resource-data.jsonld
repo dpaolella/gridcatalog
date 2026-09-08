@@ -1,0 +1,53 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Solar resource, PV power potential and other parameters are provided in the form of raster (gridded) GeoTIFF format. The provided ZIP files to download contains the layers of: PVOUT (photovoltaic power potential), GHI (global horizontal irradiation), DIF (diffuse horizontal irradiation), GTI (global irradiation for optimally tilted surface), OPTA (optimum tilt of PV module to maximize the yearly yield), DNI (direct normal irradiation), TEMP (air Temperature at 2 m above ground level in °C), ELE (Terrain elevation above sea level in metres). There are two temporal representation of solar resource and PVOUT data available: • Longterm yearly/monthly average of daily totals (LTAym_AvgDailyTotals) • Longterm average of yearly/monthly totals (LTAym_YearlyMonthlyTotals) Both type of data are equivalent, you can select the summarization of your preference. The relation between datasets is described by simple equations: • LTAy_YearlyTotals = LTAy_DailyTotals * 365.25 • LTAy_MonthlyTotals = LTAy_DailyTotals * Number_of_Days_In_The_Month Data layers are provided in a geographic spatial reference (EPSG:4326). The resolution (pixel size) of solar resource data (GHI, DIF, GTI, DNI) is 9 arcsec (nominally 250 m), PVOUT and TEMP 30 arcsec (nominally 1 km) and OPTA 2 arcmin (nominally 4 km). For more information and terms of use, please, read metadata, provided in PDF and XML format for each data layer in a download file. For other data formats, resolution or time aggregation, please, visit globalsolaratlas.info",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/54c89285-8c2e-4456-a669-f051f4436538/resource/322a3d27-ff17-47ed-a7de-6e0d0a785658/download/vietnam_gisdata_ltaym_avgdailytotals_globalsolaratlas-v2_geotiff.zip",
+          "byteSize": 66145198,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-solar-resource-data--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/vietnam-solar-resource-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 3.3, DD5 2.9. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2020-09-15T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2020-10-07T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/vietnam-solar-resource-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/vietnam-solar-resource-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:54c89285-8c2e-4456-a669-f051f4436538",
+      "title": "Vietnam Solar Resource Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

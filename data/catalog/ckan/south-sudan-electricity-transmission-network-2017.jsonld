@@ -1,0 +1,70 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Combination of the following data sources: 1) Africa Infrastructure Country Diagnostic (AICD) 2) OSM data © OpenStreetMap contributors 3) World Bank project archives",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039349/1/DR0048858/southsudangrid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-sudan-electricity-transmission-network-2017--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/82649e0d-3b26-4fd5-8cc1-6e09c472bb71/resource/442967d7-bd92-463a-a71a-1b38fd1e5b95/download/southsudangrid.geojson",
+          "byteSize": 34928,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-sudan-electricity-transmission-network-2017--2",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039349/1/DR0048859/southsudangrid.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-sudan-electricity-transmission-network-2017--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/82649e0d-3b26-4fd5-8cc1-6e09c472bb71/resource/3e4b2e29-0fe8-4e4e-8067-a93a0dbeb8e0/download/southsudangrid.geojson",
+          "byteSize": 34622,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-sudan-electricity-transmission-network-2017--3",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/south-sudan-electricity-transmission-network-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"openstreetmap\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2017-03-29T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/south-sudan-electricity-transmission-network-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:82649e0d-3b26-4fd5-8cc1-6e09c472bb71",
+      "title": "South Sudan - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

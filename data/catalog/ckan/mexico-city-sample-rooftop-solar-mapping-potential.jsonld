@@ -1,0 +1,181 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This dataset contains solar rooftop potential data (installable capacity, estimated electricity generation) for a sample area of interest in Mexico City. The data was gathered by extracting building rooftop footprint polygons from very high resolution stereosatelite imagery. Detailed methodology is available upon specific request.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/538e3521-fb49-4797-b6ca-822ba77c335e/download/pilot_mexicocity_results_neo_20191014.shp",
+          "byteSize": 162067744,
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--3",
+          "mediaType": "application/x-qgis",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/e32b4ba9-a422-4c9f-b38b-22ee179eb2c8/download/pilot_mexicocity_results_neo_20191014.dbf",
+          "byteSize": 630412071,
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/544bf300-265c-448e-956e-65995bb3dd7c/download/pilot_mexicocity_results_neo_20191014.shx",
+          "byteSize": 4717868,
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--4",
+          "mediaType": "application/x-qgis",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/2ee1c5b4-e4e8-4ca5-8e0a-6135ccada31e/download/mexicocity_result_metadata.xlsx",
+          "byteSize": 10213,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--5",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/6e1f3334-0d1e-4dea-806d-27f8e076425c/download/pilot_mexicocity_results_neo_20191014.prj",
+          "byteSize": 390,
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/ac7ad84a-3855-44b8-91d5-feeda93f9317/download/mexicocity_rooftop_solar_potential.csv",
+          "byteSize": 66644150,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--6",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/e472a83d-7498-4b1a-ae67-a74b6c1fd2cd/download/pilot_mexicocity_results_neo_20191014.qpj",
+          "byteSize": 599,
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mexico-city-sample-rooftop-solar-mapping-potential--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "uuid",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/uuid",
+          "localName": "uuid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_tilt",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Estimated_tilt",
+          "localName": "Estimated_tilt",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Unit_installation_price",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Unit_installation_price",
+          "localName": "Unit_installation_price",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_building_height",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Estimated_building_height",
+          "localName": "Estimated_building_height",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Peak_installable_capacity",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Peak_installable_capacity",
+          "localName": "Peak_installable_capacity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy_potential_per_year",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Energy_potential_per_year",
+          "localName": "Energy_potential_per_year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_capacity_factor",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Estimated_capacity_factor",
+          "localName": "Estimated_capacity_factor",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comment",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Comment",
+          "localName": "Comment",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Assumed_building_type",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Assumed_building_type",
+          "localName": "Assumed_building_type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Surface_area",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Surface_area",
+          "localName": "Surface_area",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Potential_installable_area",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/Potential_installable_area",
+          "localName": "Potential_installable_area",
+          "type": "Field"
+        },
+        {
+          "fieldId": "City",
+          "id": "https://catalog.opengrid.org/field/mexico-city-sample-rooftop-solar-mapping-potential/City",
+          "localName": "City",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/mexico-city-sample-rooftop-solar-mapping-potential",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2019-10-16T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/mexico-city-sample-rooftop-solar-mapping-potential#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/mexico-city-sample-rooftop-solar-mapping-potential#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/3ecc2cef-9194-4231-b843-70205bfffc2a/resource/ac7ad84a-3855-44b8-91d5-feeda93f9317/download/mexicocity_rooftop_solar_potential.csv",
+      "sourceRecordId": "energydata_info:3ecc2cef-9194-4231-b843-70205bfffc2a",
+      "title": "Mexico City - Sample Rooftop Solar Mapping Potential",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

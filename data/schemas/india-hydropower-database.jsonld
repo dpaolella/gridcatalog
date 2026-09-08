@@ -1,0 +1,307 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Ann_firm_gen",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Ann_firm_gen",
+      "localName": "Ann_firm_gen",
+      "type": "Field"
+    },
+    {
+      "fieldId": "HPP_elec_cap",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/HPP_elec_cap",
+      "localName": "HPP_elec_cap",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Hydropower_Type",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Hydropower_Type",
+      "localName": "Hydropower_Type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Ann_tot_gen",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Ann_tot_gen",
+      "localName": "Ann_tot_gen",
+      "type": "Field"
+    },
+    {
+      "fieldId": "No_Units",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/No_Units",
+      "localName": "No_Units",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Long (hydropower station 1)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Long-hydropower-station-1",
+      "localName": "Long (hydropower station 1)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Purpose",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Purpose",
+      "localName": "Purpose",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 5",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-5",
+      "localName": "Reference 5",
+      "type": "Field"
+    },
+    {
+      "fieldId": "DamComplete",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/DamComplete",
+      "localName": "DamComplete",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 10",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-10",
+      "localName": "Reference 10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 8",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-8",
+      "localName": "Reference 8",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Transm_length",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Transm_length",
+      "localName": "Transm_length",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Res_capacityMm3",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Res_capacityMm3",
+      "localName": "Res_capacityMm3",
+      "type": "Field"
+    },
+    {
+      "fieldId": "River",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/River",
+      "localName": "River",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 2",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-2",
+      "localName": "Reference 2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 6",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-6",
+      "localName": "Reference 6",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Dam_hgt",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Dam_hgt",
+      "localName": "Dam_hgt",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Column1",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Column1",
+      "localName": "Column1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "District",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/District",
+      "localName": "District",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 1",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-1",
+      "localName": "Reference 1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Comissioned",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Comissioned",
+      "localName": "Comissioned",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 3",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-3",
+      "localName": "Reference 3",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 4",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-4",
+      "localName": "Reference 4",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Op_Status",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Op_Status",
+      "localName": "Op_Status",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Owner",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Owner",
+      "localName": "Owner",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lat (hydropower station 1)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Lat-hydropower-station-1",
+      "localName": "Lat (hydropower station 1)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Country",
+      "localName": "Country",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WaterHeadhgt( max)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/WaterHeadhgt-max",
+      "localName": "WaterHeadhgt( max)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Near_city",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Near_city",
+      "localName": "Near_city",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lat (reservoir/dam)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Lat-reservoir-dam",
+      "localName": "Lat (reservoir/dam)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Transm_exist",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Transm_exist",
+      "localName": "Transm_exist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Database Status",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Database-Status",
+      "localName": "Database Status",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Long (reservoir/dam)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Long-reservoir-dam",
+      "localName": "Long (reservoir/dam)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Catch_Area",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Catch_Area",
+      "localName": "Catch_Area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Transm_planned",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Transm_planned",
+      "localName": "Transm_planned",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WaterHeadHgt (min)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/WaterHeadHgt-min",
+      "localName": "WaterHeadHgt (min)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Admin_unit",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Admin_unit",
+      "localName": "Admin_unit",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Display",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Display",
+      "localName": "Display",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Res_area km2",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Res_area-km2",
+      "localName": "Res_area km2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lake Name",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Lake-Name",
+      "localName": "Lake Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Comment",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Comment",
+      "localName": "Comment",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ID",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/ID",
+      "localName": "ID",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Hydropower Station Name",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Hydropower-Station-Name",
+      "localName": "Hydropower Station Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lat (hydropower station 2)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Lat-hydropower-station-2",
+      "localName": "Lat (hydropower station 2)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 9",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-9",
+      "localName": "Reference 9",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Main_basin",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Main_basin",
+      "localName": "Main_basin",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ISO",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/ISO",
+      "localName": "ISO",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reservoir Name",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reservoir-Name",
+      "localName": "Reservoir Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Long (hydropower station 2)",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Long-hydropower-station-2",
+      "localName": "Long (hydropower station 2)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Reference 7",
+      "id": "https://catalog.opengrid.org/field/india-hydropower-database/Reference-7",
+      "localName": "Reference 7",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/india-hydropower-database",
+  "schemaSource": "csv-header at https://energydata.info/dataset/01f6fdfc-ee24-4f3f-9580-389eb39ef959/resource/71e057a7-585b-4cc7-925c-b62061aff404/download/iha_hydrodatabase_240919_csv.csv"
+}

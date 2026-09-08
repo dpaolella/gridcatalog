@@ -1,0 +1,377 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar and meteorological ground measurements from a network of weather stations in West Africa. The data is provided in the framework of the West African Power Pool project: \"Solar Development in Sub-Saharan Africa - Solar resource measurement campaign in West Africa”. Funding is provided by World Bank. Measurement Date Range: - Bougouni: 2021-04-28 – 2023-04-27 - Fana: 2021-04-29 – 2023-04-28 - Sanankoroba: 2021-04-28 – 2023-04-27 - Sikasso: 2021-09-30 – 2023-09-29 - Manantali: 2021-11-09 – 2023-11-08",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/3ae5e2f5-44ff-4068-8c63-2e4e07c56202/download/solar-measurements_mali-bougouni_qc_year2_r2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/917dfa3e-7f22-421f-9f5a-dd2729be1e81/download/solar-measurements_mali-sanankoroba_qc_year2_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--26",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/9b68ebc5-cb2e-49e9-a7eb-1a9d3e43a595/download/solar-measurements_mali-fana_header_fr_en.xlsx",
+          "byteSize": 20194,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--19",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/0fdfadac-8382-42d9-a1fc-5669aac1d2ea/download/solar-measurements_mali-sikasso_header_fr_en.xlsx",
+          "byteSize": 18815,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--9",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/0056da22-81cd-4344-8665-7899af90b277/download/csps-yls_wapp_stationinstallationreport_mali-sikasso_2021-09-29_fr_en.pdf",
+          "byteSize": 8693691,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--6",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/12fb2e3b-4914-4f63-8b26-e4451a4ed5ef/download/solar-measurements_mali-fana_qc_year2_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--21",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/03e363f1-5520-4907-ab14-9113a71ec8aa/download/solar-measurements_mali-bougouni_qc_r2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--15",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/ba1d4e2c-d970-4fcb-b6d0-3b42f0189b6d/download/solar-measurements_mali-manantali_header_fr_en.xlsx",
+          "byteSize": 18755,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/61b254a7-66bb-489d-ae73-590218fcda1b/download/csps-yls_wapp_stationmeasurementreport_mali-fana_2023-04-28-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--18",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/f25ca467-9899-4db1-84d2-d6c311fc8b88/download/solar-measurements_mali_bougouni_header_fr_en.xlsx",
+          "byteSize": 20234,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--14",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/f1319b59-becd-4f1d-b042-c3af52533b30/download/solar-measurements_mali-sanankoroba_header_fr_en.xlsx",
+          "byteSize": 20180,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--24",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/6fec8db8-8155-48b7-9194-a84bae875681/download/solar-measurements_mali-sikasso_qc.csv",
+          "byteSize": 45398176,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--10",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/6bdb9dae-beb2-4660-9fa8-3446f7d3dd60/download/solar-measurements_mali-sikasso_qc_year2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/67ea8420-f607-483d-916b-fec4af8fb1fb/download/solar-measurements_mali-fana_qc_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--20",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/a7e961fd-6c2f-4449-aa2a-5924c4abecab/download/csps-yls_wapp_stationmeasurementreport_mali-sikasso_2022-09-29_fr_en.pdf",
+          "byteSize": 12799781,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--7",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/a7381e62-7480-4937-b468-336c5d06164a/download/csps-yls_wapp_stationmeasurementreport_mali-bougouni_2022-04-27_fr_en.pdf",
+          "byteSize": 10323721,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--12",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/3cce3394-7d5a-4c2a-bf0e-137ebe4ca1ab/download/csps-yls_wapp_stationmeasurementreport_mali-bougouni_2023-04-27-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/a2fbc887-334a-40f0-b6f7-62828f467821/download/csps-yls_wapp_stationinstallationreport_mali_manantali_2021-11-08_fr_en.pdf",
+          "byteSize": 8878755,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/7a633125-4592-48ed-871a-fcaecf008cf5/download/csps-yls_wapp_stationmeasurementreport_mali-sikasso_2023-09-29-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/8cd2a81e-6775-4182-a18b-a11e67a06af7/download/csps-yls_wapp_stationmeasurementreport_mali-fana_2022-04-28_fr_en.pdf",
+          "byteSize": 9732846,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--17",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/0487c1ee-b2e8-4d58-b60a-51d9ac058957/download/solar-measurements_mali-manantali_qc.csv",
+          "byteSize": 46085828,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/d9884acf-6a3f-4e22-a075-9e3bedcd1a44/download/csps-yls_wapp_stationmeasurementreport_mali-manantali_2022-11-09_fr_en.pdf",
+          "byteSize": 13030311,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/ac2cb571-7cfa-440e-a8a4-1194027597f5/download/csps-yls_wapp_stationmeasurementreport_mali-sanankoroba_2022-04-27_fr_en.pdf",
+          "byteSize": 10721650,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--22",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/dd96251b-acdc-4bc1-939d-32ffce820ca1/download/solar-measurements_mali-manantali_qc_year2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/ba459251-8300-4dd6-a037-4249af3e32c3/download/csps-yls_wapp_stationmeasurementreport_mali-sanankoroba_2023-04-27-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--23",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/c1cb7c54-c4cb-4c0a-ac73-e80a294b76fa/download/solar-measurements_mali-sanankoroba_qc_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--25",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/48fd3c0c-f4ed-4441-ac94-fe858299e4cf/download/csps-yls_wapp_stationmeasurementreport_mali-manantali_2023-11-09-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mali-solar-radiation-measurement-data--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "GHI",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/GHI",
+          "localName": "GHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSstdev",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/WSstdev",
+          "localName": "WSstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DHI",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/DHI",
+          "localName": "DHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModA",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/TModA",
+          "localName": "TModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WD",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/WD",
+          "localName": "WD",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timestamp",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/Timestamp",
+          "localName": "Timestamp",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tamb",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/Tamb",
+          "localName": "Tamb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModA",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/ModA",
+          "localName": "ModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WS",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/WS",
+          "localName": "WS",
+          "type": "Field"
+        },
+        {
+          "fieldId": "RH",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/RH",
+          "localName": "RH",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSgust",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/WSgust",
+          "localName": "WSgust",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DNI",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/DNI",
+          "localName": "DNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "BP",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/BP",
+          "localName": "BP",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Precipitation",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/Precipitation",
+          "localName": "Precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModB",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/TModB",
+          "localName": "TModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cleaning",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/Cleaning",
+          "localName": "Cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WDstdev",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/WDstdev",
+          "localName": "WDstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModB",
+          "id": "https://catalog.opengrid.org/field/mali-solar-radiation-measurement-data/ModB",
+          "localName": "ModB",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/mali-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2022-06-28T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/mali-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/mali-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/98291b8f-a342-4bd6-a931-e37fa6ba81a5/resource/0487c1ee-b2e8-4d58-b60a-51d9ac058957/download/solar-measurements_mali-manantali_qc.csv",
+      "sourceRecordId": "energydata_info:98291b8f-a342-4bd6-a931-e37fa6ba81a5",
+      "title": "Mali - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

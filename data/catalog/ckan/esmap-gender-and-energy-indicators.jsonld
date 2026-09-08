@@ -1,0 +1,55 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "In 2022, the ESMAP Gender and Energy Program and RISE created a database on gender-related indicators relevant to the energy sector. The energy sector plays a critical role in promoting gender equality, as access to energy, both electricity and clean cooking, has a direct impact on women's economic empowerment, poverty reduction and shared prosperity. There remains a lack of comprehensive and up-to-date data and information on gender-related indicators in the energy sector, making it challenging to understand the magnitude of gender gaps, monitor progress on program implementation and inform future policy decisions. This database has been created to address this. The database includes up-to-date data on energy access, women’s representation in the energy sector, women’s human endowments that impact and are impacted by energy access, gender-responsive policies in the energy sector, among others, for 217 countries.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/a3e998d3-a9f4-4efc-ab37-3fa9656b88cb/resource/6b75f9df-29d8-40f7-a360-75c6b0eb155c/download/esmap-gender-and-energy-data-module_vf-4.xlsx",
+          "byteSize": 852906,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/esmap-gender-and-energy-indicators--0",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/esmap-gender-and-energy-indicators",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2023-02-24T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-05-31T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/esmap-gender-and-energy-indicators#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/esmap-gender-and-energy-indicators#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:a3e998d3-a9f4-4efc-ab37-3fa9656b88cb",
+      "title": "ESMAP Gender and Energy Indicators",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

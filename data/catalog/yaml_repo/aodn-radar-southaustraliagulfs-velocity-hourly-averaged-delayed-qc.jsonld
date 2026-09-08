@@ -28,63 +28,11 @@
       "hasField": [
         {
           "dataType": "float64",
-          "fieldId": "UCUR_sd",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/UCUR_sd",
-          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR_sd",
-          "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "VCUR",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR",
-          "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "VCUR",
-          "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "NOBS2",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/NOBS2",
-          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
-          "localName": "NOBS2",
-          "type": "Field",
-          "unitAsStated": "1"
-        },
-        {
-          "dataType": "float64",
-          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
-          "fieldId": "VCUR_quality_control",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
-          "label": "quality flag for northward_sea_water_velocity",
-          "localName": "VCUR_quality_control",
-          "type": "Field"
-        },
-        {
-          "dataType": "float64",
           "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
           "fieldId": "UCUR_quality_control",
           "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/UCUR_quality_control",
           "label": "quality flag for eastward_sea_water_velocity",
           "localName": "UCUR_quality_control",
-          "type": "Field"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "VCUR_sd",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR_sd",
-          "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "VCUR_sd",
-          "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "str424",
-          "fieldId": "filename",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/filename",
-          "localName": "filename",
           "type": "Field"
         },
         {
@@ -98,6 +46,49 @@
         },
         {
           "dataType": "float64",
+          "fieldId": "NOBS2",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/NOBS2",
+          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+          "localName": "NOBS2",
+          "type": "Field",
+          "unitAsStated": "1"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "UCUR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/UCUR",
+          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR",
+          "type": "Field",
+          "unitAsStated": "m s-1"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "UCUR_sd",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/UCUR_sd",
+          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR_sd",
+          "type": "Field",
+          "unitAsStated": "m s-1"
+        },
+        {
+          "dataType": "float64",
+          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+          "fieldId": "VCUR_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
+          "label": "quality flag for northward_sea_water_velocity",
+          "localName": "VCUR_quality_control",
+          "type": "Field"
+        },
+        {
+          "dataType": "str424",
+          "fieldId": "filename",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/filename",
+          "localName": "filename",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
           "definition": "This angle is used to assess the impact of Geometric Dilution of Precision. If angle >= 150 or <= 30, then QC flag will not be lower than 4 (see abstract).",
           "fieldId": "GDOP",
           "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/GDOP",
@@ -108,10 +99,19 @@
         },
         {
           "dataType": "float64",
-          "fieldId": "UCUR",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/UCUR",
-          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR",
+          "fieldId": "VCUR_sd",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR_sd",
+          "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "VCUR_sd",
+          "type": "Field",
+          "unitAsStated": "m s-1"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "VCUR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc/VCUR",
+          "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "VCUR",
           "type": "Field",
           "unitAsStated": "m s-1"
         }
@@ -120,13 +120,13 @@
       "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
       "inferredAssignment": true,
       "keyword": [
-        "oceans",
+        "ocean currents",
         "ocean velocity",
-        "ocean currents"
+        "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/aodn_radar_southaustraliagulfs_velocity_hourly_averaged_delayed_qc/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.338536+00:00",
+      "modified": "2026-09-08T21:57:30.774710+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc#provenance-gap",
@@ -134,8 +134,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
         ],
         "id": "https://catalog.opengrid.org/ds/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc#flags",
         "staleness": "unknown",
@@ -147,6 +147,26 @@
       "title": "Ocean Radar - South Australian gulfs site - Sea water velocity - Delayed mode",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/GetAodnData.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc#usage-1",
+          "title": "Accessing and search for any AODN dataset",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/radar_SouthAustraliaGulfs_velocity_hourly_averaged_delayed_qc.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-southaustraliagulfs-velocity-hourly-averaged-delayed-qc#usage-0",
+          "title": "Accessing IMOS - ACORN - South Australia Gulfs HF ocean radar site (South Australia, Australia) - Delayed mode sea water velocity",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

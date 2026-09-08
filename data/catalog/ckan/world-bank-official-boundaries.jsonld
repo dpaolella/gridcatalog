@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "World Bank-approved administrative boundaries (Admin 0) (and polygons) including international boundaries, disputed areas, coastlines, lakes and a guide to help with their usage. Boundaries are available as an ESRI GeoDatabase, in GeoJSON, a shapefile and API endpoints for interactive maps. If Bank staff use this data to create a map (print, web, or presentations for external audience e.g. external web sites, on mission), staff must receive clearance for the map by submitting the created map to the World Bank Cartography Unit (please refer to contact email below).",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0038272/DR0046659/wb_countries_admin0_10m.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-bank-official-boundaries--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geowb.worldbank.org/hosting/rest/services/Hosted/WB_GAD_Medium_Resolution/FeatureServer",
+          "formatLabel": "VECTOR API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-bank-official-boundaries--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geowb.worldbank.org/portal/home/item.html",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-bank-official-boundaries--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/world-bank-official-boundaries",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-27T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-bank-official-boundaries#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-bank-official-boundaries#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:db221e08-4585-4360-871d-2f2a12ea9d73",
+      "title": "World Bank Official Boundaries",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "This readme file has been edited by the World Bank Development Data Hub (DDH) curation team",
+      "id": "https://catalog.opengrid.org/field/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change/This-readme-file-has-been-edited-by-the-World-Bank-Development-Data-Hub-DDH-curation-team",
+      "localName": "This readme file has been edited by the World Bank Development Data Hub (DDH) curation team",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and is not an exact match",
+      "id": "https://catalog.opengrid.org/field/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change/and-is-not-an-exact-match",
+      "localName": "and is not an exact match",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049789/1_readme.txt"
+}

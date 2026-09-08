@@ -1,0 +1,79 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "barometric_pressure",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/barometric_pressure",
+      "localName": "barometric_pressure",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_rsi",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/ghi_rsi",
+      "localName": "ghi_rsi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "relative_humidity",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/relative_humidity",
+      "localName": "relative_humidity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_pyr",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/ghi_pyr",
+      "localName": "ghi_pyr",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dhi_rsi",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/dhi_rsi",
+      "localName": "dhi_rsi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "air_temperature",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/air_temperature",
+      "localName": "air_temperature",
+      "type": "Field"
+    },
+    {
+      "fieldId": "time",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/time",
+      "localName": "time",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_speed",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/wind_speed",
+      "localName": "wind_speed",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dni_rsi",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/dni_rsi",
+      "localName": "dni_rsi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LOCATION",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/LOCATION",
+      "localName": "LOCATION",
+      "type": "Field"
+    },
+    {
+      "fieldId": "comments",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/comments",
+      "localName": "comments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sensor_cleaning",
+      "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/sensor_cleaning",
+      "localName": "sensor_cleaning",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/maldives-solar-radiation-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/49ea92a9-f3ee-49e5-aede-10b7b85b308b/download/solar-measurements_maldives_gan_wb-esmap_qc.csv"
+}

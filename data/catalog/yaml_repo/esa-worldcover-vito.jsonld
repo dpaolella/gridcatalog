@@ -21,7 +21,7 @@
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -29,25 +29,25 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
+        "cog",
         "disaster response",
-        "machine learning",
-        "land use",
         "natural resource",
         "synthetic aperture radar",
-        "satellite imagery",
         "stac",
-        "sustainability",
         "geospatial",
         "earth observation",
         "mapping",
         "aws-pds",
         "agriculture",
-        "cog",
+        "satellite imagery",
+        "land use",
+        "machine learning",
+        "sustainability",
         "land cover"
       ],
       "landingPage": "https://registry.opendata.aws/esa-worldcover-vito/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.065273+00:00",
+      "modified": "2026-09-08T21:57:31.571130+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#provenance-gap",
@@ -55,8 +55,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
         ],
         "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#flags",
         "staleness": "unknown",
@@ -67,6 +67,143 @@
       "title": "ESA WorldCover",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://worldcover2021.esa.int/viewer",
+          "assertedBy": "aws_open_data",
+          "authorName": "ESA",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-13",
+          "title": "ESA Viewer 2021",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://blog.vito.be/remotesensing/worldcover2021",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ruben Van De Kerchove",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-5",
+          "title": "WorldCover taking it to the next level",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://viewer.esa-worldcover.org/worldcover/",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-10",
+          "title": "WorldCover Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v100/2020/docs/WorldCover_PUM_V1.0.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-3",
+          "title": "ESA WorldCover 10 m 2020 v100 - Product User Manual",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://blog.vito.be/remotesensing/release-of-the-10-m-worldcover-map",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ruben Van De Kerchove",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-2",
+          "title": "Release of the 10 m WorldCover map",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1016/j.jag.2022.103108",
+          "assertedBy": "aws_open_data",
+          "authorName": "Yuri Shendryk",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-6",
+          "title": "Fusing GEDI with earth observation data for large area aboveground biomass mapping",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/ESA-WorldCover/esa-worldcover-datasets",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-8",
+          "title": "Exploring the dataset (STAC API examples)",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://vitorsveg.users.earthengine.app/view/worldcover",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-14",
+          "title": "WorldCover GEE App",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/SatelliteVu/SatelliteVu-AWS-Disaster-Response-Hackathon",
+          "assertedBy": "aws_open_data",
+          "authorName": "SatelliteVu",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-9",
+          "title": "Global Fire Spread Prediction System",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://viewer.terrascope.be/",
+          "assertedBy": "aws_open_data",
+          "authorName": "TerraScope",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-11",
+          "title": "TerraScope Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://worldcover2020.esa.int/viewer",
+          "assertedBy": "aws_open_data",
+          "authorName": "ESA",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-12",
+          "title": "ESA Viewer 2020",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.5281/zenodo.7254221",
+          "assertedBy": "aws_open_data",
+          "authorName": "Zanaga, D., Van De Kerchove, R.,Daems, D.,De Keersmaecker, W., Brockmann, C., Kirches, G., Wevers, J., Cartus, O., Santoro, M., Fritz, S., Lesiv, M., Herold, M., Tsendbazar, N.E., Xu, P., Ramoino, F., Arino, O.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-1",
+          "title": "ESA WorldCover 10 m 2021 v200",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.5281/zenodo.5571936",
+          "assertedBy": "aws_open_data",
+          "authorName": "Zanaga, D., Van De Kerchove, R., De Keersmaecker, W., Souverijns, N., Brockmann, C., Quast, R., Wevers, J., Grosu, A., Paccini, A., Vergnaud, S., Cartus, O., Santoro, M., Fritz, S., Georgieva, I., Lesiv, M., Carter, S., Herold, M., Li, Linlin, Tsendbazar, N.E., Ramoino, F., Arino, O., 2021.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-0",
+          "title": "ESA WorldCover 10 m 2020 v100",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/docs/WorldCover_PUM_V2.0.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-4",
+          "title": "ESA WorldCover 10 m 2021 v200 - Product User Manual",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/worlds-greenest-megacities/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Michael Dangermond, Emily Meriam",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito#usage-7",
+          "title": "The world's most populated and greenest megacities (and how we found out)",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

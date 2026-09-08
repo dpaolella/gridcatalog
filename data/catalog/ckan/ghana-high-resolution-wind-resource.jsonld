@@ -1,0 +1,71 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This shapefile containing 50 meter height data has been validated by NREL and wind energy meteorological consultants. However, the data is not suitable for micro-siting potential development projects. The shapefile was generated from a raster dataset with a 200 m resolution,0 in a UTM zone 12, datum WGS 84 projection system. Citation: National Renewable Energy Laboratory & Negawatt challenge. A curated list of datasets for the World Bank Negawatt Challenge competition in Accra and Nairobi cities: https://datahub.io/organization/negawatt-challenge",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039828/1/DR0049536/ghanawind50m.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-high-resolution-wind-resource--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039828/1/DR0049535/gh50mwind.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-high-resolution-wind-resource--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039828/1/DR0049537/wwwnrelgovgisdatagisdatatechnologyspecificinternati.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-high-resolution-wind-resource--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/ghana-high-resolution-wind-resource",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1, DD10 2.9. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-02-01T00:00:00+00:00",
+      "keyword": [
+        "Wind Resource",
+        "NREL",
+        "Negawatt Challenge",
+        "Ghana"
+      ],
+      "landingPage": "http://www.nrel.gov/gis/data_international.html",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ghana-high-resolution-wind-resource#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ghana-high-resolution-wind-resource#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:a986f20f-2668-4dec-81af-b92aefe5590b",
+      "title": "Ghana - High Resolution Wind Resource",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -11,15 +11,6 @@
       "description": "The WorldCover 10m Annual Composites were produced, as part of the European Space Agency (ESA) WorldCover project, from the yearly Copernicus Sentinel-1 and Sentinel-2 archives for both years 2020 and 2021. These global mosaics consists of four products composites. A Sentinel-2 RGBNIR yearly median composite for bands B02, B03, B04, B08. A Sentinel-2 SWIR yearly median composite for bands B11 and B12. A Sentinel-2 NDVI yearly percentiles composite (NDVI 90th, NDVI 50th NDVI 10th percentiles). A Sentinel-1 GAMMA0 yearly median composite for bands VV, VH and VH/VV (power scaled). Each product is delivered as a series of Cloud-Optimized GeoTIFFs (COGs) in WSG84 projection in a grid of 1 by 1 degrees and at 0.3 arc seconds resolution (approx. 10m), except for the SWIR composite which is delivered at 0.6 arc seconds (approx. 20m). The Sentinel-2 composites were produced from the L2A archive. The GAMMA0 composite was produced by pre-processing the Sentinel-1 GRD products using [GAMMA software](https://www.gamma-rs.ch/).",
       "distribution": [
         {
-          "accessURL": "https://esa-worldcover-s2.s3.eu-central-1.amazonaws.com/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/esa-worldcover-vito-composites--0",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://esa-worldcover-s1.s3.eu-central-1.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -27,10 +18,19 @@
           "id": "https://catalog.opengrid.org/dist/esa-worldcover-vito-composites--1",
           "requesterPays": false,
           "type": "Distribution"
+        },
+        {
+          "accessURL": "https://esa-worldcover-s2.s3.eu-central-1.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/esa-worldcover-vito-composites--0",
+          "requesterPays": false,
+          "type": "Distribution"
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -38,25 +38,25 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "geospatial",
-        "earth observation",
-        "mapping",
-        "aws-pds",
-        "agriculture",
-        "cog",
-        "land cover",
-        "disaster response",
-        "machine learning",
-        "natural resource",
-        "land use",
-        "satellite imagery",
-        "synthetic aperture radar",
         "stac",
-        "sustainability"
+        "aws-pds",
+        "satellite imagery",
+        "land use",
+        "machine learning",
+        "sustainability",
+        "land cover",
+        "mapping",
+        "geospatial",
+        "agriculture",
+        "earth observation",
+        "cog",
+        "disaster response",
+        "natural resource",
+        "synthetic aperture radar"
       ],
       "landingPage": "https://registry.opendata.aws/esa-worldcover-vito-composites/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.060342+00:00",
+      "modified": "2026-09-08T21:57:31.565072+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#provenance-gap",
@@ -76,6 +76,53 @@
       "title": "ESA WorldCover Sentinel-1 and Sentinel-2 10m Annual Composites",
       "type": "Dataset",
       "updateCadence": "discontinued",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.5281/zenodo.7254221",
+          "assertedBy": "aws_open_data",
+          "authorName": "Zanaga, D., Van De Kerchove, R.,Daems, D.,De Keersmaecker, W., Brockmann, C., Kirches, G., Wevers, J., Cartus, O., Santoro, M., Fritz, S., Lesiv, M., Herold, M., Tsendbazar, N.E., Xu, P., Ramoino, F., Arino, O.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#usage-0",
+          "title": "ESA WorldCover 10 m 2021 v200",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://blog.vito.be/remotesensing/release-of-the-10-m-worldcover-map",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ruben Van De Kerchove",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#usage-1",
+          "title": "Release of the 10 m WorldCover map",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://viewer.esa-worldcover.org/worldcover/",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#usage-4",
+          "title": "WorldCover Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/docs/WorldCover_PUM_V2.0.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#usage-2",
+          "title": "ESA WorldCover 10 m 2021 v200 - Product User Manual",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/ESA-WorldCover/esa-worldcover-datasets",
+          "assertedBy": "aws_open_data",
+          "authorName": "VITO",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover-vito-composites#usage-3",
+          "title": "Exploring the datasets",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

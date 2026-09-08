@@ -1,0 +1,50 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Developed by SOLARGIS (https://solargis.com) and provided by the Global Solar Atlas (GSA), this data resource contains air temperature at 2m above ground level in °C covering the globe. Data is provided in a geographic spatial reference (EPSG:4326). The resolution (pixel size) of solar resource data (GHI, DIF, GTI, DNI) is 9 arcsec (nominally 250 m), PVOUT and TEMP 30 arcsec (nominally 1 km) and OPTA 2 arcmin (nominally 4 km). The data is hyperlinked under 'resources' with the following characteristics: TEMP - GISdata (GeoTIFF) Data format: GEOTIFF File size : 121.03 MB There are two temporal representation of solar resource and PVOUT data available: • Longterm yearly/monthly average of daily totals (LTAym_AvgDailyTotals) • Longterm average of yearly/monthly totals (LTAym_YearlyMonthlyTotals) Both type of data are equivalent, you can select the summarization of your preference. The relation between datasets is described by simple equations: • LTAy_YearlyTotals = LTAy_DailyTotals * 365.25 • LTAy_MonthlyTotals = LTAy_DailyTotals * Number_of_Days_In_The_Month *For individual country or regional data downloads please see: https://globalsolaratlas.info/download (use the drop-down menu to select country or region of interest) *For data provided in AAIGrid please see: https://globalsolaratlas.info/download/world. For more information and terms of use, please, read metadata, provided in PDF and XML format for each data layer in a download file. For other data formats, resolution or time aggregation, please, visit Solargis website. Data can be used for visualization, further processing, and geo-analysis in all mainstream GIS software with raster data processing capabilities (such as open source QGIS, commercial ESRI ArcGIS products and others).",
+      "distribution": [
+        {
+          "accessURL": "https://api.globalsolaratlas.info/download/World/World_TEMP_GISdata_LTAy_GlobalSolarAtlas-v2_GEOTIFF.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-air-temperature-at-2m-above-ground-level-temp-gis-data-global-solar-atlas--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/world-air-temperature-at-2m-above-ground-level-temp-gis-data-global-solar-atlas",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5, DD10 1.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-27T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-air-temperature-at-2m-above-ground-level-temp-gis-data-global-solar-atlas#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-air-temperature-at-2m-above-ground-level-temp-gis-data-global-solar-atlas#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:ecfc2f3b-6940-4fa0-a909-f779f89c8ae4",
+      "title": "World - Air Temperature at 2m Above Ground Level (TEMP) GIS Data, (Global Solar Atlas)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

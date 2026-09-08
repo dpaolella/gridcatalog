@@ -1,0 +1,88 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Earthquakes represent a serious threat to the people and institutions of Afghanistan. As part of a United States Agency for International Development (USAID) effort to assess the resource potential and seismic hazards of Afghanistan, the Seismic Hazard Mapping group of the United States Geological Survey (USGS) has prepared a series of probabilistic seismic hazard maps that help quantify the expected frequency and strength of ground shaking nationwide. To construct the maps, we do a complete hazard analysis for each of ~35,000 sites in the study area. We use a probabilistic methodology that accounts for all potential seismic sources and their rates of earthquake activity, and we incorporate modeling uncertainty by using logic trees for source and ground-motion parameters. See the Appendix for an explanation of probabilistic seismic hazard analysis and discussion of seismic risk. Production of the seismic hazard maps is challenging because the geological and seismological data required to produce a seismic hazard model are limited. The data that are available for this project include historical seismicity and poorly constrained slip rates on only a few of the many active faults in the country. Much of the hazard is derived from a new catalog of historical earthquakes: from 1964 to the present, with magnitude equal to or greater than about 4.5, and with depth between 0 and 250 kilometers. We also include four specific faults in the model: the Chaman fault with an assigned slip rate of 10 mm/yr, the Central Badakhshan fault with an assigned slip rate of 12 mm/yr, the Darvaz fault with an assigned slip rate of 7 mm/yr, and the Hari Rud fault with an assigned slip rate of 2 mm/yr. For these faults and for shallow seismicity less than 50 km deep, we incorporate published ground-motion estimates from tectonically active regions of western North America, Europe, and the Middle East. Ground-motion estimates for deeper seismicity are derived from data in subduction environments. We apply estimates derived for tectonic regions where subduction is the main tectonic process for intermediate-depth seismicity between 50- and 250-km depth. Within the framework of these limitations, we have developed a preliminary probabilistic seismic-hazard assessment of Afghanistan, the type of analysis that underpins the seismic components of modern building codes in the United States. The assessment includes maps of estimated peak ground-acceleration (PGA), 0.2-second spectral acceleration (SA), and 1.0-second SA, with return periods of about 500 years (equal to a 10-percent probability in 50 years), 1000 years (equal to a 5-percent probability in 50 years), and 2,500 years (equal to a 2-percent probability in 50 years)",
+      "distribution": [
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/pga2p50.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:pga5p50",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/pga10p50.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:pga2p50",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:pga10p50",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/pga5p50.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-earthquake-hazard--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/afghanistan-earthquake-hazard",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/afghanistan-earthquake-hazard#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/afghanistan-earthquake-hazard#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:39bc100e-9cfd-4b8e-a8da-9ef51abf0455",
+      "title": "Afghanistan earthquake hazard",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

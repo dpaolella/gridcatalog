@@ -28,17 +28,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3, DD10 2.1. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "meteorological",
         "weather",
-        "model",
+        "meteorological",
         "aws-pds",
-        "netcdf",
+        "model",
+        "forecast",
         "atmosphere",
-        "forecast"
+        "netcdf"
       ],
       "landingPage": "https://registry.opendata.aws/dynamical-tj-nwp/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.994732+00:00",
+      "modified": "2026-09-08T21:57:31.492027+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -53,6 +53,17 @@
       "title": "TJweather Global-Regional Integrated Numerical Weather Prediction System Dataset (SD3)",
       "type": "Dataset",
       "updateCadence": "P1D",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/Tianji-Weather/aws-opendata-docs/blob/main/get-to-know-a-dataset-tj-nwp.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Tianji Weather",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-tj-nwp#usage-0",
+          "title": "Get To Know A Dataset: TJ-NWP",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

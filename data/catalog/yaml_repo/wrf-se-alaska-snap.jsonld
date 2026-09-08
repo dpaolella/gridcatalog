@@ -28,18 +28,18 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
+        "agriculture",
+        "earth observation",
+        "climate",
+        "weather",
+        "coastal",
         "environmental",
         "sustainability",
-        "earth observation",
-        "aws-pds",
-        "agriculture",
-        "coastal",
-        "weather",
-        "climate"
+        "aws-pds"
       ],
       "landingPage": "https://registry.opendata.aws/wrf-se-alaska-snap/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:24.161833+00:00",
+      "modified": "2026-09-08T21:57:39.030759+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

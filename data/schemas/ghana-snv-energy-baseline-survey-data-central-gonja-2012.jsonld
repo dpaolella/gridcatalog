@@ -1,0 +1,13 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Activities difficult to perform due to lack of bright light at night",
+      "id": "https://catalog.opengrid.org/field/ghana-snv-energy-baseline-survey-data-central-gonja-2012/Activities-difficult-to-perform-due-to-lack-of-bright-light-at-night",
+      "localName": "Activities difficult to perform due to lack of bright light at night",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ghana-snv-energy-baseline-survey-data-central-gonja-2012",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0040434/1/DR0050399/21-activities-difficult-to-perform-due-to-lack-of-bright-light-at-night.csv"
+}

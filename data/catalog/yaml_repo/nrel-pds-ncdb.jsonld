@@ -11,19 +11,19 @@
       "description": "The National Climate Database (NCDB) seeks to be the definitive source of climate data for energy applications. The goal of the NCDB is to provide unbiased high temporal and spatial resolution climate data needed for renewable energy modeling. The NCDB seeks to maintain the inherent relationship between the various parameters that are needed to model solar, wind, hydrology and load and provide data for multiple important climate scenarios.",
       "distribution": [
         {
-          "accessURL": "https://nrel-pds-ncdb.s3.us-west-2.amazonaws.com/4km-Hourly-CONUS/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-ncdb--1",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/ncdb/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-ncdb--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-ncdb.s3.us-west-2.amazonaws.com/4km-Hourly-CONUS/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-ncdb--1",
           "type": "Distribution"
         },
         {
@@ -44,19 +44,19 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.7. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "climate projections",
         "meteorological",
-        "solar",
-        "earth observation",
-        "geospatial",
-        "aws-pds",
         "CMIP6",
-        "energy",
-        "CMIP5"
+        "geospatial",
+        "earth observation",
+        "aws-pds",
+        "climate projections",
+        "CMIP5",
+        "solar",
+        "energy"
       ],
       "landingPage": "https://registry.opendata.aws/nrel-pds-ncdb/",
       "license": "http://spdx.org/licenses/CC-BY-3.0",
-      "modified": "2026-09-07T07:36:23.542698+00:00",
+      "modified": "2026-09-08T21:57:38.339787+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nrel-pds-ncdb#provenance-gap",
@@ -76,6 +76,35 @@
       "title": "National Climate Database (NCDB)",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/NREL/hsds-examples/blob/master/notebooks/10_NCDB_introduction.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Reid Olson",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-ncdb#usage-2",
+          "title": "NCDB HSDS Examples",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://climate.nrel.gov",
+          "assertedBy": "aws_open_data",
+          "authorName": "NREL NCDB Team",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-ncdb#usage-1",
+          "title": "NCDB Website",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://ascmo.copernicus.org/articles/9/103/2023/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Maggie D. Bailey, Douglas Nychka, Manajit Sengupta, Aron Habte, Yu Xie, Soutir Bandyopadhyay",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-ncdb#usage-0",
+          "title": "Regridding uncertainty for statistical downscaling of solar radiation",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

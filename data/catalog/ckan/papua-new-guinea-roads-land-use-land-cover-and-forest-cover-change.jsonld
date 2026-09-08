@@ -1,0 +1,101 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This dataset provides the following parameters for Papua New Guinea: 1. Forest Cover Change map 2005-2009-2011 for Oro project area. This map shows secondary and primary forest cover, non-forest, and water, with deforestation for the periods 2005-2009 and 2009-2011. 2. Land Cover map 2011 for Oro and West New Britain project areas. These maps provide a detailed picture of key land cover types including forest, wetlands, shrubland, settlements and oil palm. 3. Roads dataset 2011 for Oro and West New Britain project areas. This dataset provides an updated road network layer for the year 2011. This dataset is one of the products produced under the 2014-2016 World Bank (WBG) European Space Agency (ESA) partnership, and is published in the partnership report: Earth Observation for Sustainable Development, June 2016.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049791/3_eoworld_fcc_oro_2005-2011_v2.3.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049792/4_lulc.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049789/1_readme.txt",
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049794/5_eoworld_mxd_geosdn.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049795/7_roads.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049793/5_eoworld_mxd_geosdn.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change--4",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "This readme file has been edited by the World Bank Development Data Hub (DDH) curation team",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change/This-readme-file-has-been-edited-by-the-World-Bank-Development-Data-Hub-DDH-curation-team",
+          "localName": "This readme file has been edited by the World Bank Development Data Hub (DDH) curation team",
+          "type": "Field"
+        },
+        {
+          "fieldId": "and is not an exact match",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change/and-is-not-an-exact-match",
+          "localName": "and is not an exact match",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 3.7. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/papua-new-guinea-roads-land-use-land-cover-and-forest-cover-change#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039989/1/DR0049789/1_readme.txt",
+      "sourceRecordId": "energydata_info:5e0e8c94-4be2-41b8-93c1-ad5b78d1aaaa",
+      "title": "Papua New Guinea - Roads, Land Use Land Cover, and Forest Cover Change",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

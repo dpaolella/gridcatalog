@@ -1,0 +1,175 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "unique_lga",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/unique_lga",
+      "localName": "unique_lga",
+      "type": "Field"
+    },
+    {
+      "fieldId": "chalkboard_each_classroom_yn",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/chalkboard_each_classroom_yn",
+      "localName": "chalkboard_each_classroom_yn",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_tchrs_male",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_tchrs_male",
+      "localName": "num_tchrs_male",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_students_male",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_students_male",
+      "localName": "num_students_male",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ward",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/ward",
+      "localName": "ward",
+      "type": "Field"
+    },
+    {
+      "fieldId": "facility_name",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/facility_name",
+      "localName": "facility_name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_classrms_total",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_classrms_total",
+      "localName": "num_classrms_total",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_tchr_full_time",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_tchr_full_time",
+      "localName": "num_tchr_full_time",
+      "type": "Field"
+    },
+    {
+      "fieldId": "facility_type_display",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/facility_type_display",
+      "localName": "facility_type_display",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_students_total",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_students_total",
+      "localName": "num_students_total",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_toilets_total",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_toilets_total",
+      "localName": "num_toilets_total",
+      "type": "Field"
+    },
+    {
+      "fieldId": "formhub_photo_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/formhub_photo_id",
+      "localName": "formhub_photo_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "improved_water_supply",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/improved_water_supply",
+      "localName": "improved_water_supply",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gps",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/gps",
+      "localName": "gps",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_tchrs_with_nce",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_tchrs_with_nce",
+      "localName": "num_tchrs_with_nce",
+      "type": "Field"
+    },
+    {
+      "fieldId": "latitude",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/latitude",
+      "localName": "latitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_tchrs_female",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_tchrs_female",
+      "localName": "num_tchrs_female",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sector",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/sector",
+      "localName": "sector",
+      "type": "Field"
+    },
+    {
+      "fieldId": "management",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/management",
+      "localName": "management",
+      "type": "Field"
+    },
+    {
+      "fieldId": "community",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/community",
+      "localName": "community",
+      "type": "Field"
+    },
+    {
+      "fieldId": "date_of_survey",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/date_of_survey",
+      "localName": "date_of_survey",
+      "type": "Field"
+    },
+    {
+      "fieldId": "education_type",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/education_type",
+      "localName": "education_type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "facility_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/facility_id",
+      "localName": "facility_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "survey_id",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/survey_id",
+      "localName": "survey_id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "improved_sanitation",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/improved_sanitation",
+      "localName": "improved_sanitation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "longitude",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/longitude",
+      "localName": "longitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "phcn_electricity",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/phcn_electricity",
+      "localName": "phcn_electricity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_students_female",
+      "id": "https://catalog.opengrid.org/field/nigeria-nmis-education-facility-data-2014/num_students_female",
+      "localName": "num_students_female",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/nigeria-nmis-education-facility-data-2014",
+  "schemaSource": "csv-header at https://energydata.info/dataset/cddcf37a-d74a-4218-a8f3-20896e448545/resource/8f85c3a7-a403-4cdb-833d-772f51c3a967/download/educationmopupandbaselinenmisfacility.csv"
+}

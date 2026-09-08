@@ -1,0 +1,13 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "*** NOTE - DATA CONTAINS UNCHECKED PERIODS! ***",
+      "id": "https://catalog.opengrid.org/field/zambia-wind-measurement-data/NOTE---DATA-CONTAINS-UNCHECKED-PERIODS",
+      "localName": "*** NOTE - DATA CONTAINS UNCHECKED PERIODS! ***",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/zambia-wind-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/872905db-fded-4c08-8cc0-1a520092bac7/resource/1e462610-ed0e-424b-8347-9c5205c85add/download/wind-measurements_zambia_chanka_wb-esmap_qc.csv"
+}

@@ -1,0 +1,86 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The datasets are sourced from the Ugandan Energy Sector GIS Working Group Open Data Site, developed and maintained by the Ugandan Energy Sector GIS Working Group. The Ugandan Energy Sector GIS Working Group’s mission is to develop a high quality GIS for the Energy Sector of Uganda in order to drive informed decision-making. As such, it brings datasets together in one place, organize them, keep them updated, and make public data available to all stakeholders. Link: http://data-energy-gis.opendata.arcgis.com/ The transmission line geojson and zipped shapefiles contain existing, planned, under construction lines. The source link: http://data-energy-gis.opendata.arcgis.com/datasets/6db06d51b0a34c9b989fc54c0d25c092_0 The substation geojson and zipped shapefiles contain existing, planned, under construction substations. The source link: http://data-energy-gis.opendata.arcgis.com/datasets/a7ef2af5ca9249babc5b20602edaba59_0 The transmission and substation datasets were last updated on March 9 2017.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/e2643a0e-bad9-4644-b925-f6bc3e3f1db9/download/ugandatransmissionlines2017.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/212e7132-46b2-4973-8cb8-3ca062a1cda0/download/transmissionlines2017.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/df1179ff-92cc-42b0-a147-a444cb016ce2/download/ugandagrid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/3c145142-a5e7-4846-b03b-6f4adc60baa4/download/ugandatd.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/843ea566-d7a0-4d9f-8d44-04f39b09f004/download/transmissionsubstations2017.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/edb1e44b-bda9-4b15-9a04-03ec295fd575/resource/97dd9011-aa81-4089-84f9-9965be03a9b0/download/transmissionsubstations2017.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/uganda-electricity-transmission-network-2017--4",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/uganda-electricity-transmission-network-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 5.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-03-13T00:00:00+00:00",
+      "landingPage": "http://data-energy-gis.opendata.arcgis.com/",
+      "license": "http://spdx.org/licenses/ODbL-1.0",
+      "modified": "2017-03-31T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/uganda-electricity-transmission-network-2017#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/uganda-electricity-transmission-network-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:edb1e44b-bda9-4b15-9a04-03ec295fd575",
+      "title": "Uganda - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

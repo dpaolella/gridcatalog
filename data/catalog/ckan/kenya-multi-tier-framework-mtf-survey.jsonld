@@ -1,0 +1,81 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The MTF survey is a global baseline survey on household access to electricity and clean cooking, which goes beyond the binary approach to look at access as a spectrum of service levels experienced by households. Resources included are raw data, codebook, questionnaires, sampling strategy document, and country diagnostic report. Formats include zip file (i.e. raw data sets in dta format), excel spreadsheet, pdf, and docx.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/8fe22b3d-5fbb-4af9-a50e-0730020eacfb/resource/9fd8053b-8ce0-4731-8a4b-dd062089bccd/download/raw-data.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-multi-tier-framework-mtf-survey--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8fe22b3d-5fbb-4af9-a50e-0730020eacfb/resource/aa888b57-b0f2-44f8-916d-b3ee65793e00/download/mtf_household_sampling_strategy.docx",
+          "formatLabel": "DOC",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-multi-tier-framework-mtf-survey--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8fe22b3d-5fbb-4af9-a50e-0730020eacfb/resource/30bc044d-82e2-47c3-8960-658548fb7739/download/mtf_kenya_questionnaire_household.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-multi-tier-framework-mtf-survey--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8fe22b3d-5fbb-4af9-a50e-0730020eacfb/resource/6963aec8-fa94-41d4-9c5e-cb3582047ea7/download/mtf-energy-access-country-diagnostics-report_kenya.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-multi-tier-framework-mtf-survey--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8fe22b3d-5fbb-4af9-a50e-0730020eacfb/resource/fa990cbe-d243-4f75-b184-95ac74cd1487/download/codebook_kenya.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-multi-tier-framework-mtf-survey--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/kenya-multi-tier-framework-mtf-survey",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2020-03-18T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/kenya-multi-tier-framework-mtf-survey#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/kenya-multi-tier-framework-mtf-survey#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:8fe22b3d-5fbb-4af9-a50e-0730020eacfb",
+      "title": "Kenya - Multi-Tier Framework (MTF) Survey",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

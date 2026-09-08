@@ -1,0 +1,13 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Access to Modern Energy Cooking Services",
+      "id": "https://catalog.opengrid.org/field/access-to-mecs-players-database/Access-to-Modern-Energy-Cooking-Services",
+      "localName": "Access to Modern Energy Cooking Services",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/access-to-mecs-players-database",
+  "schemaSource": "csv-header at https://energydata.info/dataset/c63a2844-9917-4d21-b7ff-82908579f7b7/resource/21c60584-59a5-485b-bc82-a1947d642e84/download/191108-access-to-mecs-players-database_vshare.xlsx-1.-players-1-1.csv"
+}

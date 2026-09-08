@@ -12,13 +12,29 @@
       "unitAsStated": "Degrees"
     },
     {
-      "dataType": "float64",
-      "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
-      "fieldId": "UCUR_quality_control",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR_quality_control",
-      "label": "quality flag for eastward_sea_water_velocity",
-      "localName": "UCUR_quality_control",
+      "dataType": "str424",
+      "fieldId": "filename",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/filename",
+      "localName": "filename",
       "type": "Field"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "NOBS1",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS1",
+      "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS1",
+      "type": "Field",
+      "unitAsStated": "1"
+    },
+    {
+      "dataType": "float64",
+      "fieldId": "NOBS2",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS2",
+      "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS2",
+      "type": "Field",
+      "unitAsStated": "1"
     },
     {
       "dataType": "float64",
@@ -40,12 +56,12 @@
     },
     {
       "dataType": "float64",
-      "fieldId": "NOBS1",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS1",
-      "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
-      "localName": "NOBS1",
-      "type": "Field",
-      "unitAsStated": "1"
+      "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+      "fieldId": "UCUR_quality_control",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR_quality_control",
+      "label": "quality flag for eastward_sea_water_velocity",
+      "localName": "UCUR_quality_control",
+      "type": "Field"
     },
     {
       "dataType": "float64",
@@ -64,22 +80,6 @@
       "localName": "VCUR_sd",
       "type": "Field",
       "unitAsStated": "m s-1"
-    },
-    {
-      "dataType": "float64",
-      "fieldId": "NOBS2",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS2",
-      "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
-      "localName": "NOBS2",
-      "type": "Field",
-      "unitAsStated": "1"
-    },
-    {
-      "dataType": "str424",
-      "fieldId": "filename",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/filename",
-      "localName": "filename",
-      "type": "Field"
     },
     {
       "dataType": "float64",

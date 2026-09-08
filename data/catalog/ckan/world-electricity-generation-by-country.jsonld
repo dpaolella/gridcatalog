@@ -1,0 +1,51 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Detailed, accurate and timely data and statistics are essential for the monitoring and evaluation of renewable energy policies and deployment. IRENA helps analysts, policy makers and the public make informed decisions by providing access to comprehensive and up-to-date renewable energy data. IRENA publishes detailed statistics on renewable energy capacity, power generation and renewable energy balances. This data is collected directly from members using the IRENA Renewable Energy Statistics questionnaire and is also supplemented by desk research where official statistics are not available. Renewable power-generation capacity statistics are released annually in March. Additionally, renewable power generation and renewable energy balances data sets are released in July. IRENA’s statistics unit helps members to strengthen their data collection and reporting activities through training and methodological guidance. Member countries are encouraged to participate in this process. Explore IRENA data and statistics by browsing a wide range of topics such as Capacity and Generation, Costs, Finance and more on the menu.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/a1a25a98-bf9f-411a-abc6-8eedcc27494a/resource/73da71f6-5307-43ad-a9c8-23722bd7e200/download/elecgen_20220404-202455.xlsx",
+          "byteSize": 1097359,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-electricity-generation-by-country--0",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/world-electricity-generation-by-country",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset. Determined by the phrase \"official statistics\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2022-04-04T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2022-04-04T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/primary",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred"
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-electricity-generation-by-country#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:a1a25a98-bf9f-411a-abc6-8eedcc27494a",
+      "title": "World - Electricity generation by country/area (GWh) by Country/area, Technology, Grid connection and Year 2019-2010",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

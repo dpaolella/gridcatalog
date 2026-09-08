@@ -1,0 +1,187 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Name",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Name",
+      "localName": "Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "State_Code",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/State_Code",
+      "localName": "State_Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Township",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Township",
+      "localName": "Township",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Township_C",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Township_C",
+      "localName": "Township_C",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Longitude",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Longitude",
+      "localName": "Longitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "VT_HH",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/VT_HH",
+      "localName": "VT_HH",
+      "type": "Field"
+    },
+    {
+      "fieldId": "VT_Code",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/VT_Code",
+      "localName": "VT_Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ho_size_r",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/ho_size_r",
+      "localName": "ho_size_r",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ho_size_u",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/ho_size_u",
+      "localName": "ho_size_u",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Village_Fa",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Village_Fa",
+      "localName": "Village_Fa",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gr_ml_cm",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/gr_ml_cm",
+      "localName": "gr_ml_cm",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop_2013",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Pop_2013",
+      "localName": "Pop_2013",
+      "type": "Field"
+    },
+    {
+      "fieldId": "VillageTra",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/VillageTra",
+      "localName": "VillageTra",
+      "type": "Field"
+    },
+    {
+      "fieldId": "pop_g_u",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/pop_g_u",
+      "localName": "pop_g_u",
+      "type": "Field"
+    },
+    {
+      "fieldId": "mg_fl_cl",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/mg_fl_cl",
+      "localName": "mg_fl_cl",
+      "type": "Field"
+    },
+    {
+      "fieldId": "pop_g_r",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/pop_g_r",
+      "localName": "pop_g_r",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Village_Po",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Village_Po",
+      "localName": "Village_Po",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop_2001",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Pop_2001",
+      "localName": "Pop_2001",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Population",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Population",
+      "localName": "Population",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Village_HH",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Village_HH",
+      "localName": "Village_HH",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Village_Co",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Village_Co",
+      "localName": "Village_Co",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Latitude",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Latitude",
+      "localName": "Latitude",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Source",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Source",
+      "localName": "Source",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Village",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Village",
+      "localName": "Village",
+      "type": "Field"
+    },
+    {
+      "fieldId": "District_C",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/District_C",
+      "localName": "District_C",
+      "type": "Field"
+    },
+    {
+      "fieldId": "State",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/State",
+      "localName": "State",
+      "type": "Field"
+    },
+    {
+      "fieldId": "VT_Pop",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/VT_Pop",
+      "localName": "VT_Pop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "District",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/District",
+      "localName": "District",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop_2011",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/Pop_2011",
+      "localName": "Pop_2011",
+      "type": "Field"
+    },
+    {
+      "fieldId": "State_GIS",
+      "id": "https://catalog.opengrid.org/field/myanmar-populated-settlements-data/State_GIS",
+      "localName": "State_GIS",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/myanmar-populated-settlements-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/4af0d382-beb8-49f8-8752-8c2cc9d6413f/resource/a10f520d-1bb2-400d-a273-0941259e6401/download/allstatesregionsmmrcompositevillagepopulationdatasetallpoints.csv"
+}

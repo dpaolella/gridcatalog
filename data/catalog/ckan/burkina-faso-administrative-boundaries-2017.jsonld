@@ -1,0 +1,72 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This data shows Burkina Faso 13 regions and 45 districts boundary. The datasets are curated from the The Humanitarian Data Exchange (HDX). The Humanitarian Data Exchange (HDX) is an open platform for sharing data, launched in July 2014. The goal of HDX is to make humanitarian data easy to find and use for analysis. Our growing collection of datasets has been accessed by users in over 200 countries and territories.A team within the United Nations Office for the Coordination of Humanitarian Affairs (OCHA) manages HDX. OCHA is part of the United Nations Secretariat, responsible for bringing together humanitarian actors to ensure a coherent response to emergencies. To learn more about the data, please visit https://data.humdata.org/dataset/burkina-faso-administrative-boundaries",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039809/DR0049491/bfaadmbndaadm21msalbitos.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-administrative-boundaries-2017--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039809/DR0049489/bfaadmbndaadm11msalbitos.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-administrative-boundaries-2017--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039809/DR0049488/bfaadmbndaadm11msalbitos.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-administrative-boundaries-2017--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039809/DR0049490/bfaadmbndaadm21msalbitos.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-administrative-boundaries-2017--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/burkina-faso-administrative-boundaries-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-11-08T00:00:00+00:00",
+      "landingPage": "https://data.humdata.org/dataset/burkina-faso-administrative-boundaries",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-09-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/burkina-faso-administrative-boundaries-2017#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/burkina-faso-administrative-boundaries-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:3b63c464-4543-4b96-83c9-ebaf9e548026",
+      "title": "Burkina Faso - Administrative Boundaries",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

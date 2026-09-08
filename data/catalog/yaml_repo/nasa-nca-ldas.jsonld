@@ -29,18 +29,18 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.7. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "earth observation",
-        "aws-pds",
-        "hydrology",
-        "precipitation",
-        "satellite imagery",
         "climate",
+        "precipitation",
         "ice",
+        "hydrology",
+        "aws-pds",
+        "satellite imagery",
+        "earth observation",
         "soil moisture"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-nca-ldas/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:21.365785+00:00",
+      "modified": "2026-09-08T21:57:35.761676+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

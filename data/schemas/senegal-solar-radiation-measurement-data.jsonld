@@ -1,0 +1,13 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "LOCATION",
+      "id": "https://catalog.opengrid.org/field/senegal-solar-radiation-measurement-data/LOCATION",
+      "localName": "LOCATION",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/senegal-solar-radiation-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/43f3b3c2-9af3-4140-81d5-64e4a40898c8/download/solar-measurementssenegal-fatickifcheader.csv"
+}

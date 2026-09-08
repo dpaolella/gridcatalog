@@ -1,0 +1,25 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "lon",
+      "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/lon",
+      "localName": "lon",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Electrical Distribution Grid",
+      "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/Electrical-Distribution-Grid",
+      "localName": "Electrical Distribution Grid",
+      "type": "Field"
+    },
+    {
+      "fieldId": "lat",
+      "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/lat",
+      "localName": "lat",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/medium-voltage-distribution-predictive",
+  "schemaSource": "csv-header at https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/bba60922-5189-4722-8398-c51ae9206d84/download/electrical_grid_cote_divoire_15.csv"
+}

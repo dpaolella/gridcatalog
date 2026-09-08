@@ -21,7 +21,7 @@
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -29,17 +29,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10. Determined by the phrase \"wrf\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "weather",
         "regulatory",
-        "air quality",
         "environmental",
         "aws-pds",
-        "meteorological"
+        "weather",
+        "meteorological",
+        "air quality"
       ],
       "landingPage": "https://registry.opendata.aws/epa-2022-modeling-platform/",
       "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
       "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
-      "modified": "2026-09-07T07:36:18.035690+00:00",
+      "modified": "2026-09-08T21:57:31.536405+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
       "qualityFlags": {
         "caveat": [

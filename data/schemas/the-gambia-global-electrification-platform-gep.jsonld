@@ -1,0 +1,349 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Hydropower",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Hydropower",
+      "localName": "Hydropower",
+      "type": "Field"
+    },
+    {
+      "fieldId": "X_deg",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/X_deg",
+      "localName": "X_deg",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WindCF",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/WindCF",
+      "localName": "WindCF",
+      "type": "Field"
+    },
+    {
+      "fieldId": "CurrentHVLineDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/CurrentHVLineDist",
+      "localName": "CurrentHVLineDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Cat_3",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Cat_3",
+      "localName": "Cat_3",
+      "type": "Field"
+    },
+    {
+      "fieldId": "HydropowerFID",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/HydropowerFID",
+      "localName": "HydropowerFID",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop2030",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Pop2030",
+      "localName": "Pop2030",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GDP",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/GDP",
+      "localName": "GDP",
+      "type": "Field"
+    },
+    {
+      "fieldId": "NightLights",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/NightLights",
+      "localName": "NightLights",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Conflict",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Conflict",
+      "localName": "Conflict",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GHI",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/GHI",
+      "localName": "GHI",
+      "type": "Field"
+    },
+    {
+      "fieldId": "TravelHours",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/TravelHours",
+      "localName": "TravelHours",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Commercial_Multiplier",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Commercial_Multiplier",
+      "localName": "Commercial_Multiplier",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Prim",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Prim",
+      "localName": "Prim",
+      "type": "Field"
+    },
+    {
+      "fieldId": "HealthDemand",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/HealthDemand",
+      "localName": "HealthDemand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Cat_1",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Cat_1",
+      "localName": "Cat_1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "CurrentMVLineDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/CurrentMVLineDist",
+      "localName": "CurrentMVLineDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PlannedMVLineDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/PlannedMVLineDist",
+      "localName": "PlannedMVLineDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LandCover",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/LandCover",
+      "localName": "LandCover",
+      "type": "Field"
+    },
+    {
+      "fieldId": "TransformerDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/TransformerDist",
+      "localName": "TransformerDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ElecPop",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ElecPop",
+      "localName": "ElecPop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GridCellArea",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/GridCellArea",
+      "localName": "GridCellArea",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTier5",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTier5",
+      "localName": "ResidentialDemandTier5",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SubstationDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/SubstationDist",
+      "localName": "SubstationDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop2025",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Pop2025",
+      "localName": "Pop2025",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Slope",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Slope",
+      "localName": "Slope",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Y_deg",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Y_deg",
+      "localName": "Y_deg",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GridDistCalibElec",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/GridDistCalibElec",
+      "localName": "GridDistCalibElec",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Country",
+      "localName": "Country",
+      "type": "Field"
+    },
+    {
+      "fieldId": "EducationDemand",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/EducationDemand",
+      "localName": "EducationDemand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Pop",
+      "localName": "Pop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Admin1",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Admin1",
+      "localName": "Admin1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pop2020",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Pop2020",
+      "localName": "Pop2020",
+      "type": "Field"
+    },
+    {
+      "fieldId": "CommercialDemand",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/CommercialDemand",
+      "localName": "CommercialDemand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ElecStart",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ElecStart",
+      "localName": "ElecStart",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WindVel",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/WindVel",
+      "localName": "WindVel",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Cat_2",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Cat_2",
+      "localName": "Cat_2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PopStartYear",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/PopStartYear",
+      "localName": "PopStartYear",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTier1",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTier1",
+      "localName": "ResidentialDemandTier1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTier3",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTier3",
+      "localName": "ResidentialDemandTier3",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sec",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Sec",
+      "localName": "Sec",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Unc",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Unc",
+      "localName": "Unc",
+      "type": "Field"
+    },
+    {
+      "fieldId": "id",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/id",
+      "localName": "id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTierCustom",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTierCustom",
+      "localName": "ResidentialDemandTierCustom",
+      "type": "Field"
+    },
+    {
+      "fieldId": "FinalElecCode2020",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/FinalElecCode2020",
+      "localName": "FinalElecCode2020",
+      "type": "Field"
+    },
+    {
+      "fieldId": "HydropowerDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/HydropowerDist",
+      "localName": "HydropowerDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "IsUrban",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/IsUrban",
+      "localName": "IsUrban",
+      "type": "Field"
+    },
+    {
+      "fieldId": "AgriDemand",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/AgriDemand",
+      "localName": "AgriDemand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTier2",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTier2",
+      "localName": "ResidentialDemandTier2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Elevation",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/Elevation",
+      "localName": "Elevation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ElecPopCalib",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ElecPopCalib",
+      "localName": "ElecPopCalib",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PlannedHVLineDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/PlannedHVLineDist",
+      "localName": "PlannedHVLineDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "RoadDist",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/RoadDist",
+      "localName": "RoadDist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ElectrificationOrder",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ElectrificationOrder",
+      "localName": "ElectrificationOrder",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PerCapitaDemand",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/PerCapitaDemand",
+      "localName": "PerCapitaDemand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ResidentialDemandTier4",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/ResidentialDemandTier4",
+      "localName": "ResidentialDemandTier4",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GridPenalty",
+      "id": "https://catalog.opengrid.org/field/the-gambia-global-electrification-platform-gep/GridPenalty",
+      "localName": "GridPenalty",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/the-gambia-global-electrification-platform-gep",
+  "schemaSource": "csv-header at https://gep-source-archive.s3.amazonaws.com/GEP-Climate-2022/gm/inputs/gm-3-country-inputs.csv"
+}

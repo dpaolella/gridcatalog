@@ -28,24 +28,24 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "zarr",
-        "energy",
-        "atmosphere",
-        "forecast",
-        "machine learning",
-        "meteorological",
         "weather",
-        "climate",
-        "model",
         "data assimilation",
-        "geoscience",
         "land",
         "geospatial",
-        "aws-pds"
+        "zarr",
+        "climate",
+        "machine learning",
+        "atmosphere",
+        "aws-pds",
+        "meteorological",
+        "model",
+        "forecast",
+        "energy",
+        "geoscience"
       ],
       "landingPage": "https://registry.opendata.aws/earthmover-era5/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.002089+00:00",
+      "modified": "2026-09-08T21:57:31.500598+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -60,6 +60,44 @@
       "title": "Icechunk ERA5",
       "type": "Dataset",
       "updateCadence": "P3M",
+      "usageEvidence": [
+        {
+          "accessURL": "https://rmets.onlinelibrary.wiley.com/doi/10.1002/qj.3803",
+          "assertedBy": "aws_open_data",
+          "authorName": "Hersbach et al 2020",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/earthmover-era5#usage-1",
+          "title": "The ERA5 global reanalysis",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/earth-mover/era5-qc",
+          "assertedBy": "aws_open_data",
+          "authorName": "Earthmover",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/earthmover-era5#usage-3",
+          "title": "era5-qc - verify ERA5 data against the original ECMWF CDS source",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.earthmover.io/blog/low-latency-era5-icechunk-marketplace",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ryan Abernathey",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/earthmover-era5#usage-0",
+          "title": "Low Latency Icechunk ERA5 Now Available on the Earthmover Data Marketplace",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://docs.earthmover.io/sample-data/era5",
+          "assertedBy": "aws_open_data",
+          "authorName": "Earthmover",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/earthmover-era5#usage-2",
+          "title": "ERA5 sample data - access examples and documentation",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

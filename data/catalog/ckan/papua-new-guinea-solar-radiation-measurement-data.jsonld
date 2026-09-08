@@ -1,0 +1,208 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Ground measured solar irradiation and meteorological data.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/0859fe58-e2d3-4bb8-b4ac-c49f6842a978/download/106-ppa-papua-new-guinea-sid-rev00.pdf",
+          "byteSize": 13451246,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/1b960875-0c3f-4cfd-ab40-7af332e6a607/download/solar-measurements_papua-new-guinea-alotau_ppa_y1_qc_v01.csv",
+          "byteSize": 68472875,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/78b75bb3-16d0-463f-837d-e7b85603fce3/download/solar-measurements_papua-new-guinea-alotau_ppa_header.xlsx",
+          "byteSize": 32399,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--1",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/11f9a705-e910-4caf-a09c-7b3cd1bbd25d/download/solar-measurements_papua-new-guinea-alotau_ppa_msr.zip",
+          "byteSize": 27722052,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--5",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/fcc216c7-67d8-447d-a92c-b42c82d1cd52/download/papau-new-guinea-or19-5-test-site-corrosion-monitoring-data-2-years.pdf",
+          "byteSize": 2804626,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--6",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/cda92da1-6d7a-4617-9159-4976b3d79d84/download/solar-measurements_papua-new-guinea-alotau_ppa_y2_qc_v01.csv",
+          "byteSize": 59585371,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/98ca18f3-eac4-425d-8ed2-335589b9a1b3/download/calibration-feedback_papau-new-guinea_ppa.pdf",
+          "byteSize": 615464,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--7",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/a3f19161-bd9a-4543-935c-4ebb1feaf3df/download/papua-new-guinea-or19-5-test-site-corrosion-monitoring-data.pdf",
+          "byteSize": 1222019,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/papua-new-guinea-solar-radiation-measurement-data--3",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "sensor_cleaning",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/sensor_cleaning",
+          "localName": "sensor_cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "time",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/time",
+          "localName": "time",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_from_direction",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/wind_from_direction",
+          "localName": "wind_from_direction",
+          "type": "Field"
+        },
+        {
+          "fieldId": "gti_clean",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/gti_clean",
+          "localName": "gti_clean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "precipitation",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/precipitation",
+          "localName": "precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "air_temperature",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/air_temperature",
+          "localName": "air_temperature",
+          "type": "Field"
+        },
+        {
+          "fieldId": "gti_soil",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/gti_soil",
+          "localName": "gti_soil",
+          "type": "Field"
+        },
+        {
+          "fieldId": "comments",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/comments",
+          "localName": "comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "relative_humidity",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/relative_humidity",
+          "localName": "relative_humidity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "barometric_pressure",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/barometric_pressure",
+          "localName": "barometric_pressure",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dhi_pyr",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/dhi_pyr",
+          "localName": "dhi_pyr",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_speed",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/wind_speed",
+          "localName": "wind_speed",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi_pyr_1",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/ghi_pyr_1",
+          "localName": "ghi_pyr_1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "gti_monthly",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/gti_monthly",
+          "localName": "gti_monthly",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi_pyr_2",
+          "id": "https://catalog.opengrid.org/field/papua-new-guinea-solar-radiation-measurement-data/ghi_pyr_2",
+          "localName": "ghi_pyr_2",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/papua-new-guinea-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2020-04-30T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/papua-new-guinea-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/papua-new-guinea-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/76854c20-4f10-4a29-8da2-4e39f5d38a93/resource/1b960875-0c3f-4cfd-ab40-7af332e6a607/download/solar-measurements_papua-new-guinea-alotau_ppa_y1_qc_v01.csv",
+      "sourceRecordId": "energydata_info:76854c20-4f10-4a29-8da2-4e39f5d38a93",
+      "title": "Papua New Guinea - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

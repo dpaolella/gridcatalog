@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This dataset is now superseded by the updated Africa Electricity Transmission and Distribution Grid Map (2017). Please use that if looking for the most up to date data. The Africa Infrastructure Country Diagnostic (AICD) was an unprecedented knowledge program on Africa’s infrastructure that grew out of the pledge by the G8 Summit of 2005 at Gleneagles to substantially increase ODA assistance to Africa, particularly to the infrastructure sector, and the subsequent formation of the Infrastructure Consortium for Africa (ICA). The AICD study was founded on the recognition that sub-Saharan Africa (SSA) suffers from a very weak infrastructural base, and that this is a key factor in the SSA region failing to realize its full potential for economic growth, international trade, and poverty reduction. The study broke new ground, with primary data collection efforts covering network service infrastructures (ICT, power, water & sanitation, road transport, rail transport, sea transport, and air transport) from 2001 to 2006 in 24 selected African countries AICD has been implemented by the World Bank on behalf of a steering committee representing the African Union, the New Partnership for Africa’s Development (NEPAD), Africa’s regional economic communities, the African Development Bank, and major infrastructure donors.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039347/1/DR0048854/aicdall-countries-electricity-transmission-network.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sub-saharan-africa-electricity-transmission-network--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039347/1/DR0048855/aicdallcountriespower-transmission.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sub-saharan-africa-electricity-transmission-network--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/sub-saharan-africa-electricity-transmission-network",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2016-12-16T00:00:00+00:00",
+      "keyword": [
+        "transmission",
+        "eletricty",
+        "gis",
+        "grid",
+        "network",
+        "africa"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-20T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/sub-saharan-africa-electricity-transmission-network#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/sub-saharan-africa-electricity-transmission-network#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:4a6a8e07-4e7c-4118-bdfd-a46acd8e373f",
+      "title": "Sub-Saharan Africa - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

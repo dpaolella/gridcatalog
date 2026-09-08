@@ -1,0 +1,13 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+      "id": "https://catalog.opengrid.org/field/png-wind-measurement-data/The-wind-measurement-campaign-that-has-generated-this-data-was-commissioned-by-The-World-Bank-with-funding-from-the-Energy-Sector-Management-Assistance-Program-ESMAP",
+      "localName": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/png-wind-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/3e02b135-53fa-4d35-89d2-4b56a143755e/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_header.csv"
+}

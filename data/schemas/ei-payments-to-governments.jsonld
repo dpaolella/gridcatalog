@@ -1,0 +1,79 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "projectName",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/projectName",
+      "localName": "projectName",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sourceID",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/sourceID",
+      "localName": "sourceID",
+      "type": "Field"
+    },
+    {
+      "fieldId": "projectCountry",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/projectCountry",
+      "localName": "projectCountry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "paymentType",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/paymentType",
+      "localName": "paymentType",
+      "type": "Field"
+    },
+    {
+      "fieldId": "projectPayment",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/projectPayment",
+      "localName": "projectPayment",
+      "type": "Field"
+    },
+    {
+      "fieldId": "nrgiNotes",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/nrgiNotes",
+      "localName": "nrgiNotes",
+      "type": "Field"
+    },
+    {
+      "fieldId": "reportYear",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/reportYear",
+      "localName": "reportYear",
+      "type": "Field"
+    },
+    {
+      "fieldId": "reportingCompany",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/reportingCompany",
+      "localName": "reportingCompany",
+      "type": "Field"
+    },
+    {
+      "fieldId": "notes",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/notes",
+      "localName": "notes",
+      "type": "Field"
+    },
+    {
+      "fieldId": "entityName",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/entityName",
+      "localName": "entityName",
+      "type": "Field"
+    },
+    {
+      "fieldId": "entityCountry",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/entityCountry",
+      "localName": "entityCountry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "entityPayment",
+      "id": "https://catalog.opengrid.org/field/ei-payments-to-governments/entityPayment",
+      "localName": "entityPayment",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ei-payments-to-governments",
+  "schemaSource": "csv-header at https://energydata.info/dataset/4104f9b8-ec87-42a5-9c30-62d5059c0421/resource/ac1cb9ed-ff72-40e5-9dbe-9a8706fe34b2/download/entity.csv"
+}

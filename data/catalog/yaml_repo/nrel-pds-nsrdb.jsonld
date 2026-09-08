@@ -11,51 +11,11 @@
       "description": "Released to the public as part of the Department of Energy's Open Energy Data Initiative, the [National Solar Radiation Database (NSRDB)](https://nsrdb.nrel.gov/) is a serially complete collection of hourly and half-hourly values of the three most common measurements of solar radiation – global horizontal, direct normal, and diffuse horizontal irradiance — and meteorological data. These data have been collected at a sufficient number of locations and temporal and spatial scales to accurately represent regional solar radiation climates.",
       "distribution": [
         {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/meteosat/",
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/puerto_rico/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--8",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/tdy/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--3",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/conus/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--6",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/tmy/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--2",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/mts2",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--12",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/himawari/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--9",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--5",
           "type": "Distribution"
         },
         {
@@ -67,6 +27,14 @@
           "type": "Distribution"
         },
         {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/mts2",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--12",
+          "type": "Distribution"
+        },
+        {
           "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/nsrdb/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -75,19 +43,59 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/puerto_rico/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--5",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/full_disc/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/conus/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/himawari/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/tmy/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/meteosat/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--8",
           "type": "Distribution"
         },
         {
@@ -107,19 +115,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/full_disc/",
+          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/tdy/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--7",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-nsrdb.s3.us-west-2.amazonaws.com/v3/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--1",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-nsrdb--3",
           "type": "Distribution"
         }
       ],
@@ -132,16 +132,16 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "earth observation",
-        "meteorological",
         "solar",
+        "energy",
         "geospatial",
+        "earth observation",
         "aws-pds",
-        "energy"
+        "meteorological"
       ],
       "landingPage": "https://registry.opendata.aws/nrel-pds-nsrdb/",
       "license": "http://spdx.org/licenses/CC-BY-3.0",
-      "modified": "2026-09-07T07:36:23.548810+00:00",
+      "modified": "2026-09-08T21:57:38.346875+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nrel-pds-nsrdb#provenance-gap",
@@ -161,6 +161,44 @@
       "title": "NREL National Solar Radiation Database",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://www.sciencedirect.com/science/article/abs/pii/S0038092X22000044",
+          "assertedBy": "aws_open_data",
+          "authorName": "Grant Buster, Mike Bannister, Aron Habte, Dylan Hettinger, Galen Maclaurin, Michael Rossol, Manajit Sengupta, Yu Xie",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-nsrdb#usage-1",
+          "title": "Physics-guided machine learning for improved accuracy of the National Solar Radiation Database",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.sciencedirect.com/science/article/pii/S136403211830087X",
+          "assertedBy": "aws_open_data",
+          "authorName": "Manajit Sengupta, Yu Xe, Anthony Lopez, Aron Habte, Galen Maclaurin, James Shelby",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-nsrdb#usage-0",
+          "title": "The National Solar Radiation Data Base (NSRDB)",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://nsrdb.nrel.gov/nsrdb-viewer",
+          "assertedBy": "aws_open_data",
+          "authorName": "Manajit Sengupta, Yu Xe, Anthony Lopez, Aron Habte, Galen Maclaurin, James Shelby, Paul Edwards",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-nsrdb#usage-2",
+          "title": "NSRDB Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/NREL/hsds-examples",
+          "assertedBy": "aws_open_data",
+          "authorName": "Caleb Phillips, Caroline Draxl, John Readey, Jordan Perr-Sauer, Michael Rossol",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-nsrdb#usage-3",
+          "title": "HSDS Examples",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

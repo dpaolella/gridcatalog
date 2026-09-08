@@ -1,0 +1,277 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for measurements from 5 automated solar stations in Nepal. Data will be uploaded in batches, on a monthly basis, and will transmit daily reports on 1 minute average values for solar radiation levels, temperature, air pressure, liquid precipitation and wind speed. For more information and additional outputs, please visit: http://esmap.org/re_mapping_nepal For download access to GIS layers, please visit the Global Solar Atlas: http://globalsolaratlas.info/ Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP). For more information: Nepal-Solar Radiation Measurement Data, 2018,",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/98615a66-a122-4875-8b86-5875ede4d51b/download/solargis_solar-model-adaptation_nepal_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/f30b3ee7-8274-4ad3-b1be-05acc6c419eb/download/solar-measurements_nepal_lumle_wb-esmap_header.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--18",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/d43f0ae4-6b9e-45f2-895f-13dad1f1092d/download/program-solar-resource-measurement-in-nepal-april-26-27-2021.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/f712d801-1f3b-4897-bc7e-61e13ba0a61f/download/solar-measurements_nepal_dharan_wb-esmap_qc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/de5c4222-248b-4605-8445-730470178993/download/solar-measurements_nepal_jumla_wb-esmap_header.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--14",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/24e4aa8b-fe5c-40db-b9e4-6872e9c07022/download/solar-measurements_nepal_lumle_wb-esmap_qc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--17",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/876e626b-f8be-44c3-b21e-06eb7c09e90b/download/solar-measurements_nepal_nepalgunj_wb-esmap_header.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--20",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/e31754c1-93dc-4e82-8358-4b2d86edf3ca/download/csps-esmap_nepal_24monthreport_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/093c7cc7-3cb1-4678-9449-aae8561b9416/download/solar-measurements_nepal_dharan_wb-esmap_header.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--12",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/9c30625c-da0a-4515-b4da-1f04f4f49af8/download/solar-measurements_nepal_jumla_wb-esmap_qc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/9f071c2e-c7e8-4239-8ebd-f4c5f429d0ec/download/solarenergyatlas_nepal_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/27f353a4-da9c-4834-a837-97f385f3d532/download/csps-esmap_nepal_installationreport_wbg-esmap.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/7e790f1b-2d32-4bd1-9769-749f8489118d/download/nepal_presentation-follow-up-activities_solar-measurement-campaign_april-27_wbg_esmap.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/4fc9113b-8495-4f2d-bc25-aaa4664e0878/download/solar-measurements_nepal_kathmandu_wb-esmap_qc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--15",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/7a19b634-a489-415f-930a-7ec284b62963/download/nepal_presentation-final_results_solar-measurement-campaign_april-26_wbg_esmap.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/db7faedd-10d9-4916-ac73-fc000cb84d1b/download/solar-measurements_nepal_kathmandu_wb-esmap_header.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/406baf9d-a932-4dc2-b932-9d146b7320d8/download/csps-esmap_nepal_implimentation-plan_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/c3b71dc1-84b3-4f20-ab5d-bf267cbdb4c7/download/csps-esmap_nepal_12monthreport_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/3614f0c3-6932-47bf-8627-7a15da9f2090/download/srmi-presentation-nepal_esmap-wbg.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/5516d4b4-ca42-4ef5-9e70-73d56dc33c95/download/solargis_nepal_solar-resource-webinar_2021-04-27_wbg-esmap.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/6710d074-df02-4492-8f4f-590578d1512b/download/solar-measurements_nepal_nepalgunj_wb-esmap_qc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-solar-radiation-measurement-data--19",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "comments",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/comments",
+          "localName": "comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "barometric_pressure",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/barometric_pressure",
+          "localName": "barometric_pressure",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_speed",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/wind_speed",
+          "localName": "wind_speed",
+          "type": "Field"
+        },
+        {
+          "fieldId": "rain",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/rain",
+          "localName": "rain",
+          "type": "Field"
+        },
+        {
+          "fieldId": "relative_humidity",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/relative_humidity",
+          "localName": "relative_humidity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "time",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/time",
+          "localName": "time",
+          "type": "Field"
+        },
+        {
+          "fieldId": "air_temperature",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/air_temperature",
+          "localName": "air_temperature",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dni",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/dni",
+          "localName": "dni",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_from_direction",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/wind_from_direction",
+          "localName": "wind_from_direction",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/ghi",
+          "localName": "ghi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_from_direction_st_dev",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/wind_from_direction_st_dev",
+          "localName": "wind_from_direction_st_dev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "sensor_cleaning",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/sensor_cleaning",
+          "localName": "sensor_cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dhi",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/dhi",
+          "localName": "dhi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_speed_of_gust",
+          "id": "https://catalog.opengrid.org/field/nepal-solar-radiation-measurement-data/wind_speed_of_gust",
+          "localName": "wind_speed_of_gust",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/nepal-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2018-10-24T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nepal-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nepal-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/ead8d2fa-de59-48d3-8693-817b36b3a470/resource/f712d801-1f3b-4897-bc7e-61e13ba0a61f/download/solar-measurements_nepal_dharan_wb-esmap_qc.csv",
+      "sourceRecordId": "energydata_info:ead8d2fa-de59-48d3-8693-817b36b3a470",
+      "title": "Nepal - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

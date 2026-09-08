@@ -20,15 +20,6 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/bioscape/BioSCape_VegPlots_Berg_Eerste/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-bioscape--1",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/bioscape/BioSCape_ANG_V02_L3_RFL_Mosaic/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -38,11 +29,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/bioscape/BioSCape_EstuaryVegHabitats/data",
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/bioscape/BioSCape_VegPlots_Berg_Eerste/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-bioscape--0",
+          "id": "https://catalog.opengrid.org/dist/nasa-bioscape--1",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -52,6 +43,15 @@
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nasa-bioscape--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/bioscape/BioSCape_EstuaryVegHabitats/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-bioscape--0",
           "requesterPays": false,
           "type": "Distribution"
         }
@@ -65,17 +65,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.9. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "netcdf",
         "satellite imagery",
-        "ice",
-        "lidar",
-        "aws-pds",
         "elevation",
-        "land cover"
+        "land cover",
+        "aws-pds",
+        "lidar",
+        "ice",
+        "netcdf"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-bioscape/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:19.327066+00:00",
+      "modified": "2026-09-08T21:57:33.100185+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nasa-bioscape#provenance-gap",
@@ -83,8 +83,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
         ],
         "id": "https://catalog.opengrid.org/ds/nasa-bioscape#flags",
         "staleness": "unknown",

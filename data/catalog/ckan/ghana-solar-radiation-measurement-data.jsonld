@@ -1,0 +1,268 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar and meteorological ground measurements from a network of weather stations in West Africa. The data is provided in the framework of the West African Power Pool project: \"Solar Development in Sub-Saharan Africa - Solar resource measurement campaign in West Africa”. Funding is provided by World Bank. Measurement Date Range: - Sunyani: 2021-11-30 – 2023-11-29 - Navrongo: 2021-11-16 – 2023-11-15",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/df759a26-3a2e-4837-aecf-b73ea7ccc6fe/download/solar-measurements_ghana-navrongo_header_fr_en.xlsx",
+          "byteSize": 18778,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/8c0d84c2-42ff-44f2-a60b-099eecc477ca/download/csps-yls_wapp_stationmeasurementreport_ghana-sunyani_2023-11-30-final_fr_en.pdf",
+          "byteSize": 17534417,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--8",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/dbd4904e-b9cd-4624-bd34-46580422a8c6/download/solar-measurements_ghana-sunyani_qc.csv",
+          "byteSize": 47693267,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--10",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/14283d48-796f-4ffd-98a3-02069e1b1cd7/download/solar-measurements_ghana-navrongo_qc_year2.csv",
+          "byteSize": 43248871,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--5",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/09f99f53-04bc-4b19-9ac3-16ae85df23db/download/csps-yls_wapp_stationmeasurementreport_ghana-navrongo_2022-11-16_fr_en.pdf",
+          "byteSize": 12725999,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/5e28b326-1de3-4d75-8f33-a3db5bc8e1ce/download/csps-yls_wapp_stationmeasurementreport_ghana-navrongo_2023-11-16-final_fr_en.pdf",
+          "byteSize": 15976875,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/915f9def-41bb-47a7-b9f0-6bf5fdb647ad/download/csps-yls_wapp_stationinstallationreport_ghana-navrongo_2021-11-15_fr_en.pdf",
+          "byteSize": 8383505,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/620d5923-1173-44c6-aa03-fd67249ef3d1/download/solar-measurements_ghana-sunyani_qc_year2.csv",
+          "byteSize": 47195421,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--11",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/c0b80c38-a078-466d-ac67-ed0dd249dedb/download/csps-yls_wapp_stationinstallationreport_ghana-navrongo_2021-11-15_fr_en.pdf",
+          "byteSize": 8383505,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--6",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/5187052d-eca9-4f42-b538-98eab5ebd2d3/download/csps-yls_wapp_stationmeasurementreport_ghana-sunyani_2022-11-30_fr_en.pdf",
+          "byteSize": 13178774,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--7",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/603e42a1-6ec9-48df-bba0-edcbf853f1c1/download/solar-measurements_ghana-navrongo_qc.csv",
+          "byteSize": 43258645,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/eb927440-6017-4d35-acee-ed8cdf0e1838/download/solar-measurements_ghana-sunyani_header_fr_en.xlsx",
+          "byteSize": 18828,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-solar-radiation-measurement-data--9",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "BP",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/BP",
+          "localName": "BP",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cleaning",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/Cleaning",
+          "localName": "Cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSgust",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/WSgust",
+          "localName": "WSgust",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WS",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/WS",
+          "localName": "WS",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DHI",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/DHI",
+          "localName": "DHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Precipitation",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/Precipitation",
+          "localName": "Precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tamb",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/Tamb",
+          "localName": "Tamb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WDstdev",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/WDstdev",
+          "localName": "WDstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModB",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/ModB",
+          "localName": "ModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSstdev",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/WSstdev",
+          "localName": "WSstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WD",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/WD",
+          "localName": "WD",
+          "type": "Field"
+        },
+        {
+          "fieldId": "GHI",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/GHI",
+          "localName": "GHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timestamp",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/Timestamp",
+          "localName": "Timestamp",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModA",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/ModA",
+          "localName": "ModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "RH",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/RH",
+          "localName": "RH",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModA",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/TModA",
+          "localName": "TModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DNI",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/DNI",
+          "localName": "DNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModB",
+          "id": "https://catalog.opengrid.org/field/ghana-solar-radiation-measurement-data/TModB",
+          "localName": "TModB",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/ghana-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2022-12-15T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ghana-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/ghana-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/09c10673-320b-4d6f-b306-93b5cb42694f/resource/603e42a1-6ec9-48df-bba0-edcbf853f1c1/download/solar-measurements_ghana-navrongo_qc.csv",
+      "sourceRecordId": "energydata_info:09c10673-320b-4d6f-b306-93b5cb42694f",
+      "title": "Ghana - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

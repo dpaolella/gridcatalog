@@ -28,23 +28,23 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "land cover",
-        "machine learning",
-        "land use",
-        "satellite imagery",
-        "stac",
-        "planetary",
         "environmental",
-        "sustainability",
-        "earth observation",
-        "geospatial",
-        "mapping",
+        "stac",
         "aws-pds",
+        "satellite imagery",
+        "land use",
+        "machine learning",
+        "sustainability",
+        "land cover",
+        "mapping",
+        "geospatial",
+        "planetary",
+        "earth observation",
         "cog"
       ],
       "landingPage": "https://registry.opendata.aws/io-lulc/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.283886+00:00",
+      "modified": "2026-09-08T21:57:31.817051+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/io-lulc#provenance-gap",
@@ -52,8 +52,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/io-lulc#flags",
         "staleness": "unknown",
@@ -64,6 +64,62 @@
       "title": "10m Annual Land Use Land Cover (9-class)",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://medium.com/impactobservatoryinc/mapping-the-world-with-unmatched-frequency-54a83527f138",
+          "assertedBy": "aws_open_data",
+          "authorName": "Mark Hannel",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-1",
+          "title": "Mapping the world with unmatched frequency",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://ieeexplore.ieee.org/document/9553499",
+          "assertedBy": "aws_open_data",
+          "authorName": "K. Karra, C. Kontgis, Z. Statman-Weil, J. C. Mazzariello, M. Mathis and S. P. Brumby",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-0",
+          "title": "Global land use / land cover with Sentinel 2 and deep learning",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://map.unbiodiversitylab.org/earth?basemap=grayscale&coordinates=20,0,2&layers=10m-annual-land-use-land-cover-9-class-01_100",
+          "assertedBy": "aws_open_data",
+          "authorName": "United Nations Development Programme",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-5",
+          "title": "View the dataset on UN Biodiversity Lab Map Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.nytimes.com/2022/09/11/world/asia/pakistan-floods-food-crisis.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "New York Times",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-2",
+          "title": "‘Very Dire’: Devastated by Floods, Pakistan Faces Looming Food Crisis",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.fastcompany.com/90729824/these-maps-from-satellite-data-show-how-much-earth-has-changed-in-only-five-years",
+          "assertedBy": "aws_open_data",
+          "authorName": "Fast Company",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-3",
+          "title": "These maps from satellite data show how much Earth has changed in only five years",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.esri.com/arcgis-blog/products/arcgis-living-atlas/mapping/worlds-greenest-megacities/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Esri",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/io-lulc#usage-4",
+          "title": "The world's most populated and greenest megacities (and how we found out)",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

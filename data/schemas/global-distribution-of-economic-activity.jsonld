@@ -1,0 +1,79 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "& Weil",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/Weil",
+      "localName": "& Weil",
+      "type": "Field"
+    },
+    {
+      "fieldId": "(November)",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/November",
+      "localName": "(November)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Squires",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/Squires",
+      "localName": "Squires",
+      "type": "Field"
+    },
+    {
+      "fieldId": "history",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/history",
+      "localName": "history",
+      "type": "Field"
+    },
+    {
+      "fieldId": "J. V.",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/J.-V",
+      "localName": "J. V.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "A.",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/A",
+      "localName": "A.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1�50. https://doi.org/10.1093/qje/qjx030.Advance. Please cite the paper when using any of these data.",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/1-50.-https-doi.org-10.1093-qje-qjx030.Advance.-Please-cite-the-paper-when-using-any-of-these-data",
+      "localName": "1�50. https://doi.org/10.1093/qje/qjx030.Advance. Please cite the paper when using any of these data.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "This dataset is for replicating the results in Henderson",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/This-dataset-is-for-replicating-the-results-in-Henderson",
+      "localName": "This dataset is for replicating the results in Henderson",
+      "type": "Field"
+    },
+    {
+      "fieldId": "T.",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/T",
+      "localName": "T.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "and the role of trade. The Quarterly Journal of Economics",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/and-the-role-of-trade.-The-Quarterly-Journal-of-Economics",
+      "localName": "and the role of trade. The Quarterly Journal of Economics",
+      "type": "Field"
+    },
+    {
+      "fieldId": "D. (2017). The global distribution of economic activity: nature",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/D.-2017-.-The-global-distribution-of-economic-activity-nature",
+      "localName": "D. (2017). The global distribution of economic activity: nature",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Storeygard",
+      "id": "https://catalog.opengrid.org/field/global-distribution-of-economic-activity/Storeygard",
+      "localName": "Storeygard",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/global-distribution-of-economic-activity",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0042294/1/DR0052943/readme_0.txt"
+}

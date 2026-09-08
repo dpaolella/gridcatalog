@@ -1,0 +1,245 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for ground measurements and satellite data from 4 meteorological stations in Maldives. Data contains 1 minute average values for solar radiation levels, air temperature, relative humidity, wind speed and atmospheric pressure. Delivered files: Solar-Measurements_Maldives_sitename_WB-ESMAP_Header metadata for ground measurements files. Solar-Measurements_Maldives_sitename_WB-ESMAP_Raw raw ground measurements from datalogger. Do not use for further development. Solar-Measurements_Maldives_sitename_WB-ESMAP_QC quality checked ground measurements from dataloger. __ Solar-Measurements_Maldives_WB-ESMAP_SatelliteTS__ site adapted time series of satellite data. Solar-Measurements_Maldives_WB-ESMAP_SatelliteTMY Typical meteorological year data file (P50) based on site adapted time series of satellite data. For more information and additional outputs, please visit: http://esmap.org/re_mapping_madlvies For download access to GIS layers, please visit the Global Solar Atlas: http://globalsolaratlas.info/ Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP). For more information: Maldives-Solar Radiation Measurement Data, 2018,",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/65d5ab6b-d7d0-4fbd-8507-ffdbc5803386/download/solar-measurements_maldives_male_wb-esmap_header.csv",
+          "byteSize": 2397,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--9",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/96d1401b-1ff0-4cc8-987a-d6054d24ffa9/download/solar-measurements_maldives_kadhdhoo_wb-esmap_raw.zip",
+          "byteSize": 215620387,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--7",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/3da3dad1-9da0-4eb1-9e19-2ed971988845/download/solar-measurements_maldives_kadhdhoo_wb-esmap_qc.csv",
+          "byteSize": 159035257,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--8",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/199fc4da-6e0c-4581-b755-e34e4add47a5/download/solar-measurements_maldives_wb-esmap_satellitets.zip",
+          "byteSize": 14451927,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--13",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/29afd81e-b653-43c8-8e15-0408907cf193/download/solar-measurements_maldives_gan_wb-esmap_header.csv",
+          "byteSize": 2395,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/7ef7f97f-3c3a-433f-b27e-e4d1bdb03aee/download/solar-measurements_maldives_kadhdhoo_wb-esmap_header.csv",
+          "byteSize": 2390,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--6",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/cd48ab64-511a-462f-9b0b-69412437a788/download/solar-measurements_maldives_hanimaadhoo_wb-esmap_header.csv",
+          "byteSize": 2410,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--3",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/6b159e3e-6fa6-4249-b9af-f1138951da16/download/solar-measurements_maldives_wb-esmap_satellitetmy.zip",
+          "byteSize": 690327,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--12",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/12167a12-4318-4f09-a14e-ed4896649151/download/solar-measurements_maldives_male_wb-esmap_raw.zip",
+          "byteSize": 212117584,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--10",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/49ea92a9-f3ee-49e5-aede-10b7b85b308b/download/solar-measurements_maldives_gan_wb-esmap_qc.csv",
+          "byteSize": 158642065,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--2",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/a751797c-84b6-4625-b646-e92b9df4c8ab/download/solar-measurements_maldives_gan_wb-esmap_raw.zip",
+          "byteSize": 217745289,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--1",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/826767de-aa8f-408f-a038-92de3241f4b0/download/solar-measurements_maldives_hanimaadhoo_wb-esmap_qc.csv",
+          "byteSize": 154387321,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/3067cc90-2f27-4872-8d69-91692ec65dc7/download/solar-measurements_maldives_hanimaadhoo_wb-esmap_raw.zip",
+          "byteSize": 206435895,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--4",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/2929bd1b-ae60-40bf-81c7-2d9293912209/download/solar-measurements_maldives_male_wb-esmap_qc.csv",
+          "byteSize": 154751718,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/maldives-solar-radiation-measurement-data--11",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "barometric_pressure",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/barometric_pressure",
+          "localName": "barometric_pressure",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dni_rsi",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/dni_rsi",
+          "localName": "dni_rsi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "relative_humidity",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/relative_humidity",
+          "localName": "relative_humidity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "LOCATION",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/LOCATION",
+          "localName": "LOCATION",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dhi_rsi",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/dhi_rsi",
+          "localName": "dhi_rsi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "sensor_cleaning",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/sensor_cleaning",
+          "localName": "sensor_cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wind_speed",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/wind_speed",
+          "localName": "wind_speed",
+          "type": "Field"
+        },
+        {
+          "fieldId": "air_temperature",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/air_temperature",
+          "localName": "air_temperature",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi_pyr",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/ghi_pyr",
+          "localName": "ghi_pyr",
+          "type": "Field"
+        },
+        {
+          "fieldId": "time",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/time",
+          "localName": "time",
+          "type": "Field"
+        },
+        {
+          "fieldId": "comments",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/comments",
+          "localName": "comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi_rsi",
+          "id": "https://catalog.opengrid.org/field/maldives-solar-radiation-measurement-data/ghi_rsi",
+          "localName": "ghi_rsi",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/maldives-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 6.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-04-13T00:00:00+00:00",
+      "landingPage": "http://esmap.org/re_mapping_madlvies",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/maldives-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/maldives-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/214d9f6e-f927-4af4-896f-a46ce028f9aa/resource/49ea92a9-f3ee-49e5-aede-10b7b85b308b/download/solar-measurements_maldives_gan_wb-esmap_qc.csv",
+      "sourceRecordId": "energydata_info:214d9f6e-f927-4af4-896f-a46ce028f9aa",
+      "title": "Maldives - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

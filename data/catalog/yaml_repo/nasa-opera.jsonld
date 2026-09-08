@@ -11,6 +11,51 @@
       "description": "This data set is an inventory of some 2800 landslides that occurred in the High Mountain Asia (HMA) study area between 5 January 2007 and 31 December 2018 (plus one event from 28 January 1990). The catalog includes dates and locations of landslides, plus additional characteristics such as event triggers, country, length and area of the slide, and the number of injuries and fatalities. The events in this catalog represent an HMA-specific subset of the Cooperative Open Online Landslide Repository (COOLR), a project that was created to build a more robust, publicly available inventory of landslides by supplementing data in the NASA Global Landslide Catalog with citizen science reports. #### HMA2_MTLI The transboundary Pumpqu/Arun River basin spreads across Nepal and Tibet. Nearly 95% of the basin lies in Tibet through which the Pumpqu River flows. The river is named the Arun River once it enters Nepal. Five large hydropower projects (in total about 3,163 MW) are currently under construction or are planned for the Arun River valley. Rainfall and earthquake-induced landslides, landslide dammed lakes, and landslide-induced glacial lake outburst floods pose major risks to the smooth operation of these projects. This data set is a multitemporal landslide inventory covering the whole Pumpqu/Arun River basin. It was generated in support of the World Bank’s Risk Assessment of Landslides in the Upper Arun Hydropower Project. #### IPFLT1B This data set contains simplified, or thinned, flight lines from NASA Operation IceBridge Greenland, Arctic, Antarctic, and Alaska missions. The thinning was performed using a Python library called Shapely. The full resolution flight line data were collected as part of Operation IceBridge funded aircraft survey campaigns. The corresponding flight reports can be found in the IceBridge L1B Flight Reports (IPFLR1B) data set. #### NISE The Near-real-time Ice and Snow Extent (NISE) data set provides daily, global maps of sea ice concentrations and snow extent. These data are not suitable for time series, anomalies, or trends analyses. They are meant to provide a best estimate of current ice and snow conditions based on information and algorithms available at the time the data are acquired. Near-real-time products are not intended for operational use in assessing sea ice conditions for navigation. This NISE Version 2 product contains SSMIS-derived sea ice concentrations and snow extents derived from the Special Sensor Microwave Imager (SSM/I) aboard the Defense Meteorological Satellite Program (DMSP) F13 satellite. For DMSP-F16, SSMIS-derived data, see NISE Version 3. For DMSP-F17, SSMIS-derived data, see NISE Version 4. For DMSP-F18, SSMIS-derived data, see NISE Version 5. #### SV19MA_TNET These data consist of ground-based, soil moisture, soil temperature, and air temperature measurements recorded by twenty-five temporary stations located in the vicinity of Petersham, MA during the SMAPVEX19-22 campaign. The stations were installed across an area of approximately 23 km by 36 km in May 2019 and operated through 2022. Note that the product is named SMAPVEX19-22 because, although the current coverage is through 2021, it is projected to include 2022 data in the future. #### SV19MB_TNET These data consist of soil moisture sensor, soil temperature and air temperature measurements recorded by 25 temporary stations in the Millbrook (MB) experiment location during SMAPVEX19-22. The stations were spread out over the experiment domain of about 30 by 40 km located around Millbrook, NY. The stations were installed in May 2019 and are to continue operation until 2022. Note that the product is named SMAPVEX19-22 because, although the current coverage is through 2021, it is projected to include 2022 data in the future. #### SWOT_SIMULATED_L2_KARIN_SSH_GLORYS_CALVAL_V1 This dataset provides simulated sea surface height data product that resembles data which will be collected by KaRIn. Swaths span 60 km on both sides of nadir with a nadir gap. Product provides sea surface height, sea surface height anomaly, wind speed, significant waveheight, on a geographically fixed, swath-aligned 2x2 km2 grid, as well as sea surface height on a 250x250 m2 native grid. SSH data produced by GLORYS were rendered from their native output format into the format prescribed in the SWOT L2 SSH PDD to aid ongoing data product development and to benefit future users of data produced during operational phases of the SWOT mission. #### SWOT_SIMULATED_L2_NADIR_SSH_GLORYS_CALVAL_V1 This dataset provides simulated sea surface height (SSH) in a format similar to the future SWOT Level 2 (L2) altimetry data from the Poseidon 3C nadir altimeter. The simulated data are from the Global Ocean Reanalysis and Simulations (GLORYS). SSH data from GLORYS were rendered from their native output format into the format prescribed in the SWOT L2 SSH PDD to aid ongoing data product development and to benefit future users of data produced during operational phases of the SWOT mission. #### Data Discovery Explore this data using NASA's [Earthdata Search](https://search.earthdata.nasa.gov/), a comprehensive tool for discovering and visualizing Earth science datasets. #### Data Access Access requires an [Earthdata Login](https://urs.earthdata.nasa.gov/) account. [Read our guide on obtaining AWS credentials](https://data.nsidc.earthdatacloud.nasa.gov/s3credentialsREADME) to retrieve this data from AWS.",
       "distribution": [
         {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/HMA/HMA_LS_Cat/2",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-opera--0",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/SWOT_SIMULATED_L2_KARIN_SSH_GLORYS_CALVAL_V1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-opera--6",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/PM/NISE/2",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-opera--3",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ICEBRIDGE/IPFLT1B/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-opera--2",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV19MA_TNET/1",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-opera--4",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
           "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/HMA/HMA2_MTLI/1",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -29,56 +74,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV19MA_TNET/1",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-opera--4",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/ICEBRIDGE/IPFLT1B/1",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-opera--2",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/PM/NISE/2",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-opera--3",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://podaac-ops-cumulus-protected.s3.us-west-2.amazonaws.com/SWOT_SIMULATED_L2_KARIN_SSH_GLORYS_CALVAL_V1",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-opera--6",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/SMAP-VAL/SV19MB_TNET/1",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nasa-opera--5",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nsidc-cumulus-prod-protected.s3.us-west-2.amazonaws.com/HMA/HMA_LS_Cat/2",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-opera--0",
           "requesterPays": false,
           "type": "Distribution"
         }
@@ -92,15 +92,15 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 6.1. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "aws-pds",
-        "soil moisture",
         "oceans",
-        "satellite imagery",
-        "ice"
+        "soil moisture",
+        "ice",
+        "aws-pds",
+        "satellite imagery"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-opera/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:21.851760+00:00",
+      "modified": "2026-09-08T21:57:36.356916+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

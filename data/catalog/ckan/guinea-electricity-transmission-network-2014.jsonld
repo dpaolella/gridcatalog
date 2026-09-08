@@ -1,0 +1,78 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "A Guinea subset of this dataset: [ECOWAS region - Existing and Planned Transmission Grid (2017)](https://energydata.info/dataset/transmission-grid-ecowas-region) Existing and planned transmission grid network (medium and high voltage lines) in the ECOWAS Region. Also covers other regions of West Africa. The source of the dataset is the West African Power Pool (WAPP) GIS database January 2017. WAPP collects and validates spatial information on transmission lines in a yearly basis. Includes substations from a 2014 World Bank project, digitized from a PDF map.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/d940491d-2b37-460e-89f5-a43ef551069e/resource/c5badaf1-6140-493c-854c-762aeb62944a/download/guineaecreee.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/guinea-electricity-transmission-network-2014--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/d940491d-2b37-460e-89f5-a43ef551069e/resource/1c97c5af-62d1-4ecc-87f4-7c32895019a9/download/gui40967substations.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/guinea-electricity-transmission-network-2014--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/d940491d-2b37-460e-89f5-a43ef551069e/resource/bca0f0aa-f792-4cea-b9a2-1b00066c6f3c/download/gui40967substations.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/guinea-electricity-transmission-network-2014--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/d940491d-2b37-460e-89f5-a43ef551069e/resource/de560e18-c947-429c-9bc7-bdff9959bd64/download/guineaecreee.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/guinea-electricity-transmission-network-2014--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/guinea-electricity-transmission-network-2014",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-02-10T00:00:00+00:00",
+      "keyword": [
+        "power stations",
+        "transmission",
+        "substations",
+        "grid"
+      ],
+      "landingPage": "http://www.ecowrex.org/mapView/",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2018-02-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/guinea-electricity-transmission-network-2014#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/guinea-electricity-transmission-network-2014#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:d940491d-2b37-460e-89f5-a43ef551069e",
+      "title": "Guinea - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

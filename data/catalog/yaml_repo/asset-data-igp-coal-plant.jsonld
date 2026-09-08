@@ -6,13 +6,13 @@
       "anonymousAccess": true,
       "completenessLevel": 1,
       "dataDomain": [
-        "https://schema.opengrid.org/concept/data-domain/DD5",
-        "https://schema.opengrid.org/concept/data-domain/DD10"
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
       ],
       "description": "This dataset includes detailed information about coal power plants, their locations, capacities, emissions, and other relevant attributes around the Indian Gangetic Plain.",
       "distribution": [
         {
-          "accessURL": "file:///home/user/gridcatalog/",
+          "accessURL": "file:///home/runner/work/gridcatalog/gridcatalog/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
@@ -30,13 +30,13 @@
       "inferredAssignment": true,
       "keyword": [
         "energy",
-        "infrastructure",
         "air quality",
+        "infrastructure",
         "environmental"
       ],
       "landingPage": "https://registry.opendata.aws/asset-data-igp-coal-plant/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.496929+00:00",
+      "modified": "2026-09-08T21:57:30.926369+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/asset-data-igp-coal-plant#provenance-gap",
@@ -44,8 +44,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/asset-data-igp-coal-plant#flags",
         "staleness": "unknown",
@@ -56,6 +56,17 @@
       "title": "IGP Coal Plant",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/APAD2024/APAD-Asset-Data/tree/main/Asset%20Data/Coal%20Plants",
+          "assertedBy": "aws_open_data",
+          "authorName": "APAD",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/asset-data-igp-coal-plant#usage-0",
+          "title": "Analyzing Coal Plant Data and Emission Calculation",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

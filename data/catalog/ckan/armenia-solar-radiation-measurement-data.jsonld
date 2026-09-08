@@ -1,0 +1,501 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar measurements from 4 WB funded stations in Armenia. The four solar measuring stations and the associated measurement campaign have been financed by the Scaling-Up Renewable Energy Program (SREP) as part of the preparation activities for the Armenia Utility-Scale Solar Project. This project, which is being jointly supported by SREP and the World Bank, will deliver the first utility-scale solar plant in the country. The locations for the measuring stations were selected by the Renewable Resources and Energy Efficiency Fund, the project’s implementing entity, following the recommendations from Effergy, the expert consultant firm. For download access to GIS layers, please visit the Global Solar Atlas: http://globalsolaratlas.info/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/866d3bce-c546-474f-a64b-a3d8c6ef34d8/download/masrikwbarmenia10minmetadata.xlsx",
+          "byteSize": 9988,
+          "checksum": "477c9d1897b95aa08150facfbb77feb2",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--1",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/71a2480a-dc71-4f66-b427-2d63435b3d08/download/tmy.zip",
+          "byteSize": 5319058,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--8",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/926f1dfb-36d7-4e83-88ec-a0ca51686231/download/masrikwbarmenia10min.csv",
+          "byteSize": 13466412,
+          "checksum": "a7a5f6b22c3d3766009aaa3a46191645",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/8118c67c-27b8-45cb-b5aa-73c5d115d435/download/hrazdanwbarmenia10min.csv",
+          "byteSize": 13460325,
+          "checksum": "71bb8a2046e602200b19153dd80e22db",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--6",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/7f2bb0cf-56b5-4774-94e4-3c1e330b541f/download/hrazdanwbarmenia10minmetadata.xlsx",
+          "byteSize": 9967,
+          "checksum": "6d1c139c538f1398d063e0a4bbf14fbb",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--7",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/e94acaef-1ebc-44f8-a968-1bb2ccf7a770/download/talinwbarmenia10min.csv",
+          "byteSize": 13438380,
+          "checksum": "d08b5d79df94928bb3d72d7fbcdf1003",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--2",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/e5d38af6-0474-4e10-98ea-a9232076fb48/download/yerevanagrowbarmenia10minmetadata.xlsx",
+          "byteSize": 9975,
+          "checksum": "354e1dff0d758a471375942443d7d1c0",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--5",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/09d0cbd8-ec25-460d-949f-a1bceca853f6/download/yerevanagrowbarmenia10min.csv",
+          "byteSize": 13327614,
+          "checksum": "c1323c101dc49d2be837f4b51f36db09",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/a4f3eb3a-3949-4660-9729-698ac29d86d8/download/talinwbarmenia10minmetadata.xlsx",
+          "byteSize": 9969,
+          "checksum": "67972b6983f6f367d9d57246dcd3a348",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/armenia-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "spAOD6",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD6",
+          "localName": "spAOD6",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD1_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD1_flag",
+          "localName": "spAOD1_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spO3",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spO3",
+          "localName": "spO3",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD2",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD2",
+          "localName": "spAOD2",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spTmpInt",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spTmpInt",
+          "localName": "spTmpInt",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD8",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD8",
+          "localName": "spAOD8",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD4",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD4",
+          "localName": "spAOD4",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD3_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD3_flag",
+          "localName": "spAOD3_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD6_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD6_flag",
+          "localName": "spAOD6_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD4_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD4_flag",
+          "localName": "spAOD4_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "minute",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/minute",
+          "localName": "minute",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/ghi",
+          "localName": "ghi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spDNI",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spDNI",
+          "localName": "spDNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "gti_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/gti_flag",
+          "localName": "gti_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD2_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD2_flag",
+          "localName": "spAOD2_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "precip_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/precip_flag",
+          "localName": "precip_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dhi_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/dhi_flag",
+          "localName": "dhi_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spH2O_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spH2O_flag",
+          "localName": "spH2O_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spTmpInt_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spTmpInt_flag",
+          "localName": "spTmpInt_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spRelHumInt_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spRelHumInt_flag",
+          "localName": "spRelHumInt_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "tmp2m_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/tmp2m_flag",
+          "localName": "tmp2m_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spTmpAmb",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spTmpAmb",
+          "localName": "spTmpAmb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD5",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD5",
+          "localName": "spAOD5",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spTmpAmb_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spTmpAmb_flag",
+          "localName": "spTmpAmb_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spH2O",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spH2O",
+          "localName": "spH2O",
+          "type": "Field"
+        },
+        {
+          "fieldId": "hour",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/hour",
+          "localName": "hour",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spDNI_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spDNI_flag",
+          "localName": "spDNI_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAzim",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAzim",
+          "localName": "spAzim",
+          "type": "Field"
+        },
+        {
+          "fieldId": "pressfc",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/pressfc",
+          "localName": "pressfc",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_spd_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_spd_flag",
+          "localName": "wnd10m_spd_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD3",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD3",
+          "localName": "spAOD3",
+          "type": "Field"
+        },
+        {
+          "fieldId": "rh2m_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/rh2m_flag",
+          "localName": "rh2m_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "precip",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/precip",
+          "localName": "precip",
+          "type": "Field"
+        },
+        {
+          "fieldId": "rh2m",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/rh2m",
+          "localName": "rh2m",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_dir_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_dir_flag",
+          "localName": "wnd10m_dir_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD1",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD1",
+          "localName": "spAOD1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "month",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/month",
+          "localName": "month",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ghi_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/ghi_flag",
+          "localName": "ghi_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_spd",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_spd",
+          "localName": "wnd10m_spd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spO3_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spO3_flag",
+          "localName": "spO3_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dni",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/dni",
+          "localName": "dni",
+          "type": "Field"
+        },
+        {
+          "fieldId": "gti",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/gti",
+          "localName": "gti",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAzim_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAzim_flag",
+          "localName": "spAzim_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD7",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD7",
+          "localName": "spAOD7",
+          "type": "Field"
+        },
+        {
+          "fieldId": "day",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/day",
+          "localName": "day",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD5_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD5_flag",
+          "localName": "spAOD5_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spElev",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spElev",
+          "localName": "spElev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spPressAmb_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spPressAmb_flag",
+          "localName": "spPressAmb_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_dir",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_dir",
+          "localName": "wnd10m_dir",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD8_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD8_flag",
+          "localName": "spAOD8_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "tmp2m",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/tmp2m",
+          "localName": "tmp2m",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_spdMax",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_spdMax",
+          "localName": "wnd10m_spdMax",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spRelHumInt",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spRelHumInt",
+          "localName": "spRelHumInt",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dhi",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/dhi",
+          "localName": "dhi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "wnd10m_spdMax_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/wnd10m_spdMax_flag",
+          "localName": "wnd10m_spdMax_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "#year",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/year",
+          "localName": "#year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spPressAmb",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spPressAmb",
+          "localName": "spPressAmb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spAOD7_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spAOD7_flag",
+          "localName": "spAOD7_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "spElev_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/spElev_flag",
+          "localName": "spElev_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "pressfc_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/pressfc_flag",
+          "localName": "pressfc_flag",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dni_flag",
+          "id": "https://catalog.opengrid.org/field/armenia-solar-radiation-measurement-data/dni_flag",
+          "localName": "dni_flag",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/armenia-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-09-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/armenia-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/armenia-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/ba7249f8-39d3-4ba5-b3f8-d2042ce898b7/resource/926f1dfb-36d7-4e83-88ec-a0ca51686231/download/masrikwbarmenia10min.csv",
+      "sourceRecordId": "energydata_info:ba7249f8-39d3-4ba5-b3f8-d2042ce898b7",
+      "title": "Armenia - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

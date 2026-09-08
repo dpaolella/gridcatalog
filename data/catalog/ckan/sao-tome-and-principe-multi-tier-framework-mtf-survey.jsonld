@@ -1,0 +1,81 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The MTF survey is a global baseline survey on household access to electricity and clean cooking, which goes beyond the binary approach to look at access as a spectrum of service levels experienced by households. Resources included are raw data, codebook, questionnaires, sampling strategy document, and country diagnostic report. Formats include zip file (which includes raw data sets of dta format), excel spreadsheet, pdf, and docx.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/fcccab08-9bab-4cc0-b7a3-6808d429be9f/resource/48d402cc-5e33-40a3-a475-ccdbe4be9a3f/download/codebook_stp.xlsx",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sao-tome-and-principe-multi-tier-framework-mtf-survey--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/fcccab08-9bab-4cc0-b7a3-6808d429be9f/resource/72b3ceaa-f373-42d1-acc2-f1c81901c970/download/1.-household_stp.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sao-tome-and-principe-multi-tier-framework-mtf-survey--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/fcccab08-9bab-4cc0-b7a3-6808d429be9f/resource/13c47026-3eae-4521-8df6-96de5089cff1/download/mtf_energy_access_country_diagnostic_report_stp_7.2019.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sao-tome-and-principe-multi-tier-framework-mtf-survey--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/fcccab08-9bab-4cc0-b7a3-6808d429be9f/resource/942d9835-d533-4712-84d6-810453e0784f/download/sampling-strategy_mtf_standard.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sao-tome-and-principe-multi-tier-framework-mtf-survey--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/fcccab08-9bab-4cc0-b7a3-6808d429be9f/resource/9bd4e51d-7318-453e-b419-9a1186763963/download/stp_hh-dataset.dta",
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sao-tome-and-principe-multi-tier-framework-mtf-survey--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/sao-tome-and-principe-multi-tier-framework-mtf-survey",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2019-11-28T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/sao-tome-and-principe-multi-tier-framework-mtf-survey#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/sao-tome-and-principe-multi-tier-framework-mtf-survey#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:fcccab08-9bab-4cc0-b7a3-6808d429be9f",
+      "title": "São Tomé and Príncipe - Multi-Tier Framework (MTF) Survey",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

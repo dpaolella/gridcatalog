@@ -1,0 +1,295 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Main Fertilizer",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Main-Fertilizer",
+      "localName": "Main Fertilizer",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Crop",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Crop",
+      "localName": "Crop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Location 1",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Location-1",
+      "localName": "Location 1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Additional feedstock sourcing (t/yr)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Additional-feedstock-sourcing-t-yr",
+      "localName": "Additional feedstock sourcing (t/yr)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue sold to industry",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-sold-to-industry",
+      "localName": "Residue sold to industry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Yield, maund",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Yield-maund",
+      "localName": "Yield, maund",
+      "type": "Field"
+    },
+    {
+      "fieldId": "accuracy",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/accuracy",
+      "localName": "accuracy",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Agreement for a cooperative harvesting, baling and transporting arrangement",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Agreement-for-a-cooperative-harvesting-baling-and-transporting-arrangement",
+      "localName": "Agreement for a cooperative harvesting, baling and transporting arrangement",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: animal fodder  (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-animal-fodder",
+      "localName": "Residue use: animal fodder  (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Crop harvesting method",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Crop-harvesting-method",
+      "localName": "Crop harvesting method",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Irrigated/Rainfed",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Irrigated-Rainfed",
+      "localName": "Irrigated/Rainfed",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Need for a private service provider for the bailing",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Need-for-a-private-service-provider-for-the-bailing",
+      "localName": "Need for a private service provider for the bailing",
+      "type": "Field"
+    },
+    {
+      "fieldId": "deviceTimestamp",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/deviceTimestamp",
+      "localName": "deviceTimestamp",
+      "type": "Field"
+    },
+    {
+      "fieldId": "alt",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/alt",
+      "localName": "alt",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Currently growing crop",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Currently-growing-crop",
+      "localName": "Currently growing crop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: left in field for burning (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-left-in-field-for-burning",
+      "localName": "Residue use: left in field for burning (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Second Last Crop",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Second-Last-Crop",
+      "localName": "Second Last Crop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Location",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Location",
+      "localName": "Location",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Acres of Land Rented",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Acres-of-Land-Rented",
+      "localName": "Acres of Land Rented",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Coordinates",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Coordinates",
+      "localName": "Coordinates",
+      "type": "Field"
+    },
+    {
+      "fieldId": "District",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/District",
+      "localName": "District",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Electricity export (GWh/yr)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Electricity-export-GWh-yr",
+      "localName": "Electricity export (GWh/yr)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Mill name",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Mill-name",
+      "localName": "Mill name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: domestic burning (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-domestic-burning",
+      "localName": "Residue use: domestic burning (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Mill Type",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Mill-Type",
+      "localName": "Mill Type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Willingness to bale the biomass to be sold",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Willingness-to-bale-the-biomass-to-be-sold",
+      "localName": "Willingness to bale the biomass to be sold",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Province",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Province",
+      "localName": "Province",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: sold to industry (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-sold-to-industry",
+      "localName": "Residue use: sold to industry (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: sold to biomass supplier (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-sold-to-biomass-supplier",
+      "localName": "Residue use: sold to biomass supplier (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "crop id",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/crop-id",
+      "localName": "crop id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "id",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/id",
+      "localName": "id",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Residue use: fertilizer in the field (%)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Residue-use-fertilizer-in-the-field",
+      "localName": "Residue use: fertilizer in the field (%)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Area for yield",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Area-for-yield",
+      "localName": "Area for yield",
+      "type": "Field"
+    },
+    {
+      "fieldId": "notice",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/notice",
+      "localName": "notice",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Capacity (MWe)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Capacity-MWe",
+      "localName": "Capacity (MWe)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Acres of Land Owned",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Acres-of-Land-Owned",
+      "localName": "Acres of Land Owned",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Bagasse production (t/yr)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Bagasse-production-t-yr",
+      "localName": "Bagasse production (t/yr)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Method of irrigation",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Method-of-irrigation",
+      "localName": "Method of irrigation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Rice husk production (t/yr)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Rice-husk-production-t-yr",
+      "localName": "Rice husk production (t/yr)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Unit price of Residue (Rs/ton)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Unit-price-of-Residue-Rs-ton",
+      "localName": "Unit price of Residue (Rs/ton)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "direction",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/direction",
+      "localName": "direction",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Area Unit",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Area-Unit",
+      "localName": "Area Unit",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Number of main crops",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Number-of-main-crops",
+      "localName": "Number of main crops",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Last crop",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Last-crop",
+      "localName": "Last crop",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Interviewer's comments",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Interviewer-s-comments",
+      "localName": "Interviewer's comments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sourcing radius (km)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Sourcing-radius-km",
+      "localName": "Sourcing radius (km)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Need for a bargaining agent",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Need-for-a-bargaining-agent",
+      "localName": "Need for a bargaining agent",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sourcing area (km2/GWh)",
+      "id": "https://catalog.opengrid.org/field/pakistan-biomass-mapping/Sourcing-area-km2-GWh",
+      "localName": "Sourcing area (km2/GWh)",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/pakistan-biomass-mapping",
+  "schemaSource": "csv-header at https://energydata.info/dataset/a27a9b60-706b-4c81-8608-c913d2ed998f/resource/ff81c75f-bc41-4d36-903f-3bdca3ad754e/download/pakistanbiomassfieldsurvey.csv"
+}

@@ -11,54 +11,6 @@
       "description": "Released to the public as part of the Department of Energy's Open Energy Data Initiative, these data represent a serially complete collection of hourly 4km wind, solar, temperature, humidity, and pressure fields for the Continental United States under climate change scenarios. Sup3rCC is downscaled Global Climate Model (GCM) data. For example, the initial file set tagged \"sup3rcc_conus_mriesm20_ssp585_r1i1p1f1\" is downscaled from MRI ESM 2.0 for climate change scenario SSP5 8.5 and variant label r1i1p1f1. The downscaling process is performed using a generative machine learning approach called sup3r: Super-Resolution for Renewable Energy Resource Data. The data includes both historical and future weather years, although the historical years represent the historical average climate, not true historical weather. The Sup3rCC data is intended to help researchers study the impact of climate change on energy systems with high levels of wind and solar power generation. Please note that all climate change data is only a representation of the *possible* future climate and contains significant uncertainty. Analysis of multiple climate change scenarios and multiple climate models can help quantify this uncertainty.",
       "distribution": [
         {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mpiesm12hr_ssp245_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--10",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_taiesm1_ssp245_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--14",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mriesm20_historical_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--11",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mriesm20_ssp585_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--12",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3veg_historical_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--5",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3cc_ssp245_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--4",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3veg_ssp245_r1i1p1f1/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -67,19 +19,19 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--0",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_taiesm1_historical_r1i1p1f1/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3cc_historical_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--3",
           "type": "Distribution"
         },
         {
@@ -99,19 +51,43 @@
           "type": "Distribution"
         },
         {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mpiesm12hr_ssp245_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3cc_ssp245_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3veg_historical_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--5",
+          "type": "Distribution"
+        },
+        {
           "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3_ssp585_r1i1p1f1%2F/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--2",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_gfdlcm4_historical_r1i1p1f1/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--7",
           "type": "Distribution"
         },
         {
@@ -123,11 +99,35 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_ecearth3cc_historical_r1i1p1f1/",
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_gfdlcm4_historical_r1i1p1f1/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--3",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mriesm20_historical_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_mriesm20_ssp585_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--12",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-sup3rcc.s3.us-west-2.amazonaws.com/conus_taiesm1_ssp245_r1i1p1f1/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-sup3rcc--14",
           "type": "Distribution"
         }
       ],
@@ -140,15 +140,15 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10. Determined by the phrase \"downscaled\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "climate model",
+        "aws-pds",
         "air temperature",
         "solar",
-        "aws-pds",
-        "energy"
+        "energy",
+        "climate model"
       ],
       "landingPage": "https://registry.opendata.aws/nrel-pds-sup3rcc/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:23.560161+00:00",
+      "modified": "2026-09-08T21:57:38.359426+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
       "qualityFlags": {
         "caveat": [
@@ -163,6 +163,17 @@
       "title": "Sup3rCC",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/NREL/sup3r/blob/main/examples/sup3rcc/using_the_data.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Grant Buster",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-sup3rcc#usage-0",
+          "title": "Using the Sup3rCC Data",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

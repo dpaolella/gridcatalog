@@ -1,0 +1,181 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "2011 [YR2011]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2011-YR2011",
+      "localName": "2011 [YR2011]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Series Code",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/Series-Code",
+      "localName": "Series Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1992 [YR1992]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1992-YR1992",
+      "localName": "1992 [YR1992]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2014 [YR2014]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2014-YR2014",
+      "localName": "2014 [YR2014]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1991 [YR1991]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1991-YR1991",
+      "localName": "1991 [YR1991]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Series Name",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/Series-Name",
+      "localName": "Series Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2000 [YR2000]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2000-YR2000",
+      "localName": "2000 [YR2000]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country Name",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/Country-Name",
+      "localName": "Country Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2012 [YR2012]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2012-YR2012",
+      "localName": "2012 [YR2012]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1990 [YR1990]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1990-YR1990",
+      "localName": "1990 [YR1990]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2008 [YR2008]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2008-YR2008",
+      "localName": "2008 [YR2008]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2007 [YR2007]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2007-YR2007",
+      "localName": "2007 [YR2007]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1994 [YR1994]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1994-YR1994",
+      "localName": "1994 [YR1994]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2005 [YR2005]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2005-YR2005",
+      "localName": "2005 [YR2005]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2002 [YR2002]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2002-YR2002",
+      "localName": "2002 [YR2002]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2013 [YR2013]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2013-YR2013",
+      "localName": "2013 [YR2013]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1997 [YR1997]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1997-YR1997",
+      "localName": "1997 [YR1997]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2009 [YR2009]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2009-YR2009",
+      "localName": "2009 [YR2009]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2001 [YR2001]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2001-YR2001",
+      "localName": "2001 [YR2001]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2004 [YR2004]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2004-YR2004",
+      "localName": "2004 [YR2004]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1996 [YR1996]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1996-YR1996",
+      "localName": "1996 [YR1996]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1993 [YR1993]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1993-YR1993",
+      "localName": "1993 [YR1993]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2003 [YR2003]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2003-YR2003",
+      "localName": "2003 [YR2003]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2006 [YR2006]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2006-YR2006",
+      "localName": "2006 [YR2006]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "2010 [YR2010]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/2010-YR2010",
+      "localName": "2010 [YR2010]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1995 [YR1995]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1995-YR1995",
+      "localName": "1995 [YR1995]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1998 [YR1998]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1998-YR1998",
+      "localName": "1998 [YR1998]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "1999 [YR1999]",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/1999-YR1999",
+      "localName": "1999 [YR1999]",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country Code",
+      "id": "https://catalog.opengrid.org/field/world-global-tracking-framework-2017/Country-Code",
+      "localName": "Country Code",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/world-global-tracking-framework-2017",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041443/1/DR0051730/gtfenergyaccessdata.csv"
+}

@@ -1,0 +1,91 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "ghi_pyr",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/ghi_pyr",
+      "localName": "ghi_pyr",
+      "type": "Field"
+    },
+    {
+      "fieldId": "time",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/time",
+      "localName": "time",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_direction",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/wind_direction",
+      "localName": "wind_direction",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LOCATION",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/LOCATION",
+      "localName": "LOCATION",
+      "type": "Field"
+    },
+    {
+      "fieldId": "air_temperature",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/air_temperature",
+      "localName": "air_temperature",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_speed",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/wind_speed",
+      "localName": "wind_speed",
+      "type": "Field"
+    },
+    {
+      "fieldId": "barometric_pressure",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/barometric_pressure",
+      "localName": "barometric_pressure",
+      "type": "Field"
+    },
+    {
+      "fieldId": "relative_humidity",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/relative_humidity",
+      "localName": "relative_humidity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "comments",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/comments",
+      "localName": "comments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sensor_cleaning",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/sensor_cleaning",
+      "localName": "sensor_cleaning",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_rsi",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/ghi_rsi",
+      "localName": "ghi_rsi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "precipitation",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/precipitation",
+      "localName": "precipitation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dhi_rsi",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/dhi_rsi",
+      "localName": "dhi_rsi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dni_rsi",
+      "id": "https://catalog.opengrid.org/field/zambia-solar-radiation-measurement-data-0/dni_rsi",
+      "localName": "dni_rsi",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/zambia-solar-radiation-measurement-data-0",
+  "schemaSource": "csv-header at https://energydata.info/dataset/96bca9bf-9b28-41af-bc83-f77a2a8f3293/resource/c7b920fc-13f8-4677-a44d-57748fb29973/download/solar-measurementszambiakasamawb-esmapqc.csv"
+}

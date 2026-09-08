@@ -1,0 +1,97 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "wind_from_direction",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/wind_from_direction",
+      "localName": "wind_from_direction",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_pyr_1",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/ghi_pyr_1",
+      "localName": "ghi_pyr_1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "air_temperature",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/air_temperature",
+      "localName": "air_temperature",
+      "type": "Field"
+    },
+    {
+      "fieldId": "time",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/time",
+      "localName": "time",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_pyr_2",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/ghi_pyr_2",
+      "localName": "ghi_pyr_2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_soil",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/gti_soil",
+      "localName": "gti_soil",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sensor_cleaning",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/sensor_cleaning",
+      "localName": "sensor_cleaning",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_clean",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/gti_clean",
+      "localName": "gti_clean",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_monthly",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/gti_monthly",
+      "localName": "gti_monthly",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_speed",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/wind_speed",
+      "localName": "wind_speed",
+      "type": "Field"
+    },
+    {
+      "fieldId": "barometric_pressure",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/barometric_pressure",
+      "localName": "barometric_pressure",
+      "type": "Field"
+    },
+    {
+      "fieldId": "precipitation",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/precipitation",
+      "localName": "precipitation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dhi_pyr",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/dhi_pyr",
+      "localName": "dhi_pyr",
+      "type": "Field"
+    },
+    {
+      "fieldId": "comments",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/comments",
+      "localName": "comments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "relative_humidity",
+      "id": "https://catalog.opengrid.org/field/marshall-islands-solar-radiation-measurement-data/relative_humidity",
+      "localName": "relative_humidity",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/marshall-islands-solar-radiation-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/ab67cd2e-4ef8-417f-81f4-9c140122b6e3/resource/93ab39eb-e54d-4027-b2a2-f6615902433b/download/solar-measurements_marshall-islands-majuro_ppa_y1_qc_v01.csv"
+}

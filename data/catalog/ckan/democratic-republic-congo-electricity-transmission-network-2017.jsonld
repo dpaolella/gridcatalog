@@ -1,0 +1,57 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Combination of the following data sources: 1) The Africa Infrastructure Country Diagnostic (AICD) study 2) OSM data © OpenStreetMap contributors",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042055/1/DR0052586/drcgrid.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/democratic-republic-congo-electricity-transmission-network-2017--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042055/1/DR0052585/drcgrid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/democratic-republic-congo-electricity-transmission-network-2017--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/democratic-republic-congo-electricity-transmission-network-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"openstreetmap\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2017-03-10T00:00:00+00:00",
+      "keyword": [
+        "grid",
+        "electricity transmission",
+        "power system"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-04T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/democratic-republic-congo-electricity-transmission-network-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:d54e250f-a487-4ac0-a91e-bd2dc540bacb",
+      "title": "Democratic Republic of the Congo - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

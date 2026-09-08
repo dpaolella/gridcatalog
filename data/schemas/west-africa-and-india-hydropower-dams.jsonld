@@ -1,0 +1,325 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Transm_length",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Transm_length",
+      "localName": "Transm_length",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PrivateOwnership_RE",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/PrivateOwnership_RE",
+      "localName": "PrivateOwnership_RE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Study_status",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Study_status",
+      "localName": "Study_status",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Name",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Name",
+      "localName": "Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Autom_EMS/SCADA",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Autom_EMS-SCADA",
+      "localName": "Autom_EMS/SCADA",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Feed_in_tariff _ForeignExchg",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Feed_in_tariff-_ForeignExchg",
+      "localName": "Feed_in_tariff _ForeignExchg",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Status",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Status",
+      "localName": "Status",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Storage_typ",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Storage_typ",
+      "localName": "Storage_typ",
+      "type": "Field"
+    },
+    {
+      "fieldId": "River",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/River",
+      "localName": "River",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Owner",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Owner",
+      "localName": "Owner",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Comission_due",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Comission_due",
+      "localName": "Comission_due",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sec_cntry",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Sec_cntry",
+      "localName": "Sec_cntry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sub_basin",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Sub_basin",
+      "localName": "Sub_basin",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Transm_planned",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Transm_planned",
+      "localName": "Transm_planned",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Res_area",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Res_area",
+      "localName": "Res_area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Ann_firm_gen",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Ann_firm_gen",
+      "localName": "Ann_firm_gen",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lat",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Lat",
+      "localName": "Lat",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ISO",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/ISO",
+      "localName": "ISO",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Linked_prj",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Linked_prj",
+      "localName": "Linked_prj",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Compensation_IPP_offtake",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Compensation_IPP_offtake",
+      "localName": "Compensation_IPP_offtake",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Admin_unit",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Admin_unit",
+      "localName": "Admin_unit",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PVOUT",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/PVOUT",
+      "localName": "PVOUT",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Country",
+      "localName": "Country",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Download",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Download",
+      "localName": "Download",
+      "type": "Field"
+    },
+    {
+      "fieldId": "OtherFiscal _incentives_RE",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/OtherFiscal-_incentives_RE",
+      "localName": "OtherFiscal _incentives_RE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Proj_type",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Proj_type",
+      "localName": "Proj_type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Compensations_lost_generation",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Compensations_lost_generation",
+      "localName": "Compensations_lost_generation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Feed_in_tariff_Solar",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Feed_in_tariff_Solar",
+      "localName": "Feed_in_tariff_Solar",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Proj_yr",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Proj_yr",
+      "localName": "Proj_yr",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Prioritized_access_grid_RE",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Prioritized_access_grid_RE",
+      "localName": "Prioritized_access_grid_RE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Ann_tot_gen",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Ann_tot_gen",
+      "localName": "Ann_tot_gen",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Size_irrig_area",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Size_irrig_area",
+      "localName": "Size_irrig_area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Guaranteed_Offtake",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Guaranteed_Offtake",
+      "localName": "Guaranteed_Offtake",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Near_city",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Near_city",
+      "localName": "Near_city",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PV_surface",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/PV_surface",
+      "localName": "PV_surface",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Gov_guarantee_payments",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Gov_guarantee_payments",
+      "localName": "Gov_guarantee_payments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PV_spcapacity",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/PV_spcapacity",
+      "localName": "PV_spcapacity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Yr_recentstudy",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Yr_recentstudy",
+      "localName": "Yr_recentstudy",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Priority_dispatch",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Priority_dispatch",
+      "localName": "Priority_dispatch",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Res_capacity",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Res_capacity",
+      "localName": "Res_capacity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Dam_hgt",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Dam_hgt",
+      "localName": "Dam_hgt",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Winning_bid _offtake",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Winning_bid-_offtake",
+      "localName": "Winning_bid _offtake",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Regulatory_Overview",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Regulatory_Overview",
+      "localName": "Regulatory_Overview",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Competitive_bidding",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Competitive_bidding",
+      "localName": "Competitive_bidding",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Proj_cost",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Proj_cost",
+      "localName": "Proj_cost",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Purpose",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Purpose",
+      "localName": "Purpose",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Prox_irrig",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Prox_irrig",
+      "localName": "Prox_irrig",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Long",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Long",
+      "localName": "Long",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Transm_exist",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Transm_exist",
+      "localName": "Transm_exist",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Proj_status",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Proj_status",
+      "localName": "Proj_status",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lifecycle",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Lifecycle",
+      "localName": "Lifecycle",
+      "type": "Field"
+    },
+    {
+      "fieldId": "HPP_elec_cap",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/HPP_elec_cap",
+      "localName": "HPP_elec_cap",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Main_basin",
+      "id": "https://catalog.opengrid.org/field/west-africa-and-india-hydropower-dams/Main_basin",
+      "localName": "Main_basin",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/west-africa-and-india-hydropower-dams",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039343/DR0048846/wb_database_dams.csv"
+}

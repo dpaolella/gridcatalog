@@ -28,23 +28,23 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "atmosphere",
         "near-surface air temperature",
-        "forecast",
+        "geoscience",
+        "geospatial",
+        "air temperature",
+        "atmosphere",
+        "netcdf",
+        "aws-pds",
+        "weather",
         "meteorological",
         "near-surface relative humidity",
-        "global",
-        "weather",
         "model",
-        "geoscience",
-        "air temperature",
-        "geospatial",
-        "aws-pds",
-        "netcdf"
+        "global",
+        "forecast"
       ],
       "landingPage": "https://registry.opendata.aws/met-office-global-ensemble/",
       "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
-      "modified": "2026-09-07T07:36:18.466776+00:00",
+      "modified": "2026-09-08T21:57:32.026698+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -58,6 +58,44 @@
       "sourceRecordId": "aws_open_data:met-office-global-ensemble",
       "title": "Met Office Global Ensemble Prediction System (MOGREPS-G) on a 30-day rolling archive",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/weather/ensemble-forecasting/what-is-an-ensemble-forecast",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-ensemble#usage-2",
+          "title": "What is an ensemble forecast?",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-ensemble#usage-1",
+          "title": "The Met Office Unified Model",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://scitools-iris.readthedocs.io/en/stable/userguide/index.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Iris Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-ensemble#usage-3",
+          "title": "Iris",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model/weather-forecasting",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-ensemble#usage-0",
+          "title": "Numerical weather prediction models",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

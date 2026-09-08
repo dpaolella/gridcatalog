@@ -1,0 +1,260 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar and meteorological ground measurements from a network of weather stations in West Africa. The data is provided in the framework of the West African Power Pool project: \"Solar Development in Sub-Saharan Africa - Solar resource measurement campaign in West Africa”. Funding is provided by World Bank. Measurement Date Range: - Tambacounda: 2021-11-11 – 2023-11-10 - Ourossogui: 2021-10-29 – 2023-10-28",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/00eaa1f5-da01-4232-92dc-f24ccd4d0bb9/download/solar-measurements_senegal-tambacounda_header_fr_en.xlsx",
+          "byteSize": 18789,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--9",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/a2256f9c-ff26-4659-b163-1f816e3dbb90/download/solar-measurements_senegal-ourossogui_qc_year2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/8c471676-be20-4464-93f8-99b63bd19aa0/download/csps-yls_wapp_stationinstallationreport_senegal-ourossogui_2021-10-27_fr_en.pdf",
+          "byteSize": 8617079,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/445e7c25-571e-45ee-aad5-197a9c4c1442/download/solar-measurements_senegal-tambacounda_qc.csv",
+          "byteSize": 47440252,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--10",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/c3f2d07c-b3b4-43c6-8625-0bad153c014b/download/solar-measurements_senegal-ourossogui_qc.csv",
+          "byteSize": 48009311,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/16ce285c-c61a-45aa-ae13-69dc19606350/download/csps-yls_wapp_stationmeasurementreport_senegal-tambacounda_2023-11-11-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/147749e5-862c-42ef-9383-8e3501135344/download/csps-yls_wapp_stationinstallationreport_senegal_tambacounda_2021-11-10_fr_en.pdf",
+          "byteSize": 8502121,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--6",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/78589c4e-c22f-452c-b747-aa5d0391ab69/download/solar-measurements_senegal-ourossogui_header_fr_en.xlsx",
+          "byteSize": 18852,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/8c770120-eee2-43ed-9d6a-9289ada39027/download/csps-yls_wapp_stationmeasurementreport_senegal-ourossogui_2023-10-29-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/6f4fccd0-dc64-494f-b107-9338c807b671/download/csps-yls_wapp_stationmeasurementreport_senegal-tambacounda_2022-11-11_fr_en.pdf",
+          "byteSize": 12087542,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--7",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/f2d7fa5e-6d5e-46ae-a21c-24892508f0d9/download/solar-measurements_senegal-tambacounda_qc_year2.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/22aa149d-7c99-41b0-9ee1-95a2ca6bb1ab/download/csps-yls_wapp_stationmeasurementreport_senegal-ourossogui_2022-10-29_fr_en.pdf",
+          "byteSize": 12732114,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-2021-solar-radiation-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "TModA",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/TModA",
+          "localName": "TModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "GHI",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/GHI",
+          "localName": "GHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WS",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/WS",
+          "localName": "WS",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WD",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/WD",
+          "localName": "WD",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cleaning",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/Cleaning",
+          "localName": "Cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModA",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/ModA",
+          "localName": "ModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DHI",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/DHI",
+          "localName": "DHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModB",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/ModB",
+          "localName": "ModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tamb",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/Tamb",
+          "localName": "Tamb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "RH",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/RH",
+          "localName": "RH",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WDstdev",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/WDstdev",
+          "localName": "WDstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DNI",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/DNI",
+          "localName": "DNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "BP",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/BP",
+          "localName": "BP",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSstdev",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/WSstdev",
+          "localName": "WSstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModB",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/TModB",
+          "localName": "TModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Precipitation",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/Precipitation",
+          "localName": "Precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timestamp",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/Timestamp",
+          "localName": "Timestamp",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSgust",
+          "id": "https://catalog.opengrid.org/field/senegal-2021-solar-radiation-measurement-data/WSgust",
+          "localName": "WSgust",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/senegal-2021-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2022-12-15T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/senegal-2021-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/senegal-2021-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/ceb01b58-a906-485d-8d90-3bb9d3f01984/resource/c3f2d07c-b3b4-43c6-8625-0bad153c014b/download/solar-measurements_senegal-ourossogui_qc.csv",
+      "sourceRecordId": "energydata_info:ceb01b58-a906-485d-8d90-3bb9d3f01984",
+      "title": "Senegal 2021 - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

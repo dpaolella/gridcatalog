@@ -12,6 +12,16 @@
     },
     {
       "dataType": "float64",
+      "definition": "This angle is used to assess the impact of Geometric Dilution of Precision. If angle >= 150 or <= 30, then QC flag will not be lower than 4 (see abstract).",
+      "fieldId": "GDOP",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/GDOP",
+      "label": "radar beam intersection angle",
+      "localName": "GDOP",
+      "type": "Field",
+      "unitAsStated": "Degrees"
+    },
+    {
+      "dataType": "float64",
       "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
       "fieldId": "VCUR_quality_control",
       "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
@@ -21,26 +31,10 @@
     },
     {
       "dataType": "float64",
-      "fieldId": "VCUR_sd",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR_sd",
-      "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
-      "localName": "VCUR_sd",
-      "type": "Field",
-      "unitAsStated": "m s-1"
-    },
-    {
-      "dataType": "str424",
-      "fieldId": "filename",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/filename",
-      "localName": "filename",
-      "type": "Field"
-    },
-    {
-      "dataType": "float64",
-      "fieldId": "NOBS2",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS2",
-      "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
-      "localName": "NOBS2",
+      "fieldId": "NOBS1",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS1",
+      "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS1",
       "type": "Field",
       "unitAsStated": "1"
     },
@@ -63,11 +57,18 @@
       "unitAsStated": "m s-1"
     },
     {
+      "dataType": "str424",
+      "fieldId": "filename",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/filename",
+      "localName": "filename",
+      "type": "Field"
+    },
+    {
       "dataType": "float64",
-      "fieldId": "NOBS1",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS1",
-      "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
-      "localName": "NOBS1",
+      "fieldId": "NOBS2",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS2",
+      "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+      "localName": "NOBS2",
       "type": "Field",
       "unitAsStated": "1"
     },
@@ -82,13 +83,12 @@
     },
     {
       "dataType": "float64",
-      "definition": "This angle is used to assess the impact of Geometric Dilution of Precision. If angle >= 150 or <= 30, then QC flag will not be lower than 4 (see abstract).",
-      "fieldId": "GDOP",
-      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/GDOP",
-      "label": "radar beam intersection angle",
-      "localName": "GDOP",
+      "fieldId": "VCUR_sd",
+      "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR_sd",
+      "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+      "localName": "VCUR_sd",
       "type": "Field",
-      "unitAsStated": "Degrees"
+      "unitAsStated": "m s-1"
     }
   ],
   "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc",

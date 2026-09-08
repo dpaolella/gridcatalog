@@ -1,0 +1,55 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Crop residue information aggregated from the Biomass Atlas project field survey raw data. * Min minimum crop residue yield; based on minimum crop yield recorded in the field survey, and the minimum Residue To Crop Ratio in the background data (see: industrial\\Power_plant_model.xlsx in this dataset, sheet RCR) Max maximum crop residue yield; based on maximum crop yield recorded in the field survey, and the maximum Residue To Crop Ratio in the background data (see: industrial\\Power_plant_model.xlsx in this dataset, sheet RCR) Mean mean crop residue yield (theoretical potential); based on mean crop yield recorded in the field survey, and the mean Residue To Crop Ratio in the background data (see: industrial\\Power_plant_model.xlsx in this dataset, sheet RCR) Std standard deviation of the mean crop residue yield in the survey data N number of observations for the crop in the survey data AR availability of the crop residue based on the current residue use recorded in the field survey (technical potential) ARS standard deviation of the availability of the crop residue based on the current residue use AW availability of the crop residue based on the current residue use recorded in the field survey and farmers' willingness to participate in a feedstock supply chain (technical potential) AWS standard deviation of the availability of the crop residue based on the current residue use recorded in the field survey and farmers' willingness to participate in a feedstock supply chain where denotes an abbreviation for a crop residue, as listed below. WheStrMin Wheat straw CotStaMin Cotton stalk RicStrMin Rice straw RicHusMin Rice husk MaiStaMin Maize stalk MaiCobMin Maize cob MaiHusMin Maize husk SugTraMin Sugarcane trash SugBagMin Bagasse Feedstock summary by country and by district, including sampled district confidence intervals for yearly feedstock amounts, t/yr You can find more information about the project here: https://www.esmap.org/node/3058 Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP). For more information: Pakistan Biomass Feedstock Crop Yield, 2016, https://energydata.info/dataset/pakistan-biomass-feedstock-cropyield\"",
+      "distribution": [
+        {
+          "accessURL": "https://www.esmap.org/re_mapping_pakistan",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pakistan-biomass-feedstock-cropyield--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/pakistan-biomass-feedstock-cropyield",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD2 2.5. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"aggregated from\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2016-11-09T00:00:00+00:00",
+      "keyword": [
+        "crop yield",
+        "pakistan",
+        "district",
+        "energy",
+        "biomass",
+        "bioenergy",
+        "feedstock"
+      ],
+      "landingPage": "https://www.esmap.org/node/3058",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/derived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/pakistan-biomass-feedstock-cropyield#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:ee9fe187-cc99-40b0-846c-620618cd76b7",
+      "title": "Pakistan - Biomass Feedstock Crop Yield",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

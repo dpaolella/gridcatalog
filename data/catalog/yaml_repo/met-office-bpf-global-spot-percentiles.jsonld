@@ -28,21 +28,21 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.7. Source declares DD5, DD10. Determined by the phrase \"numerical weather prediction\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "weather",
+        "near-surface relative humidity",
         "model",
-        "geoscience",
-        "air temperature",
-        "geospatial",
-        "aws-pds",
-        "netcdf",
-        "atmosphere",
-        "forecast",
         "near-surface air temperature",
-        "near-surface relative humidity"
+        "geoscience",
+        "geospatial",
+        "forecast",
+        "air temperature",
+        "atmosphere",
+        "netcdf",
+        "aws-pds",
+        "weather"
       ],
       "landingPage": "https://registry.opendata.aws/met-office-bpf-global-spot-percentiles/",
       "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
-      "modified": "2026-09-07T07:36:18.437742+00:00",
+      "modified": "2026-09-08T21:57:31.993401+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -56,6 +56,44 @@
       "sourceRecordId": "aws_open_data:met-office-bpf-global-spot-percentiles",
       "title": "Met Office Blended Probabilistic Forecast – Global spot percentiles",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model/weather-forecasting",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-bpf-global-spot-percentiles#usage-0",
+          "title": "Numerical weather prediction models",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/approach/modelling-systems/unified-model",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-bpf-global-spot-percentiles#usage-1",
+          "title": "The Met Office Unified Model",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://improver.readthedocs.io/en/latest/metadata/Introduction.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-bpf-global-spot-percentiles#usage-2",
+          "title": "Introduction - IMPROVER Documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://scitools-iris.readthedocs.io/en/stable/userguide/index.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Iris Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/met-office-bpf-global-spot-percentiles#usage-3",
+          "title": "Iris",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

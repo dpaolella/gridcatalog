@@ -1,0 +1,91 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "LONGITUDE",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/LONGITUDE",
+      "localName": "LONGITUDE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR PUMP INSTALLED CAPACITY(M3/HR)",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-PUMP-INSTALLED-CAPACITY-M3-HR",
+      "localName": "SOLAR PUMP INSTALLED CAPACITY(M3/HR)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR STREETLIGHT QUANTITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-STREETLIGHT-QUANTITY",
+      "localName": "SOLAR STREETLIGHT QUANTITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR LANTERNS INSTALLED CAPACITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-LANTERNS-INSTALLED-CAPACITY",
+      "localName": "SOLAR LANTERNS INSTALLED CAPACITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR LANTERNS QUANTITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-LANTERNS-QUANTITY",
+      "localName": "SOLAR LANTERNS QUANTITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR WATERHEATER QUANTITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-WATERHEATER-QUANTITY",
+      "localName": "SOLAR WATERHEATER QUANTITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "REGION",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/REGION",
+      "localName": "REGION",
+      "type": "Field"
+    },
+    {
+      "fieldId": "STAND-ALONE INSTALLED CAPACITY(kW)",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/STAND-ALONE-INSTALLED-CAPACITY-kW",
+      "localName": "STAND-ALONE INSTALLED CAPACITY(kW)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SERIAL NO",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SERIAL-NO",
+      "localName": "SERIAL NO",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR WATER HEATER INSTALLED CAPACITY(L)",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-WATER-HEATER-INSTALLED-CAPACITY-L",
+      "localName": "SOLAR WATER HEATER INSTALLED CAPACITY(L)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR PUMP QUANTITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-PUMP-QUANTITY",
+      "localName": "SOLAR PUMP QUANTITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "STAND-ALONE QUANTITY",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/STAND-ALONE-QUANTITY",
+      "localName": "STAND-ALONE QUANTITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SOLAR STREETLIGHT INSTALLED CAPACITY(KW)",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/SOLAR-STREETLIGHT-INSTALLED-CAPACITY-KW",
+      "localName": "SOLAR STREETLIGHT INSTALLED CAPACITY(KW)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LATITUDE",
+      "id": "https://catalog.opengrid.org/field/ghana-off-grid-solar-installations-capacity-and-quantity/LATITUDE",
+      "localName": "LATITUDE",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ghana-off-grid-solar-installations-capacity-and-quantity",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039041/DR0048439/solar-installations-off-grid-in-ghana.csv"
+}

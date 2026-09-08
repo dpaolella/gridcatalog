@@ -21,7 +21,7 @@
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -29,20 +29,20 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.5. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "geospatial",
-        "earth observation",
         "mapping",
-        "aws-pds",
+        "geospatial",
         "agriculture",
+        "earth observation",
         "cog",
         "disaster response",
         "natural resource",
         "synthetic aperture radar",
+        "aws-pds",
         "satellite imagery"
       ],
       "landingPage": "https://registry.opendata.aws/esa-worldcover/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.068140+00:00",
+      "modified": "2026-09-08T21:57:31.574411+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/esa-worldcover#provenance-gap",
@@ -50,8 +50,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/esa-worldcover#flags",
         "staleness": "unknown",
@@ -61,18 +61,54 @@
       "sourceRecordId": "aws_open_data:esa-worldcover",
       "title": "ESA WorldCover",
       "type": "Dataset",
-      "visibility": "public",
       "usageEvidence": [
         {
-          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-c0",
-          "type": "UsageEvidence",
-          "title": "ESA WorldCover 10 m 2021 v200",
-          "accessURL": "https://doi.org/10.5281/zenodo.7254221",
+          "accessURL": "https://viewer.esa-worldcover.org/worldcover/ta",
+          "assertedBy": "aws_open_data",
+          "authorName": "ESA/Vito",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-3",
+          "title": "WorldCover Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.3390/rs14092263",
+          "assertedBy": "aws_open_data",
+          "authorName": "Gang Xu, Yongjun Fang, Min Deng, Geng Sun and Jie Chen.",
           "evidenceKind": "publication",
-          "authorName": "Zanaga, Daniele, Van De Kerchove, Ruben, Daems, Dirk, De Keersmaecker, Wanda et al.",
-          "assertedBy": "curated"
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-1",
+          "title": "Remote Sensing Mapping of Build-Up Land with Noisy Label via Fault-Tolerant Learning",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://blog.vito.be/remotesensing/release-of-the-10-m-worldcover-map",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ruben Van De Kerchove",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-0",
+          "title": "Release of the 10 m WorldCover map",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://viewer.terrascope.be/",
+          "assertedBy": "aws_open_data",
+          "authorName": "TerraScope",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-4",
+          "title": "TerraScope Viewer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/SatelliteVu/SatelliteVu-AWS-Disaster-Response-Hackathon",
+          "assertedBy": "aws_open_data",
+          "authorName": "SatelliteVu",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/esa-worldcover#usage-2",
+          "title": "Global Fire Spread Prediction System",
+          "type": "UsageEvidence"
         }
-      ]
+      ],
+      "visibility": "public"
     }
   ]
 }

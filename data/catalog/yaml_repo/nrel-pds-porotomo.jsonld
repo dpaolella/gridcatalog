@@ -12,59 +12,11 @@
       "description": "Released to the public as part of the Department of Energy's Open Energy Data Initiative, these data represent vertical and horizontal distributed acoustic sensing (DAS) data collected as part of the Poroelastic Tomography (PoroTomo) project funded in part by the Office of Energy Efficiency and Renewable Energy (EERE), U.S. Department of Energy.",
       "distribution": [
         {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/SEG-Y/DASH/Resampled/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--2",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/Nodal/nodal_sac_sweep/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--9",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/H5/DASV/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--5",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/SEG-Y/DASV/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--3",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/H5/DASH/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--4",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/SEG-Y/DASH/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--1",
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/Nodal/nodal_metadata/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--8",
           "type": "Distribution"
         },
         {
@@ -76,11 +28,19 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/porotomo/",
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/Nodal/nodal_sac_sweep/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--6",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/Nodal/nodal_metadata/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--8",
           "type": "Distribution"
         },
         {
@@ -89,6 +49,46 @@
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-hsds.s3.us-west-2.amazonaws.com/nrel/porotomo/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/SEG-Y/DASH/Resampled/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/SEG-Y/DASH/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/H5/DASV/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://nrel-pds-porotomo.s3.us-west-2.amazonaws.com/DAS/H5/DASH/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-porotomo--4",
           "type": "Distribution"
         }
       ],
@@ -101,15 +101,15 @@
       "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
       "inferredAssignment": true,
       "keyword": [
-        "image processing",
-        "seismology",
-        "geothermal",
         "geospatial",
-        "aws-pds"
+        "aws-pds",
+        "geothermal",
+        "image processing",
+        "seismology"
       ],
       "landingPage": "https://registry.opendata.aws/nrel-pds-porotomo/",
       "license": "http://spdx.org/licenses/CC-BY-3.0",
-      "modified": "2026-09-07T07:36:23.554363+00:00",
+      "modified": "2026-09-08T21:57:38.352998+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#provenance-gap",
@@ -117,8 +117,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#flags",
         "staleness": "unknown",
@@ -129,6 +129,62 @@
       "title": "PoroTomo",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.1093/gji/ggy182",
+          "assertedBy": "aws_open_data",
+          "authorName": "Herbert F Wang, Xiangfang Zeng, Douglas E Miller, Dante Fratta, Kurt L Feigl, Clifford H Thurber, Robert J Mellors",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-2",
+          "title": "Ground motion response to an ML 4.3 earthquake using co-located distributed acoustic sensing and seismometer arrays",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/openEDI/documentation/blob/master/PoroTomo/PoroTomo_Distributed_Acoustic_Sensing_(DAS)_Data_hdf5.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Nicole Taverna and Michael Rossol",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-4",
+          "title": "PoroTomo DAS Data Processing Tutorial for hdf5 Files",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.2172/1499141",
+          "assertedBy": "aws_open_data",
+          "authorName": "Kurt L. Feigl, Lesley M. Parker, and the PoroTomo Team",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-0",
+          "title": "PoroTomo Final Technical Report: Poroelastic Tomography by Adjoint Inverse Modeling of Data from Seismology, Geodesy, and Hydrology",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/openEDI/documentation/blob/master/PoroTomo/PoroTomo_Distributed_Acoustic_Sensing_(DAS)_Data_hsds.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Michael Rossol and Nicole Taverna",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-5",
+          "title": "PoroTomo DAS Data Processing Tutorial for hdf5 Files via HSDS and h5pyd",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2018/Miller.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "Douglas E. Miller, Thomas Coleman, Xiangfang Zeng, Jeremy R. Patterson , Elena C. Reinnisch, Michael A. Cardiff, Herbert F. Wang, Dante Fratta, Whitney Trainor-Guitton, Clifford H. Thurber, Michelle ROBERTSON, Kurt FEIGL, and The PoroTomo Team",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-1",
+          "title": "DAS and DTS at Brady Hot Springs: Observations about Coupling and Coupled Interpretations",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/openEDI/documentation/blob/master/PoroTomo/PoroTomo_Distributed_Acoustic_Sensing_(DAS)_Data_SEGY.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Nicole Taverna and Ross Ring-Jarvi",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-porotomo#usage-3",
+          "title": "PoroTomo DAS Data Processing Tutorial for SEG-Y Files",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

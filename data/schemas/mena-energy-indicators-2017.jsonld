@@ -1,0 +1,43 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "indicatorType",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/indicatorType",
+      "localName": "indicatorType",
+      "type": "Field"
+    },
+    {
+      "fieldId": "country",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/country",
+      "localName": "country",
+      "type": "Field"
+    },
+    {
+      "fieldId": "indicator",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/indicator",
+      "localName": "indicator",
+      "type": "Field"
+    },
+    {
+      "fieldId": "unit",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/unit",
+      "localName": "unit",
+      "type": "Field"
+    },
+    {
+      "fieldId": "value",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/value",
+      "localName": "value",
+      "type": "Field"
+    },
+    {
+      "fieldId": "year",
+      "id": "https://catalog.opengrid.org/field/mena-energy-indicators-2017/year",
+      "localName": "year",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/mena-energy-indicators-2017",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0042286/1/DR0052912/pa-retp-indicators.csv"
+}

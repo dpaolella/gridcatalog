@@ -1,0 +1,373 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "description": "This dataset has been developed by KTH Division of Energy Systems Analysis in the Open Source Energy Modelling System (OSeMOSYS) , as further research of the existing TEMBA- model (The Electricity Model Base for Africa). A universal electricity access across the African continent is achieved by 2030 at a specific electricity consumption level. Several generation options are allowed in each nation, while cross-border electricity trade is enabled at existing and future planned levels. An indicative analysis of investment opportunities in the African electricity supply sector — Using TEMBA (The Electricity Model Base for Africa),2016. URL http://www.sciencedirect.com/science/article/pii/S0973082615300065.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/69302383-5433-4cd1-b203-b79650248cd0/resource/fc8c284a-f061-4369-b6ff-f7ffa795155b/download/tembasupplementary.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/africa-the-electicity-supply-system--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/69302383-5433-4cd1-b203-b79650248cd0/resource/1d066c2f-6a12-4fe9-a7ec-edb5b7538011/download/tembastatic.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/africa-the-electicity-supply-system--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/69302383-5433-4cd1-b203-b79650248cd0/resource/8a8c6738-bf1a-43b7-97a1-503abecda580/download/tembatimedependent.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/africa-the-electicity-supply-system--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "2017",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2017",
+          "localName": "2017",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tech code",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Tech-code",
+          "localName": "Tech code",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2036",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2036",
+          "localName": "2036",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Blank",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Blank",
+          "localName": "Blank",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2034",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2034",
+          "localName": "2034",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2028",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2028",
+          "localName": "2028",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2021",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2021",
+          "localName": "2021",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2023",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2023",
+          "localName": "2023",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2040",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2040",
+          "localName": "2040",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2020",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2020",
+          "localName": "2020",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2041",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2041",
+          "localName": "2041",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2032",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2032",
+          "localName": "2032",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2037",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2037",
+          "localName": "2037",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2038",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2038",
+          "localName": "2038",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2049",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2049",
+          "localName": "2049",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2024",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2024",
+          "localName": "2024",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2042",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2042",
+          "localName": "2042",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2011",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2011",
+          "localName": "2011",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2019",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2019",
+          "localName": "2019",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2026",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2026",
+          "localName": "2026",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2018",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2018",
+          "localName": "2018",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2050",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2050",
+          "localName": "2050",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2031",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2031",
+          "localName": "2031",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2035",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2035",
+          "localName": "2035",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2043",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2043",
+          "localName": "2043",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Emission",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Emission",
+          "localName": "Emission",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2044",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2044",
+          "localName": "2044",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2010",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2010",
+          "localName": "2010",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Fuel",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Fuel",
+          "localName": "Fuel",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2027",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2027",
+          "localName": "2027",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TS DATA",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/TS-DATA",
+          "localName": "TS DATA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2046",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2046",
+          "localName": "2046",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2033",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2033",
+          "localName": "2033",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2012",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2012",
+          "localName": "2012",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2045",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2045",
+          "localName": "2045",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2015",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2015",
+          "localName": "2015",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Mode",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Mode",
+          "localName": "Mode",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2016",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2016",
+          "localName": "2016",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2039",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2039",
+          "localName": "2039",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2047",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2047",
+          "localName": "2047",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2022",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2022",
+          "localName": "2022",
+          "type": "Field"
+        },
+        {
+          "fieldId": "REGION1",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/REGION1",
+          "localName": "REGION1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2014",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2014",
+          "localName": "2014",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2013",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2013",
+          "localName": "2013",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2029",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2029",
+          "localName": "2029",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2030",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2030",
+          "localName": "2030",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2048",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2048",
+          "localName": "2048",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timeslice",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Timeslice",
+          "localName": "Timeslice",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tech description",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/Tech-description",
+          "localName": "Tech description",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2025",
+          "id": "https://catalog.opengrid.org/field/africa-the-electicity-supply-system/2025",
+          "localName": "2025",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/africa-the-electicity-supply-system",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD4 2.0. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-02-23T00:00:00+00:00",
+      "keyword": [
+        "OSeMOSYS",
+        "Electricity",
+        "Africa"
+      ],
+      "landingPage": "http://www.sciencedirect.com/science/article/pii/S0973082615300065.",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2018-03-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/africa-the-electicity-supply-system#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/africa-the-electicity-supply-system#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/69302383-5433-4cd1-b203-b79650248cd0/resource/8a8c6738-bf1a-43b7-97a1-503abecda580/download/tembatimedependent.csv",
+      "sourceRecordId": "energydata_info:69302383-5433-4cd1-b203-b79650248cd0",
+      "title": "Africa - The electricity supply system",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

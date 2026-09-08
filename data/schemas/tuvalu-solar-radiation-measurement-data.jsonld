@@ -1,0 +1,97 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "dhi_pyr",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/dhi_pyr",
+      "localName": "dhi_pyr",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_soil",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/gti_soil",
+      "localName": "gti_soil",
+      "type": "Field"
+    },
+    {
+      "fieldId": "precipitation",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/precipitation",
+      "localName": "precipitation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "time",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/time",
+      "localName": "time",
+      "type": "Field"
+    },
+    {
+      "fieldId": "comments",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/comments",
+      "localName": "comments",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_from_direction",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/wind_from_direction",
+      "localName": "wind_from_direction",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_monthly",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/gti_monthly",
+      "localName": "gti_monthly",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_pyr_2",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/ghi_pyr_2",
+      "localName": "ghi_pyr_2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "gti_clean",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/gti_clean",
+      "localName": "gti_clean",
+      "type": "Field"
+    },
+    {
+      "fieldId": "wind_speed",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/wind_speed",
+      "localName": "wind_speed",
+      "type": "Field"
+    },
+    {
+      "fieldId": "sensor_cleaning",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/sensor_cleaning",
+      "localName": "sensor_cleaning",
+      "type": "Field"
+    },
+    {
+      "fieldId": "relative_humidity",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/relative_humidity",
+      "localName": "relative_humidity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "air_temperature",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/air_temperature",
+      "localName": "air_temperature",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ghi_pyr_1",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/ghi_pyr_1",
+      "localName": "ghi_pyr_1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "barometric_pressure",
+      "id": "https://catalog.opengrid.org/field/tuvalu-solar-radiation-measurement-data/barometric_pressure",
+      "localName": "barometric_pressure",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/tuvalu-solar-radiation-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/904d869f-49d4-4426-b9fd-7ef798ce822d/resource/7b43af4e-58d2-40e4-ae3f-97b0573e2977/download/solar-measurements_tuvalu-funafuti_ppa_y1_qc_v01.csv"
+}

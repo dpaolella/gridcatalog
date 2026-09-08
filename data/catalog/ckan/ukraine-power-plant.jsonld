@@ -1,0 +1,66 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Data collected and prepared for a project of the World Bank Group Power Transmission Project in Support of the Energy Sector Reform & Development Program in Ukraine. This data is based on a digitized PDF map, and so is intended as a schematic of rough locations of the power network. It is not suitable for applications requiring high accuracy. The PDF map can be viewed on the last page of report attached. To learn more, please visit http://projects.worldbank.org/P096207/power-transmission-project-support...",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040771/1/DR0050863/existingpowerplant_1.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ukraine-power-plant--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040771/1/DR0050862/existingpowerplant_1.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ukraine-power-plant--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "http://documents.worldbank.org/curated/en/924551468309269514/pdf/38713.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ukraine-power-plant--2",
+          "mediaType": "PDF",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/ukraine-power-plant",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD2 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-10-19T00:00:00+00:00",
+      "landingPage": "http://documents.worldbank.org/curated/en/924551468309269514/pdf/38713.pdf",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ukraine-power-plant#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/ukraine-power-plant#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:fb65cc86-0ff0-4cf8-9ad9-a88770cc0aab",
+      "title": "Ukraine - Power Plant",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

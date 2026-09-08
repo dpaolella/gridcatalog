@@ -1,0 +1,25 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "Funding Source",
+      "id": "https://catalog.opengrid.org/field/kenya-energy-spending-sector-nairobi-2013/Funding-Source",
+      "localName": "Funding Source",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Energy Spending ($USD)",
+      "id": "https://catalog.opengrid.org/field/kenya-energy-spending-sector-nairobi-2013/Energy-Spending-USD",
+      "localName": "Energy Spending ($USD)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Sector",
+      "id": "https://catalog.opengrid.org/field/kenya-energy-spending-sector-nairobi-2013/Sector",
+      "localName": "Sector",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/kenya-energy-spending-sector-nairobi-2013",
+  "schemaSource": "csv-header at https://energydata.info/dataset/67562922-bc0f-4f14-9256-76f1847f69e8/resource/43715a33-d1c7-4912-8be8-f286c497e46e/download/nairobi-energy-spending-per-sector-2013.csv"
+}

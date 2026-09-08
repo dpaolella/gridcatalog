@@ -1,0 +1,329 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The LAC (Latin America and Caribbean) Geothermal Inventory compiles data on geothermal resources throughout Latin America and the Caribbean. Both developed and undeveloped resources are included. It contains information from publicly available sources.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041762/1/DR0052219/lacgeothermalinventory.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lac-geothermal-inventory--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Competing Generation",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Competing-Generation",
+          "localName": "Competing Generation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Key Market Participants",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Key-Market-Participants",
+          "localName": "Key Market Participants",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Operation Date",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Operation-Date",
+          "localName": "Operation Date",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Enthalpy",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Enthalpy",
+          "localName": "Enthalpy",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated Potential Capacity Range",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Estimated-Potential-Capacity-Range",
+          "localName": "Estimated Potential Capacity Range",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project ID",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Project-ID",
+          "localName": "Project ID",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Site ID",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Site-ID",
+          "localName": "Site ID",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Description of  Environmental/Social Constraint, where applicable",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Description-of-Environmental-Social-Constraint-where-applicable",
+          "localName": "Description of  Environmental/Social Constraint, where applicable",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Criterion 3: Environmental and Social Constraints",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Criterion-3-Environmental-and-Social-Constraints",
+          "localName": "Criterion 3: Environmental and Social Constraints",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Finance Needed to Reach Exploration",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Finance-Needed-to-Reach-Exploration",
+          "localName": "Finance Needed to Reach Exploration",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Location",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Location",
+          "localName": "Location",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Commercial Activity?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Commercial-Activity",
+          "localName": "Commercial Activity?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Past Attempts at Development",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Past-Attempts-at-Development",
+          "localName": "Past Attempts at Development",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated Installed Capacity",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Estimated-Installed-Capacity",
+          "localName": "Estimated Installed Capacity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated Potential Capacity Minimum",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Estimated-Potential-Capacity-Minimum",
+          "localName": "Estimated Potential Capacity Minimum",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Finance Needed to Reach Test Drilling",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Finance-Needed-to-Reach-Test-Drilling",
+          "localName": "Finance Needed to Reach Test Drilling",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project on Developed Site?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Project-on-Developed-Site",
+          "localName": "Project on Developed Site?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Criterion 5: Maturity of Enabling Environment",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Criterion-5-Maturity-of-Enabling-Environment",
+          "localName": "Criterion 5: Maturity of Enabling Environment",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Resource Chemical Composition",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Resource-Chemical-Composition",
+          "localName": "Resource Chemical Composition",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Region",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Region",
+          "localName": "Region",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Country",
+          "localName": "Country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Candidate Site?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Candidate-Site",
+          "localName": "Candidate Site?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Any Drilling?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Any-Drilling",
+          "localName": "Any Drilling?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Remoteness of Site",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Remoteness-of-Site",
+          "localName": "Remoteness of Site",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Concession Information",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Concession-Information",
+          "localName": "Concession Information",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Site Name",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Site-Name",
+          "localName": "Site Name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Resource Temperature",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Resource-Temperature",
+          "localName": "Resource Temperature",
+          "type": "Field"
+        },
+        {
+          "fieldId": "In Operation?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/In-Operation",
+          "localName": "In Operation?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Drilling - Comments",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Drilling---Comments",
+          "localName": "Drilling - Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Web Sources",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Web-Sources",
+          "localName": "Web Sources",
+          "type": "Field"
+        },
+        {
+          "fieldId": "In Country where a Geothermal Facility has Operated?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/In-Country-where-a-Geothermal-Facility-has-Operated",
+          "localName": "In Country where a Geothermal Facility has Operated?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Infrastructure Needed",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Infrastructure-Needed",
+          "localName": "Infrastructure Needed",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Notes",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Notes",
+          "localName": "Notes",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Main Information Sources",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Main-Information-Sources",
+          "localName": "Main Information Sources",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Criterion 1: Stage of Development",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Criterion-1-Stage-of-Development",
+          "localName": "Criterion 1: Stage of Development",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Criterion 2: Probability of Good Resource for Power Generation",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Criterion-2-Probability-of-Good-Resource-for-Power-Generation",
+          "localName": "Criterion 2: Probability of Good Resource for Power Generation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Time Needed to Reach Exploration",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Time-Needed-to-Reach-Exploration",
+          "localName": "Time Needed to Reach Exploration",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Any deep well drilling?",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Any-deep-well-drilling",
+          "localName": "Any deep well drilling?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Criterion 4: Likelihood of Commercial Viability",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Criterion-4-Likelihood-of-Commercial-Viability",
+          "localName": "Criterion 4: Likelihood of Commercial Viability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project Name",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Project-Name",
+          "localName": "Project Name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Quality of Publicly Available Data",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Quality-of-Publicly-Available-Data",
+          "localName": "Quality of Publicly Available Data",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Sub-stage of Development within stage 2",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Sub-stage-of-Development-within-stage-2",
+          "localName": "Sub-stage of Development within stage 2",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Time Needed to Reach Test Drilling",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Time-Needed-to-Reach-Test-Drilling",
+          "localName": "Time Needed to Reach Test Drilling",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Legal, Regulatory, and Institutional Framework",
+          "id": "https://catalog.opengrid.org/field/lac-geothermal-inventory/Legal-Regulatory-and-Institutional-Framework",
+          "localName": "Legal, Regulatory, and Institutional Framework",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/lac-geothermal-inventory",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2016-10-19T00:00:00+00:00",
+      "keyword": [
+        "latin america",
+        "lac",
+        "geothermal",
+        "renewable energy",
+        "resource potential",
+        "caribbean",
+        "energy"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/lac-geothermal-inventory#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/lac-geothermal-inventory#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041762/1/DR0052219/lacgeothermalinventory.csv",
+      "sourceRecordId": "energydata_info:c0381498-16d4-4ad6-9d27-cc35ea481d39",
+      "title": "Latin America and Caribbean - Geothermal Inventory",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

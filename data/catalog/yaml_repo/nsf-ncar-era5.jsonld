@@ -28,22 +28,22 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 5.7. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "atmosphere",
-        "forecast",
         "meteorological",
-        "weather",
-        "climate",
-        "model",
-        "data assimilation",
-        "geoscience",
         "land",
         "geospatial",
-        "aws-pds",
-        "netcdf"
+        "model",
+        "climate",
+        "forecast",
+        "atmosphere",
+        "geoscience",
+        "netcdf",
+        "weather",
+        "data assimilation",
+        "aws-pds"
       ],
       "landingPage": "https://registry.opendata.aws/nsf-ncar-era5/",
       "license": "https://www.ucar.edu/terms-of-use/data",
-      "modified": "2026-09-07T07:36:23.581097+00:00",
+      "modified": "2026-09-08T21:57:38.382817+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -58,6 +58,17 @@
       "title": "NSF NCAR Curated ECMWF Reanalysis 5 (ERA5)",
       "type": "Dataset",
       "updateCadence": "P1M",
+      "usageEvidence": [
+        {
+          "accessURL": "https://rmets.onlinelibrary.wiley.com/doi/10.1002/qj.3803",
+          "assertedBy": "aws_open_data",
+          "authorName": "Hersbach et al 2020",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nsf-ncar-era5#usage-0",
+          "title": "The ERA5 global reanalysis",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

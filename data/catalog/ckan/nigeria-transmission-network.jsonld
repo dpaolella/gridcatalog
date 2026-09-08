@@ -1,0 +1,83 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This dataset is put together by KTH Division of Energy Systems Analysis. It contains the transmission network data provided by African Development Bank and Open Street Map AfDB, 2011. African Development Bank. URL http://www.infrastructureafrica.org/tools/maps OSM, 2015. OpenStreetMap. OpenStreetMap. URL https://www.openstreetmap.org/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/ae1a49da-c67b-4f12-9bb2-61e7f777b93f/resource/b739732d-9897-4319-83b7-0946c01f0508/download/existingtransmissionnetwork.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-transmission-network--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ae1a49da-c67b-4f12-9bb2-61e7f777b93f/resource/afe8aa3b-706e-487c-8492-e9e6f5c86eaa/download/plannedtransmission.geojson",
+          "byteSize": 20558,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-transmission-network--1",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ae1a49da-c67b-4f12-9bb2-61e7f777b93f/resource/b6c63f5a-412c-4a4f-aee3-b1f50576e0d4/download/plannedtransmission.geojson",
+          "byteSize": 20547,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-transmission-network--4",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ae1a49da-c67b-4f12-9bb2-61e7f777b93f/resource/8536e96e-1f29-4dd1-97b1-a020f5dfaa33/download/nigeria.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-transmission-network--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ae1a49da-c67b-4f12-9bb2-61e7f777b93f/resource/7b7e0ddc-c1ce-4940-afa2-3f5356df0915/download/existingtransmissionnetwork.geojson",
+          "byteSize": 69546,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-transmission-network--3",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/nigeria-transmission-network",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"openstreetmap\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2016-10-06T00:00:00+00:00",
+      "keyword": [
+        "Power transmission"
+      ],
+      "landingPage": "http://www.infrastructureafrica.org/tools/maps",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2022-09-20T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nigeria-transmission-network#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:ae1a49da-c67b-4f12-9bb2-61e7f777b93f",
+      "title": "Nigeria - Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

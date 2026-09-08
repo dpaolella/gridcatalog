@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "INSTITUTION NAME",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/INSTITUTION-NAME",
+      "localName": "INSTITUTION NAME",
+      "type": "Field"
+    },
+    {
+      "fieldId": "REGION",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/REGION",
+      "localName": "REGION",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LATITUDE",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LATITUDE",
+      "localName": "LATITUDE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "INSTALLED CAPACITY(kW) GRIDCONNECTED",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/INSTALLED-CAPACITY-kW-GRIDCONNECTED",
+      "localName": "INSTALLED CAPACITY(kW) GRIDCONNECTED",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LONGITUDE",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LONGITUDE",
+      "localName": "LONGITUDE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "DATE",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/DATE",
+      "localName": "DATE",
+      "type": "Field"
+    },
+    {
+      "fieldId": "METRO/MUNICIPAL/DISTRICT",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/METRO-MUNICIPAL-DISTRICT",
+      "localName": "METRO/MUNICIPAL/DISTRICT",
+      "type": "Field"
+    },
+    {
+      "fieldId": "LOCALITY",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LOCALITY",
+      "localName": "LOCALITY",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SERIAL NO",
+      "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/SERIAL-NO",
+      "localName": "SERIAL NO",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ghana-geo-located-solar-stations-connected-grid-2014",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039034/1/DR0048420/solar-stations-connected-to-the-grid.csv"
+}

@@ -29,27 +29,27 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 3.3. Source declares DD5, DD10. Determined by the phrase \"model output\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "cog",
-        "tiles",
         "orbit",
-        "atmosphere",
-        "datacenter",
-        "global",
-        "satellite imagery",
-        "ice",
         "stac",
-        "xml",
-        "surface water",
-        "land",
-        "metadata",
-        "geospatial",
-        "earth observation",
         "aws-pds",
-        "water"
+        "land",
+        "satellite imagery",
+        "datacenter",
+        "geospatial",
+        "metadata",
+        "global",
+        "earth observation",
+        "cog",
+        "xml",
+        "ice",
+        "surface water",
+        "atmosphere",
+        "water",
+        "tiles"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-hlsl30/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:20.214197+00:00",
+      "modified": "2026-09-08T21:57:34.456644+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
       "qualityFlags": {
         "caveat": [
@@ -64,6 +64,17 @@
       "title": "HLS Landsat Operational Land Imager Surface Reflectance and TOA Brightness Daily Global 30m v2.0",
       "type": "Dataset",
       "updateCadence": "irregular",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/nasa/HLS-Data-Resources/blob/main/python/tutorials/HLS_Tutorial.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Mahsa Jami, Erik A. Bolch, Cole K. Krehbiel, Aaron M. Friesz, Brianna M. Lind",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nasa-hlsl30#usage-0",
+          "title": "Getting Started with Cloud-Native HLS Data in Python",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

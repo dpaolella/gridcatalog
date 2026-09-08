@@ -1,0 +1,144 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD4"
+      ],
+      "description": "National Daily Peak Demand for Electricity in Ghana for years 2009 and 2010. Citation: Ghana Grid Company (GRIDCo) & Negawatt challenge. A curated list of datasets for the World Bank Negawatt Challenge competition in Accra and Nairobi cities: https://datahub.io/organization/negawatt-challenge",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041432/1/DR0051702/2010-daily-peak-demand-electricity-gridco-mw.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-national-daily-peak-demand-electricity-2009-2010--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041432/1/DR0051701/2009-daily-peak-demand-electricity-gridco-mw.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-national-daily-peak-demand-electricity-2009-2010--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "July",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/July",
+          "localName": "July",
+          "type": "Field"
+        },
+        {
+          "fieldId": "February",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/February",
+          "localName": "February",
+          "type": "Field"
+        },
+        {
+          "fieldId": "October",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/October",
+          "localName": "October",
+          "type": "Field"
+        },
+        {
+          "fieldId": "December",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/December",
+          "localName": "December",
+          "type": "Field"
+        },
+        {
+          "fieldId": "August",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/August",
+          "localName": "August",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Day",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/Day",
+          "localName": "Day",
+          "type": "Field"
+        },
+        {
+          "fieldId": "November",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/November",
+          "localName": "November",
+          "type": "Field"
+        },
+        {
+          "fieldId": "March",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/March",
+          "localName": "March",
+          "type": "Field"
+        },
+        {
+          "fieldId": "September",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/September",
+          "localName": "September",
+          "type": "Field"
+        },
+        {
+          "fieldId": "January",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/January",
+          "localName": "January",
+          "type": "Field"
+        },
+        {
+          "fieldId": "April",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/April",
+          "localName": "April",
+          "type": "Field"
+        },
+        {
+          "fieldId": "May",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/May",
+          "localName": "May",
+          "type": "Field"
+        },
+        {
+          "fieldId": "June",
+          "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/June",
+          "localName": "June",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/ghana-national-daily-peak-demand-electricity-2009-2010",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD4 2.4. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-01-31T00:00:00+00:00",
+      "keyword": [
+        "Negawatt Challenge",
+        "Ghana",
+        "Peak Demand"
+      ],
+      "landingPage": "http://www.gridcogh.com/en/daily-peak-demand.php",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ghana-national-daily-peak-demand-electricity-2009-2010#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ghana-national-daily-peak-demand-electricity-2009-2010#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041432/1/DR0051701/2009-daily-peak-demand-electricity-gridco-mw.csv",
+      "sourceRecordId": "energydata_info:0b8a4958-85ce-49f3-9f6b-554ee0596e11",
+      "title": "Ghana - National Daily Peak Demand for Electricity",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

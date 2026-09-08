@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "ID",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/ID",
+      "localName": "ID",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Province/r�gion",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Province-r-gion",
+      "localName": "Province/r�gion",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Nom",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Nom",
+      "localName": "Nom",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Statut",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Statut",
+      "localName": "Statut",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Capacit� install�e (MW)",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Capacit-install-e-MW",
+      "localName": "Capacit� install�e (MW)",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Rivi�re",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Rivi-re",
+      "localName": "Rivi�re",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Pays",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Pays",
+      "localName": "Pays",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Type Centrale",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Type-Centrale",
+      "localName": "Type Centrale",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Localit�",
+      "id": "https://catalog.opengrid.org/field/hydro-powerplants-in-central-africa/Localit",
+      "localName": "Localit�",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/hydro-powerplants-in-central-africa",
+  "schemaSource": "csv-header at https://energydata.info/dataset/46097bb8-539e-47db-9d31-2122f2925ed3/resource/0e3f9188-7274-4a50-96b7-94804be202e1/download/hydro-powerplants-angola-table.csv"
+}

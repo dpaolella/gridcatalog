@@ -1,0 +1,85 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "March",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/March",
+      "localName": "March",
+      "type": "Field"
+    },
+    {
+      "fieldId": "February",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/February",
+      "localName": "February",
+      "type": "Field"
+    },
+    {
+      "fieldId": "June",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/June",
+      "localName": "June",
+      "type": "Field"
+    },
+    {
+      "fieldId": "December",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/December",
+      "localName": "December",
+      "type": "Field"
+    },
+    {
+      "fieldId": "April",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/April",
+      "localName": "April",
+      "type": "Field"
+    },
+    {
+      "fieldId": "October",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/October",
+      "localName": "October",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Day",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/Day",
+      "localName": "Day",
+      "type": "Field"
+    },
+    {
+      "fieldId": "August",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/August",
+      "localName": "August",
+      "type": "Field"
+    },
+    {
+      "fieldId": "September",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/September",
+      "localName": "September",
+      "type": "Field"
+    },
+    {
+      "fieldId": "November",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/November",
+      "localName": "November",
+      "type": "Field"
+    },
+    {
+      "fieldId": "May",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/May",
+      "localName": "May",
+      "type": "Field"
+    },
+    {
+      "fieldId": "July",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/July",
+      "localName": "July",
+      "type": "Field"
+    },
+    {
+      "fieldId": "January",
+      "id": "https://catalog.opengrid.org/field/ghana-national-daily-peak-demand-electricity-2009-2010/January",
+      "localName": "January",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/ghana-national-daily-peak-demand-electricity-2009-2010",
+  "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041432/1/DR0051701/2009-daily-peak-demand-electricity-gridco-mw.csv"
+}

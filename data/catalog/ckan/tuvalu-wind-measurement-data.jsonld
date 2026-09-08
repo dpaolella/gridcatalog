@@ -1,0 +1,574 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Data repository for measurements from five wind measurement stations with lidars in The Pacific. Data will be uploaded in batches, on a monthly basis.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/1b6945bb-4e26-4123-967b-dbe9b077b133/resource/c8ddc367-36a5-420d-a37b-e5134369ad96/download/wind_measurements_tuvalu_fongafale_wb-esmap_header.csv",
+          "byteSize": 3048,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tuvalu-wind-measurement-data--2",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1b6945bb-4e26-4123-967b-dbe9b077b133/resource/37c839a8-b8bf-4863-8d6b-7addf1f9e388/download/wind_measurements_tuvalu_fongafale_wb-esmap_qc.csv",
+          "byteSize": 25640916,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tuvalu-wind-measurement-data--1",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1b6945bb-4e26-4123-967b-dbe9b077b133/resource/7ed43f07-0e18-4c98-922a-c3cccb66b773/download/wind_measurements_tuvalu_ppa.zip",
+          "byteSize": 10875978,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tuvalu-wind-measurement-data--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "a120_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_mean",
+          "localName": "a120_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_data_availability",
+          "localName": "a140_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_data_availability",
+          "localName": "a160_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_min",
+          "localName": "a60_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_vertical_stddev",
+          "localName": "a200_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_min",
+          "localName": "a100_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_max",
+          "localName": "a100_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d100_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d100_wind_direction_mean",
+          "localName": "d100_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_carrier_to_noise_ratio",
+          "localName": "a140_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_stddev",
+          "localName": "a80_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_max",
+          "localName": "a40_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_max",
+          "localName": "a80_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_mean",
+          "localName": "a40_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d180_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d180_wind_direction_mean",
+          "localName": "d180_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_vertical",
+          "localName": "a120_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_data_availability",
+          "localName": "a80_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_vertical",
+          "localName": "a200_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_max",
+          "localName": "a180_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_data_availability",
+          "localName": "a180_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_max",
+          "localName": "a60_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_vertical",
+          "localName": "a60_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_min",
+          "localName": "a80_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_stddev",
+          "localName": "a100_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d140_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d140_wind_direction_mean",
+          "localName": "d140_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_mean",
+          "localName": "a100_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_vertical_stddev",
+          "localName": "a60_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_data_availability",
+          "localName": "a60_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_carrier_to_noise_ratio",
+          "localName": "a180_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_vertical_stddev",
+          "localName": "a80_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_vertical_stddev",
+          "localName": "a160_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_stddev",
+          "localName": "a200_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_vertical_stddev",
+          "localName": "a100_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d40_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d40_wind_direction_mean",
+          "localName": "d40_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_mean",
+          "localName": "a140_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_mean",
+          "localName": "a160_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d200_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d200_wind_direction_mean",
+          "localName": "d200_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_data_availability",
+          "localName": "a40_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_carrier_to_noise_ratio",
+          "localName": "a60_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_stddev",
+          "localName": "a180_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_max",
+          "localName": "a140_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_min",
+          "localName": "a200_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_vertical",
+          "localName": "a80_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_carrier_to_noise_ratio",
+          "localName": "a200_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_carrier_to_noise_ratio",
+          "localName": "a160_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d120_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d120_wind_direction_mean",
+          "localName": "d120_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/The-wind-measurement-campaign-that-has-generated-this-data-was-commissioned-by-The-World-Bank-with-funding-from-the-Energy-Sector-Management-Assistance-Program-ESMAP",
+          "localName": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_vertical_stddev",
+          "localName": "a180_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_max",
+          "localName": "a200_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_min",
+          "localName": "a120_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_min",
+          "localName": "a160_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_wind_speed_mean",
+          "localName": "a80_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a80_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a80_carrier_to_noise_ratio",
+          "localName": "a80_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_vertical_stddev",
+          "localName": "a140_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_data_availability",
+          "localName": "a120_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_stddev",
+          "localName": "a120_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_min",
+          "localName": "a180_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_vertical",
+          "localName": "a40_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_stddev",
+          "localName": "a140_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_vertical",
+          "localName": "a180_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "time",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/time",
+          "localName": "time",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_stddev",
+          "localName": "a40_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_carrier_to_noise_ratio",
+          "localName": "a40_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d60_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d60_wind_direction_mean",
+          "localName": "d60_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_vertical_stddev",
+          "localName": "a120_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_vertical",
+          "localName": "a140_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d80_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d80_wind_direction_mean",
+          "localName": "d80_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_min",
+          "localName": "a40_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a140_wind_speed_min",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a140_wind_speed_min",
+          "localName": "a140_wind_speed_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_wind_speed_vertical",
+          "localName": "a100_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_stddev",
+          "localName": "a60_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_stddev",
+          "localName": "a160_wind_speed_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a180_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a180_wind_speed_mean",
+          "localName": "a180_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_carrier_to_noise_ratio",
+          "localName": "a120_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a40_wind_speed_vertical_stddev",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a40_wind_speed_vertical_stddev",
+          "localName": "a40_wind_speed_vertical_stddev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a120_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a120_wind_speed_max",
+          "localName": "a120_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_carrier_to_noise_ratio",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_carrier_to_noise_ratio",
+          "localName": "a100_carrier_to_noise_ratio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_data_availability",
+          "localName": "a200_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a100_data_availability",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a100_data_availability",
+          "localName": "a100_data_availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_vertical",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_vertical",
+          "localName": "a160_wind_speed_vertical",
+          "type": "Field"
+        },
+        {
+          "fieldId": "d160_wind_direction_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/d160_wind_direction_mean",
+          "localName": "d160_wind_direction_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a160_wind_speed_max",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a160_wind_speed_max",
+          "localName": "a160_wind_speed_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a60_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a60_wind_speed_mean",
+          "localName": "a60_wind_speed_mean",
+          "type": "Field"
+        },
+        {
+          "fieldId": "a200_wind_speed_mean",
+          "id": "https://catalog.opengrid.org/field/tuvalu-wind-measurement-data/a200_wind_speed_mean",
+          "localName": "a200_wind_speed_mean",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/tuvalu-wind-measurement-data",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2020-05-19T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-02-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/tuvalu-wind-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/tuvalu-wind-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/1b6945bb-4e26-4123-967b-dbe9b077b133/resource/c8ddc367-36a5-420d-a37b-e5134369ad96/download/wind_measurements_tuvalu_fongafale_wb-esmap_header.csv",
+      "sourceRecordId": "energydata_info:1b6945bb-4e26-4123-967b-dbe9b077b133",
+      "title": "Tuvalu - Wind Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "dist_nearest_hub_km",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/dist_nearest_hub_km",
+      "localName": "dist_nearest_hub_km",
+      "type": "Field"
+    },
+    {
+      "fieldId": "admin_cgaz_2",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/admin_cgaz_2",
+      "localName": "admin_cgaz_2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "main_road_access",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/main_road_access",
+      "localName": "main_road_access",
+      "type": "Field"
+    },
+    {
+      "fieldId": "demand_connection",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/demand_connection",
+      "localName": "demand_connection",
+      "type": "Field"
+    },
+    {
+      "fieldId": "distance_to_existing_transmission_lines",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/distance_to_existing_transmission_lines",
+      "localName": "distance_to_existing_transmission_lines",
+      "type": "Field"
+    },
+    {
+      "fieldId": "large_buildings",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/large_buildings",
+      "localName": "large_buildings",
+      "type": "Field"
+    },
+    {
+      "fieldId": "geometry",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/geometry",
+      "localName": "geometry",
+      "type": "Field"
+    },
+    {
+      "fieldId": "geohash",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/geohash",
+      "localName": "geohash",
+      "type": "Field"
+    },
+    {
+      "fieldId": "medium_buildings",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/medium_buildings",
+      "localName": "medium_buildings",
+      "type": "Field"
+    },
+    {
+      "fieldId": "small_buildings",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/small_buildings",
+      "localName": "small_buildings",
+      "type": "Field"
+    },
+    {
+      "fieldId": "population",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/population",
+      "localName": "population",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_education_facilities",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/num_education_facilities",
+      "localName": "num_education_facilities",
+      "type": "Field"
+    },
+    {
+      "fieldId": "has_education_facility",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/has_education_facility",
+      "localName": "has_education_facility",
+      "type": "Field"
+    },
+    {
+      "fieldId": "lat",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/lat",
+      "localName": "lat",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ag_value_area",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/ag_value_area",
+      "localName": "ag_value_area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ag_area",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/ag_area",
+      "localName": "ag_area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "dist_main_road_km",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/dist_main_road_km",
+      "localName": "dist_main_road_km",
+      "type": "Field"
+    },
+    {
+      "fieldId": "has_health_facility",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/has_health_facility",
+      "localName": "has_health_facility",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_connections",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/num_connections",
+      "localName": "num_connections",
+      "type": "Field"
+    },
+    {
+      "fieldId": "overlap_percentage",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/overlap_percentage",
+      "localName": "overlap_percentage",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_health_facilities",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/num_health_facilities",
+      "localName": "num_health_facilities",
+      "type": "Field"
+    },
+    {
+      "fieldId": "hull_area",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/hull_area",
+      "localName": "hull_area",
+      "type": "Field"
+    },
+    {
+      "fieldId": "security_risk",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/security_risk",
+      "localName": "security_risk",
+      "type": "Field"
+    },
+    {
+      "fieldId": "has_nightlight",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/has_nightlight",
+      "localName": "has_nightlight",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ag_yield",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/ag_yield",
+      "localName": "ag_yield",
+      "type": "Field"
+    },
+    {
+      "fieldId": "village_name",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/village_name",
+      "localName": "village_name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "nearest_hub_name",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/nearest_hub_name",
+      "localName": "nearest_hub_name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "crop_types",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/crop_types",
+      "localName": "crop_types",
+      "type": "Field"
+    },
+    {
+      "fieldId": "fatalities_within_25km",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/fatalities_within_25km",
+      "localName": "fatalities_within_25km",
+      "type": "Field"
+    },
+    {
+      "fieldId": "mean_rwi",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/mean_rwi",
+      "localName": "mean_rwi",
+      "type": "Field"
+    },
+    {
+      "fieldId": "lon",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/lon",
+      "localName": "lon",
+      "type": "Field"
+    },
+    {
+      "fieldId": "num_buildings",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/num_buildings",
+      "localName": "num_buildings",
+      "type": "Field"
+    },
+    {
+      "fieldId": "demand",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/demand",
+      "localName": "demand",
+      "type": "Field"
+    },
+    {
+      "fieldId": "total_incidents_50km",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/total_incidents_50km",
+      "localName": "total_incidents_50km",
+      "type": "Field"
+    },
+    {
+      "fieldId": "distance_to_gridlight_targets",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/distance_to_gridlight_targets",
+      "localName": "distance_to_gridlight_targets",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ag_value",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/ag_value",
+      "localName": "ag_value",
+      "type": "Field"
+    },
+    {
+      "fieldId": "building_density_percent",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/building_density_percent",
+      "localName": "building_density_percent",
+      "type": "Field"
+    },
+    {
+      "fieldId": "very_small_structures",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/very_small_structures",
+      "localName": "very_small_structures",
+      "type": "Field"
+    },
+    {
+      "fieldId": "fatalities_within_50km",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/fatalities_within_50km",
+      "localName": "fatalities_within_50km",
+      "type": "Field"
+    },
+    {
+      "fieldId": "pv_value",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/pv_value",
+      "localName": "pv_value",
+      "type": "Field"
+    },
+    {
+      "fieldId": "admin_cgaz_1",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/admin_cgaz_1",
+      "localName": "admin_cgaz_1",
+      "type": "Field"
+    },
+    {
+      "fieldId": "closest_distance_water",
+      "id": "https://catalog.opengrid.org/field/zimbabwe-distributed-renewable-energy-dre/closest_distance_water",
+      "localName": "closest_distance_water",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/zimbabwe-distributed-renewable-energy-dre",
+  "schemaSource": "csv-header at https://energydata.info/dataset/ce641fa7-5ac1-445c-a1af-a0ac0d311530/resource/c3646a11-5222-4b57-8f1b-1f21014be1cd/download/zimbabwe_dre_atlas_settlements.csv"
+}

@@ -1,0 +1,364 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Wind Measurement Data from the World Bank funded project \"Vietnam Wind Resource Assessment\", recorded from 3 sites (Phang Rang, Phan Thiet, Plei Ku) between 12.2008 and 02.2009. Please refer to the country project page for additional outputs and reports, including installation reports: https://www.esmap.org/re-mapping/vietnam. For access to maps and GIS layers, please visit the Global Wind Atlas: http://globalwindatlas.info/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/04924c0a-1d34-4afa-88bf-f86f03566038/resource/30321fa4-4b9b-4438-8953-4c8b258112a3/download/vietnamwindmeasurementsmoitwb.csv",
+          "byteSize": 66148575,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-wind-measurement-data--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/04924c0a-1d34-4afa-88bf-f86f03566038/resource/7fa17e5f-fdec-4e9d-bcb9-718c399dd4ad/download/vietnam_wind-atlas-report_moit_march-2011.pdf",
+          "byteSize": 1743681,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-wind-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/04924c0a-1d34-4afa-88bf-f86f03566038/resource/16fe3b43-5800-49b9-951e-52af70c15d10/download/958020esm00p140eling0report02014008.pdf",
+          "byteSize": 12754564,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-wind-measurement-data--3",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/04924c0a-1d34-4afa-88bf-f86f03566038/resource/0ad87674-2798-4454-973d-a9aa8598e90d/download/vietnamwindmappingphaseimplementationplanwbesmapsept.pdf",
+          "byteSize": 1464550,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-wind-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "V3_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V3_sd",
+          "localName": "V3_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Local_time",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Local_time",
+          "localName": "Local_time",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Volt1_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Volt1_max",
+          "localName": "Volt1_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Volt1_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Volt1_avg",
+          "localName": "Volt1_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A5_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A5_avg",
+          "localName": "A5_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V3_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V3_min",
+          "localName": "V3_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A2_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A2_sd",
+          "localName": "A2_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A1_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A1_avg",
+          "localName": "A1_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Month",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Month",
+          "localName": "Month",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V2_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V2_min",
+          "localName": "V2_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Day",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Day",
+          "localName": "Day",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A5_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A5_sd",
+          "localName": "A5_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A4_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A4_sd",
+          "localName": "A4_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A3_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A3_sd",
+          "localName": "A3_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A4_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A4_max",
+          "localName": "A4_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A4_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A4_avg",
+          "localName": "A4_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "T1_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/T1_max",
+          "localName": "T1_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "T1_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/T1_avg",
+          "localName": "T1_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V3_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V3_avg",
+          "localName": "V3_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A3_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A3_avg",
+          "localName": "A3_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A3_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A3_max",
+          "localName": "A3_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A1_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A1_max",
+          "localName": "A1_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Year",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Year",
+          "localName": "Year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A3_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A3_min",
+          "localName": "A3_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V2_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V2_avg",
+          "localName": "V2_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V3_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V3_max",
+          "localName": "V3_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A1_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A1_sd",
+          "localName": "A1_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A4_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A4_min",
+          "localName": "A4_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V1_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V1_sd",
+          "localName": "V1_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "T1_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/T1_sd",
+          "localName": "T1_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V2_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V2_max",
+          "localName": "V2_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A2_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A2_min",
+          "localName": "A2_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Date",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Date",
+          "localName": "Date",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V1_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V1_max",
+          "localName": "V1_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Volt1_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Volt1_sd",
+          "localName": "Volt1_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V1_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V1_avg",
+          "localName": "V1_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A5_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A5_min",
+          "localName": "A5_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A2_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A2_max",
+          "localName": "A2_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "T1_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/T1_min",
+          "localName": "T1_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A1_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A1_min",
+          "localName": "A1_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Site_name",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Site_name",
+          "localName": "Site_name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V2_sd",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V2_sd",
+          "localName": "V2_sd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A2_avg",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A2_avg",
+          "localName": "A2_avg",
+          "type": "Field"
+        },
+        {
+          "fieldId": "V1_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/V1_min",
+          "localName": "V1_min",
+          "type": "Field"
+        },
+        {
+          "fieldId": "A5_max",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/A5_max",
+          "localName": "A5_max",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Volt1_min",
+          "id": "https://catalog.opengrid.org/field/vietnam-wind-measurement-data/Volt1_min",
+          "localName": "Volt1_min",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/vietnam-wind-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2016-11-09T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-07-10T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/vietnam-wind-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/vietnam-wind-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/04924c0a-1d34-4afa-88bf-f86f03566038/resource/30321fa4-4b9b-4438-8953-4c8b258112a3/download/vietnamwindmeasurementsmoitwb.csv",
+      "sourceRecordId": "energydata_info:04924c0a-1d34-4afa-88bf-f86f03566038",
+      "title": "Vietnam - Wind Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

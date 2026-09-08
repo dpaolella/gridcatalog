@@ -1,0 +1,299 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "\"The Africa Power–Mining Database 2014 shows ongoing and forthcoming mining projects in Africa categorized by the type of mineral, ore grade, size of the project. The database draws on basic mining data from Infomine surveys, the United States Geological Survey, annual reports, technical reports, feasibility studies, investor presentations, sustainability reports on property-owner websites or filed in public domains, and mining websites (Mining Weekly, Mining Journal, Mbendi, Mining-technology, and Miningmx). Comprising 455 projects in 28 SSA countries with each project’s ore reserve value assessed at more than $250 million, the database collates publicly available and proprietary information. It also provides a panoramic view of projects operating in 2000–12 and anticipated demand in 2020. The analysis is presented over three timeframes: pre-2000, 2001–12, and 2020 (each containing the projects from the previous period except for those closing during that previous period).\"",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/0d8a2549-2180-400e-ad4e-12936c7436c3/resource/aad8a5d4-5e5f-4464-b720-e8a882c59957/download/africapowerminingprojectsdatabase.csv",
+          "byteSize": 275127,
+          "checksum": "62bc63861ebe437f5fd77dffa506f466",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/africa-powermining-projects-database-2014--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Company Name",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Company-Name",
+          "localName": "Company Name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy needs (MW)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Energy-needs-MW",
+          "localName": "Energy needs (MW)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Projects 2020",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Projects-2020",
+          "localName": "Projects 2020",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Mine Location",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Mine-Location",
+          "localName": "Mine Location",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Status",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Status",
+          "localName": "Status",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cost relativity",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Cost-relativity",
+          "localName": "Cost relativity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Reserve grade Unit",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Reserve-grade-Unit",
+          "localName": "Reserve grade Unit",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Reference",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Reference",
+          "localName": "Reference",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Property Name",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Property-Name",
+          "localName": "Property Name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "(Expected) Yearly Production at full capacity",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Expected-Yearly-Production-at-full-capacity",
+          "localName": "(Expected) Yearly Production at full capacity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Notes",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Notes",
+          "localName": "Notes",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project Completion (Year)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Project-Completion-Year",
+          "localName": "Project Completion (Year)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Source of power",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Source-of-power",
+          "localName": "Source of power",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Projects Pre-2000",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Projects-Pre-2000",
+          "localName": "Projects Pre-2000",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Region",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Region",
+          "localName": "Region",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Reserves Tonnes  (,000) Units",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Reserves-Tonnes-000-Units",
+          "localName": "Reserves Tonnes  (,000) Units",
+          "type": "Field"
+        },
+        {
+          "fieldId": "(Expected) Production at full capacity unit",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Expected-Production-at-full-capacity-unit",
+          "localName": "(Expected) Production at full capacity unit",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Current Production",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Current-Production",
+          "localName": "Current Production",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Commodity",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Commodity",
+          "localName": "Commodity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Current Production Unit",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Current-Production-Unit",
+          "localName": "Current Production Unit",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tariff Public Utility",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Tariff-Public-Utility",
+          "localName": "Tariff Public Utility",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Best Reserve Available",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Best-Reserve-Available",
+          "localName": "Best Reserve Available",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Annual Energy Consumption (MWh)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Annual-Energy-Consumption-MWh",
+          "localName": "Annual Energy Consumption (MWh)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Grid Reliability",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Grid-Reliability",
+          "localName": "Grid Reliability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Probability to move to investment by 2020",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Probability-to-move-to-investment-by-2020",
+          "localName": "Probability to move to investment by 2020",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Type of Work",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Type-of-Work",
+          "localName": "Type of Work",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Life of Mine (years)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Life-of-Mine-years",
+          "localName": "Life of Mine (years)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Country",
+          "localName": "Country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "(Expected)  Investment (MM$)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Expected-Investment-MM",
+          "localName": "(Expected)  Investment (MM$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Source",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Source",
+          "localName": "Source",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Reserve Grade",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Reserve-Grade",
+          "localName": "Reserve Grade",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Grid Energy Source",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Grid-Energy-Source",
+          "localName": "Grid Energy Source",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy Consumption (kwh/t product)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Energy-Consumption-kwh-t-product",
+          "localName": "Energy Consumption (kwh/t product)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Projects 2001-2012",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Projects-2001-2012",
+          "localName": "Projects 2001-2012",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Power Sourcing Arrangement or Relationship Between Mine and Grid.",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Power-Sourcing-Arrangement-or-Relationship-Between-Mine-and-Grid",
+          "localName": "Power Sourcing Arrangement or Relationship Between Mine and Grid.",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Extent of Processing",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Extent-of-Processing",
+          "localName": "Extent of Processing",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Location notes",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Location-notes",
+          "localName": "Location notes",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project Inception (Year)",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Project-Inception-Year",
+          "localName": "Project Inception (Year)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Shareholding Code",
+          "id": "https://catalog.opengrid.org/field/africa-powermining-projects-database-2014/Shareholding-Code",
+          "localName": "Shareholding Code",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/africa-powermining-projects-database-2014",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2016-11-09T00:00:00+00:00",
+      "keyword": [
+        "sub-saharan africa",
+        "power",
+        "mining"
+      ],
+      "landingPage": "http://www.worldbank.org/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-07-23T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/africa-powermining-projects-database-2014#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/africa-powermining-projects-database-2014#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/0d8a2549-2180-400e-ad4e-12936c7436c3/resource/aad8a5d4-5e5f-4464-b720-e8a882c59957/download/africapowerminingprojectsdatabase.csv",
+      "sourceRecordId": "energydata_info:0d8a2549-2180-400e-ad4e-12936c7436c3",
+      "title": "Africa - PowerMining Projects Database",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

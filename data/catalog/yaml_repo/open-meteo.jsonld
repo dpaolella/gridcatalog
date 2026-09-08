@@ -28,16 +28,16 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"era5\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "climate",
+        "weather",
         "earth observation",
+        "climate",
         "aws-pds",
-        "agriculture",
         "meteorological",
-        "weather"
+        "agriculture"
       ],
       "landingPage": "https://registry.opendata.aws/open-meteo/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:23.672829+00:00",
+      "modified": "2026-09-08T21:57:38.483501+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -52,6 +52,53 @@
       "title": "Open-Meteo Weather API Database",
       "type": "Dataset",
       "updateCadence": "PT1H",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.5281/ZENODO.7970649",
+          "assertedBy": "aws_open_data",
+          "authorName": "Patrick Zippenfenig",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/open-meteo#usage-0",
+          "title": "Zippenfenig, P. (2023). Open-Meteo.com Weather API [Computer software]",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/open-meteo/open-meteo",
+          "assertedBy": "aws_open_data",
+          "authorName": "Open-Meteo",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/open-meteo#usage-4",
+          "title": "Open-Meteo API source-code",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/open-meteo/open-data/tree/main/tutorial_download_era5",
+          "assertedBy": "aws_open_data",
+          "authorName": "Open-Meteo",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/open-meteo#usage-2",
+          "title": "Accessing 80 Years Historical Weather Data from ERA5",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.open-meteo.com/en/docs",
+          "assertedBy": "aws_open_data",
+          "authorName": "Open-Meteo",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/open-meteo#usage-3",
+          "title": "Open-Meteo API documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/open-meteo/open-data/tree/main/tutorial_weather_api",
+          "assertedBy": "aws_open_data",
+          "authorName": "Open-Meteo",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/open-meteo#usage-1",
+          "title": "Run Your Own Weather API",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

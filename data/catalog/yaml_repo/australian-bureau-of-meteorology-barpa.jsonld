@@ -28,23 +28,23 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "atmosphere",
         "extreme weather",
-        "climate projections",
-        "machine learning",
-        "meteorological",
-        "weather",
         "climate",
-        "simulations",
-        "environmental",
-        "climate model",
-        "aws-pds",
+        "machine learning",
+        "climate risk",
         "hydrology",
-        "climate risk"
+        "atmosphere",
+        "environmental",
+        "simulations",
+        "aws-pds",
+        "weather",
+        "meteorological",
+        "climate projections",
+        "climate model"
       ],
       "landingPage": "https://registry.opendata.aws/australian-bureau-of-meteorology-barpa/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.511777+00:00",
+      "modified": "2026-09-08T21:57:30.943634+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/australian-bureau-of-meteorology-barpa#provenance-gap",
@@ -64,6 +64,17 @@
       "title": "Bureau of meteorology Atmospheric Regional Projections for Australia (BARPA)",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/xcastagn/open-data-examples",
+          "assertedBy": "aws_open_data",
+          "authorName": "Australian Bureau of Meteorology",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/australian-bureau-of-meteorology-barpa#usage-0",
+          "title": "Get To Know A Dataset BARPA",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

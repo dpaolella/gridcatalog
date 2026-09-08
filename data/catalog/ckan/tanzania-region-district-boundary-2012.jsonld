@@ -1,0 +1,72 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The datasets are curated from the Tanzania National Bureau of Statistics (NBS) 2012 Population and Housing Census (PHC) of Tanzania which was preceded by the preparatory geographic work, which involved field visiting of all regions, districts, wards/shehia, villages/mitaa, localities and sub-villages in the country, primarily to create and delineate Enumeration Area boundaries (EAs) so as to produce maps required for census operations. The most important principle followed in delineating an EA was that under no circumstance should an EA overlap the existing administrative boundaries of regions, districts, wards/shehia or villages/mitaa. Adherence to this principle was necessary since the census results were to be presented at the level of these administrative units. The National Bureau of Statistics (NBS) intends to provide a geo-database with spatial and non-spatial information at five levels of geography, to facilitate presentation of data from censuses and other surveys. These levels are regional (level one), district (level two), ward/shehia (level three), villages/mitaa (level four) and enumeration areas (level five). Levels one and two have been put onto the NBS website in June, 2013 for use by various stakeholders, and the web-page will be updated to include other levels of shapefiles when they are ready for use. To learn more, please visit website https://sensa.nbs.go.tz/",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039598/1/DR0049204/regions.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-region-district-boundary-2012--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039598/1/DR0049207/districts.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-region-district-boundary-2012--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039598/1/DR0049206/districts.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-region-district-boundary-2012--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039598/1/DR0049205/regions.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/tanzania-region-district-boundary-2012--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/tanzania-region-district-boundary-2012",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-10-30T00:00:00+00:00",
+      "landingPage": "https://sensa.nbs.go.tz/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/tanzania-region-district-boundary-2012#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/tanzania-region-district-boundary-2012#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:82020112-c2e2-4cdb-8c30-745012647ba8",
+      "title": "Tanzania - Region & District Boundary",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

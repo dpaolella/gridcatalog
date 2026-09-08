@@ -1,0 +1,165 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The Nigeria MDG (Millennium Development Goals) Information System – NMIS water facility data is collected by the Office of the Senior Special Assistant to the President on the Millennium Development Goals (OSSAP-MDGs) in partner with the Sustainable Engineering Lab at Columbia University. A rigorous, geo-referenced baseline facility inventory across Nigeria is created spanning from 2009 to 2011 with an additional survey effort to increase coverage in 2014, to build Nigeria’s first nation-wide inventory of water facility. The database includes 132,510 water facilities info in Nigeria. The goal of this database is to make the data collected available to planners, government officials, and the public, to be used to make strategic decisions for planning relevant interventions. For data inquiry, please contact Ms. Funlola Osinupebi, Performance Monitoring & Communications, Advisory Power Team, Office of the Vice President at funlola.osinupebi@aptovp.org To learn more, please visit http://csd.columbia.edu/2014/03/10/the-nigeria-mdg-information-system-nmis-takes-open-data-further/ Suggested citation: Nigeria NMIS facility database (2014), the Office of the Senior Special Assistant to the President on the Millennium Development Goals (OSSAP-MDGs) & Columbia University",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/33cbdf76-db76-447b-a02d-779a4b562147/resource/855d8789-3474-43d3-90dd-168ac9fdf285/download/watermopupandbaselinenmisfacility.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-nmis-water-facility-data-2014--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/33cbdf76-db76-447b-a02d-779a4b562147/resource/f9d82d17-72b0-49de-80c3-53af06e6e98b/download/watermopupandbaselinenmisfacility.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nigeria-nmis-water-facility-data-2014--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "gps",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/gps",
+          "localName": "gps",
+          "type": "Field"
+        },
+        {
+          "fieldId": "facility_id",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/facility_id",
+          "localName": "facility_id",
+          "type": "Field"
+        },
+        {
+          "fieldId": "latitude",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/latitude",
+          "localName": "latitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "breakdown",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/breakdown",
+          "localName": "breakdown",
+          "type": "Field"
+        },
+        {
+          "fieldId": "functional",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/functional",
+          "localName": "functional",
+          "type": "Field"
+        },
+        {
+          "fieldId": "lift_mechanism",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/lift_mechanism",
+          "localName": "lift_mechanism",
+          "type": "Field"
+        },
+        {
+          "fieldId": "sector",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/sector",
+          "localName": "sector",
+          "type": "Field"
+        },
+        {
+          "fieldId": "longitude",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/longitude",
+          "localName": "longitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "water_point_type",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/water_point_type",
+          "localName": "water_point_type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "formhub_photo_id",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/formhub_photo_id",
+          "localName": "formhub_photo_id",
+          "type": "Field"
+        },
+        {
+          "fieldId": "community",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/community",
+          "localName": "community",
+          "type": "Field"
+        },
+        {
+          "fieldId": "survey_id",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/survey_id",
+          "localName": "survey_id",
+          "type": "Field"
+        },
+        {
+          "fieldId": "facility_name",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/facility_name",
+          "localName": "facility_name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "unique_lga",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/unique_lga",
+          "localName": "unique_lga",
+          "type": "Field"
+        },
+        {
+          "fieldId": "is_improved",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/is_improved",
+          "localName": "is_improved",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ward",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/ward",
+          "localName": "ward",
+          "type": "Field"
+        },
+        {
+          "fieldId": "date_of_survey",
+          "id": "https://catalog.opengrid.org/field/nigeria-nmis-water-facility-data-2014/date_of_survey",
+          "localName": "date_of_survey",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/nigeria-nmis-water-facility-data-2014",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-05-04T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-21T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nigeria-nmis-water-facility-data-2014#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/nigeria-nmis-water-facility-data-2014#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/33cbdf76-db76-447b-a02d-779a4b562147/resource/f9d82d17-72b0-49de-80c3-53af06e6e98b/download/watermopupandbaselinenmisfacility.csv",
+      "sourceRecordId": "energydata_info:33cbdf76-db76-447b-a02d-779a4b562147",
+      "title": "Nigeria - NMIS water facility data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

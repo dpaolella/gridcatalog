@@ -1,0 +1,91 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "State Code",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/State-Code",
+      "localName": "State Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Long.",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Long",
+      "localName": "Long.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Female",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Female",
+      "localName": "Female",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Ward Code",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Ward-Code",
+      "localName": "Ward Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Ward",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Ward",
+      "localName": "Ward",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Male",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Male",
+      "localName": "Male",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lga Code",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Lga-Code",
+      "localName": "Lga Code",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lga",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Lga",
+      "localName": "Lga",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Lat.",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Lat",
+      "localName": "Lat.",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Total",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Total",
+      "localName": "Total",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Settlement Type",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Settlement-Type",
+      "localName": "Settlement Type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Settlement Name",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Settlement-Name",
+      "localName": "Settlement Name",
+      "type": "Field"
+    },
+    {
+      "fieldId": "State",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/State",
+      "localName": "State",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Settlement ObjectID",
+      "id": "https://catalog.opengrid.org/field/nigeria-kaduna-electricity-distribution-company-population-dataset/Settlement-ObjectID",
+      "localName": "Settlement ObjectID",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/nigeria-kaduna-electricity-distribution-company-population-dataset",
+  "schemaSource": "csv-header at https://energydata.info/dataset/f67a3f5e-f42a-44c0-9153-b431d5972be9/resource/188e32a1-520b-4f77-a7ac-06f8e44e219f/download/kadunastate.csv"
+}

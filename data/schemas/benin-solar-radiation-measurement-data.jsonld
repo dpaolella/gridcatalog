@@ -1,0 +1,121 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "ModB",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/ModB",
+      "localName": "ModB",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WS",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WS",
+      "localName": "WS",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Tamb",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Tamb",
+      "localName": "Tamb",
+      "type": "Field"
+    },
+    {
+      "fieldId": "BP",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/BP",
+      "localName": "BP",
+      "type": "Field"
+    },
+    {
+      "fieldId": "ModA",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/ModA",
+      "localName": "ModA",
+      "type": "Field"
+    },
+    {
+      "fieldId": "TModB",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/TModB",
+      "localName": "TModB",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Timestamp",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Timestamp",
+      "localName": "Timestamp",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WDstdev",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WDstdev",
+      "localName": "WDstdev",
+      "type": "Field"
+    },
+    {
+      "fieldId": "DHI",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/DHI",
+      "localName": "DHI",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WSgust",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WSgust",
+      "localName": "WSgust",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Cleaning",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Cleaning",
+      "localName": "Cleaning",
+      "type": "Field"
+    },
+    {
+      "fieldId": "TModA",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/TModA",
+      "localName": "TModA",
+      "type": "Field"
+    },
+    {
+      "fieldId": "DNI",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/DNI",
+      "localName": "DNI",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WD",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WD",
+      "localName": "WD",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Precipitation",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Precipitation",
+      "localName": "Precipitation",
+      "type": "Field"
+    },
+    {
+      "fieldId": "GHI",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/GHI",
+      "localName": "GHI",
+      "type": "Field"
+    },
+    {
+      "fieldId": "WSstdev",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WSstdev",
+      "localName": "WSstdev",
+      "type": "Field"
+    },
+    {
+      "fieldId": "RH",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/RH",
+      "localName": "RH",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Comments",
+      "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Comments",
+      "localName": "Comments",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/benin-solar-radiation-measurement-data",
+  "schemaSource": "csv-header at https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/3cec0a50-e1f4-469e-aa20-5ee5e5fef7c5/download/solar-measurements_benin-malanville_qc.csv"
+}

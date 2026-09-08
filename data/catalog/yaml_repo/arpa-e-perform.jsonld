@@ -11,14 +11,6 @@
       "description": "The ARPA-E PERFORM Program is an ARPA-E funded program that aim to use time-coincident power and load seeks to develop innovative management systems that represent the relative delivery risk of each asset and balance the collective risk of all assets across the grid. A risk-driven paradigm allows operators to: (i) fully understand the true likelihood of maintaining a supply-demand balance and system reliability, (ii) optimally manage the system, and (iii) assess the true value of essential reliability services. This paradigm shift is critical for all power systems and is essential for grids with high levels of stochastic resources. Projects will propose methods to quantify and manage risk at the asset level and at the system level. In support of the ARPA-E PERFORM project, NREL has produced a set of time-coincident load, wind, and solar generation profiles, including actual and forecasting time series. Both actuals and forecasts are provided in form of time-series with high temporal and spatial fidelity. Both deterministic and probabilistic forecasts are contained in the dataset.",
       "distribution": [
         {
-          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/ERCOT/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--1",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/SPP/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -27,11 +19,19 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/MISO/",
+          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/ERCOT/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--3",
+          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--0",
           "type": "Distribution"
         },
         {
@@ -43,11 +43,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/",
+          "accessURL": "https://arpa-e-perform.s3.us-west-2.amazonaws.com/MISO/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--0",
+          "id": "https://catalog.opengrid.org/dist/arpa-e-perform--3",
           "type": "Distribution"
         }
       ],
@@ -60,16 +60,16 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "aws-pds",
-        "energy",
         "model",
-        "environmental",
+        "geospatial",
+        "aws-pds",
         "solar",
-        "geospatial"
+        "environmental",
+        "energy"
       ],
       "landingPage": "https://registry.opendata.aws/arpa-e-perform/",
       "license": "http://spdx.org/licenses/CC-BY-3.0",
-      "modified": "2026-09-07T07:36:17.464094+00:00",
+      "modified": "2026-09-08T21:57:30.893555+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/arpa-e-perform#provenance-gap",
@@ -89,6 +89,17 @@
       "title": "ARPA-E PERFORM Forecast data",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://arpa-e.energy.gov/technologies/programs/perform",
+          "assertedBy": "aws_open_data",
+          "authorName": "ARPA-E",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/arpa-e-perform#usage-0",
+          "title": "ARPA-E PERFORM",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

@@ -1,0 +1,199 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "hasField": [
+    {
+      "fieldId": "C_emis_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/C_emis_15",
+      "localName": "C_emis_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "PM",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/PM",
+      "localName": "PM",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fuel_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fuel_15",
+      "localName": "Fuel_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Unit Generation_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Unit-Generation_20",
+      "localName": "Unit Generation_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Variable O&M_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Variable-O-M_10",
+      "localName": "Variable O&M_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Country",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Country",
+      "localName": "Country",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Variable O&M_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Variable-O-M_15",
+      "localName": "Variable O&M_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_UnitCap_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_UnitCap_20",
+      "localName": "Level_UnitCap_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Technology type",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Technology-type",
+      "localName": "Technology type",
+      "type": "Field"
+    },
+    {
+      "fieldId": "C_emis_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/C_emis_10",
+      "localName": "C_emis_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Capital inv_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Capital-inv_20",
+      "localName": "Capital inv_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_UnitCap_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_UnitCap_15",
+      "localName": "Level_UnitCap_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fixed O&M_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fixed-O-M_15",
+      "localName": "Fixed O&M_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Variable O&M_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Variable-O-M_20",
+      "localName": "Variable O&M_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Capital inv_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Capital-inv_15",
+      "localName": "Capital inv_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Nox",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Nox",
+      "localName": "Nox",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fuel_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fuel_20",
+      "localName": "Fuel_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Unit Generation_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Unit-Generation_15",
+      "localName": "Unit Generation_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fixed O&M_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fixed-O-M_10",
+      "localName": "Fixed O&M_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Capital inv_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Capital-inv_10",
+      "localName": "Capital inv_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Net_annual production",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Net_annual-production",
+      "localName": "Net_annual production",
+      "type": "Field"
+    },
+    {
+      "fieldId": "SO2",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/SO2",
+      "localName": "SO2",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Plant capacity",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Plant-capacity",
+      "localName": "Plant capacity",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Unit Generation_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Unit-Generation_10",
+      "localName": "Unit Generation_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_CapInv_15",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_CapInv_15",
+      "localName": "Level_CapInv_15",
+      "type": "Field"
+    },
+    {
+      "fieldId": "C_emis_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/C_emis_20",
+      "localName": "C_emis_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fixed O&M_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fixed-O-M_20",
+      "localName": "Fixed O&M_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_UnitCap_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_UnitCap_10",
+      "localName": "Level_UnitCap_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Fuel_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Fuel_10",
+      "localName": "Fuel_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_CapInv_10",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_CapInv_10",
+      "localName": "Level_CapInv_10",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Level_CapInv_20",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Level_CapInv_20",
+      "localName": "Level_CapInv_20",
+      "type": "Field"
+    },
+    {
+      "fieldId": "Plant capacity factor",
+      "id": "https://catalog.opengrid.org/field/meta-tool-inputs-generation-technology-projected-costs/Plant-capacity-factor",
+      "localName": "Plant capacity factor",
+      "type": "Field"
+    }
+  ],
+  "id": "https://catalog.opengrid.org/ds/meta-tool-inputs-generation-technology-projected-costs",
+  "schemaSource": "csv-header at https://energydata.info/dataset/07030b1e-e0d3-4ee5-bd7f-200c5088e975/resource/9db0a619-c339-4a08-b96c-b46e60653c7e/download/metainputsgenerationtechnologyprojectedcosts.csv"
+}
