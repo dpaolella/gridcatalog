@@ -1,0 +1,778 @@
+# Publishers — a DRAFT for review (#70, unblocking #65 WP-1)
+#
+# **Nothing reads this file yet.** It is a proposal, extracted from the seed
+# inventory so that a person can correct and extend it rather than compose one
+# from nothing. Every entry is `reviewed: false` until somebody says otherwise.
+#
+# ## Where it came from
+#
+# The 131 rows of `seed-sources.yaml` carry an `access` URL each; 108 of them
+# resolve to a host. Grouping by registrable domain gives 67 publisher
+# candidates. It is **not** read from a `publisher` field — only 14 of 232
+# records carry one, so the URL host is the signal that actually exists.
+#
+# Two adjustments were needed and both are judgement calls worth checking:
+#
+#   * A hosting platform is not a publisher. `github.com/PyPSA/...` is PyPSA,
+#     not GitHub, so for github.com, GitLab, Zenodo, PyPI, figshare and the
+#     rest the organisation is taken from the first path segment. Grouping
+#     those by host would have filed ten unrelated projects under one target.
+#   * Three candidates were dropped as not being data publishers at all: a
+#     Nature article, a PyPI URL path, and Zenodo's `/records/` prefix.
+#
+# ## What this list is for
+#
+# #65's thesis is that the human input moves from "here are 131 datasets" to
+# "here are ~40 publishers" — a list an order of magnitude smaller that changes
+# far more slowly. This is the draft of that list. It came out at 67 rather
+# than 40, and the `organisation` field is why: NREL appears four times
+# (nrel.gov, openei.org, and two GitHub orgs), Copernicus three. Collapsing
+# those is part of the review.
+#
+# ## The number that matters
+#
+# **5 of 67 candidates are indexed by any registered harvest source.** Measured
+# from the other direction than #65's "9 of 91 datasets", and it says the same
+# thing: every registered source is a research data repository, and the
+# datasets in this catalog mostly live on a publisher's own site.
+#
+# ## Fields
+#
+#   name       The organisation. `null` where I was not confident — an inferred
+#              publisher name is a claim about who stands behind a dataset, so
+#              it is left blank rather than guessed from a domain.
+#   host       Derived from a seed row's access URL. This one is a fact.
+#   crawl      How to harvest it. **Always null here** — nobody has checked
+#              whether these have an API, a DCAT feed, a sitemap or only HTML.
+#              That is the next question, and it is per publisher.
+#   organisation  Set where several entries are one body. Collapse on review.
+#   covered_by_source  A registered harvest source already indexes this host,
+#              so it is not a new crawl target — it is evidence that source has
+#              never been run, which is #68.
+#   reviewed   false everywhere. A person setting this true is the point.
+#
+# ## Known incompleteness
+#
+# 23 seed rows have no access URL, so they contributed no publisher. Most are
+# commercial or restricted — Lazard, Wood Mackenzie, BNEF, ICE/Platts/Argus,
+# NERC GADS, FERC CEII — and a crawler will never reach them. A few are open
+# and simply lack a recorded URL: Open Power System Data, PyPSA-Earth weather
+# cutouts, SciGRID, NREL ORBIT, GridPath RA Toolkit. **Those five are the
+# clearest gap in this list** and are worth adding by hand.
+#
+# And this is only what the catalog already knows about. A publisher nobody has
+# catalogued yet cannot appear here, which is exactly what extending the list
+# is for.
+
+schema_version: 1
+review_state: draft-unreviewed
+
+publishers:
+  - id: eia-gov
+    name: "U.S. Energy Information Administration"
+    host: "eia.gov"
+    data_domains: [DD2, DD4, DD7, DD9]
+    seed_datasets: 8
+    crawl: null
+    reviewed: false
+    examples:
+      - "EIA-860 (Annual Electric Generator Report)"
+      - "EIA-923 (Power Plant Operations Report)"
+      - "EIA-930 Hourly Electric Grid Monitor"
+
+  - id: entsoe-eu
+    name: "ENTSO-E (European Network of Transmission System Operators for Electricity)"
+    host: "entsoe.eu"
+    data_domains: [DD1, DD2, DD4, DD5]
+    seed_datasets: 6
+    organisation: "ENTSO-E / ENTSOG"
+    crawl: null
+    reviewed: false
+    examples:
+      - "ENTSO-E Grid Map"
+      - "ENTSO-E Transparency Platform (installed capacity, unit outages)"
+      - "ENTSO-E Transparency Platform (unavailability of production and generation units)"
+
+  - id: nrel-gov
+    name: "National Renewable Energy Laboratory"
+    host: "atb.nrel.gov"
+    data_domains: [DD4, DD5, DD6, DD9]
+    seed_datasets: 6
+    organisation: "NREL"
+    crawl: null
+    reviewed: false
+    examples:
+      - "NREL dsgrid"
+      - "NREL PVWatts"
+      - "NREL ATB (storage and emerging technology tables)"
+
+  - id: europa-eu
+    name: "European Commission"
+    host: "commission.europa.eu"
+    data_domains: [DD2, DD7, DD8]
+    seed_datasets: 4
+    covered_by_source: "eu_open_data_portal"
+    crawl: null
+    reviewed: false
+    examples:
+      - "JRC Open Power Plants Database (JRC-PPDB-OPEN)"
+      - "EU ETS / EEA EUTL"
+      - "EU ETS / EEA EUTL"
+
+  - id: openei-org
+    name: "Open Energy Data Initiative (NREL)"
+    host: "data.openei.org"
+    data_domains: [DD4, DD5, DD9]
+    seed_datasets: 4
+    organisation: "NREL"
+    covered_by_source: "oedi"
+    crawl: null
+    reviewed: false
+    examples:
+      - "NREL ResStock / ComStock end-use load profiles"
+      - "NREL NSRDB"
+      - "NREL WIND Toolkit"
+
+  - id: ferc-gov
+    name: "Federal Energy Regulatory Commission"
+    host: "ferc.gov"
+    data_domains: [DD4, DD8, DD9]
+    seed_datasets: 3
+    crawl: null
+    reviewed: false
+    examples:
+      - "FERC Form 714 (hourly load by planning area)"
+      - "FERC Orders (1920, 2023, 881, 2222, 1000, 2000)"
+      - "FERC Form 1 (raw)"
+
+  - id: iea-org
+    name: "International Energy Agency"
+    host: "iea.org"
+    data_domains: [DD6, DD8, DD9]
+    seed_datasets: 3
+    crawl: null
+    reviewed: false
+    examples:
+      - "IEA Global Hydrogen Review / Hydrogen Projects Database"
+      - "IEA Policies and Measures Database (PAMS)"
+      - "IEA WEO Free Dataset"
+
+  - id: catalyst-coop
+    name: "Catalyst Cooperative (PUDL)"
+    host: "data.catalyst.coop"
+    data_domains: [DD2, DD9]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "PUDL (Catalyst Cooperative)"
+      - "PUDL / FERC Form 1"
+
+  - id: copernicus-eu
+    name: "Copernicus"
+    host: "cds.climate.copernicus.eu"
+    data_domains: [DD5, DD10]
+    seed_datasets: 2
+    organisation: "Copernicus / ESA"
+    covered_by_source: "copernicus_cds"
+    crawl: null
+    reviewed: false
+    examples:
+      - "ECMWF ERA5"
+      - "Copernicus CORINE Land Cover"
+
+  - id: epa-gov
+    name: "U.S. Environmental Protection Agency"
+    host: "campd.epa.gov"
+    data_domains: [DD2]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "EPA eGRID"
+      - "EPA CAMD Clean Air Markets (CAMPD)"
+
+  - id: lbl-gov
+    name: "Lawrence Berkeley National Laboratory"
+    host: "emp.lbl.gov"
+    data_domains: [DD3]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "LBNL Queued Up (interconnection queue dataset)"
+      - "LBNL Utility-Scale Solar / Land-Based Wind Market Reports data"
+
+  - id: open-energy-transition-github-com
+    name: "Open Energy Transition"
+    host: "github.com"
+    data_domains: [DD4]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "Awesome Electricity Demand"
+      - "DemandCast"
+
+  - id: pjm-com
+    name: "PJM Interconnection"
+    host: "pjm.com"
+    data_domains: [DD3, DD8]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "PJM Serial Service Requests / Cycle queue"
+      - "ISO/RTO capacity market publications"
+
+  - id: transitionzero-org
+    name: "TransitionZero"
+    host: "transitionzero.org"
+    data_domains: [DD2]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "TransitionZero Coal Asset Transition Tool"
+      - "TransitionZero Solar Asset Mapper"
+
+  - id: usgs-gov
+    name: "United States Geological Survey"
+    host: "usgs.gov"
+    data_domains: [DD5, DD10]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "USGS Resource Maps"
+      - "USGS PAD-US (Protected Areas Database of the US)"
+
+  - id: worldbank-org
+    name: "World Bank"
+    host: "worldbank.org"
+    data_domains: [DD7, DD9]
+    seed_datasets: 2
+    crawl: null
+    reviewed: false
+    examples:
+      - "World Bank Pink Sheet (commodity price data)"
+      - "World Bank Pink Sheet"
+
+  - id: aseanenergy-org
+    name: "ASEAN Centre for Energy"
+    host: "aseanenergy.org"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "ASEAN Energy Database System (AEDS)"
+
+  - id: bdw-github-com
+    name: "GridKit (individual maintainer)"
+    host: "github.com"
+    data_domains: [DD1]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "GridKit"
+
+  - id: ca-gov
+    name: "State of California"
+    host: "ww2.arb.ca.gov"
+    data_domains: [DD7]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "California / WCI cap-and-trade auction results"
+
+  - id: caiso-com
+    name: "California ISO"
+    host: "caiso.com"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "CAISO interconnection queue"
+
+  - id: climatetrace-org
+    name: "Climate TRACE"
+    host: "climatetrace.org"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Climate TRACE power sector"
+
+  - id: copernicus-dem-opendata-aws
+    name: "Copernicus DEM"
+    host: "registry.opendata.aws"
+    data_domains: [DD10]
+    seed_datasets: 1
+    organisation: "Copernicus / ESA"
+    covered_by_source: "aws_open_data"
+    crawl: null
+    reviewed: false
+    examples:
+      - "Copernicus GLO-30 DEM"
+
+  - id: cristianst85-github-com
+    name: "GeoNuclearData (individual maintainer)"
+    host: "github.com"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "GeoNuclearData"
+
+  - id: decarbamerica-org
+    name: "Decarb America"
+    host: "decarbamerica.org"
+    data_domains: [DD9]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Decarb America"
+
+  - id: dsgrid-github-io
+    name: "dsgrid (NREL)"
+    host: "dsgrid.github.io"
+    data_domains: [DD4]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "STRIDE"
+
+  - id: dsireusa-org
+    name: "DSIRE (NC Clean Energy Technology Center)"
+    host: "dsireusa.org"
+    data_domains: [DD8]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "DSIRE"
+
+  - id: ember-energy-org
+    name: "Ember"
+    host: "ember-energy.org"
+    data_domains: [DD8]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Ember Global Electricity Review + Renewable Target Tracker"
+
+  - id: entsog-eu
+    name: "ENTSOG (European Network of Transmission System Operators for Gas)"
+    host: "transparency.entsog.eu"
+    data_domains: [DD7]
+    seed_datasets: 1
+    organisation: "ENTSO-E / ENTSOG"
+    crawl: null
+    reviewed: false
+    examples:
+      - "ENTSOG Transparency Platform (gas pipeline capacity and flows)"
+
+  - id: entsos-tyndp-scenarios-eu
+    name: "ENTSO-E / ENTSOG TYNDP scenarios"
+    host: "2024.entsos-tyndp-scenarios.eu"
+    data_domains: [DD8]
+    seed_datasets: 1
+    organisation: "ENTSO-E / ENTSOG"
+    crawl: null
+    reviewed: false
+    examples:
+      - "ENTSO-E TYNDP Scenarios"
+
+  - id: ercot-com
+    name: "ERCOT"
+    host: "ercot.com"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "ERCOT Generation Interconnection Status (GIS) report"
+
+  - id: esa-worldcover-org
+    name: "ESA WorldCover"
+    host: "esa-worldcover.org"
+    data_domains: [DD10]
+    seed_datasets: 1
+    organisation: "Copernicus / ESA"
+    crawl: null
+    reviewed: false
+    examples:
+      - "ESA WorldCover"
+
+  - id: fema-gov
+    name: "Federal Emergency Management Agency"
+    host: "fema.gov"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "FEMA National Flood Hazard Layer"
+
+  - id: gadm-org
+    name: "GADM"
+    host: "gadm.org"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "GADM administrative boundaries"
+
+  - id: geofabrik-de
+    name: "Geofabrik (OpenStreetMap extracts)"
+    host: "download.geofabrik.de"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "OpenStreetMap (land use, infrastructure, boundaries)"
+
+  - id: globalenergymonitor-org
+    name: "Global Energy Monitor"
+    host: "globalenergymonitor.org"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Global Energy Monitor Global Integrated Power Tracker"
+
+  - id: globalforestwatch-org
+    name: "Global Forest Watch (WRI)"
+    host: "globalforestwatch.org"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Global Forest Watch / Hansen forest change"
+
+  - id: globalsolaratlas-info
+    name: "Global Solar Atlas (World Bank / Solargis)"
+    host: "globalsolaratlas.info"
+    data_domains: [DD5]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Global Solar Atlas"
+
+  - id: globalwindatlas-info
+    name: "Global Wind Atlas (DTU / World Bank)"
+    host: "globalwindatlas.info"
+    data_domains: [DD5]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Global Wind Atlas"
+
+  - id: gridstatus-io
+    name: "GridStatus"
+    host: "gridstatus.io"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "GridStatus.io ISO data"
+
+  - id: irena-org
+    name: "International Renewable Energy Agency"
+    host: "irena.org"
+    data_domains: [DD9]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "IRENA Renewable Cost Data"
+
+  - id: iso-ne-com
+    name: "ISO New England"
+    host: "iso-ne.com"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "ISO-NE Interconnection Request Queue"
+
+  - id: matpower-org
+    name: "MATPOWER"
+    host: "matpower.org"
+    data_domains: [DD1]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "MATPOWER case archive"
+
+  - id: misoenergy-org
+    name: "MISO"
+    host: "misoenergy.org"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "MISO Generator Interconnection Queue"
+
+  - id: mrlc-gov
+    name: "Multi-Resolution Land Characteristics Consortium"
+    host: "mrlc.gov"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "USGS National Land Cover Database (NLCD)"
+
+  - id: nasa-gov
+    name: "NASA"
+    host: "disc.gsfc.nasa.gov"
+    data_domains: [DD5]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "NASA MERRA-2"
+
+  - id: naturalearthdata-com
+    name: "Natural Earth"
+    host: "naturalearthdata.com"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Natural Earth"
+
+  - id: nerc-com
+    name: "North American Electric Reliability Corporation"
+    host: "nerc.com"
+    data_domains: [DD8]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "NERC Reliability Standards (TPL-001, MOD-032, FAC-001, FAC-008)"
+
+  - id: nrel-github-com
+    name: "National Renewable Energy Laboratory"
+    host: "github.com"
+    data_domains: [DD1]
+    seed_datasets: 1
+    organisation: "NREL"
+    crawl: null
+    reviewed: false
+    examples:
+      - "NREL ReEDS Transmission Network"
+
+  - id: nrel-sienna-github-com
+    name: "NREL Sienna"
+    host: "github.com"
+    data_domains: [DD1]
+    seed_datasets: 1
+    organisation: "NREL"
+    crawl: null
+    reviewed: false
+    examples:
+      - "Sienna / SiennaGridDB reference systems"
+
+  - id: nyiso-com
+    name: "NYISO"
+    host: "nyiso.com"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "NYISO Interconnection Queue"
+
+  - id: open-power-system-data-org
+    name: "Open Power System Data"
+    host: "data.open-power-system-data.org"
+    data_domains: [DD5]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "OPSD (Open Power System Data)"
+
+  - id: openelectricity-org-au
+    name: "Open Electricity (Australia)"
+    host: "explore.openelectricity.org.au"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "OpenNEM (Australian National Electricity Market)"
+
+  - id: openenergyplatform-org
+    name: "Open Energy Platform"
+    host: "openenergyplatform.org"
+    data_domains: [DD1]
+    seed_datasets: 1
+    covered_by_source: "open_energy_platform"
+    crawl: null
+    reviewed: false
+    examples:
+      - "Open Energy Ontology / OEP grid tables"
+
+  - id: openinframap-org
+    name: "OpenInfraMap"
+    host: "openinframap.org"
+    data_domains: [DD1]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Open Infrastructure Map"
+
+  - id: osemosys-org
+    name: "OSeMOSYS"
+    host: "osemosys.org"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "OSeMOSYS starter kits"
+
+  - id: owid-github-com
+    name: "Our World in Data"
+    host: "github.com"
+    data_domains: [DD4]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Our World in Data energy dataset"
+
+  - id: pnnl-gov
+    name: "Pacific Northwest National Laboratory"
+    host: "pnnl.gov"
+    data_domains: [DD6]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "PNNL Energy Storage Cost and Performance Database"
+
+  - id: power-grid-lib-github-com
+    name: "Power Grid Lib"
+    host: "github.com"
+    data_domains: [DD1]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "PowerGridLib / pglib-opf"
+
+  - id: protectedplanet-net
+    name: "Protected Planet (UNEP-WCMC)"
+    host: "protectedplanet.net"
+    data_domains: [DD10]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Protected Planet / World Database on Protected Areas (WDPA)"
+
+  - id: pypsa-meets-earth-github-com
+    name: "PyPSA-Earth"
+    host: "github.com"
+    data_domains: [DD1]
+    seed_datasets: 1
+    organisation: "PyPSA"
+    crawl: null
+    reviewed: false
+    examples:
+      - "PyPSA-Earth Global Grid Dataset"
+
+  - id: renewables-ninja
+    name: "Renewables.ninja"
+    host: "renewables.ninja"
+    data_domains: [DD5]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "Renewables.ninja"
+
+  - id: rggi-org
+    name: "Regional Greenhouse Gas Initiative"
+    host: "rggi.org"
+    data_domains: [DD7]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "RGGI auction results"
+
+  - id: sandia-gov
+    name: "Sandia National Laboratories"
+    host: "sandia.gov"
+    data_domains: [DD6]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "DOE Global Energy Storage Database (Sandia)"
+
+  - id: spp-org
+    name: "Southwest Power Pool"
+    host: "spp.org"
+    data_domains: [DD3]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "SPP Generator Interconnection Queue"
+
+  - id: starter-data-kit-github-io
+    name: "OSeMOSYS Starter Data Kits (CCG)"
+    host: "starter-data-kit.github.io"
+    data_domains: [DD9]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "OSeMOSYS Starter Data Kits (49 Sub-Saharan African countries)"
+
+  - id: tamu-edu
+    name: "Texas A&M University"
+    host: "electricgrids.engr.tamu.edu"
+    data_domains: [DD1]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "TAMU Synthetic Grid Data"
+
+  - id: wri-github-com
+    name: "World Resources Institute"
+    host: "github.com"
+    data_domains: [DD2]
+    seed_datasets: 1
+    crawl: null
+    reviewed: false
+    examples:
+      - "WRI Global Power Plant Database"
