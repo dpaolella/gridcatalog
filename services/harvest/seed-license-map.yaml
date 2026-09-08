@@ -150,6 +150,19 @@ license_ref:
       the same as public domain: absent an explicit grant, default copyright
       applies and redistribution may not be permitted. Treat as unresolved.
     redistribution_allowed: false
+  "commercial, redistribution prohibited":
+    id: LicenseRef-Commercial-No-Redistribution
+    note: >-
+      A commercial product. The terms permit use by a subscriber and prohibit
+      redistribution, so OpenGrid can point at it and describe it but can never
+      mirror it or republish a derivative containing its values.
+
+      `commercial_use_allowed` is deliberately unset rather than false: a paying
+      subscriber may certainly use this commercially — that is what the product
+      is for — and the restriction is on redistribution, not on the class of
+      user. Setting it false would read as a non-commercial licence, which is
+      the opposite claim.
+    redistribution_allowed: false
   "free with attribution, commercial restricted":
     id: LicenseRef-Free-Attribution-Non-Commercial
     note: "Free with attribution; commercial use restricted."

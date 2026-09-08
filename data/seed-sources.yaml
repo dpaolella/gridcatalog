@@ -249,6 +249,7 @@ seed_datasets:
         verified: true
       - name: NREL ReEDS Transmission Network
         tier: 3
+        license: open access, no formal license stated
         provenance: curated
         access: https://github.com/NREL/ReEDS-2.0
         format: CSV
@@ -257,6 +258,7 @@ seed_datasets:
         verified: true
       - name: ENTSO-E Grid Map
         tier: 3
+        license: custom ENTSO-E terms, free to view, non-commercial redistribution with attribution
         provenance: institutional
         access: https://www.entsoe.eu/data/
         format: PDF
@@ -275,6 +277,7 @@ seed_datasets:
         verified: true
       - name: GridKit
         tier: 3
+        license: open access, no formal license stated
         provenance: osm-derived
         access: https://github.com/bdw/GridKit
         format: CSV
@@ -284,6 +287,7 @@ seed_datasets:
         verified: true
       - name: SciGRID (German HV Tx Network)
         tier: 3
+        license: open access, no formal license stated
         provenance: osm-derived
         format: CSV
         anonymous: true
@@ -691,6 +695,7 @@ seed_datasets:
         verified: true
       - name: GridPath RA Toolkit (weather component)
         tier: 3
+        license: Apache-2.0 (code), WECC ADS input data redistribution restricted
         provenance: curated
         format: CSV
         anonymous: true
@@ -708,6 +713,7 @@ seed_datasets:
         verified: true
       - name: 4C Offshore Wind Database
         tier: 3
+        license: commercial, redistribution prohibited
         provenance: primary
         anonymous: false
         bulk: false
@@ -715,6 +721,7 @@ seed_datasets:
         verified: true
       - name: Wood Mackenzie Wind/Solar
         tier: 3
+        license: commercial, redistribution prohibited
         anonymous: false
         bulk: false
         access_barrier: commercial-paywall
@@ -932,6 +939,7 @@ seed_datasets:
         verified: false
       - name: IEA Policies and Measures Database (PAMS)
         tier: 3
+        license: custom IEA terms, free to share with attribution, non-commercial redistribution permitted
         provenance: curated
         access: https://www.iea.org/policies
         anonymous: true
@@ -940,6 +948,7 @@ seed_datasets:
         verified: true
       - name: Sustainable Views Policy Tracker
         tier: 3
+        license: commercial, redistribution prohibited
         provenance: curated
         anonymous: false
         bulk: false
@@ -1037,6 +1046,7 @@ seed_datasets:
         verified: true
       - name: Lazard LCOE+
         tier: 3
+        license: open access, no formal license stated
         provenance: modeled
         format: PDF
         anonymous: true
@@ -1057,6 +1067,7 @@ seed_datasets:
         verified: true
       - name: Decarb America
         tier: 3
+        license: terms not formally specified
         provenance: curated
         access: https://decarbamerica.org/methodology/
         format: XLSX
