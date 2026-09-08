@@ -1,0 +1,213 @@
+name: Image
+
+# Build the container that gets deployed, and boot it.
+#
+# `deploy-mcp.yml` builds `ops/Dockerfile.mcp` on Fly's *remote* builder, so
+# until this workflow existed the first build of that image would have happened
+# inside the first real deploy. It had never been built anywhere — and it did
+# not work. Two bugs of the same shape, both found the first time it was built
+# (issue #64, stage 0):
+#
+#   * `datahub db upgrade` asked alembic for
+#     `.../site-packages/ops/migrations`, and
+#   * `graph bootstrap` reported `files=0 triples=0` and then died on a shapes
+#     file that was not there.
+#
+# Both resolved their files relative to the *repository root*, which is what
+# `Path(__file__).parents[1]` means for an editable install — how every
+# developer, every other CI job and `pages.yml` run this code — and is
+# `site-packages` for the wheel that every Dockerfile here installs.
+#
+# So this workflow exists to make sure the deployment artefact is exercised
+# somewhere other than production. Its own file rather than a job in `ci.yml`
+# because the catalog is built inside the image and that takes minutes; a
+# lint-and-test run should not wait on it.
+
+on:
+  push:
+    # Everything that can break the image. A push that only touches docs does
+    # not need ten minutes of Docker.
+    paths:
+      - "ops/Dockerfile*"
+      - "ops/migrations/**"
+      - "ops/alembic.ini"
+      - ".dockerignore"
+      - "pyproject.toml"
+      - "services/**"
+      - "data/**"
+      - "vocab/**"
+      - "shapes/**"
+      - "schemas/**"
+      - "config/**"
+      - "tests/fixtures/records/**"
+      - ".github/workflows/image.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: image-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  mcp:
+    name: ops/Dockerfile.mcp — build, boot, serve
+    runs-on: ubuntu-latest
+    # The catalog build inside the image is the slow part: loading 306 records,
+    # grading them, indexing twice and probing every link.
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        # Plain progress because the next step reads the context size out of it.
+        run: |
+          set -o pipefail
+          DOCKER_BUILDKIT=1 docker build --progress=plain \
+            -f ops/Dockerfile.mcp -t datahub-mcp:ci . 2>&1 | tee build.log
+
+      - name: The build context has not quietly become enormous
+        # There was no `.dockerignore`. From a clean checkout that meant about
+        # 23 MB — the tracked tree plus `.git` — which is survivable. From a
+        # working tree it meant **1.4 GB**, because `web/node_modules` is
+        # 715 MB and `var/` 231 MB and neither is referenced by any Dockerfile
+        # here. That second number is the one that matters: `fly deploy` from a
+        # laptop is the documented path in `docs/mcp-deployment.md`, and
+        # `--remote-only` uploads the context over the network.
+        #
+        # `.dockerignore` names the offenders it knows about; this is the part
+        # that notices a new one. The number is BuildKit's own, so it is what
+        # was actually sent rather than an estimate — with the caveat that
+        # BuildKit sends a context *incrementally* against a warm cache, and
+        # then reports only the delta. A GitHub runner starts with a cold
+        # daemon, so here it is the whole thing; if this job ever gains a build
+        # cache, this check goes blind rather than red and must be rewritten.
+        env:
+          CEILING_MB: 50
+        run: |
+          # BuildKit picks the unit, so read it rather than assume MB: a small
+          # context prints kB and a grep for MB would find nothing and call it
+          # a format change.
+          MB=$(grep -oE 'transferring context: [0-9.]+ ?[kKMGT]?B' build.log \
+               | sed 's/.*transferring context: //' | awk '
+            {
+              # The whole size token, so "11.83MB" and "11.83 MB" parse alike.
+              n = $0 + 0; u = $0; sub(/^[0-9.]+ ?/, "", u)
+              if (u == "B")  n /= 1048576
+              else if (u == "kB" || u == "KB") n /= 1024
+              else if (u == "GB") n *= 1024
+              else if (u == "TB") n *= 1048576
+              if (n > max) max = n
+            }
+            END { if (NR) printf "%.2f", max }')
+          if [ -z "$MB" ]; then
+            echo "::error::could not read the context size out of the build log." \
+                 "BuildKit's progress format may have changed; this check is now blind."
+            exit 1
+          fi
+          echo "build context transferred: ${MB} MB (ceiling ${CEILING_MB} MB)" >> "$GITHUB_STEP_SUMMARY"
+          if awk -v m="$MB" -v c="$CEILING_MB" 'BEGIN { exit !(m > c) }'; then
+            echo "::error::the build context is ${MB} MB, over the ${CEILING_MB} MB" \
+                 "ceiling. Something large joined the tree and .dockerignore does" \
+                 "not exclude it. Every deploy uploads this."
+            exit 1
+          fi
+
+      - name: It ships no test tree
+        # `ops/Dockerfile.mcp` builds the catalog from `tests/fixtures/records`
+        # in its first stage and copies only the *output* into the second,
+        # deliberately, so that a production image carries no test directory.
+        # That is a property of the Dockerfile that a passing build does not
+        # demonstrate.
+        run: |
+          if docker run --rm --entrypoint sh datahub-mcp:ci -c 'test -e /app/tests'; then
+            echo "::error::the runtime image contains /app/tests. The two-stage" \
+                 "split in ops/Dockerfile.mcp has stopped doing its job."
+            exit 1
+          fi
+
+      - name: Boot it, with the memory Fly gives it
+        # `--memory 512m` is `fly.toml`'s `[[vm]] memory`. The catalog is an
+        # in-memory rdflib graph, so the honest way to find out whether 512 MB
+        # is enough is to hold the container to it here rather than discover it
+        # as a restart loop on a paid machine.
+        run: |
+          docker run -d --name mcp --memory 512m -p 8000:8000 datahub-mcp:ci
+
+      - name: It answers
+        run: |
+          for attempt in $(seq 1 60); do
+            if curl -sf --max-time 5 http://127.0.0.1:8000/v1/health > /dev/null; then
+              echo "healthy after ${attempt}s"
+              exit 0
+            fi
+            if [ "$(docker inspect -f '{{.State.OOMKilled}}' mcp)" = "true" ]; then
+              echo "::error::the container was OOM-killed at 512 MB, which is what" \
+                   "fly.toml gives it. Raise [[vm]] memory there — 1 GB is the next" \
+                   "step up — or make the graph smaller."
+              exit 1
+            fi
+            if [ "$(docker inspect -f '{{.State.Running}}' mcp)" != "true" ]; then
+              echo "::error::the container exited before serving anything."
+              docker logs mcp
+              exit 1
+            fi
+            sleep 1
+          done
+          echo "::error::no answer from /v1/health after 60s."
+          docker logs mcp
+          exit 1
+
+      - name: It is serving a catalog, and not an empty one
+        # A container whose catalog build produced nothing passes every check
+        # above: the process starts, the store is valid, and `/v1/health` is
+        # about the process rather than its contents. This is the check that
+        # `graph bootstrap` reporting `files=0 triples=0` would have failed.
+        run: |
+          TOTAL=$(curl -sf --max-time 10 'http://127.0.0.1:8000/v1/datasets?limit=1' \
+                  | python3 -c 'import json,sys; print(json.load(sys.stdin)["total"])')
+          echo "records served: ${TOTAL}" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${TOTAL:-0}" -lt 1 ]; then
+            echo "::error::the API is up and the catalog is empty. The image built" \
+                 "and shipped nothing to serve."
+            docker logs mcp
+            exit 1
+          fi
+
+      - name: The MCP handshake works
+        # The same request `deploy-mcp.yml` makes after a deploy, made here
+        # instead — where failing it costs a red build rather than a broken
+        # connector somebody has already been given the URL for. The handshake
+        # is the first thing a reader's client does, so it is the thing to ask.
+        run: |
+          BODY=$(curl -sS --max-time 20 \
+            -H 'Accept: application/json, text/event-stream' \
+            -H 'Content-Type: application/json' \
+            -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"1"}}}' \
+            http://127.0.0.1:8000/mcp/ || true)
+          if ! echo "$BODY" | grep -q '"serverInfo"'; then
+            echo "::error::the MCP endpoint did not complete a handshake."
+            echo "$BODY"
+            docker logs mcp
+            exit 1
+          fi
+
+      - name: How big, and how hungry
+        # Reported rather than asserted. `fly.toml` picked 512 MB with a comment
+        # saying it is "the number to revisit first when the catalog grows";
+        # this is where that number stops being a guess. The image size is the
+        # other half of a deploy's cost.
+        if: always()
+        run: |
+          {
+            echo "| | |"
+            echo "|---|---|"
+            echo "| image | $(docker image inspect datahub-mcp:ci \
+                   --format '{{.Size}}' | numfmt --to=iec) |"
+            echo "| resident | $(docker stats --no-stream --format '{{.MemUsage}}' mcp) |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: What it said
+        if: failure()
+        run: docker logs mcp || true

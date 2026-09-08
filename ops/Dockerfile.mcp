@@ -78,6 +78,7 @@ COPY shapes ./shapes
 COPY vocab ./vocab
 COPY data ./data
 COPY config ./config
+COPY ops/mcp-entrypoint.sh /usr/local/bin/mcp-entrypoint.sh
 
 # The built catalog, and nothing else from the builder: no test tree, no
 # migrations, no build toolchain.
@@ -99,4 +100,8 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
   CMD curl -fsS "http://localhost:${PORT}/v1/health" || exit 1
 
-CMD ["sh", "-c", "uvicorn datahub.mcp.asgi:app --host 0.0.0.0 --port ${PORT}"]
+# Through the entrypoint rather than straight to uvicorn: this image sets
+# `DATAHUB_ENVIRONMENT=production`, and `Settings` refuses to start in
+# production on the published development secret. See the script for why
+# generating one satisfies that guard instead of evading it.
+CMD ["/usr/local/bin/mcp-entrypoint.sh"]
