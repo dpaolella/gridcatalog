@@ -126,6 +126,12 @@ class Snapshot:
             self._with_search_text(client, summaries)
             self._write("index.json", self._index(summaries))
             self._write("domains.json", self._get(client, "/v1/domains"))
+            # The whole register, not a page of it: nineteen entries, and the
+            # static site's empty state needs to match against all of them
+            # client-side. A gap is what the catalog says when it has no
+            # dataset to offer, so a snapshot without it publishes the silence
+            # and not the answer (#56).
+            self._write("gaps.json", self._get(client, "/v1/gaps?limit=100"))
             self._write("facets.json", self._facets(client))
 
             for summary in summaries:

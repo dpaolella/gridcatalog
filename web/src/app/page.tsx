@@ -1,8 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import { IS_SNAPSHOT, search } from "@/lib/api";
+import { IS_SNAPSHOT, search, searchGaps } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { Facets } from "@/components/Facets";
+import { GapNotice } from "@/components/GapNotice";
 import { ResultRow } from "@/components/ResultRow";
 import { SearchBar } from "@/components/SearchBar";
 import { StaticSearch } from "@/components/StaticSearch";
@@ -86,6 +87,11 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
   });
 
   const hasQuery = Object.keys(params).some((key) => key !== "offset");
+  // Only when there is nothing to show and something was actually asked for.
+  // A gap notice under a full result list would be noise, and one under an
+  // unfiltered landing page would be answering a question nobody asked.
+  const asked = Array.isArray(params.q) ? params.q[0] : params.q;
+  const gaps = response.results.length === 0 && asked ? await searchGaps(asked) : [];
 
   return (
     <>
@@ -134,6 +140,13 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
                   concept: "globalHorizontalIrradiance",
                 })}
               </p>
+              {/* The answer this catalog can give that a search engine cannot.
+                  A reader who typed "nodal demand", got nothing, and is told
+                  only "no datasets match" has learned that the catalog is
+                  small. Told that nothing open supplies it, with who found
+                  that and when, they have learned something true about the
+                  field — PRD §5, saying what does not exist is a feature. */}
+              <GapNotice gaps={gaps} />
             </EmptyState>
           ) : (
             <ul className="space-y-4">

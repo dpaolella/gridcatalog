@@ -222,3 +222,24 @@ test("the caveats a steward wrote are on the page", async ({ page }) => {
     page.getByText(/does not resolve individual wind farms/i),
   ).toBeVisible();
 });
+
+test("an empty search names the gap when there is one", async ({ page }) => {
+  // PRD §5: saying what does not exist is a feature. "No datasets match this
+  // search" tells a reader the catalog is small; "nothing open supplies this,
+  // here is why, here is who found that and when" tells them something true
+  // about the field (#56).
+  //
+  // `max upward ramp` is the worked case, chosen because it is one of the few
+  // gap entries whose wording finds *no* datasets in the seeded catalog. The
+  // notice only renders on an empty result set, so a query matching both would
+  // test nothing — "nodal demand" reads better and returns three datasets.
+  await page.goto("/?q=max+upward+ramp");
+
+  await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Nothing open supplies this/i }),
+  ).toBeVisible();
+  await expect(page.getByText(/per-plant or per-unit basis/i)).toBeVisible();
+  // The attribution, which is what makes the claim weighable at all.
+  await expect(page.getByText(/Open Energy Data Inventory/i)).toBeVisible();
+});

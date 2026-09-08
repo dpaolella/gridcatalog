@@ -25,7 +25,7 @@ module rather than trusting review.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Annotated, Any, Literal, Self
 
 from datahub.api.search.document import (
@@ -952,6 +952,75 @@ class AccessPlanResponse(ApiModel):
     @classmethod
     def from_plan(cls, plan: Any) -> Self:
         return cls(**{f: getattr(plan, f) for f in cls.model_fields})
+
+
+# ---------------------------------------------------------------------------
+# The gap register
+# ---------------------------------------------------------------------------
+
+
+class DataGapModel(ApiModel):
+    """A data requirement with no known open supplier (#56).
+
+    Shaped so it cannot be mistaken for a dataset: no licence, no access path,
+    no quality grade, no completeness level. What it has instead is a reason,
+    an observer and a date, because a claim about the whole open landscape is
+    only worth anything if a reader can see who made it and when.
+    """
+
+    id: str
+    title: str
+    domain: str = Field(description="DD1-DD10.")
+    category: str = Field(description="The requirement's place in the source inventory.")
+    reason: str = Field(description="Why nothing open supplies this.")
+    observed_by: str
+    observed: str
+    review_after: date | None = Field(
+        default=None,
+        description="When somebody should re-check whether this is still true.",
+    )
+    stale: bool = Field(
+        default=False,
+        description=(
+            "The review date has passed. Surfaced rather than acted on: an out-of-date "
+            "'nothing supplies this' misleads, and hiding the entry would lose both the "
+            "finding and the fact that it was made."
+        ),
+    )
+    needed_by: list[str] = Field(
+        default_factory=list,
+        description="Analysis classes that require this, from the analysis-type scheme.",
+    )
+    kind: str | None = Field(
+        default=None, description="Whether the requirement is primary data or a model output."
+    )
+
+    @classmethod
+    def of(cls, gap: Any) -> Self:
+        return cls(
+            id=gap.id,
+            title=gap.title,
+            domain=gap.domain,
+            category=gap.category,
+            reason=gap.reason,
+            observed_by=gap.observed_by,
+            observed=gap.observed,
+            review_after=gap.review_after,
+            stale=gap.stale,
+            needed_by=list(gap.needed_by),
+            kind=gap.kind,
+        )
+
+
+class GapSearchResponse(ApiModel):
+    """Counted separately from datasets, and named so.
+
+    `total` here is a count of *absences*. A caller adding it to a dataset
+    count would be counting things that do not exist alongside things that do.
+    """
+
+    total: int
+    gaps: list[DataGapModel] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
