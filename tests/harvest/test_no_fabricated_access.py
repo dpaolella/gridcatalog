@@ -145,10 +145,13 @@ def test_the_records_with_no_access_path_are_the_reference_only_ones(catalog) ->
     assert not not_reference_only, (
         f"a dataset the catalog offers has no access path: {sorted(not_reference_only)}"
     )
-    # The seed inventory has 34 such rows. Pinned so that a change which quietly
-    # publishes fewer records, or strips more distributions, has to say so here.
-    assert len(without) == 34, (
-        f"{len(without)} records have no access path; the seed inventory has 34 "
+    # 23 such rows. It was 34 until the Open Energy Data Inventory workbook and
+    # the Notion domain assessment were mined for access paths the inventory had
+    # left blank, which gave eleven of them one. Pinned so that a change which
+    # quietly publishes fewer records, or strips more distributions, has to say
+    # so here.
+    assert len(without) == 23, (
+        f"{len(without)} records have no access path; the seed inventory has 23 "
         "tier 3 pointers with no URL, no DOI and no secondary access"
     )
 
@@ -164,12 +167,16 @@ def test_a_dataset_with_an_access_url_still_has_its_distribution(catalog) -> Non
 def test_the_rationale_records_an_absence_rather_than_asserting_a_fact(catalog) -> None:
     """PRD §14.2: a missing field means "not captured", never "does not exist".
 
-    Three of the 34 have no `pointer_rationale` and no `access_barrier` in the
+    One of the 23 has no `pointer_rationale` and no `access_barrier` in the
     inventory, so the loader supplies one. It has to say that *the inventory*
     records no reason — not that the dataset cannot be obtained, which nobody
     established.
+
+    It used to be three, and ReEDS was the example here until the gap-fill from
+    the source documents gave it a real access path. The fallback is meant to
+    shrink like that: every row it covers is a row nobody has looked at yet.
     """
-    node = catalog["nrel-reeds-transmission-network"]
+    node = catalog["pypsa-earth-weather-cutouts"]
     rationale = str(node.get("pointerRationale") or "")
     assert "no reason" in rationale, rationale
     assert "unexamined" in rationale, (
