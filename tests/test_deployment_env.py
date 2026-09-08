@@ -155,3 +155,53 @@ def test_any_build_time_name_the_web_image_sets_is_set_before_the_build() -> Non
         "these are declared after `npm run build`, which has already inlined "
         f"whatever they were not: {late}"
     )
+
+
+# ---------------------------------------------------------------------------
+# The mirror of dead configuration: a name the code *requires* and nothing sets
+# ---------------------------------------------------------------------------
+
+
+def _dockerfiles() -> list[Path]:
+    return sorted(ROOT.glob("ops/Dockerfile*"))
+
+
+@pytest.mark.parametrize("dockerfile", _dockerfiles(), ids=lambda p: p.name)
+def test_an_image_claiming_production_arranges_a_secret_key(dockerfile: Path) -> None:
+    """`Settings` refuses to start outside development on the published default
+    secret, so an image that sets `DATAHUB_ENVIRONMENT=production` and no key
+    builds cleanly and then dies on its first line.
+
+    `ops/Dockerfile.mcp` did exactly that. It had never been built, so the
+    container that Fly would have restarted forever was found by
+    `.github/workflows/image.yml` on its first run rather than by a bill
+    (issue #64, stage 0).
+
+    The key may be arranged either way: an `ENV` in the Dockerfile, or an
+    entrypoint that generates one — which is what the MCP image does, and why
+    this looks through to the script rather than only at the Dockerfile.
+    """
+    text = dockerfile.read_text()
+    environment = re.search(r"DATAHUB_ENVIRONMENT=(\S+)", text)
+    if environment is None or environment.group(1) == "development":
+        pytest.skip(f"{dockerfile.name} does not claim a non-development environment")
+
+    arranged = "DATAHUB_SECRET_KEY" in text
+    for script in re.findall(r"(ops/[\w.-]+\.sh)", text):
+        candidate = ROOT / script
+        if candidate.is_file() and "DATAHUB_SECRET_KEY" in candidate.read_text():
+            arranged = True
+
+    assert arranged, (
+        f"{dockerfile.name} sets DATAHUB_ENVIRONMENT={environment.group(1)} and nothing "
+        "arranges DATAHUB_SECRET_KEY. Settings refuses to start: the image will build "
+        "and the container will die on its first line."
+    )
+
+
+@pytest.mark.parametrize("script", sorted(ROOT.glob("ops/*.sh")), ids=lambda p: p.name)
+def test_an_entrypoint_script_is_executable(script: Path) -> None:
+    """A `CMD ["/usr/local/bin/x.sh"]` against a file without the bit set is an
+    exec format error at start, which is a crash loop rather than a build
+    failure — the same shape of problem as the one above."""
+    assert script.stat().st_mode & 0o111, f"{script.name} is not executable"
