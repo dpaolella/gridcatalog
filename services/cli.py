@@ -654,7 +654,7 @@ def record_export(
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.records import RecordStore, dataset_node
     from datahub.graph.store import make_store
-    from datahub.harvest.seed import REGENERABLE_SOURCES
+    from datahub.harvest.seed import REGENERABLE_SOURCES, regenerable_slugs
 
     try:
         target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
@@ -669,6 +669,7 @@ def record_export(
     touched_sources: set[Path] = set()
     kept: set[Path] = set()
     regenerable = 0
+    regenerated = regenerable_slugs()
 
     with make_store() as store:
         records = RecordStore(store)
@@ -679,8 +680,10 @@ def record_export(
             # the top level silently filed all 121 records under `unknown/`,
             # which is the same mistake the promotion gates made and the reason
             # `dataset_node` exists.
-            source = str(dataset_node(document).get("harvestSource") or "unknown")
-            if source in REGENERABLE_SOURCES:
+            node = dataset_node(document)
+            slug = dataset_id.rsplit("/", 1)[-1]
+            source = str(node.get("harvestSource") or "unknown")
+            if source in REGENERABLE_SOURCES or slug in regenerated:
                 # `data/catalog/README.md`: this tree is the system of record
                 # "for everything that did not come from ../seed-sources.yaml".
                 # A `curated` record came from exactly there — `seed load`
@@ -694,6 +697,15 @@ def record_export(
                 # reaches the site. 91 such files were deleted in `d0ef0a5`
                 # after the fabricated `no-known-access-path` URL went live
                 # again; without this line the next harvest recreates them.
+                #
+                # Two tests, because there are two ways in. The marker catches
+                # a record the seed loader made and still owns. The slug catches
+                # a *harvested* record that landed on a slug the inventory also
+                # produces — which the marker cannot see, because refreshing a
+                # published record in place (#31) rewrites `harvestSource` to
+                # the harvesting adapter. `harvest/auto` carried exactly that:
+                # `ecmwf-era5` with 0 fields and an unreviewed generated licence,
+                # ready to overwrite the golden record's 277.
                 regenerable += 1
                 continue
             folder = root / _safe_name(source)

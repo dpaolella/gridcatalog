@@ -403,10 +403,20 @@ def test_export_still_writes_harvested_records(runner, bootstrapped, tmp_path) -
     from datahub.graph.records import RecordStore
     from datahub.graph.store import make_store
 
+    # Re-identified onto a slug the seed inventory does NOT produce. It used to
+    # reuse `ecmwf-era5` as-is, which was incidental and became wrong once the
+    # exporter learned to skip regenerated slugs: the test would then assert
+    # that a record it is *right* to skip gets written.
+    from datahub.harvest.seed import regenerable_slugs
+
+    slug = "a-genuinely-harvested-dataset"
+    assert slug not in regenerable_slugs()
+
     source = FIXTURES / "records" / "ecmwf-era5.jsonld"
     document = json.loads(source.read_text())
     node = document["@graph"][0] if "@graph" in document else document
     node["harvestSource"] = "zenodo"
+    node["id"] = f"https://catalog.opengrid.org/ds/{slug}"
 
     with make_store() as store:
         RecordStore(store).put(document, validate=False)
@@ -416,3 +426,46 @@ def test_export_still_writes_harvested_records(runner, bootstrapped, tmp_path) -
     assert result.exit_code == 0, result.output
     written = sorted(p.name for p in (out / "zenodo").glob("*.jsonld"))
     assert written, "a harvested record was not exported; git is its only home"
+
+
+def test_export_skips_a_harvested_record_on_a_regenerated_slug(runner, bootstrapped, tmp_path):
+    """The other way a shadowing record gets written (#68).
+
+    `test_export_skips_records_the_build_regenerates` covers a record the seed
+    loader made and still owns — `og:harvestSource` is `curated` and the marker
+    catches it. This is the case the marker cannot see: a *harvested* record
+    that resolves to a slug the inventory also produces. Refreshing a published
+    record in place (#31) rewrites `harvestSource` to the harvesting adapter,
+    so the marker no longer recognises it and the export writes it out.
+
+    `harvest/auto` carried exactly this. `ecmwf-era5` came back from a harvest
+    with **0** fields and a `LicenseRef-Unreviewed-generated-…` licence, and
+    `pages.yml` loads `data/catalog/*/` last — so it would have replaced the
+    golden record's 4 hand-authored fields plus 273 persisted ones, and worn
+    its `confirmed` review state while doing it.
+    """
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import make_store
+    from datahub.harvest.seed import regenerable_slugs
+
+    slug = "ecmwf-era5"
+    assert slug in regenerable_slugs(), "the fixture for this test is no longer a seed row"
+
+    source = FIXTURES / "records" / f"{slug}.jsonld"
+    document = json.loads(source.read_text())
+    node = document["@graph"][0] if "@graph" in document else document
+    node["harvestSource"] = "yaml_repo"  # what a re-harvest leaves behind
+
+    with make_store() as store:
+        RecordStore(store).put(document, validate=False)
+
+    out = tmp_path / "exported"
+    result = runner.invoke(app, ["record", "export", str(out), "--graph", "catalog", "--json"])
+    assert result.exit_code == 0, result.output
+
+    written = sorted(p.name for p in out.rglob("*.jsonld"))
+    assert written == [], (
+        f"a harvested record on a regenerated slug was exported and would shadow the "
+        f"golden one: {written}"
+    )
+    assert json.loads(result.stdout)["regenerable_skipped"] == 1

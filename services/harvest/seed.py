@@ -784,6 +784,37 @@ def _vintage(raw: Any) -> str | None:
         return None
 
 
+def regenerable_slugs(settings: Settings | None = None) -> frozenset[str]:
+    """Every dataset slug the build recreates from `data/seed-sources.yaml`.
+
+    `record export` reads this to decide what not to write, and it is the
+    second half of the rule `REGENERABLE_SOURCES` states. That one keys on
+    `og:harvestSource`, which catches a record the seed loader made and still
+    owns. This one catches the case that slips past it: a *harvested* record
+    that resolves to a slug the seed inventory also produces.
+
+    Both `ecmwf-era5` and `global-wind-atlas` arrived that way. A harvest found
+    them at their publishers, the runner refreshed the published record in
+    place — correctly, per #31 — and `og:harvestSource` became `ckan` /
+    `yaml_repo`, so the marker-based skip no longer recognised them. Exported,
+    they would be loaded *after* `seed load` and win: ERA5 with **0** fields
+    and an unreviewed generated licence, in place of the golden record's 4
+    hand-authored fields plus 273 persisted ones.
+
+    Read from the file rather than by running the loader: identity is
+    `_slug_of`, which is a pure function of the row, and building the whole
+    catalog to learn its slugs would make every export pay for a graph it
+    throws away.
+    """
+    settings = settings or get_settings()
+    document = yaml.safe_load(settings.seed_sources_path.read_text())
+    return frozenset(
+        _slug_of(entry)
+        for block in (document.get("seed_datasets") or {}).values()
+        for entry in (block.get("datasets") or [])
+    )
+
+
 def _slug_of(entry: dict[str, Any]) -> str:
     """This row's identity: the ``slug`` key if the file gives one, else the name.
 

@@ -66,17 +66,21 @@ def generated() -> set[str]:
     return seeded | {p.stem for p in FIXTURES.glob("*.jsonld")}
 
 
-#: Harvested records that happen to share a slug with a seed or golden-set
-#: record — the same dataset arriving twice, once because a human listed it and
-#: once because a harvester found it. Unlike the stale exports above these are
-#: not regenerable and must not be deleted; the fix is identity resolution, so
-#: two sources for one dataset merge into one record instead of racing to be
-#: loaded last.
+#: Empty, and it has to stay that way now (#68).
 #:
-#: Pinned rather than waived. Both currently carry 24 populated fields either
-#: way, so nothing is lost today, and a third entry appearing means the
-#: collision rate is growing while the merge is still unbuilt.
-KNOWN_COLLISIONS = {"esa-worldcover", "nasa-merra-2"}
+#: This used to waive `esa-worldcover` and `nasa-merra-2` — one dataset arriving
+#: twice, once because a human listed it and once because a harvester found it —
+#: on the grounds that nothing was lost while both copies carried the same 24
+#: fields. `harvest/auto` showed what that waiver was actually protecting: two
+#: more arrived, `ecmwf-era5` and `global-wind-atlas`, and the harvested ERA5
+#: had **0** fields and a `LicenseRef-Unreviewed-generated-…` licence against
+#: the golden record's 4 hand-authored plus 273 persisted. Loaded last, it wins.
+#:
+#: `record export` now refuses any slug `data/seed-sources.yaml` regenerates, so
+#: a collision cannot reach git at all and the two waived files were deleted.
+#: Identity resolution (#65 WP-2) is still the real fix — this stops the damage,
+#: it does not merge the two sources into one record.
+KNOWN_COLLISIONS: set[str] = set()
 
 
 def test_no_committed_record_shadows_a_generated_one(generated) -> None:
