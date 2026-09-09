@@ -129,18 +129,69 @@ def test_rediscovery_recall_has_not_regressed(report) -> None:
     assert found >= RECALL_FLOOR, report.summary()
 
 
-def test_the_misses_are_a_coverage_gap_and_not_a_matching_gap(report) -> None:
-    """Which of the two problems this is.
+#: Curated datasets a harvested record now *nearly* matches by title.
+#:
+#: This set was empty when the file was written, and that emptiness was the
+#: finding: the misses were a coverage gap, not a matching gap, so the fix was
+#: sources rather than identity resolution. Merging the first real harvest —
+#: 890 records from energydata.info — made it both.
+#:
+#: Pinned by name, not counted. Three look like the same dataset under another
+#: title and are #65 WP-2's job:
+#:
+#:     global-solar-atlas          <- global-solar-atlas-application
+#:     wri-global-power-plant-db   <- world-global-power-plant-database-2018
+#:     gadm-administrative-…       <- nigeria-administrative-boundaries-2017
+#:
+#: The fourth is the matcher being wrong rather than the corpus being confusing:
+#: `global-transmission-database` against `global-dams-database` shares
+#: "global … database" and nothing else. It is listed so that fixing the matcher
+#: shows up here as a deletion rather than passing silently.
+KNOWN_NEAR_MISSES = {
+    ("global-solar-atlas", "global-solar-atlas-application"),
+    ("global-transmission-database", "global-dams-database"),
+    ("gadm-administrative-boundaries", "nigeria-administrative-boundaries-2017"),
+    ("wri-global-power-plant-database", "world-global-power-plant-database-2018"),
+}
 
-    If the harvested corpus held these datasets under different names, the
-    misses would show up as near-miss titles and the fix would be identity
-    resolution. They do not. The corpus simply does not contain them, and the
-    fix is sources.
+
+def test_the_misses_are_a_coverage_gap_first(report) -> None:
+    """Which of the two problems this is — and it is now both.
+
+    A miss with a near-match means the corpus *has* the dataset under another
+    name, so identity resolution would recover it. A miss with none means the
+    corpus does not have it at all, and only a new source will help.
+
+    Every miss was the second kind until the first real harvest landed. Now
+    four curated datasets have a plausible twin in the corpus, which is #65
+    WP-2 arriving as a measurement rather than a prediction.
+
+    Asserted as a named set rather than a ceiling, because a ceiling is a
+    number somebody raises. A new near-miss fails this and should: it means the
+    merge problem is growing while the merge is still unbuilt.
+    """
+    near = {(m.curated, m.near) for m in report.missed if m.near}
+    assert near == KNOWN_NEAR_MISSES, (
+        f"the set of near-matches changed.\n"
+        f"  new:  {sorted(near - KNOWN_NEAR_MISSES)}\n"
+        f"  gone: {sorted(KNOWN_NEAR_MISSES - near)}\n"
+        f"A new one means identity resolution (#65 WP-2) has more to recover; "
+        f"one disappearing means the matcher or the corpus changed."
+    )
+
+
+def test_coverage_is_still_the_larger_half(report) -> None:
+    """The proportion is what decides where the effort goes.
+
+    Identity resolution recovers the near-matches and nothing else. If they are
+    a handful against a hundred flat misses, sources remain the priority; if
+    that inverts, the epic's plan is wrong and should be rewritten.
     """
     near = [m for m in report.missed if m.near]
-    assert len(near) <= 5, (
-        f"{len(near)} misses have a plausible near-match, so identity resolution is "
-        f"now part of the problem too: {[(m.curated, m.near) for m in near[:5]]}"
+    flat = [m for m in report.missed if not m.near]
+    assert len(flat) > len(near) * 5, (
+        f"{len(near)} of {len(report.missed)} misses now have a near-match. Identity "
+        f"resolution has stopped being the small half of #65 — revisit the plan."
     )
 
 
