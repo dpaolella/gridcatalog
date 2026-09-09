@@ -52,10 +52,13 @@ export function StaticSearch({
    * The catalog arrives in two pieces, and the split is what keeps the landing
    * page servable.
    *
-   * `initial` is the first page of rows, prerendered into the HTML so the list
-   * is *there* on first paint — for a reader on a slow connection, for one with
-   * JavaScript off, and for a crawler. `catalog.json` is every record, fetched
-   * once on mount, and filtering runs over that.
+   * `initial` is the first page of rows, shipped in the page's own payload so
+   * the list is there the instant React hydrates instead of blank until the
+   * fetch resolves. It is *not* in the HTML — this component reads
+   * `useSearchParams`, so Next cannot prerender it — which means a crawler and
+   * a reader with JavaScript off see the shell, as they always have.
+   * `catalog.json` is every record, fetched once on mount, and filtering runs
+   * over that.
    *
    * It used to be one piece: every record serialised into `index.html`. At 66
    * records that was 592 KB and fine. The first real harvest took the catalog

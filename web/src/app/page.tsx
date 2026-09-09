@@ -198,11 +198,22 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
  * fetches `catalog.json` for everything it filters over. The page stops growing
  * with the catalog, which is the property the three previous fixes did not buy.
  */
-/** Rows serialised into the HTML. The rest arrives as `catalog.json`.
+/** Rows shipped with the page. The rest arrives as `catalog.json`.
  *
- * Matched to `StaticSearch`'s own `PAGE_SIZE`: prerendering fewer would leave a
- * gap under the fold until the fetch lands, and more would pay page weight for
- * rows nobody has scrolled to. */
+ * **Not rendered into the HTML** — `StaticSearch` is a client component that
+ * reads `useSearchParams`, so Next serialises these into the RSC payload and
+ * React paints them on hydration. Measured: 0 dataset links in the built HTML,
+ * 20 dataset ids inside its `<script>` blocks, which are 91 KB of the 109 KB
+ * page. So this buys a list that is there the instant React runs, rather than a
+ * blank one until `catalog.json` resolves — and it buys nothing for a crawler
+ * or a reader with JavaScript off, who see the shell either way.
+ *
+ * That limitation is not new and not this change's to fix: the same component
+ * has always rendered on the client, which is what the `Suspense` note below
+ * means by "the most a static page can honestly do".
+ *
+ * Matched to `StaticSearch`'s own `PAGE_SIZE`: fewer leaves a gap under the
+ * fold until the fetch lands, more pays weight for rows nobody scrolled to. */
 const PRERENDERED = 20;
 
 async function SnapshotResults() {
