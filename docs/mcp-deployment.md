@@ -95,6 +95,13 @@ https://<app>.fly.dev/mcp
 
 In Claude: **Settings → Connectors → Add custom connector**, paste, done.
 
+Either spelling works — `/mcp` and `/mcp/` both answer. That is deliberate and
+it was not always true: the slashless form, which this section and `fly.toml`
+both hand out, used to return a flat 404, because Starlette's `Mount` builds
+`^/mcp(?P<path>/.*)$` and a bare `/mcp` never matched it. A trailing slash is
+not something anybody pastes reliably, so the server normalises it rather than
+asking four documents to agree forever.
+
 Also set the repository variable `DATAHUB_PUBLIC_API_URL` to
 `https://<app>.fly.dev` so the site's **Connect with AI** and **Developers**
 pages show the real address instead of `http://localhost:8000`.

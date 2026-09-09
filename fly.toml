@@ -5,7 +5,7 @@
 #
 # The connector URL to hand a reader is then:
 #
-#   https://<app>.fly.dev/mcp
+#   https://<app>.fly.dev/mcp        (or /mcp/ — both answer)
 #
 # Chosen over a free tier that sleeps, and the reason is the usage pattern
 # rather than the price. Somebody who consults a catalog weekly meets a cold
