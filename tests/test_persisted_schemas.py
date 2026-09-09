@@ -62,16 +62,26 @@ def test_a_sidecar_carries_only_fields(path: Path) -> None:
 
 
 def test_sidecars_do_not_duplicate_the_committed_catalog() -> None:
-    """A harvested record keeps its fields in its own file; a sidecar is for the rest.
+    """The two stores partition the catalog. No record has its schema in both.
 
-    Not an error if they overlap — the merge is additive and dedupes — but two
-    homes for one record's schema is how they drift, so this pins the current
-    separation and fails loudly if a change starts writing both.
+    A sidecar exists for one reason: a curated record's whole form cannot be
+    committed, because `pages.yml` would load it after `seed load` and it would
+    win. A harvested record has no such problem — `record export` writes it
+    whole, fields included — so a sidecar for one is a second home for a schema
+    that already has one.
+
+    This used to allow up to 40 overlaps on the grounds that the merge dedupes
+    on local name, so nothing breaks. A real harvest produced **236**, which is
+    exactly the drift the waiver was pretending to watch for: re-probe one home
+    and not the other and the two disagree with nothing to say which is right.
+    `schema export` now writes a sidecar only where `record export` skips the
+    record, and the 24 duplicates were deleted.
     """
     committed = {p.stem for p in CATALOG.glob("*/*.jsonld")}
     both = sorted({p.stem for p in sidecars()} & committed)
-    assert len(both) < 40, (
-        f"{len(both)} records now carry a schema in both data/catalog and data/schemas: {both[:5]}"
+    assert not both, (
+        f"{len(both)} record(s) carry a schema in both data/catalog and data/schemas, "
+        f"so a re-probe can update one and leave the other stale: {both[:5]}"
     )
 
 

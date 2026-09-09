@@ -1390,13 +1390,27 @@ def schema_export(
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.records import RecordStore, dataset_node
     from datahub.graph.store import make_store
+    from datahub.harvest.seed import REGENERABLE_SOURCES, regenerable_slugs
 
     target = NamedGraph.CATALOG if graph == "catalog" else NamedGraph.DRAFT
     root = Path(directory)
     root.mkdir(parents=True, exist_ok=True)
 
+    # Exactly the records `record export` skips, and for the same reason read
+    # backwards: a sidecar exists because a curated record's whole form cannot
+    # be committed. A harvested record's *is* committed, fields and all, so a
+    # sidecar for it is a second home for one schema.
+    #
+    # Caught by `test_sidecars_do_not_duplicate_the_committed_catalog`, which
+    # pinned the overlap below 40 and found 236 after a real harvest. Harmless
+    # at load time — the merge dedupes on local name — and exactly the drift
+    # that test was written to notice: re-probe one home and not the other and
+    # the two disagree with nothing to say which is right.
+    regenerated = regenerable_slugs()
+
     written: list[str] = []
     fields_total = 0
+    not_mine = 0
     with make_store() as store:
         records = RecordStore(store)
         for dataset_id in records.list_ids(graph=target, limit=1_000_000):
@@ -1412,6 +1426,12 @@ def schema_export(
                 continue
 
             slug = dataset_id.rsplit("/", 1)[-1]
+            source = str(node.get("harvestSource") or "")
+            if source not in REGENERABLE_SOURCES and slug not in regenerated:
+                # `record export` writes this record whole; its fields go with it.
+                not_mine += 1
+                continue
+
             sidecar: dict[str, Any] = {
                 "@context": node.get("@context")
                 or f"{get_settings().catalog_base_url}/context/opengrid-datahub.jsonld",
@@ -1429,8 +1449,9 @@ def schema_export(
             fields_total += len(fields)
 
     _emit(
-        {"written": written, "fields": fields_total},
-        f"{len(written)} sidecar(s) written; {fields_total} field(s) persisted",
+        {"written": written, "fields": fields_total, "committed_whole": not_mine},
+        f"{len(written)} sidecar(s) written; {fields_total} field(s) persisted; "
+        f"{not_mine} record(s) carry their own fields in data/catalog",
         as_json=json_out,
     )
 
