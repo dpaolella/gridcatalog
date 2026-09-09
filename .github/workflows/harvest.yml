@@ -159,7 +159,15 @@ jobs:
             echo "schemas=$FIELDS"
           } >> "$GITHUB_OUTPUT"
 
+      # `peter-evans/create-pull-request` pushes the branch first and only then
+      # calls the API, so a refused PR still leaves the work on `harvest/auto`.
+      # Run 2 died exactly there — "GitHub Actions is not permitted to create or
+      # approve pull requests" — with 890 new records, 43 retractions and 228
+      # schema sidecars already pushed and no pull request to review them in.
+      # The step below turns that dead end into a link.
       - name: Open a pull request
+        id: pr
+        continue-on-error: true
         uses: peter-evans/create-pull-request@v7
         with:
           branch: harvest/auto
@@ -201,3 +209,26 @@ jobs:
             *Promote what the pipeline can substantiate*.
           labels: harvest
           delete-branch: false
+
+      - name: Say where the work went if the pull request was refused
+        # `create-pull-request` is `continue-on-error` above, so this runs and
+        # then fails the job deliberately. The distinction matters: the harvest
+        # itself succeeded and its output is pushed, so "the run failed" without
+        # this note reads as "the harvest is broken" when the only thing broken
+        # is a repository setting.
+        if: steps.pr.outcome == 'failure'
+        run: |
+          {
+            echo "### The harvest ran; the pull request was refused"
+            echo
+            echo "Everything is pushed to \`harvest/auto\`. Nothing was lost."
+            echo
+            echo "Open it by hand:"
+            echo "<https://github.com/${{ github.repository }}/compare/${{ github.ref_name }}...harvest/auto?expand=1>"
+            echo
+            echo "To let this workflow do it: **Settings → Actions → General →"
+            echo "Workflow permissions** and tick *Allow GitHub Actions to create"
+            echo "and approve pull requests*."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::error::The harvest succeeded but GitHub Actions may not open pull requests. Work is on harvest/auto; see the job summary."
+          exit 1
