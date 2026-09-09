@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { DatasetSummary, FacetBucket } from "@/lib/api";
@@ -39,14 +39,58 @@ const PAGE_SIZE = 20;
  * will quietly become wrong.
  */
 export function StaticSearch({
-  datasets,
+  initial,
   facets,
 }: {
-  datasets: DatasetSummary[];
+  initial: DatasetSummary[];
   facets: Record<string, FacetBucket[]>;
 }) {
   const t = useTranslations("search");
   const empty = useTranslations("empty");
+
+  /**
+   * The catalog arrives in two pieces, and the split is what keeps the landing
+   * page servable.
+   *
+   * `initial` is the first page of rows, prerendered into the HTML so the list
+   * is *there* on first paint — for a reader on a slow connection, for one with
+   * JavaScript off, and for a crawler. `catalog.json` is every record, fetched
+   * once on mount, and filtering runs over that.
+   *
+   * It used to be one piece: every record serialised into `index.html`. At 66
+   * records that was 592 KB and fine. The first real harvest took the catalog
+   * to 1,117 and the page to **3,122 KB**, and `ops/check-page-weight.sh`
+   * refused the deploy — correctly, and with this fix named first in its own
+   * error message.
+   *
+   * Filtering before the fetch lands would search one page and silently report
+   * it as the whole catalog, so it is disabled until then rather than allowed
+   * to be wrong. That window is one request on a warm cache.
+   */
+  const [datasets, setDatasets] = useState<DatasetSummary[]>(initial);
+  const [state, setState] = useState<"initial" | "ready" | "failed">("initial");
+
+  useEffect(() => {
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+    let live = true;
+    fetch(`${base}/catalog.json`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+      .then((body: { results?: DatasetSummary[] }) => {
+        if (!live) return;
+        // Guard the shape: a truncated or half-written file must not empty the
+        // page. Keeping `initial` and saying so beats rendering nothing.
+        if (Array.isArray(body.results) && body.results.length) {
+          setDatasets(body.results);
+          setState("ready");
+        } else {
+          setState("failed");
+        }
+      })
+      .catch(() => live && setState("failed"));
+    return () => {
+      live = false;
+    };
+  }, []);
 
   /**
    * The URL is the state, exactly as it is on the server-rendered build.
@@ -98,6 +142,12 @@ export function StaticSearch({
   );
 
   const sort = params.get("sort") ?? "";
+
+  //: Is the reader asking a question, as opposed to browsing the front page?
+  //  Only then does the difference between one page and the whole catalog
+  //  matter, so only then is the pre-fetch window worth mentioning.
+  const searching =
+    Boolean(query) || Object.values(selected).some((values) => values.length > 0);
 
   const results = useMemo(() => {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -197,10 +247,23 @@ export function StaticSearch({
         <div className="min-w-0 space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="og-eyebrow" aria-live="polite">
-              {t("resultsCount", { count: results.length })}
+              {state === "initial" && searching
+                ? t("loadingCatalog")
+                : t("resultsCount", { count: results.length })}
             </p>
             <SortSelect />
           </div>
+
+          {/* Said, not hidden. A search that ran over the prerendered first
+              page while the rest was still in flight would report a count for
+              the whole catalog and mean one page of it — wrong in the one
+              direction this project cares about, since "nothing matches" is a
+              claim the catalog makes deliberately. */}
+          {state === "failed" && searching ? (
+            <p className="og-card p-3 text-sm text-[color:var(--muted)]">
+              {t("catalogUnavailable", { count: initial.length })}
+            </p>
+          ) : null}
 
           {results.length === 0 ? (
             <EmptyState title={empty("noResults")}>

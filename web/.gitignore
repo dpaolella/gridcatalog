@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Build output: the snapshot copied in by pages.yml so the landing page can
+# fetch the catalog instead of embedding it.
+/public/catalog.json

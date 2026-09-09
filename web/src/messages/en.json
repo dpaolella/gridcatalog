@@ -37,7 +37,9 @@
     "previous": "Previous",
     "typing": "Results update as you type. There is no submit step.",
     "showMore": "+{count} more",
-    "loadMore": "Show {count} more of {total}"
+    "loadMore": "Show {count} more of {total}",
+    "loadingCatalog": "Loading the catalog…",
+    "catalogUnavailable": "The full catalog could not be loaded, so this searched only the {count} datasets on this page. Reload to try again."
   },
   "facets": {
     "data_domain": "Domain",

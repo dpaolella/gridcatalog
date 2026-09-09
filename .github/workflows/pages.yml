@@ -154,6 +154,18 @@ jobs:
       - name: Export the snapshot
         run: .venv/bin/datahub snapshot export var/site/snapshot
 
+      - name: Publish the catalog as a fetched file, not page weight
+        # `index.json` is the whole search payload the browser filters over.
+        # It used to be serialised into `index.html` as a prop, which is what
+        # took the landing page to 3,122 KB against a 2,048 KB limit once the
+        # first real harvest landed. Copied into `web/public/` it ships as a
+        # separate, separately-cached asset that the page fetches on mount, and
+        # the page stops growing with the catalog.
+        run: |
+          cp var/site/snapshot/index.json web/public/catalog.json
+          printf 'catalog.json: %s KB\n' \
+            "$(( ($(wc -c < web/public/catalog.json) + 1023) / 1024 ))" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Build the site
         env:
           DATAHUB_SNAPSHOT: ${{ github.workspace }}/var/site/snapshot

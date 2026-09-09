@@ -189,8 +189,22 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
  * the deploy and the published site froze at the last build that passed.
  *
  * Measured on this catalog: 9,082 KB before, 3,224 KB once `snapshot.py`
- * stopped shipping whole descriptions, 1,718 KB with the second copy gone.
+ * stopped shipping whole descriptions, 1,718 KB with the second copy gone —
+ * and 3,122 KB again the moment the first real harvest took the catalog from
+ * 272 records to 1,117, which is the run `ops/check-page-weight.sh` refused.
+ *
+ * So the whole catalog no longer ships here. Only the first page does, which is
+ * what makes the list real on first paint and for a crawler; `StaticSearch`
+ * fetches `catalog.json` for everything it filters over. The page stops growing
+ * with the catalog, which is the property the three previous fixes did not buy.
  */
+/** Rows serialised into the HTML. The rest arrives as `catalog.json`.
+ *
+ * Matched to `StaticSearch`'s own `PAGE_SIZE`: prerendering fewer would leave a
+ * gap under the fold until the fetch lands, and more would pay page weight for
+ * rows nobody has scrolled to. */
+const PRERENDERED = 20;
+
 async function SnapshotResults() {
   const response = await search({});
   return (
@@ -198,7 +212,7 @@ async function SnapshotResults() {
     // string and the filter applies on hydration, which is the most a static
     // page can honestly do.
     <Suspense>
-      <StaticSearch datasets={response.results} facets={response.facets} />
+      <StaticSearch initial={response.results.slice(0, PRERENDERED)} facets={response.facets} />
     </Suspense>
   );
 }
