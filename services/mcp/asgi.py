@@ -36,9 +36,45 @@ from fastapi import FastAPI
 
 log = get_logger(__name__)
 
-#: Where the MCP endpoint is mounted. A connector URL is this plus a slash,
-#: because Starlette redirects a mount root and some clients do not follow it.
+#: Where the MCP endpoint is mounted.
+#:
+#: **Both `/mcp` and `/mcp/` work**, and that is deliberate. This comment used
+#: to say a connector URL was "this plus a slash", which was true and useless:
+#: `docs/mcp-deployment.md`, `fly.toml` and the setup issue all handed out the
+#: slashless form anyway, and it did not merely redirect — it 404'd:
+#:
+#:     GET  /mcp   -> 404      GET  /mcp/  -> 405 (POST-only, correct)
+#:     POST /mcp   -> 404      POST /mcp/  -> 200
+#:
+#: A trailing slash is not something a person pastes reliably, and the whole
+#: promise of this endpoint is one URL and no account. Normalising it here is
+#: one line; keeping four documents in agreement forever is not.
 MCP_PATH = "/mcp"
+
+
+class MountRootMiddleware:
+    """Serve ``/mcp`` as well as ``/mcp/``.
+
+    Middleware rather than anything inside the mounted app, because the fix has
+    to happen *before* routing. Starlette's ``Mount`` builds the regex
+    ``^/mcp(?P<path>/.*)$``, so a request to exactly ``/mcp`` never matches the
+    mount — it falls through to the ``/`` mount behind it and the API answers
+    404. Nothing inside the MCP app is reached, so nothing inside it can help.
+
+    A redirect is the other option and is worse: a streamable-HTTP client that
+    does not follow a 307 sees a status it cannot use, which is harder to
+    diagnose than the 404 it would replace.
+    """
+
+    def __init__(self, app: Any, path: str) -> None:
+        self.app = app
+        self.path = path
+        self.raw = (path + "/").encode()
+
+    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:
+        if scope.get("type") == "http" and scope.get("path") == self.path:
+            scope = {**scope, "path": self.path + "/", "raw_path": self.raw}
+        await self.app(scope, receive, send)
 
 
 def build_app(**kwargs: Any) -> FastAPI:
@@ -87,6 +123,9 @@ def build_app(**kwargs: Any) -> FastAPI:
     app.mount(MCP_PATH, mcp_app)
     app.mount("/", api)
     log.info("mcp endpoint mounted", path=MCP_PATH, tier=tools.tier)
+    # Added last so it wraps the router: `add_middleware` installs above the
+    # routing layer, which is the only place the rewrite can work.
+    app.add_middleware(MountRootMiddleware, path=MCP_PATH)
     return app
 
 
