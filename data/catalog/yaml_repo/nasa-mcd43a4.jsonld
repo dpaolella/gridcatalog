@@ -6,8 +6,8 @@
       "anonymousAccess": true,
       "completenessLevel": 1,
       "dataDomain": [
-        "https://schema.opengrid.org/concept/data-domain/DD5",
-        "https://schema.opengrid.org/concept/data-domain/DD10"
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
       ],
       "description": "The Moderate Resolution Imaging Spectroradiometer (MODIS) MCD43A4 Version 6.1 Nadir Bidirectional Reflectance Distribution Function (BRDF)-Adjusted Reflectance (NBAR) dataset is produced daily using 16 days of Terra and Aqua MODIS data at 500 meter (m) resolution. The view angle effects are removed from the directional reflectances, resulting in a stable and consistent NBAR product. Data are temporally weighted to the ninth day which is reflected in the Julian date in the file name. Users are urged to use the band specific quality flags to isolate the highest quality full inversion results for their own science applications as described in the [User Guide](https://www.umb.edu/spectralmass/modis-user-guide-v006-and-v0061/mcd43a4-nbar-product/). The MCD43A4 provides NBAR and simplified mandatory quality layers for MODIS bands 1 through 7. Essential quality information provided in the corresponding [MCD43A2](https://doi.org/10.5067/MODIS/MCD43A2.061) data file should be consulted when using this product. Known Issues * For complete information about known issues please refer to the [MODIS/VIIRS Land Quality Assessment website](https://landweb.modaps.eosdis.nasa.gov/knownissue?sensor=MODIS&sat=TerraAqua&as=61). Improvements/Changes from Previous Versions * The Version 6.1 Level-1B (L1B) products have been improved by undergoing various calibration changes that include: changes to the response-versus-scan angle (RVS) approach that affects reflectance bands for Aqua and Terra MODIS, corrections to adjust for the optical crosstalk in Terra MODIS infrared (IR) bands, and corrections to the Terra MODIS forward look-up table (LUT) update for the period 2012 - 2017. * A polarization correction has been applied to the L1B Reflective Solar Bands (RSB). Read our doc on how to get AWS Credentials to retrieve this data: https://data.lpdaac.earthdatacloud.nasa.gov/s3credentialsREADME",
       "distribution": [
@@ -30,19 +30,19 @@
       "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
       "inferredAssignment": true,
       "keyword": [
-        "hdf",
-        "global",
-        "satellite imagery",
-        "opendap",
+        "tiles",
+        "aws-pds",
         "land",
         "geospatial",
+        "satellite imagery",
+        "global",
         "earth observation",
-        "aws-pds",
-        "tiles"
+        "opendap",
+        "hdf"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-mcd43a4/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:20.910992+00:00",
+      "modified": "2026-09-08T21:57:35.209652+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nasa-mcd43a4#provenance-gap",
@@ -50,8 +50,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/nasa-mcd43a4#flags",
         "staleness": "unknown",
@@ -62,6 +62,17 @@
       "title": "MODIS/Terra+Aqua BRDF/Albedo Nadir BRDF-Adjusted Ref Daily L3 Global - 500m V061",
       "type": "Dataset",
       "updateCadence": "P7D",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/nasa/LPDAAC-Data-Resources/blob/7f58ad3abeca7f0d17637ddb812642c0120a57ab/python/how-tos/Earthdata_Cloud__Download_file_from_S3.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "LPDAAC",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nasa-mcd43a4#usage-0",
+          "title": "Download Files from S3 Using boto3",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

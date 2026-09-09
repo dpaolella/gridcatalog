@@ -1,0 +1,172 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Facebook has produced a model to help map global medium voltage (MV) grid infrastructure, i.e. the distribution lines which connect high-voltage transmission infrastructure to consumer-serving low-voltage distribution. The data found here are model outputs for six select African countries: Malawi, Nigeria, Uganda, DRC, Cote D’Ivoire, and Zambia. The grid maps are produced using a new methodology that employs various publicly-available datasets (night time satellite imagery, roads, political boundaries, etc) to predict the location of existing MV grid infrastructure. The model documentation and code are also available , so data scientists and planners globally can replicate the model to expand model coverage to other countries where this data is not already available. You can find the model code and documentation here: https://github.com/facebookresearch/many-to-many-dijkstra Note: current model accuracy is approximately 70% when compared to existing ground-truthed data. Accuracy can be further improved by integrating other locally-relevant information into the model and running it again. Resolution: geotiff is provided at Bing Tile Level 20",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/e12592a3-73d4-4192-898e-4fbdd8f4b12a/download/electrical_grid_malawi_15.csv",
+          "byteSize": 274247,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/46d8dc9d-a2f7-406c-ad73-a2668282f678/download/electrical_grid_zambia_15.csv",
+          "byteSize": 663586,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--11",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/5af5b4cd-0fb8-4d3e-a337-6f81e89c2ebc/download/electrical_grid_cote_divoire_15_electrical_distribution_grid.tif",
+          "byteSize": 1237420,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--0",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/bba60922-5189-4722-8398-c51ae9206d84/download/electrical_grid_cote_divoire_15.csv",
+          "byteSize": 797251,
+          "checksum": "2cbe85e762214799258ebaeaab129520",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--1",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/c6b51d1c-da33-4227-9f5b-f69ab340056e/download/electrical_grid_uganda_15.csv",
+          "byteSize": 355742,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--9",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/e20ed58d-e748-453c-89a5-bae840be573c/download/electrical_grid_nigeria_15_electrical_distribution_grid.tif",
+          "byteSize": 3658548,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--6",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/88d9632a-1488-400a-a245-e6c5f90f67df/download/electrical_grid_democratic_republic_of_congo_15.csv",
+          "byteSize": 579672,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--3",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/abfff53a-e299-4766-885f-4dc0f0619f50/download/electrical_grid_malawi_15_electrical_distribution_grid.tif",
+          "byteSize": 780604,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--4",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/eff5cc7b-f185-448e-9006-4a9d39fc3f57/download/electrical_grid_democratic_republic_of_congo_15_electrical_distribution_grid.tif",
+          "byteSize": 10871092,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--2",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/a99ef548-62fd-4394-b700-d9a23f3d2457/download/electrical_grid_uganda_15_electrical_distribution_grid.tif",
+          "byteSize": 923732,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--8",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/78264b52-5388-4253-918d-d8358d8d66b1/download/electrical_grid_nigeria_15.csv",
+          "byteSize": 1918457,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--7",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/c939ffaf-6824-47eb-a1d6-4d491f6ef01f/download/electrical_grid_zambia_15_electrical_distribution_grid.tif",
+          "byteSize": 3762372,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/medium-voltage-distribution-predictive--10",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "lon",
+          "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/lon",
+          "localName": "lon",
+          "type": "Field"
+        },
+        {
+          "fieldId": "lat",
+          "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/lat",
+          "localName": "lat",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electrical Distribution Grid",
+          "id": "https://catalog.opengrid.org/field/medium-voltage-distribution-predictive/Electrical-Distribution-Grid",
+          "localName": "Electrical Distribution Grid",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/medium-voltage-distribution-predictive",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset. Determined by the phrase \"model output\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2019-01-24T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-08-25T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred"
+        ],
+        "id": "https://catalog.opengrid.org/ds/medium-voltage-distribution-predictive#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/a517e25c-8ae3-44eb-817c-d843ec74d2f7/resource/bba60922-5189-4722-8398-c51ae9206d84/download/electrical_grid_cote_divoire_15.csv",
+      "sourceRecordId": "energydata_info:a517e25c-8ae3-44eb-817c-d843ec74d2f7",
+      "title": "Medium-Voltage Distribution (Predictive)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

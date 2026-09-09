@@ -11,14 +11,6 @@
       "description": "GEOGLOWS is the Group on Earth Observation's Global Water Sustainability Program. It coordinates efforts from public and private entities to make application ready river data more accessible and sustainably available to underdeveloped regions. The GEOGLOWS Hydrological Model provides a retrospective and daily forecast of global river discharge at 7 million river sub-basins. The stream network is a hydrologically conditioned subset of the TDX-Hydro streams and basins data produced by the United State's National Geospatial Intelligence Agency. The daily forecast provides 3 hourly average discharge in a 51 member ensemble and 15 day lead time derived from the ECMWF Integrated Forecast System (IFS). The retrospective simulation is derived from ERA5 climate reanalysis data and provides daily average streamflow beginning on 1 January 1940. New forecasts are uploaded daily and the retrospective simulation is updated weekly on Sundays to keep the lag time between 5 and 12 days. The geoglows-v2 bucket contains: (1) model configuration files used to generate the simulations, (2) the GIS streams datasets used by the model, (3) the GIS streams datasets optimized for visualizations used by Esri's Living Atlas layer, (4) several supporting table of metadata including country names, river names, hydrological properties used for modeling. The geoglows-v2-forecasts bucket contains: (1) daily 15 forecasts in zarr format optimized for time series queries of all ensemble members in the prediction, (2) CSV formatted summary files optimized for producing time series animated web maps for the entire global streams dataset. The geoglows-v2-retrospective bucket contains: (1) the model retrospective outputs in (1a) zarr format optimized for time series queries of up to a few hundred rivers on demand as well as (1b) in netCDF format best for bulk downloading the dataset, (2) estimated return period flows for all 7 million million rivers (2a) in zarr format optimized for reading subsets of the dataset as well as (2b) in netCDF format best for bulk downloading. (3) The initialization files produced at the end of each incremental simulation useful for restarting the model from a specific date.",
       "distribution": [
         {
-          "accessURL": "https://geoglows-v2-forecasts.s3.us-west-2.amazonaws.com/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/geoglows-v2--1",
-          "type": "Distribution"
-        },
-        {
           "accessURL": "https://geoglows-v2-retrospective.s3.us-west-2.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
@@ -33,6 +25,14 @@
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/geoglows-v2--0",
           "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geoglows-v2-forecasts.s3.us-west-2.amazonaws.com/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/geoglows-v2--1",
+          "type": "Distribution"
         }
       ],
       "documentation": [
@@ -44,17 +44,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "hydrography",
         "aws-pds",
-        "hydrology",
-        "zarr",
         "geopackage",
+        "hydrography",
+        "hydrology",
+        "simulations",
         "hydrologic model",
-        "simulations"
+        "zarr"
       ],
       "landingPage": "https://registry.opendata.aws/geoglows-v2/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.142004+00:00",
+      "modified": "2026-09-08T21:57:31.657219+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -69,6 +69,44 @@
       "title": "GEOGLOWS Hydrological Model Version 2",
       "type": "Dataset",
       "updateCadence": "P1M",
+      "usageEvidence": [
+        {
+          "accessURL": "https://geoglows.readthedocs.io/en/latest/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Riley Hales",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/geoglows-v2#usage-3",
+          "title": "pygeoglows",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://training.geoglows.org",
+          "assertedBy": "aws_open_data",
+          "authorName": "Riley Hales",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/geoglows-v2#usage-1",
+          "title": "River Forecast System V2 background, training and tutorials",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1111/jfr3.12859",
+          "assertedBy": "aws_open_data",
+          "authorName": "Hales et al.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/geoglows-v2#usage-0",
+          "title": "Advancing global hydrologic modeling with the GEOGloWS ECMWF streamflow service",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://hydroviewer.geoglows.org",
+          "assertedBy": "aws_open_data",
+          "authorName": "Riley Hales",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/geoglows-v2#usage-2",
+          "title": "GEOGLOWS Hydroviewer",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

@@ -1,0 +1,272 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Investments in infrastructure have been on the development agenda of Latin American and Caribbean (LCR) countries as they move towards economic and social progress. Investing in infrastructure is investing in human welfare by providing access to and quality basic infrastructure services. Improving the performance of the electricity sector is one such major infrastructure initiative and the focus of this benchmarking data. A key initiative for both public and private owned distribution utilities has been to upgrade their efficiency as well as to increase the coverage and quality of service. In order to accomplish this goal, this initiative serves as a clearing house for information regarding the country and utility level performance of electricity distribution sector. This initiative allows countries and utilities to benchmark their performance in relation to other comparator utilities and countries. In doing so, this benchmarking data contributes to the improvement of the electricity sector by filling in knowledge gaps for the identification of the best performers (and practices) of the region. This benchmarking database consists of detailed information of 25 countries and 249 utilities in the region. The data collected for this benchmarking project is representative of 88 percent of the electrification in the region. Through in-house and field data collection, consultants compiled data based on accomplishments in output, coverage, input, labor productivity, operating performance, the quality of service, prices, and ownership. By serving as a mirror of good performance, the report allows for a comparative analysis and the ranking of utilities and countries according to the indicators used to measure performance. Although significant efforts have been made to ensure data comparability and consistency across time and utilities, the World Bank and the ESMAP do not guarantee the accuracy of the data included in this work. Acknowledgement: This benchmarking database was prepared by a core team consisting of Luis Alberto Andres (Co-Task Team Leader), Jose Luis Guasch (Co-Task Team Leader), Julio A. Gonzalez, Georgeta Dragoiu, and Natalie Giannelli. The team was benefited by data contributions from Jordan Z. Schwartz (Senior Infrastructure Specialist, LCSTR), Lucio Monari (Lead Energy Economist, LCSEG), Katharina B. Gassner (Senior Economist, FEU), and Martin Rossi (consultant). Funding was provided by the Energy Sector Management Assistance Program (ESMAP) and the World Bank. Comments and suggestion are welcome by contacting Luis Andres (landres@worldbank.org)",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041091/1/DR0051265/sources-of-information-by-country.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/latin-america-and-caribbean-utility-benchmarking-database-2008--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "http://documents.worldbank.org/curated/en/380701468266373762/pdf/708490ESW0P1100king00report0vAgo008.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/latin-america-and-caribbean-utility-benchmarking-database-2008--4",
+          "mediaType": "PDF",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041091/1/DR0051262/masterdatatoupload.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/latin-america-and-caribbean-utility-benchmarking-database-2008--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041091/1/DR0051263/quantitativedescriptionstoupload.xlsx",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/latin-america-and-caribbean-utility-benchmarking-database-2008--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041091/1/DR0051264/methodology.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/latin-america-and-caribbean-utility-benchmarking-database-2008--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "20",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/20",
+          "localName": "20",
+          "type": "Field"
+        },
+        {
+          "fieldId": "8",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/8",
+          "localName": "8",
+          "type": "Field"
+        },
+        {
+          "fieldId": "10",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/10",
+          "localName": "10",
+          "type": "Field"
+        },
+        {
+          "fieldId": "7",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/7",
+          "localName": "7",
+          "type": "Field"
+        },
+        {
+          "fieldId": "5",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/5",
+          "localName": "5",
+          "type": "Field"
+        },
+        {
+          "fieldId": "18",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/18",
+          "localName": "18",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/1",
+          "localName": "1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "19",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/19",
+          "localName": "19",
+          "type": "Field"
+        },
+        {
+          "fieldId": "utility name",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/utility-name",
+          "localName": "utility name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "15",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/15",
+          "localName": "15",
+          "type": "Field"
+        },
+        {
+          "fieldId": "year",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/year",
+          "localName": "year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "16",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/16",
+          "localName": "16",
+          "type": "Field"
+        },
+        {
+          "fieldId": "country",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/country",
+          "localName": "country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "11",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/11",
+          "localName": "11",
+          "type": "Field"
+        },
+        {
+          "fieldId": "21",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/21",
+          "localName": "21",
+          "type": "Field"
+        },
+        {
+          "fieldId": "22",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/22",
+          "localName": "22",
+          "type": "Field"
+        },
+        {
+          "fieldId": "3",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/3",
+          "localName": "3",
+          "type": "Field"
+        },
+        {
+          "fieldId": "utility ID",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/utility-ID",
+          "localName": "utility ID",
+          "type": "Field"
+        },
+        {
+          "fieldId": "25",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/25",
+          "localName": "25",
+          "type": "Field"
+        },
+        {
+          "fieldId": "12",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/12",
+          "localName": "12",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Type of connection",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/Type-of-connection",
+          "localName": "Type of connection",
+          "type": "Field"
+        },
+        {
+          "fieldId": "17",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/17",
+          "localName": "17",
+          "type": "Field"
+        },
+        {
+          "fieldId": "utility code",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/utility-code",
+          "localName": "utility code",
+          "type": "Field"
+        },
+        {
+          "fieldId": "14",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/14",
+          "localName": "14",
+          "type": "Field"
+        },
+        {
+          "fieldId": "4",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/4",
+          "localName": "4",
+          "type": "Field"
+        },
+        {
+          "fieldId": "23",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/23",
+          "localName": "23",
+          "type": "Field"
+        },
+        {
+          "fieldId": "9",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/9",
+          "localName": "9",
+          "type": "Field"
+        },
+        {
+          "fieldId": "24",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/24",
+          "localName": "24",
+          "type": "Field"
+        },
+        {
+          "fieldId": "13",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/13",
+          "localName": "13",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/2",
+          "localName": "2",
+          "type": "Field"
+        },
+        {
+          "fieldId": "6",
+          "id": "https://catalog.opengrid.org/field/latin-america-and-caribbean-utility-benchmarking-database-2008/6",
+          "localName": "6",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/latin-america-and-caribbean-utility-benchmarking-database-2008",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-05-11T00:00:00+00:00",
+      "landingPage": "https://www.esmap.org/node/3770",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/latin-america-and-caribbean-utility-benchmarking-database-2008#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/latin-america-and-caribbean-utility-benchmarking-database-2008#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041091/1/DR0051262/masterdatatoupload.csv",
+      "sourceRecordId": "energydata_info:aae44d07-51c8-4240-b85d-5fe279bb94f0",
+      "title": "Latin America and Caribbean - Utility Benchmarking Database",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -30,13 +30,13 @@
       "inferredAssignment": true,
       "keyword": [
         "netcdf",
-        "oceans",
+        "aws-pds",
         "satellite imagery",
-        "aws-pds"
+        "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-saildrone-baja/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:22.160941+00:00",
+      "modified": "2026-09-08T21:57:36.737899+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nasa-saildrone-baja#provenance-gap",
@@ -44,8 +44,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
         ],
         "id": "https://catalog.opengrid.org/ds/nasa-saildrone-baja#flags",
         "staleness": "unknown",

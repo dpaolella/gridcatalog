@@ -28,12 +28,12 @@
       "hasField": [
         {
           "dataType": "float64",
-          "fieldId": "NOBS2",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS2",
-          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
-          "localName": "NOBS2",
+          "fieldId": "UCUR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/UCUR",
+          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR",
           "type": "Field",
-          "unitAsStated": "1"
+          "unitAsStated": "m s-1"
         },
         {
           "dataType": "float64",
@@ -43,24 +43,6 @@
           "label": "quality flag for eastward_sea_water_velocity",
           "localName": "UCUR_quality_control",
           "type": "Field"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "UCUR_sd",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/UCUR_sd",
-          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR_sd",
-          "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "UCUR",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/UCUR",
-          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR",
-          "type": "Field",
-          "unitAsStated": "m s-1"
         },
         {
           "dataType": "float64",
@@ -74,12 +56,12 @@
         },
         {
           "dataType": "float64",
-          "fieldId": "NOBS1",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS1",
-          "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
-          "localName": "NOBS1",
-          "type": "Field",
-          "unitAsStated": "1"
+          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+          "fieldId": "VCUR_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
+          "label": "quality flag for northward_sea_water_velocity",
+          "localName": "VCUR_quality_control",
+          "type": "Field"
         },
         {
           "dataType": "str424",
@@ -99,6 +81,24 @@
         },
         {
           "dataType": "float64",
+          "fieldId": "NOBS2",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS2",
+          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+          "localName": "NOBS2",
+          "type": "Field",
+          "unitAsStated": "1"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "UCUR_sd",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/UCUR_sd",
+          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR_sd",
+          "type": "Field",
+          "unitAsStated": "m s-1"
+        },
+        {
+          "dataType": "float64",
           "fieldId": "VCUR",
           "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR",
           "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
@@ -108,12 +108,12 @@
         },
         {
           "dataType": "float64",
-          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
-          "fieldId": "VCUR_quality_control",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
-          "label": "quality flag for northward_sea_water_velocity",
-          "localName": "VCUR_quality_control",
-          "type": "Field"
+          "fieldId": "NOBS1",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc/NOBS1",
+          "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
+          "localName": "NOBS1",
+          "type": "Field",
+          "unitAsStated": "1"
         }
       ],
       "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc",
@@ -121,12 +121,12 @@
       "inferredAssignment": true,
       "keyword": [
         "oceans",
-        "ocean velocity",
-        "ocean currents"
+        "ocean currents",
+        "ocean velocity"
       ],
       "landingPage": "https://registry.opendata.aws/aodn_radar_capricornbunkergroup_velocity_hourly_averaged_delayed_qc/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.308588+00:00",
+      "modified": "2026-09-08T21:57:30.740423+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc#provenance-gap",
@@ -134,8 +134,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc#flags",
         "staleness": "unknown",
@@ -147,6 +147,26 @@
       "title": "Ocean Radar - Capricorn bunker group site - Sea water velocity - Delayed mode",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/radar_CapricornBunkerGroup_velocity_hourly_averaged_delayed_qc.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc#usage-0",
+          "title": "Accessing IMOS - ACORN - Capricorn Bunker Group HF ocean radar site (Great Barrier Reef, Queensland, Australia) - Delayed mode sea water velocity",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/GetAodnData.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-capricornbunkergroup-velocity-hourly-averaged-delayed-qc#usage-1",
+          "title": "Accessing and search for any AODN dataset",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

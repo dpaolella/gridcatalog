@@ -1,0 +1,106 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD7"
+      ],
+      "description": "Contains information about each delivery technology for US, Romania, Jamaica and India. base year: 2010. This information is used as input in the Model for Electricity Technology Assessment (META) tool. META yields levelized costs for generation, transmission, and distribution for each electricity supply technology option from a relatively few input parameters. One of the features of META is that it allows for integration of environmental externalities, such as local pollution and greenhouse gas emissions. Users can easily see the cost of adding or expanding generation from a particular power source if, for example, a carbon price is factored in.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041744/1/DR0052178/metainputstransmissiondistribution.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Units",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Units",
+          "localName": "Units",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Technology type",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Technology-type",
+          "localName": "Technology type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Unital capital costs",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Unital-capital-costs",
+          "localName": "Unital capital costs",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Life span",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Life-span",
+          "localName": "Life span",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Voltage",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Voltage",
+          "localName": "Voltage",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Number of circuits",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Number-of-circuits",
+          "localName": "Number of circuits",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010/Country",
+          "localName": "Country",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD7 2.0. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2016-10-19T00:00:00+00:00",
+      "keyword": [
+        "romania",
+        "us",
+        "transmision",
+        "distribution",
+        "2010",
+        "meta",
+        "jamaica",
+        "india"
+      ],
+      "landingPage": "https://www.esmap.org/node/3629",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-20T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/us-romania-jamaica-and-india-meta-tool-inputs-transmission-distribution-2010#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0041744/1/DR0052178/metainputstransmissiondistribution.csv",
+      "sourceRecordId": "energydata_info:e6a14ce9-9bff-4b1d-80f4-c7a39851008b",
+      "title": "US, Romania, Jamaica and India - META tool: Inputs Transmission Distribution",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

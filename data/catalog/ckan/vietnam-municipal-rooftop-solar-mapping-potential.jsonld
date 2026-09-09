@@ -1,0 +1,119 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This dataset contains solar rooftop potential data (installable capacity, estimated electricity generation) for the municipalities of Ho Chi Minh and Da Nang. The data was gathered by extracting building rooftop footprint polygons from very high resolution stereosatelite imagery. Detailed methodology is available upon specific request.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/b2733251-e4e5-4428-bc93-c6a9752ef31e/download/general-questionnaire-e-version-revised.docx",
+          "byteSize": 965012,
+          "formatLabel": "DOC",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/e72c602c-d872-4ac5-ac66-f177c19e7f52/download/aoi_wv3_danang_20170315_113km2_utm.kmz",
+          "byteSize": 2133,
+          "formatLabel": "KMZ",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--1",
+          "mediaType": "application/vnd.google-earth.kmz",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/5c6a76de-cb56-42d3-bbee-2936300871c4/download/aoi_wv3_danang_20170314.kmz",
+          "byteSize": 9618,
+          "formatLabel": "KMZ",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--0",
+          "mediaType": "application/vnd.google-earth.kmz",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/366afb1e-f417-42fe-80f8-e42f89c6cb13/download/rooftop-survey-template.docx",
+          "byteSize": 35186,
+          "formatLabel": "DOC",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--7",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/23ae0550-6f45-4aee-959e-82936caa5f2d/download/hcmc-map-overlay.pptx",
+          "byteSize": 13796715,
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--4",
+          "mediaType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/037e19fc-8494-4eaa-b9b2-6837d1097029/download/data-format-2.xlsx",
+          "byteSize": 14052,
+          "checksum": "e4069d65487a98b2894feb2cce0310cd",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--2",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/19fbcfde-834a-4f19-abad-540f8cd3a4f0/download/pv-solar-data.rar",
+          "byteSize": 114846517,
+          "formatLabel": "RAR",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--6",
+          "mediaType": "application/rar",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/79a27f6e-beb2-4496-988e-d14936ea60fb/resource/6a839e49-a213-4c38-9907-92ca1d1def2a/download/kho-sat-tng-quan-1.2.docx",
+          "byteSize": 1071950,
+          "formatLabel": "DOC",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-municipal-rooftop-solar-mapping-potential--5",
+          "mediaType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/vietnam-municipal-rooftop-solar-mapping-potential",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2019-10-16T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/vietnam-municipal-rooftop-solar-mapping-potential#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/vietnam-municipal-rooftop-solar-mapping-potential#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:79a27f6e-beb2-4496-988e-d14936ea60fb",
+      "title": "Vietnam - Municipal Rooftop Solar Mapping Potential",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Derived from 2011 Automatic Identification System (AIS) broadcast returns. Each vessel count per aliquot block represents the number of vessels traveling through the block during the year of 2010. An aliquot measures 1/16 of a full OCS leasing block or 1200 x 1200 meters. Only areas where BOEM publishes Official Protraction Diagrams will contain the aliquot AIS counts, therefore, large areas of inland state waters may be missing aliquot AIS counts. The data has also been clipped so that any aliquot that touches land has been deleted so that the user can discern the location of the coastline. Vessel type breakdowns can be viewed using the ID tool or by downloading the data. To download the data please click the following links for the Atlantic portion and the West Coast portion of the data.",
+      "distribution": [
+        {
+          "accessURL": "https://www.boem.gov/AIS-count-all-vessels-atl-2011-shapefile/",
+          "formatLabel": "VECTOR",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gibraltar-vessel-traffic-ais-2011--2",
+          "mediaType": "VECTOR",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.boem.gov/Renewable-Energy-Program/Mapping-and-Data/AIS_count_all_vessels_atl_2010_shapefile.aspx",
+          "formatLabel": "VECTOR",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gibraltar-vessel-traffic-ais-2011--3",
+          "mediaType": "VECTOR",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geowb.worldbank.org/portal/sharing/servers/8a7fe4a71cba4401a8c175bc5ef7b417/rest/services/VesselTraffic2011/MapServer",
+          "formatLabel": "VECTOR",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gibraltar-vessel-traffic-ais-2011--1",
+          "mediaType": "VECTOR",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geowb.worldbank.org/portal/home/item.html?id=8a7fe4a71cba4401a8c175bc5ef7b417",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gibraltar-vessel-traffic-ais-2011--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.marinecadastre.gov/about/disclaimer.html",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/gibraltar-vessel-traffic-ais-2011--4",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/gibraltar-vessel-traffic-ais-2011",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-21T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/gibraltar-vessel-traffic-ais-2011#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/gibraltar-vessel-traffic-ais-2011#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:484060-7445-11e6-8b77-86f30ca893d28",
+      "title": "Gibraltar Vessel Traffic (AIS) [2011]",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

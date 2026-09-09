@@ -29,16 +29,16 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "weather",
-        "ice",
-        "aws-pds",
         "netcdf",
+        "aws-pds",
+        "weather",
         "precipitation",
+        "ice",
         "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-gldas/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:20.080629+00:00",
+      "modified": "2026-09-08T21:57:34.161143+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

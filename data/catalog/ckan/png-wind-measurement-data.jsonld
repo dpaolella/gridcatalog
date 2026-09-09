@@ -1,0 +1,197 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for measurements from 3 wind masts in Papua New Guinea. Data transmits daily reports for wind speed, wind direction, air pressure, relative humidity and temperature. Please refer to the country project page for additional outputs and reports, including installation reports: https://www.esmap.org/re-mapping/papua-new-guinea For access to maps and GIS layers, please visit the Global Wind Atlas: https://globalwindatlas.info/ Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP).",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/3e02b135-53fa-4d35-89d2-4b56a143755e/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_header.csv",
+          "byteSize": 3847,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/b121d2d8-3ccb-4706-ac59-92b295107f51/download/wind-measurements_papua-new-guinea_lng_plant_central_wb-esmap_raw.zip",
+          "byteSize": 16482604,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--9",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/2b6bc0a1-93c5-451e-90cf-a10e2e4ff722/download/wind-measurements_papua-new-guinea_umi_station_wb-esmap_qc.csv",
+          "byteSize": 32397005,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--11",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/a0af5caa-d39e-4889-836e-7718fd46145a/download/wind-measurements_papua-new-guinea_lng_wb-esmap_annexes.zip",
+          "byteSize": 27693246,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--14",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/ad4bab77-4bcb-426f-b4f9-54243b253968/download/wbesmappngimplementationplanwindmapping.pdf",
+          "byteSize": 1223756,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/f9c7e834-a993-48e7-9831-605ba7cba4c3/download/wind-measurements_papua-new-guinea_lng_plant_central_wb-esmap_qc.csv",
+          "byteSize": 25180919,
+          "checksum": "ba50cc31abd3caa9f197df1cb5037449",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--8",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/fb20ca22-aed7-4bc6-a840-892c0f74570d/download/wind-measurements_papua-new-guinea_umi_station_wb-esmap_raw.zip",
+          "byteSize": 21273596,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--12",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/518a0b46-405f-4191-9e04-52e8e5e446f0/download/wind-measurements_papua-new-guinea_umi_station_wb-esmap_header.csv",
+          "byteSize": 3857,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--10",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/71d3bf3c-733e-41f9-be7f-b8efa394c2d1/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_annexes.zip",
+          "byteSize": 26495531,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--13",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/0bbf13d5-b0ac-4351-9833-545946014dd3/download/wind-measurements_papua-new-guinea_umi_wb-esmap_annexes.zip",
+          "byteSize": 58973087,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--15",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/dbca6fb7-585a-458c-a77f-3c1237397fb0/download/111151-esm-p145864-public-pngwindmappingsiteidentificationreportwbgesmapnov.pdf",
+          "byteSize": 789666,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--3",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/62fdd544-c788-40aa-b8d2-eed59e1794b2/download/esm-p145864-public-pngwindmappingmesoscalemodelingreportwbesmapaug.pdf",
+          "byteSize": 1032640,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/47e69e2c-e829-4a84-9b9c-e89b810e2f87/download/wind-measurements_papua-new-guinea_lng_plant_central_wb-esmap_header.csv",
+          "byteSize": 3942,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--7",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/a8db6cec-8faf-4c8e-aee2-4fb45d1e6f14/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_qc.csv",
+          "byteSize": 31913267,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/d8f8f0e9-c6ea-4a9e-b788-dbf48815dcfb/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_raw.zip",
+          "byteSize": 20920210,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--6",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/6b0ac359-227b-4821-a09f-07ad420298ab/download/wbesmappngwind1yearresourcereport3masts20190415final.pdf",
+          "byteSize": 3669159,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/png-wind-measurement-data--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "id": "https://catalog.opengrid.org/field/png-wind-measurement-data/The-wind-measurement-campaign-that-has-generated-this-data-was-commissioned-by-The-World-Bank-with-funding-from-the-Energy-Sector-Management-Assistance-Program-ESMAP",
+          "localName": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/png-wind-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2018-04-26T00:00:00+00:00",
+      "landingPage": "https://globalwindatlas.info/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/png-wind-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/png-wind-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/857a9652-1a8f-4098-9f51-433a81583387/resource/3e02b135-53fa-4d35-89d2-4b56a143755e/download/wind-measurements_papua-new-guinea_launakalana_wb-esmap_header.csv",
+      "sourceRecordId": "energydata_info:857a9652-1a8f-4098-9f51-433a81583387",
+      "title": "Papua New Guinea- Wind Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

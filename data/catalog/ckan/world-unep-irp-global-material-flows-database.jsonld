@@ -1,0 +1,388 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Material flows and resource productivity indicators are central to monitoring the changing patterns of resource use as global economies grow. They are essential for monitoring progress towards SDG targets 8.4 ‘Resource Productivity’ and 12.2 ‘Sustainable Use of Natural Resources’. The Global Material Flows Database provides data to help governments, policy researchers and interested stakeholders understand and trace the linkages between economic growth and raw material usage. Such information is basic for the development of effectively targeted sustainable consumption and production strategies. It also builds a strong quantitative basis upon which the success or failure of those strategies in lowering resources use can subsequently be assessed. The database is based on authoritative, publicly accessible international data sources wherever possible, combined with the most recent methodologies for establishing material flow accounts. It covers the period 1970-2019, for more than 200 countries and reports extraction and direct trade of raw materials, indirect trade flows (including material footprints), as well as intensities derived from these material measures.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/8121a8bc-37b6-408a-91b4-b015c299b349/resource/cb390844-66ec-4559-ac1a-e153bb94ee98/download/global-material-flows-database.csv",
+          "byteSize": 7484216,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-unep-irp-global-material-flows-database--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "1999",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1999",
+          "localName": "1999",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1991",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1991",
+          "localName": "1991",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Flow code",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/Flow-code",
+          "localName": "Flow code",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2008",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2008",
+          "localName": "2008",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2001",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2001",
+          "localName": "2001",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1998",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1998",
+          "localName": "1998",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2012",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2012",
+          "localName": "2012",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1975",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1975",
+          "localName": "1975",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1995",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1995",
+          "localName": "1995",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2003",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2003",
+          "localName": "2003",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1977",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1977",
+          "localName": "1977",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1988",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1988",
+          "localName": "1988",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2011",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2011",
+          "localName": "2011",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Flow name",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/Flow-name",
+          "localName": "Flow name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2004",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2004",
+          "localName": "2004",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1970",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1970",
+          "localName": "1970",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/Country",
+          "localName": "Country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1987",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1987",
+          "localName": "1987",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1996",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1996",
+          "localName": "1996",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Flow unit",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/Flow-unit",
+          "localName": "Flow unit",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Category",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/Category",
+          "localName": "Category",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1976",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1976",
+          "localName": "1976",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1985",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1985",
+          "localName": "1985",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2017",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2017",
+          "localName": "2017",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1984",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1984",
+          "localName": "1984",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2013",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2013",
+          "localName": "2013",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1983",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1983",
+          "localName": "1983",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1980",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1980",
+          "localName": "1980",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1973",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1973",
+          "localName": "1973",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2014",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2014",
+          "localName": "2014",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1990",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1990",
+          "localName": "1990",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1989",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1989",
+          "localName": "1989",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2015",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2015",
+          "localName": "2015",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2002",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2002",
+          "localName": "2002",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2019",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2019",
+          "localName": "2019",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1979",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1979",
+          "localName": "1979",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2006",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2006",
+          "localName": "2006",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1992",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1992",
+          "localName": "1992",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1972",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1972",
+          "localName": "1972",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2007",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2007",
+          "localName": "2007",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2018",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2018",
+          "localName": "2018",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1994",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1994",
+          "localName": "1994",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2016",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2016",
+          "localName": "2016",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2009",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2009",
+          "localName": "2009",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1971",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1971",
+          "localName": "1971",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2010",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2010",
+          "localName": "2010",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1974",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1974",
+          "localName": "1974",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1978",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1978",
+          "localName": "1978",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1982",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1982",
+          "localName": "1982",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1986",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1986",
+          "localName": "1986",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1993",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1993",
+          "localName": "1993",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1997",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1997",
+          "localName": "1997",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2005",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2005",
+          "localName": "2005",
+          "type": "Field"
+        },
+        {
+          "fieldId": "2000",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/2000",
+          "localName": "2000",
+          "type": "Field"
+        },
+        {
+          "fieldId": "1981",
+          "id": "https://catalog.opengrid.org/field/world-unep-irp-global-material-flows-database/1981",
+          "localName": "1981",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/world-unep-irp-global-material-flows-database",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2022-03-30T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2022-03-30T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-unep-irp-global-material-flows-database#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-unep-irp-global-material-flows-database#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/8121a8bc-37b6-408a-91b4-b015c299b349/resource/cb390844-66ec-4559-ac1a-e153bb94ee98/download/global-material-flows-database.csv",
+      "sourceRecordId": "energydata_info:8121a8bc-37b6-408a-91b4-b015c299b349",
+      "title": "World - UNEP IRP Global Material Flows Database",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

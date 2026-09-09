@@ -1,0 +1,56 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The India Lights platform shows light output at night for 20 years for 600,000 villages across India. The Defense Meteorological Satellite Program (DMSP) has taken pictures of the Earth every night from 1993 to 2013. Researchers at the University of Michigan, in collaboration with the World Bank, used the DMSP images to extract the data you see on the India Lights platform. Each point you see on the map represents the light output of a specific village at a specific point in time. On the district level, the map also allows you to filter to view villages that have participated in India’s flagship electrification program. This tremendous trove of data can be used to look at changes in light output, which can be used to complement research about electrification in the country. About the Data: The DMSP raster images have a resolution of 30 arc-seconds, equal to roughly 1 square kilometer at the equator. Each pixel of the image is assigned a number on a relative scale from 0 to 63, with 0 indicating no light output and 63 indicating the highest level of output. This number is relative and may change depending on the gain settings of the satellite’s sensor, which constantly adjusts to current conditions as it takes pictures throughout the day and at night. Methodology To derive a single measurement, the light output values were extracted from the raster image for each date for the pixels that correspond to each village's approximate latitude and longitude coordinates. We then processed the data through a series of filtering and aggregation steps. First, we filtered out data with too much cloud cover and solar glare, according to recommendations from the National Oceanic and Atmospheric Administration (NOAA). We aggregated the resulting 4.4 billion data points by taking the median measurement for each village over the course of a month. We adjusted for differences among satellites using a multiple regression on year and satellite to isolate the effect of each satellite. To analyze data on the state and district level, we also determined the median village light output within each administrative boundary for each month in the twenty-year time span. These monthly aggregates for each village, district, and state are the data that we have made accessible through the API. To generate the map and light curve visualizations that are presented on this site, we performed some additional data processing. For the light curves, we used a rolling average to smooth out the noise due to wide fluctuations inherent in satellite measurements. For the map, we took a random sample of 10% of the villages, stratified over districts to ensure good coverage across regions of varying village density. Acknowledgments The India Lights project is a collaboration between Development Seed, The World Bank, and Dr. Brian Min at the University of Michigan. •Satellite base map © Mapbox. •India village locations derived from India VillageMap © 2011-2015 ML Infomap. •India population data and district boundaries © 2011-2015 ML Infomap. •Data for reference map of Uttar Pradesh, India, from Natural Earth Data •Banerjee, Sudeshna Ghosh; Barnes, Douglas; Singh, Bipul; Mayer, Kristy; Samad, Hussain. 2014. Power for all : electricity access challenge in India. A World Bank study. Washington, DC ; World Bank Group. •Hsu, Feng-Chi, Kimberly Baugh, Tilottama Ghosh, Mikhail Zhizhin, and Christopher Elvidge. \"DMSP-OLS Radiance Calibrated Nighttime Lights Time Series with Intercalibration.\" Remote Sensing 7.2 (2015): 1855-876. Web. •Min, Brian. Monitoring Rural Electrification by Satellite. Tech. World Bank, 30 Dec. 2014. Web. •Min, Brian. Power and the Vote: Elections and Electricity in the Developing World. New York and Cambridge: Cambridge University Press. 2015. •Min, Brian, and Kwawu Mensan Gaba. Tracking Electrification in Vietnam Using Nighttime Lights. Remote Sensing 6.10 (2014): 9511-529. •Min, Brian, and Kwawu Mensan Gaba, Ousmane Fall Sarr, Alassane Agalassou. Detection of Rural Electrification in Africa using DMSP-OLS Night Lights Imagery. International Journal of Remote Sensing 34.22 (2013):8118-8141. Disclaimer Country borders or names do not necessarily reflect the World Bank Group's official position. The map is for illustrative purposes and does not imply the expression of any opinion on the part of the World Bank, concerning the legal status of any country or territory or concerning the delimitation of frontiers or boundaries.",
+      "distribution": [
+        {
+          "accessURL": "https://india.nightlights.io",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/india-night-lights--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://api.nightlights.io/",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/india-night-lights--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/india-night-lights",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-28T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/india-night-lights#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/india-night-lights#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:6eacb570-c6e3-4821-9fb5-2e408f744196",
+      "title": "India Night Lights",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

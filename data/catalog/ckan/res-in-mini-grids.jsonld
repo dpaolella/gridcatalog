@@ -1,0 +1,65 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD9"
+      ],
+      "description": "The data set provides information on the renewable energy share of area-wide mini-grid (PV-battery-diesel) optimizations minimizing LCOE in all countries with a rural electrification rate below 90%. The values are renewable energy in percent of the total energy production. Full information on the creation of the data set can be found here: https://doi.org/10.1016/j.esd.2015.12.007",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/7170d387-62b8-4c62-8c8a-9828322fb664/resource/ece4341d-2e1e-4437-bb1f-6baf7eca4503/download/res1.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/res-in-mini-grids--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7170d387-62b8-4c62-8c8a-9828322fb664/resource/fdd269ab-70ee-4b31-9e9c-c2a229db5e13/download/normbatmin4.tif",
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/res-in-mini-grids--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7170d387-62b8-4c62-8c8a-9828322fb664/resource/ff3ac49a-93b5-4e67-a94f-0d6bd6a1fd02/download/lcoered0.tif",
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/res-in-mini-grids--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/res-in-mini-grids",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD9 1.6. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-06-09T00:00:00+00:00",
+      "landingPage": "https://doi.org/10.1016/j.esd.2015.12.007",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2023-11-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/res-in-mini-grids#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/res-in-mini-grids#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:7170d387-62b8-4c62-8c8a-9828322fb664",
+      "title": "Global South - Renewable energy share in simulated mini-grids",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

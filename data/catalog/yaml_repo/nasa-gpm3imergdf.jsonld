@@ -29,21 +29,21 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1, DD5 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "datacenter",
-        "global",
         "opendap",
         "climate",
         "ice",
-        "land",
-        "metadata",
-        "aws-pds",
-        "hydrology",
         "coastal",
-        "netcdf"
+        "netcdf",
+        "aws-pds",
+        "global",
+        "datacenter",
+        "hydrology",
+        "land",
+        "metadata"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-gpm3imergdf/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:20.129892+00:00",
+      "modified": "2026-09-08T21:57:34.229446+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#provenance-gap",
@@ -51,8 +51,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#flags",
         "staleness": "unknown",
@@ -63,6 +63,44 @@
       "title": "GPM IMERG Final Precipitation L3 1 day 0.1 degree x 0.1 degree V07 (GPM_3IMERGDF) at GES DISC",
       "type": "Dataset",
       "updateCadence": "irregular",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/nasa/gesdisc-tutorials/blob/main/notebooks/How_to_Access_GES_DISC_Data_Using_Python.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "James Acker, Jerome Alfred, Helen Amos, Chris Battisto, Thomas Hearty, Alexis Hunzinger, Lena Iredell, Christoph Keller, Binita KC, Carlee Loeser, Ariana Louise, Kristan Morgan, Dieu My T. Nguyen, Dana Ostrenga, Xiaohua Pan, Kanan Patel, Brianna R. Pagán, Andrey Savtchenko, Elliot Sherman, Suhung Shen, Jian Su,Joseph Wysk, Rupesh Shrestha.",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#usage-3",
+          "title": "How to Access GES DISC Data Using Python",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1175/JAM2173.1",
+          "assertedBy": "aws_open_data",
+          "authorName": "Hong, Y., K. L. Hsu, S. Sorooshian, and X. Gao",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#usage-0",
+          "title": "Precipitation Estimation from Remotely Sensed Imagery Using an Artificial Neural Network Cloud Classification System",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1175/JHM-D-11-022.1",
+          "assertedBy": "aws_open_data",
+          "authorName": "Joyce, R. J., P. Xie, and J. E. Janowiak",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#usage-1",
+          "title": "Kalman Filter Based CMORPH",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.researchgate.net/profile/Udo-Schneider-4/publication/253114707_Calculation_of_Gridded_Precipitation_Data_for_the_Global_Land-Surface_using_in-situ_Gauge_Observations/links/0deec53bbcb3a0e220000000/Calculation-of-Gridded-Precipitation-Data-for-the-Global-Land-Surface-using-in-situ-Gauge-Observations.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "Rudolf, B., and U. Schneider",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nasa-gpm3imergdf#usage-2",
+          "title": "Calculation of Gridded Precipitation Data for the Global Land-Surface Using In-Situ Gauge Observations",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

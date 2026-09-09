@@ -28,21 +28,21 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "climate",
-        "model",
-        "ice",
-        "land",
-        "climate model",
+        "atmosphere",
         "sustainability",
-        "geospatial",
         "aws-pds",
+        "land",
         "CMIP6",
-        "oceans",
-        "atmosphere"
+        "climate model",
+        "geospatial",
+        "model",
+        "climate",
+        "ice",
+        "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/met-office-ukesm1-arise/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.491070+00:00",
+      "modified": "2026-09-08T21:57:32.054375+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/met-office-ukesm1-arise#provenance-gap",
@@ -61,6 +61,17 @@
       "sourceRecordId": "aws_open_data:met-office-ukesm1-arise",
       "title": "Met Office UK Earth System Model (UKESM1) ARISE-SAI geoengineering experiment data",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/MetOffice/arise-cmor-tables/tree/master/examples",
+          "assertedBy": "aws_open_data",
+          "authorName": "MetOffice",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-ukesm1-arise#usage-0",
+          "title": "Examples coming soon",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

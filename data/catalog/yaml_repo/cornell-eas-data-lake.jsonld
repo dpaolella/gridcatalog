@@ -28,20 +28,20 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9, DD10 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "geospatial",
-        "earth observation",
-        "mapping",
-        "aws-pds",
-        "agriculture",
         "elevation",
-        "meteorological",
+        "environmental",
+        "mapping",
         "weather",
-        "climate",
-        "environmental"
+        "meteorological",
+        "aws-pds",
+        "geospatial",
+        "agriculture",
+        "earth observation",
+        "climate"
       ],
       "landingPage": "https://registry.opendata.aws/cornell-eas-data-lake/",
       "license": "https://datalake.eas.cornell.edu/license.txt",
-      "modified": "2026-09-07T07:36:17.791178+00:00",
+      "modified": "2026-09-08T21:57:31.263020+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/cornell-eas-data-lake#provenance-gap",
@@ -61,6 +61,17 @@
       "title": "Cornell EAS Data Lake",
       "type": "Dataset",
       "updateCadence": "PT1H",
+      "usageEvidence": [
+        {
+          "accessURL": "https://datalake.eas.cornell.edu/tutorial.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Marty Sullivan",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/cornell-eas-data-lake#usage-0",
+          "title": "Cornell EAS Data Lake Setup Tutorial",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

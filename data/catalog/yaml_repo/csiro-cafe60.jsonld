@@ -34,7 +34,7 @@
       ],
       "landingPage": "https://registry.opendata.aws/csiro-cafe60/",
       "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
-      "modified": "2026-09-07T07:36:17.814688+00:00",
+      "modified": "2026-09-08T21:57:31.291471+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [

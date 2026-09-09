@@ -1,0 +1,131 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This dataset consists of grid connected solar installations. Their installed capacities in kilowatts (kW) are also provided. This dataset was last updated in June 2014. Citation: Ghana Energy Commission & Negawatt challenge. A curated list of datasets for the World Bank Negawatt Challenge competition in Accra and Nairobi cities: https://datahub.io/organization/negawatt-challenge",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039034/1/DR0048420/solar-stations-connected-to-the-grid.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-geo-located-solar-stations-connected-grid-2014--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039034/1/DR0048419/solar-stations-connected-to-the-grid.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-geo-located-solar-stations-connected-grid-2014--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039034/1/DR0048418/solar-stations-connected-to-the-grid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-geo-located-solar-stations-connected-grid-2014--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "LOCALITY",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LOCALITY",
+          "localName": "LOCALITY",
+          "type": "Field"
+        },
+        {
+          "fieldId": "INSTITUTION NAME",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/INSTITUTION-NAME",
+          "localName": "INSTITUTION NAME",
+          "type": "Field"
+        },
+        {
+          "fieldId": "LATITUDE",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LATITUDE",
+          "localName": "LATITUDE",
+          "type": "Field"
+        },
+        {
+          "fieldId": "INSTALLED CAPACITY(kW) GRIDCONNECTED",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/INSTALLED-CAPACITY-kW-GRIDCONNECTED",
+          "localName": "INSTALLED CAPACITY(kW) GRIDCONNECTED",
+          "type": "Field"
+        },
+        {
+          "fieldId": "SERIAL NO",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/SERIAL-NO",
+          "localName": "SERIAL NO",
+          "type": "Field"
+        },
+        {
+          "fieldId": "METRO/MUNICIPAL/DISTRICT",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/METRO-MUNICIPAL-DISTRICT",
+          "localName": "METRO/MUNICIPAL/DISTRICT",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DATE",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/DATE",
+          "localName": "DATE",
+          "type": "Field"
+        },
+        {
+          "fieldId": "REGION",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/REGION",
+          "localName": "REGION",
+          "type": "Field"
+        },
+        {
+          "fieldId": "LONGITUDE",
+          "id": "https://catalog.opengrid.org/field/ghana-geo-located-solar-stations-connected-grid-2014/LONGITUDE",
+          "localName": "LONGITUDE",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/ghana-geo-located-solar-stations-connected-grid-2014",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-01-31T00:00:00+00:00",
+      "keyword": [
+        "Negawatt Challenge",
+        "Ghana",
+        "Ghana Energy Commission",
+        "solar station"
+      ],
+      "landingPage": "https://datahub.io/dataset/solar-stations-connected-to-the-grid",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ghana-geo-located-solar-stations-connected-grid-2014#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ghana-geo-located-solar-stations-connected-grid-2014#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0039034/1/DR0048420/solar-stations-connected-to-the-grid.csv",
+      "sourceRecordId": "energydata_info:477fb648-4d3e-45e6-ae07-1813fbe9ff6a",
+      "title": "Ghana - Geo-located Solar Stations connected to the grid",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -37,18 +37,18 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "satellite imagery",
-        "climate",
-        "sustainability",
         "geospatial",
         "earth observation",
-        "aws-pds",
+        "climate",
         "coastal",
-        "deafrica"
+        "aws-pds",
+        "satellite imagery",
+        "deafrica",
+        "sustainability"
       ],
       "landingPage": "https://registry.opendata.aws/deafrica-coastlines/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.871415+00:00",
+      "modified": "2026-09-08T21:57:31.355040+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#provenance-gap",
@@ -67,6 +67,107 @@
       "sourceRecordId": "aws_open_data:deafrica-coastlines",
       "title": "Digital Earth Africa Coastlines",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/digitalearthafrica/deafrica-sandbox-notebooks",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-9",
+          "title": "Digital Earth Africa Notebook Repo",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.youtube.com/watch?v=k7S49TX7SHE",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-0",
+          "title": "Introducing the Digital Earth Africa Coastlines Service",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://docs.digitalearthafrica.org/en/latest/sandbox/notebooks/Real_world_examples/Coastal_erosion.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-3",
+          "title": "Monitoring coastal erosion along Africa’s coastline",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://maps.digitalearth.africa/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-7",
+          "title": "Digital Earth Africa Map",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "http://learn.digitalearthafrica.org/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-4",
+          "title": "Digital Earth Africa Training",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://sandbox.digitalearth.africa/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-8",
+          "title": "Digital Earth Africa Sandbox",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.africageoportal.com/pages/digital-earth-africa",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-10",
+          "title": "Digital Earth Africa Geoportal",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1016/j.rse.2021.112734",
+          "assertedBy": "aws_open_data",
+          "authorName": "Robbi Bishop-Taylor, Rachel Nanson, Stephen Sagar, Leo Lymburner",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-1",
+          "title": "Mapping Australia's dynamic coastline at mean sea level using three decades of Landsat imagery",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://geoserver.digitalearth.africa/geoserver/ows?service=wfs&version=2.0.0&request=GetCapabilities",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-5",
+          "title": "Digital Earth Africa Web Feature Service",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.digitalearthafrica.org/media-center/blog/monitoring-coastal-erosion-saly-portudal-resort-mbour-senegal",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ndeye Fatou SANE, Lissong DIOP, Mamadou Lamine NDIAYE, Amadou SALL, Dr. Moussa SALL",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-2",
+          "title": "Monitoring coastal erosion at Saly Portudal resort, Mbour-Senegal",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://geoserver.digitalearth.africa/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities",
+          "assertedBy": "aws_open_data",
+          "authorName": "Digital Earth Africa Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/deafrica-coastlines#usage-6",
+          "title": "Digital Earth Africa Web Map Service",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

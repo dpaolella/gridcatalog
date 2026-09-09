@@ -1,0 +1,116 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The data include results of the electrification modeling for the five Nigerian Federal States Cross River, Niger, Ogun, Plateau and Sokoto. Non-electrified village clusters were identified and a load was estimated. Small clusters with a low demand (demand <50kW) were assigend stand-alone solutions, while for the cluster with a larger demand techno-economically optimized hybrid mini-grids were contrasted to grid extension. Grid extension considers topography and existing infrastructure such as roads to identify a realistic grid extension pathway. Results included in the data set show identified clusters and electrification option created for a three-phased rural electrification approach towards 100% electrification and the respective grid development. This work partly results from the authors’ collaboration with the Nigerian Energy Support Programme (NESP) implemented by the Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH in collaboration with Federal Ministry of Power, Nigeria and funded by the German Government and the European Union. The authors gratefully acknowledge the support from GIZ-NESP and Nigerian FMP. Any conclusions or recommendations expressed in this article do not necessarily reflect the views of GIZ-NESP or FMPWH.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/a0168f8b-e844-4889-8100-5222e4a863b6/download/phasewise-grid-development-ogun.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/4f9054ba-b082-41f8-a231-5d7670b3e8d5/download/phasewise-grid-development-niger.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/d4b83228-0683-4b5d-aa78-f4e2797a887a/download/phasewise-grid-development-plateau.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/035157b7-113f-462a-8369-5a7303c48824/download/village-electrification-cross-river.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/4badd06d-1221-4982-83fd-fca6b25aae96/download/village-electrification-niger.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/b9ad90b1-9cf8-4dc9-91f4-23a57e4d3392/download/phasewise-grid-development-cross-river.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/580be203-b830-4ef7-bd8c-7a89c867fe05/download/village-electrification-ogun.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/5f106ef0-f1f2-46e3-a636-083cef47e690/download/phasewise-grid-development-sokoto.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/7b9e851e-17af-4d22-a372-b05e957319ef/download/village-electrification-sokoto.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e1f5293-cdc4-4297-b1e3-7595e55b5ea2/resource/3ffbd0ad-5f03-43cc-9281-ce76d9bf08de/download/village-electrification-plateau.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/rural-electrification-modelling-for-five-nigerian-federal-states--3",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/rural-electrification-modelling-for-five-nigerian-federal-states",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-10-27T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
+      "modified": "2023-11-28T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/rural-electrification-modelling-for-five-nigerian-federal-states#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/rural-electrification-modelling-for-five-nigerian-federal-states#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:7e1f5293-cdc4-4297-b1e3-7595e55b5ea2",
+      "title": "Nigeria - Rural Electrification Modelling for five Nigerian Federal States",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

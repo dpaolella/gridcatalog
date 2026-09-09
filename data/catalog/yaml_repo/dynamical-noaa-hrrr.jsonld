@@ -28,17 +28,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "aws-pds",
-        "zarr",
-        "atmosphere",
+        "climate",
         "forecast",
-        "meteorological",
+        "atmosphere",
+        "aws-pds",
         "weather",
-        "climate"
+        "meteorological",
+        "zarr"
       ],
       "landingPage": "https://registry.opendata.aws/dynamical-noaa-hrrr/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.991122+00:00",
+      "modified": "2026-09-08T21:57:31.487958+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -52,6 +52,53 @@
       "sourceRecordId": "aws_open_data:dynamical-noaa-hrrr",
       "title": "NOAA HRRR - dynamical.org Icechunk Zarr",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/noaa-hrrr-forecast-48-hour.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#usage-1",
+          "title": "NOAA HRRR forecast, 48 hour — Quickstart",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/noaa-hrrr-analysis-virtual.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#usage-4",
+          "title": "NOAA HRRR analysis, virtual — Quickstart",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/noaa-hrrr-forecast-48-hour-virtual.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#usage-2",
+          "title": "NOAA HRRR forecast, 48 hour, virtual — Quickstart",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/noaa-hrrr-analysis.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#usage-3",
+          "title": "NOAA HRRR analysis — Quickstart",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/noaa-hrrr-forecast-18-hour-virtual.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-noaa-hrrr#usage-0",
+          "title": "NOAA HRRR forecast, 18 hour, virtual — Quickstart",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

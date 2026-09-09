@@ -1,0 +1,346 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar and meteorological ground measurements from a network of weather stations in West Africa. The data is provided in the framework of the West African Power Pool project: \"Solar Development in Sub-Saharan Africa - Solar resource measurement campaign in West Africa”. Funding is provided by World Bank. Measurement Date Range: - Dédougou: 2021-10-27 – 2023-10-26 - Dori: 2021-10-12 – 2023-10-11 - Kaya: 2021-04-28 – 2023-04-27 - Koupéla: 2021-04-29 – 2023-04-28",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/8475a883-f9d0-44e5-92d8-4c9db52a0537/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-dori_2023-10-12-final_fr_en.pdf",
+          "byteSize": 13145088,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--8",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/dff1e52d-8845-443d-9036-232ff97a9f27/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-koupela_2022-04-29_fr_en.pdf",
+          "byteSize": 9193584,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--17",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/76a8f9ea-5ab9-4986-806a-eaadcf694958/download/solar-measurements_burkinafaso-dori_qc.csv",
+          "byteSize": 47016471,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--10",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/f9abe1b6-8fb9-4470-804b-c3c4445e4af5/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-dedougou_2022-10-27_fr_en.pdf",
+          "byteSize": 12432657,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/08228d1c-8de5-4c74-b94a-86e0d976cad4/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-dori_2022-10-12_fr_en.pdf",
+          "byteSize": 8554632,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--7",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/ff35fac4-9b00-4096-bdd3-6170614928dd/download/solar-measurements_burkinafaso-kaya_qc_year2_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/6730a722-c7fc-4541-bbbb-7e2adb175ae6/download/csps-yls_wapp_stationinstallationreport_burkinafaso_dori_2021-10-11_fr_en.pdf",
+          "byteSize": 4747925,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--6",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/13e3caf1-a6c8-4484-935b-d7706476874f/download/solar-measurements_burkinafaso-koupela_qc_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--20",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/f4aab6d0-2d4d-485c-a0b6-ec345590605a/download/solar-measurements_burkinafaso-dedougou_header_fr_en.xlsx",
+          "byteSize": 18766,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/8fa080b5-7fe4-4e83-b426-89e10528204e/download/solar-measurements_burkinafaso-dedougou_qc_year2.csv",
+          "byteSize": 47003563,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--5",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/e7a2b89f-77fc-4ec0-9bd4-4e9c08d6e68e/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-dedougou_2023-10-27-final_fr_en.pdf",
+          "byteSize": 15904000,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/572fb2bf-5bbf-4162-bab2-4583659f7edd/download/solar-measurements_burkinafaso-dori_qc_year2.csv",
+          "byteSize": 46863666,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--11",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/6f833c5a-7b25-4b88-8019-8225877b4d2c/download/solar-measurements_burkinafaso-dedougou_qc.csv",
+          "byteSize": 47207863,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/82ef24ad-add3-4232-b24c-0d4385f8bff7/download/solar-measurements_burkinafaso-koupela_qc_year2_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--21",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/00df4823-8ec9-4804-81c5-bf2f375547aa/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-koupela_2023-04-29-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--18",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/923dca30-1334-4690-ba4d-a55071684b78/download/solar-measurements_burkinafaso-kaya_header_fr_en.xlsx",
+          "byteSize": 20424,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--14",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/4552efd3-f886-4b35-a6a6-de08e70d5b99/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-kaya_2022-04-28_fr_en.pdf",
+          "byteSize": 8810971,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--12",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/c52533fd-a512-4df8-b2d2-4eb637fcd6a9/download/csps-yls_wapp_stationmeasurementreport_burkinafaso-kaya_2023-04-28-final_fr_en.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/0ee849fe-b243-466d-acb0-acc8d4ee58ef/download/solar-measurements_burkinafaso-dori_header_fr_en.xlsx",
+          "byteSize": 18807,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--9",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/9381a9f8-3872-4588-9b69-df4682edeaca/download/solar-measurements_burkinafaso-kaya_qc_r1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--15",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/02036cf6-a5c4-481d-aa0a-0b257be8e216/download/solar-measurements_burkinafaso-koupela_header_fr_en.xlsx",
+          "byteSize": 20419,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--19",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/4c949d67-22ab-4b62-ab53-cb3fa92c0ed3/download/csps-yls_wapp_stationinstallationreport_burkinafaso-dedogou_2021-10-26_fr_en.pdf",
+          "byteSize": 8697715,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/burkina-faso-solar-radiation-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "GHI",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/GHI",
+          "localName": "GHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WDstdev",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/WDstdev",
+          "localName": "WDstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSgust",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/WSgust",
+          "localName": "WSgust",
+          "type": "Field"
+        },
+        {
+          "fieldId": "BP",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/BP",
+          "localName": "BP",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DHI",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/DHI",
+          "localName": "DHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cleaning",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/Cleaning",
+          "localName": "Cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModB",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/ModB",
+          "localName": "ModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WS",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/WS",
+          "localName": "WS",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModA",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/ModA",
+          "localName": "ModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSstdev",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/WSstdev",
+          "localName": "WSstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WD",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/WD",
+          "localName": "WD",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModA",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/TModA",
+          "localName": "TModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Precipitation",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/Precipitation",
+          "localName": "Precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModB",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/TModB",
+          "localName": "TModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DNI",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/DNI",
+          "localName": "DNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timestamp",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/Timestamp",
+          "localName": "Timestamp",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tamb",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/Tamb",
+          "localName": "Tamb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "RH",
+          "id": "https://catalog.opengrid.org/field/burkina-faso-solar-radiation-measurement-data/RH",
+          "localName": "RH",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/burkina-faso-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2022-06-28T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-03-02T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/burkina-faso-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/burkina-faso-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/2b60afb6-f41c-4333-b45b-267190c02572/resource/6f833c5a-7b25-4b88-8019-8225877b4d2c/download/solar-measurements_burkinafaso-dedougou_qc.csv",
+      "sourceRecordId": "energydata_info:2b60afb6-f41c-4333-b45b-267190c02572",
+      "title": "Burkina Faso - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

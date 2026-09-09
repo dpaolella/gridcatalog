@@ -28,21 +28,21 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "global",
-        "weather",
-        "marine",
+        "aws-pds",
         "model",
+        "global",
+        "marine",
+        "forecast",
         "geoscience",
+        "netcdf",
+        "weather",
         "geospatial",
         "ocean sea surface height",
-        "aws-pds",
-        "netcdf",
-        "oceans",
-        "forecast"
+        "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/met-office-global-wave/",
       "license": "http://spdx.org/licenses/CC-BY-SA-4.0",
-      "modified": "2026-09-07T07:36:18.472388+00:00",
+      "modified": "2026-09-08T21:57:32.033209+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/met-office-global-wave#provenance-gap",
@@ -50,8 +50,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/met-office-global-wave#flags",
         "staleness": "unknown",
@@ -61,6 +61,35 @@
       "sourceRecordId": "aws_open_data:met-office-global-wave",
       "title": "Met Office Global Wave model on a 2-year rolling archive",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://www.metoffice.gov.uk/research/weather/ocean-forecasting/coupled-development",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-wave#usage-0",
+          "title": "Coupled forecasting development",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://scitools-iris.readthedocs.io/en/stable/userguide/index.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Iris Contributors",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-wave#usage-2",
+          "title": "Iris",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.metoffice.gov.uk/services/government/defence-and-security/ocean-models",
+          "assertedBy": "aws_open_data",
+          "authorName": "Met Office",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/met-office-global-wave#usage-1",
+          "title": "Ocean models",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

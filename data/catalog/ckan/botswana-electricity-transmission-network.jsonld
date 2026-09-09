@@ -1,0 +1,58 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Data for medium and high voltage transmission lines in Botswana. The data were compiled for the AICD study led by the World Bank. A variety of sources were consulted, including regional power pool documents and maps from World Bank project documents.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042011/1/DR0052492/botwana-electricity-transmission-network.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/botswana-electricity-transmission-network--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042011/1/DR0052491/botwana-electricity-transmission-network.shp.xml",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/botswana-electricity-transmission-network--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/botswana-electricity-transmission-network",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/botswana-electricity-transmission-network#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/botswana-electricity-transmission-network#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:AICD-AFR-47",
+      "title": "Botswana Electricity Transmission Network",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Map with solar irradiation and PV power potential in Ukraine. The GIS data stems from the Global Solar Atlas (http://globalsolaratlas.info). The link also provides a poster size (.tif) and midsize map (.png). The Global Solar Atlas is continuously updated. Provided GIS data layers include long-term yearly average of: (1) PVOUT – Photovoltaic power potential [kWh/kWp] (2) GHI – Global horizontal irradiation [kWh/m2] (3) DIF – Diffuse horizontal irradiation [kWh/m2] (4) GTI – Global irradiation for optimally tilted surface [kWh/m2] (5) OPTA – Optimum tilt to maximize yearly yield [°] (6) DNI – Direct normal irradiation [kWh/m2]",
+      "distribution": [
+        {
+          "accessURL": "http://globalsolaratlas.info/download/ukraine",
+          "formatLabel": "Other",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ukraine-solar-irradiation-and-pv-power-potential-maps--0",
+          "mediaType": "OTHER",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/ukraine-solar-irradiation-and-pv-power-potential-maps",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2018-07-23T00:00:00+00:00",
+      "landingPage": "http://globalsolaratlas.info/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ukraine-solar-irradiation-and-pv-power-potential-maps#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/ukraine-solar-irradiation-and-pv-power-potential-maps#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:3c791712-5fe6-4f56-b3aa-e7e38516c5aa",
+      "title": "Ukraine - Solar irradiation and PV power potential maps",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

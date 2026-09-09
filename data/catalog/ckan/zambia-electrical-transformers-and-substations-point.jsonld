@@ -1,0 +1,80 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The dataset contains the point location of 1)Distribution MVLV Transformers 2)Distribution MV Transformers 3)Distribution Substations 4)HVMV Substations 5)MVLV Substations in Zambia",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0061485/DR0086632/Zambia%20-%20Distribution_Substations.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-electrical-transformers-and-substations-point--1",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/db2b0dd8-1aad-43f1-aa7a-19513d2ebdab/resource/d4f55555-a567-41c4-9e68-012d61163d97/download/zambia20-20distribution_substations.geojson",
+          "byteSize": 95392,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-electrical-transformers-and-substations-point--2",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/db2b0dd8-1aad-43f1-aa7a-19513d2ebdab/resource/8784fdab-fece-4221-89bd-72333eb11e9a/download/zambia20-20distribution20mv20transformers.geojson",
+          "byteSize": 4054715,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-electrical-transformers-and-substations-point--3",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0061485/DR0086631/Zambia%20-%20Distribution%20MV%20Transformers.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-electrical-transformers-and-substations-point--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/zambia-electrical-transformers-and-substations-point",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2022-06-02T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/zambia-electrical-transformers-and-substations-point#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/zambia-electrical-transformers-and-substations-point#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:db2b0dd8-1aad-43f1-aa7a-19513d2ebdab",
+      "title": "Zambia - Electrical Transformers And Substations (Point)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

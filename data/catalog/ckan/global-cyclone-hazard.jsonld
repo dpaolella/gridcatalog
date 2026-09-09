@@ -1,0 +1,114 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Tropical Cyclonic Wind and Storm Surge hazard The tropical cyclonic strong wind and storm surge model use information from 2594 historical tropical cyclones, topography, terrain roughness, and bathymetry. The historical tropical cyclones used in GAR15 cyclone wind and storm surge model are from five different oceanic basins: Northeast Pacific, Northwest Pacific, South Pacific, North Indian, South Indian and North Atlantic and the tracks were obtained from the IBTrACS database (Knapp et al. 2010). This database represents the repository of information associated with tropical cyclones that is the most up to date. Topography was taken from the Shuttle Radar Topography Mission (SRTM) of NASA, which provides terrain elevation grids at a 90 meters resolution, delivered by quadrants over the world. To account for surface roughness, polygons of urban areas worldwide were obtained from the Socioeconomic Data and Applications Centre, SEDAC (CIESIN et al., 2011). This was considered a good proxy of the spatial variation of surface roughness. A digital bathymetry model is employed with a spatial resolution of 30 arc-seconds, taken from the GEBCO_08 (General Bathymetric Chart of the Oceans) Grid Database of the British Oceanographic Data Centre (2009). Bathymetry is the information about the underwater floor of the ocean having direct influence on the formation of the storm surge. More information about the cyclone wind and strom surge hazard can be found in CIMNE et al., 2015a. Hazard analysis was performed using the software CAPRA Team Tropical Cyclones Hazard Modeler (Bernal, 2014). The vulnerability models used in the risk calculation for GAR correlate loss to the wind speed for 3-seconds gusts. For GAR15, the risk was calculated with the CAPRA-GIS platform which is risk modelling tool of the CAPRA suite (www.ecapra.org). The risk assessment was also conducted by CIMNE and Ingeniar to produced AAL and PML values for cyclone risk.",
+      "distribution": [
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:viento_mundo_tr500_int1",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:viento_mundo_tr100_int1",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/2019/02/26/viento_mundo_tr100_int1_afg5XsL.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--8",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/2019/02/26/viento_mundo_tr1000_int1.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--6",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/2019/02/26/viento_mundo_tr50_int1_Ai5zJup.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--0",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:viento_mundo_tr50_int1",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/2019/02/26/viento_mundo_tr250_int1.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--2",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:viento_mundo_tr1000_int1",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:viento_mundo_tr250_int1",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/2019/02/26/viento_mundo_tr500_int1.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-cyclone-hazard--4",
+          "mediaType": "tif",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/global-cyclone-hazard",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 4.1, DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-28T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/global-cyclone-hazard#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/global-cyclone-hazard#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:312c8ad6-a4c5-4a63-806d-7b1e6138501e",
+      "title": "Global cyclone hazard",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

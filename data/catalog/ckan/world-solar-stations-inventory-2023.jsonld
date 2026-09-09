@@ -1,0 +1,194 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "This dataset is a global inventory of known solar stations for which there is access to corresponding solar radiation measurement data, which aims to help improve developing country's knowledge and awareness of solar resources. Users are encouraged to contribute to the development of this dataset. If you have access to solar radiation data, please contact us for uploading the data on the platform and referencing it in the Global Solar Atlas: http://globalsolaratlas.info/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/86e05ba0-2c93-49f6-8b01-51c356adca98/resource/da73e4b1-7cb1-4c9c-8e54-594fad190a60/download/global-solar-stations-inventory-september-2023-9.5.23-update.xlsx",
+          "byteSize": 45409,
+          "checksum": "8ccf458e5faeec8f076e408a069ee0d3",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-solar-stations-inventory-2023--0",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/86e05ba0-2c93-49f6-8b01-51c356adca98/resource/7325091e-bdac-41bd-905d-4565c0d0a488/download/global-solar-stations-inventory-september-2023-9.14.23-update.csv",
+          "byteSize": 28412,
+          "checksum": "8920c535abe98ec60246e82f0cef2add",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-solar-stations-inventory-2023--2",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0037895/3/DR0045933/globalsolar.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-solar-stations-inventory-2023--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Equipment Type",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Equipment-Type",
+          "localName": "Equipment Type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Country",
+          "localName": "Country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Measurement Data",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Measurement-Data",
+          "localName": "Measurement Data",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Documents & Reports",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Documents-Reports",
+          "localName": "Documents & Reports",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Site Name",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Site-Name",
+          "localName": "Site Name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Partners",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Partners",
+          "localName": "Partners",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Commission Date",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Commission-Date",
+          "localName": "Commission Date",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Equipment Owner",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Equipment-Owner",
+          "localName": "Equipment Owner",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Longitude",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Longitude",
+          "localName": "Longitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "End of Measurement Campaign",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/End-of-Measurement-Campaign",
+          "localName": "End of Measurement Campaign",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Elevation",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Elevation",
+          "localName": "Elevation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Nearest Settlement",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Nearest-Settlement",
+          "localName": "Nearest Settlement",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Photo Gallery",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Photo-Gallery",
+          "localName": "Photo Gallery",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project Owner",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Project-Owner",
+          "localName": "Project Owner",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Start of Measurement Campaign",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Start-of-Measurement-Campaign",
+          "localName": "Start of Measurement Campaign",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Latitude",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Latitude",
+          "localName": "Latitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Decommission Date",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Decommission-Date",
+          "localName": "Decommission Date",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Host Institution",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Host-Institution",
+          "localName": "Host Institution",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Project Founder",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Project-Founder",
+          "localName": "Project Founder",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Time Zone",
+          "id": "https://catalog.opengrid.org/field/world-solar-stations-inventory-2023/Time-Zone",
+          "localName": "Time Zone",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/world-solar-stations-inventory-2023",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2016-08-12T00:00:00+00:00",
+      "landingPage": "http://globalsolaratlas.info/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-09-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-solar-stations-inventory-2023#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-solar-stations-inventory-2023#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/86e05ba0-2c93-49f6-8b01-51c356adca98/resource/7325091e-bdac-41bd-905d-4565c0d0a488/download/global-solar-stations-inventory-september-2023-9.14.23-update.csv",
+      "sourceRecordId": "energydata_info:86e05ba0-2c93-49f6-8b01-51c356adca98",
+      "title": "World - Solar Stations Inventory",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

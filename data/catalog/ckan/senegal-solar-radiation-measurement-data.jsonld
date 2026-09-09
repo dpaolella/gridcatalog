@@ -1,0 +1,95 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Ground measurement data from 3 solar meteorological stations in Senegal. Data contains 1 minute average values for solar radiation, air temperature, relative humidity, barometric pressure, precipitation, wind speed at 3m, wind speed calculated for 10m, wind direction and cleaning events. For download access to GIS layers, please visit the Global Solar Atlas: http://globalsolaratlas.info/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/2dd76196-af61-48cf-a4c1-599702ffc4a9/download/solar-measurementssenegal-fatickifcqc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/43f3b3c2-9af3-4140-81d5-64e4a40898c8/download/solar-measurementssenegal-fatickifcheader.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/47258b1a-fcd9-40c3-94c6-d4a2992f1466/download/solar-measurementssenegal-kahoneifcqc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/35d94961-13c7-4e2c-a705-9e1771823c8d/download/solar-measurementssenegal-toubaifcheader.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/373f3da2-b203-4881-9d87-880f3e739351/download/solar-measurementssenegal-toubaifcqc.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/ecbc9dd2-c397-47aa-8bb8-f0c5154a3e5f/download/solar-measurementssenegal-kahoneifcheader.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/senegal-solar-radiation-measurement-data--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "LOCATION",
+          "id": "https://catalog.opengrid.org/field/senegal-solar-radiation-measurement-data/LOCATION",
+          "localName": "LOCATION",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/senegal-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 6.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-12-08T00:00:00+00:00",
+      "landingPage": "http://globalsolaratlas.info/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/senegal-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/senegal-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/27754e48-beb3-486b-8dbb-b7b85ef74b1a/resource/43f3b3c2-9af3-4140-81d5-64e4a40898c8/download/solar-measurementssenegal-fatickifcheader.csv",
+      "sourceRecordId": "energydata_info:27754e48-beb3-486b-8dbb-b7b85ef74b1a",
+      "title": "Senegal - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

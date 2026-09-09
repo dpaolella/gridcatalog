@@ -1,0 +1,83 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Data collected and prepared for a project of the World Bank Group in May 2004. Includes transmission lines, substations, as well as power stations. Includes existing as well as planned projects. This data is based on a digitized PDF map, and so is intended as a schematic of rough locations of the power network. It is not suitable for applications requiring high accuracy.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041751/1/DR0052191/eri33230grid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eritrea-electricity-transmission-network-2004--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041751/1/DR0052195/eri33230substations.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eritrea-electricity-transmission-network-2004--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041751/1/DR0052194/eri33230powerstations.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eritrea-electricity-transmission-network-2004--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041751/1/DR0052192/eri33230grid.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eritrea-electricity-transmission-network-2004--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041751/1/DR0052196/eri33230substations.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/eritrea-electricity-transmission-network-2004--5",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/eritrea-electricity-transmission-network-2004",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-03-10T00:00:00+00:00",
+      "keyword": [
+        "grid",
+        "power system",
+        "electricity transmission"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/eritrea-electricity-transmission-network-2004#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/eritrea-electricity-transmission-network-2004#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:9e0de808-8c16-4b78-bf01-d481ca896cea",
+      "title": "Eritrea - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

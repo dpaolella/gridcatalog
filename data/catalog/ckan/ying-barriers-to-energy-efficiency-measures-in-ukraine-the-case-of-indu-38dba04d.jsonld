@@ -1,0 +1,53 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "The aim of this study is to identify key barriers that hinder adoption of energy efficiency measures in the industrial and commercial sectors in Ukraine. A field survey questionnaire was developed that permits the 500 industrial and commercial enterprises to reveal specific barriers to increasing energy efficiency, comparing these barriers among each other to rank them and to study investment behavior of the enterprises. Enterprises to survey were chosen with two-stage quota sample that accounts for their energy consumption and GHG emissions, among other factors. The sample included industrial and non-industrial energy intensive enterprises of all the regions of Ukraine.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040685/DR0050737/quantifyingbarriers_0.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ying-barriers-to-energy-efficiency-measures-in-ukraine-the-case-of-indu-38dba04d--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/ying-barriers-to-energy-efficiency-measures-in-ukraine-the-case-of-indu-38dba04d",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ying-barriers-to-energy-efficiency-measures-in-ukraine-the-case-of-indu-38dba04d#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ying-barriers-to-energy-efficiency-measures-in-ukraine-the-case-of-indu-38dba04d#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:088b5a8c-d872-4972-8e77-7dc00c0af417",
+      "title": "Quantifying Barriers to Energy Efficiency Measures in Ukraine: The case of Industrial and Commercial Sectors",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

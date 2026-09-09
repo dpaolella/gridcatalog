@@ -1,0 +1,60 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This layer presents detectable thermal activity from MODIS satellites for the last 24 hours. MODIS Global Fires is a product of The University of Maryland's Fire Information for Resource Management System (FIRMS). FIRMS integrates remote sensing and GIS technologies to deliver global MODIS hotspot/fire locations to natural resource managers and other stakeholders around the World. MODIS stands for MODerate Resolution Imaging Spectroradiometer. The MODIS instrument is on board NASA s Earth Observing System (EOS) Terra (EOS AM) and Aqua (EOS PM) satellites. The orbit of the Terra satellite goes from north to south across the equator in the morning and Aqua passes south to north over the equator in the afternoon resulting in global coverage every 1 to 2 days. The EOS satellites have a ±55 degree scanning pattern and orbit at 705 km with a 2,330 km swath width. It takes approximately 2 - 4 hours after satellite overpass for MODIS Rapid Response to process the data, and for FIRMS to update the website. Occasionally, hardware errors mean that it takes longer the 2-4 hours to process the data. For information on the system status of MODIS Rapid Response, click here. We gather this data from the EOSDIS download site. These shapefiles from NASA are parsed using the Aggregated Live Feeds methodology to take the returned information and serve the data through ArcGIS Server as a map service. For performance reasons these layers do not draw when zoomed out beyond 1:20000000. Attribute Information: Latitude and Longitude: The center point location of the 1km (approx.) pixel flagged as containing one or more fires/hotspots (fire size is not 1km, but variable). See What does a hotspot/fire detection mean on the ground? Brightness: The brightness temperature, measured (in Kelvin) using the MODIS channels 21/22 and channel 31. Scan and Track: The actual spatial resolution of the scanned pixel. Although the algorithm works at 1km resolution, the MODIS pixels get bigger toward the edge of the scan. See What does scan and track mean? Date: Acquisition date of the hotspot/active fire pixel.Time: Time of the overpass of the satellite (in UTC). Satellite: Whether the detection was picked up by the Terra or Aqua satellite. Confidence: The detection confidence is a quality flag of the individual hotspot/active fire pixel. Version: Version refers to the processing collection and source of data. The number before the decimal refers to the collection(e.g. MODIS Collection 5). The number after the decimal indicates the source of Level 1B data; data processed in near-real time byMODIS Rapid Response will have the source code \"CollectionNumber.0\" . Data sourced from MODAPS (with a 2 month lag) and processed by FIRMS using the standard MOD14/MYD14 Thermal Anomalies algorithm will have a source code \"CollectionNumber.x\". For example, data with the version listed as 5.0 is collection 5, processed by MRR, data with the version listed as 5.1 is collection 5 data processed by FIRMS using Level 1B data from MODAPS. See What is the difference between data sourced from MODIS Rapid Response and MODAPS Collection 5? Bright.T31: Channel 31 brightness temperature (in Kelvins) of the hotspot/active fire pixel. FRP: Fire Radiative Power. Depicts the pixel-integrated fire radiative power in MW (MegaWatts). FRP provides information on the measured radiant heat output of detected fires. The amount of radiant heat energy liberated per unit time (the Fire Radiative Power) is thought to be related to the rate at which fuel is being consumed (Wooster et. al. (01/01/2005))",
+      "distribution": [
+        {
+          "accessURL": "https://geowb.worldbank.org/portal/sharing/servers/5d096866fd7e4130b55a3c98b63ca55e/rest/services/LiveFeeds/MODIS_Thermal/MapServer",
+          "formatLabel": "MAP API",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/modis-thermal-activity--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://geowb.worldbank.org/portal/home/item.html",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/modis-thermal-activity--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/modis-thermal-activity",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2025-08-27T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/modis-thermal-activity#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/modis-thermal-activity#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:9d99f9fe-ae30-4939-bc2f-4aebab45ef26",
+      "title": "MODIS Thermal Activity",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,515 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The Tool for Rapid Assessment of City Energy (TRACE) is a decision-support tool designed to help cities quickly identify under-performing sectors, evaluate improvement and cost-saving potential, and prioritize sectors and actions for energy efficiency (EE) intervention. It covers six municipal sectors: passenger transport, municipal buildings, water and waste water, public lighting, solid waste, and power and heat. More information at: https://esmap.org/TRACE This dataset includes survey data from 30 cities across the world.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040450/1/DR0050431/trace1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Waste per capita (kg/capita)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Waste-per-capita-kg-capita",
+          "localName": "Waste per capita (kg/capita)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Municipal buildings, floor area (m2)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Municipal-buildings-floor-area-m2",
+          "localName": "Municipal buildings, floor area (m2)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage total T&D loss (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-total-T-D-loss",
+          "localName": "Percentage total T&D loss (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total electricity consumption of street lights (kWhe)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-electricity-consumption-of-street-lights-kWhe",
+          "localName": "Total electricity consumption of street lights (kWhe)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage of city roads lit (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-of-city-roads-lit",
+          "localName": "Percentage of city roads lit (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage of non-revenue water (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-of-non-revenue-water",
+          "localName": "Percentage of non-revenue water (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Kilometers of high capacity transit (km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Kilometers-of-high-capacity-transit-km",
+          "localName": "Kilometers of high capacity transit (km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy expenditure of the water utility for treated wastewater (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Energy-expenditure-of-the-water-utility-for-treated-wastewater-US",
+          "localName": "Energy expenditure of the water utility for treated wastewater (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Water consumption per capita (L/capita/day)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Water-consumption-per-capita-L-capita-day",
+          "localName": "Water consumption per capita (L/capita/day)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Non technical T&D losses (kWhe)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Non-technical-T-D-losses-kWhe",
+          "localName": "Non technical T&D losses (kWhe)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electricity consumed per light pole (kWh/pole)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Electricity-consumed-per-light-pole-kWh-pole",
+          "localName": "Electricity consumed per light pole (kWh/pole)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total electricity produced (kWh)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-electricity-produced-kWh",
+          "localName": "Total electricity produced (kWh)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total kWhe, electricity consumption",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-kWhe-electricity-consumption",
+          "localName": "Total kWhe, electricity consumption",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary energy consumption per capita (GJ/capita)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Primary-energy-consumption-per-capita-GJ-capita",
+          "localName": "Primary energy consumption per capita (GJ/capita)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total kWhth, fuel consumption in municipal buildings",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-kWhth-fuel-consumption-in-municipal-buildings",
+          "localName": "Total kWhth, fuel consumption in municipal buildings",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Public transportation passenger kilometer",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Public-transportation-passenger-kilometer",
+          "localName": "Public transportation passenger kilometer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Public transport fuel consumption (MJ)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Public-transport-fuel-consumption-MJ",
+          "localName": "Public transport fuel consumption (MJ)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total energy expenditure for street lights (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-energy-expenditure-for-street-lights-US",
+          "localName": "Total energy expenditure for street lights (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Private Transport Energy Expenditure (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Private-Transport-Energy-Expenditure-US",
+          "localName": "Private Transport Energy Expenditure (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total KWhe, electricity consumed to produce potable water",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-KWhe-electricity-consumed-to-produce-potable-water",
+          "localName": "Total KWhe, electricity consumed to produce potable water",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy expenditure of the water utility for potable water (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Energy-expenditure-of-the-water-utility-for-potable-water-US",
+          "localName": "Energy expenditure of the water utility for potable water (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Municipal area (km2)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Municipal-area-km2",
+          "localName": "Municipal area (km2)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Geo-location",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Geo-location",
+          "localName": "Geo-location",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Public transport energy intensity (MJ/passenger km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Public-transport-energy-intensity-MJ-passenger-km",
+          "localName": "Public transport energy intensity (MJ/passenger km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total KWhe, electricity consumed to treat wastewater",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-KWhe-electricity-consumed-to-treat-wastewater",
+          "localName": "Total KWhe, electricity consumed to treat wastewater",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Transportation Non-Motorized mode split (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Transportation-Non-Motorized-mode-split",
+          "localName": "Transportation Non-Motorized mode split (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "City",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/City",
+          "localName": "City",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Population within city area",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Population-within-city-area",
+          "localName": "Population within city area",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total municipal city energy expenditure (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-municipal-city-energy-expenditure-US",
+          "localName": "Total municipal city energy expenditure (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electricity consumption per unit GDP (kWhe/GDP)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Electricity-consumption-per-unit-GDP-kWhe-GDP",
+          "localName": "Electricity consumption per unit GDP (kWhe/GDP)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electricity consumption per capita (kWhe/capita)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Electricity-consumption-per-capita-kWhe-capita",
+          "localName": "Electricity consumption per capita (kWhe/capita)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Technical T&D losses (kWhe)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Technical-T-D-losses-kWhe",
+          "localName": "Technical T&D losses (kWhe)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Private transportation passenger kilometer",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Private-transportation-passenger-kilometer",
+          "localName": "Private transportation passenger kilometer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage of T&D loss due to non-technical (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-of-T-D-loss-due-to-non-technical",
+          "localName": "Percentage of T&D loss due to non-technical (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Year",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Year",
+          "localName": "Year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Climate type: tropical, arid, continental, temperate",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Climate-type-tropical-arid-continental-temperate",
+          "localName": "Climate type: tropical, arid, continental, temperate",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Meters of high capacity transit per 1000 people",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Meters-of-high-capacity-transit-per-1000-people",
+          "localName": "Meters of high capacity transit per 1000 people",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electricity consumed per km of lit roads (kWhe/km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Electricity-consumed-per-km-of-lit-roads-kWhe-km",
+          "localName": "Electricity consumed per km of lit roads (kWhe/km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage of solid waste that goes to landfill (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-of-solid-waste-that-goes-to-landfill",
+          "localName": "Percentage of solid waste that goes to landfill (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total GDP within city boundary (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-GDP-within-city-boundary-US",
+          "localName": "Total GDP within city boundary (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Private transportation fuel consumption (MJ)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Private-transportation-fuel-consumption-MJ",
+          "localName": "Private transportation fuel consumption (MJ)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy density of potable water production (kWhe/m3)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Energy-density-of-potable-water-production-kWhe-m3",
+          "localName": "Energy density of potable water production (kWhe/m3)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total length of lit roads (km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-length-of-lit-roads-km",
+          "localName": "Total length of lit roads (km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Amount of solid waste that goes to landfill (kg)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Amount-of-solid-waste-that-goes-to-landfill-kg",
+          "localName": "Amount of solid waste that goes to landfill (kg)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy density of wastewater treatment (kWhe/m3)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Energy-density-of-wastewater-treatment-kWhe-m3",
+          "localName": "Energy density of wastewater treatment (kWhe/m3)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total amount of water sold (m3)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-amount-of-water-sold-m3",
+          "localName": "Total amount of water sold (m3)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total transport energy consumed per capita (MJ/capita)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-transport-energy-consumed-per-capita-MJ-capita",
+          "localName": "Total transport energy consumed per capita (MJ/capita)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage capture rate of solid waste (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-capture-rate-of-solid-waste",
+          "localName": "Percentage capture rate of solid waste (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total length of roads (km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-length-of-roads-km",
+          "localName": "Total length of roads (km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Amount of solid waste that is recycled (kg)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Amount-of-solid-waste-that-is-recycled-kg",
+          "localName": "Amount of solid waste that is recycled (kg)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Municipal buildings energy spend as percentage of municipal budget (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Municipal-buildings-energy-spend-as-percentage-of-municipal-budget",
+          "localName": "Municipal buildings energy spend as percentage of municipal budget (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total MJ, primary energy consumption",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-MJ-primary-energy-consumption",
+          "localName": "Total MJ, primary energy consumption",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total energy expenditure for municipal buildings (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-energy-expenditure-for-municipal-buildings-US",
+          "localName": "Total energy expenditure for municipal buildings (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total expenditure of water utility - water and wastewater (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-expenditure-of-water-utility---water-and-wastewater-US",
+          "localName": "Total expenditure of water utility - water and wastewater (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Amount of solid waste that is captured (kg)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Amount-of-solid-waste-that-is-captured-kg",
+          "localName": "Amount of solid waste that is captured (kg)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Public Transportation mode split (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Public-Transportation-mode-split",
+          "localName": "Public Transportation mode split (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total amount of treated wastewater (m3)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-amount-of-treated-wastewater-m3",
+          "localName": "Total amount of treated wastewater (m3)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Human Development Index for the country",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Human-Development-Index-for-the-country",
+          "localName": "Human Development Index for the country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total amount of potable water produced (m3)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-amount-of-potable-water-produced-m3",
+          "localName": "Total amount of potable water produced (m3)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Number of light poles",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Number-of-light-poles",
+          "localName": "Number of light poles",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Electricity cost for water treatment (potable- and wastewater) as a percentage of the total water utility expenditures",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Electricity-cost-for-water-treatment-potable--and-wastewater-as-a-percentage-of-the-total-water-utility-expenditures",
+          "localName": "Electricity cost for water treatment (potable- and wastewater) as a percentage of the total water utility expenditures",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage of solid waste recycled (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-of-solid-waste-recycled",
+          "localName": "Percentage of solid waste recycled (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total kWhe, electricity consumption in municipal buildings",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-kWhe-electricity-consumption-in-municipal-buildings",
+          "localName": "Total kWhe, electricity consumption in municipal buildings",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary energy consumption per unit GDP (MJ/GDP)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Primary-energy-consumption-per-unit-GDP-MJ-GDP",
+          "localName": "Primary energy consumption per unit GDP (MJ/GDP)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "SWM Energy Expenditure (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/SWM-Energy-Expenditure-US",
+          "localName": "SWM Energy Expenditure (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Total municipal city budget (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Total-municipal-city-budget-US",
+          "localName": "Total municipal city budget (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Municipal buildings electricity consumption (kWhe/m2)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Municipal-buildings-electricity-consumption-kWhe-m2",
+          "localName": "Municipal buildings electricity consumption (kWhe/m2)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Municipal buildings heat consumption (kWhth/m2)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Municipal-buildings-heat-consumption-kWhth-m2",
+          "localName": "Municipal buildings heat consumption (kWhth/m2)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Amount of solid waste generated within the municipal boundary (kg)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Amount-of-solid-waste-generated-within-the-municipal-boundary-kg",
+          "localName": "Amount of solid waste generated within the municipal boundary (kg)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Longitude",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Longitude",
+          "localName": "Longitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Country",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Country",
+          "localName": "Country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Percentage heat loss from network (%)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Percentage-heat-loss-from-network",
+          "localName": "Percentage heat loss from network (%)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Public Transport Energy Expenditure (US$)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Public-Transport-Energy-Expenditure-US",
+          "localName": "Public Transport Energy Expenditure (US$)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Latitude",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Latitude",
+          "localName": "Latitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Private transport energy intensity (MJ/passenger km)",
+          "id": "https://catalog.opengrid.org/field/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016/Private-transport-energy-intensity-MJ-passenger-km",
+          "localName": "Private transport energy intensity (MJ/passenger km)",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2016-11-09T00:00:00+00:00",
+      "keyword": [
+        "mexico",
+        "esmap",
+        "energy efficiency",
+        "romania",
+        "thailand",
+        "trace"
+      ],
+      "landingPage": "http://www.esmap.org/TRACE",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-20T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-tool-rapid-assessment-city-energy-trace-cities-survey-data-2016#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0040450/1/DR0050431/trace1.csv",
+      "sourceRecordId": "energydata_info:2e8558eb-5a83-40cd-b0b8-ee8cb2cf4ea2",
+      "title": "World - Tool for Rapid Assessment of City Energy (TRACE) Cities Survey Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

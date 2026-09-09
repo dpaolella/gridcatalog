@@ -28,33 +28,33 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 6.1, DD5 3.7. Source declares DD5, DD10. Determined by the phrase \"numerical model\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "hydrologic model",
-        "meteorological",
-        "infrastructure",
-        "land use",
-        "bathymetry",
-        "weather",
-        "climate",
         "model",
-        "simulations",
-        "open source software",
-        "sustainability",
-        "geospatial",
-        "mapping",
-        "aws-pds",
-        "water",
-        "hydrology",
-        "precipitation",
-        "floods",
+        "infrastructure",
+        "meteorological",
+        "land use",
         "elevation",
-        "coastal",
+        "precipitation",
+        "hydrology",
+        "simulations",
+        "sustainability",
+        "land cover",
+        "mapping",
+        "open source software",
+        "geospatial",
+        "hydrologic model",
+        "bathymetry",
+        "floods",
+        "climate",
         "forecast",
         "disaster response",
-        "land cover"
+        "coastal",
+        "water",
+        "aws-pds",
+        "weather"
       ],
       "landingPage": "https://registry.opendata.aws/lwi-model-data/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.381673+00:00",
+      "modified": "2026-09-08T21:57:31.930244+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/modeled",
       "qualityFlags": {
         "caveat": [
@@ -69,6 +69,89 @@
       "title": "Louisiana Watershed Initiative (LWI) Model Data",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://lwi.endmc.org/",
+          "assertedBy": "aws_open_data",
+          "authorName": "The Water Institute",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-1",
+          "title": "LWI ENDMC Datan and Model Catalog.",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-ras/",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-4",
+          "title": "HEC-RAS",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/USACE/go-consequences",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-8",
+          "title": "go-consequences",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-fia/",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-6",
+          "title": "HEC-FIA",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-hms/documentation.aspx",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-3",
+          "title": "HEC-HMS documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://lwi.endmc.org/help/help_index",
+          "assertedBy": "aws_open_data",
+          "authorName": "The Water Institute",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-0",
+          "title": "ENDMC Documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-hms/",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-2",
+          "title": "HEC-HMS",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-ras/documentation.aspx",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-5",
+          "title": "HEC-RAS documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.hec.usace.army.mil/software/hec-fia/documentation.aspx",
+          "assertedBy": "aws_open_data",
+          "authorName": "United States Army Corps of Engineers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/lwi-model-data#usage-7",
+          "title": "HEC-FIA documentation",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

@@ -1,0 +1,124 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "World Bank has awarded Fraunhofer ISE to conduct a Solar Measurement Campaign for 12 months of measurements at 2 sites in Lebanon. Data will be uploaded in batches, on a monthly basis, and will include 1 minute average values for solar radiation components, temperature, air pressure and other auxiliary parameters . Both stations (LBRAS and LBAMA) are Tier 2 HelioScale phi stations with Rotating Shadowband Irradiometers.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/3066ad9d-3731-4546-9214-eb9240854395/download/solar-measurements_lebanon_rasbaalbak_qc.csv",
+          "byteSize": 357336977,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--0",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/3c6f723b-8477-4e8c-9645-097597ee82c8/download/solar-measurements_lebanon_laritalamara_header.csv",
+          "byteSize": 5736,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/fd1c4713-48d2-4158-a8a4-a008dc21e88e/download/solar-measurements_lebanon_rasbaalbak_raw.zip",
+          "byteSize": 418038495,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--1",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/5a9b41c6-9871-4dec-ba5f-6ffac9b1ae54/download/solar_measurements_lebanon_laritalamara_raw.zip",
+          "byteSize": 436835489,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--7",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/1a288d77-b191-4e08-b1ff-e7869c79d7e9/download/solar-measurements_lebanon_rasbaalbak_header.csv",
+          "byteSize": 5659,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--3",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/cd796b09-11eb-4128-88d5-9e7aba1caa3e/download/solar-measurements_monthly-reports_lebanon_laritalamara.zip",
+          "byteSize": 41505046,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--6",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/2808997c-9bb5-472e-8db2-260d6d7d776b/download/solar-measurements_libanon_laritalamara_qc.csv",
+          "byteSize": 293230672,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/343ac444-e9b0-45a5-b60a-c35285f0a7a7/download/solar-measurements_monthly-reports_lebanon_rasbaalbak.zip",
+          "byteSize": 44553931,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/lebanon-solar-radiation-measurements--2",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "# Variables:",
+          "id": "https://catalog.opengrid.org/field/lebanon-solar-radiation-measurements/Variables",
+          "localName": "# Variables:",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/lebanon-solar-radiation-measurements",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 1.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2019-05-08T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/lebanon-solar-radiation-measurements#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/lebanon-solar-radiation-measurements#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/8440f23e-51bc-41be-afc4-30da423c8c61/resource/3066ad9d-3731-4546-9214-eb9240854395/download/solar-measurements_lebanon_rasbaalbak_qc.csv",
+      "sourceRecordId": "energydata_info:8440f23e-51bc-41be-afc4-30da423c8c61",
+      "title": "Lebanon - Solar Radiation Measurements",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

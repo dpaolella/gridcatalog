@@ -1,0 +1,57 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Combination of the following data sources: 1) data collected and prepared for a project of the World Bank Group in May 2015 2) The Africa Infrastructure Country Diagnostic (AICD) study 3) OSM data © OpenStreetMap contributors This data is partially based on a digitized PDF map, and so is intended as a schematic of rough locations of the power network. It is not suitable for applications requiring high accuracy.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039323/1/DR0048804/mozambiquegrid.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mozambique-electricity-transmission-network-2017--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039323/1/DR0048805/mozambiquegrid.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/mozambique-electricity-transmission-network-2017--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/mozambique-electricity-transmission-network-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"openstreetmap\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2017-03-17T00:00:00+00:00",
+      "keyword": [
+        "electricity network",
+        "grid",
+        "power system"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-04T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/mozambique-electricity-transmission-network-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:cdeff177-7652-4485-aff6-636b623463cf",
+      "title": "Mozambique - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -12,11 +12,11 @@
       "description": "Projects that use the dsgrid toolkit assemble bottom-up descriptions of electricity demand and related data that are highly resolved geographically, temporally, and sectorally. Typically modelers describe multiple scenarios of future energy use at hourly resolution, suitable for inclusion in long-term power system planning models, i.e., capacity expansion and production cost models.",
       "distribution": [
         {
-          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/building/",
+          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--3",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--0",
           "type": "Distribution"
         },
         {
@@ -36,11 +36,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/",
+          "accessURL": "https://nrel-pds-dsgrid.s3.us-west-2.amazonaws.com/building/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--0",
+          "id": "https://catalog.opengrid.org/dist/nrel-pds-dsgrid--3",
           "type": "Distribution"
         }
       ],
@@ -53,18 +53,18 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5, DD4 2.4. Source declares DD5, DD10. Determined by the phrase \"data assimilation\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "data assimilation",
+        "electricity",
         "energy modeling",
         "solar",
-        "transportation",
-        "electricity",
         "energy",
+        "meteorological",
+        "transportation",
         "industrial",
-        "meteorological"
+        "data assimilation"
       ],
       "landingPage": "https://registry.opendata.aws/nrel-pds-dsgrid/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:23.540181+00:00",
+      "modified": "2026-09-08T21:57:38.337025+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -79,6 +79,71 @@
       "title": "Demand-Side Grid (dsgrid) Toolkit",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://dsgrid.github.io/dsgrid/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-2",
+          "title": "dsgrid Documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.nrel.gov/docs/fy23osti/83916.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "Arthur Yip, Christopher Hoehne, Paige Jadun, Catherine Ledna, Elaine Hale, and Matteo Muratori",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-1",
+          "title": "Highly Resolved Projections of Passenger Electric Vehicle Charging Loads for the Contiguous United States",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dsgrid/dsgrid",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-5",
+          "title": "GitHub Repository for Working with the dsgrid Projects",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.nrel.gov/analysis/dsgrid.html",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-6",
+          "title": "Demand-Side Grid Toolkit",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.nrel.gov/docs/fy18osti/71492.pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale, Henry Horsey, Brandon Johnson, et al.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-0",
+          "title": "The Demand-side Grid (dsgrid) Model Documentation",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dsgrid/dsgrid-legacy-efs-api",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-3",
+          "title": "Python API for Accessing dsgrid Data for the Electrification Futures Study (EFS)",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dsgrid/dsgrid-project-StandardScenarios/tree/main/tempo_project",
+          "assertedBy": "aws_open_data",
+          "authorName": "Elaine Hale",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/nrel-pds-dsgrid#usage-4",
+          "title": "dsgrid Project Standard Scenarios for the TEMPO Project",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

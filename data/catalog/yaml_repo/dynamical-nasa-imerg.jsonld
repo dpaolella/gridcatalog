@@ -28,17 +28,17 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "meteorological",
-        "weather",
-        "climate",
         "aws-pds",
+        "weather",
+        "meteorological",
         "zarr",
-        "atmosphere",
-        "forecast"
+        "climate",
+        "forecast",
+        "atmosphere"
       ],
       "landingPage": "https://registry.opendata.aws/dynamical-nasa-imerg/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.983102+00:00",
+      "modified": "2026-09-08T21:57:31.479457+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/dynamical-nasa-imerg#provenance-gap",
@@ -57,6 +57,26 @@
       "sourceRecordId": "aws_open_data:dynamical-nasa-imerg",
       "title": "NASA IMERG - dynamical.org Icechunk Zarr",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/nasa-imerg-analysis-late.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-nasa-imerg#usage-1",
+          "title": "NASA IMERG analysis, late — Quickstart",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/dynamical-org/notebooks/blob/main/nasa-imerg-analysis-early.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "dynamical.org",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/dynamical-nasa-imerg#usage-0",
+          "title": "NASA IMERG analysis, early — Quickstart",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Provided by IRENA's Global Atlas",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/ee89758d-1a49-4cc2-80de-ae3a0b8e223b/resource/ae9110f5-e8e1-4650-8001-ec61e7cbc684/download/covid19countystatisticshpscirelandpointdata_4813352935345847066.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-wind-speed-at-80-meters--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/ee89758d-1a49-4cc2-80de-ae3a0b8e223b/resource/b74a36e8-2976-43b4-a6e7-282b039cd67c/download/global-wind-speed-at-80-meters.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-wind-speed-at-80-meters--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/global-wind-speed-at-80-meters",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2016-10-19T00:00:00+00:00",
+      "keyword": [
+        "wind"
+      ],
+      "landingPage": "http://irena.masdar.ac.ae/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-09-03T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/global-wind-speed-at-80-meters#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/global-wind-speed-at-80-meters#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:ee89758d-1a49-4cc2-80de-ae3a0b8e223b",
+      "title": "Global - Wind Speed at 80 meters",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

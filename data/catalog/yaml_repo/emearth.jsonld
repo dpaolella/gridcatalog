@@ -28,16 +28,16 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "netcdf",
         "precipitation",
-        "atmosphere",
         "near-surface air temperature",
+        "atmosphere",
+        "netcdf",
         "meteorological",
         "aws-pds"
       ],
       "landingPage": "https://registry.opendata.aws/emearth/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:18.025411+00:00",
+      "modified": "2026-09-08T21:57:31.524332+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/emearth#provenance-gap",
@@ -45,8 +45,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/emearth#flags",
         "staleness": "unknown",
@@ -56,6 +56,17 @@
       "sourceRecordId": "aws_open_data:emearth",
       "title": "Ensemble Meteorological Dataset for Planet Earth, EM-Earth",
       "type": "Dataset",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.1175/BAMS-D-21-0106.1",
+          "assertedBy": "aws_open_data",
+          "authorName": "Guoqiang Tang, Martyn P. Clark & Simon Michael Papalexiou",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/emearth#usage-0",
+          "title": "EM-Earth: The Ensemble Meteorological Dataset for Planet Earth",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

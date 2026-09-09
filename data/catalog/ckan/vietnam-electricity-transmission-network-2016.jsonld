@@ -1,0 +1,78 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This data has been prepared for a World Bank project and represents the existing transmission lines, substations and power stations as of 2016. This data was obtained in a 2 phase process: 1. geo-reference of PDF map 2. digitization of transmission network Due to the quality of the PDF map, the geo-referencing process resulted in isolated horizontal and vertical displacements of 2 to 10 km; the final product contains only the rough location of the network elements and it is not suitable for applications requiring high accuracy data.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042329/1/DR0053031/vietnam500220110kv-final-15102016-model.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-electricity-transmission-network-2016--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042329/1/DR0053030/transmissionnetworkshp.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-electricity-transmission-network-2016--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042329/1/DR0053028/transmissionlinekv.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-electricity-transmission-network-2016--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042329/1/DR0053029/substationsshp.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-electricity-transmission-network-2016--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042329/1/DR0053027/substationskv.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/vietnam-electricity-transmission-network-2016--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/vietnam-electricity-transmission-network-2016",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-08-30T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/vietnam-electricity-transmission-network-2016#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/vietnam-electricity-transmission-network-2016#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:2101c751-cce0-4d4f-bde8-dab7a83b45d5",
+      "title": "Vietnam - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

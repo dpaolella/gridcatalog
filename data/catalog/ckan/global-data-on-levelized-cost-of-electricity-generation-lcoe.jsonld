@@ -1,0 +1,57 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD9"
+      ],
+      "description": "Levelized cost of electricity database developed by Govinda Timilsina, Sr. Economist, Development Research Group This database is the result of the following study: Timilsina, Govinda R. (2020). “Demystifying the Costs of Electricity Generation Technologies”. World Bank Policy Research Working Paper, WPS 9303. World Bank Washington, DC. This database presents the cost of 11 electricity generation technologies when input variables take alternative values. The technologies are: solar PV (utility-scale), concentrated solar power, onshore wind, offshore wind, gas combined cycle, gas turbine, hydro, geothermal, coal, nuclear and biomass. The input variables taking alternative values are discount rate, capital costs, fixed O&M costs, capacity factor, economic life, heat rate, fuel price. There are more than four thousand LCOE presented in this database. This database could help find LCOE for any combination of input variables. Any error in the database is of authors; it should not be attributed to the World Bank Group. Contact: Govinda Timilsina, e-mail: gtimilsina@worldbank.org",
+      "distribution": [
+        {
+          "accessURL": "https://documents.worldbank.org/en/publication/documents-reports/documentdetail/125521593437517815/demystifying-the-costs-of-electricity-generation-technologies",
+          "formatLabel": "HTML",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-data-on-levelized-cost-of-electricity-generation-lcoe--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0038036/DR0046221/lcoe-database.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-data-on-levelized-cost-of-electricity-generation-lcoe--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/global-data-on-levelized-cost-of-electricity-generation-lcoe",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD9 5.2, DD5 2.9, DD2 2.5, DD7 1.2. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/global-data-on-levelized-cost-of-electricity-generation-lcoe#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/global-data-on-levelized-cost-of-electricity-generation-lcoe#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:cb0d982a-e64e-432f-9c86-1965775f8cef",
+      "title": "Global data on levelized cost of electricity generation (LCOE)",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

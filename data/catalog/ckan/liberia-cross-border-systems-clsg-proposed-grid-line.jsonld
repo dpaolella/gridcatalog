@@ -1,0 +1,61 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "A representation Côte d’Ivoire-Liberia-Sierra Leone-Guinea (CLSG) Transmission line which was part of the proposed West Africa Power Pool (WAPP) system was derived from the Korea Electric Power Corporation (KEPCO)- Final Line Route Study Report in January 2010. These lines were digitized by Earth Institute, Columbia University staff in New York using existing roads as indications of pathways for grid lines.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/e3ef82cb-c216-45cd-aaf4-e4a2cca01e32/resource/0208c063-d119-4785-82e6-2ad0732f995a/download/clsgproposedgridroute.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/liberia-cross-border-systems-clsg-proposed-grid-line--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/e3ef82cb-c216-45cd-aaf4-e4a2cca01e32/resource/534b3b9b-46d9-4655-9c86-31ca6e82dd00/download/clsgproposedgridroute.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/liberia-cross-border-systems-clsg-proposed-grid-line--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/liberia-cross-border-systems-clsg-proposed-grid-line",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-01-26T00:00:00+00:00",
+      "keyword": [
+        "electricity grid",
+        "Liberia"
+      ],
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2018-02-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/liberia-cross-border-systems-clsg-proposed-grid-line#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/liberia-cross-border-systems-clsg-proposed-grid-line#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:e3ef82cb-c216-45cd-aaf4-e4a2cca01e32",
+      "title": "Liberia - Cross-border systems Proposed Interconnection Transmission Line",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

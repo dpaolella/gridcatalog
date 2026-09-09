@@ -1,0 +1,103 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990). The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990). The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990). The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990). The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990). The 2014 U.S. Geological Survey (USGS) National Seismic Hazard Maps display earthquake ground motions for various probability levels across the United States and are applied in seismic provisions of building codes, insurance rate structures, risk assessments, and other public policy. The updated maps represent an assessment of the best available science in earthquake hazards and incorporate new findings on earthquake ground shaking, faults, seismicity, and geodesy. The USGS National Seismic Hazard Mapping Project developed these maps by incorporating information on potential earthquakes and associated ground shaking obtained from interaction in science and engineering workshops involving hundreds of participants, review by several science organizations and State surveys, and advice from expert panels and a Steering Committee. The new probabilistic hazard maps represent an update of the seismic hazard maps; previous versions were developed by Petersen and others (2008) and Frankel and others (2002), using the methodology developed Frankel and others (1996). Algermissen and Perkins (1976) published the first probabilistic seismic hazard map of the United States which was updated in Algermissen and others (1990).",
+      "distribution": [
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/als07_100yr_exLyVuh.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--4",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:als07_475yr",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:als07_2475yr",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/als07_975yr_xWNLVjz.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--0",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/als07_475yr_9RYoZdm.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--6",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/uploaded/layers/als07_2475yr_tWamJ2V.tif",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--2",
+          "mediaType": "tif",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:als07_100yr",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://www.geonode-gfdrrlab.org/layers/hazard:als07_975yr",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/united-states-america-earthquake-hazard-1--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/united-states-america-earthquake-hazard-1",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-28T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/united-states-america-earthquake-hazard-1#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/united-states-america-earthquake-hazard-1#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:c92faa47-8619-4017-8a88-be8d0a2a88de",
+      "title": "United States of America earthquake hazard",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

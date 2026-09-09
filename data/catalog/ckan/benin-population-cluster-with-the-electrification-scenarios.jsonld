@@ -1,0 +1,176 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This dataset contains a population cluster (shapefile) of Benin with the electrification scenarios. The scenarios assess the effect of different roll-out plans, demand levels, diesel costs, grid electricity costs, PV costs, and different types of restrictions or limitations on grid expansion. Results are presented for 2025 and 2030.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata-tiles-bk.s3.amazonaws.com/tiles/952c62c2-cd2a-473c-8449-74eea2dafab5/metadata.json",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--8",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata-tiles-bk.s3.amazonaws.com/tiles/004eb032-0cd3-4d56-8918-38d3c572b207/metadata.json",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--5",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/3ec31bf1-913e-402c-a4b5-1a989871b45e/download/benin_pvdiesel_mg.zip",
+          "byteSize": 3003502,
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--3",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/7f5c7e70-4803-4a78-aa82-9e1d99588852/download/benin_shs.zip",
+          "byteSize": 30279811,
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--4",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/c5eec2c3-e452-4ca2-a143-5ce84d0caeb1/download/benin_gridconnection.geojson",
+          "byteSize": 23933011,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--11",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/c2431913-1042-42bd-bda6-85a6ec0cabcf/download/benin_mghydro.geojson",
+          "byteSize": 179816,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--6",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/bff4b7af-ca88-4f47-bc67-9396d414aadc/download/benin_shs.geojson",
+          "byteSize": 224748638,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--14",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/974f8d00-cd78-453e-835e-efd797c820d3/download/benin_pvdiesel_mg.geojson",
+          "byteSize": 20174083,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--13",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/d7e51139-5ea0-4d36-bebb-f634571bd07d/download/benin_mghydro.geojson",
+          "byteSize": 179969,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--12",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/249de7b5-80b6-4c56-b059-6c2728a98a65/download/benin_mghydro.zip",
+          "byteSize": 32300,
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--2",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/f136f2f2-8afd-4d39-878a-923147a30717/download/population-cluster-with-electrificatio-scenario_benin.zip",
+          "byteSize": 36658864,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--9",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata-tiles-bk.s3.amazonaws.com/tiles/f136f2f2-8afd-4d39-878a-923147a30717/metadata.json",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--10",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata-tiles-bk.s3.amazonaws.com/tiles/3ec31bf1-913e-402c-a4b5-1a989871b45e/metadata.json",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--7",
+          "mediaType": "application/json",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0062863/DR0089322/Benin%20-%20Population%20Cluster%20with%20the%20Electrification%20Scenarios.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/face48da-d84d-4c21-92ca-129170046c66/resource/be07b8d4-213f-49e6-a18c-9176733fe403/download/benin_gridconnection.zip",
+          "byteSize": 3476891,
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-population-cluster-with-the-electrification-scenarios--1",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/benin-population-cluster-with-the-electrification-scenarios",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2022-10-06T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/benin-population-cluster-with-the-electrification-scenarios#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/benin-population-cluster-with-the-electrification-scenarios#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:face48da-d84d-4c21-92ca-129170046c66",
+      "title": "Benin - Population Cluster With The Electrification Scenarios",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

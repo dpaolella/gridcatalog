@@ -1,0 +1,268 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for solar and meteorological ground measurements from a network of weather stations in West Africa. The data is provided in the framework of the West African Power Pool project: \"Solar Development in Sub-Saharan Africa - Solar resource measurement campaign in West Africa”. Funding is provided by World Bank. Measurement Date Range: - Malanville: 2021-08-09 – 2023-08-08 - Parakou: 2021-08-13 – 2023-09-12",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/de7298ba-a0db-4c45-b73c-38dea96b65ed/download/csps-yls_wapp_stationinstallationreport_benin-parakou_2021-08-13_fr_en.pdf",
+          "byteSize": 8493203,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--11",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/04116886-ec60-41c4-b43b-8c4dc4409ee9/download/solar-measurements_benin-malanville_qc_year2.csv",
+          "byteSize": 46730636,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--6",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/3cec0a50-e1f4-469e-aa20-5ee5e5fef7c5/download/solar-measurements_benin-malanville_qc.csv",
+          "byteSize": 46787987,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/98fa5a21-b52e-4019-922c-af5f95abb18a/download/csps-yls_wapp_stationmeasurementreport_benin-parakou_2023-08-12-final_fr_en.pdf",
+          "byteSize": 15855880,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/c5274fa5-c475-488c-86dc-c25bc5799256/download/csps-yls_wapp_stationmeasurementreport_benin-parakou_2022-08-12_fr_en.pdf",
+          "byteSize": 12188232,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--9",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/66bee296-f361-4f5f-ac85-4980e1a36db3/download/solar-measurements_benin-parakou_qc.csv",
+          "byteSize": 51227553,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/c948f9b3-e70b-48c0-88f2-392019bf153d/download/solar-measurements_benin-malanville_header_fr_en.xlsx",
+          "byteSize": 18804,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--2",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/bae55201-1b80-42a0-9be9-966b3d496a42/download/solar-measurements_benin-parakou_header_fr_en.xlsx",
+          "byteSize": 18773,
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--3",
+          "mediaType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/b72cec18-e5ea-4c48-b866-62ad2775c552/download/csps-yls_wapp_stationinstallationreport_benin-malanville_2021-08-08_fr_en.pdf",
+          "byteSize": 8922372,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--10",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/35d3b83a-e5fa-4461-b3d6-3a9fd45b8fd0/download/solar-measurements_benin-parakou_qc_year2.csv",
+          "byteSize": 51230828,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--7",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/98cddccb-6e9f-45fd-ba9c-18f5beadb2e3/download/csps-yls_wapp_stationmeasurementreport_benin-malanville_2022-08-09_fr_en.pdf",
+          "byteSize": 12381861,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--8",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/4f52e841-669e-406b-96a2-80ade67db522/download/csps-yls_wapp_stationmeasurementreport_benin-malanville_2023-08-09-final_fr_en.pdf",
+          "byteSize": 15567603,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-radiation-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "WDstdev",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WDstdev",
+          "localName": "WDstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Tamb",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Tamb",
+          "localName": "Tamb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cleaning",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Cleaning",
+          "localName": "Cleaning",
+          "type": "Field"
+        },
+        {
+          "fieldId": "GHI",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/GHI",
+          "localName": "GHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSgust",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WSgust",
+          "localName": "WSgust",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModB",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/TModB",
+          "localName": "TModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WS",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WS",
+          "localName": "WS",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModA",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/ModA",
+          "localName": "ModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ModB",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/ModB",
+          "localName": "ModB",
+          "type": "Field"
+        },
+        {
+          "fieldId": "RH",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/RH",
+          "localName": "RH",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Comments",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Comments",
+          "localName": "Comments",
+          "type": "Field"
+        },
+        {
+          "fieldId": "BP",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/BP",
+          "localName": "BP",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DHI",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/DHI",
+          "localName": "DHI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Timestamp",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Timestamp",
+          "localName": "Timestamp",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WSstdev",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WSstdev",
+          "localName": "WSstdev",
+          "type": "Field"
+        },
+        {
+          "fieldId": "TModA",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/TModA",
+          "localName": "TModA",
+          "type": "Field"
+        },
+        {
+          "fieldId": "DNI",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/DNI",
+          "localName": "DNI",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Precipitation",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/Precipitation",
+          "localName": "Precipitation",
+          "type": "Field"
+        },
+        {
+          "fieldId": "WD",
+          "id": "https://catalog.opengrid.org/field/benin-solar-radiation-measurement-data/WD",
+          "localName": "WD",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/benin-solar-radiation-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2022-03-28T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/benin-solar-radiation-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/benin-solar-radiation-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/0548acf0-9e27-4589-97d5-eeaa1d10aed6/resource/3cec0a50-e1f4-469e-aa20-5ee5e5fef7c5/download/solar-measurements_benin-malanville_qc.csv",
+      "sourceRecordId": "energydata_info:0548acf0-9e27-4589-97d5-eeaa1d10aed6",
+      "title": "Benin - Solar Radiation Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

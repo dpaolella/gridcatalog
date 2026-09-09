@@ -1,0 +1,82 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "NewEnergy in partnership with SNV conducted a survey to collect baseline data about the energy situation in Central Gonja District in April-June 2012. This exercise is part of a renewable energy project initiated by SNV in a number of districts in the three Northern Regions. The survey was conducted in 300 households, 60 small scale enterprises and 15 public/social service institutions in 6 villages in the Central Gonja District. Citation: SNV Ghana & Negawatt challenge. A curated list of datasets for the World Bank Negawatt Challenge competition in Accra and Nairobi cities: https://datahub.io/organization/negawatt-challenge",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040434/1/DR0050398/annex-2-detailed-tables-for-small-medium-enterprises-questionnaire.zip",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-snv-energy-baseline-survey-data-central-gonja-2012--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040434/1/DR0050397/annex-1-detailed-tables-household-demographics-and-energy-situation.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-snv-energy-baseline-survey-data-central-gonja-2012--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040434/1/DR0050399/21-activities-difficult-to-perform-due-to-lack-of-bright-light-at-night.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/ghana-snv-energy-baseline-survey-data-central-gonja-2012--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Activities difficult to perform due to lack of bright light at night",
+          "id": "https://catalog.opengrid.org/field/ghana-snv-energy-baseline-survey-data-central-gonja-2012/Activities-difficult-to-perform-due-to-lack-of-bright-light-at-night",
+          "localName": "Activities difficult to perform due to lack of bright light at night",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/ghana-snv-energy-baseline-survey-data-central-gonja-2012",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-02-01T00:00:00+00:00",
+      "keyword": [
+        "energy survey",
+        "Negawatt Challenge",
+        "Ghana"
+      ],
+      "landingPage": "https://datahub.io/dataset/snv-energy-baseline-survey-data-for-central-gonja",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/ghana-snv-energy-baseline-survey-data-central-gonja-2012#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/ghana-snv-energy-baseline-survey-data-central-gonja-2012#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0040434/1/DR0050399/21-activities-difficult-to-perform-due-to-lack-of-bright-light-at-night.csv",
+      "sourceRecordId": "energydata_info:abd82fde-a4e7-4df5-afda-d45d1c52e77c",
+      "title": "Ghana - SNV Energy Baseline Survey Data for Central Gonja",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

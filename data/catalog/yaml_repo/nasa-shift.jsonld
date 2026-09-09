@@ -20,47 +20,11 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_HyTES_L1_2022/data",
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVIRISNG_L2A_refl/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--7",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_HyTES_L2_2022/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--8",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_RamsesTriOS_Rrs_SB_CA/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--12",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_Canopy_WaterContent/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--0",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_DriedGround_Leaf_Reflec/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--13",
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--6",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -74,11 +38,38 @@
           "type": "Distribution"
         },
         {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_HyTES_L1_2022/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_Plant_Trait_Mosaics/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--1",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
           "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_Plot_Level_Photos/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/nasa-shift--15",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_Leaf_Traits_Chl_SB_CA/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--10",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -92,11 +83,38 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_Leaf_Traits_Chl_SB_CA/data",
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_DriedGround_Leaf_Reflec/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--10",
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--13",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_Field_Survey_Metadata/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--14",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_HyTES_L2_2022/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--8",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_L1B_RDN_V2/data",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--4",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -119,38 +137,20 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_L1B_RDN_V2/data",
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_Canopy_WaterContent/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--4",
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--0",
           "requesterPays": false,
           "type": "Distribution"
         },
         {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_Field_Survey_Metadata/data",
+          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_RamsesTriOS_Rrs_SB_CA/data",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--14",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVIRISNG_L2A_refl/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--6",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://ornl-cumulus-prod-protected.s3.us-west-2.amazonaws.com/shift/SHIFT_AVNG_Plant_Trait_Mosaics/data",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/nasa-shift--1",
+          "id": "https://catalog.opengrid.org/dist/nasa-shift--12",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -173,19 +173,19 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 3.3, DD10 1.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "climate",
         "earth observation",
-        "aws-pds",
-        "netcdf",
-        "oceans",
-        "hdf",
         "cog",
+        "ice",
         "hdf5",
-        "ice"
+        "aws-pds",
+        "hdf",
+        "oceans",
+        "climate",
+        "netcdf"
       ],
       "landingPage": "https://registry.opendata.aws/nasa-shift/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:22.305486+00:00",
+      "modified": "2026-09-08T21:57:36.911025+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/nasa-shift#provenance-gap",

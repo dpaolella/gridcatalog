@@ -20,7 +20,7 @@
         }
       ],
       "documentation": [
-        "file:///home/user/gridcatalog/"
+        "file:///home/runner/work/gridcatalog/gridcatalog/"
       ],
       "documentationStatus": "external-standard-only",
       "harvestSource": "yaml_repo",
@@ -28,23 +28,23 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 5.7. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "aws-pds",
-        "hydrology",
-        "climate risk",
-        "atmosphere",
-        "extreme weather",
-        "climate projections",
         "machine learning",
-        "meteorological",
-        "weather",
-        "climate",
-        "simulations",
+        "climate risk",
+        "hydrology",
+        "atmosphere",
         "environmental",
-        "climate model"
+        "simulations",
+        "aws-pds",
+        "weather",
+        "meteorological",
+        "climate model",
+        "climate projections",
+        "extreme weather",
+        "climate"
       ],
       "landingPage": "https://registry.opendata.aws/australian-bureau-of-meteorology-barra-2/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.518098+00:00",
+      "modified": "2026-09-08T21:57:30.951300+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -59,6 +59,17 @@
       "title": "Bureau of Meteorology Atmospheric high-resolution Regional Reanalysis for Australia - Version 2 (BARRA2)",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/xcastagn/open-data-examples",
+          "assertedBy": "aws_open_data",
+          "authorName": "Australian Bureau of Meteorology",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/australian-bureau-of-meteorology-barra-2#usage-0",
+          "title": "Get To Know A Dataset BARRA",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

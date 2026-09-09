@@ -1,0 +1,53 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Annual global horizontal irradiation (kWh/m2). 1 square kilometer resolution. Solar resource data obtained from the Global Solar Atlas, owned by the World Bank Group and provided by Solargis.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/8e6a54b4-a299-4adb-ac8b-e5a909c99c32/resource/5372455d-b9d6-4baa-80e3-b9c1fbd2c1c2/download/ghi.tif",
+          "byteSize": 1096769,
+          "formatLabel": "GeoTIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/benin-solar-global-horizontal-irradiance--0",
+          "mediaType": "image/tiff",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/benin-solar-global-horizontal-irradiance",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 5.7. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2018-12-05T00:00:00+00:00",
+      "landingPage": "http://globalsolaratlas.info/downloads/benin",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-27T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/benin-solar-global-horizontal-irradiance#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/benin-solar-global-horizontal-irradiance#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:8e6a54b4-a299-4adb-ac8b-e5a909c99c32",
+      "title": "Benin - Solar Global Horizontal Irradiance",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

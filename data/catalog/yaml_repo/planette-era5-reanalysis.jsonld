@@ -28,14 +28,14 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "earth observation",
+        "climate",
         "aws-pds",
         "weather",
-        "climate"
+        "earth observation"
       ],
       "landingPage": "https://registry.opendata.aws/planette_era5_reanalysis/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:23.772051+00:00",
+      "modified": "2026-09-08T21:57:38.590908+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -50,6 +50,62 @@
       "title": "Planette ERA5 Archive",
       "type": "Dataset",
       "updateCadence": "P1M",
+      "usageEvidence": [
+        {
+          "accessURL": "https://zarr.dev/",
+          "assertedBy": "aws_open_data",
+          "authorName": "zarr Developers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-4",
+          "title": "zarr-python",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/PlanetteAI/planette_era5_archive/blob/main/planette_era5_tutorial.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Aodhan Sweeney-Jaramillo",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-2",
+          "title": "Accessing ERA5 Data with Python",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://docs.xarray.dev/",
+          "assertedBy": "aws_open_data",
+          "authorName": "xarray Developers",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-3",
+          "title": "xarray",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://doi.org/10.1002/qj.3803",
+          "assertedBy": "aws_open_data",
+          "authorName": "Hersbach, H., et al.",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-0",
+          "title": "The ERA5 global reanalysis",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/earth-mover/icechunk",
+          "assertedBy": "aws_open_data",
+          "authorName": "earth-mover",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-5",
+          "title": "icechunk",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation",
+          "assertedBy": "aws_open_data",
+          "authorName": "ECMWF",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/planette-era5-reanalysis#usage-1",
+          "title": "ERA5 Documentation",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

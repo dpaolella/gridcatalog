@@ -1,0 +1,149 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "Data on healthcare facility locations in Kenya. The dataset was provided by the Government of Kenya.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/7e456b65-1c58-4031-9a91-397787c1334c/resource/f1faedc0-de28-4157-a48c-cb72d1482aed/download/healthcare_facilities.json",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-healthcare-facilities--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e456b65-1c58-4031-9a91-397787c1334c/resource/7178b14e-f6fb-4023-8ab2-3fe1ffd7d3ab/download/healthcare_facilities.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-healthcare-facilities--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/7e456b65-1c58-4031-9a91-397787c1334c/resource/c55d4ed7-238a-4029-8dbb-a65d7fdcd9b0/download/healthcare-facilities.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kenya-healthcare-facilities--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "County",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/County",
+          "localName": "County",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Nearest_To",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Nearest_To",
+          "localName": "Nearest_To",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Facility_N",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Facility_N",
+          "localName": "Facility_N",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Division",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Division",
+          "localName": "Division",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Longitude",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Longitude",
+          "localName": "Longitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Sub_Locati",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Sub_Locati",
+          "localName": "Sub_Locati",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Latitude",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Latitude",
+          "localName": "Latitude",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Owner",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Owner",
+          "localName": "Owner",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Type",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Type",
+          "localName": "Type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Constituen",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Constituen",
+          "localName": "Constituen",
+          "type": "Field"
+        },
+        {
+          "fieldId": "OBJECTID",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/OBJECTID",
+          "localName": "OBJECTID",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Sub_County",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Sub_County",
+          "localName": "Sub_County",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Location",
+          "id": "https://catalog.opengrid.org/field/kenya-healthcare-facilities/Location",
+          "localName": "Location",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/kenya-healthcare-facilities",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2020-06-12T00:00:00+00:00",
+      "landingPage": "http://www.opendata.go.ke/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/kenya-healthcare-facilities#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/kenya-healthcare-facilities#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/7e456b65-1c58-4031-9a91-397787c1334c/resource/7178b14e-f6fb-4023-8ab2-3fe1ffd7d3ab/download/healthcare_facilities.csv",
+      "sourceRecordId": "energydata_info:7e456b65-1c58-4031-9a91-397787c1334c",
+      "title": "Kenya - Healthcare Facilities",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

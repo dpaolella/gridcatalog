@@ -1,0 +1,51 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "The Global Power Plant Database is a comprehensive, open source database of power plants around the world. It centralizes power plant data to make it easier to navigate, compare and draw insights for one’s own analysis. The database covers approximately 35,000 power plants from 167 countries and includes thermal plants (e.g. coal, gas, oil, nuclear, biomass, waste, geothermal) and renewables (e.g. hydro, wind, solar). Each power plant is geolocated and entries contain information on plant capacity, generation, ownership, and fuel type. It will be continuously updated as data becomes available. The methodology for the dataset creation is given in the World Resources Institute publication [\"A Global Database of Power Plants\"](http://www.wri.org/publication/global-power-plant-database). Data updates may occur without associated updates to this manuscript. The database can be visualized on [Resource Watch](http://goo.gl/XMyMLt) together with hundreds of other datasets. The database is available for immediate download and use through the [WRI Open Data Portal](http://datasets.wri.org/dataset/globalpowerplantdatabase). Associated code for the creation of the dataset can be found on [GitHub](https://github.com/wri/global-power-plant-database). The bleeding-edge version of the database (which may contain substantial differences from the release you are viewing) is available on GitHub as well. To be informed of important database releases in the future, please sign up for our [newsletter](https://goo.gl/ivTvkd).",
+      "distribution": [
+        {
+          "accessURL": "http://datasets.wri.org/dataset/globalpowerplantdatabase",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/world-global-power-plant-database-2018--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/world-global-power-plant-database-2018",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD2 2.5, DD7 1.6, DD5 1.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2018-04-13T00:00:00+00:00",
+      "landingPage": "http://datasets.wri.org/dataset/globalpowerplantdatabase",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2021-06-02T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/world-global-power-plant-database-2018#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/world-global-power-plant-database-2018#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:d47d2e03-17d8-43d2-8525-29b7664cb859",
+      "title": "World - Global Power Plant Database",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

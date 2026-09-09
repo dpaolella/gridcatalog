@@ -1,0 +1,77 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The databases contain all the technical, financial, and tariff data collected through the study \"Making power affordable in Africa and viable for its utilities.\" The final study and background papers are available at http://www.worldbank.org/affordableviablepowerforafrica. The objective of making the database public is to make data collected through the study available to utility companies, regulators, and practitioners to provide benchmarks and help inform analysis. The databases will be updated from time to time to make corrections or updates for latest data available and therefore may differ from data that appears in the reports. This database is a publication of the African Renewable Energy Access Program (AFREA), a World Bank Trust Fund Grant Program funded by the Kingdom of the Netherlands through ESMAP. It was prepared by staff of the International Bank for Reconstruction and Development / The World Bank.",
+      "distribution": [
+        {
+          "accessURL": "http://databank.worldbank.org/data/download/avpfa/avpfa-financial.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/making-power-affordable-for-africa-and-viable-for-its-utilities--2",
+          "mediaType": "EXCEL",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "http://databank.worldbank.org/data/download/avpfa/avpfa-tariff.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/making-power-affordable-for-africa-and-viable-for-its-utilities--0",
+          "mediaType": "EXCEL",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "http://databank.worldbank.org/data/download/avpfa/avpfa-technical.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/making-power-affordable-for-africa-and-viable-for-its-utilities--1",
+          "mediaType": "EXCEL",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/making-power-affordable-for-africa-and-viable-for-its-utilities",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-01-10T00:00:00+00:00",
+      "keyword": [
+        "finance",
+        "tariff",
+        "utility",
+        "africa"
+      ],
+      "landingPage": "http://data.worldbank.org/data-catalog/affordable-viable-power-for-africa",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-24T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/making-power-affordable-for-africa-and-viable-for-its-utilities#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/making-power-affordable-for-africa-and-viable-for-its-utilities#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:63b6f58c-17f7-4900-b954-d04ca9bc7575",
+      "title": "Making Power Affordable for Africa and Viable for Its Utilities",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -28,18 +28,18 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.9. Source declares DD5, DD10. Determined by the phrase \"reanalysis\" in the source record, which states how the values were produced rather than what they are about.",
       "inferredAssignment": true,
       "keyword": [
-        "climate",
-        "environmental",
-        "sustainability",
         "earth observation",
-        "aws-pds",
+        "climate",
         "agriculture",
         "coastal",
+        "environmental",
+        "sustainability",
+        "aws-pds",
         "weather"
       ],
       "landingPage": "https://registry.opendata.aws/wrf-alaska-snap/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:24.155508+00:00",
+      "modified": "2026-09-08T21:57:39.025464+00:00",
       "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/reanalysis",
       "qualityFlags": {
         "caveat": [
@@ -54,6 +54,26 @@
       "title": "Downscaled Climate Data for Alaska (v1.1, August 2023)",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://doi.org/10.1175/JAMC-D-15-0153.1",
+          "assertedBy": "aws_open_data",
+          "authorName": "Peter A. Bieniek, Uma S. Bhatt, John E. Walsh, T. Scott Rupp, Jing Zhang, Jeremy R. Krieger, and Rick Lader",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/wrf-alaska-snap#usage-1",
+          "title": "Dynamical Downscaling of ERA-Interim Temperature and Precipitation for Alaska",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.mdpi.com/2073-4433/13/11/1791/pdf",
+          "assertedBy": "aws_open_data",
+          "authorName": "Peter A. Bieniek, Li Erikson, and Jeremy Kasper",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/wrf-alaska-snap#usage-0",
+          "title": "Atmospheric Circulation Drivers of Extreme High Water Level Events at Foggy Island Bay, Alaska",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

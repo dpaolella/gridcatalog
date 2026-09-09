@@ -1,0 +1,241 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "description": "This dataset contains solar rooftop potential data (suitable rooftop area, installable capacity, estimated yearly electricity generation, and building type ) at individual building structure level for a sample area of interest in South Africa. The data was gathered by extracting building rooftop footprint polygons from very high-resolution satellite stereo imagery of 0.5m resolution. The rooftop angle, obstruction, and shading were taken into account during suitable area calculation. The results can be aggregated by different sectors or administrative units for further analysis, which is useful for planning and decision making. Detailed methodology is available upon specific request.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/9c9039f7-95bc-4ffe-88d8-fb05327e32cb/download/witbank_rooftop_solar_potential.gdb.zip",
+          "byteSize": 17471790,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/775e2976-387b-4f44-8807-5e96ca4edd5e/download/ermelo_rooftop_solar_potential.csv",
+          "byteSize": 6611376,
+          "checksum": "512829579f2f7653dfac9080cf1aa485",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--3",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/0b8ee2be-ed2b-4fbc-9822-88a5a901dc27/download/southafrica_result_metadata.xlsx",
+          "byteSize": 11868,
+          "checksum": "e0c5213f5c4c86e1ccca79f2232b8461",
+          "formatLabel": "XLSX",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/4b5b7538-3e68-40bb-aa50-7483f983f529/download/ermelo_rooftop_solar_potential.gdb.zip",
+          "byteSize": 5512143,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--1",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/5060eeb6-1a54-485d-8a7c-5f76d4d93ef6/download/johannesburg_rooftop_solar_potential.gdb.zip",
+          "byteSize": 55801668,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--2",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/52d11563-72a2-4932-bae2-d355a14b2d26/download/witbank_rooftop_solar_potential.csv",
+          "byteSize": 20694444,
+          "checksum": "87419c0afccd0d8183eea20173aa0a4e",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--4",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/3f392860-87f8-431b-bd7b-cf54c0f5add7/download/johannesburg_rooftop_solar_potential.csv",
+          "byteSize": 60798279,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/106bc8c7-d0e6-4a03-a99e-7fc8e3c94e37/download/hendrina_rooftop_solar_potential.gdb.zip",
+          "byteSize": 1504162,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--7",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/036fff99-ed0b-4d3f-b987-05d782dc2621/download/hendrina_rooftop_solar_potential.csv",
+          "byteSize": 1784427,
+          "checksum": "9874d84bd84ebdc48b1c57e2d9dce57d",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/south-africa-rooftop-splar-potential-mapping--8",
+          "mediaType": "application/csv",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "Comment",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Comment",
+          "localName": "Comment",
+          "type": "Field"
+        },
+        {
+          "fieldId": "aoi",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/aoi",
+          "localName": "aoi",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Assumed_building_type",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Assumed_building_type",
+          "localName": "Assumed_building_type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_capacity_factor",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Estimated_capacity_factor",
+          "localName": "Estimated_capacity_factor",
+          "type": "Field"
+        },
+        {
+          "fieldId": "solar_panels",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/solar_panels",
+          "localName": "solar_panels",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Potential_installable_area",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Potential_installable_area",
+          "localName": "Potential_installable_area",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Peak_installable_capacity",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Peak_installable_capacity",
+          "localName": "Peak_installable_capacity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Energy_potential_per_year",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Energy_potential_per_year",
+          "localName": "Energy_potential_per_year",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_Installation_Efficiency",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Estimated_Installation_Efficiency",
+          "localName": "Estimated_Installation_Efficiency",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_tilt",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Estimated_tilt",
+          "localName": "Estimated_tilt",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Surface_area",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Surface_area",
+          "localName": "Surface_area",
+          "type": "Field"
+        },
+        {
+          "fieldId": "uuid",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/uuid",
+          "localName": "uuid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Estimated_building_height",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Estimated_building_height",
+          "localName": "Estimated_building_height",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Unit_installation_price",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Unit_installation_price",
+          "localName": "Unit_installation_price",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Roof_quality",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Roof_quality",
+          "localName": "Roof_quality",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Date_added",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/Date_added",
+          "localName": "Date_added",
+          "type": "Field"
+        },
+        {
+          "fieldId": "City",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/City",
+          "localName": "City",
+          "type": "Field"
+        },
+        {
+          "fieldId": "OBJECTID",
+          "id": "https://catalog.opengrid.org/field/south-africa-rooftop-splar-potential-mapping/OBJECTID",
+          "localName": "OBJECTID",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/south-africa-rooftop-splar-potential-mapping",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2024-04-16T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-06-18T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/south-africa-rooftop-splar-potential-mapping#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/south-africa-rooftop-splar-potential-mapping#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/3f5220b4-4ce5-43b8-82b7-f851a8bd81b3/resource/775e2976-387b-4f44-8807-5e96ca4edd5e/download/ermelo_rooftop_solar_potential.csv",
+      "sourceRecordId": "energydata_info:3f5220b4-4ce5-43b8-82b7-f851a8bd81b3",
+      "title": "South Africa - Rooftop Solar Potential Mapping",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

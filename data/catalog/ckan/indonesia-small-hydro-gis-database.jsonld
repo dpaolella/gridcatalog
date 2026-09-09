@@ -1,0 +1,60 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "The GIS database has been developed by under the Small Hydropower Mapping and Improved Geospatial Electrification Planning in Indonesia Project [Project ID: P145273]. The scope of the project was to facilitate and improve the planning and investment process for small hydro development both grid and isolated systems through: building up a central database on smal hydro at national scale and validating the mapping of small hydro in NTT, Maluku, Maluku Utara and Sulawesi improved electrification planning by integrating small hydro potential for the provinces of NTT, Maluku, Maluku Utara and Sulawesi into the planning process. Please refer to the country project page for additional outputs and reports: http://esmap.org/re_mapping_indonesia The GIS database contains the following datasets: SHP(promising sites) Admin Divisions Topomas_grid Rivers, Geology Forest_areas Roads RainfallGauges RunoffGauges ElectricSystem, each accompanied by a metadata file. Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP). For more information: Indonesia - Small Hydro GIS Atlas, 2017, https://energydata.info/dataset/indonesia-small-hydro-gis-database-2017\"",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042082/DR0052661/indonesiasmall-hydropowergis-databasewb-esmapjune17.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/indonesia-small-hydro-gis-database--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042082/DR0052662/listmostpromisingsites.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/indonesia-small-hydro-gis-database--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/indonesia-small-hydro-gis-database",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/indonesia-small-hydro-gis-database#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/indonesia-small-hydro-gis-database#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:a45952a5-b4b1-4417-8654-15759b2ab07c",
+      "title": "Indonesia - Small Hydro GIS Database",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "This dataset provides five flood scenarios for Greater Dhaka Area, with estimates of location-specific depth and duration of inundation, for extreme rainfall event in 2050. Intense rainfall floods Dhaka, Bangladesh, one of the world’s fastest-growing megacities, year in and year out. Low-lying flood plains, rivers, and canals that once drained water are gradually filling up as a result of indiscriminate urbanization, and now magnify, rather than help solve the problem. The climatic outlook for South Asia in the 21st century signals heavier and more erratic rainfall during the monsoon season, according to the Fifth Assessment Report of the Intergovernmental Panel on Climate Change and the World Meteorological Organization. Thus, climate change may further aggravate Dhaka’s flood vulnerability. Dhaka needs to better manage its flood drainage infrastructure and strengthen the city’s climate-disaster resilience and adaptive capacity. But climate-smart policies require local planners to better understand the likely damage from current flooding, potential damage from climate-related risks, measures that can be taken to cope with current and future flooding as well as adaptation costs. In an effort to enhance such understanding and to provide input to development of adaptation policies, this research estimated location-specific depth and duration of inundation from extreme rainfall events by 2050 with or without climate change, discussed structural adaptation measures to cope with current and future flooding, evaluated the reduction in inundation resulting from implementing these measures, and estimated adaptation cost. Depth and duration of inundation in Greater Dhaka Area from extreme rainfall events by 2050 with or without climate change under different scenarios at ward/ thana-level have been summarized in the Excel Workbook “Urban Flooding of Greater Dhaka in 2050” Detailed Study Area: The dataset covers Greater Dhaka Area: Eastern Dhaka, Western Dhaka-Goranchatbari, Western Dhaka-Kallyanpur, Central Dhaka, Old Dhaka, DND and Narayanganj. As flooding is a periodic problem in Dhaka, the city can be said to already have an adaptation deficit even without climate change. The analysis therefore addressed the issue from both current and future climate perspectives. **Future (2050) Rainfall Extreme Scenarios: ** Dhaka experienced 341mm rainfall in 24 hours in September 2004; and this historic extreme rainfall was taken as the current climate baseline in the underlying analysis. For the future, the underlying analysis considered a 16 percent increase in extreme rainfall in a changing climate by 2050. Assumptions about the Future: As any change in land use has implications for the percentage of built-up area, and therefore drainage of the storm water, the analysis assumed that future land cover would change according to the RAJUK’s Detailed Action Plan (DAP). For drainage, the analysis assumed that all improvements to Dhaka’s drainage infrastructure, both planned and proposed by the relevant drainage-system authority, would be implemented. Five Alternative Scenarios: Estimates of location-specific depth and duration of inundation were estimated for extreme rainfall event in 2050 for following five scenarios: Scenario1: 341mm rainfall in 24 hours As timing and magnitude of climate change is somewhat unknown, ward/thana-level inundation depth and duration for 2050 were generated for the baseline rainfall event without consideration of any climate change. The analysis accounts for expected socioeconomic changes and planned changes in the land use pattern as well as drainage infrastructure. Scenario 2: 341mm rainfall in 24 hours without adaptation deficit The estimates of inundation from scenario1 were discussed with the local experts and based on their recommendations a set of potential adaptation measures for example increase in pump capacity, sludge cleaning, laying of new drainage pipes, deepening existing water bodies was designed and incorporated in hydrological modeling. The modeling was repeated with different capacities of pumps etc. until a desirable depth and duration of inundation for each study region was attained. Scenario 3: 396mm rainfall in 24 hours Ward/thana-level estimates of inundation depth and duration were generated for the changing climate in 2050 taking into account climate change using a potential 16 percent increase in extreme rainfall as a factor as well as accounting for expected socioeconomic changes, planned changes in the land use pattern and drainage infrastructure. Scenario 4: 396mm rainfall in 24 hours without adaptation deficit Implications for flooding were estimated in a changing climate after current climate adaptation deficit is met. Scenario 5: 396mm rainfall in 24 hours without adaptation deficit and with adaptation for climate change Implications for a set of adaptation measures suggested by local experts to deal with climate change were estimated. These estimates are from the three-step hydrological modeling component of the study. The first modeling step simulated basin-level flows from the Brahmaputra River in the Ganges-Brahmaputra-Meghna River system since they strongly influence monsoon-season river flows and water levels in the Greater Dhaka area. In the second step, the effects of climate change on the regional rivers were simulated. Finally, in the third step, detailed modeling of the drainage system in and around Dhaka city was simulated. The analysis centered on the worst-case scenario in which river levels are high and all sluice gates are closed. Therefore, there is no gravity drainage out of the city and the drainage system depends primarily on the performance efficiency of drainage pumps, which is often the case during intense rainfall. For Western Dhaka-Old Dhaka, Central Dhaka, Kallyanpur, and Goranchatbari—the impacts of climate change on river flooding were not considered in the analyses as this main part of the city is protected by flood embankments on all sides. See Urban Flooding of Greater Dhaka in a Changing Climate- Building Local Resilience to Disaster Risk: chapters 2, 3 and 6 for details. These estimates were prepared by Asif Zaman, World Bank Consultant and Water Resources and DSS Specialist, Institute of Water Modeling. The study was conducted under the World Bank-supported study on Urban Flooding of Greater Dhaka in a Changing Climate: Potential Damage and Adaptation (Task team Leader: Susmita Dasgupta). The study team gratefully acknowledges the financial support provided by the Bangladesh Climate Change Resilience Fund (BCCRF) a multi-donor trust fund supported by the governments of the United Kingdom, Denmark, Sweden, Switzerland, Australia, the United States, and the European Union. Lead Researcher: Dr. Asif Zaman",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041076/1/DR0051229/urbanfgd_0.xlsx",
+          "checksum": "3f9ca5a9848692c33baa0b8a1c7973d3",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/urban-flooding-greater-dhaka-changing-climate-building-local-resilience-2b2e0d16--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/urban-flooding-greater-dhaka-changing-climate-building-local-resilience-2b2e0d16",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 3.7, DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-20T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/urban-flooding-greater-dhaka-changing-climate-building-local-resilience-2b2e0d16#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/urban-flooding-greater-dhaka-changing-climate-building-local-resilience-2b2e0d16#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:2eb98a9e-b2ab-41cb-bea5-f955d7c48f8c",
+      "title": "Urban Flooding of Greater Dhaka in a Changing Climate - Building Local Resilience to Disaster Risk",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

@@ -12,29 +12,11 @@
       "description": "The KyFromAbove initiative is focused on building and maintaining a current basemap for Kentucky that can meet the needs of its users at the state, federal, local, and regional level. A common basemap, including current color leaf-off aerial photography and elevation data (LiDAR), reduces the cost of developing GIS applications, promotes data sharing, and add efficiencies to many business processes. All basemap data acquired through this effort is made available in the public domain. KyFromAbove acquires aerial imagery and LiDAR during leaf-off conditions in the Commonwealth. The imagery typically ranges from 6-inches to 3-inches in resolution and is available from the kyfromabove Amazon S3 bucket in a Cloud Optimized GeoTiff format. LiDAR data acquired by the program is USGS Quality Level 2 (QL2). Digital Elevation Models (DEMs) at a 2-foot resolution, point cloud data in an LAS format, spot elevations in a geopackage format, and contours in a geopackage format are also available from the kyfromabove Amazon S3 bucket. KyFromAbove LiDAR and imagery data resources are managed in a Kentucky-specific 5000x5000 foot grid (FIPS:1600) (EPSG:3089). More details about the program can be found at (https://kyfromabove.ky.gov/).",
       "distribution": [
         {
-          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/PointCloud/",
+          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/kyfromabove--5",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/imagery/orthos/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/kyfromabove--8",
-          "requesterPays": false,
-          "type": "Distribution"
-        },
-        {
-          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/DEM/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/kyfromabove--3",
+          "id": "https://catalog.opengrid.org/dist/kyfromabove--0",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -44,6 +26,15 @@
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
           "id": "https://catalog.opengrid.org/dist/kyfromabove--7",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/Contours/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kyfromabove--2",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -66,11 +57,29 @@
           "type": "Distribution"
         },
         {
-          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/",
+          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/imagery/orthos/",
           "bulkDownload": true,
           "formatLabel": "S3 Bucket",
           "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/kyfromabove--0",
+          "id": "https://catalog.opengrid.org/dist/kyfromabove--8",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/PointCloud/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kyfromabove--5",
+          "requesterPays": false,
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/DEM/",
+          "bulkDownload": true,
+          "formatLabel": "S3 Bucket",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kyfromabove--3",
           "requesterPays": false,
           "type": "Distribution"
         },
@@ -91,15 +100,6 @@
           "id": "https://catalog.opengrid.org/dist/kyfromabove--6",
           "requesterPays": false,
           "type": "Distribution"
-        },
-        {
-          "accessURL": "https://kyfromabove.s3.us-west-2.amazonaws.com/elevation/Contours/",
-          "bulkDownload": true,
-          "formatLabel": "S3 Bucket",
-          "hostedByOpenGrid": false,
-          "id": "https://catalog.opengrid.org/dist/kyfromabove--2",
-          "requesterPays": false,
-          "type": "Distribution"
         }
       ],
       "documentation": [
@@ -111,25 +111,25 @@
       "inferenceBasis": "Assigned by term-signature match over the source record: DD10 3.3. Source declares DD5, DD10.",
       "inferredAssignment": true,
       "keyword": [
-        "mapping",
-        "lidar",
-        "aws-pds",
-        "cog",
-        "elevation",
-        "tiles",
-        "dtm",
-        "disaster response",
-        "aerial imagery",
-        "stac",
-        "tiff",
         "geospatial",
+        "dtm",
         "earth observation",
-        "geopackage"
+        "aws-pds",
+        "tiff",
+        "geopackage",
+        "tiles",
+        "mapping",
+        "elevation",
+        "lidar",
+        "cog",
+        "disaster response",
+        "stac",
+        "aerial imagery"
       ],
       "landingPage": "https://registry.opendata.aws/kyfromabove/",
       "license": "http://spdx.org/licenses/LicenseRef-US-Gov-Public-Domain",
       "licenseNote": "A work of the United States federal government, not subject to copyright within the United States (17 U.S.C. §105). Reuse is unrestricted; some agencies request attribution as a courtesy.",
-      "modified": "2026-09-07T07:36:18.351164+00:00",
+      "modified": "2026-09-08T21:57:31.894648+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/kyfromabove#provenance-gap",
@@ -137,8 +137,8 @@
       },
       "qualityFlags": {
         "caveat": [
-          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
-          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
         ],
         "id": "https://catalog.opengrid.org/ds/kyfromabove#flags",
         "staleness": "unknown",
@@ -150,6 +150,89 @@
       "title": "KyFromAbove on AWS",
       "type": "Dataset",
       "updateCadence": "P1Y",
+      "usageEvidence": [
+        {
+          "accessURL": "https://www.mydigitalpublication.com/publication/?m=16892&i=816848&view=articleBrowser&article_id=4737566&ver=html5",
+          "assertedBy": "aws_open_data",
+          "authorName": "Kent Anness",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-1",
+          "title": "A New View of Kentucky's Cities",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://lidarnews.com/news/nv5-earns-3-awards-at-2026-mapps-conference/",
+          "assertedBy": "aws_open_data",
+          "authorName": "LiDAR News",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-0",
+          "title": "NV5 Earns 3 Excellence Awards at MAPPS 2026",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.geoweeknews.com/news/kyfromabove-aerial-imagery-lidar-data-topography-elevation",
+          "assertedBy": "aws_open_data",
+          "authorName": "Matt Collins",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-3",
+          "title": "KyFromAbove is democratizing key data in Kentucky",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://kygeonet.ky.gov/stac",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ian Horn, Ky Div. of Geographic Information",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-7",
+          "title": "Kentucky From Above SpatioTemporal Asset Catalog",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/ianhorn/kyfromabove-on-aws-examples/blob/main/examples/bulk_download_county.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ian Horn",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-4",
+          "title": "KyFromAbove County Bulk Download",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://www.esri.com/about/newsroom/arcuser/kytopo-kentuckys-new-topographic-map-series/",
+          "assertedBy": "aws_open_data",
+          "authorName": "Kent Anness",
+          "evidenceKind": "publication",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-2",
+          "title": "KyTopo! Kentucky's New Topographic Map Series",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/ianhorn/kyfromabove-on-aws-examples/blob/main/examples/clip_tiles_to_boundary.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Ian Horn",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-5",
+          "title": "KyFromAbove Bulk Download Area of Interest from Tile Index",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://kygeonet.ky.gov/catalogexplorer",
+          "assertedBy": "aws_open_data",
+          "authorName": "Boyd Shearer, Ky Div. of Geographic Information",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-6",
+          "title": "KyFromAbove Catalog Explorer",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://explore.kyfromabove.ky.gov/",
+          "assertedBy": "aws_open_data",
+          "authorName": "NV5",
+          "evidenceKind": "tool",
+          "id": "https://catalog.opengrid.org/ds/kyfromabove#usage-8",
+          "title": "KyFromAbove Explorer",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]

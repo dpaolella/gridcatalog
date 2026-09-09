@@ -1,0 +1,368 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Data repository for measurements from 10 wind masts in Nepal. Data will be uploaded in batches, on a monthly basis, and will transmit daily reports for wind speed, wind direction, air pressure, relative humidity and temperature. Please refer to the country project page for additional outputs and reports, including the installation reports: http://esmap.org/re-mapping/nepal For access to maps and GIS layers, please visit the Global Wind Atlas: https://globalwindatlas.info/ Please cite as: [Data/information/map obtained from the] “World Bank via ENERGYDATA.info, under a project funded by the Energy Sector Management Assistance Program (ESMAP).",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/58f0f38d-d9ea-4949-81cd-3ed90d8a8917/download/wind-measurements_nepal_birtabesi_wb-esmap_qc.csv",
+          "byteSize": 39602147,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--6",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/f5637ac0-4644-45f3-b441-648f78e5c85e/download/wind-measurements_nepal_kagbeni_wb-esmap_header.csv",
+          "byteSize": 3436,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--11",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/be79ba05-3b1d-42b7-989f-bf015489a5d4/download/wind-measurements_nepal_dangibada_wb-esmap_qc.csv",
+          "byteSize": 40831719,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--9",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/7b8c6881-8f29-4047-9aac-832459f98aae/download/wind-measurements_nepal_tangbe_wb-esmap_header.csv",
+          "byteSize": 3433,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--32",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/c4da0151-e8b2-4f69-ba61-530412367c18/download/wind-mapping-nepal_vitualworkshop_day1-session1_3e_lucdewilde.pdf",
+          "byteSize": 4982890,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--2",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/74a10203-642d-4d6b-b556-497349d1f931/download/wind-measurements_nepal_purungchheda_wb-esmap_raw.zip",
+          "byteSize": 717,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--25",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/50a76e18-6b51-4ab4-b55d-32e5804cf4dd/download/program-wind-resource-assessment-and-mapping-final.pdf",
+          "byteSize": 231026,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--4",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/8ade048d-8f13-457c-90cc-a23b233a8487/download/wind-measurements_nepal_sitapur_wb-esmap_header.csv",
+          "byteSize": 3698,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--29",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/83acaaa0-5752-4ca0-8a2f-f8a3f9b643c9/download/wind-measurements_nepal_pidari_wb-esmap_raw.zip",
+          "byteSize": 705,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--22",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/11516ba4-3eb9-4ff1-8e96-1205a2c3d3e0/download/wind-measurements_nepal_saptami_wb-esmap_header.csv",
+          "byteSize": 4085,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--26",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/2c272a19-2bb4-442c-a656-b041ff7b6a11/download/wind-measurements_nepal_koilabas_wb-esmap_raw.zip",
+          "byteSize": 92,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--19",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/841c842f-0409-4ab5-89d2-7a7800749f03/download/wind-measurements_nepal_saptami_wb-esmap_raw.zip",
+          "byteSize": 599,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--28",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/7bda7a8f-20aa-4e53-95ad-67e9f8b653d1/download/wind-measurements_nepal_sitapur_wb-esmap_raw.zip",
+          "byteSize": 23,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--31",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/2f3005e9-037b-4b57-939f-bc92fc2d50d4/download/wind-measurements_nepal_purungchheda_wb-esmap_qc.csv",
+          "byteSize": 65247394,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--24",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/d7fa5910-9ec0-4d16-9539-709d8ae0da37/download/nepal-workshop_gwa-dtu_final-presentation_esmap-wbg.pdf",
+          "byteSize": 7084338,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--1",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/91555edb-e224-4867-a208-39bd8993d2ed/download/wind-measurements_nepal_birtabesi_wb-esmap_raw.zip",
+          "byteSize": 922,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--7",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/38f962fd-989e-434b-8567-9b339f8ab1b1/download/wind-mapping-nepal_virtualworkshop_day1_session2_3e_lucdewilde.pdf",
+          "byteSize": 1330121,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--3",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/368e263e-95d1-44f5-864a-d877f7fe174e/download/wind-measurements_nepal_kagbeni_wb-esmap_raw.zip",
+          "byteSize": 75,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--13",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/74129f64-29bf-4f05-8105-e97d0e822ee7/download/wind-measurements_nepal_koilabas_wb-esmap_qc.csv",
+          "byteSize": 53753298,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--18",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/4b50aace-adad-4b0b-b3cb-db3e2cb0c0b9/download/nepal_2year_wind_site-resource-report_esmap-wbg.pdf",
+          "byteSize": 12977489,
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--0",
+          "mediaType": "application/pdf",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/2e811778-6a0c-4d4f-a321-02a17f3252e2/download/wind-measurements_nepal_tangbe_wb-esmap_qc.csv",
+          "byteSize": 41407668,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--33",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/4c056e10-1e9e-48d4-9148-fefa71043882/download/wind-measurements_nepal_dangibada_wb-esmap_header.csv",
+          "byteSize": 3581,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--8",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/73437986-1ff0-4ede-bcd2-5e10193ef5c7/download/wind-measurements_nepal_kagbeni_wb-esmap_qc.csv",
+          "byteSize": 52960705,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--12",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/6aca7774-417b-46ab-a6c6-821fbe50f381/download/wind-measurements_nepal_purungchheda_wb-esmap_header.csv",
+          "byteSize": 3707,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--23",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/d455f7cd-2a98-4131-b5de-3f6b9cbe069e/download/wind-measurements_nepal_pidari_wb-esmap_qc.csv",
+          "byteSize": 60167434,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--21",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/64530e5d-4c1c-48ef-9802-b38f8933f149/download/wind-measurements_nepal_dangibada_wb-esmap_raw.zip",
+          "byteSize": 899,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--10",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/8e6acc7a-e090-4c54-b57c-b3eb3db6ed3c/download/wind-measurements_nepal_khajura_wb-esmap_raw.zip",
+          "byteSize": 130,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--16",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/3e519f18-89ea-416e-a400-e51f2e09819c/download/wind-measurements_nepal_khajura_wb-esmap_header.csv",
+          "byteSize": 3808,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--14",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/7a8d84cb-bc32-46b1-9c95-c26d4fc962cd/download/wind-measurements_nepal_khajura_wb-esmap_qc.csv",
+          "byteSize": 57518075,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--15",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/a75f80f3-10c0-443d-a917-28df82a0d1ec/download/wind-measurements_nepal_saptami_wb-esmap_qc.csv",
+          "byteSize": 57436075,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--27",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/36fbcb19-4fcc-48a5-ae04-82af3cf591e1/download/wind-measurements_nepal_koilabas_wb-esmap_header.csv",
+          "byteSize": 3502,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--17",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/176b4299-9a48-49df-9769-023139ddbc2c/download/wind-measurements_nepal_birtabesi_wb-esmap_header.csv",
+          "byteSize": 3511,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--5",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/8e031edd-d5db-4d6b-9cd8-a4b62a62a224/download/wind-measurements_nepal_sitapur_wb-esmap_qc.csv",
+          "byteSize": 44848553,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--30",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/a5cb0057-1a68-4047-b5a3-2d6cb496439d/download/wind-measurements_nepal_tangbe_wb-esmap_raw.zip",
+          "byteSize": 355,
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--34",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/1b7c0f0d-78ec-4c56-a67c-67d99526ddaf/download/wind-measurements_nepal_pidari_wb-esmap_header.csv",
+          "byteSize": 3705,
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/nepal-wind-measurement-data--20",
+          "mediaType": "text/csv",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "id": "https://catalog.opengrid.org/field/nepal-wind-measurement-data/The-wind-measurement-campaign-that-has-generated-this-data-was-commissioned-by-The-World-Bank-with-funding-from-the-Energy-Sector-Management-Assistance-Program-ESMAP",
+          "localName": "The wind measurement campaign that has generated this data was commissioned by The World Bank with funding from the Energy Sector Management Assistance Program (ESMAP).",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/nepal-wind-measurement-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 4.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2019-02-07T00:00:00+00:00",
+      "landingPage": "https://globalwindatlas.info/",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2021-08-02T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/nepal-wind-measurement-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/nepal-wind-measurement-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://energydata.info/dataset/1db2fb64-db3a-4d9d-94d6-7084efd2517d/resource/176b4299-9a48-49df-9769-023139ddbc2c/download/wind-measurements_nepal_birtabesi_wb-esmap_header.csv",
+      "sourceRecordId": "energydata_info:1db2fb64-db3a-4d9d-94d6-7084efd2517d",
+      "title": "Nepal - Wind Measurement Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

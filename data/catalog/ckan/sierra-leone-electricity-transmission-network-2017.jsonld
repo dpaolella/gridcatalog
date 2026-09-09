@@ -1,0 +1,58 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "A Sierra Leone subset of this dataset: [ECOWAS region - Existing and Planned Transmission Grid (2017)](https://energydata.info/dataset/transmission-grid-ecowas-region) Existing and planned transmission grid network (medium and high voltage lines) in the ECOWAS Region. Also covers other regions of West Africa. The source of the dataset is the West African Power Pool (WAPP) GIS database January 2017. WAPP collects and validates spatial information on transmission lines in a yearly basis.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/44d06b84-0e42-438c-953e-405cb55b9cb4/resource/165df94a-2e82-4093-8cd3-a7350e83b501/download/sierraleoneecreee.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sierra-leone-electricity-transmission-network-2017--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/44d06b84-0e42-438c-953e-405cb55b9cb4/resource/d5f1aec4-c1df-4047-a4c6-e47ddd9acbaa/download/sierraleoneecreee.zip",
+          "formatLabel": "SHP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/sierra-leone-electricity-transmission-network-2017--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/sierra-leone-electricity-transmission-network-2017",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-03-28T00:00:00+00:00",
+      "landingPage": "http://www.ecowrex.org/mapView/",
+      "license": "http://spdx.org/licenses/ODbL-1.0",
+      "modified": "2018-02-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/sierra-leone-electricity-transmission-network-2017#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/sierra-leone-electricity-transmission-network-2017#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:44d06b84-0e42-438c-953e-405cb55b9cb4",
+      "title": "Sierra Leone - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

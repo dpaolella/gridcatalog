@@ -1,0 +1,69 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Data collected and prepared for a project of the World Bank Group Power Transmission Project in Azerbaijan. This data is based on a digitized PDF map, and so is intended as a schematic of rough locations of the power network. It is not suitable for applications requiring high accuracy. The PDF map can be viewed on the last page of report attached. To learn more, please visit http://documents.worldbank.org/curated/en/965571468219011886/Azerbaijan-...",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039607/DR0049237/powerplants-existing.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/azerbaijan-power-plants-2009--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "http://documents.worldbank.org/curated/en/965571468219011886/pdf/ICR11400P083340C0disclosed020180150.pdf",
+          "formatLabel": "PDF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/azerbaijan-power-plants-2009--2",
+          "mediaType": "PDF",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0039607/DR0049238/powerplants-existing.zip",
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/azerbaijan-power-plants-2009--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/azerbaijan-power-plants-2009",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2017-10-16T00:00:00+00:00",
+      "landingPage": "http://documents.worldbank.org/curated/en/965571468219011886/pdf/ICR11400P083340C0disclosed020180150.pdf",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2024-09-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/azerbaijan-power-plants-2009#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/azerbaijan-power-plants-2009#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:13927d19-b6ac-4400-9db9-2caf5ef9a535",
+      "title": "Azerbaijan - Power Plants",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

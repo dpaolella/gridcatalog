@@ -1,0 +1,49 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "GlobCover is an ESA initiative which began in 01/01/2005 in partnership with JRC, EEA, FAO, UNEP, GOFC-GOLD and IGBP. The GlobCover project has developed a service capable of delivering global composites and land cover maps using as input observations from the 300m MERIS sensor on board the ENVISAT satellite mission. The GlobCover 2009 land cover map is derived by an automatic and regionally-tuned classification of a time series of global MERIS (MEdium Resolution Imaging Spectrometer) FR mosaics for the year 2009. The global land cover map counts 22 land cover classes defined with the United Nations (UN) Land Cover Classification System (LCCS).",
+      "distribution": [
+        {
+          "accessURL": "https://due.esrin.esa.int/page_globcover.php",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/global-land-cover-2009--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/global-land-cover-2009",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/global-land-cover-2009#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/global-land-cover-2009#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:0978e02c-65c7-43ea-ab0e-def83ada8f65",
+      "title": "Global Land Cover [2009]",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

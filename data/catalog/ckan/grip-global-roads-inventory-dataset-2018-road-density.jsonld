@@ -1,0 +1,49 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "The Global Roads Inventory Project is a harmonized global dataset of aproximately 60 geospatial datasets on road infrastructure. The resulting dataset covers 222 countries and includes over 21 million km of roads, which is two to three times the total length in the currently best available country-based global roads datasets. The road density raster layers (road length per unit of area) are produced at a resolution of 5 arcminutes (approximately 8×8km at the equator). The road vector dataset was overlaid with a global 5 arcminute 'fishnet' vector dataset with unique cell identifiers and assigned all road vector elements within a given cell the corresponding cell ID. The length (in meters) of each individual road vector element was calculated in ArcGIS, accounting for the distance distortion in the WGS84 coordinate system, and summed the lengths per cell ID for each of the individual road types. The resulting table was joined to the fishnet vector dataset, which was then converted to 5 arcminute raster datasets using the summed road length per road type. Finally, the 5 arcminute road length rasters were divided by a matching 5 arcminute resolution area (km2 per cell) raster to derive road densities (in meters per km2). This dataset is split into 5 road types: highways/ primary/ secondary/ tertiary/ local roads",
+      "distribution": [
+        {
+          "accessURL": "https://www.globio.info/download-grip-dataset",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/grip-global-roads-inventory-dataset-2018-road-density--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/grip-global-roads-inventory-dataset-2018-road-density",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD10 1.3. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/grip-global-roads-inventory-dataset-2018-road-density#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/grip-global-roads-inventory-dataset-2018-road-density#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:a6ce15c0-d8fb-4e29-9d97-dce323c8d47d",
+      "title": "GRIP (Global Roads Inventory Dataset) -2018: Road Density",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

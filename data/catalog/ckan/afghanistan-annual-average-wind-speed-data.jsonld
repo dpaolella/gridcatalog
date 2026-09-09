@@ -1,0 +1,50 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5"
+      ],
+      "description": "Wind speed raster file over the territory of Afghanistan. Aggregated annual average values. Spatial resolution 5km.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/0eab3c33-ed55-49ab-ad1b-d67f38607b2c/resource/4d92ccc5-da28-4b19-9220-1bdf74b77009/download/afgwindspeed5km.tiff",
+          "formatLabel": "TIFF",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/afghanistan-annual-average-wind-speed-data--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/afghanistan-annual-average-wind-speed-data",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD5 2.5. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2017-07-19T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2026-02-09T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/afghanistan-annual-average-wind-speed-data#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead",
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/afghanistan-annual-average-wind-speed-data#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:0eab3c33-ed55-49ab-ad1b-d67f38607b2c",
+      "title": "Afghanistan - Annual Average Wind Speed Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

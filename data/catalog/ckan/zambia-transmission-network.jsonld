@@ -1,0 +1,63 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This dataset is put together by KTH Division of Energy Systems Analysis. It contains the transmission network data provided by African Development Bank and Open Street Map AfDB, 2011. African Development Bank. URL http://www.infrastructureafrica.org/tools/maps OSM, 2015. OpenStreetMap. OpenStreetMap. URL https://www.openstreetmap.org/",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/74192d2c-aed2-4f96-8747-2c055724b0b8/resource/27010457-a07b-4e68-8e21-bd114cda7c77/download/zambiaplannedtransabove69kv.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-transmission-network--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/74192d2c-aed2-4f96-8747-2c055724b0b8/resource/94bd7515-0349-42d4-88ac-2ac5093ee63d/download/zambiaexistingtransabove69kv.geojson",
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-transmission-network--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/74192d2c-aed2-4f96-8747-2c055724b0b8/resource/3b6379e3-7df9-4904-9a0f-958fad6bb181/download/zambia.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/zambia-transmission-network--2",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/zambia-transmission-network",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10. Determined by the phrase \"openstreetmap\" in the source record, which states how the values were produced rather than what they are about.",
+      "inferredAssignment": true,
+      "issued": "2016-10-06T00:00:00+00:00",
+      "keyword": [
+        "Power Transmission"
+      ],
+      "landingPage": "http://www.infrastructureafrica.org/tools/maps",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2022-09-20T00:00:00+00:00",
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified."
+        ],
+        "id": "https://catalog.opengrid.org/ds/zambia-transmission-network#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:74192d2c-aed2-4f96-8747-2c055724b0b8",
+      "title": "Zambia - Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

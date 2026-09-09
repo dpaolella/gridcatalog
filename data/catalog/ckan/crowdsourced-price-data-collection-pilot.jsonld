@@ -1,0 +1,408 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10"
+      ],
+      "description": "Crowdsourced price data from 15 pilot countries, namely, Argentina, Bangladesh, Brazil, Cambodia, Colombia, Ghana, Indonesia, Kenya, Malawi, Nigeria, Peru, Philippines, South Africa, Venezuela and Vietnam; from December 2015 to August 2016 and covering 162 household good and service items. This database is a repository of information collected during a World Bank pilot study on the feasibility of crowdsourced price data collection utilizing modern information and communication technologies. The collected data can be used for a variety of spatial and temporal price studies and other price-related applications. The data was collected by leveraging a privately-operated network of paid on-the-ground contributors that had access to a smartphone application. Price collection tasks and related guidance was pushed through the application to specific geographical locations. The contributors carried out the requested collection tasks and submitted price data and other metadata using the application. The pilot was conducted in 15 pilot countries, namely, Argentina, Bangladesh, Brazil, Cambodia, Colombia, Ghana, Indonesia, Kenya, Malawi, Nigeria, Peru, Philippines, South Africa, Venezuela and Vietnam from December 2015 to August 2016. The collected price data covers 162 tightly specified household good and service items, including food and non-alcoholic beverages; alcoholic beverages and tobacco; clothing and footwear; housing, water, electricity, gas and other fuels; furnishings, household equipment and routine household maintenance; health; transport; communication; recreation and culture; education; restaurants and hotels; and miscellaneous goods and services. In total, the database includes 1,262,458 price observations, ranging from 196,188 observations for Brazil to 14,102 observations for Cambodia. The observations are accompanied by a rich set of metadata, including longitude and latitude coordinates and related geographical designations, time-stamps, outlet identifiers, volume and weight details, and brand and model information. Due to the pilot nature of this data, the survey coverage varies between and within countries. In addition, the comparability of price data for goods is typically more reliable than those for services. This database is a product of the World Bank Development Data Group. Use is subject to World Bank policies and procedures on access to information. Site-specific terms of use apply and are stated below.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052667/ken-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--9",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052669/mwi-crowdsourcedpdcpilot02_final_obs_all_clean_0.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--10",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052663/arg-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052670/nga-crowdsourcedpdcpilot02_final_obs_all_clean_1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--11",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052665/col-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--6",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052671/per-crowdsourcedpdcpilot02_final_obs_all_clean_0.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--12",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052664/bgd-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--3",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052677/allpilotcountries15-crowdsourcedpdcpilot02_final_obs_all_clean.zip",
+          "formatLabel": "ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--1",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052674/vnm-crowdsourcedpdcpilot02_final_obs_all_clean_1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--16",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052666/gha-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--7",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052668/khm-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--5",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052676/zaf-crowdsourcedpdcpilot02_final_obs_all_clean_1.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--14",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052672/phl-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--13",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052679/idn-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--8",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052678/bra-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--4",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052675/crowdsourcedpdcpilot02_metadata_0_0_0.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/crowdsourced-price-data-collection-pilot--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "reference_quantity",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/reference_quantity",
+          "localName": "reference_quantity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "quantity",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/quantity",
+          "localName": "quantity",
+          "type": "Field"
+        },
+        {
+          "fieldId": "obs_uid",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/obs_uid",
+          "localName": "obs_uid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "fx_local",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/fx_local",
+          "localName": "fx_local",
+          "type": "Field"
+        },
+        {
+          "fieldId": "dist_l2",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/dist_l2",
+          "localName": "dist_l2",
+          "type": "Field"
+        },
+        {
+          "fieldId": "normalized_price_local",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/normalized_price_local",
+          "localName": "normalized_price_local",
+          "type": "Field"
+        },
+        {
+          "fieldId": "place_name",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/place_name",
+          "localName": "place_name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "created_at",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/created_at",
+          "localName": "created_at",
+          "type": "Field"
+        },
+        {
+          "fieldId": "store_type",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/store_type",
+          "localName": "store_type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l3_geo",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l3_geo",
+          "localName": "l3_geo",
+          "type": "Field"
+        },
+        {
+          "fieldId": "metadata_json",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/metadata_json",
+          "localName": "metadata_json",
+          "type": "Field"
+        },
+        {
+          "fieldId": "total_size",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/total_size",
+          "localName": "total_size",
+          "type": "Field"
+        },
+        {
+          "fieldId": "created_fr_lon",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/created_fr_lon",
+          "localName": "created_fr_lon",
+          "type": "Field"
+        },
+        {
+          "fieldId": "created_fr_lat",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/created_fr_lat",
+          "localName": "created_fr_lat",
+          "type": "Field"
+        },
+        {
+          "fieldId": "pop_density",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/pop_density",
+          "localName": "pop_density",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l1",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l1",
+          "localName": "l1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "price",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/price",
+          "localName": "price",
+          "type": "Field"
+        },
+        {
+          "fieldId": "units",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/units",
+          "localName": "units",
+          "type": "Field"
+        },
+        {
+          "fieldId": "normalized_total_size",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/normalized_total_size",
+          "localName": "normalized_total_size",
+          "type": "Field"
+        },
+        {
+          "fieldId": "brand",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/brand",
+          "localName": "brand",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l0",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l0",
+          "localName": "l0",
+          "type": "Field"
+        },
+        {
+          "fieldId": "reference_unit_of_measurement",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/reference_unit_of_measurement",
+          "localName": "reference_unit_of_measurement",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l2",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l2",
+          "localName": "l2",
+          "type": "Field"
+        },
+        {
+          "fieldId": "normalized_price",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/normalized_price",
+          "localName": "normalized_price",
+          "type": "Field"
+        },
+        {
+          "fieldId": "country",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/country",
+          "localName": "country",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l1_geo",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l1_geo",
+          "localName": "l1_geo",
+          "type": "Field"
+        },
+        {
+          "fieldId": "size",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/size",
+          "localName": "size",
+          "type": "Field"
+        },
+        {
+          "fieldId": "bh_code",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/bh_code",
+          "localName": "bh_code",
+          "type": "Field"
+        },
+        {
+          "fieldId": "item_code",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/item_code",
+          "localName": "item_code",
+          "type": "Field"
+        },
+        {
+          "fieldId": "fx_usd",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/fx_usd",
+          "localName": "fx_usd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "city_radius",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/city_radius",
+          "localName": "city_radius",
+          "type": "Field"
+        },
+        {
+          "fieldId": "bh_name",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/bh_name",
+          "localName": "bh_name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l2_geo",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l2_geo",
+          "localName": "l2_geo",
+          "type": "Field"
+        },
+        {
+          "fieldId": "normalized_price_usd",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/normalized_price_usd",
+          "localName": "normalized_price_usd",
+          "type": "Field"
+        },
+        {
+          "fieldId": "place_uuid",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/place_uuid",
+          "localName": "place_uuid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "place_long",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/place_long",
+          "localName": "place_long",
+          "type": "Field"
+        },
+        {
+          "fieldId": "place_lat",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/place_lat",
+          "localName": "place_lat",
+          "type": "Field"
+        },
+        {
+          "fieldId": "converted_total_size",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/converted_total_size",
+          "localName": "converted_total_size",
+          "type": "Field"
+        },
+        {
+          "fieldId": "item_name",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/item_name",
+          "localName": "item_name",
+          "type": "Field"
+        },
+        {
+          "fieldId": "currency",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/currency",
+          "localName": "currency",
+          "type": "Field"
+        },
+        {
+          "fieldId": "l0_geo",
+          "id": "https://catalog.opengrid.org/field/crowdsourced-price-data-collection-pilot/l0_geo",
+          "localName": "l0_geo",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/crowdsourced-price-data-collection-pilot",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2021-03-23T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-11-04T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/crowdsourced-price-data-collection-pilot#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/crowdsourced-price-data-collection-pilot#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0042083/1/DR0052663/arg-crowdsourcedpdcpilot02_final_obs_all_clean.csv",
+      "sourceRecordId": "energydata_info:f374e519-6710-45ab-82fd-e5bb9efe35a8",
+      "title": "Crowdsourced Price Data Collection Pilot",
+      "type": "Dataset",
+      "version": "None",
+      "visibility": "public"
+    }
+  ]
+}

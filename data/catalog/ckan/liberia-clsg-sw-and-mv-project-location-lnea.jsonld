@@ -1,0 +1,64 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This layer contains town location that is Under Implementation from AfDB funded CLSG SW and MV project. There are also some additional settlements cluster and demand characteristics that identified under NEA project and proposed to be considered under the scope of CLSG SW and MV project.",
+      "distribution": [
+        {
+          "accessURL": "https://energydata.info/dataset/fed3486a-7965-422a-9959-40306c3fe724/resource/33e296e5-b067-487c-bb19-c5b52a738e60/download/liberia-clsg-sw-and-mv-project-location-lnea.zip",
+          "byteSize": 14423,
+          "formatLabel": "SHP ZIP",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/liberia-clsg-sw-and-mv-project-location-lnea--0",
+          "mediaType": "application/zip",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://energydata.info/dataset/fed3486a-7965-422a-9959-40306c3fe724/resource/b134e631-bd11-4e88-9724-2a8319d86bc8/download/liberia-clsg-sw-and-mv-project-location-lnea.geojson",
+          "byteSize": 69975,
+          "formatLabel": "GeoJSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/liberia-clsg-sw-and-mv-project-location-lnea--1",
+          "mediaType": "application/geo+json",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/liberia-clsg-sw-and-mv-project-location-lnea",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2021-03-24T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2023-11-28T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/liberia-clsg-sw-and-mv-project-location-lnea#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/liberia-clsg-sw-and-mv-project-location-lnea#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:fed3486a-7965-422a-9959-40306c3fe724",
+      "title": "Liberia - CLSG SW and MV Project Location-LNEA",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

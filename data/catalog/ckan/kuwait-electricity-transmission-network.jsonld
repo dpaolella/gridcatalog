@@ -1,0 +1,50 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "Main nodes and major lines of the electricity transmission network of Kuwait. Interconnection lines with neighboring countries included. The properties for nodes are \"name\" and \"node type\" (city, town, plant, dam...). The properties for lines are the \"transmission power\" in kV (e.g. 400), the \"type of line\" (single, double...), the linked nodes (identified by the nodes names) and, for international interconnections, the \"interconnection\" property gathers the two linked countries identified by name. The format is GeoJSON, nodes are displayed as points and lines as lines. Data comes from the Arab Union of Electricity and Kuwait Ministry of Electricity & Water.",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0041489/DR0051848/electric-network-kuwait.geojson",
+          "formatLabel": "JSON",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/kuwait-electricity-transmission-network--0",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "id": "https://catalog.opengrid.org/ds/kuwait-electricity-transmission-network",
+      "inferenceBasis": "Assigned by term-signature match over the source record: DD1 2.1. Source declares DD1, DD2, DD5, DD10.",
+      "inferredAssignment": true,
+      "issued": "2025-08-26T00:00:00+00:00",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-08-26T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/kuwait-electricity-transmission-network#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/kuwait-electricity-transmission-network#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "sourceRecordId": "energydata_info:b63b88bb-86ff-4c0e-af1c-3867b7f68c66",
+      "title": "Kuwait - Electricity Transmission Network",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

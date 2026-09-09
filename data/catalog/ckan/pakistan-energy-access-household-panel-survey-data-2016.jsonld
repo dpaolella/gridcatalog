@@ -1,0 +1,1221 @@
+{
+  "@context": "https://catalog.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "completenessLevel": 1,
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD5",
+        "https://schema.opengrid.org/concept/data-domain/DD2",
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "description": "This research activity was carried out by Enclude for approximately 8,500 household survey across Pakistan to measure the energy access rates, consumption patterns and economic & psychographic drivers to ‘energy relevant’ behaviours. This data set provides a snapshot of electricity access in Pakistan that covers the level of electricity access by household (availability and use), awareness of available solutions, and willingness to pay and also provides information for behavioural & psychographic segmentation. For more information, please refer to the materials below: http://pubdocs.worldbank.org/pubdocs/publicdoc/2016/5/663781463774919478... http://pubdocs.worldbank.org/pubdocs/publicdoc/2016/5/604031463774918028... Funded by the Asia Sustainable & Alternative Energy Program (ASTAE), a multi-donor trust fund administered by the WB. World Bank contact Clara Ivanescu (civanescu@worldbank.org)",
+      "distribution": [
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040445/1/DR0050424/householdsurveydatappaf.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pakistan-energy-access-household-panel-survey-data-2016--2",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040445/1/DR0050422/pakistanenergyaccesshouseholdpanelsurveydata.csv",
+          "formatLabel": "CSV",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pakistan-energy-access-household-panel-survey-data-2016--0",
+          "type": "Distribution"
+        },
+        {
+          "accessURL": "https://datacatalogfiles.worldbank.org/ddh-published/0040445/1/DR0050423/codedefinition.xlsx",
+          "formatLabel": "XLS",
+          "hostedByOpenGrid": false,
+          "id": "https://catalog.opengrid.org/dist/pakistan-energy-access-household-panel-survey-data-2016--1",
+          "type": "Distribution"
+        }
+      ],
+      "documentationStatus": "external-standard-only",
+      "harvestSource": "ckan",
+      "hasField": [
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Torches",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Torches",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Torches",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do you know where to buy solar powered products?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-you-know-where-to-buy-solar-powered-products",
+          "localName": "Do you know where to buy solar powered products?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? -  Easy to Transport",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Easy-to-Transport",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? -  Easy to Transport",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Biogas",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Biogas",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Biogas",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Cultural Belts",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Cultural-Belts",
+          "localName": "Cultural Belts",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - electric Toaster",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---electric-Toaster",
+          "localName": "ES9 -Devices in houshold - electric Toaster",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - electric heater",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---electric-heater",
+          "localName": "ES9 -Devices in houshold - electric heater",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - tube light",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---tube-light",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - tube light",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household?  - LPG",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---LPG",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household?  - LPG",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - Air Conditioner",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---Air-Conditioner",
+          "localName": "ES9 -Devices in houshold - Air Conditioner",
+          "type": "Field"
+        },
+        {
+          "fieldId": "If offered an alternative source for electricity, what would you be willing to pay per week for this source?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/If-offered-an-alternative-source-for-electricity-what-would-you-be-willing-to-pay-per-week-for-this-source",
+          "localName": "If offered an alternative source for electricity, what would you be willing to pay per week for this source?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - phone charger",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---phone-charger",
+          "localName": "ES9 -Devices in houshold - phone charger",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Trouch (dry Batteries)",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Trouch-dry-Batteries",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Trouch (dry Batteries)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours a day do you use these devices (combined)? Computer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-a-day-do-you-use-these-devices-combined-Computer",
+          "localName": "How many hours a day do you use these devices (combined)? Computer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Are you planning to increase the size of your home by adding rooms or spaces that will need lighting in the next 1-2 years?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Are-you-planning-to-increase-the-size-of-your-home-by-adding-rooms-or-spaces-that-will-need-lighting-in-the-next-1-2-years",
+          "localName": "Are you planning to increase the size of your home by adding rooms or spaces that will need lighting in the next 1-2 years?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Social Welfare Fees",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Social-Welfare-Fees",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Social Welfare Fees",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC2 - Where do the household members charge their mobile phones? - Outside the home",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC2---Where-do-the-household-members-charge-their-mobile-phones---Outside-the-home",
+          "localName": "IC2 - Where do the household members charge their mobile phones? - Outside the home",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Solar Power",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Solar-Power",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Solar Power",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E1 - What is the household’s main source of income?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E1---What-is-the-household-s-main-source-of-income",
+          "localName": "E1 - What is the household’s main source of income?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Jul",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Jul",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Jul",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Computer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Computer",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Computer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Affordability",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Affordability",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Affordability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Charcoal",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Charcoal",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Charcoal",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Mar",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Mar",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Mar",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Hairsaloon",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Hairsaloon",
+          "localName": "E2 - What are the household other sources of income? - Hairsaloon",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Light / Energy / Fuel",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Light-Energy-Fuel",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Light / Energy / Fuel",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Black & White TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Black-White-TV",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Black & White TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Wood",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Wood",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Wood",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - More realible & better quality light indoor",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---More-realible-better-quality-light-indoor",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - More realible & better quality light indoor",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - National Grid",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---National-Grid",
+          "localName": "Primary Source of Electricity - National Grid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Nov",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Nov",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Nov",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC2 - Where do the household members charge their mobile phones? - Inside the dwelling",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC2---Where-do-the-household-members-charge-their-mobile-phones---Inside-the-dwelling",
+          "localName": "IC2 - Where do the household members charge their mobile phones? - Inside the dwelling",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Local mini grid",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Local-mini-grid",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Local mini grid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - I am Satisfied",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---I-am-Satisfied",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - I am Satisfied",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - radio",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---radio",
+          "localName": "ES9 -Devices in houshold - radio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours a day do you use these devices (combined)? TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-a-day-do-you-use-these-devices-combined-TV",
+          "localName": "How many hours a day do you use these devices (combined)? TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Family Support",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Family-Support",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Family Support",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Jul",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Jul",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Jul",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - cloth shop",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---cloth-shop",
+          "localName": "E2 - What are the household other sources of income? - cloth shop",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How frequently the load shedding happen in your house in a typical day?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-frequently-the-load-shedding-happen-in-your-house-in-a-typical-day",
+          "localName": "How frequently the load shedding happen in your house in a typical day?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours a day do you use these devices (combined)? Radio",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-a-day-do-you-use-these-devices-combined-Radio",
+          "localName": "How many hours a day do you use these devices (combined)? Radio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Aug",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Aug",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Aug",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Peri Urban/ Rural",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Peri-Urban-Rural",
+          "localName": "Peri Urban/ Rural",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours a day do you use these devices (combined)? DVD Player",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-a-day-do-you-use-these-devices-combined-DVD-Player",
+          "localName": "How many hours a day do you use these devices (combined)? DVD Player",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - tube light",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---tube-light",
+          "localName": "ES9 -Devices in houshold - tube light",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Others",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Others",
+          "localName": "E2 - What are the household other sources of income? - Others",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Is the recharge facility located within ½ KM of your dwelling?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Is-the-recharge-facility-located-within-KM-of-your-dwelling",
+          "localName": "Is the recharge facility located within ½ KM of your dwelling?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How satisfied are you with your current source of energy for lighting?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-satisfied-are-you-with-your-current-source-of-energy-for-lighting",
+          "localName": "How satisfied are you with your current source of energy for lighting?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - light bulb",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---light-bulb",
+          "localName": "ES9 -Devices in houshold - light bulb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Dec",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Dec",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Dec",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - Solar Energy",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---Solar-Energy",
+          "localName": "Primary Source of Electricity - Solar Energy",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Solar Energy",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Solar-Energy",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Solar Energy",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do your local clinics and/or schools use solar power?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-your-local-clinics-and-or-schools-use-solar-power",
+          "localName": "Do your local clinics and/or schools use solar power?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Garage",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Garage",
+          "localName": "E2 - What are the household other sources of income? - Garage",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Others",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---Others",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Others",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Does the household use solar lanterns or solar home systems for lighting?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Does-the-household-use-solar-lanterns-or-solar-home-systems-for-lighting",
+          "localName": "Does the household use solar lanterns or solar home systems for lighting?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "In total, on a given day how many lights the household uses?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/In-total-on-a-given-day-how-many-lights-the-household-uses",
+          "localName": "In total, on a given day how many lights the household uses?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Jun",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Jun",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Jun",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Improvement in Health",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Improvement-in-Health",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Improvement in Health",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Electric Cooking System",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Electric-Cooking-System",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Electric Cooking System",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - May",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---May",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - May",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do any of your neighbors, friends or relatives have solar power?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-any-of-your-neighbors-friends-or-relatives-have-solar-power",
+          "localName": "Do any of your neighbors, friends or relatives have solar power?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Household Size",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Household-Size",
+          "localName": "Household Size",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Transport",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Transport",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Transport",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Kiryana / General Store",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Kiryana-General-Store",
+          "localName": "E2 - What are the household other sources of income? - Kiryana / General Store",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Suitable for Multiple uses",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Suitable-for-Multiple-uses",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Suitable for Multiple uses",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES11 - Most important constraints with primary source of Electricty - Short Duration",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES11---Most-important-constraints-with-primary-source-of-Electricty---Short-Duration",
+          "localName": "ES11 - Most important constraints with primary source of Electricty - Short Duration",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do you think solar powered products can be trusted?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-you-think-solar-powered-products-can-be-trusted",
+          "localName": "Do you think solar powered products can be trusted?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Does your household have a meter for the primary source of electricity?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Does-your-household-have-a-meter-for-the-primary-source-of-electricity",
+          "localName": "Does your household have a meter for the primary source of electricity?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Why is your household not connected to the grid?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Why-is-your-household-not-connected-to-the-grid",
+          "localName": "Why is your household not connected to the grid?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Safety",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Safety",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Safety",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Does your household income fluctuate depending on the season?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Does-your-household-income-fluctuate-depending-on-the-season",
+          "localName": "Does your household income fluctuate depending on the season?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Heater",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Heater",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Heater",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Education of Head of household",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Education-of-Head-of-household",
+          "localName": "Education of Head of household",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Color TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Color-TV",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Color TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Electric Toaster",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Electric-Toaster",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Electric Toaster",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Farming Products",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Farming-Products",
+          "localName": "E2 - What are the household other sources of income? - Farming Products",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Electronics Shop",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Electronics-Shop",
+          "localName": "E2 - What are the household other sources of income? - Electronics Shop",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Rooms does the house have",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Rooms-does-the-house-have",
+          "localName": "Rooms does the house have",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES11 - Most important constraints with primary source of Electricty - Too Expensive",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES11---Most-important-constraints-with-primary-source-of-Electricty---Too-Expensive",
+          "localName": "ES11 - Most important constraints with primary source of Electricty - Too Expensive",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - fan",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---fan",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - fan",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Livestock Breeding",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Livestock-Breeding",
+          "localName": "E2 - What are the household other sources of income? - Livestock Breeding",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - electric food processor",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---electric-food-processor",
+          "localName": "ES9 -Devices in houshold - electric food processor",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Apr",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Apr",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Apr",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Cost Savings",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Cost-Savings",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Cost Savings",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES6 - In the last 12 months, how much did you spend on your primary source of electricity per month on average?  - Source",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES6---In-the-last-12-months-how-much-did-you-spend-on-your-primary-source-of-electricity-per-month-on-average---Source",
+          "localName": "ES6 - In the last 12 months, how much did you spend on your primary source of electricity per month on average?  - Source",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Fishery",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Fishery",
+          "localName": "E2 - What are the household other sources of income? - Fishery",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - computer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---computer",
+          "localName": "ES9 -Devices in houshold - computer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Interview type",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Interview-type",
+          "localName": "Interview type",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Gender",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Gender",
+          "localName": "Gender",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES6 - In the last 12 months, how much did you spend on your primary source of electricity per month on average? - Amount",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES6---In-the-last-12-months-how-much-did-you-spend-on-your-primary-source-of-electricity-per-month-on-average---Amount",
+          "localName": "ES6 - In the last 12 months, how much did you spend on your primary source of electricity per month on average? - Amount",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Healthcare",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Healthcare",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Healthcare",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Is your household connected to the National or Local Mini-Grid?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Is-your-household-connected-to-the-National-or-Local-Mini-Grid",
+          "localName": "Is your household connected to the National or Local Mini-Grid?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Generator",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Generator",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Generator",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Region",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Region",
+          "localName": "Region",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - black & white TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---black-white-TV",
+          "localName": "ES9 -Devices in houshold - black & white TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Availability",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Availability",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Availability",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Are  you currently planning to purchase more appliances for your home?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Are-you-currently-planning-to-purchase-more-appliances-for-your-home",
+          "localName": "Are  you currently planning to purchase more appliances for your home?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - color TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---color-TV",
+          "localName": "ES9 -Devices in houshold - color TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "What is the primary source of electricity used in the household?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/What-is-the-primary-source-of-electricity-used-in-the-household",
+          "localName": "What is the primary source of electricity used in the household?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Jun",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Jun",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Jun",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How far is your house from the nearest household connected to the grid? (Km)",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-far-is-your-house-from-the-nearest-household-connected-to-the-grid-Km",
+          "localName": "How far is your house from the nearest household connected to the grid? (Km)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Feb",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Feb",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Feb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Microwave Owen",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Microwave-Owen",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Microwave Owen",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Security",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Security",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Security",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Clothes",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Clothes",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Clothes",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Candles",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Candles",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Candles",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Non-rechargeable Batteries",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Non-rechargeable-Batteries",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Non-rechargeable Batteries",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Housing type you are living",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Housing-type-you-are-living",
+          "localName": "Housing type you are living",
+          "type": "Field"
+        },
+        {
+          "fieldId": "SEC",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/SEC",
+          "localName": "SEC",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - To Keep the electricity bill low",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---To-Keep-the-electricity-bill-low",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - To Keep the electricity bill low",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Unpredictable Interuuptions",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---Unpredictable-Interuuptions",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Unpredictable Interuuptions",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many phones (No of mobile phones) do you have in your household?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-phones-No-of-mobile-phones-do-you-have-in-your-household",
+          "localName": "How many phones (No of mobile phones) do you have in your household?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Reduce Space Usage",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Reduce-Space-Usage",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Reduce Space Usage",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - fan",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---fan",
+          "localName": "ES9 -Devices in houshold - fan",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do you know what solar power is?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-you-know-what-solar-power-is",
+          "localName": "Do you know what solar power is?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do you expect the number of household members living in your home to change in the next 1-2 years?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-you-expect-the-number-of-household-members-living-in-your-home-to-change-in-the-next-1-2-years",
+          "localName": "Do you expect the number of household members living in your home to change in the next 1-2 years?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Kerosene Oil",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Kerosene-Oil",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Kerosene Oil",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - radio",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---radio",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - radio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Candles",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Candles",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Candles",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Think about the previous month, approximately how many hours the electricity provide in your house from 6pm to 10 pm?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Think-about-the-previous-month-approximately-how-many-hours-the-electricity-provide-in-your-house-from-6pm-to-10-pm",
+          "localName": "Think about the previous month, approximately how many hours the electricity provide in your house from 6pm to 10 pm?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC5 - Which of the following devices do you have? - TV",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC5---Which-of-the-following-devices-do-you-have---TV",
+          "localName": "IC5 - Which of the following devices do you have? - TV",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES11 - Most important constraints with primary source of Electricty - Unpredictable Interruption",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES11---Most-important-constraints-with-primary-source-of-Electricty---Unpredictable-Interruption",
+          "localName": "ES11 - Most important constraints with primary source of Electricty - Unpredictable Interruption",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - non energy saver",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---non-energy-saver",
+          "localName": "ES9 -Devices in houshold - non energy saver",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Horticulture",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Horticulture",
+          "localName": "E2 - What are the household other sources of income? - Horticulture",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - Local mini grid",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---Local-mini-grid",
+          "localName": "Primary Source of Electricity - Local mini grid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES4 - For how many years has this been your primary source of electricity? - Years",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES4---For-how-many-years-has-this-been-your-primary-source-of-electricity---Years",
+          "localName": "ES4 - For how many years has this been your primary source of electricity? - Years",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Rechargeable Batteries",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Rechargeable-Batteries",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Rechargeable Batteries",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Sep",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Sep",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Sep",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - Non - Rechargable Batteries",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---Non---Rechargable-Batteries",
+          "localName": "Primary Source of Electricity - Non - Rechargable Batteries",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Electric Food Processor",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Electric-Food-Processor",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Electric Food Processor",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - pharmacy",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---pharmacy",
+          "localName": "E2 - What are the household other sources of income? - pharmacy",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Trouch (rechargeable batteries)",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Trouch-rechargeable-batteries",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Trouch (rechargeable batteries)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - National Grid",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---National-Grid",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - National Grid",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours of non-natural light did you use yesterday?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-of-non-natural-light-did-you-use-yesterday",
+          "localName": "How many hours of non-natural light did you use yesterday?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES11 - Most important constraints with primary source of Electricty - Low Voltage",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES11---Most-important-constraints-with-primary-source-of-Electricty---Low-Voltage",
+          "localName": "ES11 - Most important constraints with primary source of Electricty - Low Voltage",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Electricity powered lightening",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Electricity-powered-lightening",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Electricity powered lightening",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Occupation of head of household",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Occupation-of-head-of-household",
+          "localName": "Occupation of head of household",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - fire fueled by Firewood",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---fire-fueled-by-Firewood",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - fire fueled by Firewood",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Air Conditioner",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Air-Conditioner",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Air Conditioner",
+          "type": "Field"
+        },
+        {
+          "fieldId": "House rented or owned",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/House-rented-or-owned",
+          "localName": "House rented or owned",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Jan",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Jan",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Jan",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Phone Charger",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Phone-Charger",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Phone Charger",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Fire fuled by coal",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Fire-fuled-by-coal",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Fire fuled by coal",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Lightening by  home battery",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Lightening-by-home-battery",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Lightening by  home battery",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Oct",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Oct",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Oct",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Mar",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Mar",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Mar",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - non energy saver",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---non-energy-saver",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - non energy saver",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours a day do you use these devices (combined)? Laptop",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-a-day-do-you-use-these-devices-combined-Laptop",
+          "localName": "How many hours a day do you use these devices (combined)? Laptop",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Food",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Food",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Food",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - light bulb energy saver",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---light-bulb-energy-saver",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - light bulb energy saver",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Low Voltage / Fluctuations",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---Low-Voltage-Fluctuations",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Low Voltage / Fluctuations",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC5 - Which of the following devices do you have? - Radio",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC5---Which-of-the-following-devices-do-you-have---Radio",
+          "localName": "IC5 - Which of the following devices do you have? - Radio",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Kerosene Oil",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Kerosene-Oil",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Kerosene Oil",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E3 - What type of energy source (electricity) do you use in your household? - Petrol",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E3---What-type-of-energy-source-electricity-do-you-use-in-your-household---Petrol",
+          "localName": "E3 - What type of energy source (electricity) do you use in your household? - Petrol",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Do you or any member of your household have any plans to start a business in the next 1-2 years?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Do-you-or-any-member-of-your-household-have-any-plans-to-start-a-business-in-the-next-1-2-years",
+          "localName": "Do you or any member of your household have any plans to start a business in the next 1-2 years?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC5 - Which of the following devices do you have? - Computer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC5---Which-of-the-following-devices-do-you-have---Computer",
+          "localName": "IC5 - Which of the following devices do you have? - Computer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Are there multiple income earners in your household?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Are-there-multiple-income-earners-in-your-household",
+          "localName": "Are there multiple income earners in your household?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many hours each day do you get access to electricity during the month of low electricity supply? (in Hours)",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-hours-each-day-do-you-get-access-to-electricity-during-the-month-of-low-electricity-supply-in-Hours",
+          "localName": "How many hours each day do you get access to electricity during the month of low electricity supply? (in Hours)",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC5 - Which of the following devices do you have? - DVD",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC5---Which-of-the-following-devices-do-you-have---DVD",
+          "localName": "IC5 - Which of the following devices do you have? - DVD",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Lights powered by generator",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES13a---In-the-last-1-month-has-the-household-used-any-of-these-sources-for-lighting---Lights-powered-by-generator",
+          "localName": "ES13a - In the last 1 month, has the household used any of these sources for lighting? - Lights powered by generator",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Jan",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Jan",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Jan",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Aug",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Aug",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Aug",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How many phones (No of land lines ) do you have in your household?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-many-phones-No-of-land-lines-do-you-have-in-your-household",
+          "localName": "How many phones (No of land lines ) do you have in your household?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - printer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---printer",
+          "localName": "ES9 -Devices in houshold - printer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - Rent",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---Rent",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - Rent",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH6 - Last month, about how much did you spend on the following? - School Fees & necessary items",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH6---Last-month-about-how-much-did-you-spend-on-the-following---School-Fees-necessary-items",
+          "localName": "HH6 - Last month, about how much did you spend on the following? - School Fees & necessary items",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - electric cooking system",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---electric-cooking-system",
+          "localName": "ES9 -Devices in houshold - electric cooking system",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Foodshop",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Foodshop",
+          "localName": "E2 - What are the household other sources of income? - Foodshop",
+          "type": "Field"
+        },
+        {
+          "fieldId": "How much do you pay to recharge one mobile phone? (in total)?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/How-much-do-you-pay-to-recharge-one-mobile-phone-in-total",
+          "localName": "How much do you pay to recharge one mobile phone? (in total)?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES10 - Devices used regulary with primary source of electrcity - Printer",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES10---Devices-used-regulary-with-primary-source-of-electrcity---Printer",
+          "localName": "ES10 - Devices used regulary with primary source of electrcity - Printer",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES9 -Devices in houshold - electric microwave owen",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES9--Devices-in-houshold---electric-microwave-owen",
+          "localName": "ES9 -Devices in houshold - electric microwave owen",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Agriculture",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Agriculture",
+          "localName": "E2 - What are the household other sources of income? - Agriculture",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - Generator",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---Generator",
+          "localName": "Primary Source of Electricity - Generator",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Long Product Life",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES19---When-thinking-about-new-potential-lighting-solutions-what-three-features-are-most-important-for-you---Long-Product-Life",
+          "localName": "ES19 - When thinking about new potential lighting solutions, what three features are most important for you? - Long Product Life",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Location 1",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Location-1",
+          "localName": "Location 1",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES4 - For how many years has this been your primary source of electricity? - Month",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES4---For-how-many-years-has-this-been-your-primary-source-of-electricity---Month",
+          "localName": "ES4 - For how many years has this been your primary source of electricity? - Month",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Primary Source of Electricity - Rechargable Batteries",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Primary-Source-of-Electricity---Rechargable-Batteries",
+          "localName": "Primary Source of Electricity - Rechargable Batteries",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH5 - Which month(s) generally brings the LEAST income? - Feb",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH5---Which-month-s-generally-brings-the-LEAST-income---Feb",
+          "localName": "HH5 - Which month(s) generally brings the LEAST income? - Feb",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Apr",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Apr",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Apr",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Electricity Faults",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---Electricity-Faults",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Electricity Faults",
+          "type": "Field"
+        },
+        {
+          "fieldId": "IC5 - Which of the following devices do you have? - Laptop",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/IC5---Which-of-the-following-devices-do-you-have---Laptop",
+          "localName": "IC5 - Which of the following devices do you have? - Laptop",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Districts",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Districts",
+          "localName": "Districts",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - Sep",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---Sep",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - Sep",
+          "type": "Field"
+        },
+        {
+          "fieldId": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Duration of Electric Supplu",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/ES17---What-aspect-of-your-current-lighting-solutions-is-unsatisfactory---Duration-of-Electric-Supplu",
+          "localName": "ES17 - What aspect of your current lighting solutions is unsatisfactory? - Duration of Electric Supplu",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Can you provide an estimation of your monthly household income?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Can-you-provide-an-estimation-of-your-monthly-household-income",
+          "localName": "Can you provide an estimation of your monthly household income?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "HH4 - Which month(s) generally brings the MOST income? - May",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/HH4---Which-month-s-generally-brings-the-MOST-income---May",
+          "localName": "HH4 - Which month(s) generally brings the MOST income? - May",
+          "type": "Field"
+        },
+        {
+          "fieldId": "Are you interested in using an alternative electricity source than your current primary source?",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/Are-you-interested-in-using-an-alternative-electricity-source-than-your-current-primary-source",
+          "localName": "Are you interested in using an alternative electricity source than your current primary source?",
+          "type": "Field"
+        },
+        {
+          "fieldId": "household composition",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/household-composition",
+          "localName": "household composition",
+          "type": "Field"
+        },
+        {
+          "fieldId": "E2 - What are the household other sources of income? - Kiosk",
+          "id": "https://catalog.opengrid.org/field/pakistan-energy-access-household-panel-survey-data-2016/E2---What-are-the-household-other-sources-of-income---Kiosk",
+          "localName": "E2 - What are the household other sources of income? - Kiosk",
+          "type": "Field"
+        }
+      ],
+      "id": "https://catalog.opengrid.org/ds/pakistan-energy-access-household-panel-survey-data-2016",
+      "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (ckan) declares for itself, which is a claim about the catalogue rather than about this dataset.",
+      "inferredAssignment": true,
+      "issued": "2016-11-09T00:00:00+00:00",
+      "keyword": [
+        "energy access",
+        "energy",
+        "urban",
+        "rural",
+        "energy data",
+        "survey",
+        "household",
+        "pakistan"
+      ],
+      "landingPage": "http://www.esmap.org",
+      "license": "http://spdx.org/licenses/CC-BY-4.0",
+      "modified": "2025-10-16T00:00:00+00:00",
+      "provenanceGap": {
+        "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
+        "id": "https://catalog.opengrid.org/ds/pakistan-energy-access-household-panel-survey-data-2016#provenance-gap",
+        "type": "ProvenanceGap"
+      },
+      "qualityFlags": {
+        "caveat": [
+          "Harvested automatically and not yet reviewed by a steward. Field values come from the source record as published; nothing here has been verified.",
+          "Normalisation warnings: no data domain matched the source text; filed under the harvest source's declared domains and marked inferred; the source does not state how its values were produced, so no provenance class is set; an explicit provenance gap is recorded instead"
+        ],
+        "id": "https://catalog.opengrid.org/ds/pakistan-energy-access-household-panel-survey-data-2016#flags",
+        "staleness": "unknown",
+        "type": "QualityFlags"
+      },
+      "reviewState": "auto-confirmed",
+      "schemaSource": "csv-header at https://datacatalogfiles.worldbank.org/ddh-published/0040445/1/DR0050422/pakistanenergyaccesshouseholdpanelsurveydata.csv",
+      "sourceRecordId": "energydata_info:1d03bd38-c62e-47f1-a31c-83537075f0eb",
+      "title": "Pakistan - Energy Access: Household Panel Survey Data",
+      "type": "Dataset",
+      "visibility": "public"
+    }
+  ]
+}

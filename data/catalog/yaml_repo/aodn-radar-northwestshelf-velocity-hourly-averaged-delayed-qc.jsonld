@@ -6,8 +6,8 @@
       "anonymousAccess": true,
       "completenessLevel": 1,
       "dataDomain": [
-        "https://schema.opengrid.org/concept/data-domain/DD5",
-        "https://schema.opengrid.org/concept/data-domain/DD10"
+        "https://schema.opengrid.org/concept/data-domain/DD10",
+        "https://schema.opengrid.org/concept/data-domain/DD5"
       ],
       "description": "The Northwest Shelf (NWA) HF ocean radar system covers an area which includes the Ningaloo Peninsula and the Ningaloo Reef to the west. The Ningaloo Reef is one of the longest and most pristine reefs in the world. The reef is rich in marine biodiversity, with shark whales, turtles and fish aggregations, and high primary and secondary productions which are controlled by the physical oceanographic processes. The NWA HF ocean radar is a WERA phased array system with 12-element receive arrays located at the Jurabi Turtle Centre (21.8068 S, 114.1015 E) and Point Billie (22.5432 S, 113.690 E). These radars operate at a frequency of 5.2625 MHz, with a bandwidth of 25 KHz and a maximum range of 200 Km. Within the HF radar coverage area surface currents are measured. Data are also collected from which wind directions and significant wave height can be calculated.",
       "distribution": [
@@ -28,19 +28,28 @@
       "hasField": [
         {
           "dataType": "float64",
-          "fieldId": "NOBS1",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS1",
-          "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
-          "localName": "NOBS1",
+          "fieldId": "UCUR_sd",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR_sd",
+          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR_sd",
           "type": "Field",
-          "unitAsStated": "1"
+          "unitAsStated": "m s-1"
         },
         {
           "dataType": "float64",
-          "fieldId": "VCUR",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR",
-          "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "VCUR",
+          "fieldId": "VCUR_sd",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR_sd",
+          "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "VCUR_sd",
+          "type": "Field",
+          "unitAsStated": "m s-1"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "UCUR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR",
+          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "UCUR",
           "type": "Field",
           "unitAsStated": "m s-1"
         },
@@ -56,24 +65,6 @@
         },
         {
           "dataType": "float64",
-          "fieldId": "UCUR_sd",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR_sd",
-          "label": "Standard deviation of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR_sd",
-          "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "float64",
-          "fieldId": "NOBS2",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS2",
-          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
-          "localName": "NOBS2",
-          "type": "Field",
-          "unitAsStated": "1"
-        },
-        {
-          "dataType": "float64",
           "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
           "fieldId": "UCUR_quality_control",
           "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR_quality_control",
@@ -83,10 +74,28 @@
         },
         {
           "dataType": "float64",
-          "fieldId": "VCUR_sd",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR_sd",
-          "label": "Standard deviation of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "VCUR_sd",
+          "fieldId": "NOBS1",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS1",
+          "label": "Number of observations of sea water velocity in 1 hour from station 1, after rejection of obvious bad data (see abstract).",
+          "localName": "NOBS1",
+          "type": "Field",
+          "unitAsStated": "1"
+        },
+        {
+          "dataType": "float64",
+          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
+          "fieldId": "VCUR_quality_control",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
+          "label": "quality flag for northward_sea_water_velocity",
+          "localName": "VCUR_quality_control",
+          "type": "Field"
+        },
+        {
+          "dataType": "float64",
+          "fieldId": "VCUR",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR",
+          "label": "Mean of sea water velocity V component values in 1 hour, after rejection of obvious bad data (see abstract).",
+          "localName": "VCUR",
           "type": "Field",
           "unitAsStated": "m s-1"
         },
@@ -99,34 +108,25 @@
         },
         {
           "dataType": "float64",
-          "fieldId": "UCUR",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/UCUR",
-          "label": "Mean of sea water velocity U component values in 1 hour, after rejection of obvious bad data (see abstract).",
-          "localName": "UCUR",
+          "fieldId": "NOBS2",
+          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/NOBS2",
+          "label": "Number of observations of sea water velocity in 1 hour from station 2, after rejection of obvious bad data (see abstract).",
+          "localName": "NOBS2",
           "type": "Field",
-          "unitAsStated": "m s-1"
-        },
-        {
-          "dataType": "float64",
-          "definition": "This value is set on the basis of the offline quality controls applied in the time domain (see abstract).",
-          "fieldId": "VCUR_quality_control",
-          "id": "https://catalog.opengrid.org/field/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc/VCUR_quality_control",
-          "label": "quality flag for northward_sea_water_velocity",
-          "localName": "VCUR_quality_control",
-          "type": "Field"
+          "unitAsStated": "1"
         }
       ],
       "id": "https://catalog.opengrid.org/ds/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc",
       "inferenceBasis": "No domain term matched the record's own text. Filed under the domains the harvest source (yaml_repo) declares for itself, which is a claim about the catalogue rather than about this dataset.",
       "inferredAssignment": true,
       "keyword": [
-        "oceans",
+        "ocean currents",
         "ocean velocity",
-        "ocean currents"
+        "oceans"
       ],
       "landingPage": "https://registry.opendata.aws/aodn_radar_northwestshelf_velocity_hourly_averaged_delayed_qc/",
       "license": "http://spdx.org/licenses/CC-BY-4.0",
-      "modified": "2026-09-07T07:36:17.328417+00:00",
+      "modified": "2026-09-08T21:57:30.763154+00:00",
       "provenanceGap": {
         "gapReason": "The source record does not state how the values in this dataset were produced, and no provenance class could be determined from its own words. The class is left unset rather than guessed: it caps the Provenance quality grade, so an invented one would be a fabricated quality claim. A steward or a later harvest can close this.",
         "id": "https://catalog.opengrid.org/ds/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc#provenance-gap",
@@ -147,6 +147,26 @@
       "title": "Ocean Radar - Northwest shelf site - Sea water velocity - Delayed mode",
       "type": "Dataset",
       "updateCadence": "on-demand",
+      "usageEvidence": [
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/radar_NorthWestShelf_velocity_hourly_averaged_delayed_qc.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc#usage-0",
+          "title": "Accessing IMOS - ACORN - Northwest Shelf HF ocean radar site (Western Australia, Australia) - Delayed mode sea water velocity",
+          "type": "UsageEvidence"
+        },
+        {
+          "accessURL": "https://github.com/aodn/aodn_cloud_optimised/blob/main/notebooks/GetAodnData.ipynb",
+          "assertedBy": "aws_open_data",
+          "authorName": "Laurent Besnard",
+          "evidenceKind": "tutorial",
+          "id": "https://catalog.opengrid.org/ds/aodn-radar-northwestshelf-velocity-hourly-averaged-delayed-qc#usage-1",
+          "title": "Accessing and search for any AODN dataset",
+          "type": "UsageEvidence"
+        }
+      ],
       "visibility": "public"
     }
   ]
