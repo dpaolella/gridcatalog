@@ -499,9 +499,26 @@ export type QuestionClass = {
  * against the published site: one page, two answers, and the wrong one is the
  * one most readers see.
  */
-export async function listReferenceModels(): Promise<DatasetSummary[]> {
-  const response = await search({ record_type: "reference_model", limit: "100" });
-  return response.results.filter((r) => r.record_type === "reference_model");
+/**
+ * Reference models, or `null` when the catalog could not be read.
+ *
+ * `null` rather than `[]`, for the reason `listGaps` returns `null`: an empty
+ * array is a claim that this build publishes no reference models, and a failed
+ * fetch is not evidence for that. The page renders the two differently.
+ *
+ * It also stops one unreachable API from taking down the whole export. An
+ * uncaught throw here failed the *entire* `next build` — "Export encountered an
+ * error on /reference-models/page, exiting the build" — so the site could not
+ * be built at all without a live catalog behind it. `/gaps` taught this once
+ * already; the lesson did not travel one page over.
+ */
+export async function listReferenceModels(): Promise<DatasetSummary[] | null> {
+  try {
+    const response = await search({ record_type: "reference_model", limit: "100" });
+    return response.results.filter((r) => r.record_type === "reference_model");
+  } catch {
+    return null;
+  }
 }
 
 export async function search(

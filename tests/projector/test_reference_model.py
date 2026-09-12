@@ -8,6 +8,9 @@ a dataset, which looks exactly like the state before the field existed.
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from datahub.projector.build import build_document
 
 from tests.fixtures.loader import load_graph
@@ -15,13 +18,35 @@ from tests.fixtures.loader import load_graph
 REFERENCE_MODEL = "https://catalog.opengrid.org/ds/cascade-interconnect-reference"
 DATASET = "https://catalog.opengrid.org/ds/ecmwf-era5"
 
+FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "registry"
+
+
+def declared(fixture: str, field: str) -> object:
+    """The value the record itself states, read straight out of the JSON.
+
+    A literal here is a fourth copy of a number that already lives in the
+    generator, the document and the record, and this test had one: it asserted
+    312 network elements against a record that said 444, and went red on a
+    commit that had regenerated the network and updated the record correctly.
+
+    Reading the record closes that. It is not circular — the projector reaches
+    this value through the context, the store's containment walk and a SPARQL
+    construct, so "the record says 444 and the projection says 444" is a real
+    claim about several hundred lines of code. What it does *not* establish is
+    that the record is true of the bytes, and
+    `tests/reference_models/test_cascade_system.py` asserts exactly that
+    against `system.json`. The pair is what makes each half honest.
+    """
+    graph = json.loads((FIXTURE / f"{fixture}.jsonld").read_text())["@graph"]
+    return next(node[field] for node in graph if field in node)
+
 
 def test_a_reference_model_carries_its_declared_fidelity() -> None:
     doc = build_document(load_graph("cascade-reference-model"), REFERENCE_MODEL)
 
     assert doc.record_type == "reference_model"
     assert doc.fidelity_class == "screening"
-    assert doc.network_element_count == 312
+    assert doc.network_element_count == declared("cascade-reference-model", "networkElementCount")
 
 
 def test_an_ordinary_dataset_is_unchanged_by_the_discriminator() -> None:

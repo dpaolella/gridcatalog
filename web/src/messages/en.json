@@ -133,6 +133,8 @@
     "noStudies": "No studies registered yet.",
     "noStudiesHelp": "A study is a filing, a paper or an intervention, registered with the assumption set it stands on. Nothing has been registered in this build.",
     "noReferenceModels": "No reference models published yet.",
+    "referenceModelsUnavailable": "Reference models could not be loaded.",
+    "referenceModelsUnavailableHelp": "This is a failure to read the catalog, not a statement that no reference model is published. Nothing here has been withdrawn.",
     "noReferenceModelsHelp": "A reference model is a network you can start from, carrying a declared fidelity class rather than a README's worth of prose. None is published in this build.",
     "noGaps": "No gaps recorded.",
     "noGapsHelp": "A gap is a data requirement with no open supplier. An empty register means none has been recorded, not that none exists.",

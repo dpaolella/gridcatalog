@@ -332,7 +332,13 @@ def build() -> dict[str, Any]:
         ),
         "frequency": 60.0,
         "components": {k: components[k] for k in sorted(components)},
-        "supplemental_attributes": {"GeographicInfo": geo},
+        # Flat and untyped, per `SystemDocument`: "nothing iterates them per
+        # type, and `supplemental_attribute_associations` carries both the
+        # link and the `attribute_type` discriminator a consumer needs". This
+        # shipped as a map keyed by type and validated for weeks, because the
+        # suite checked every component row against its schema and never
+        # checked the document against `SystemDocument`.
+        "supplemental_attributes": geo,
         "supplemental_attribute_associations": assoc,
         "plant_associations": [],
         "combined_cycle_associations": [],

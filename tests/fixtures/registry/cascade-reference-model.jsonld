@@ -65,7 +65,7 @@
       "downloadURL": "https://raw.githubusercontent.com/dpaolella/gridcatalog/claude/opengrid-hub-demo/data/reference-models/cascade-interconnect/system.json",
       "mediaType": "application/json",
       "format": "JSON",
-      "byteSize": 283410,
+      "byteSize": 281580,
       "hostedByOpenGrid": true,
       "hostingReason": "registered",
       "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models",

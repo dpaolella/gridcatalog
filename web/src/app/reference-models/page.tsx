@@ -4,6 +4,7 @@ import { HexWash, Rule } from "@/components/Brand";
 import { EmptyState } from "@/components/EmptyState";
 import { NetworkMap } from "@/components/NetworkMap";
 import { type DatasetSummary, type QuestionClass, listReferenceModels } from "@/lib/api";
+import { perRequest } from "@/lib/rendering";
 
 export async function generateMetadata() {
   const t = await getTranslations("hub");
@@ -45,6 +46,13 @@ const MAPPED: Record<string, string> = {
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default async function ReferenceModelsPage() {
+  // This is a view over the live index — records land in it as they are
+  // loaded — so it is rendered per request wherever there is a request, the
+  // same as every other page that reads the catalog. In the static export
+  // there is no request and this is a no-op, which is the whole point of
+  // `perRequest` over a `force-dynamic` literal.
+  await perRequest();
+
   const t = await getTranslations("hub");
   const empty = await getTranslations("empty");
   const models = await listReferenceModels();
@@ -64,7 +72,15 @@ export default async function ReferenceModelsPage() {
         </div>
       </section>
 
-      {models.length === 0 ? (
+      {models === null ? (
+        /* Not an empty shelf. "No reference models published" is a claim about
+           what this build contains; a catalog that would not answer is no
+           evidence for it, and rendering the two the same way turns an outage
+           into a false statement about the corpus. */
+        <EmptyState title={empty("referenceModelsUnavailable")}>
+          <p>{empty("referenceModelsUnavailableHelp")}</p>
+        </EmptyState>
+      ) : models.length === 0 ? (
         <EmptyState title={empty("noReferenceModels")}>
           <p>{empty("noReferenceModelsHelp")}</p>
         </EmptyState>

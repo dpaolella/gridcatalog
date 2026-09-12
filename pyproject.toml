@@ -54,6 +54,15 @@ dev = [
   "mypy>=1.13",
   "types-PyYAML",
   "respx>=0.21",
+  # The reference-model suite validates Sienna documents against the vendored
+  # schemas. Declared here rather than relied on transitively: both arrive with
+  # the `llm` extra, so `tests/reference_models` collected fine in the job that
+  # installs it and failed to *import* in the integration job, which does not —
+  # taking the whole integration run down at collection, on a suite it does not
+  # even select. An undeclared import is a dependency on another extra's
+  # install order.
+  "jsonschema>=4.23",
+  "referencing>=0.35",
 ]
 all = ["opengrid-datahub[opensearch,postgres,queue,mcp,llm,dev]"]
 
