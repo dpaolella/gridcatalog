@@ -1,0 +1,102 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/cascade-interconnect-reference",
+      "type": [
+        "Dataset",
+        "ReferenceModel"
+      ],
+      "title": "OpenGrid Reference: Cascade Interconnect",
+      "summary": "A 312-bus synthetic network for a fictional service territory. Corresponds to no real system.",
+      "description": "Built to be topologically plausible for a mixed hydro and thermal system of this size and to carry no real asset identities or locations. It exists so an intervenor can test a hypothesis on a public network without anyone having to assert a result about a real utility's system.",
+      "fidelityClass": "screening",
+      "networkElementCount": 312,
+      "hasTopology": true,
+      "hasImpedance": true,
+      "voltageClass": [
+        "transmission"
+      ],
+      "spatialGranularity": "nodal",
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/dcPowerFlow"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/acPowerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy"
+      ],
+      "exclusionRationale": "Reactive parameters are absent and the generator fleet is statistically representative rather than unit-accurate. A DC solution tolerates both; an AC solution needs the first and a resource-adequacy study needs the second.",
+      "questionClassPartition": [
+        "https://catalog.opengrid.org/question-class/cascade-relative-portfolio-cost",
+        "https://catalog.opengrid.org/question-class/cascade-build-direction",
+        "https://catalog.opengrid.org/question-class/cascade-local-congestion",
+        "https://catalog.opengrid.org/question-class/cascade-adequacy"
+      ],
+      "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/synthetic",
+      "publisher": "https://catalog.opengrid.org/agent/opengrid",
+      "license": "https://spdx.org/licenses/CC-BY-4.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": false,
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 1,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "issued": "2026-03-14T00:00:00Z",
+      "distribution": [
+        "https://catalog.opengrid.org/dist/cascade-interconnect-reference--sienna"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/cascade-interconnect-reference--sienna",
+      "type": "Distribution",
+      "title": "Sienna SystemDocument, JSON",
+      "accessURL": "https://hub.opengrid.org/reference/cascade-interconnect/v1/system.json",
+      "downloadURL": "https://hub.opengrid.org/reference/cascade-interconnect/v1/system.json",
+      "mediaType": "application/json",
+      "format": "JSON",
+      "byteSize": 2841773,
+      "hostedByOpenGrid": true,
+      "hostingReason": "registered",
+      "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models",
+      "conformsTo": "https://github.com/Sienna-Platform/SiennaSchemas/tree/3325d27c8c626a375c7492f1341af139d5686e53"
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/cascade-relative-portfolio-cost",
+      "type": "QuestionClass",
+      "questionClass": "Relative system cost between two capacity portfolios",
+      "robustness": "robust",
+      "robustnessBasis": "Agreement study, OpenGrid 2026: the sign of the cost difference between portfolio pairs survived transfer to the synthetic network in 41 of 44 paired cases. The three that did not were all within 0.4% on the real network."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/cascade-build-direction",
+      "type": "QuestionClass",
+      "questionClass": "Direction of change in new build by technology",
+      "robustness": "robust",
+      "robustnessBasis": "Same agreement study: direction agreed in 44 of 44 paired cases. Magnitude did not, and is not claimed."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/cascade-local-congestion",
+      "type": "QuestionClass",
+      "questionClass": "Local congestion and nodal price outcomes",
+      "robustness": "fragile",
+      "robustnessBasis": "The topology is plausible at system scale and arbitrary at any particular node. A congestion result here is about this network and transfers to nothing."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/cascade-adequacy",
+      "type": "QuestionClass",
+      "questionClass": "Resource adequacy and loss-of-load expectation",
+      "robustness": "unknown"
+    }
+  ]
+}

@@ -50,6 +50,16 @@ FILE_BASE = "https://catalog.opengrid.org/file/"
 LINK_BASE = "https://catalog.opengrid.org/link/"
 AGENT_BASE = "https://catalog.opengrid.org/agent/"
 
+#: Registry instance bases. Separate from DATASET_BASE on purpose: a study and
+#: a dataset that happened to share a slug would collide into one subject, and
+#: the first symptom would be a study inheriting a dataset's licence.
+STUDY_BASE = "https://catalog.opengrid.org/study/"
+ASSUMPTION_SET_BASE = "https://catalog.opengrid.org/assumptions/"
+ASSUMPTION_BASE = "https://catalog.opengrid.org/assumption/"
+RUN_RECORD_BASE = "https://catalog.opengrid.org/run/"
+QUESTION_CLASS_BASE = "https://catalog.opengrid.org/question-class/"
+RECEIPT_BASE = "https://catalog.opengrid.org/receipt/"
+
 
 def agent_iri(principal_id: str | None) -> str | None:
     """A principal's IRI, for the graph.
@@ -100,6 +110,8 @@ PREFIXES: dict[str, Namespace | str] = {
 __all__ = [
     "ADMS",
     "AGENT_BASE",
+    "ASSUMPTION_BASE",
+    "ASSUMPTION_SET_BASE",
     "CONCEPT_BASE",
     "DATASET_BASE",
     "DC",
@@ -116,8 +128,11 @@ __all__ = [
     "PROV",
     "QUANTITYKIND",
     "QUDT",
+    "QUESTION_CLASS_BASE",
     "RDF",
     "RDFS",
+    "RECEIPT_BASE",
+    "RUN_RECORD_BASE",
     "SCHEME_ACCESS_RESTRICTION",
     "SCHEME_ANALYSIS_TYPE",
     "SCHEME_DATA_DOMAIN",
@@ -127,6 +142,7 @@ __all__ = [
     "SH",
     "SKOS",
     "SPDX",
+    "STUDY_BASE",
     "UNIT",
     "VOID",
     "XSD",

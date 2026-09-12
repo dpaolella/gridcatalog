@@ -1,0 +1,46 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/study/cascade-pl-irp-2026",
+      "type": "Study",
+      "title": "Cascade Power & Light 2026 Integrated Resource Plan",
+      "summary": "A fictional utility's IRP filing. Every value in this record is invented.",
+      "description": "Cascade Power & Light is not a real utility and UE-26-0142 is not a real docket. The record exists so the registry's shapes have something complete to validate against, and so the demo can show a filing whose every number is traceable without attributing an invented assessment to a real company.",
+      "studyKind": "filing",
+      "publisher": "https://catalog.opengrid.org/agent/cascade-power-and-light",
+      "jurisdiction": "Cascadia Utilities Commission (fictional)",
+      "docket": "UE-26-0142",
+      "analysisType": [
+        "https://schema.opengrid.org/concept/analysis-type/integratedResourcePlan",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "version": "1.0",
+      "frozenAt": "2026-04-02T00:00:00Z",
+      "citationId": "opengrid:study/cascade-pl-irp-2026@1.0",
+      "hasAssumptionSet": ["https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1"],
+      "boundReferenceModel": ["https://catalog.opengrid.org/ds/cascade-interconnect-reference"],
+      "hasRunRecord": ["https://catalog.opengrid.org/run/R-0412"],
+      "issued": "2026-04-02T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/study/coalition-intervention-ue-26-0142",
+      "type": "Study",
+      "title": "Ratepayer Coalition intervention in UE-26-0142",
+      "summary": "A fictional intervention testing one assumption from the Cascade filing.",
+      "description": "Changes the authorised return on equity and nothing else, so that any difference in the result is attributable to that one number. The point of a single-factor intervention is that it is cheap to check and hard to argue with.",
+      "studyKind": "intervention",
+      "publisher": "https://catalog.opengrid.org/agent/ratepayer-coalition",
+      "jurisdiction": "Cascadia Utilities Commission (fictional)",
+      "docket": "UE-26-0142",
+      "analysisType": ["https://schema.opengrid.org/concept/analysis-type/capacityExpansion"],
+      "parentStudy": "https://catalog.opengrid.org/study/cascade-pl-irp-2026",
+      "version": "1.0",
+      "frozenAt": "2026-05-19T00:00:00Z",
+      "citationId": "opengrid:study/coalition-intervention-ue-26-0142@1.0",
+      "hasAssumptionSet": ["https://catalog.opengrid.org/assumptions/coalition-fork-v1"],
+      "boundReferenceModel": ["https://catalog.opengrid.org/ds/cascade-interconnect-reference"],
+      "issued": "2026-05-19T00:00:00Z"
+    }
+  ]
+}

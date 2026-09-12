@@ -1,0 +1,90 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",
+      "type": "AssumptionSet",
+      "title": "Cascade Power & Light 2026 IRP assumptions, v1.0",
+      "description": "Financial and policy parameters for the 2026 IRP, keyed to Sienna Investments field paths. Invented values on an invented utility.",
+      "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",
+      "receiptErrors": 0,
+      "receiptWarnings": 3,
+      "hasAssumption": [
+        "https://catalog.opengrid.org/assumption/cascade-v1-roe",
+        "https://catalog.opengrid.org/assumption/cascade-v1-debt-fraction",
+        "https://catalog.opengrid.org/assumption/cascade-v1-carbon-cap"
+      ],
+      "issued": "2026-04-02T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/cascade-v1-roe",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Financials/TechnologyFinancialData#return_on_equity",
+      "assumptionValue": "0.098",
+      "valueBasis": "estimated",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascade-rate-case-exhibits"]
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/cascade-v1-debt-fraction",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Financials/TechnologyFinancialData#debt_fraction",
+      "assumptionValue": "0.55",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascade-rate-case-exhibits"]
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/cascade-v1-carbon-cap",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Requirements/CarbonCaps#max_mtons",
+      "assumptionValue": "4.2",
+      "unit": "http://qudt.org/vocab/unit/MegaTON_Metric",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascadia-clean-energy-act"]
+    },
+
+    {
+      "id": "https://catalog.opengrid.org/assumptions/coalition-fork-v1",
+      "type": "AssumptionSet",
+      "title": "Ratepayer Coalition fork of UE-26-0142 assumptions, v1.0",
+      "description": "One value changed from the parent set. Everything else is inherited and says so, which is what makes the difference in the result attributable to a single number.",
+      "forkedFrom": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",
+      "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",
+      "receiptErrors": 0,
+      "receiptWarnings": 3,
+      "hasAssumption": [
+        "https://catalog.opengrid.org/assumption/coalition-v1-roe",
+        "https://catalog.opengrid.org/assumption/coalition-v1-debt-fraction",
+        "https://catalog.opengrid.org/assumption/coalition-v1-carbon-cap"
+      ],
+      "issued": "2026-05-19T00:00:00Z"
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/coalition-v1-roe",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Financials/TechnologyFinancialData#return_on_equity",
+      "assumptionValue": "0.074",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascadia-commission-orders"],
+      "justification": "The last authorised return on equity for this utility, Order 08-441, rather than the requested one. The filing uses the requested figure without stating that it is requested."
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/coalition-v1-debt-fraction",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Financials/TechnologyFinancialData#debt_fraction",
+      "assumptionValue": "0.55",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascade-rate-case-exhibits"],
+      "inheritedFrom": "https://catalog.opengrid.org/assumption/cascade-v1-debt-fraction"
+    },
+    {
+      "id": "https://catalog.opengrid.org/assumption/coalition-v1-carbon-cap",
+      "type": "Assumption",
+      "assumptionPath": "Investments/Requirements/CarbonCaps#max_mtons",
+      "assumptionValue": "4.2",
+      "unit": "http://qudt.org/vocab/unit/MegaTON_Metric",
+      "valueBasis": "measured",
+      "fieldSource": ["https://catalog.opengrid.org/ds/cascadia-clean-energy-act"],
+      "inheritedFrom": "https://catalog.opengrid.org/assumption/cascade-v1-carbon-cap"
+    }
+  ]
+}

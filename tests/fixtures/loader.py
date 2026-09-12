@@ -22,6 +22,7 @@ from rdflib import Graph
 FIXTURE_DIR = Path(__file__).resolve().parent
 RECORDS_DIR = FIXTURE_DIR / "records"
 INVALID_DIR = FIXTURE_DIR / "invalid"
+REGISTRY_DIR = FIXTURE_DIR / "registry"
 CONTEXT_PATH = FIXTURE_DIR.parents[1] / "schemas" / "opengrid-datahub.jsonld"
 
 
@@ -40,11 +41,25 @@ def invalid_names() -> tuple[str, ...]:
     return tuple(sorted(p.stem for p in INVALID_DIR.glob("*.jsonld")))
 
 
+@functools.lru_cache(maxsize=1)
+def registry_names() -> tuple[str, ...]:
+    """The registry fixtures: studies, assumption sets, reference models, runs.
+
+    Kept in their own directory rather than beside the dataset records because
+    they are a different kind of thing — the Hub holds their bytes rather than
+    pointing at somebody else's — and because every test that walks
+    `record_names()` assumes a `dcat:Dataset` at the top, which a study is not.
+    """
+    return tuple(sorted(p.stem for p in REGISTRY_DIR.glob("*.jsonld")))
+
+
 @functools.lru_cache(maxsize=64)
 def _cached_record(name: str) -> dict[str, Any]:
     path = RECORDS_DIR / f"{name}.jsonld"
     if not path.exists():
         path = INVALID_DIR / f"{name}.jsonld"
+    if not path.exists():
+        path = REGISTRY_DIR / f"{name}.jsonld"
     document = json.loads(path.read_text())
     document["@context"] = context()["@context"]
     return document

@@ -7,7 +7,7 @@
 # record.
 #
 # Every property shape carries og:appliesAtLevel. The runner
-# (datahub.harvest.validate.runner) builds a shapes graph for a target level by
+# (datahub.validate.runner) builds a shapes graph for a target level by
 # detaching every property shape whose level exceeds it, and by dropping node
 # shapes above it entirely. The runner contains no list of which constraint
 # applies where: the annotation is the mechanism, so adding a constraint at a
@@ -611,7 +611,23 @@ og:RangeRequestShape a sh:NodeShape ;
 
 og:HostedCopyShape a sh:NodeShape ;
   og:appliesAtLevel 1 ;
-  rdfs:comment "PRD §F2: 'Every hosted copy has a named refresh owner assigned before launch, not after. This is the documented failure mode in every comparable project. Enforce it: a hosted distribution with no owner cannot be published.'" ;
+  rdfs:comment """PRD §F2: 'Every hosted copy has a named refresh owner assigned before launch, not after. This is the documented failure mode in every comparable project. Enforce it: a hosted distribution with no owner cannot be published.'
+
+  The refresh-owner rule survives the custody inversion unchanged, and the
+  exception list does not. "Hosting is by exception" was written when nothing
+  the Hub held was the Hub's own; under the custody rule a registered object —
+  a study, an assumption set, a reference model — is held *because it is
+  registered*, which is the normal case rather than an exception to one. Hence
+  the fifth value.
+
+  It is a separate value rather than a relaxation of the rule, because the
+  distinction it draws is the one that matters: four of these five say "this
+  lives somewhere else and we took a copy anyway, here is why", and the fifth
+  says "this lives here, and that is the promise". A reader who cannot tell
+  those apart does not know whether the bytes will still be there next year.
+
+  A registered copy still needs a refresh owner. The reason changes; the
+  failure mode it prevents does not.""" ;
   sh:target [
     a sh:SPARQLTarget ;
     sh:select """
@@ -626,8 +642,9 @@ og:HostedCopyShape a sh:NodeShape ;
   ] ;
   sh:property [
     sh:path og:hostingReason ; sh:minCount 1 ;
-    sh:in ( "format" "fragile-source" "charges-user" "etl-output" ) ; og:appliesAtLevel 1 ;
-    sh:message "Hosting is by exception (PRD §F2). State which exception applies: format, fragile-source, charges-user or etl-output." ;
+    sh:in ( "format" "fragile-source" "charges-user" "etl-output" "registered" ) ;
+    og:appliesAtLevel 1 ;
+    sh:message "State why OpenGrid holds these bytes: 'registered' for an object the Hub is the custodian of, or one of the four exceptions for a copy of somebody else's data — format, fragile-source, charges-user, etl-output." ;
   ] .
 
 # ===========================================================================
@@ -795,6 +812,360 @@ og:QualityGradeShape a sh:NodeShape ;
       SELECT $this WHERE {
         $this <https://schema.opengrid.org/ns#facet> "currency" .
         $this <https://schema.opengrid.org/ns#grade> "C" .
+      }
+    """ ;
+  ] .
+
+# ===========================================================================
+# THE REGISTRY TYPES
+#
+# A dataset record describes something somebody else holds. These four *are*
+# the thing: the Hub holds their bytes, promises they will not move, and issues
+# a citation that has to still resolve in five years (docs/architecture.md).
+# That promise is the whole product, so every constraint below exists to stop
+# the registry making a claim it cannot keep.
+#
+# All at level 1. The completeness ladder (ADR-0004) exists because a harvested
+# dataset arrives thin and thickens as detail is found; a registered object
+# arrives complete or it is not registered, because somebody sat down and
+# submitted it. There is no level at which a study may omit who filed it.
+# ===========================================================================
+
+og:StudyShape a sh:NodeShape ;
+  sh:targetClass og:Study ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """A filing, a paper, or an intervention responding to one.
+
+  The two constraints that matter are the frozen/citation pair and the parent
+  pointer.
+
+  **Frozen implies citable.** og:frozenAt is a promise that this version will
+  not change; og:citationId is the handle somebody puts in a bibliography. A
+  record carrying the promise without the handle invites a citation of a
+  moving target, which is the failure the registry exists to prevent, so the
+  SPARQL constraint below refuses it.
+
+  **An intervention names what it intervenes in.** og:studyKind
+  "intervention" without og:parentStudy is an assertion floating free of the
+  filing it contests, and a regulator reading it cannot put the two side by
+  side — which is the entire evaluation user story.""" ;
+  sh:property [
+    sh:path dct:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "A study needs a title." ;
+  ] ;
+  sh:property [
+    sh:path og:studyKind ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "filing" "intervention" "academic" "reanalysis" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:studyKind is one of filing, intervention, academic, reanalysis. A utility's filing and an intervenor's response to it carry different weight and must not render the same." ;
+  ] ;
+  sh:property [
+    sh:path dct:publisher ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "A study names who filed it. An unattributed filing cannot be weighed against the party it is about." ;
+  ] ;
+  sh:property [
+    sh:path og:analysisType ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "A study states its analysis type from the analysis-type scheme (vocab/og-analysis-type.ttl) — an IRP, a production-cost run and a power-flow study answer different questions." ;
+  ] ;
+  sh:property [
+    sh:path og:hasAssumptionSet ; sh:minCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "A study without an assumption set is a PDF. The assumption set is the thing an intervenor forks and a regulator compares, and registering a study that has none defeats the purpose of registering it." ;
+  ] ;
+  sh:property [
+    sh:path og:docket ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:jurisdiction ; sh:maxCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:frozenAt ; sh:maxCount 1 ; sh:datatype xsd:dateTime ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:citationId ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:parentStudy ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "A frozen study needs og:citationId. og:frozenAt promises this version will not change; without a citation handle the promise is unusable, and a reader cites a moving target." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#frozenAt> ?frozen .
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#citationId> ?cite }
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "An intervention names the study it contests, with og:parentStudy. Without it the comparison the evaluation stories are built on has nothing to compare against." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#studyKind> "intervention" .
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#parentStudy> ?parent }
+      }
+    """ ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "A study cannot be its own parent." ;
+    sh:select """
+      SELECT $this WHERE { $this <https://schema.opengrid.org/ns#parentStudy> $this }
+    """ ;
+  ] .
+
+# ---- assumption sets ---------------------------------------------------
+
+og:AssumptionSetShape a sh:NodeShape ;
+  sh:targetClass og:AssumptionSet ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """The parameter document a study stands on.
+
+  og:schemaPin is required and is a commit SHA, not a version string, because
+  SiennaSchemas publishes no tags (vendor/siennaschemas/PINNED.md) and is
+  pre-1.0 with no compatibility promise between releases. A receipt reading
+  "validated against sienna-schemas" without saying which sienna-schemas is
+  worth nothing six months later.
+
+  A receipt with errors is not a receipt. og:receiptErrors > 0 on a registered
+  set means the Hub accepted a document its own validator rejected, which is
+  the one thing an intake receipt exists to make impossible.""" ;
+  sh:property [
+    sh:path dct:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "An assumption set needs a title." ;
+  ] ;
+  sh:property [
+    sh:path og:schemaPin ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    sh:pattern "^[0-9a-f]{40}$" ; og:appliesAtLevel 1 ;
+    sh:message "og:schemaPin is the 40-character SiennaSchemas commit SHA this document validated against. Upstream publishes no tags and promises no compatibility below 1.0, so a version string would not identify anything." ;
+  ] ;
+  sh:property [
+    sh:path og:hasAssumption ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "An assumption set with no assumptions in it is an empty claim." ;
+  ] ;
+  sh:property [
+    sh:path og:receiptErrors ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+    sh:minInclusive 0 ; sh:maxInclusive 0 ; og:appliesAtLevel 1 ;
+    sh:message "A registered assumption set validated clean. A non-zero error count means the Hub published a document its own validator rejected — record the failed attempt outside the registry, not in it." ;
+  ] ;
+  sh:property [
+    sh:path og:receiptWarnings ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+    sh:minInclusive 0 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:forkedFrom ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "An assumption set cannot be forked from itself." ;
+    sh:select """
+      SELECT $this WHERE { $this <https://schema.opengrid.org/ns#forkedFrom> $this }
+    """ ;
+  ] .
+
+og:AssumptionShape a sh:NodeShape ;
+  sh:targetClass og:Assumption ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """One parameter value, keyed to the Sienna field it sets.
+
+  og:assumptionPath is a path into the vendored schemas rather than a free
+  label, which is what lets two assumption sets be diffed by machine instead
+  of by eye — 'return_on_equity' and 'ROE' are the same number under two
+  spellings and a string-matched diff reports them as a disagreement.
+
+  The justification rule is the fork screen's required one-liner, enforced
+  where it cannot be skipped: a value inherited from a parent needs no
+  defence, a value that CHANGED one always does. That asymmetry is the whole
+  point — it makes an intervenor state, once, why this number and not that
+  one, and it is what a regulator reads first.""" ;
+  sh:property [
+    sh:path og:assumptionPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "An assumption names the Sienna field path it sets, e.g. 'Investments/Financials/TechnologyFinancialData#return_on_equity'. A free-text label cannot be diffed against another set." ;
+  ] ;
+  sh:property [
+    sh:path og:assumptionValue ; sh:minCount 1 ; sh:maxCount 1 ; og:appliesAtLevel 1 ;
+    sh:message "An assumption needs a value." ;
+  ] ;
+  sh:property [
+    sh:path og:unit ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:valueBasis ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "measured" "estimated" "modeled" "synthetic" ) ; og:appliesAtLevel 1 ;
+    sh:message "An assumption states whether its value was measured, estimated, modeled or synthetic. A filed number whose basis is unstated cannot be argued with." ;
+  ] ;
+  sh:property [
+    sh:path og:fieldSource ; sh:minCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+    sh:message "An assumption cites where its value came from. 'Trace every data source behind a financing proposal' is a query over this predicate, and an assumption without one breaks the chain silently." ;
+  ] ;
+  sh:property [
+    sh:path og:inheritedFrom ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:justification ; sh:maxCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 1 ;
+  ] .
+
+# ---- reference models --------------------------------------------------
+
+og:ReferenceModelShape a sh:NodeShape ;
+  sh:targetClass og:ReferenceModel ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """A network with a declared fidelity.
+
+  The Hub vision asks: "Is fidelity a declared, machine-readable field on each
+  reference model, or prose in a README? Without a declared value, the
+  escalation path from indicative to authoritative has no defined step." This
+  shape is the answer — og:fidelityClass is required and closed, so the step
+  exists.
+
+  og:questionClassPartition is deliberately NOT a controlled scheme. Which
+  classes of question a public network is valid for is an agreement study's
+  output, not something enumerable in advance, and the vision says so. The
+  class is therefore free text and og:robustnessBasis carries the weight: a
+  network may claim a question class is "robust" only by naming what
+  established it. An unevidenced robust claim is exactly the over-reach that
+  makes a commission discount the whole exercise, so the SPARQL constraint
+  refuses it — while "unknown" needs nothing, because admitting ignorance
+  costs a reader nothing.""" ;
+  sh:property [
+    sh:path og:fidelityClass ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "indicative" "screening" "authoritative" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:fidelityClass is indicative, screening or authoritative. Declaring it is what gives the escalation path a defined step; prose in a README does not." ;
+  ] ;
+  sh:property [
+    sh:path og:questionClassPartition ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:networkElementCount ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+    sh:minInclusive 0 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:schemaPin ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    sh:pattern "^[0-9a-f]{40}$" ; og:appliesAtLevel 1 ;
+    sh:message "og:schemaPin is the 40-character SiennaSchemas commit SHA this model serialises against." ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "An authoritative reference model states what its authority rests on: at least one question class with og:robustnessBasis. Authority asserted without evidence is the claim a commission discounts, and it takes the rest of the record down with it." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#fidelityClass> "authoritative" .
+        FILTER NOT EXISTS {
+          $this <https://schema.opengrid.org/ns#questionClassPartition> ?qc .
+          ?qc <https://schema.opengrid.org/ns#robustnessBasis> ?basis .
+        }
+      }
+    """ ;
+  ] .
+
+og:QuestionClassShape a sh:NodeShape ;
+  sh:targetClass og:QuestionClass ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """One row of the robust / fragile / unknown partition.
+
+  The vision is explicit that this is a partition and not a single fidelity
+  number, because "framing it as accuracy invites a result that says the
+  synthetic network is bad, which is both true and beside the point".""" ;
+  sh:property [
+    sh:path og:questionClass ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "Name the class of question, e.g. 'relative system cost between two capacity portfolios'." ;
+  ] ;
+  sh:property [
+    sh:path og:robustness ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "robust" "fragile" "unknown" ) ; og:appliesAtLevel 1 ;
+    sh:message "og:robustness is robust, fragile or unknown. Three values, not a score: a number here would be averaged with something and the partition is the point." ;
+  ] ;
+  sh:property [
+    sh:path og:robustnessBasis ; sh:maxCount 1 ; sh:datatype rdf:langString ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "A 'robust' question class names what established it — an agreement study, a reproduced result, a published comparison. 'fragile' and 'unknown' need nothing: admitting a limit costs the reader nothing, claiming one does." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#robustness> "robust" .
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#robustnessBasis> ?basis }
+      }
+    """ ;
+  ] .
+
+# ---- run records -------------------------------------------------------
+
+og:RunRecordShape a sh:NodeShape ;
+  sh:targetClass og:RunRecord ;
+  og:appliesAtLevel 1 ;
+  rdfs:comment """Somebody executed a case. Not the Hub.
+
+  "Data transformation and solving" is out of scope for the Hub and two of the
+  vision's unresolved questions ask whether it ever hosts compute. A registry
+  that shows results without naming who produced them answers both questions
+  in the affirmative by implication, so og:executedBy is required and is never
+  the Hub.
+
+  og:caseHash identifies the document actually solved, not the study it
+  belongs to. Two runs of "the same" study on an edited case are different
+  runs; without the hash nothing distinguishes them and a re-run that quietly
+  changed an input reads as a reproduction.""" ;
+  sh:property [
+    sh:path og:ranAssumptionSet ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "A run record names the assumption set that was run." ;
+  ] ;
+  sh:property [
+    sh:path og:onReferenceModel ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    og:appliesAtLevel 1 ;
+    sh:message "A run record names the network it ran on. The same assumptions on two networks are two results, and a reader who cannot tell which is which will average them." ;
+  ] ;
+  sh:property [
+    sh:path og:executedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype rdf:langString ;
+    og:appliesAtLevel 1 ;
+    sh:message "Name who executed this run. The Hub registers runs and does not execute them, so an unattributed result implies a compute path the Hub does not have." ;
+  ] ;
+  sh:property [
+    sh:path og:caseHash ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    sh:pattern "^[0-9a-f]{64}$" ; og:appliesAtLevel 1 ;
+    sh:message "og:caseHash is the SHA-256 of the case document that was solved. Without it a re-run on an edited case is indistinguishable from a reproduction." ;
+  ] ;
+  sh:property [
+    sh:path og:tool ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "Name the tool. A result with no tool cannot be reproduced by anyone." ;
+  ] ;
+  sh:property [
+    sh:path og:toolVersion ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "Name the tool version. 'PyPSA' reproduces nothing; 'PyPSA 0.31.2' might." ;
+  ] ;
+  sh:property [
+    sh:path og:executedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+    og:appliesAtLevel 1 ;
+    sh:message "A run record is dated." ;
+  ] ;
+  sh:property [
+    sh:path og:solver ; sh:maxCount 1 ; sh:datatype xsd:string ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:wallTimeSeconds ; sh:maxCount 1 ; sh:datatype xsd:double ;
+    sh:minInclusive 0 ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:objectiveValue ; sh:maxCount 1 ; sh:datatype xsd:double ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:property [
+    sh:path og:objectiveUnit ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; og:appliesAtLevel 1 ;
+  ] ;
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    sh:message "An objective value carries its unit. A bare number compared against another study's bare number is how two incompatible results get called a disagreement." ;
+    sh:select """
+      SELECT $this WHERE {
+        $this <https://schema.opengrid.org/ns#objectiveValue> ?v .
+        FILTER NOT EXISTS { $this <https://schema.opengrid.org/ns#objectiveUnit> ?u }
       }
     """ ;
   ] .
