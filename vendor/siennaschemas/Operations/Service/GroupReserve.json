@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A reserve product met by a group of individual reserves. The group requirement is additional to each member's own requirement, and a device contributing to a member reserve also counts toward the group. Membership is carried by `ServiceAssociation` rows, not by a field here.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`). Unavailable components are excluded during simulations.",
+      "type": "boolean"
+    },
+    "requirement": {
+      "description": "The value of required reserves. Units: MW.",
+      "type": "number",
+      "x-unit": "MW"
+    },
+    "variable": {
+      "description": "Operating reserve demand curve for the group, either static or time-series-backed. A group carrying a curve is elastic: its requirement is priced by the curve rather than enforced. Time series values are carried via `time_series_associations` in the sidecar, never inline. Omit when the group has no demand curve.",
+      "$ref": "../../Core/common.json#/$defs/CostCurve"
+    },
+    "reserve_direction": {
+      "description": "Whether the reserve is an upward, downward, or symmetric reserve product.",
+      "$ref": "../../Operations/common.json#/$defs/ReserveDirection"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "available",
+    "requirement",
+    "reserve_direction"
+  ],
+  "title": "GroupReserve",
+  "type": "object"
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Financial data for a candidate technology: the capital recovery period used to derive overnight capital cost from annualized investment cost, the dollar-year its cost data is reported in, and the debt fraction, debt rate, return on equity, and tax rate that together set its cost of capital.",
+  "properties": {
+    "capital_recovery_period": {
+      "description": "Period over which capital costs are recovered for net present value calculations. Units: yr.",
+      "type": "integer",
+      "x-unit": "yr"
+    },
+    "technology_base_year": {
+      "description": "Base year for technology cost data used in NPV calculations.",
+      "type": "integer"
+    },
+    "debt_fraction": {
+      "description": "Fraction of capital costs financed through debt. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    },
+    "debt_rate": {
+      "description": "Interest rate on debt financing. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    },
+    "return_on_equity": {
+      "description": "Required rate of return on equity financing. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    },
+    "tax_rate": {
+      "description": "Tax rate applied to equity returns. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    }
+  },
+  "required": [
+    "capital_recovery_period",
+    "technology_base_year",
+    "debt_fraction",
+    "debt_rate",
+    "return_on_equity",
+    "tax_rate"
+  ],
+  "title": "TechnologyFinancialData",
+  "type": "object"
+}

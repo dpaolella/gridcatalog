@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Supply technology co-located with storage behind a shared grid connection. The generation and storage portions are referenced by id (`supply_technology` and `storage_technology`); the inverter that couples them to the grid carries its own capacity limits, capital and operating costs, and efficiency.",
+  "properties": {
+    "id": {
+      "description": "ID for individual component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`).",
+      "type": "boolean"
+    },
+    "power_systems_type": {
+      "description": "Corresponding type to be used in PCM modeling.",
+      "type": "string"
+    },
+    "region": {
+      "description": "Location where the component applies. Can be a zone or node.",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "financial_data": {
+      "description": "Struct containing relevant financial information for a technology.",
+      "$ref": "../Financials/TechnologyFinancialData.json"
+    },
+    "supply_technology": {
+      "description": "The ID of the underlying supply technology (e.g., wind or solar) co-located with storage.",
+      "type": "integer"
+    },
+    "storage_technology": {
+      "description": "The ID of the underlying storage technology co-located with the supply technology.",
+      "type": "integer"
+    },
+    "inverter_capacity_limits": {
+      "description": "Limits on inverter capacity. Units: MW.",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit": "MW"
+    },
+    "capital_costs_inverter": {
+      "description": "Capital and interconnection cost for investing in inverter capacity (capital cost in USD/MW).",
+      "$ref": "../../Core/common.json#/$defs/CapitalCost"
+    },
+    "operation_costs_inverter": {
+      "description": "Operational costs for using inverter in co-located systems. Units: USD/MWh.",
+      "$ref": "../../Core/common.json#/$defs/ProductionVariableCostCurve",
+      "x-unit": "USD/MWh"
+    },
+    "inverter_efficiency": {
+      "description": "Efficiency of AC to DC conversion of inverter. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    },
+    "inverter_supply_ratio": {
+      "description": "Ratio of generation capacity to grid connection capacity. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Dimensionless"
+    }
+  },
+  "required": [
+    "capital_costs_inverter",
+    "financial_data",
+    "id",
+    "inverter_efficiency",
+    "inverter_supply_ratio",
+    "name",
+    "operation_costs_inverter",
+    "power_systems_type",
+    "storage_technology",
+    "supply_technology"
+  ],
+  "title": "ColocatedSupplyStorageTechnology",
+  "type": "object"
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "An infinite bus with a constant voltage output.\n\nCommonly used in dynamics simulations to represent a very large machine on a single bus or for the representation of import/exports in operational simulations.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`). Unavailable components are excluded during simulations.",
+      "type": "boolean"
+    },
+    "bus": {
+      "description": "ID of the bus that this component is connected to.",
+      "type": "integer"
+    },
+    "active_power": {
+      "description": "Initial active power set point of the unit. For power flow, this is the steady state operating point of the system. For production cost modeling, this may or may not be used as the initial starting point for the solver, depending on the solver used. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "default": 0.0,
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power": {
+      "description": "Initial reactive power set point of the unit. Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "default": 0.0,
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "active_power_limits": {
+      "description": "Minimum and maximum stable active power levels. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "default": {
+        "min": 0.0,
+        "max": 0.0
+      },
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power_limits": {
+      "description": "Minimum and maximum reactive power limits. Set to `null` if not applicable. Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "default": {
+        "min": 0.0,
+        "max": 0.0
+      },
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "parameter_units": {
+      "description": "Unit basis for this source's impedance fields (R_th, X_th).",
+      "default": "COMPONENT_BASE",
+      "$ref": "../../Core/common.json#/$defs/ImpedanceUnitBasis"
+    },
+    "R_th": {
+      "description": "Source Thevenin resistance. Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "default": 0.0,
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Resistance"
+    },
+    "X_th": {
+      "description": "Source Thevenin reactance. Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "default": 0.0,
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Reactance"
+    },
+    "internal_voltage": {
+      "description": "Internal voltage. Units: pu.",
+      "default": 1.0,
+      "type": "number",
+      "x-unit": "pu",
+      "x-quantity": "Voltage",
+      "x-unit-base": "base_voltage"
+    },
+    "internal_angle": {
+      "description": "Internal angle. Units: rad.",
+      "default": 0.0,
+      "type": "number",
+      "x-unit": "rad"
+    },
+    "base_voltage": {
+      "description": "The base voltage. Units: kV.",
+      "type": "number",
+      "x-unit": "kV"
+    },
+    "base_power": {
+      "description": "Base power of the unit for per unitization. Units: MVA.",
+      "default": 100.0,
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "power_units": {
+      "description": "Unit basis for this component's power-family fields (active/reactive/apparent power, ratings, limits, ramp rates). COMPONENT_BASE: per unit on this component's own base_power. NATURAL_UNITS: the field's physical unit.",
+      "$ref": "../../Core/common.json#/$defs/UnitSystem"
+    },
+    "operation_cost": {
+      "description": "Cost of importing and exporting power at the source. or MarketBidCost",
+      "discriminator": {
+        "mapping": {
+          "IMPORTEXPORT": "../../Core/common.json#/$defs/ImportExportCost",
+          "MARKET_BID_TIME_SERIES": "../../Core/common.json#/$defs/MarketBidTimeSeriesCost",
+          "IMPORT_EXPORT_TIME_SERIES": "../../Core/common.json#/$defs/ImportExportTimeSeriesCost"
+        },
+        "propertyName": "cost_type"
+      },
+      "oneOf": [
+        {
+          "$ref": "../../Core/common.json#/$defs/ImportExportCost"
+        },
+        {
+          "$ref": "../../Core/common.json#/$defs/MarketBidTimeSeriesCost"
+        },
+        {
+          "$ref": "../../Core/common.json#/$defs/ImportExportTimeSeriesCost"
+        }
+      ],
+      "default": {
+        "cost_type": "IMPORTEXPORT",
+        "import_offer_curves": {
+          "variable_cost_type": "COST",
+          "value_curve": {
+            "curve_type": "INPUT_OUTPUT",
+            "function_data": {
+              "function_type": "LINEAR",
+              "constant_term": 0,
+              "proportional_term": 0
+            }
+          },
+          "vom_cost": {
+            "curve_type": "INPUT_OUTPUT",
+            "function_data": {
+              "function_type": "LINEAR",
+              "constant_term": 0,
+              "proportional_term": 0
+            }
+          }
+        },
+        "export_offer_curves": {
+          "variable_cost_type": "COST",
+          "value_curve": {
+            "curve_type": "INPUT_OUTPUT",
+            "function_data": {
+              "function_type": "LINEAR",
+              "constant_term": 0,
+              "proportional_term": 0
+            }
+          },
+          "vom_cost": {
+            "curve_type": "INPUT_OUTPUT",
+            "function_data": {
+              "function_type": "LINEAR",
+              "constant_term": 0,
+              "proportional_term": 0
+            }
+          }
+        },
+        "energy_import_weekly_limit": 1000000.0,
+        "energy_export_weekly_limit": 1000000.0
+      }
+    },
+    "dynamic_injector": {
+      "description": "ID of the corresponding dynamic injection device, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "available",
+    "bus",
+    "operation_cost",
+    "power_units"
+  ],
+  "title": "Source",
+  "type": "object"
+}

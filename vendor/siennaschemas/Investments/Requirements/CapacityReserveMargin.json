@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy requirement enforcing a minimum capacity reserve margin in the target year, such that `(total_capacity - peak_demand) / peak_demand >= capacity_reserve_fraction`.",
+  "properties": {
+    "id": {
+      "description": "ID for individual component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`).",
+      "type": "boolean"
+    },
+    "target_year": {
+      "description": "Year in which this requirement is applied.",
+      "type": "integer"
+    },
+    "capacity_reserve_fraction": {
+      "description": "Capacity reserve requirements, represented as a fraction of peak demand in a region. Units: 1.",
+      "type": "number",
+      "default": 0.0,
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    }
+  },
+  "required": [
+    "name",
+    "id",
+    "available"
+  ],
+  "title": "CapacityReserveMargin",
+  "type": "object"
+}

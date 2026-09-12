@@ -1,0 +1,79 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PowerInvestmentsOpenAPIModels",
+    "version": "1.0.0",
+    "description": "Power system investments models: Technologies, Financials, Requirements, SupplementalAttributes, and Portfolio components"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "AggregateTransportTechnology": {
+        "$ref": "Investments/Technologies/AggregateTransportTechnology.json"
+      },
+      "CapacityReserveMargin": {
+        "$ref": "Investments/Requirements/CapacityReserveMargin.json"
+      },
+      "CarbonCaps": {
+        "$ref": "Investments/Requirements/CarbonCaps.json"
+      },
+      "CarbonTax": {
+        "$ref": "Investments/Requirements/CarbonTax.json"
+      },
+      "ColocatedSupplyStorageTechnology": {
+        "$ref": "Investments/Technologies/ColocatedSupplyStorageTechnology.json"
+      },
+      "DemandRequirement": {
+        "$ref": "Investments/Technologies/DemandRequirement.json"
+      },
+      "DemandSideTechnology": {
+        "$ref": "Investments/Technologies/DemandSideTechnology.json"
+      },
+      "EnergyShareRequirements": {
+        "$ref": "Investments/Requirements/EnergyShareRequirements.json"
+      },
+      "ExistingDevices": {
+        "$ref": "Investments/SupplementalAttributes/ExistingDevices.json"
+      },
+      "HourlyMatching": {
+        "$ref": "Investments/Requirements/HourlyMatching.json"
+      },
+      "MaximumCapacityRequirements": {
+        "$ref": "Investments/Requirements/MaximumCapacityRequirements.json"
+      },
+      "MinimumCapacityRequirements": {
+        "$ref": "Investments/Requirements/MinimumCapacityRequirements.json"
+      },
+      "NodalACTransportTechnology": {
+        "$ref": "Investments/Technologies/NodalACTransportTechnology.json"
+      },
+      "NodalHVDCTransportTechnology": {
+        "$ref": "Investments/Technologies/NodalHVDCTransportTechnology.json"
+      },
+      "PortfolioFinancialData": {
+        "$ref": "Investments/Financials/PortfolioFinancialData.json"
+      },
+      "RequirementAssociation": {
+        "$ref": "Investments/Associations/RequirementAssociation.json"
+      },
+      "RetirementPotential": {
+        "$ref": "Investments/SupplementalAttributes/RetirementPotential.json"
+      },
+      "RetrofitPotential": {
+        "$ref": "Investments/SupplementalAttributes/RetrofitPotential.json"
+      },
+      "StorageTechnology": {
+        "$ref": "Investments/Technologies/StorageTechnology.json"
+      },
+      "SupplyTechnology": {
+        "$ref": "Investments/Technologies/SupplyTechnology.json"
+      },
+      "TechnologyFinancialData": {
+        "$ref": "Investments/Financials/TechnologyFinancialData.json"
+      },
+      "TopologyMapping": {
+        "$ref": "Investments/SupplementalAttributes/TopologyMapping.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy requirement that the total capacity of all eligible technologies in the target year be less than the specified limit in MW.",
+  "properties": {
+    "id": {
+      "description": "ID for individual component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`).",
+      "type": "boolean"
+    },
+    "target_year": {
+      "description": "Year in which this requirement is applied.",
+      "type": "integer"
+    },
+    "max_capacity_mw": {
+      "description": "Maximum total capacity across all eligible resources. Units: MW.",
+      "type": "number",
+      "x-unit": "MW"
+    }
+  },
+  "required": [
+    "name",
+    "id",
+    "available"
+  ],
+  "title": "MaximumCapacityRequirements",
+  "type": "object"
+}

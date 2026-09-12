@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Policy requirement limiting the amount of carbon produced in the target year. The limit can be given either as a total mass of CO2 or as the carbon intensity of the portfolio, in mass of CO2 per MWh of electricity.",
+  "properties": {
+    "id": {
+      "description": "ID for individual component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`).",
+      "type": "boolean"
+    },
+    "target_year": {
+      "description": "Year in which this requirement is applied.",
+      "type": "integer"
+    },
+    "max_tons_mwh": {
+      "description": "Emission limit in terms of rate. Units: Mt/MWh.",
+      "type": "number",
+      "default": 100000000,
+      "x-unit": "Mt/MWh"
+    },
+    "max_mtons": {
+      "description": "Emission limit in absolute values (million tonnes). Units: Mt.",
+      "type": "number",
+      "x-unit": "Mt"
+    }
+  },
+  "required": [
+    "name",
+    "id",
+    "available"
+  ],
+  "title": "CarbonCaps",
+  "type": "object"
+}

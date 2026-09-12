@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A three-winding transformer, modeled as an equivalent star: each referenced `TransformerCircuit` connects a terminal bus to the star (hidden) bus and carries that winding's series electrical data; availability is circuit-level. The pairwise measured impedances `r_12`/`x_12`, `r_23`/`x_23`, `r_31`/`x_31` (PSS/E CZ = 1, each in pu on the corresponding `base_power_12`/`base_power_23`/`base_power_31` and referenced to the first-index winding's base voltage) are optional and must be set together or all be absent; the star-leg impedances derived from them at parse time live on the circuits and are not synced back. Power-flow and Ybus assembly read the per-circuit star-leg impedances, not the pairwise fields. The model is described in Chapter 3.6 of J.D. Glover, M.S. Sarma and T. Overbye: Power Systems Analysis and Design.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "primary_circuit": {
+      "description": "The primary `TransformerCircuit` connecting the primary bus to the star bus.",
+      "type": "integer"
+    },
+    "secondary_circuit": {
+      "description": "The secondary `TransformerCircuit` connecting the secondary bus to the star bus.",
+      "type": "integer"
+    },
+    "tertiary_circuit": {
+      "description": "The tertiary `TransformerCircuit` connecting the tertiary bus to the star bus.",
+      "type": "integer"
+    },
+    "star_bus": {
+      "description": "Star (hidden) Bus that this component (equivalent model) is connected to.",
+      "type": "integer"
+    },
+    "parameter_units": {
+      "description": "Unit basis for the pairwise measured impedance fields (r_12, x_12, r_23, x_23, r_31, x_31). PSS/E supplies a single CZ flag for the whole three-winding transformer record, so one basis governs all three winding pairs.",
+      "default": "COMPONENT_BASE",
+      "$ref": "../../Core/common.json#/$defs/ImpedanceUnitBasis"
+    },
+    "r_12": {
+      "description": "Measured resistance, referenced to the primary winding's base voltage, from primary to secondary windings (R1-2 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Resistance"
+    },
+    "x_12": {
+      "description": "Measured reactance, referenced to the primary winding's base voltage, from primary to secondary windings (X1-2 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Reactance"
+    },
+    "r_23": {
+      "description": "Measured resistance, referenced to the secondary winding's base voltage, from secondary to tertiary windings (R2-3 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Resistance"
+    },
+    "x_23": {
+      "description": "Measured reactance, referenced to the secondary winding's base voltage, from secondary to tertiary windings (X2-3 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Reactance"
+    },
+    "r_31": {
+      "description": "Measured resistance, referenced to the tertiary winding's base voltage, from tertiary to primary windings (R3-1 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Resistance"
+    },
+    "x_31": {
+      "description": "Measured reactance, referenced to the tertiary winding's base voltage, from tertiary to primary windings (X3-1 in PSS/E). Units: per parameter_units — NATURAL_UNITS: ohm, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "parameter_units",
+      "x-units": {
+        "NATURAL_UNITS": "ohm",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Reactance"
+    },
+    "base_power_12": {
+      "description": "Base power for per unitization for primary-secondary windings. Units: MVA.",
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "base_power_23": {
+      "description": "Base power for per unitization for secondary-tertiary windings. Units: MVA.",
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "base_power_31": {
+      "description": "Base power for per unitization for tertiary-primary windings. Units: MVA.",
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "admittance_units": {
+      "description": "Unit basis for the magnetizing_shunt admittance.",
+      "default": "COMPONENT_BASE",
+      "$ref": "../../Core/common.json#/$defs/AdmittanceUnitBasis"
+    },
+    "magnetizing_shunt": {
+      "description": "Magnetizing shunt admittance referenced to the primary circuit's base voltage. Units: per admittance_units — NATURAL_UNITS: S, COMPONENT_MVAR: MVAr, COMPONENT_BASE: pu .",
+      "default": {
+        "real": 0.0,
+        "imag": 0.0
+      },
+      "$ref": "../../Core/common.json#/$defs/ComplexNumber",
+      "x-unit-discriminator": "admittance_units",
+      "x-units": {
+        "NATURAL_UNITS": "S",
+        "COMPONENT_MVAR": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "Susceptance"
+    },
+    "shunt_location": {
+      "description": "Placement of `magnetizing_shunt` in the equivalent star model.",
+      "default": "PRIMARY",
+      "$ref": "../../Operations/common.json#/$defs/ThreeWindingTransformerShuntLocation"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "primary_circuit",
+    "secondary_circuit",
+    "tertiary_circuit",
+    "star_bus"
+  ],
+  "title": "ThreeWindingTransformer",
+  "type": "object"
+}

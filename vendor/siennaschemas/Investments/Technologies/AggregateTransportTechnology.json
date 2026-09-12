@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "An aggregated representation of a transmission interchange between two regions. Capacity is added in discrete units of `unit_size`, priced by a capital cost curve, and derated by a proportional line loss.",
+  "properties": {
+    "id": {
+      "description": "ID for individual component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`).",
+      "type": "boolean"
+    },
+    "power_systems_type": {
+      "description": "Corresponding type to be used in PCM modeling.",
+      "type": "string"
+    },
+    "start_region": {
+      "description": "Start region for transport technology.",
+      "type": "integer"
+    },
+    "end_region": {
+      "description": "End region for transport technology.",
+      "type": "integer"
+    },
+    "capacity_limits": {
+      "description": "Allowable capacity for a transmission line. Units: MW.",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit": "MW"
+    },
+    "capital_costs": {
+      "description": "Capital and interconnection cost of adding new capacity to the transmission line (capital cost in USD/MW).",
+      "$ref": "../../Core/common.json#/$defs/CapitalCost"
+    },
+    "line_loss": {
+      "description": "Transmission loss for each transport technology. Units: 1.",
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Fraction"
+    },
+    "unit_size": {
+      "description": "Used for integer investment decisions. Represents the rating capacity of individual new lines. Units: MW.",
+      "type": "number",
+      "x-unit": "MW"
+    },
+    "financial_data": {
+      "description": "Struct containing relevant financial information for a technology.",
+      "$ref": "../Financials/TechnologyFinancialData.json"
+    }
+  },
+  "required": [
+    "available",
+    "end_region",
+    "financial_data",
+    "id",
+    "name",
+    "power_systems_type",
+    "start_region"
+  ],
+  "title": "AggregateTransportTechnology",
+  "type": "object"
+}

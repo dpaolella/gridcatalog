@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A hydropower generator that must have a `HydroReservoir` attached, suitable for modeling independent turbines and reservoirs.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`). Unavailable components are excluded during simulations.",
+      "type": "boolean"
+    },
+    "bus": {
+      "description": "ID of the bus that this component is connected to.",
+      "type": "integer"
+    },
+    "active_power": {
+      "description": "Initial active power set point of the unit. For power flow, this is the steady state operating point of the system. For production cost modeling, this may or may not be used as the initial starting point for the solver, depending on the solver used. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power": {
+      "description": "Initial reactive power set point of the unit. Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "rating": {
+      "description": "Maximum AC side output power rating of the unit. Not to be confused with base_power. Units: per power_units — NATURAL_UNITS: MVA, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVA",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ApparentPower"
+    },
+    "active_power_limits": {
+      "description": "Minimum and maximum stable active power levels. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power_limits": {
+      "description": "Minimum and maximum reactive power limits. Set to `null` if not applicable. in psy5 a required param with an option to be nothing Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "base_power": {
+      "description": "Base power of the unit for per unitization. Units: MVA.",
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "power_units": {
+      "description": "Unit basis for this component's power-family fields (active/reactive/apparent power, ratings, limits, ramp rates). COMPONENT_BASE: per unit on this component's own base_power. NATURAL_UNITS: the field's physical unit.",
+      "$ref": "../../Core/common.json#/$defs/UnitSystem"
+    },
+    "status": {
+      "description": "Operating state of the unit at the start of a simulation.",
+      "$ref": "../../Operations/common.json#/$defs/OperationalStates",
+      "default": "OFFLINE"
+    },
+    "time_at_status": {
+      "description": "Time the generator has been in its current `status`. default is the INFINITE_TIME sentinel (1e4 hours, 600000 minutes). Units: min.",
+      "default": 600000.0,
+      "type": "number",
+      "x-unit": "min"
+    },
+    "commitment_mode": {
+      "description": "Commitment mode of the unit.",
+      "$ref": "../../Operations/common.json#/$defs/CommitmentModes",
+      "default": "COMMITTED"
+    },
+    "operation_cost": {
+      "description": "Operating cost of generation. or MarketBidCost; default PSY.HydroGenerationCost(nothing)",
+      "discriminator": {
+        "mapping": {
+          "HYDRO_GEN": "../../Core/common.json#/$defs/HydroGenerationCost",
+          "MARKET_BID": "../../Core/common.json#/$defs/MarketBidCost",
+          "MARKET_BID_TIME_SERIES": "../../Core/common.json#/$defs/MarketBidTimeSeriesCost",
+          "IMPORT_EXPORT_TIME_SERIES": "../../Core/common.json#/$defs/ImportExportTimeSeriesCost"
+        },
+        "propertyName": "cost_type"
+      },
+      "oneOf": [
+        {
+          "$ref": "../../Core/common.json#/$defs/HydroGenerationCost"
+        },
+        {
+          "$ref": "../../Core/common.json#/$defs/MarketBidCost"
+        },
+        {
+          "$ref": "../../Core/common.json#/$defs/MarketBidTimeSeriesCost"
+        },
+        {
+          "$ref": "../../Core/common.json#/$defs/ImportExportTimeSeriesCost"
+        }
+      ]
+    },
+    "powerhouse_elevation": {
+      "description": "Height level above the sea level of the powerhouse on which the turbine is installed. Units: m.",
+      "default": 0.0,
+      "type": "number",
+      "x-unit": "m",
+      "x-quantity": "Elevation"
+    },
+    "ramp_limits": {
+      "description": "Ramp up and ramp down limits. Units: per power_units — NATURAL_UNITS: MW/min, COMPONENT_BASE: pu/min .",
+      "$ref": "../../Core/common.json#/$defs/UpDown",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW/min",
+        "COMPONENT_BASE": "pu/min"
+      }
+    },
+    "time_limits": {
+      "description": "Minimum up and minimum down time limits. Units: min.",
+      "$ref": "../../Core/common.json#/$defs/UpDown",
+      "x-unit": "min"
+    },
+    "outflow_limits": {
+      "description": "Turbine outflow limits. Set to `null` if not applicable. Units: m3/s.",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit": "m3/s"
+    },
+    "efficiency": {
+      "description": "Turbine efficiency [0, 1.0].",
+      "default": 1.0,
+      "type": "number"
+    },
+    "turbine_type": {
+      "description": "Type of the turbine.",
+      "default": "UNKNOWN",
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "PELTON",
+        "FRANCIS",
+        "KAPLAN",
+        "TURGO",
+        "CROSSFLOW",
+        "BULB",
+        "DERIAZ",
+        "PROPELLER",
+        "OTHER"
+      ]
+    },
+    "conversion_factor": {
+      "description": "Conversion factor from flow/volume to energy: m^3 -> p.u-hr. Units: 1.",
+      "default": 1.0,
+      "type": "number",
+      "x-unit": "1",
+      "x-quantity": "Dimensionless"
+    },
+    "prime_mover_type": {
+      "description": "Prime mover technology according to EIA 923.",
+      "$ref": "../../Core/common.json#/$defs/PrimeMovers",
+      "default": "HY"
+    },
+    "travel_time": {
+      "description": "Downstream (from reservoir into turbine) travel time. Set to `null` if not applicable. Units: min.",
+      "type": [
+        "number",
+        "null"
+      ],
+      "x-unit": "min",
+      "default": null
+    },
+    "dynamic_injector": {
+      "description": "ID of the corresponding dynamic injection device, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "available",
+    "bus",
+    "active_power",
+    "reactive_power",
+    "rating",
+    "active_power_limits",
+    "base_power",
+    "power_units",
+    "operation_cost"
+  ],
+  "title": "HydroTurbine",
+  "type": "object"
+}

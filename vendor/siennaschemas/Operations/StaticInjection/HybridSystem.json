@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A hybrid system co-locating a thermal unit, electric load, storage, and/or renewable unit behind a single grid interconnection.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`). Unavailable components are excluded during simulations.",
+      "type": "boolean"
+    },
+    "status": {
+      "description": "Operating state of the unit at the start of a simulation.",
+      "$ref": "../../Operations/common.json#/$defs/OperationalStates"
+    },
+    "bus": {
+      "description": "ID of the bus that this component is connected to.",
+      "type": "integer"
+    },
+    "active_power": {
+      "description": "Initial active power set point of the unit. For power flow, this is the steady state operating point of the system. For production cost modeling, this may or may not be used as the initial starting point for the solver, depending on the solver used. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power": {
+      "description": "Initial reactive power set point of the unit. Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "type": "number",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "base_power": {
+      "description": "Base power of the unit for per unitization, which is commonly the same as `interconnection_rating`. Units: MVA.",
+      "type": "number",
+      "x-unit": "MVA"
+    },
+    "power_units": {
+      "description": "Unit basis for this component's power-family fields (active/reactive/apparent power, ratings, limits, ramp rates). COMPONENT_BASE: per unit on this component's own base_power. NATURAL_UNITS: the field's physical unit.",
+      "$ref": "../../Core/common.json#/$defs/UnitSystem"
+    },
+    "operation_cost": {
+      "description": "`MarketBidCost` of operating the hybrid system.",
+      "$ref": "../../Core/common.json#/$defs/MarketBidCost"
+    },
+    "thermal_unit": {
+      "description": "ID of a thermal generator with supertype `ThermalGen`, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "electric_load": {
+      "description": "ID of a load with supertype `ElectricLoad`, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "storage": {
+      "description": "ID of an energy storage system with supertype `Storage`, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "renewable_unit": {
+      "description": "ID of a renewable generator with supertype `RenewableGen`, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "interconnection_impedance": {
+      "description": "Impedance between the hybrid system and the grid interconnection. Per-unit on `base_power`. Units: pu.",
+      "$ref": "../../Core/common.json#/$defs/ComplexNumber",
+      "x-unit": "pu",
+      "x-quantity": "Reactance"
+    },
+    "interconnection_rating": {
+      "description": "Maximum rating of the hybrid system's interconnection with the transmission network. Set to `null` if not applicable. Units: per power_units — NATURAL_UNITS: MVA, COMPONENT_BASE: pu .",
+      "type": [
+        "number",
+        "null"
+      ],
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVA",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ApparentPower"
+    },
+    "input_active_power_limits": {
+      "description": "Minimum and maximum stable input active power levels. Set to `null` if not applicable. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "output_active_power_limits": {
+      "description": "Minimum and maximum stable output active power levels. Set to `null` if not applicable. Units: per power_units — NATURAL_UNITS: MW, COMPONENT_BASE: pu .",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MW",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ActivePower"
+    },
+    "reactive_power_limits": {
+      "description": "Minimum and maximum reactive power limits. Set to `null` if not applicable. Units: per power_units — NATURAL_UNITS: MVAr, COMPONENT_BASE: pu .",
+      "$ref": "../../Core/common.json#/$defs/MinMax",
+      "x-unit-discriminator": "power_units",
+      "x-units": {
+        "NATURAL_UNITS": "MVAr",
+        "COMPONENT_BASE": "pu"
+      },
+      "x-quantity": "ReactivePower"
+    },
+    "interconnection_efficiency": {
+      "description": "Efficiency [0, 1.0] at the grid interconnection to model losses `in` and `out` of the common DC-side conversion. Set to `null` if not applicable.",
+      "$ref": "../../Core/common.json#/$defs/InOut"
+    },
+    "dynamic_injector": {
+      "description": "ID of the corresponding dynamic injection device, if any.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "available",
+    "status",
+    "bus",
+    "active_power",
+    "reactive_power",
+    "base_power",
+    "power_units",
+    "operation_cost"
+  ],
+  "title": "HybridSystem",
+  "type": "object"
+}

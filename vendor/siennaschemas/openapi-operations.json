@@ -1,0 +1,235 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PowerOperationsOpenAPIModels",
+    "version": "1.0.0",
+    "description": "Power system operations models: Branch, StaticInjection, and Service components"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "AGC": {
+        "$ref": "Operations/Service/AGC.json"
+      },
+      "AreaInterchange": {
+        "$ref": "Operations/Branch/AreaInterchange.json"
+      },
+      "BilateralTransaction": {
+        "$ref": "Operations/Market/BilateralTransaction.json"
+      },
+      "CombinedCycleAssociation": {
+        "$ref": "Operations/Associations/CombinedCycleAssociation.json"
+      },
+      "CombinedCycleBlock": {
+        "$ref": "Operations/SupplementalAttributes/CombinedCycleBlock.json"
+      },
+      "CombinedCycleFractional": {
+        "$ref": "Operations/SupplementalAttributes/CombinedCycleFractional.json"
+      },
+      "DiscreteControlledACBranch": {
+        "$ref": "Operations/Branch/DiscreteControlledACBranch.json"
+      },
+      "EnergyReservoirStorage": {
+        "$ref": "Operations/StaticInjection/EnergyReservoirStorage.json"
+      },
+      "ExponentialLoad": {
+        "$ref": "Operations/StaticInjection/ExponentialLoad.json"
+      },
+      "FACTSControlDevice": {
+        "$ref": "Operations/StaticInjection/FACTSControlDevice.json"
+      },
+      "FixedAdmittance": {
+        "$ref": "Operations/StaticInjection/FixedAdmittance.json"
+      },
+      "FixedForcedOutage": {
+        "$ref": "Operations/SupplementalAttributes/FixedForcedOutage.json"
+      },
+      "GroupReserve": {
+        "$ref": "Operations/Service/GroupReserve.json"
+      },
+      "GenericArcImpedance": {
+        "$ref": "Operations/Branch/GenericArcImpedance.json"
+      },
+      "GeometricDistributionForcedOutage": {
+        "$ref": "Operations/SupplementalAttributes/GeometricDistributionForcedOutage.json"
+      },
+      "HybridSystem": {
+        "$ref": "Operations/StaticInjection/HybridSystem.json"
+      },
+      "HydroDispatch": {
+        "$ref": "Operations/StaticInjection/HydroDispatch.json"
+      },
+      "HydroPowerPlant": {
+        "$ref": "Operations/SupplementalAttributes/HydroPowerPlant.json"
+      },
+      "HydroPumpTurbine": {
+        "$ref": "Operations/StaticInjection/HydroPumpTurbine.json"
+      },
+      "HydroReservoir": {
+        "$ref": "Operations/StaticInjection/HydroReservoir.json"
+      },
+      "HydroTurbine": {
+        "$ref": "Operations/StaticInjection/HydroTurbine.json"
+      },
+      "ImpedanceCorrectionData": {
+        "$ref": "Operations/SupplementalAttributes/ImpedanceCorrectionData.json"
+      },
+      "InterconnectingConverter": {
+        "$ref": "Operations/StaticInjection/InterconnectingConverter.json"
+      },
+      "InterruptiblePowerLoad": {
+        "$ref": "Operations/StaticInjection/InterruptiblePowerLoad.json"
+      },
+      "InterruptibleStandardLoad": {
+        "$ref": "Operations/StaticInjection/InterruptibleStandardLoad.json"
+      },
+      "Line": {
+        "$ref": "Operations/Branch/Line.json"
+      },
+      "MonitoredLine": {
+        "$ref": "Operations/Branch/MonitoredLine.json"
+      },
+      "MotorLoad": {
+        "$ref": "Operations/StaticInjection/MotorLoad.json"
+      },
+      "OfflineReserve": {
+        "$ref": "Operations/Service/OfflineReserve.json"
+      },
+      "OnlineReserve": {
+        "$ref": "Operations/Service/OnlineReserve.json"
+      },
+      "PlannedOutage": {
+        "$ref": "Operations/SupplementalAttributes/PlannedOutage.json"
+      },
+      "PlantAssociation": {
+        "$ref": "Operations/Associations/PlantAssociation.json"
+      },
+      "PointToPointBid": {
+        "$ref": "Operations/Market/PointToPointBid.json"
+      },
+      "PowerLoad": {
+        "$ref": "Operations/StaticInjection/PowerLoad.json"
+      },
+      "RenewableDispatch": {
+        "$ref": "Operations/StaticInjection/RenewableDispatch.json"
+      },
+      "RenewableNonDispatch": {
+        "$ref": "Operations/StaticInjection/RenewableNonDispatch.json"
+      },
+      "RenewablePowerPlant": {
+        "$ref": "Operations/SupplementalAttributes/RenewablePowerPlant.json"
+      },
+      "ServiceAssociation": {
+        "$ref": "Operations/Associations/ServiceAssociation.json"
+      },
+      "ShiftablePowerLoad": {
+        "$ref": "Operations/StaticInjection/ShiftablePowerLoad.json"
+      },
+      "Source": {
+        "$ref": "Operations/StaticInjection/Source.json"
+      },
+      "StandardLoad": {
+        "$ref": "Operations/StaticInjection/StandardLoad.json"
+      },
+      "Substation": {
+        "$ref": "Operations/SupplementalAttributes/Substation.json"
+      },
+      "SwitchedAdmittance": {
+        "$ref": "Operations/StaticInjection/SwitchedAdmittance.json"
+      },
+      "SynchronousCondenser": {
+        "$ref": "Operations/StaticInjection/SynchronousCondenser.json"
+      },
+      "TModelHVDCLine": {
+        "$ref": "Operations/Branch/TModelHVDCLine.json"
+      },
+      "ThermalMultiStart": {
+        "$ref": "Operations/StaticInjection/ThermalMultiStart.json"
+      },
+      "ThermalPowerPlant": {
+        "$ref": "Operations/SupplementalAttributes/ThermalPowerPlant.json"
+      },
+      "ThermalStandard": {
+        "$ref": "Operations/StaticInjection/ThermalStandard.json"
+      },
+      "ThreeWindingTransformer": {
+        "$ref": "Operations/Branch/ThreeWindingTransformer.json"
+      },
+      "TradingHub": {
+        "$ref": "Operations/Market/TradingHub.json"
+      },
+      "TradingHubAssociation": {
+        "$ref": "Operations/Associations/TradingHubAssociation.json"
+      },
+      "TransformerCircuit": {
+        "$ref": "Operations/Branch/TransformerCircuit.json"
+      },
+      "TransmissionInterface": {
+        "$ref": "Operations/Service/TransmissionInterface.json"
+      },
+      "TwoTerminalGenericHVDCLine": {
+        "$ref": "Operations/Branch/TwoTerminalGenericHVDCLine.json"
+      },
+      "TwoTerminalLCCLine": {
+        "$ref": "Operations/Branch/TwoTerminalLCCLine.json"
+      },
+      "TwoTerminalVSCLine": {
+        "$ref": "Operations/Branch/TwoTerminalVSCLine.json"
+      },
+      "TwoWindingTransformer": {
+        "$ref": "Operations/Branch/TwoWindingTransformer.json"
+      },
+      "VirtualParticipant": {
+        "$ref": "Operations/Market/VirtualParticipant.json"
+      },
+      "VSCACControlModes": {
+        "$ref": "Operations/common.json#/$defs/VSCACControlModes"
+      },
+      "VSCDCControlModes": {
+        "$ref": "Operations/common.json#/$defs/VSCDCControlModes"
+      },
+      "CombinedCycleConfiguration": {
+        "$ref": "Operations/common.json#/$defs/CombinedCycleConfiguration"
+      },
+      "FACTSControlDeviceControlMode": {
+        "$ref": "Operations/common.json#/$defs/FACTSControlDeviceControlMode"
+      },
+      "SwitchedAdmittanceControlMode": {
+        "$ref": "Operations/common.json#/$defs/SwitchedAdmittanceControlMode"
+      },
+      "ReserveDirection": {
+        "$ref": "Operations/common.json#/$defs/ReserveDirection"
+      },
+      "TransformerControlObjective": {
+        "$ref": "Operations/common.json#/$defs/TransformerControlObjective"
+      },
+      "TwoWindingTransformerShuntLocation": {
+        "$ref": "Operations/common.json#/$defs/TwoWindingTransformerShuntLocation"
+      },
+      "ThreeWindingTransformerShuntLocation": {
+        "$ref": "Operations/common.json#/$defs/ThreeWindingTransformerShuntLocation"
+      },
+      "VoltageUnitBasis": {
+        "$ref": "Operations/common.json#/$defs/VoltageUnitBasis"
+      },
+      "LoadConformity": {
+        "$ref": "Operations/common.json#/$defs/LoadConformity"
+      },
+      "OperationalStates": {
+        "$ref": "Operations/common.json#/$defs/OperationalStates"
+      },
+      "CommitmentModes": {
+        "$ref": "Operations/common.json#/$defs/CommitmentModes"
+      },
+      "BilateralProduct": {
+        "$ref": "Operations/common.json#/$defs/BilateralProduct"
+      },
+      "MarketStage": {
+        "$ref": "Operations/common.json#/$defs/MarketStage"
+      },
+      "BilateralConfirmation": {
+        "$ref": "Operations/common.json#/$defs/BilateralConfirmation"
+      }
+    }
+  }
+}

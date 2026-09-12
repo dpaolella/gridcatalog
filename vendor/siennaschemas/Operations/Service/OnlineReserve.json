@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "A reserve product provided by devices already synchronized with the system. The procurement requirement is static unless a `requirement` time series is attached, in which case `requirement` is the scaling factor. Attach an Operating Reserve Demand Curve through `variable` to price the requirement rather than enforce it; omit `variable` when the reserve has no demand curve.",
+  "properties": {
+    "id": {
+      "description": "Unique integer identifier for this component.",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the component. Components of the same type (e.g., `PowerLoad`) must have unique names, but components of different types (e.g., `PowerLoad` and `ACBus`) can have the same name.",
+      "type": "string"
+    },
+    "available": {
+      "description": "Indicator of whether the component is connected and online (`true`) or disconnected, offline, or down (`false`). Unavailable components are excluded during simulations.",
+      "type": "boolean"
+    },
+    "time_frame": {
+      "description": "The saturation time frame to provide reserve contribution. Units: min.",
+      "type": "number",
+      "x-unit": "min"
+    },
+    "requirement": {
+      "description": "The value of required reserves. Units: MW.",
+      "default": 0.0,
+      "type": "number",
+      "x-unit": "MW"
+    },
+    "variable": {
+      "description": "Operating reserve demand curve, either static or time-series-backed. Time series values are carried via `time_series_associations` in the sidecar, never inline. Omit when the reserve has no demand curve.",
+      "$ref": "../../Core/common.json#/$defs/CostCurve"
+    },
+    "sustained_time": {
+      "description": "The time reserve contribution must be sustained at a specified level. Units: min.",
+      "default": 60.0,
+      "type": "number",
+      "x-unit": "min"
+    },
+    "max_output_fraction": {
+      "description": "The maximum fraction of each device's output that can be assigned to the service.",
+      "default": 1.0,
+      "type": "number"
+    },
+    "max_participation_factor": {
+      "description": "The maximum portion [0, 1.0] of the reserve that can be contributed per device.",
+      "default": 1.0,
+      "type": "number"
+    },
+    "deployed_fraction": {
+      "description": "Fraction of service procurement that is assumed to be actually deployed. Most commonly, this is assumed to be either 0.0 or 1.0.",
+      "default": 0.0,
+      "type": "number"
+    },
+    "reserve_direction": {
+      "description": "Whether the reserve is an upward, downward, or symmetric reserve product.",
+      "$ref": "../../Operations/common.json#/$defs/ReserveDirection"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "available",
+    "time_frame",
+    "reserve_direction"
+  ],
+  "title": "OnlineReserve",
+  "type": "object"
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Supplemental attribute carrying one row of an impedance correction table, linked to a transformer. The correction curve defines intervals over tap ratio or angle shift, and the accompanying fields name which winding the row applies to and whether the controlled quantity is an off-nominal turns ratio or a phase angle shift.",
+  "title": "ImpedanceCorrectionData",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "table_number": {
+      "type": "integer"
+    },
+    "impedance_correction_curve": {
+      "$ref": "../../Core/common.json#/$defs/PiecewiseLinearData"
+    },
+    "transformer_winding": {
+      "type": "string",
+      "enum": [
+        "TR2W_WINDING",
+        "PRIMARY_WINDING",
+        "SECONDARY_WINDING",
+        "TERTIARY_WINDING"
+      ]
+    },
+    "transformer_control_mode": {
+      "type": "string",
+      "enum": [
+        "PHASE_SHIFT_ANGLE",
+        "TAP_RATIO"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "table_number",
+    "impedance_correction_curve",
+    "transformer_winding",
+    "transformer_control_mode"
+  ]
+}
