@@ -29,8 +29,10 @@ for all three.
 
 Two properties worth knowing before reading the endpoint list:
 
-- **This API never returns data.** `/download` is a redirect and `/access-plan`
-  returns a document. Nothing here proxies bytes.
+- **Custody decides whether this API returns bytes.** For a dataset hosted
+  elsewhere it does not: `/download` is a redirect and `/access-plan` returns a
+  document. For an object registered with the Hub it does, because a citable
+  release has to still resolve when somebody follows the citation.
 - **A 404 for a record you may not see is byte-identical to a 404 for a record
   that does not exist.** That is deliberate: a distinguishable refusal is an
   existence oracle.

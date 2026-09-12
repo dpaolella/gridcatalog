@@ -91,39 +91,10 @@ jobs:
           .venv/bin/datahub seed load
           .venv/bin/datahub record load var/site/curated
 
-          # The harvested catalog, one JSON-LD file per record, kept in git
-          # because nothing else here survives the build (WP-11.8). Absent on a
-          # fresh checkout that has never run `harvest.yml`, which is why this
-          # is guarded rather than assumed.
-          if compgen -G "data/catalog/*/*.jsonld" > /dev/null; then
-            for source in data/catalog/*/; do
-              .venv/bin/datahub record load "$source"
-            done
-          fi
-
-          # Read each record's own schema surface (WP-11.4). Here rather than
-          # nowhere, because most of this catalog did not arrive through the
-          # harvester — the seed inventory and the golden set are loaded with
-          # `record load`, which writes a record exactly as given and does not
-          # reach the network. Without this step ERA5 publishes the four fields
-          # somebody typed instead of the 273 its store documents.
-          #
-          # Persisted fields first, from git, with no network at all. #45: the
-          # probe used to run only here, into a graph the runner throws away,
-          # so ERA5 held 4 fields in the repository and showed 273 on the site
-          # and every deploy re-fetched them. Now `harvest.yml` commits what it
-          # reads and this replays it, which is what makes the published site
-          # reproducible from a checkout.
-          .venv/bin/datahub schema load data/schemas
-
-          # Then probe, for records no sidecar covers yet. Allowed to fail: a
-          # source being unreachable on the morning of a build is a thinner
-          # catalog, not a broken deploy — and now it is not even that, because
-          # the merge is additive, so an unreachable source costs the fields it
-          # would have *added* and never the ones already committed. That is
-          # #45's "stop `|| true` hiding a collapse", answered by making a
-          # collapse impossible rather than by warning about one.
-          .venv/bin/datahub schema probe || true
+          # Every record here is authored and committed, so the build reads
+          # exactly what is in the repository. There is no discovery pass and
+          # no network read: the two `load` commands above are the whole
+          # corpus, and a checkout reproduces the published site byte for byte.
 
           # Order, and both halves of it are load-bearing in opposite
           # directions.
@@ -158,7 +129,7 @@ jobs:
         # `index.json` is the whole search payload the browser filters over.
         # It used to be serialised into `index.html` as a prop, which is what
         # took the landing page to 3,122 KB against a 2,048 KB limit once the
-        # first real harvest landed. Copied into `web/public/` it ships as a
+        # catalog grew past a few hundred records. Copied into `web/public/` it ships as a
         # separate, separately-cached asset that the page fetches on mount, and
         # the page stops growing with the catalog.
         run: |

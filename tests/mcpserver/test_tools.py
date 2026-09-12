@@ -65,7 +65,7 @@ def test_no_tool_returns_bulk_data(tools) -> None:
     be misread as "give me rows", so it says in the payload that it is not."""
     preview = tools.preview_dataset(ERA5)
 
-    assert "never returns data" in preview.data["note"]
+    assert "does not proxy data hosted elsewhere" in preview.data["note"]
     assert "rows" not in preview.data
 
 
@@ -319,7 +319,7 @@ def test_every_tool_is_wired_to_the_signature_it_calls(tools, name, arguments) -
 def test_the_instructions_state_the_control_plane_rule() -> None:
     from datahub.mcp.server import INSTRUCTIONS
 
-    assert "never returns data" in INSTRUCTIONS
+    assert "Data hosted elsewhere is not returned here" in INSTRUCTIONS
     assert "not captured" in INSTRUCTIONS
     assert "explain_connection" in INSTRUCTIONS
 

@@ -16,8 +16,8 @@ from rdflib.namespace import SKOS
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from datahub.harvest.validate import ValidationRunner
 from datahub.namespaces import OG
+from datahub.validate import ValidationRunner
 from fixtures.loader import corpus_graph, load_graph, record_names
 
 GC = "https://schema.opengrid.org/concept/grid-concept/"

@@ -44,5 +44,5 @@ def test_the_reference_states_the_two_rules_a_client_author_needs() -> None:
     discovered the hard way."""
     page = API_DOC.read_text()
 
-    assert "never returns data" in page
+    assert "Custody decides whether this API returns bytes" in page
     assert "existence oracle" in page

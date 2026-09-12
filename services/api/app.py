@@ -46,9 +46,13 @@ DESCRIPTION = """\
 The OpenGrid Data Hub API. A control plane for finding grid-modelling datasets
 and working out how to get at them.
 
-**This API never returns data.** It returns metadata, and access plans that say
-where the data is and how to read it. `/download` is a redirect to the source;
-`/access-plan` is a document. Nothing here proxies bytes.
+**Whether this API returns data depends on custody.** For a dataset hosted
+elsewhere it returns metadata and an access plan saying where the data is and
+how to read it — `/download` is a redirect to the source, `/access-plan` is a
+document, and nothing is proxied. For an object *registered* with the Hub — a
+model, an assumption set, a study filing, a reference network — the Hub holds
+the bytes and serves them, because an immutable citable release has to still
+be there when somebody follows the citation.
 
 **Absent means "not captured", never "no source".** A field missing from a
 record is a gap in what has been catalogued, not a statement that the dataset

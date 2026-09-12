@@ -2,7 +2,7 @@
 
 The broker's own rules are tested in `tests/broker/`. What is tested here is
 the HTTP surface: that the plan is entitlement-gated the same way every other
-read is, that issuing one is audited, and that the endpoint never returns data.
+read is, that issuing one is audited, and that the endpoint never proxies bytes.
 """
 
 from __future__ import annotations

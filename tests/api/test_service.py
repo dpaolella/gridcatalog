@@ -138,11 +138,15 @@ def test_filterable_fields_are_discoverable_from_the_document(client) -> None:
     # is the enforcement; this is the discoverability half of the same contract.
 
 
-def test_the_description_states_the_control_plane_rule(client) -> None:
-    """ "This API never returns data" is the single most important thing a
-    client author needs to know before writing against it."""
-    description = client.get("/openapi.json").json()["info"]["description"]
-    assert "never returns data" in description.lower()
+def test_the_description_states_the_custody_rule(client) -> None:
+    """Which objects the Hub holds the bytes for, and which it only points at,
+    is the single most important thing a client author needs to know before
+    writing against it — and it is the rule that changed when the catalog
+    became a registry, so it is asserted rather than assumed."""
+    description = client.get("/openapi.json").json()["info"]["description"].lower()
+    assert "custody" in description
+    assert "registered" in description
+    assert "access plan" in description
 
 
 def test_the_docs_render(client) -> None:

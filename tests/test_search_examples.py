@@ -42,11 +42,11 @@ NOT_PUBLISHED = {"caiso-nodal-lmp-restricted", "utility-load-shapes-allowlisted"
 def catalog():
     """The published catalog, in a search index — seed inventory plus curated."""
     from datahub.api.search.backend import InMemorySearchBackend
+    from datahub.fixtures.seed import SeedLoader
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.loader import bootstrap
     from datahub.graph.records import RecordStore
     from datahub.graph.store import RdflibStore
-    from datahub.harvest.seed import SeedLoader
     from datahub.projector.build import build_document
     from fixtures.loader import load_record, record_names
 

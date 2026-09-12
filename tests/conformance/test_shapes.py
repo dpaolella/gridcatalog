@@ -22,7 +22,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from datahub.harvest.validate import ValidationRunner, format_report
+from datahub.validate import ValidationRunner, format_report
 from fixtures.loader import (
     INVALID_DIR,
     declared_level,

@@ -230,7 +230,7 @@ class Tools:
             {
                 "dataset_id": dataset_id,
                 "note": (
-                    "OpenGrid is a control plane and never returns data. This is the record's "
+                    "OpenGrid does not proxy data hosted elsewhere. This is the record's "
                     "description of the dataset's shape. Use get_access_plan to read the data "
                     "yourself; the plan says where it is and how to read it."
                 ),

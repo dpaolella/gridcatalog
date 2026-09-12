@@ -8,8 +8,8 @@ import threading
 
 import pytest
 from datahub.errors import ValidationFailed
-from datahub.harvest.validate import ValidationRunner, format_report
 from datahub.namespaces import SH
+from datahub.validate import ValidationRunner, format_report
 from rdflib import Graph
 from rdflib.namespace import RDF
 

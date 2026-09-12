@@ -27,11 +27,11 @@ from datahub.api.search import Entitlement, SearchRequest
 from datahub.api.search.backend import InMemorySearchBackend, RangeFilter
 from datahub.api.search.document import RANGE_FIELDS, range_path
 from datahub.api.search.query import BadSearchRequest, SearchParams, build
+from datahub.fixtures.seed import SeedLoader
 from datahub.graph.graphs import NamedGraph
 from datahub.graph.loader import bootstrap
 from datahub.graph.records import RecordStore
 from datahub.graph.store import RdflibStore
-from datahub.harvest.seed import SeedLoader
 from datahub.projector.build import build_document
 
 

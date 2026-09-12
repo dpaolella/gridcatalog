@@ -1,9 +1,23 @@
 # Architecture
 
-The one hard constraint, from which everything else follows: **the Hub is never
-in the byte path.** It holds metadata and issues access plans that point at
-where the bytes actually live. That is what makes the Hub's cost independent of
-whether a dataset is 2 KB or 4 TB.
+The one hard constraint, from which everything else follows: **whether the Hub
+is in the byte path depends on who published the thing.**
+
+* **Registered with the Hub** — a model, an assumption set, a study filing, a
+  reference network. The Hub holds the bytes. It has to: the point of
+  registering is an immutable, versioned, citable release that is still there
+  in five years, and a pointer at somebody's institutional file share is not
+  that. Storage, versioning and archival are the Hub's problem.
+* **Hosted elsewhere and already hosted well** — ERA5 at ECMWF, EIA-930 at the
+  EIA, a Zenodo deposit. The Hub holds metadata and issues an access plan that
+  points at where the bytes actually live. Re-hosting these would be
+  duplicating infrastructure that already works, and it is explicitly out of
+  scope.
+
+The dividing line is not size, it is custody. A registered object is one the
+Hub promises will not move; a catalogued one is a description of something
+somebody else promises. Cost scales with what is registered, not with what is
+catalogued — which is what keeps a 4 TB reanalysis archive free to describe.
 
 ```
                     ┌──────────────────────────────────┐

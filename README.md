@@ -8,9 +8,19 @@
 
 [![CI](https://github.com/dpaolella/gridcatalog/actions/workflows/ci.yml/badge.svg)](https://github.com/dpaolella/gridcatalog/actions/workflows/ci.yml)
 
-A discovery and routing layer for grid-modeling data. It holds metadata about
-datasets and issues access plans pointing at where the bytes actually live.
-**It is never in the byte path.**
+A registry for grid data, assumptions, and models — the OpenGrid Hub. It holds
+the bytes for what is *registered* with it (models, assumption sets, study
+filings, reference networks), because a citable release has to still resolve
+when somebody follows the citation. For data already hosted well elsewhere it
+holds metadata and issues access plans pointing at where the bytes live.
+**Custody, not size, decides which.**
+
+> **This branch is a rebuild.** `claude/opengrid-hub-demo` is the OpenGrid Hub
+> in its ideal form: a demonstration of what the registry looks like once
+> curation is finished and metadata are fully tracked. The harvest pipeline and
+> the 1,059 crawled records that the catalog carried are gone; records here are
+> authored. Sections below that describe crawling, adapters or promotion are
+> stale and will be rewritten as the demo takes shape.
 
 ```bash
 uv venv --python 3.12 .venv && uv pip install --python .venv/bin/python -e ".[dev]"
@@ -104,7 +114,7 @@ Four things a user can do:
 3. **See how it connects** to other datasets in the catalog, including a warning when two apparently independent datasets share an upstream origin.
 4. **Get it**, via a redirect for whole files or a byte-range plan for slices, through the UI, the REST API, a Python SDK, or an MCP server.
 
-The single hard architectural constraint: **the Hub is never in the byte path.** Every design decision downstream follows from this. It is what makes the Hub's cost independent of whether a dataset is 2 KB or 4 TB.
+The single hard architectural constraint: **custody decides the byte path.** An object registered with the Hub is one the Hub promises will not move, so the Hub holds it. A catalogued dataset is a description of something somebody else promises, so the Hub points at it and never proxies it. Every design decision downstream follows from that split, and it is what keeps a 4 TB reanalysis archive free to describe.
 
 ---
 
@@ -1015,7 +1025,7 @@ Stated so they do not creep in.
 
 When a tradeoff comes up mid-build, these are the tiebreakers.
 
-1. **The Hub is never in the byte path.** If a solution puts it there, the solution is wrong.
+1. **Custody decides the byte path.** The Hub holds what is registered with it and never proxies what is hosted elsewhere. A solution that blurs the two is wrong.
 2. **A missing field means "not captured", never "does not exist."** Gap markers over silent omission, every time.
 3. **Never a composite quality score.** Three independent facets, or the signal is lost.
 4. **Grounded or absent.** Never fabricate a dataset, a field, a license or a URL. This applies to the enricher and to the MCP server equally.

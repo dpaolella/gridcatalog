@@ -29,9 +29,9 @@ from datahub.graph.graphs import NamedGraph, record_graph
 from datahub.graph.skolem import skolemize
 from datahub.graph.sparql import parsing
 from datahub.graph.store import GraphStore
-from datahub.harvest.validate import ValidationReport, ValidationRunner
 from datahub.logging import get_logger
 from datahub.namespaces import DATASET_BASE, OG
+from datahub.validate import ValidationReport, ValidationRunner
 from rdflib import Graph, Literal, URIRef
 from rdflib.namespace import DCAT, DCTERMS, RDF, XSD
 from rdflib.query import Result, ResultRow

@@ -30,8 +30,11 @@ log = get_logger(__name__)
 INSTRUCTIONS = """\
 The OpenGrid Data Hub: a catalog of grid-modelling datasets.
 
-**This server never returns data.** It returns metadata, and access plans that
-say where data is and how to read it. Fetch the data yourself using the plan.
+**Data hosted elsewhere is not returned here.** For those datasets this server
+returns metadata and an access plan saying where the data is and how to read
+it; fetch it yourself using the plan. Objects *registered* with the Hub —
+models, assumption sets, study filings, reference networks — the Hub does hold,
+and those are retrievable.
 
 **Absent means "not captured", never "no source".** A field missing from a
 record is a gap in what has been catalogued, not a statement about the dataset.

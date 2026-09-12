@@ -46,7 +46,7 @@ Three ways forward, roughly in order of how much they cost:
     readers this deployment has. Say why in the commit.
 
 Do not fix this by trimming what each row shows: the row is what makes the
-result useful, and the page will cross the line again at the next harvest.
+result useful, and the page will cross the line again as the corpus grows.
 EOF
   exit 1
 fi

@@ -97,11 +97,11 @@ def test_a_record_absent_from_provenance_is_not_invented() -> None:
 @pytest.fixture(scope="module")
 def documents() -> dict:
     from datahub.api.search.backend import InMemorySearchBackend
+    from datahub.fixtures.seed import SeedLoader
     from datahub.graph.graphs import NamedGraph
     from datahub.graph.loader import bootstrap
     from datahub.graph.records import RecordStore
     from datahub.graph.store import RdflibStore
-    from datahub.harvest.seed import SeedLoader
     from datahub.projector.index import Projector
 
     store = RdflibStore()

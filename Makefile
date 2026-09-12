@@ -6,7 +6,7 @@ PIP := uv pip install --python .venv/bin/python
 
 .DEFAULT_GOAL := help
 .PHONY: help venv install lint fmt types test test-all conformance graph-suite \
-        seed reindex serve web harvest clean up down check \
+        seed reindex serve web clean up down check \
         snapshot site site-serve
 
 help: ## Show this help
@@ -53,9 +53,6 @@ serve: ## REST API on :8000
 
 web: ## Next.js dev server on :3000
 	cd web && npm run dev
-
-harvest: ## Harvest one source: make harvest SOURCE=oedi LIMIT=100
-	$(PY) -m datahub.harvest --source $(SOURCE) --limit $(or $(LIMIT),100)
 
 semantic: ## Resolve concepts and grade quality
 	$(PY) -m datahub.cli semantic run

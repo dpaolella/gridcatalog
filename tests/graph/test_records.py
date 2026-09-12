@@ -120,7 +120,7 @@ def test_containment_terms_track_the_predicate_list() -> None:
     """The framing must nest exactly what the writer treats as contained; a
     predicate that is containment for writing and reference for reading would
     produce a document that cannot be written back."""
-    from datahub.harvest.validate import ValidationRunner
+    from datahub.validate import ValidationRunner
 
     terms = containment_terms(ValidationRunner().context["@context"])
     assert {"distribution", "hasField", "qualityFlags", "temporal"} <= terms

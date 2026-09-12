@@ -3,9 +3,11 @@ export default function AboutPage() {
     <div className="max-w-2xl space-y-6">
       <h1 className="text-2xl font-semibold tracking-tight">About</h1>
       <p>
-        The OpenGrid Data Hub is a discovery and routing layer for grid-modelling data. It holds
-        metadata about datasets and issues access plans pointing at where the bytes actually live.
-        It is never in the byte path.
+        The OpenGrid Hub is a registry for grid data, assumptions, and models. It holds the bytes
+        for what is registered with it — models, assumption sets, study filings, reference networks
+        — because a citable release has to still resolve when somebody follows the citation. For
+        data already hosted well elsewhere it holds metadata and issues access plans pointing at
+        where the bytes live. Custody, not size, decides which.
       </p>
       <section className="space-y-3">
         <h2 className="font-medium">What it will not do</h2>
