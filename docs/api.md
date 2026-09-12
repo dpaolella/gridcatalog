@@ -259,6 +259,7 @@ Search the catalog.
 | `bulk_download` | query | no |  |
 | `reference_only` | query | no |  |
 | `has_usage_evidence` | query | no |  |
+| `share_alike` | query | no | Whether the licence obliges a derived work to carry the same terms. `false` is the filter an adopter who cannot accept that obligation on their own data actually needs. |
 | `resolution_max_m` | query | no | Keep only datasets whose spatial resolution is this fine or finer, in metres. Records that do not state one are excluded, because 'not captured' is not 'fine enough' — see `spatial_granularity` for the class, which most records do carry. |
 | `field_count_min` | query | no | Keep only datasets that describe at least this many fields. `field_count_min=1` is 'show me the datasets I can actually interpret' — the question completeness_level cannot answer, because level 1 means no field metadata by definition and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply. |
 | `bbox` | query | no | west,south,east,north in WGS 84. |

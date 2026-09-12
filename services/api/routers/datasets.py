@@ -148,6 +148,16 @@ def search_datasets(
     bulk_download: Annotated[bool | None, Query()] = None,
     reference_only: Annotated[bool | None, Query()] = None,
     has_usage_evidence: Annotated[bool | None, Query()] = None,
+    share_alike: Annotated[
+        bool | None,
+        Query(
+            description=(
+                "Whether the licence obliges a derived work to carry the same terms. "
+                "`false` is the filter an adopter who cannot accept that obligation "
+                "on their own data actually needs."
+            )
+        ),
+    ] = None,
     resolution_max_m: Annotated[
         float | None,
         Query(
@@ -225,6 +235,7 @@ def search_datasets(
             bulk_download=bulk_download,
             reference_only=reference_only,
             has_usage_evidence=has_usage_evidence,
+            share_alike=share_alike,
         ),
         bbox=_bbox(bbox),
         resolution_max_m=resolution_max_m,

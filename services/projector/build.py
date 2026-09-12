@@ -103,6 +103,7 @@ def build_document(
         license_label=_str(graph.value(iri, OG.licenseNote)),
         license_url=_str(graph.value(iri, DCTERMS.license)),
         redistribution_allowed=_bool(graph.value(iri, OG.redistributionAllowed)),
+        share_alike=_bool(graph.value(iri, OG.shareAlike)),
         access_restriction=_local(graph.value(iri, OG.accessRestriction)),
         anonymous_access=_bool(graph.value(iri, OG.anonymousAccess)),
         bulk_download=_bulk_download(graph, iri, distributions),

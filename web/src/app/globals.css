@@ -352,6 +352,22 @@ a {
   border-color: transparent;
 }
 
+/* A licence obligation a reader has to meet before they act, not a chip.
+   Styled as a bordered note rather than a badge because it is a sentence
+   somebody must read: a chip saying "ODbL" is exactly the treatment that let
+   this question stay open, since everyone recognises the name and nobody
+   recalls that the obligation attaches to the *join* rather than to the file.
+
+   The left rule and the tinted ground are the grade-C pair, so it reads as a
+   caution rather than an error. It is not a failure; it is a term. */
+.og-share-alike {
+  border-left: 3px solid var(--grade-c);
+  background: color-mix(in srgb, var(--grade-c) 10%, transparent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 0.7rem 0.9rem;
+  color: var(--foreground);
+}
+
 .og-tag {
   display: inline-flex;
   align-items: center;

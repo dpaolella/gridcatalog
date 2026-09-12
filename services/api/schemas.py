@@ -166,6 +166,13 @@ class DatasetSummary(ApiModel):
     provenance_class: str | None = None
     license_id: str | None = None
     license_label: str | None = None
+    #: On the list row, not only on the record.
+    #:
+    #: Share-alike is the one licence property that constrains what a reader may
+    #: do with *their own* data rather than with this dataset, so it decides
+    #: whether a record is usable at all for a whole class of adopter. A row
+    #: that omits it shows an ODbL dataset and a CC-BY one as equally available.
+    share_alike: bool | None = None
     completeness_level: int = 1
     reference_only: bool = False
     anonymous_access: bool | None = None
@@ -199,6 +206,7 @@ class DatasetSummary(ApiModel):
             provenance_class=doc.provenance_class,
             license_id=doc.license_id,
             license_label=doc.license_label,
+            share_alike=doc.share_alike,
             completeness_level=doc.completeness_level,
             reference_only=doc.reference_only,
             anonymous_access=doc.anonymous_access,

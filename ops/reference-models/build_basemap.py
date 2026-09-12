@@ -56,6 +56,43 @@ TOLERANCE = 0.004
 #: above, so rounding never becomes the thing that shapes the coastline.
 PRECISION = 3
 
+#: Which admin-1 boundaries to draw, using Natural Earth's own scale metadata
+#: rather than a length heuristic.
+#:
+#: A threshold on path length cannot separate these, and trying one is how this
+#: was first written: the UK's longest county boundary is 1.34 degrees and the
+#: shortest US state-line fragment is 0.09, so any cut that removes English
+#: county lines also removes real state lines from the Cascade map. The two
+#: layers differ in *kind*, not in size — the US features here are states and
+#: the UK features are counties.
+#:
+#: Natural Earth already says so. Its US admin-1 lines carry SCALERANK 2 and
+#: MIN_ZOOM 2; its UK ones carry SCALERANK 8 and MIN_ZOOM 10, which is the
+#: dataset stating that they are not meant to be drawn until you are zoomed in
+#: far past a whole country. Reading that is the difference between a rule and
+#: a guess: 1,031 haze-making fragments over England become none, and the
+#: Cascade map keeps its state lines untouched.
+#:
+#: `FEATURECLA` does the other half. "Admin-1 statistical boundary" and
+#: "statistical meta bounds" are census artefacts rather than borders anybody
+#: crosses, and they are dropped everywhere.
+BORDER_FEATURE_CLASS = "Admin-1 boundary"
+BORDER_MAX_SCALERANK = 4
+
+
+def draw_border(properties: dict[str, Any]) -> bool:
+    """Whether an admin-1 line is one to draw at whole-country zoom.
+
+    Natural Earth's keys are uppercase in the GeoJSON build even though its
+    documentation writes them lowercase, and a lookup by the lowercase name
+    returns None for every feature — which reads as "no metadata" and quietly
+    keeps everything.
+    """
+    if properties.get("FEATURECLA") != BORDER_FEATURE_CLASS:
+        return False
+    scalerank = properties.get("SCALERANK")
+    return isinstance(scalerank, int | float) and scalerank <= BORDER_MAX_SCALERANK
+
 
 def perpendicular_distance(
     point: tuple[float, float], start: tuple[float, float], end: tuple[float, float]
@@ -227,14 +264,19 @@ def build(name: str, bbox: tuple[float, float, float, float]) -> dict[str, Any]:
     # Lines are clipped, because a stroked path has no interior to break.
     for label, source in LINES.items():
         out = []
+        skipped = 0
         for feature in fetch(source)["features"]:
+            if label == "borders" and not draw_border(feature.get("properties") or {}):
+                skipped += 1
+                continue
             for ring in rings(feature.get("geometry") or {}):
                 for run in clip(ring, bbox):
                     simplified = simplify(run, TOLERANCE)
                     if len(simplified) > 1:
                         out.append(emit(simplified))
         layers[label] = out
-        print(f"  {label:12} {len(out):4d} paths,    {sum(len(p) for p in out):6d} points")
+        suffix = f", {skipped} below scalerank {BORDER_MAX_SCALERANK} skipped" if skipped else ""
+        print(f"  {label:12} {len(out):4d} paths,    {sum(len(p) for p in out):6d} points{suffix}")
 
     return {
         "name": name,
@@ -250,6 +292,11 @@ EXTENTS = {
     # A margin around the Cascade Interconnect's own bounds, so the network
     # sits in a place rather than filling the frame edge to edge.
     "cascade-interconnect": (-125.6, 44.4, -118.2, 49.2),
+    # Great Britain, with enough west of it for the Irish coast to appear.
+    # Ireland is context rather than decoration here: the GB model stops at the
+    # Irish Sea and a reader should be able to see that the blank water to the
+    # west is a boundary of the *model*, not the edge of the map.
+    "gb-osm": (-8.4, 49.6, 2.6, 59.3),
 }
 
 

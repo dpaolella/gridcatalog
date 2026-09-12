@@ -194,6 +194,15 @@ class SearchDocument(BaseModel):
     license_label: str | None = None
     license_url: str | None = None
     redistribution_allowed: bool | None = None
+    share_alike: bool | None = None
+    """Whether the licence obliges a derived work to carry the same terms.
+
+    Modelled on the record since the schema was written and projected nowhere,
+    so a reader could not see it and a caller could not filter on it. It is the
+    fact that decides whether a dataset can be joined to proprietary data at
+    all: ODbL share-alike operates at the *database* level, so the join, not the
+    file, is what may inherit the obligation. Left unprojected, a licence a
+    utility cannot accept looked exactly like one it could."""
     access_restriction: str | None = None
     anonymous_access: bool | None = None
     bulk_download: bool | None = None
@@ -360,6 +369,7 @@ FACET_FIELDS: dict[str, str] = {
     "reference_only": "reference_only",
     "link_health": "worst_link_health",
     "has_usage_evidence": "has_usage_evidence",
+    "share_alike": "share_alike",
 }
 
 #: Fields a caller may bound with a range rather than match exactly. Kept

@@ -283,6 +283,7 @@ export interface DatasetSummary {
   provenance_class?: string | null;
   license_id?: string | null;
   license_url?: string | null;
+  share_alike?: boolean | null;
   completeness_level: number;
   quality: QualityFacet[];
   spatial?: SpatialCoverage | null;

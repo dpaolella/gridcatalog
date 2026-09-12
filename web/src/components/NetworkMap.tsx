@@ -46,7 +46,7 @@ type Component = Record<string, unknown>;
 export type SystemDocument = {
   name: string;
   components: Record<string, Component[]>;
-  supplemental_attributes?: { GeographicInfo?: { id: number; geo_json: GeoJson }[] };
+  supplemental_attributes?: { id: number; geo_json: GeoJson }[];
   supplemental_attribute_associations?: {
     component_id: number;
     component_type: string;
@@ -137,19 +137,32 @@ export function NetworkMap({
     };
   }, [base]);
 
-  // -- bus coordinates, from the association table ------------------------
-  const busPoints = useMemo(() => {
-    if (!system) return new Map<number, Pt>();
-    const geo = new Map<number, GeoJson>();
-    for (const g of system.supplemental_attributes?.GeographicInfo ?? []) geo.set(g.id, g.geo_json);
-    const out = new Map<number, Pt>();
+  // -- geography, from the flat attribute array and the association table --
+  //
+  // `supplemental_attributes` is a flat, untyped list: the schema is explicit
+  // that nothing buckets it by type and that `attribute_type` on the
+  // association row is the only discriminator a consumer gets. This read used
+  // to index it as `supplemental_attributes.GeographicInfo`, which is the shape
+  // the generator wrongly emitted — so the two agreed with each other and
+  // neither agreed with Sienna. Fixing the generator alone would have left a
+  // viewer that draws an empty map from a valid document.
+  const geography = useMemo(() => {
+    const buses = new Map<number, Pt>();
+    const corridors = new Map<number, Pt[]>();
+    if (!system) return { buses, corridors };
+
+    const attributes = new Map<number, GeoJson>();
+    for (const g of system.supplemental_attributes ?? []) attributes.set(g.id, g.geo_json);
+
     for (const a of system.supplemental_attribute_associations ?? []) {
       if (a.attribute_type !== "GeographicInfo") continue;
-      const g = geo.get(a.attribute_id);
-      if (g?.type === "Point") out.set(a.component_id, g.coordinates as Pt);
+      const g = attributes.get(a.attribute_id);
+      if (g?.type === "Point") buses.set(a.component_id, g.coordinates as Pt);
+      else if (g?.type === "LineString") corridors.set(a.component_id, g.coordinates as Pt[]);
     }
-    return out;
+    return { buses, corridors };
   }, [system]);
+  const busPoints = geography.buses;
 
   const onWheel = useCallback((event: WheelEvent) => {
     event.preventDefault();
@@ -181,6 +194,13 @@ export function NetworkMap({
   }
 
   const { width, height, to } = project;
+  const has = (kind: string) => ((system.components[kind] ?? []) as unknown[]).length > 0;
+  const populated: Record<LayerKey, boolean> = {
+    lines: has("Line"),
+    buses: has("ACBus"),
+    generation: has("ThermalStandard") || has("RenewableDispatch"),
+    load: has("PowerLoad"),
+  };
   const path = (pts: Pt[]) => pts.map((p) => to(p).map((n) => n.toFixed(3)).join(",")).join(" ");
   const buses = (system.components.ACBus ?? []) as { id: number; base_voltage?: number }[];
   const arcs = new Map(
@@ -266,14 +286,41 @@ export function NetworkMap({
             />
           ))}
 
+          {/* The route where the model knows one, the straight segment where it
+              does not. A model built from surveyed topology carries a
+              LineString per circuit, and drawing it is most of what makes the
+              map read as a real network: real corridors bend around terrain and
+              follow each other through valleys, and a straight chord between
+              substations throws exactly that away. A synthetic model has no
+              route to draw and gets the chord, which is honest — there is no
+              corridor to be wrong about. */}
           {layers.lines &&
             lines.map((line) => {
               const arc = arcs.get(line.arc);
               if (!arc) return null;
+              const kv = Math.max(voltageOf.get(arc.from_id) ?? 0, voltageOf.get(arc.to_id) ?? 0);
+              const route = geography.corridors.get(line.id);
+              const shared = {
+                stroke: "var(--tech-line)",
+                strokeWidth: strokeFor(kv),
+                strokeOpacity: 0.75,
+                vectorEffect: "non-scaling-stroke" as const,
+              };
+              if (route && route.length > 1) {
+                return (
+                  <polyline
+                    key={line.id}
+                    points={path(route)}
+                    fill="none"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    {...shared}
+                  />
+                );
+              }
               const a = busPoints.get(arc.from_id);
               const b = busPoints.get(arc.to_id);
               if (!a || !b) return null;
-              const kv = Math.max(voltageOf.get(arc.from_id) ?? 0, voltageOf.get(arc.to_id) ?? 0);
               return (
                 <line
                   key={line.id}
@@ -281,10 +328,7 @@ export function NetworkMap({
                   y1={to(a)[1]}
                   x2={to(b)[0]}
                   y2={to(b)[1]}
-                  stroke="var(--tech-line)"
-                  strokeWidth={strokeFor(kv)}
-                  strokeOpacity={0.75}
-                  vectorEffect="non-scaling-stroke"
+                  {...shared}
                 />
               );
             })}
@@ -342,7 +386,15 @@ export function NetworkMap({
 
       <figcaption className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t px-4 py-3 text-xs" style={{ borderColor: "var(--border)" }}>
         <div className="flex flex-wrap gap-x-4 gap-y-2">
-          {LAYER_KEYS.map((key) => (
+          {/* Only the layers this model actually has.
+              A "Generation" checkbox on a network with no generators is a
+              claim that generators are there and hidden, which is the opposite
+              of what the model says about itself — and the GB model, which
+              carries topology and no injections at all, would have offered two
+              switches that do nothing. The empty-layer case is the one worth
+              being careful about: a control that toggles nothing is read as a
+              filter, not as an absence. */}
+          {LAYER_KEYS.filter((key) => populated[key]).map((key) => (
             <label key={key} className="inline-flex items-center gap-1.5">
               <input
                 type="checkbox"

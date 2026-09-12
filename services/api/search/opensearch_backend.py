@@ -170,6 +170,7 @@ INDEX_MAPPING: dict[str, Any] = {
             "license_label": {"type": "text", "analyzer": "og_text"},
             "license_url": {"type": "keyword"},
             "redistribution_allowed": {"type": "boolean"},
+            "share_alike": {"type": "boolean"},
             "access_restriction": {"type": "keyword"},
             "anonymous_access": {"type": "boolean"},
             "bulk_download": {"type": "boolean"},

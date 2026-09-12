@@ -28,7 +28,7 @@ export async function generateMetadata() {
 
 const ROBUSTNESS_ORDER = ["robust", "fragile", "unknown"] as const;
 
-/** Record id -> the directory this deployment serves that model's bytes from.
+/** Record id -> where this deployment serves that model's bytes from.
  *
  *  A map rather than a set, because the two are not the same string and
  *  assuming they were cost a debugging round: the catalog record is
@@ -37,10 +37,26 @@ const ROBUSTNESS_ORDER = ["robust", "fragile", "unknown"] as const;
  *  down makes the next mismatch a compile-time edit rather than a 404 that
  *  renders as "the network could not be loaded".
  *
+ *  `document` names the file because the two models do not want the same one.
+ *  Cascade has no route geometry, so its whole document is 281 KB and the
+ *  viewer reads it directly. The GB model carries a real surveyed corridor per
+ *  circuit and is 2.9 MB, which is a download rather than a page asset, so it
+ *  ships a second copy at display resolution. Same schema, same reader, one
+ *  eighth of the vertices — and the full-resolution file stays the thing a
+ *  modeller downloads, because simplifying a corridor for a study is a
+ *  different and much worse decision than simplifying it for a screen.
+ *
  *  Named rather than inferred from the record's `distribution`: that says a
  *  file exists *somewhere*, and the viewer needs one *here*, same-origin. */
-const MAPPED: Record<string, string> = {
-  "cascade-interconnect-reference": "cascade-interconnect",
+const MAPPED: Record<string, { dir: string; document: string }> = {
+  "cascade-interconnect-reference": {
+    dir: "cascade-interconnect",
+    document: "system.json",
+  },
+  "gb-osm-reference": {
+    dir: "gb-osm",
+    document: "system.view.json",
+  },
 };
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -99,6 +115,7 @@ export default async function ReferenceModelsPage() {
 
 async function ModelCard({ model }: { model: DatasetSummary }) {
   const t = await getTranslations("referenceModel");
+  const mapped = MAPPED[model.id];
   const classes = model.question_classes ?? [];
   const counts = ROBUSTNESS_ORDER.map((r) => ({
     robustness: r,
@@ -126,15 +143,32 @@ async function ModelCard({ model }: { model: DatasetSummary }) {
         <p className="mt-2 text-sm text-[color:var(--muted)]">{model.summary}</p>
       ) : null}
 
+      {/* Above the map, not below the partition.
+          The Data Hub writeup files ODbL share-alike as an open question — "may
+          pull [internal utility data] into scope. Needs an answer before Phase 2
+          architecture" — and the useful thing a demo can do with an open
+          question is put it where somebody meets it before they act, rather
+          than record that it was considered. A reader who scrolls to a licence
+          line under the fold has already decided to use the model. */}
+      {model.share_alike ? (
+        <p className="og-share-alike mt-3 text-sm">
+          <strong className="font-semibold">
+            {t("shareAlike")}
+            {model.license_id ? ` · ${model.license_id}` : ""}
+          </strong>{" "}
+          {t("shareAlikeHelp")}
+        </p>
+      ) : null}
+
       {/* The map, where a model ships one. Between the summary and the
           partition on purpose: a reader recognises the place first, then reads
           what it is rated for. The other order asks them to weigh a fitness
           claim about somewhere they have not seen. */}
-      {MAPPED[model.id] ? (
+      {mapped ? (
         <div className="mt-4">
           <NetworkMap
-            basemapUrl={`${BASE_PATH}/reference-models/${MAPPED[model.id]}/basemap.json`}
-            systemUrl={`${BASE_PATH}/reference-models/${MAPPED[model.id]}/system.json`}
+            basemapUrl={`${BASE_PATH}/reference-models/${mapped.dir}/basemap.json`}
+            systemUrl={`${BASE_PATH}/reference-models/${mapped.dir}/${mapped.document}`}
             synthetic={model.provenance_class === "synthetic"}
           />
         </div>

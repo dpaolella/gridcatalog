@@ -98,7 +98,9 @@ jobs:
           # rather than inventing an identity for it — correctly, and it exits
           # non-zero. They land when #82 teaches the store about them.
           mkdir -p var/e2e/registry
-          cp tests/fixtures/registry/cascade-reference-model.jsonld var/e2e/registry/
+          cp tests/fixtures/registry/cascade-reference-model.jsonld \
+             tests/fixtures/registry/gb-osm-reference-model.jsonld \
+             var/e2e/registry/
           .venv/bin/datahub record load var/e2e/registry
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run
@@ -151,6 +153,21 @@ jobs:
         run: |
           .venv/bin/pytest -q tests/snapshot
           .venv/bin/datahub snapshot export var/e2e/snapshot
+
+          # The registered models' bytes, the same ones the Pages workflow
+          # serves. Without this the preview artefact builds a site whose every
+          # reference-model viewer 404s and renders "the network could not be
+          # loaded" — which is the artefact promising the same bytes as the
+          # deploy and shipping something visibly worse.
+          mkdir -p web/public/reference-models/cascade-interconnect \
+                   web/public/reference-models/gb-osm
+          cp data/reference-models/cascade-interconnect/system.json \
+             data/reference-models/cascade-interconnect/basemap.json \
+             web/public/reference-models/cascade-interconnect/
+          cp data/reference-models/gb-osm/system.view.json \
+             data/reference-models/gb-osm/basemap.json \
+             web/public/reference-models/gb-osm/
+
           DATAHUB_SNAPSHOT="$PWD/var/e2e/snapshot" \
             NEXT_PUBLIC_BASE_PATH=/gridcatalog \
             npm run build --prefix web

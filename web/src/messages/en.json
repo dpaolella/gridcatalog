@@ -61,7 +61,10 @@
       "unknown": "Unknown"
     },
     "noPartition": "No question-class partition recorded for this model yet. That is a gap in the record, not a judgement about the network.",
-    "noBasis": "No basis recorded for this claim."
+    "noBasis": "No basis recorded for this claim.",
+    "shareAlike": "Share-alike",
+    "shareAlikeHelp": "This model's licence obliges derived works to carry the same terms. ODbL share-alike operates at the database level, so joining it to your own data may bring that data into scope — an open question for adopters, not a settled one. Read the licence before you build on it.",
+    "licenceLabel": "Licence"
   },
   "networkMap": {
     "alt": "Map of {name}: transmission network on a real coastline.",

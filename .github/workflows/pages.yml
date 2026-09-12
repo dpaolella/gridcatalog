@@ -96,7 +96,9 @@ jobs:
           # identity for it — correctly, and it exits non-zero, which would
           # take the build down. They land when #82 teaches the store about
           # non-dataset records.
-          cp tests/fixtures/registry/cascade-reference-model.jsonld var/site/curated/
+          cp tests/fixtures/registry/cascade-reference-model.jsonld \
+             tests/fixtures/registry/gb-osm-reference-model.jsonld \
+             var/site/curated/
 
           .venv/bin/datahub db upgrade
           .venv/bin/datahub graph bootstrap
@@ -153,10 +155,21 @@ jobs:
           # and a viewer that fetched it from somewhere else would be reading a
           # copy nobody promised anything about. Same origin also means the
           # static site needs no CORS grant from anybody.
+          #
+          # Which files, per model, is a size decision rather than a
+          # convention. Cascade has no route geometry and its whole document is
+          # 281 KB, so the viewer reads the model itself. The GB model carries a
+          # surveyed corridor per circuit and is 2.9 MB — a download, not a page
+          # asset — so the site serves its display-resolution copy and the
+          # record's distribution still points at the full one.
           mkdir -p web/public/reference-models/cascade-interconnect
           cp data/reference-models/cascade-interconnect/system.json \
              data/reference-models/cascade-interconnect/basemap.json \
              web/public/reference-models/cascade-interconnect/
+          mkdir -p web/public/reference-models/gb-osm
+          cp data/reference-models/gb-osm/system.view.json \
+             data/reference-models/gb-osm/basemap.json \
+             web/public/reference-models/gb-osm/
           printf 'catalog.json: %s KB\n' \
             "$(( ($(wc -c < web/public/catalog.json) + 1023) / 1024 ))" >> "$GITHUB_STEP_SUMMARY"
 
