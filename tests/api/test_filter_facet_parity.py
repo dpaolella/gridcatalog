@@ -93,6 +93,32 @@ def test_every_filter_parameter_is_a_known_facet():
     )
 
 
+def test_every_facet_is_a_filter_parameter_the_route_declares():
+    """The half this file was missing, and the half that keeps breaking.
+
+    `test_every_filter_parameter_is_a_known_facet` catches a route parameter
+    with no facet behind it — a 500. This catches the opposite and quieter one:
+    a facet offered in the response with no route parameter to send it to.
+    FastAPI silently drops a query parameter it has not declared, so the caller
+    gets the whole catalog back and presents it as filtered. No error, no log
+    line, and a result set that is wrong in the direction of "too much".
+
+    That has now happened three times. The licence mismatch was found in
+    production. `concept=` was being sent by the MCP search tool since M10 and
+    dropped the whole time, so an agent filtering by concept got the unfiltered
+    catalog. `record_type=` was added as a facet, offered on every response,
+    and dropped by the route — `?record_type=reference_model` returned all 60
+    records. Each time the fix was to name the field in one more place, and
+    each time only one direction was asserted.
+    """
+    missing = sorted(set(FACET_FIELDS) - _query_parameters() - set(RANGE_FIELDS))
+    assert not missing, (
+        "these facets are advertised in every response and the route declares no "
+        "parameter for them, so a client that filters on one gets the unfiltered "
+        f"catalog back and no error: {missing}"
+    )
+
+
 @pytest.mark.parametrize("name", sorted(_query_parameters()))
 def test_each_filter_round_trips_through_the_api(client, name):
     """Passing a filter must not error, and must be the name the facet uses.

@@ -81,6 +81,21 @@ def search_datasets(
     q: Annotated[
         str | None, Query(description="Free text. Prefix-matched on the last token.")
     ] = None,
+    # The registry's kinds. A filter as well as a facet, and the third time a
+    # facet has been added without its route parameter — the licence mismatch,
+    # then `concept`, now this. FastAPI drops a query parameter it does not
+    # declare, so `?record_type=reference_model` returned the whole catalog and
+    # a caller filtering by it got 60 records back and presented them as
+    # filtered. `tests/api/test_filter_facet_parity.py` asserts both directions
+    # now rather than one.
+    record_type: Annotated[
+        list[str] | None,
+        Query(description="dataset or reference_model."),
+    ] = None,
+    fidelity_class: Annotated[
+        list[str] | None,
+        Query(description="Reference models only: indicative, screening or authoritative."),
+    ] = None,
     data_domain: Annotated[
         list[str] | None, Query(description="DD1-DD10, or the concept IRI.")
     ] = None,
@@ -106,6 +121,33 @@ def search_datasets(
         list[str] | None,
         Query(description="How much of the schema is described: none, 1-9, 10-49, 50+."),
     ] = None,
+    # The rest of FACET_FIELDS. Every one of these was offered as a facet on
+    # every response and accepted by nothing, so a client that filtered on one
+    # got the whole catalog back with no error — and two of them,
+    # `link_health` and `has_usage_evidence`, are rendered as clickable filters
+    # by the site's own facet panel. Declared here rather than allow-listed as
+    # known-unfilterable, because an exemption for a facet that does not filter
+    # is the same silence in a different place.
+    access_restriction: Annotated[list[str] | None, Query()] = None,
+    review_state: Annotated[list[str] | None, Query()] = None,
+    harvest_source: Annotated[
+        list[str] | None, Query(description="How the record got here — see #85.")
+    ] = None,
+    supported_analysis: Annotated[
+        list[str] | None, Query(description="Analysis-type concept IRI the dataset supports.")
+    ] = None,
+    voltage_class: Annotated[list[str] | None, Query()] = None,
+    time_resolution: Annotated[list[str] | None, Query()] = None,
+    update_cadence: Annotated[list[str] | None, Query()] = None,
+    link_health: Annotated[
+        list[str] | None, Query(description="verified, degraded, unreachable, redirected.")
+    ] = None,
+    provenance_grade: Annotated[list[str] | None, Query(description="A, B, C or D.")] = None,
+    documentation_grade: Annotated[list[str] | None, Query(description="A, B, C or D.")] = None,
+    currency_grade: Annotated[list[str] | None, Query(description="A, B or D.")] = None,
+    bulk_download: Annotated[bool | None, Query()] = None,
+    reference_only: Annotated[bool | None, Query()] = None,
+    has_usage_evidence: Annotated[bool | None, Query()] = None,
     resolution_max_m: Annotated[
         float | None,
         Query(
@@ -158,6 +200,8 @@ def search_datasets(
     params = SearchParams(
         q=q,
         filters=_filters(
+            record_type=record_type,
+            fidelity_class=fidelity_class,
             data_domain=data_domain,
             provenance_class=provenance_class,
             license=license,
@@ -167,6 +211,20 @@ def search_datasets(
             completeness_level=completeness_level,
             anonymous_access=anonymous_access,
             field_count_bucket=field_count_bucket,
+            access_restriction=access_restriction,
+            review_state=review_state,
+            harvest_source=harvest_source,
+            supported_analysis=supported_analysis,
+            voltage_class=voltage_class,
+            time_resolution=time_resolution,
+            update_cadence=update_cadence,
+            link_health=link_health,
+            provenance_grade=provenance_grade,
+            documentation_grade=documentation_grade,
+            currency_grade=currency_grade,
+            bulk_download=bulk_download,
+            reference_only=reference_only,
+            has_usage_evidence=has_usage_evidence,
         ),
         bbox=_bbox(bbox),
         resolution_max_m=resolution_max_m,

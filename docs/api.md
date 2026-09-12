@@ -234,6 +234,8 @@ Search the catalog.
 | Name | In | Required | Description |
 |---|---|---|---|
 | `q` | query | no | Free text. Prefix-matched on the last token. |
+| `record_type` | query | no | dataset or reference_model. |
+| `fidelity_class` | query | no | Reference models only: indicative, screening or authoritative. |
 | `data_domain` | query | no | DD1-DD10, or the concept IRI. |
 | `provenance_class` | query | no |  |
 | `license` | query | no | SPDX id or LicenseRef. |
@@ -243,6 +245,20 @@ Search the catalog.
 | `completeness_level` | query | no |  |
 | `anonymous_access` | query | no |  |
 | `field_count_bucket` | query | no | How much of the schema is described: none, 1-9, 10-49, 50+. |
+| `access_restriction` | query | no |  |
+| `review_state` | query | no |  |
+| `harvest_source` | query | no | How the record got here — see #85. |
+| `supported_analysis` | query | no | Analysis-type concept IRI the dataset supports. |
+| `voltage_class` | query | no |  |
+| `time_resolution` | query | no |  |
+| `update_cadence` | query | no |  |
+| `link_health` | query | no | verified, degraded, unreachable, redirected. |
+| `provenance_grade` | query | no | A, B, C or D. |
+| `documentation_grade` | query | no | A, B, C or D. |
+| `currency_grade` | query | no | A, B or D. |
+| `bulk_download` | query | no |  |
+| `reference_only` | query | no |  |
+| `has_usage_evidence` | query | no |  |
 | `resolution_max_m` | query | no | Keep only datasets whose spatial resolution is this fine or finer, in metres. Records that do not state one are excluded, because 'not captured' is not 'fine enough' — see `spatial_granularity` for the class, which most records do carry. |
 | `field_count_min` | query | no | Keep only datasets that describe at least this many fields. `field_count_min=1` is 'show me the datasets I can actually interpret' — the question completeness_level cannot answer, because level 1 means no field metadata by definition and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply. |
 | `bbox` | query | no | west,south,east,north in WGS 84. |
