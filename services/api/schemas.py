@@ -173,6 +173,22 @@ class DatasetSummary(ApiModel):
     #: whether a record is usable at all for a whole class of adopter. A row
     #: that omits it shows an ODbL dataset and a CC-BY one as equally available.
     share_alike: bool | None = None
+    license_url: str | None = None
+    #: The six below were declared by `web/src/lib/api.ts`'s `DatasetSummary`
+    #: and never sent on a list row (#87), so the static site's Format and
+    #: usage-evidence facets showed real bucket counts and filtered to zero:
+    #: the panel aggregates the search index, where these live, and
+    #: `StaticSearch` filters the rows, where they did not. `creators` had the
+    #: quieter version of the same failure — a search for an author's name
+    #: found the record through the live API and not on the published site.
+    #:
+    #: All six were already on `SearchDocument`. Nothing had to be computed;
+    #: they simply had to be carried one layer further.
+    creators: list[str] = Field(default_factory=list)
+    formats: list[str] = Field(default_factory=list)
+    bulk_download: bool | None = None
+    has_usage_evidence: bool = False
+    usage_evidence_count: int = 0
     completeness_level: int = 1
     reference_only: bool = False
     anonymous_access: bool | None = None
@@ -207,6 +223,12 @@ class DatasetSummary(ApiModel):
             license_id=doc.license_id,
             license_label=doc.license_label,
             share_alike=doc.share_alike,
+            license_url=doc.license_url,
+            creators=doc.creators,
+            formats=doc.formats,
+            bulk_download=doc.bulk_download,
+            has_usage_evidence=doc.has_usage_evidence,
+            usage_evidence_count=doc.usage_evidence_count,
             completeness_level=doc.completeness_level,
             reference_only=doc.reference_only,
             anonymous_access=doc.anonymous_access,
@@ -511,7 +533,6 @@ class DistributionDetail(ApiModel):
 class DatasetDetail(DatasetSummary):
     description: str | None = None
     keywords: list[str] = Field(default_factory=list)
-    creators: list[str] = Field(default_factory=list)
     persistent_id: str | None = None
     doi: str | None = None
     supported_analysis: list[ConceptRef] = Field(default_factory=list)
@@ -568,7 +589,6 @@ class DatasetDetail(DatasetSummary):
             **summary.model_dump(),
             description=doc.description,
             keywords=doc.keywords,
-            creators=doc.creators,
             persistent_id=doc.persistent_id,
             doi=doc.doi,
             supported_analysis=doc.supported_analysis,
