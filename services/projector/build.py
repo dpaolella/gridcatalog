@@ -29,6 +29,7 @@ from datahub.api.search.document import (
     ConceptRef,
     DistributionSummary,
     QualityBadges,
+    QuestionClassRef,
     SearchDocument,
     SpatialCoverage,
     TemporalCoverage,
@@ -38,7 +39,7 @@ from datahub.graph.records import read_bbox, slug_of
 from datahub.namespaces import OG
 from datahub.semantic.grading.facets import GRADE_LABELS as _GRADE_LABELS
 from rdflib import Graph, URIRef
-from rdflib.namespace import DCAT, DCTERMS, SKOS
+from rdflib.namespace import DCAT, DCTERMS, RDF, SKOS
 
 #: Link-health statuses ordered worst-first, so an aggregate over a record's
 #: distributions is a min rather than a special case per pair.
@@ -130,6 +131,10 @@ def build_document(
         quality=quality,
         quality_assessed=assessed,
         caveats=_caveats(graph, iri),
+        record_type=_record_type(graph, iri),
+        fidelity_class=_str(graph.value(iri, OG.fidelityClass)),  # type: ignore[arg-type]
+        question_classes=_question_classes(graph, iri),
+        network_element_count=_int(graph.value(iri, OG.networkElementCount)),
         has_topology=_bool(graph.value(iri, OG.hasTopology)),
         has_impedance=_bool(graph.value(iri, OG.hasImpedance)),
         voltage_classes=sorted(_strs(graph, iri, OG.voltageClass)),
@@ -154,6 +159,53 @@ def build_document(
 # ---------------------------------------------------------------------------
 # Field groups
 # ---------------------------------------------------------------------------
+
+
+def _record_type(graph: Graph, iri: URIRef) -> str:
+    """Which of the registry's kinds this record is.
+
+    Read from `rdf:type` rather than inferred from the presence of
+    `og:fidelityClass`, because a reference model whose fidelity somebody
+    forgot to declare must not silently become a dataset — it is a record the
+    shapes will reject, and a projector that quietly reclassifies it hides the
+    thing that needs fixing.
+
+    A reference model is *also* a `dcat:Dataset`: it has a licence, an access
+    path and a publisher like any other, and the catalog's constraints are
+    exactly the ones it should satisfy. So the check is for the narrower type
+    and the broader one is the fallback, not the other way round.
+    """
+    if (iri, RDF.type, OG.ReferenceModel) in graph:
+        return "reference_model"
+    return "dataset"
+
+
+def _question_classes(graph: Graph, iri: URIRef) -> list[QuestionClassRef]:
+    """A reference model's robust / fragile / unknown partition.
+
+    Sorted by robustness then class so two models render in a comparable
+    order, and so a reindex of an unchanged graph produces an unchanged
+    document — rdflib's object order is not stable, and an index that churns
+    on every rebuild makes every diff unreadable.
+
+    Ordered robust first: it is the half a reader is deciding on. A partition
+    that led with what the network cannot do would be honest and unusable.
+    """
+    rank = {"robust": 0, "fragile": 1, "unknown": 2}
+    rows = []
+    for node in graph.objects(iri, OG.questionClassPartition):
+        name = _str(graph.value(node, OG.questionClass))
+        robustness = _str(graph.value(node, OG.robustness))
+        if not name or robustness not in rank:
+            continue
+        rows.append(
+            QuestionClassRef(
+                question_class=name,
+                robustness=robustness,  # type: ignore[arg-type]
+                basis=_str(graph.value(node, OG.robustnessBasis)),
+            )
+        )
+    return sorted(rows, key=lambda r: (rank[r.robustness], r.question_class))
 
 
 def _usage_evidence(graph: Graph, iri: URIRef) -> list[UsageEvidenceRef]:

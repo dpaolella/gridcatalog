@@ -250,6 +250,21 @@ INDEX_MAPPING: dict[str, Any] = {
             "has_topology": {"type": "boolean"},
             "has_impedance": {"type": "boolean"},
             "voltage_classes": {"type": "keyword"},
+            "record_type": {"type": "keyword"},
+            "fidelity_class": {"type": "keyword"},
+            "network_element_count": {"type": "integer"},
+            # Nested rather than object: a question class only means anything
+            # as a whole row. Flattened, a model rated robust for cost and
+            # unknown for adequacy would match a query for "robust adequacy",
+            # which is the opposite of what the partition is for.
+            "question_classes": {
+                "type": "nested",
+                "properties": {
+                    "question_class": {"type": "text", "analyzer": "og_text"},
+                    "robustness": {"type": "keyword"},
+                    "basis": {"type": "text", "analyzer": "og_text"},
+                },
+            },
             "field_count": {"type": "integer"},
             "field_count_bucket": {"type": "keyword"},
             "upstream_count": {"type": "integer"},

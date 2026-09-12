@@ -47,11 +47,18 @@ def page_facets() -> list[str]:
 
     Parsed rather than duplicated here, because a third copy of the list would
     be a third thing to keep in step and this file exists to stop that.
+
+    Line comments are stripped before the quoted strings are read. The array
+    carries a comment per facet explaining why that filter exists, and any
+    quoted word inside one — a facet value, an example query — would otherwise
+    be read as a facet name and reported as a disagreement between two files
+    that agree. That happened the first time a comment quoted a search term.
     """
     source = PAGE.read_text()
     match = re.search(r"const FACETS = \[(.*?)\];", source, re.S)
     assert match, f"no `const FACETS = [...]` in {PAGE.relative_to(ROOT)}"
-    return re.findall(r'"([a-z_]+)"', match.group(1))
+    body = re.sub(r"//[^\n]*", "", match.group(1))
+    return re.findall(r'"([a-z_]+)"', body)
 
 
 def test_both_builds_request_the_same_facets() -> None:

@@ -50,6 +50,8 @@ PAGE = 100
 #: exists — the licence filter was broken in both directions at once because a
 #: name had to be kept identical by hand in two places.
 FACETS = (
+    "record_type",
+    "fidelity_class",
     "data_domain",
     "provenance_class",
     "license",

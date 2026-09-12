@@ -17,6 +17,25 @@ from pydantic import BaseModel, ConfigDict, Field
 
 Grade = Literal["A", "B", "C", "D"]
 Visibility = Literal["public", "restricted-metadata", "allowlisted-existence"]
+
+#: What kind of thing this record is.
+#:
+#: A registry holds four kinds of thing and a search over all of them is a
+#: search that answers the wrong question: "wind" should not return a utility's
+#: filing beside a wind atlas unless the reader asked for both. One index with
+#: a discriminator rather than four indices, because every facet, sort and
+#: entitlement rule here applies to all of them and four copies of that
+#: machinery is four places for it to drift.
+#:
+#: Defaulted to "dataset" on purpose. Every record written before this field
+#: existed is a dataset, and a default means a reindex does not have to
+#: rewrite them to stay correct.
+RecordType = Literal["dataset", "reference_model"]
+
+#: Declared fidelity of a reference model, from `og:ReferenceModelShape`.
+#: Closed, because the Hub vision's escalation path from indicative to
+#: authoritative needs a defined step and prose in a README is not one.
+FidelityClass = Literal["indicative", "screening", "authoritative"]
 CompletenessLevel = Annotated[int, Field(ge=1, le=3)]
 
 
@@ -42,6 +61,24 @@ class ConceptRef(BaseModel):
     #: a search result carrying one per concept would multiply the size of
     #: every response for text nobody reads in a list view.
     definition: str | None = None
+
+
+class QuestionClassRef(BaseModel):
+    """One row of a reference model's robust / fragile / unknown partition.
+
+    Carried into the index rather than left on the record because it is what a
+    reader filters on — "which networks are rated for this question" is the
+    question, and a fidelity class alone cannot answer it.
+
+    `basis` is optional here and required by the shapes for "robust" only.
+    Admitting a limit costs a reader nothing; claiming one does.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    question_class: str
+    robustness: Literal["robust", "fragile", "unknown"]
+    basis: str | None = None
 
 
 class SpatialCoverage(BaseModel):
@@ -121,6 +158,7 @@ class SearchDocument(BaseModel):
     # -- identity --
     id: str  # slug, stable, used in URLs
     iri: str
+    record_type: RecordType = "dataset"
     persistent_id: str | None = None
     doi: str | None = None
 
@@ -220,6 +258,12 @@ class SearchDocument(BaseModel):
     # -- structural --
     has_topology: bool | None = None
     has_impedance: bool | None = None
+    #: Reference models only. `None` on a dataset, and on a reference model
+    #: the shapes require it — so `None` here never means "unrated", it means
+    #: "not a reference model".
+    fidelity_class: FidelityClass | None = None
+    question_classes: list[QuestionClassRef] = Field(default_factory=list)
+    network_element_count: int | None = None
     voltage_classes: list[str] = Field(default_factory=list)
     field_count: int = 0
     field_count_bucket: str = "none"
@@ -286,6 +330,8 @@ SEARCH_DOCUMENT_FIELDS: frozenset[str] = frozenset(SearchDocument.model_fields)
 
 #: Facetable fields and the document path each reads from.
 FACET_FIELDS: dict[str, str] = {
+    "record_type": "record_type",
+    "fidelity_class": "fidelity_class",
     "data_domain": "data_domains.iri",
     "provenance_class": "provenance_class",
     "license": "license_id",

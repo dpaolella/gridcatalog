@@ -26,6 +26,12 @@ import { perRequest } from "@/lib/rendering";
  */
 
 const FACETS = [
+  // A registry holds more than datasets. `record_type` is what keeps a search
+  // for "wind" from returning a utility's filing beside a wind atlas, and
+  // `fidelity_class` is the one axis on which reference models differ from
+  // each other in a way a modeller has to choose on.
+  "record_type",
+  "fidelity_class",
   "data_domain",
   "provenance_class",
   "license",
