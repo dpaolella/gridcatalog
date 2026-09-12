@@ -28,7 +28,7 @@ from pydantic import Field
 log = get_logger(__name__)
 
 INSTRUCTIONS = """\
-The OpenGrid Data Hub: a catalog of grid-modelling datasets.
+The OpenGrid Hub: a registry for grid data, assumptions and models.
 
 **Data hosted elsewhere is not returned here.** For those datasets this server
 returns metadata and an access plan saying where the data is and how to read

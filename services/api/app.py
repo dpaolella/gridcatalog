@@ -43,8 +43,8 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 log = get_logger(__name__)
 
 DESCRIPTION = """\
-The OpenGrid Data Hub API. A control plane for finding grid-modelling datasets
-and working out how to get at them.
+The OpenGrid Hub API. A registry for grid data, assumptions and models, and a
+control plane for finding the datasets behind them.
 
 **Whether this API returns data depends on custody.** For a dataset hosted
 elsewhere it returns metadata and an access plan saying where the data is and
@@ -104,7 +104,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
 
     app = FastAPI(
-        title="OpenGrid Data Hub",
+        title="OpenGrid Hub",
         version="1.0.0",
         description=DESCRIPTION,
         openapi_tags=TAGS,

@@ -90,7 +90,7 @@ export default async function DatasetPage({ params }: { params: Params }) {
   return (
     <article className="space-y-6">
       <nav className="text-sm text-[color:var(--muted)]">
-        <Link href="/" className="hover:text-[color:var(--foreground)]">
+        <Link href="/datasets" className="hover:text-[color:var(--foreground)]">
           ← {empty("backToSearch")}
         </Link>
       </nav>

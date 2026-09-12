@@ -530,6 +530,32 @@ export type DataGap = {
  * the live one — and the empty state is exactly where the two must agree,
  * because the static site is what most readers see.
  */
+/**
+ * The whole gap register.
+ *
+ * Unfiltered and unpaged: nineteen entries, and the snapshot already ships all
+ * of them under one file, so paging would be machinery around a list that fits
+ * on a screen. If the register ever outgrows that, page it here — not by
+ * quietly capping the limit, which would turn "here is what is missing" into
+ * "here is some of what is missing" with nothing on the page to say so.
+ *
+ * `null` for unreachable, `[]` for empty, and the page must not collapse them.
+ * An absent `gaps.json` used to take down the entire static export, which is a
+ * bad trade for a page whose content is supplementary — but rendering "no gaps
+ * recorded" over a failed read would be worse than the crash, because it is a
+ * claim about the open data landscape made on the strength of a missing file.
+ */
+export async function listGaps(): Promise<DataGap[] | null> {
+  try {
+    const { gaps } = await request<{ gaps: DataGap[] }>("/v1/gaps?limit=100", {
+      revalidate: LIST_REVALIDATE,
+    });
+    return gaps ?? [];
+  } catch {
+    return null;
+  }
+}
+
 export async function searchGaps(query: string, limit = 3): Promise<DataGap[]> {
   const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (tokens.length === 0) return [];

@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-# Fail a static build whose landing page has outgrown being one file.
+# Fail a static build whose catalog page has outgrown being one file.
+#
+# Point this at the page that carries the catalog, which since the nav became
+# four peers is `/datasets`, not `/`. The Hub landing page is a menu and will
+# never grow; checking it would be a green tick that measures nothing, which is
+# worse than no check because it reads like one.
 #
 # The static site has no server, so `StaticSearch` filters the whole catalog in
 # the browser and the whole catalog ships inside `index.html`. That is the right
@@ -18,7 +23,7 @@
 # length of its description.
 set -euo pipefail
 
-PAGE="${1:-web/out/index.html}"
+PAGE="${1:-web/out/datasets/index.html}"
 LIMIT_KB="${STATIC_PAGE_LIMIT_KB:-2048}"
 
 if [ ! -f "$PAGE" ]; then
@@ -27,14 +32,14 @@ if [ ! -f "$PAGE" ]; then
 fi
 
 SIZE_KB=$(( ($(wc -c < "$PAGE") + 1023) / 1024 ))
-printf 'static landing page: %s KB (limit %s KB)\n' "$SIZE_KB" "$LIMIT_KB"
+printf 'static catalog page: %s KB (limit %s KB)\n' "$SIZE_KB" "$LIMIT_KB"
 
 if [ "$SIZE_KB" -gt "$LIMIT_KB" ]; then
   cat >&2 <<EOF
 
 $PAGE is ${SIZE_KB} KB, over the ${LIMIT_KB} KB limit.
 
-The static build ships every published record inside the landing page so that
+The static build ships every published record into the catalog page so that
 search works with no server behind it. The catalog has outgrown that.
 
 Three ways forward, roughly in order of how much they cost:

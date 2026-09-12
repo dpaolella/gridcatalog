@@ -34,7 +34,7 @@ from datahub.logging import configure_logging
 
 app = typer.Typer(
     name="datahub",
-    help="OpenGrid Data Hub operations.",
+    help="OpenGrid Hub operations.",
     no_args_is_help=True,
     add_completion=False,
 )

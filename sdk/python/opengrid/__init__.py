@@ -1,4 +1,4 @@
-"""``opengrid`` — the OpenGrid Data Hub Python SDK (WP-10.1).
+"""``opengrid`` — the OpenGrid Hub Python SDK (WP-10.1).
 
 PRD §F9's target: *from zero to first dataset pull in one line.*
 

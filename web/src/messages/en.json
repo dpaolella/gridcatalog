@@ -1,8 +1,8 @@
 {
   "app": {
-    "name": "OpenGrid Data Hub",
-    "tagline": "Find grid-modelling data, and find out what you can do with it.",
-    "description": "A catalog of datasets for power-system modelling. It says where data lives and how to read it; it never serves the data itself."
+    "name": "OpenGrid Hub",
+    "tagline": "Publish a model. Test an assumption. Find the data behind both.",
+    "description": "A registry for grid data, assumptions and models. It holds what is registered with it, points at what is already hosted well elsewhere, and says which is which."
   },
   "nav": {
     "search": "Search",
@@ -17,7 +17,34 @@
     "review": "Review queue",
     "account": "Account",
     "signOut": "Sign out",
-    "signOutFailed": "Sign-out failed — you are still signed in. Try again."
+    "signOutFailed": "Sign-out failed — you are still signed in. Try again.",
+    "studies": "Studies & Assumptions",
+    "referenceModels": "Reference Models",
+    "datasets": "Data Catalog",
+    "gaps": "Gaps"
+  },
+  "hub": {
+    "sectionsLabel": "Sections of the Hub",
+    "studies": {
+      "title": "Studies & Assumptions",
+      "blurb": "Filings, papers and the interventions that contest them — each with the assumption set it stands on, frozen at a version somebody can cite."
+    },
+    "referenceModels": {
+      "title": "Reference Models",
+      "blurb": "Networks to start from when you have none, each declaring what class of question it is good for and what it is not."
+    },
+    "datasets": {
+      "title": "Data Catalog",
+      "blurb": "Datasets for power-system modelling, graded on provenance, documentation and currency, with the studies that used them."
+    },
+    "gaps": {
+      "title": "Gaps",
+      "blurb": "Data somebody needed and nobody publishes. Recorded so it can be funded rather than rediscovered."
+    },
+    "custody": {
+      "eyebrow": "What the Hub holds, and what it points at",
+      "body": "An object registered here — a model, an assumption set, a study, a reference network — is one the Hub promises will not move, so the Hub holds the bytes. A catalogued dataset is a description of something somebody else promises, so the Hub points at it and never proxies it. Custody, not size, decides which: a four-terabyte reanalysis archive is free to describe."
+    }
   },
   "search": {
     "placeholder": "Search datasets — try \"transmission\", \"wind speed\", \"ERA5\"",
@@ -72,7 +99,15 @@
     "noSchema": "No field-level metadata yet.",
     "noLinks": "No connections recorded.",
     "noDistributions": "No access path is recorded for this dataset.",
-    "backToSearch": "Back to search"
+    "backToSearch": "Back to the data catalog",
+    "noStudies": "No studies registered yet.",
+    "noStudiesHelp": "A study is a filing, a paper or an intervention, registered with the assumption set it stands on. Nothing has been registered in this build.",
+    "noReferenceModels": "No reference models published yet.",
+    "noReferenceModelsHelp": "A reference model is a network you can start from, carrying a declared fidelity class rather than a README's worth of prose. None is published in this build.",
+    "noGaps": "No gaps recorded.",
+    "noGapsHelp": "A gap is a data requirement with no open supplier. An empty register means none has been recorded, not that none exists.",
+    "gapsUnavailable": "The gap register could not be loaded.",
+    "gapsUnavailableHelp": "This is a failure to read the register, not a statement that there are no gaps. Nothing here has been withdrawn."
   },
   "dataset": {
     "level": "Completeness level {level}",

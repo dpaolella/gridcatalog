@@ -114,7 +114,7 @@ def build_app(**kwargs: Any) -> FastAPI:
     # manager starts there. Mounting without adopting it yields a server that
     # accepts a connection and then fails every call.
     app = FastAPI(
-        title="OpenGrid Data Hub",
+        title="OpenGrid Hub",
         lifespan=mcp_app.lifespan,
         docs_url=None,
         redoc_url=None,

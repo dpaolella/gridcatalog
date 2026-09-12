@@ -152,7 +152,7 @@ jobs:
           test ! -e web/out/datasets/utility-load-shapes-allowlisted
           # Here as well as in the Pages workflow, so the run that crosses the
           # line is the one that added the records rather than the deploy.
-          ops/check-page-weight.sh web/out/index.html
+          ops/check-page-weight.sh web/out/datasets/index.html
 
   integration:
     name: Integration — Fuseki, OpenSearch, Postgres

@@ -12,7 +12,7 @@ import { EmptyState } from "@/components/EmptyState";
 export default async function DatasetNotFound() {
   const empty = await getTranslations("empty");
   return (
-    <EmptyState title={empty("notFound")} action={{ href: "/", label: empty("backToSearch") }}>
+    <EmptyState title={empty("notFound")} action={{ href: "/datasets", label: empty("backToSearch") }}>
       <p>{empty("notFoundHelp")}</p>
     </EmptyState>
   );

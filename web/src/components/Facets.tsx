@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { FacetBucket } from "@/lib/api";
 import { FacetGroup } from "@/components/FacetGroup";
@@ -20,6 +20,7 @@ import { FacetGroup } from "@/components/FacetGroup";
 export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
   const search = useTranslations("search");
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
 
   const active = (field: string, value: string) => params.getAll(field).includes(value);
@@ -31,7 +32,7 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
     for (const item of current) if (item !== value) query.append(field, item);
     if (!current.includes(value)) query.append(field, value);
     query.delete("offset");
-    router.replace(`/?${query}`, { scroll: false });
+    router.replace(`${pathname}?${query}`, { scroll: false });
   }
 
   const entries = Object.entries(facets).filter(([, buckets]) => buckets.length > 0);
@@ -50,7 +51,7 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
               const query = new URLSearchParams();
               const q = params.get("q");
               if (q) query.set("q", q);
-              router.replace(`/?${query}`, { scroll: false });
+              router.replace(`${pathname}?${query}`, { scroll: false });
             }}
             className="text-xs font-medium text-[color:var(--accent-text)] hover:underline"
           >

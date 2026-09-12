@@ -13,12 +13,16 @@ import { expect, test } from "@playwright/test";
  * explains itself.
  */
 
-test("a modeller reaches a DD5 access path from the landing page", async ({
+test("a modeller reaches a DD5 access path from the catalog", async ({
   page,
 }) => {
   const started = Date.now();
 
-  await page.goto("/");
+  // The catalog moved off "/" when the nav became four peers, so the 60-second
+  // budget now starts one click later than it did. Measured from the catalog
+  // rather than from the Hub landing page because the landing page is a menu:
+  // timing a reader's reading speed would make this a test of the copy.
+  await page.goto("/datasets");
   await page.getByLabel("Search the catalog").fill("wind");
   // The search is debounced and pushed into the URL. Waiting for the URL is
   // what makes this deterministic: asserting on the results before the
@@ -111,7 +115,7 @@ test("a restricted record answers exactly as an absent one does", async ({
 });
 
 test("an empty search explains itself", async ({ page }) => {
-  await page.goto("/?q=zzzznothingmatchesthis");
+  await page.goto("/datasets?q=zzzznothingmatchesthis");
 
   await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
   await expect(
@@ -233,7 +237,7 @@ test("an empty search names the gap when there is one", async ({ page }) => {
   // gap entries whose wording finds *no* datasets in the seeded catalog. The
   // notice only renders on an empty result set, so a query matching both would
   // test nothing — "nodal demand" reads better and returns three datasets.
-  await page.goto("/?q=max+upward+ramp");
+  await page.goto("/datasets?q=max+upward+ramp");
 
   await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
   await expect(

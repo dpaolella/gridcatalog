@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, useTransition } from "react";
 
@@ -21,6 +21,7 @@ const DEBOUNCE_MS = 250;
 export function SearchBar() {
   const t = useTranslations("search");
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
   const [value, setValue] = useState(params.get("q") ?? "");
   const [isPending, startTransition] = useTransition();
@@ -42,7 +43,7 @@ export function SearchBar() {
       // Any change to the query resets paging: staying on page 4 of a
       // different search shows an empty page and looks like no results.
       query.delete("offset");
-      startTransition(() => router.replace(`/?${query}`, { scroll: false }));
+      startTransition(() => router.replace(`${pathname}?${query}`, { scroll: false }));
     }, DEBOUNCE_MS);
   }
 

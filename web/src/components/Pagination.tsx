@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 /**
@@ -22,6 +22,7 @@ export function Pagination({
 }) {
   const t = useTranslations("search");
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
 
   if (total <= limit) return null;
@@ -30,7 +31,7 @@ export function Pagination({
     const query = new URLSearchParams(params.toString());
     if (next > 0) query.set("offset", String(next));
     else query.delete("offset");
-    router.replace(`/?${query}`);
+    router.replace(`${pathname}?${query}`);
   }
 
   return (

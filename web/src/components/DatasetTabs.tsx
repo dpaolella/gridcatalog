@@ -527,7 +527,7 @@ function Schema({
                         already a filter the search backend compiles, so the
                         answer is one link away rather than a page away. */}
                     <Link
-                      href={{ pathname: "/", query: { concept: field.concept.iri } }}
+                      href={{ pathname: "/datasets", query: { concept: field.concept.iri } }}
                       className="underline decoration-dotted underline-offset-2"
                     >
                       {field.concept.label ?? iriTail(field.concept.iri)}

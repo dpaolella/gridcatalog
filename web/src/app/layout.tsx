@@ -72,12 +72,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 async function Header() {
   const t = await getTranslations("nav");
+  /* Four peers, and the order is the argument: what is new first, the
+     catalog third. A reader who knows the old catalog has to see in the nav
+     that this is not that, and a reader who does not has to see that the
+     catalog is one of four things rather than the whole product.
+
+     Submit, Connect and Developers moved to the footer. They are things you
+     do *to* the Hub or *with* it, not parts of it, and keeping them level
+     with the four sections was what made the nav read as a toolbar. */
   const links = [
-    { href: "/", label: t("search") },
-    { href: "/domains", label: t("domains") },
-    { href: "/submit", label: t("submit") },
-    { href: "/connect", label: t("connect") },
-    { href: "/developers", label: t("developers") },
+    { href: "/studies", label: t("studies") },
+    { href: "/reference-models", label: t("referenceModels") },
+    { href: "/datasets", label: t("datasets") },
+    { href: "/gaps", label: t("gaps") },
   ];
 
   return (
@@ -88,7 +95,7 @@ async function Header() {
       {/* The motif as a corner wash, masked away from the nav. An edge device. */}
       <HexWash color="var(--og-petrol)" opacity={0.07} />
       <div className="relative mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-8 gap-y-3 px-5 py-4">
-        <Link href="/" aria-label="OpenGrid Data Hub" className="shrink-0">
+        <Link href="/" aria-label="OpenGrid Hub" className="shrink-0">
           <Logo className="h-7 w-auto" />
         </Link>
         <nav aria-label="Primary" className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
@@ -143,6 +150,12 @@ async function Footer() {
             </Link>
             <Link href="/connect" className="text-white/80 hover:text-white">
               {t("connect")}
+            </Link>
+            <Link href="/submit" className="text-white/80 hover:text-white">
+              {t("submit")}
+            </Link>
+            <Link href="/domains" className="text-white/80 hover:text-white">
+              {t("domains")}
             </Link>
           </nav>
         </div>

@@ -38,7 +38,7 @@ _ALIASES: dict[str, str] = {
 
 
 class DataHub:
-    """A connection to an OpenGrid Data Hub.
+    """A connection to an OpenGrid Hub.
 
     >>> hub = DataHub()
     >>> ds = hub.search(domain="DD5", region="DE")[0]      # doctest: +SKIP
