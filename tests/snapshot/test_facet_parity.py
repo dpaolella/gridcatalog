@@ -5,8 +5,8 @@ for facets on every request; the static one renders from `facets.json`, written
 once at export time. Each reads its list from a different file, in a different
 language:
 
-    web/src/app/page.tsx    const FACETS = [...]
-    services/snapshot.py    FACETS = (...)
+    web/src/app/datasets/page.tsx    const FACETS = [...]
+    services/snapshot.py            FACETS = (...)
 
 `snapshot.py`'s comment said "the same list the server-rendered search asks
 for". It was not. It carried `has_usage_evidence`, which the page never
@@ -32,7 +32,14 @@ from datahub.api.search.document import FACET_FIELDS
 from datahub.snapshot import FACETS as SNAPSHOT_FACETS
 
 ROOT = Path(__file__).resolve().parents[2]
-PAGE = ROOT / "web" / "src" / "app" / "page.tsx"
+
+#: The catalog page, which is `/datasets` since the nav became four peers and
+#: was `/` before that. Hardcoded rather than globbed for a file containing a
+#: `FACETS` array: a glob would silently find the wrong page the day a second
+#: one grows a facet panel, and the whole point of this module is that a list
+#: kept in step by hand is a list that drifts. Moving the page fails here with
+#: the path in the message, which is the failure you want.
+PAGE = ROOT / "web" / "src" / "app" / "datasets" / "page.tsx"
 
 
 def page_facets() -> list[str]:

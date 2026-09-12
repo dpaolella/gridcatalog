@@ -37,8 +37,8 @@ PAGE = 100
 
 #: Facets the static site can filter on.
 #:
-#: The same list `web/src/app/page.tsx` asks for, and it has to be, because the
-#: static site renders its filter panel from `facets.json` while the
+#: The same list `web/src/app/datasets/page.tsx` asks for, and it has to be,
+#: because the static site renders its filter panel from `facets.json` while the
 #: server-rendered one renders from a live query. A name in one and not the
 #: other is a filter that exists on one build of the same page and not the
 #: other — silent, because a facet the response omits simply does not render.
