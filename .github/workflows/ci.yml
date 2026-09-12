@@ -154,6 +154,48 @@ jobs:
           # line is the one that added the records rather than the deploy.
           ops/check-page-weight.sh web/out/datasets/index.html
 
+          mkdir -p var/preview
+          cp -r web/out var/preview/gridcatalog
+          {
+            echo "### Static site preview"
+            echo
+            echo "Download **static-site-${GITHUB_SHA}** from this run's Artifacts, then:"
+            echo
+            echo '```'
+            echo "unzip static-site-${GITHUB_SHA}.zip -d preview"
+            echo "cd preview && python3 -m http.server 8000"
+            echo '```'
+            echo
+            echo "Open <http://localhost:8000/gridcatalog/>. The trailing path matters:"
+            echo "this build sets a basePath of \`/gridcatalog\`, so served at the root"
+            echo "every asset 404s."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # A downloadable copy of exactly what a Pages deploy would publish.
+      #
+      # Pages serves one site per repository, fed from the default branch, so a
+      # branch cannot be previewed at a URL without taking over the live one.
+      # This is the way to look at a branch's site before deciding to publish
+      # it, and it is the *same bytes*: the build above is the deploy build,
+      # basePath and all, not a second export made for looking at.
+      #
+      # Nested under `gridcatalog/` on purpose. That build sets
+      # NEXT_PUBLIC_BASE_PATH=/gridcatalog, so every asset URL is an absolute
+      # `/gridcatalog/_next/...`. Unzipped flat and opened over `file://`, or
+      # served at the root of a local server, the HTML loads and every
+      # stylesheet, font and link 404s — which reads as "the branch broke the
+      # site" rather than "you served it at the wrong path". Nesting makes the
+      # obvious thing the right thing.
+      - name: Keep the built site where it can be looked at
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-site-${{ github.sha }}
+          path: var/preview
+          # Long enough to decide something, short enough that a year of CI
+          # runs does not sit in storage. A preview nobody opened in a
+          # fortnight is one nobody was going to.
+          retention-days: 14
+
   integration:
     name: Integration — Fuseki, OpenSearch, Postgres
     runs-on: ubuntu-latest
