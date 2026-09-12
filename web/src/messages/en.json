@@ -63,6 +63,19 @@
     "noPartition": "No question-class partition recorded for this model yet. That is a gap in the record, not a judgement about the network.",
     "noBasis": "No basis recorded for this claim."
   },
+  "networkMap": {
+    "alt": "Map of {name}: transmission network on a real coastline.",
+    "loading": "Loading the network…",
+    "unavailable": "The network could not be loaded.",
+    "unavailableHelp": "This is a failure to read the model file, not a statement that the model is empty.",
+    "layer": {
+      "lines": "Lines",
+      "buses": "Buses",
+      "generation": "Generation",
+      "load": "Load"
+    },
+    "synthetic": "Synthetic network on real geography"
+  },
   "search": {
     "placeholder": "Search datasets — try \"transmission\", \"wind speed\", \"ERA5\"",
     "label": "Search the catalog",

@@ -175,15 +175,34 @@ def build() -> dict[str, Any]:
         remaining.remove(target)
         arcs.append({"id": nid(), "from_id": source, "to_id": target})
 
-    zone_pairs = [(1, 2), (2, 3), (1, 3)]
-    for a, b in zone_pairs:
-        pool_a = [x["id"] for x in buses if x["load_zone"] == ZONES[a - 1]["_zone"]]
-        pool_b = [x["id"] for x in buses if x["load_zone"] == ZONES[b - 1]["_zone"]]
-        for _ in range(6):
-            arcs.append({"id": nid(), "from_id": rng.choice(pool_a), "to_id": rng.choice(pool_b)})
-    for _ in range(22):
-        u, v = rng.sample([x["id"] for x in buses], 2)
-        arcs.append({"id": nid(), "from_id": u, "to_id": v})
+    # Mesh by proximity, not at random.
+    #
+    # The first version added six ties per zone pair between randomly chosen
+    # buses plus twenty-two random pairs anywhere. Drawn on a map that looked
+    # like spaghetti: long straight lines crossing the whole territory and each
+    # other, which no transmission network does. A reader who knows the domain
+    # dismisses the model in one glance, and they are right to.
+    #
+    # Each bus instead gets ties to its nearest neighbours that the spanning
+    # tree did not already connect it to. That produces the local triangles a
+    # real meshed network has, keeps line lengths plausible against their
+    # ratings, and still leaves the network meshed rather than radial — which
+    # the fragile congestion rating depends on, since every contingency on a
+    # radial network is trivial.
+    existing = {frozenset((a["from_id"], a["to_id"])) for a in arcs}
+    ordered = [b["id"] for b in buses]
+    for bus in ordered:
+        nearest = sorted((b for b in ordered if b != bus), key=lambda other: distance(bus, other))
+        added = 0
+        for candidate in nearest[:6]:
+            if added >= 2:
+                break
+            pair = frozenset((bus, candidate))
+            if pair in existing:
+                continue
+            existing.add(pair)
+            arcs.append({"id": nid(), "from_id": bus, "to_id": candidate})
+            added += 1
 
     for arc in arcs:
         length = max(distance(arc["from_id"], arc["to_id"]), 0.01)

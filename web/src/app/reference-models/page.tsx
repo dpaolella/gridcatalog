@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { HexWash, Rule } from "@/components/Brand";
 import { EmptyState } from "@/components/EmptyState";
+import { NetworkMap } from "@/components/NetworkMap";
 import { type DatasetSummary, type QuestionClass, listReferenceModels } from "@/lib/api";
 
 export async function generateMetadata() {
@@ -25,6 +26,23 @@ export async function generateMetadata() {
  */
 
 const ROBUSTNESS_ORDER = ["robust", "fragile", "unknown"] as const;
+
+/** Record id -> the directory this deployment serves that model's bytes from.
+ *
+ *  A map rather than a set, because the two are not the same string and
+ *  assuming they were cost a debugging round: the catalog record is
+ *  `cascade-interconnect-reference` (a record *about* a model) and the data
+ *  ships under `cascade-interconnect` (the model). Writing the relationship
+ *  down makes the next mismatch a compile-time edit rather than a 404 that
+ *  renders as "the network could not be loaded".
+ *
+ *  Named rather than inferred from the record's `distribution`: that says a
+ *  file exists *somewhere*, and the viewer needs one *here*, same-origin. */
+const MAPPED: Record<string, string> = {
+  "cascade-interconnect-reference": "cascade-interconnect",
+};
+
+const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default async function ReferenceModelsPage() {
   const t = await getTranslations("hub");
@@ -90,6 +108,20 @@ async function ModelCard({ model }: { model: DatasetSummary }) {
 
       {model.summary ? (
         <p className="mt-2 text-sm text-[color:var(--muted)]">{model.summary}</p>
+      ) : null}
+
+      {/* The map, where a model ships one. Between the summary and the
+          partition on purpose: a reader recognises the place first, then reads
+          what it is rated for. The other order asks them to weigh a fitness
+          claim about somewhere they have not seen. */}
+      {MAPPED[model.id] ? (
+        <div className="mt-4">
+          <NetworkMap
+            basemapUrl={`${BASE_PATH}/reference-models/${MAPPED[model.id]}/basemap.json`}
+            systemUrl={`${BASE_PATH}/reference-models/${MAPPED[model.id]}/system.json`}
+            synthetic={model.provenance_class === "synthetic"}
+          />
+        </div>
       ) : null}
 
       {counts.length > 0 ? (

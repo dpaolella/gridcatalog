@@ -44,3 +44,7 @@ ops/fuseki/run/
 test-results/
 playwright-report/
 blob-report/
+
+# Built into web/public by the Pages workflow, not committed there — the
+# source of truth is data/reference-models/.
+web/public/reference-models/

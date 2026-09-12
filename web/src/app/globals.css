@@ -76,6 +76,31 @@
   --grade-none: transparent;
   --grade-none-ink: var(--muted);
 
+  /* -- map and technology ------------------------------------------------
+     The network viewer's palette. Derived here rather than copied from
+     glassbox, whose own theme file states its colours are "chosen for dark
+     backgrounds" — ours has to hold in both, beside a Petrol brand, without
+     becoming a second accent that competes with it.
+
+     Land is barely-there and water is lighter still: a base map that asserts
+     itself is a base map competing with the thing drawn on it. The network
+     carries all the saturation on the page.
+
+     Thermal and renewable are the one place a hue distinction does real work,
+     because a reader scanning for "where is the wind" is doing a categorical
+     lookup and not reading a scale. Two hues, not eight: a technology palette
+     large enough to need a legend lookup per glance is a palette that has
+     stopped helping. */
+  --map-land: #f5f8f9;
+  --map-water: #c3d7e2;
+  --map-coast: #7d97a6;
+  --map-border: #a9bfcb;
+  --tech-line: #b25800;
+  --tech-bus: #144056;
+  --tech-thermal: #6e4a8f;
+  --tech-renewable: #1d7a5f;
+  --tech-load: #6e93a6;
+
   /* -- status ------------------------------------------------------------
      Link health and the correlation warning. Orange appears here as the one
      thing on a page that most needs to be seen, which is what the accent is
@@ -117,6 +142,22 @@
        text. The CTA still does: white on orange is 3.10:1 whatever the page
        behind it, so `.og-cta` uses `--accent-text` in both themes. */
     --accent-text: var(--og-orange);
+
+    /* Map and technology. Inverted in luminance, not in hue: land is now the
+       darker ground and water darker still, so the figure/ground relationship
+       a reader learned in light mode survives the switch. The technology hues
+       are lifted rather than replaced — the same violet and green, bright
+       enough to read against navy, so a screenshot taken in either theme is
+       recognisably the same map. */
+    --map-land: #12303f;
+    --map-water: #0c2431;
+    --map-coast: #3f6478;
+    --map-border: #2a4c5e;
+    --tech-line: var(--og-orange);
+    --tech-bus: #9db0bd;
+    --tech-thermal: #b79ae0;
+    --tech-renewable: #5fd0a8;
+    --tech-load: #6e93a6;
   }
 }
 

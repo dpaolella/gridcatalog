@@ -155,7 +155,8 @@ jobs:
           # static site needs no CORS grant from anybody.
           mkdir -p web/public/reference-models/cascade-interconnect
           cp data/reference-models/cascade-interconnect/system.json \
-             web/public/reference-models/cascade-interconnect/system.json
+             data/reference-models/cascade-interconnect/basemap.json \
+             web/public/reference-models/cascade-interconnect/
           printf 'catalog.json: %s KB\n' \
             "$(( ($(wc -c < web/public/catalog.json) + 1023) / 1024 ))" >> "$GITHUB_STEP_SUMMARY"
 
