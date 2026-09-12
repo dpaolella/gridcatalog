@@ -73,7 +73,18 @@ export default async function DatasetsPage({
 }
 
 async function Hero() {
-  const app = await getTranslations("app");
+  /* `hub.datasets`, not `app` — this section's own name and blurb, the same
+     pair every other section reads.
+
+     It read `app.tagline` and `app.description` because it used to be the
+     landing page, where the Hub's tagline is the right heading. Moved to
+     `/datasets` and left alone, it produced two pages with an identical hero:
+     a reader clicking "Data Catalog" arrived somewhere that looked like the
+     page they had just left and read "Publish a model. Test an assumption."
+     over a list of datasets. Shipped that way, and found by reading the live
+     page rather than by any test — no assertion here covers whether a heading
+     is about the page it is on. */
+  const t = await getTranslations("hub");
   return (
     /* The hero is the one place the motif runs wide, as a corner wash behind
        the title. Everywhere else it stays at an edge. */
@@ -81,11 +92,11 @@ async function Hero() {
       <HexWash color="var(--og-petrol)" opacity={0.08} />
       <div className="relative max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-          {app("tagline")}
+          {t("datasets.title")}
         </h1>
         <Rule />
         <p className="mt-5 text-base text-[color:var(--muted)]">
-          {app("description")}
+          {t("datasets.blurb")}
         </p>
       </div>
     </section>

@@ -247,3 +247,29 @@ test("an empty search names the gap when there is one", async ({ page }) => {
   // The attribution, which is what makes the claim weighable at all.
   await expect(page.getByText(/Open Energy Data Inventory/i)).toBeVisible();
 });
+
+test("each section's heading is about that section", async ({ page }) => {
+  /* The catalog page kept the landing page's hero when it moved to
+     `/datasets`, so two pages shipped with an identical heading and a reader
+     clicking "Data Catalog" read "Publish a model. Test an assumption." over a
+     list of datasets. Nothing caught it: no assertion anywhere covers whether
+     a heading is about the page it is on, and it was found by reading the
+     deployed site.
+
+     Asserted as distinctness rather than exact strings. Pinning the copy would
+     make every wording change a test change, and the defect was never that a
+     particular sentence was wrong — it was that two pages said the same one. */
+  const headings = new Map<string, string>();
+  for (const path of ["/", "/datasets", "/studies", "/reference-models", "/gaps"]) {
+    await page.goto(path);
+    headings.set(path, (await page.getByRole("heading", { level: 1 }).first().textContent()) ?? "");
+  }
+
+  const seen = new Map<string, string>();
+  for (const [path, heading] of headings) {
+    expect(heading.trim()).not.toBe("");
+    const duplicate = seen.get(heading);
+    expect(duplicate, `${path} and ${duplicate} share the heading "${heading}"`).toBeUndefined();
+    seen.set(heading, path);
+  }
+});
