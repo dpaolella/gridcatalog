@@ -2,8 +2,8 @@
 
 Adding `auto-confirmed` (ADR-0012) meant teaching the system a second state
 that publishes. `graphs.record_graph` learned it and five other places did
-not, so 392 harvested records sat in the catalog graph and were skipped by the
-projector with "not confirmed" — present, correct, and invisible.
+not, so 392 records sat in the catalog graph and were skipped by the projector
+with "not confirmed" — present, correct, and invisible.
 
 That is the third time in this work that adding a thing missed one of several
 places checking for it. This module is the check that costs nothing to keep.
@@ -22,17 +22,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SERVICES = REPO_ROOT / "services"
 
-#: Where the string is legitimately a literal rather than a membership test:
-#: the place that mints it, the places that ask "did a *person* confirm this",
-#: and the seed loader, whose rows are confirmed by review and never
-#: auto-promoted.
+#: Where the string is legitimately a literal rather than a membership test.
+#:
+#: One entry, and it should stay that way. The list used to carry six, four of
+#: which no longer contain a comparison at all — `graph/graphs.py` states the
+#: set rather than comparing against it, `api/schemas.py` assigns a default,
+#: and `cli.py` and `graph/records.py` lost theirs with the promotion commands.
+#: An exemption for a module that does not need one is worse than no entry: it
+#: silently pre-approves the next comparison somebody adds there, which is
+#: precisely the failure this module exists to catch. Every name here has to
+#: earn its place at the moment it is added, and lose it when the line goes.
 ALLOWED = {
-    "graph/graphs.py",  # the definition itself
-    "graph/records.py",  # `promote` stamps the state a steward's review earns
-    "harvest/seed.py",  # a verified seed row is human-reviewed, not auto
-    "harvest/promote/policy.py",  # "already confirmed by a person" is the check
-    "cli.py",  # a count in a summary line, and `record promote`'s docstring
-    "api/schemas.py",  # a field default
+    "fixtures/seed.py",  # a verified fixture row is human-reviewed, not auto
 }
 
 #: A comparison against the bare string, which is what goes wrong. Matches
