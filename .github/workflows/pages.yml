@@ -146,6 +146,16 @@ jobs:
         # the page stops growing with the catalog.
         run: |
           cp var/site/snapshot/index.json web/public/catalog.json
+
+          # The reference model's bytes, served from the site that registers it.
+          # This is the custody rule made literal: an object registered with the
+          # Hub is one the Hub promises will not move, so the Hub holds it —
+          # and a viewer that fetched it from somewhere else would be reading a
+          # copy nobody promised anything about. Same origin also means the
+          # static site needs no CORS grant from anybody.
+          mkdir -p web/public/reference-models/cascade-interconnect
+          cp data/reference-models/cascade-interconnect/system.json \
+             web/public/reference-models/cascade-interconnect/system.json
           printf 'catalog.json: %s KB\n' \
             "$(( ($(wc -c < web/public/catalog.json) + 1023) / 1024 ))" >> "$GITHUB_STEP_SUMMARY"
 
