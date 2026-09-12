@@ -280,6 +280,37 @@ a {
 
 /* Tag / chip. Squared, quiet, outline — the palette carries meaning only where
    meaning exists (grades, status). */
+/* -- reference-model robustness ----------------------------------------
+   The same Petrol ramp as the quality grades, and for a related-but-distinct
+   reason. There it is a ramp because three independent facets shaded red to
+   green would invite a reader to average them into a composite; here there is
+   only one axis, so averaging is not the hazard — the hazard is a green chip
+   reading as "this network is good". It is not. A robust rating says one class
+   of question survives transfer to this network, and a fragile one says
+   another does not, about the same network at the same time.
+
+   So: darker is more established, exactly as on a grade chip, and "unknown" is
+   the lightest step rather than an alarm. Admitting a limit is not a failure
+   state and must not be coloured like one.
+
+   Reuses the grade tokens rather than minting new ones, so the contrast pairs
+   stay the audited ones. */
+.og-robustness-robust {
+  background: var(--grade-a);
+  color: var(--grade-a-ink);
+  border-color: transparent;
+}
+.og-robustness-fragile {
+  background: var(--grade-c);
+  color: var(--grade-c-ink);
+  border-color: transparent;
+}
+.og-robustness-unknown {
+  background: var(--grade-d);
+  color: var(--grade-d-ink);
+  border-color: transparent;
+}
+
 .og-tag {
   display: inline-flex;
   align-items: center;

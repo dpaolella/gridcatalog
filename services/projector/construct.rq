@@ -43,6 +43,7 @@ WHERE {
            | <https://schema.opengrid.org/ns#usageEvidence>
            | <https://schema.opengrid.org/ns#codeList>
            | <https://schema.opengrid.org/ns#qualityGrade>
+           | <https://schema.opengrid.org/ns#questionClassPartition>
            | <https://schema.opengrid.org/ns#lastComputedAt>
            | <http://purl.org/dc/terms/temporal>)* ?s .
     ?s ?p ?o .

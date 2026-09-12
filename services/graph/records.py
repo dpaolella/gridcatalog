@@ -66,6 +66,18 @@ CONTAINMENT_PREDICATES: tuple[URIRef, ...] = (
     OG.qualityGrade,
     OG.hasNodeType,
     OG.hasEdgeType,
+    # A question class belongs to its reference model the way a field belongs
+    # to its dataset: it has no independent existence, it is never shared
+    # between two models, and deleting the model should take it with it.
+    #
+    # Absent from this list, the nodes were written and then unreachable on
+    # read — `_gather` walks these predicates and nothing else — so the record
+    # came back carrying four `og:questionClassPartition` IRIs that resolved to
+    # nothing, and the projector produced an empty partition from a record that
+    # had one. Silent in both directions, and invisible to a unit test that
+    # projects a fixture graph directly, because that graph has never been
+    # through the store.
+    OG.questionClassPartition,
     OG.sharedOriginWarning,
     DCTERMS.temporal,
     RDF.first,

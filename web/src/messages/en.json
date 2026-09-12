@@ -46,6 +46,23 @@
       "body": "An object registered here — a model, an assumption set, a study, a reference network — is one the Hub promises will not move, so the Hub holds the bytes. A catalogued dataset is a description of something somebody else promises, so the Hub points at it and never proxies it. Custody, not size, decides which: a four-terabyte reanalysis archive is free to describe."
     }
   },
+  "referenceModel": {
+    "fidelity": {
+      "indicative": "Indicative",
+      "screening": "Screening",
+      "authoritative": "Authoritative",
+      "undeclared": "Fidelity not declared"
+    },
+    "elements": "{count, number} network elements",
+    "partition": "What this network is rated for",
+    "robustness": {
+      "robust": "Robust",
+      "fragile": "Fragile",
+      "unknown": "Unknown"
+    },
+    "noPartition": "No question-class partition recorded for this model yet. That is a gap in the record, not a judgement about the network.",
+    "noBasis": "No basis recorded for this claim."
+  },
   "search": {
     "placeholder": "Search datasets — try \"transmission\", \"wind speed\", \"ERA5\"",
     "label": "Search the catalog",

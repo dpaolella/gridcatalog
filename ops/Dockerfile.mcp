@@ -30,6 +30,7 @@ COPY ops/migrations ./ops/migrations
 # Production content that lives in a test directory; see data/golden-set/README.md.
 # Copied into the *builder* only.
 COPY tests/fixtures/records ./tests/fixtures/records
+COPY tests/fixtures/registry ./tests/fixtures/registry
 
 ENV DATAHUB_GRAPH_STORE_PATH=/build/var/site/graph.nq \
     DATAHUB_SEARCH_STORE_PATH=/build/var/site/index.json \
@@ -44,6 +45,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux; \
     mkdir -p var/site/curated; \
     cp tests/fixtures/records/*.jsonld var/site/curated/; \
+    cp tests/fixtures/registry/cascade-reference-model.jsonld var/site/curated/; \
     rm -f var/site/curated/caiso-nodal-lmp-restricted.jsonld \
           var/site/curated/utility-load-shapes-allowlisted.jsonld; \
     datahub db upgrade; \

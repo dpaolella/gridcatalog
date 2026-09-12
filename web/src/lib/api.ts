@@ -264,6 +264,10 @@ export interface TemporalCoverage {
 
 export interface DatasetSummary {
   id: string;
+  /** Which of the registry's kinds this row is. Optional because the API
+   *  defaults it, and a snapshot taken before the field existed has rows
+   *  without it — those are datasets, which is what the default says. */
+  record_type?: string;
   title: string;
   summary?: string | null;
   /** Descriptive text for the static site's search, present only in a snapshot.
@@ -291,6 +295,11 @@ export interface DatasetSummary {
   worst_link_health?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;
+  /** Reference models only. Absent on a dataset — never "unrated", since the
+   *  shapes require a fidelity class on every reference model. */
+  fidelity_class?: string | null;
+  question_classes?: QuestionClass[];
+  network_element_count?: number | null;
 }
 
 export interface UsageEvidence {
@@ -472,6 +481,28 @@ export interface DomainSummary {
 // ---------------------------------------------------------------------------
 // Calls
 // ---------------------------------------------------------------------------
+
+export type QuestionClass = {
+  question_class: string;
+  robustness: "robust" | "fragile" | "unknown";
+  basis?: string | null;
+};
+
+/**
+ * Reference models, in both build modes, with the same answer from each.
+ *
+ * The filter is sent *and* applied here, which looks redundant and is the
+ * point. In snapshot mode `search()` ignores its parameters and returns the
+ * whole index — the static site filters in the browser, because pre-rendering
+ * a page per query is not a finite set. A call that only sent the filter would
+ * therefore give the correct subset against a live API and the entire catalog
+ * against the published site: one page, two answers, and the wrong one is the
+ * one most readers see.
+ */
+export async function listReferenceModels(): Promise<DatasetSummary[]> {
+  const response = await search({ record_type: "reference_model", limit: "100" });
+  return response.results.filter((r) => r.record_type === "reference_model");
+}
 
 export async function search(
   params: Record<string, string | string[] | undefined>,

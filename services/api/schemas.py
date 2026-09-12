@@ -33,6 +33,7 @@ from datahub.api.search.document import (
     DistributionSummary,
     Grade,
     QualityBadges,
+    QuestionClassRef,
     SearchDocument,
     SpatialCoverage,
     TemporalCoverage,
@@ -153,6 +154,11 @@ class DatasetSummary(ApiModel):
 
     id: str
     iri: str
+    #: Which of the registry's kinds this is. On a list row rather than only on
+    #: the record, because a mixed result set that does not say which is which
+    #: reads as one corpus — and "wind" matching a filing beside a wind atlas
+    #: with nothing to distinguish them is worse than either result alone.
+    record_type: str = "dataset"
     title: str
     summary: str | None = None
     publisher: str | None = None
@@ -169,6 +175,13 @@ class DatasetSummary(ApiModel):
     distribution_count: int = 0
     worst_link_health: str | None = None
     modified: datetime | None = None
+    #: Reference models only, and the reason the Reference Models section can
+    #: lead with what distinguishes one network from another rather than with a
+    #: description. `None` never means "unrated" — the shapes require a
+    #: fidelity class on every reference model — it means "not one".
+    fidelity_class: str | None = None
+    question_classes: list[QuestionClassRef] = Field(default_factory=list)
+    network_element_count: int | None = None
     #: True when the caller sees a stub rather than the record.
     redacted: bool = False
 
@@ -195,6 +208,10 @@ class DatasetSummary(ApiModel):
             distribution_count=doc.distribution_count,
             worst_link_health=doc.worst_link_health,
             modified=doc.modified,
+            record_type=doc.record_type,
+            fidelity_class=doc.fidelity_class,
+            question_classes=doc.question_classes,
+            network_element_count=doc.network_element_count,
         )
 
     @classmethod
@@ -212,6 +229,7 @@ class DatasetSummary(ApiModel):
         return cls(
             id=doc.id,
             iri=doc.iri,
+            record_type=doc.record_type,
             title=doc.title,
             data_domains=doc.data_domains,
             completeness_level=doc.completeness_level,
