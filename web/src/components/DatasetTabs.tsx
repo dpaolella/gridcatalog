@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type {
   DatasetDetail,
   DistributionDetail,
@@ -49,21 +49,34 @@ const TABS: Tab[] = [
   "downloads",
 ];
 
+function subscribeTab(callback: () => void) {
+  window.addEventListener("hashchange", callback);
+  return () => window.removeEventListener("hashchange", callback);
+}
+
+function currentTab(): Tab {
+  const hash = window.location.hash.slice(1);
+  return TABS.find((tab) => tab === hash) ?? "overview";
+}
+
 export function DatasetTabs({
   dataset,
   schema,
   quality,
   distributions,
   links,
+  canReport,
 }: {
   dataset: DatasetDetail;
   schema: SchemaResponse | null;
   quality: QualityResponse | null;
   distributions: DistributionDetail[];
   links: LinksResponse | null;
+  canReport: boolean;
 }) {
   const t = useTranslations("dataset.tabs");
-  const [active, setActive] = useState<Tab>("overview");
+  const active = useSyncExternalStore(subscribeTab, currentTab, () => "overview" as Tab);
+  const setActive = (tab: Tab) => { window.location.hash = tab; };
   const tabRefs = useRef<Partial<Record<Tab, HTMLButtonElement | null>>>({});
 
   /**
@@ -130,6 +143,10 @@ export function DatasetTabs({
         ))}
       </div>
 
+      <a href={`#${active}`} className="mt-3 inline-block text-xs text-[color:var(--accent-text)] underline">
+        {t("linkToTab", { tab: t(active) })}
+      </a>
+
       <div className="py-6">
         {TABS.map((tab) => (
           <section
@@ -145,12 +162,12 @@ export function DatasetTabs({
             ) : null}
             {tab === "coverage" ? <Coverage dataset={dataset} /> : null}
             {tab === "schema" ? (
-              <Schema schema={schema} datasetId={dataset.id} datasetTitle={dataset.title} />
+              <Schema schema={schema} datasetId={dataset.id} datasetTitle={dataset.title} canReport={canReport} />
             ) : null}
             {tab === "quality" ? <Quality quality={quality} dataset={dataset} /> : null}
             {tab === "connections" ? <ConnectionsTab links={links} /> : null}
             {tab === "downloads" ? (
-              <Downloads dataset={dataset} distributions={distributions} />
+              <Downloads dataset={dataset} distributions={distributions} canReport={canReport} />
             ) : null}
           </section>
         ))}
@@ -432,10 +449,12 @@ function Schema({
   schema,
   datasetId,
   datasetTitle,
+  canReport,
 }: {
   schema: SchemaResponse | null;
   datasetId: string;
   datasetTitle: string;
+  canReport: boolean;
 }) {
   const t = useTranslations("schema");
   const empty = useTranslations("empty");
@@ -574,6 +593,7 @@ function Schema({
                   one column — had to be filed against the whole record. */}
               <td className="py-2">
                 <ReportIssue
+                  enabled={canReport}
                   compact
                   datasetId={datasetId}
                   datasetTitle={datasetTitle}
@@ -730,9 +750,11 @@ function ConnectionsTab({ links }: { links: LinksResponse | null }) {
 function Downloads({
   dataset,
   distributions,
+  canReport,
 }: {
   dataset: DatasetDetail;
   distributions: DistributionDetail[];
+  canReport: boolean;
 }) {
   const t = useTranslations("downloads");
   const empty = useTranslations("empty");
@@ -780,6 +802,11 @@ function Downloads({
             </dl>
 
             <div className="mt-3 flex flex-wrap items-baseline gap-4">
+              {dist.download_url ? (
+                <a href={dist.download_url} rel="noreferrer noopener" className="og-cta">
+                  {t("downloadFile")} ↗
+                </a>
+              ) : null}
               {dist.access_url ? (
                 <a
                   href={dist.access_url}
@@ -796,6 +823,7 @@ function Downloads({
                   every dead URL against the whole record made the reports
                   harder to act on than the defects. */}
               <ReportIssue
+                enabled={canReport}
                 compact
                 datasetId={dataset.id}
                 datasetTitle={dataset.title}

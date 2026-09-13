@@ -189,6 +189,10 @@ class DatasetSummary(ApiModel):
     bulk_download: bool | None = None
     has_usage_evidence: bool = False
     usage_evidence_count: int = 0
+    # These filters also run over list rows in the static site. Stub rows keep
+    # the defaults, so restricted field metadata never reaches the export.
+    field_count_bucket: str | None = None
+    concepts: list[ConceptRef] = Field(default_factory=list)
     completeness_level: int = 1
     reference_only: bool = False
     anonymous_access: bool | None = None
@@ -229,6 +233,8 @@ class DatasetSummary(ApiModel):
             bulk_download=doc.bulk_download,
             has_usage_evidence=doc.has_usage_evidence,
             usage_evidence_count=doc.usage_evidence_count,
+            field_count_bucket=doc.field_count_bucket,
+            concepts=doc.concepts,
             completeness_level=doc.completeness_level,
             reference_only=doc.reference_only,
             anonymous_access=doc.anonymous_access,

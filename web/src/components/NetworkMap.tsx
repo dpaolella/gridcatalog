@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 /**
@@ -102,7 +102,8 @@ export function NetworkMap({
     load: false,
   });
   const [view, setView] = useState({ x: 0, y: 0, k: 1 });
-  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [svg, setSvg] = useState<SVGSVGElement | null>(null);
+  const instructionsId = useId();
   const drag = useRef<{ x: number; y: number; vx: number; vy: number } | null>(null);
 
   useEffect(() => {
@@ -164,22 +165,22 @@ export function NetworkMap({
   }, [system]);
   const busPoints = geography.buses;
 
-  const onWheel = useCallback((event: WheelEvent) => {
-    event.preventDefault();
-    setView((v) => {
-      const k = Math.min(24, Math.max(1, v.k * (event.deltaY < 0 ? 1.15 : 1 / 1.15)));
-      return { ...v, k };
-    });
+  const zoom = useCallback((factor: number) => {
+    setView((v) => ({ ...v, k: Math.min(24, Math.max(1, v.k * factor)) }));
   }, []);
 
+  const onWheel = useCallback((event: WheelEvent) => {
+    event.preventDefault();
+    zoom(event.deltaY < 0 ? 1.15 : 1 / 1.15);
+  }, [zoom]);
+
   useEffect(() => {
-    const svg = svgRef.current;
     if (!svg) return;
     // Non-passive, because the whole point is to stop the page scrolling. React's
     // onWheel is passive and cannot call preventDefault.
     svg.addEventListener("wheel", onWheel, { passive: false });
     return () => svg.removeEventListener("wheel", onWheel);
-  }, [onWheel]);
+  }, [svg, onWheel]);
 
   if (failed) {
     return (
@@ -220,14 +221,40 @@ export function NetworkMap({
 
   return (
     <figure className="og-card overflow-hidden">
+      <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3 text-sm" style={{ borderColor: "var(--border)" }}>
+        <button type="button" className="og-tag px-3 py-1.5" onClick={() => zoom(1.3)} disabled={view.k >= 24}>{t("zoomIn")}</button>
+        <button type="button" className="og-tag px-3 py-1.5" onClick={() => zoom(1 / 1.3)} disabled={view.k <= 1}>{t("zoomOut")}</button>
+        <button type="button" className="og-tag px-3 py-1.5" onClick={() => setView({ x: 0, y: 0, k: 1 })}>{t("reset")}</button>
+        <span className="text-xs text-[color:var(--muted)]">{t("zoomLevel", { level: Math.round(view.k * 100) })}</span>
+        <p id={instructionsId} className="w-full text-xs text-[color:var(--muted)]">{t("navigationHelp")}</p>
+      </div>
       <svg
-        ref={svgRef}
+        ref={setSvg}
+        tabIndex={0}
         viewBox={`0 0 ${width} ${height}`}
         className="block w-full cursor-grab touch-none bg-[color:var(--map-water)]"
         style={{ aspectRatio: `${width} / ${height}` }}
         role="img"
         aria-label={t("alt", { name: system.name })}
+        aria-describedby={instructionsId}
+        onKeyDown={(e) => {
+          const step = 0.1;
+          const movement: Record<string, [number, number]> = {
+            ArrowLeft: [width * step, 0], ArrowRight: [-width * step, 0],
+            ArrowUp: [0, height * step], ArrowDown: [0, -height * step],
+          };
+          if (movement[e.key]) {
+            e.preventDefault();
+            const [x, y] = movement[e.key];
+            setView((v) => ({ ...v, x: v.x + x, y: v.y + y }));
+          } else if (["+", "=", "-", "Home"].includes(e.key)) {
+            e.preventDefault();
+            if (e.key === "Home") setView({ x: 0, y: 0, k: 1 });
+            else zoom(e.key === "-" ? 1 / 1.3 : 1.3);
+          }
+        }}
         onPointerDown={(e) => {
+          if (!e.isPrimary || e.button !== 0) return;
           drag.current = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y };
           e.currentTarget.setPointerCapture(e.pointerId);
         }}
@@ -242,6 +269,8 @@ export function NetworkMap({
           }));
         }}
         onPointerUp={() => (drag.current = null)}
+        onPointerCancel={() => (drag.current = null)}
+        onLostPointerCapture={() => (drag.current = null)}
       >
         <g transform={`translate(${width / 2} ${height / 2}) scale(${view.k}) translate(${-width / 2 + view.x / view.k} ${-height / 2 + view.y / view.k})`}>
           {/* Sea, then land, then lakes, then the coast and the borders, then

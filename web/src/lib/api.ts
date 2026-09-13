@@ -128,13 +128,18 @@ export class ApiError extends Error {
  * difference here would rebuild the existence oracle it removed. */
 export class NotFoundError extends ApiError {}
 
-type Options = RequestInit & { revalidate?: number; authenticated?: boolean };
+type Options = RequestInit & {
+  revalidate?: number;
+  authenticated?: boolean;
+  personalized?: boolean;
+};
 
 async function request<T>(path: string, init: Options = {}): Promise<T> {
   if (IS_SNAPSHOT) return snapshotRead<T>(path);
 
-  const { revalidate, authenticated, ...rest } = init;
-  const session = authenticated ? await sessionHeader() : {};
+  const { revalidate, authenticated, personalized, ...rest } = init;
+  const session = authenticated || personalized ? await sessionHeader() : {};
+  const privateRequest = authenticated || Boolean(session.Cookie);
   const response = await fetch(`${apiUrl()}${path}`, {
     ...rest,
     headers: { Accept: "application/json", ...session, ...(rest.headers ?? {}) },
@@ -142,8 +147,8 @@ async function request<T>(path: string, init: Options = {}): Promise<T> {
     // request that carries a cookie is opted out here rather than at each call
     // site, because "forgot to say no-store on the authenticated one" serves
     // one reader's view of the catalog to the next.
-    ...(authenticated ? { cache: "no-store" as const } : {}),
-    next: authenticated || revalidate === undefined ? undefined : { revalidate },
+    ...(privateRequest ? { cache: "no-store" as const } : {}),
+    next: privateRequest || revalidate === undefined ? undefined : { revalidate },
     redirect: "manual",
   });
 
@@ -268,6 +273,7 @@ export interface DatasetSummary {
    *  defaults it, and a snapshot taken before the field existed has rows
    *  without it — those are datasets, which is what the default says. */
   record_type?: string;
+  redacted?: boolean;
   title: string;
   summary?: string | null;
   /** Descriptive text for the static site's search, present only in a snapshot.
@@ -296,6 +302,8 @@ export interface DatasetSummary {
   worst_link_health?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;
+  field_count_bucket?: string | null;
+  concepts?: ConceptRef[];
   /** Reference models only. Absent on a dataset — never "unrated", since the
    *  shapes require a fidelity class on every reference model. */
   fidelity_class?: string | null;
@@ -539,7 +547,10 @@ export async function search(
     if (value === undefined || value === "") continue;
     for (const item of Array.isArray(value) ? value : [value]) query.append(key, item);
   }
-  return request<SearchResponse>(`/v1/datasets?${query}`, { revalidate: LIST_REVALIDATE });
+  return request<SearchResponse>(`/v1/datasets?${query}`, {
+    personalized: true,
+    revalidate: LIST_REVALIDATE,
+  });
 }
 
 async function snapshotFacets(): Promise<Record<string, FacetBucket[]>> {
@@ -633,21 +644,22 @@ export async function snapshotDatasetIds(): Promise<string[]> {
 }
 
 export const getDataset = (id: string) =>
-  request<DatasetDetail>(`/v1/datasets/${id}`, { revalidate: RECORD_REVALIDATE });
+  request<DatasetDetail>(`/v1/datasets/${id}`, { personalized: true, revalidate: RECORD_REVALIDATE });
 
 export const getSchema = (id: string) =>
-  request<SchemaResponse>(`/v1/datasets/${id}/schema`, { revalidate: RECORD_REVALIDATE });
+  request<SchemaResponse>(`/v1/datasets/${id}/schema`, { personalized: true, revalidate: RECORD_REVALIDATE });
 
 export const getQuality = (id: string) =>
-  request<QualityResponse>(`/v1/datasets/${id}/quality`, { revalidate: RECORD_REVALIDATE });
+  request<QualityResponse>(`/v1/datasets/${id}/quality`, { personalized: true, revalidate: RECORD_REVALIDATE });
 
 export const getDistributions = (id: string) =>
   request<DistributionDetail[]>(`/v1/datasets/${id}/distributions`, {
+    personalized: true,
     revalidate: RECORD_REVALIDATE,
   });
 
 export const getLinks = (id: string) =>
-  request<LinksResponse>(`/v1/datasets/${id}/links`, { revalidate: RECORD_REVALIDATE });
+  request<LinksResponse>(`/v1/datasets/${id}/links`, { personalized: true, revalidate: RECORD_REVALIDATE });
 
 /** Returns a bare array. Typed as one rather than assumed to be an envelope:
  * the two shapes are one refactor apart, and the failure is a 500 on a page

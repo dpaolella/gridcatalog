@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useCallback, useState } from "react";
 import { Challenge } from "@/components/Challenge";
+import { REPORT_TYPES, reportPayload } from "@/lib/report";
 
 /**
  * Report an issue on any record, field or distribution (PRD §F3).
@@ -23,6 +24,7 @@ export function ReportIssue({
   fieldId,
   distributionId,
   compact = false,
+  enabled = true,
 }: {
   datasetId: string;
   datasetTitle: string;
@@ -33,6 +35,7 @@ export function ReportIssue({
    *  row and 273 copies of the header button would be the loudest thing on a
    *  Zarr store's schema tab. */
   compact?: boolean;
+  enabled?: boolean;
 }) {
   const t = useTranslations("report");
   const [open, setOpen] = useState(false);
@@ -42,21 +45,15 @@ export function ReportIssue({
 
   async function submit(form: FormData) {
     setState("sending");
-    const response = await fetch("/api/reports", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/api/reports`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        dataset_id: datasetId,
-        field_id: fieldId,
-        distribution_id: distributionId,
-        issue_type: form.get("issue_type"),
-        comment: form.get("comment") || null,
-        reporter_email: form.get("email") || null,
-        captcha_token: token,
-      }),
+      body: JSON.stringify(reportPayload(form, { datasetId, fieldId, distributionId }, token)),
     }).catch(() => null);
     setState(response?.ok ? "done" : "failed");
   }
+
+  if (!enabled) return null;
 
   if (!open) {
     return compact ? (
@@ -112,11 +109,9 @@ export function ReportIssue({
               required
               className="w-full px-2 py-1.5"
             >
-              <option value="incorrect-metadata">{t("types.incorrect-metadata")}</option>
-              <option value="broken-link">{t("types.broken-link")}</option>
-              <option value="licence">{t("types.licence")}</option>
-              <option value="duplicate">{t("types.duplicate")}</option>
-              <option value="other">{t("types.other")}</option>
+              {REPORT_TYPES.map((type) => (
+                <option key={type.value} value={type.value}>{t(`types.${type.label}`)}</option>
+              ))}
             </select>
           </label>
 

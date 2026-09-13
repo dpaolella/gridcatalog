@@ -716,7 +716,7 @@ def frame(document: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     def nest(node: dict[str, Any]) -> dict[str, Any]:
         return {key: inline(value) if key in terms else value for key, value in node.items()}
 
-    roots = [n for n in nodes if n.get("type") == "Dataset"]
+    roots = [n for n in nodes if _is_dataset_node(n)]
     framed = [nest(root) for root in roots]
     # Anything not reached from a dataset stays at the top level rather than
     # being dropped. A node the framing does not understand is a bug to see,
@@ -806,12 +806,17 @@ def absolutise(document: Any, context: dict[str, Any]) -> Any:
     return walk(document)
 
 
+def _is_dataset_node(node: dict[str, Any]) -> bool:
+    types = node.get("type")
+    return types == "Dataset" or isinstance(types, list) and "Dataset" in types
+
+
 def dataset_node(document: dict[str, Any]) -> dict[str, Any]:
     """The ``dcat:Dataset`` node of a JSON-LD record document."""
-    if document.get("type") == "Dataset":
+    if _is_dataset_node(document):
         return document
     for node in document.get("@graph", []):
-        if node.get("type") == "Dataset":
+        if _is_dataset_node(node):
             return node
     raise NotFound("document contains no dataset node")
 

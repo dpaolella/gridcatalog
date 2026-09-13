@@ -26,6 +26,12 @@ export function SearchBar() {
   const [value, setValue] = useState(params.get("q") ?? "");
   const [isPending, startTransition] = useTransition();
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const urlQuery = params.get("q") ?? "";
+  const [queryFor, setQueryFor] = useState(urlQuery);
+  if (queryFor !== urlQuery) {
+    setQueryFor(urlQuery);
+    setValue(urlQuery);
+  }
 
   useEffect(() => {
     return () => {

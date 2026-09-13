@@ -64,7 +64,9 @@
     "noBasis": "No basis recorded for this claim.",
     "shareAlike": "Share-alike",
     "shareAlikeHelp": "This model's licence obliges derived works to carry the same terms. ODbL share-alike operates at the database level, so joining it to your own data may bring that data into scope — an open question for adopters, not a settled one. Read the licence before you build on it.",
-    "licenceLabel": "Licence"
+    "licenceLabel": "Licence",
+    "suitability": "Model suitability",
+    "viewMap": "View network map"
   },
   "networkMap": {
     "alt": "Map of {name}: transmission network on a real coastline.",
@@ -77,7 +79,12 @@
       "generation": "Generation",
       "load": "Load"
     },
-    "synthetic": "Synthetic network on real geography"
+    "synthetic": "Synthetic network on real geography",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "reset": "Reset view",
+    "zoomLevel": "{level, number}% zoom",
+    "navigationHelp": "Drag to pan, or focus the map and use the arrow keys. Use + and − to zoom, and Home to reset."
   },
   "search": {
     "placeholder": "Search datasets — try \"transmission\", \"wind speed\", \"ERA5\"",
@@ -99,7 +106,12 @@
     "showMore": "+{count} more",
     "loadMore": "Show {count} more of {total}",
     "loadingCatalog": "Loading the catalog…",
-    "catalogUnavailable": "The full catalog could not be loaded, so this searched only the {count} datasets on this page. Reload to try again."
+    "catalogUnavailable": "The full catalog could not be loaded. Search results are unavailable until it can be read.",
+    "previewCount": "Preview · {count, plural, one {1 dataset} other {# datasets}}",
+    "previewHelp": "These are the initial catalog entries. Search results and the full count will appear once the catalog loads.",
+    "retry": "Retry loading catalog",
+    "unsupportedTitle": "This filter is not available in the static catalog",
+    "unsupportedHelp": "Unsupported filters: {filters}. Clear them to search this catalog."
   },
   "facets": {
     "data_domain": "Domain",
@@ -178,7 +190,8 @@
       "schema": "Schema",
       "quality": "Data quality",
       "connections": "Connections",
-      "downloads": "Downloads"
+      "downloads": "Downloads",
+      "linkToTab": "Link to {tab}"
     },
     "fieldsDescribed": "{count, plural, one {# field described} other {# fields described}}",
     "fieldsDescribedHelp": "How many of this dataset's fields the catalog can describe. Separate from the completeness level: level 1 means no field metadata by definition, and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply."
@@ -304,7 +317,8 @@
       "unreachable": "Not reachable",
       "redirected": "Moved"
     },
-    "healthHelp": "Last checked {when}. A path that has failed three consecutive checks is excluded from access plans and a working sibling is substituted."
+    "healthHelp": "Last checked {when}. A path that has failed three consecutive checks is excluded from access plans and a working sibling is substituted.",
+    "downloadFile": "Download file"
   },
   "report": {
     "title": "Report an issue",

@@ -11,6 +11,7 @@ import { HexWash, Rule } from "@/components/Brand";
 import { Pagination } from "@/components/Pagination";
 import { SortSelect } from "@/components/SortSelect";
 import { perRequest } from "@/lib/rendering";
+import { catalogUrl, pageOffset } from "@/lib/navigation";
 
 /**
  * The data catalog: one of the Hub's four sections, not its front door.
@@ -109,8 +110,15 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
   const t = await getTranslations("search");
   const empty = await getTranslations("empty");
 
-  const offset = Number(params.offset ?? 0) || 0;
+  const offset = pageOffset(Array.isArray(params.offset) ? params.offset[0] : params.offset ?? null);
   const limit = 20;
+  const returnParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    for (const item of Array.isArray(value) ? value : value === undefined ? [] : [value]) {
+      returnParams.append(key, item);
+    }
+  }
+  const returnTo = catalogUrl(returnParams);
 
   const response = await search({
     ...params,
@@ -184,7 +192,7 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
           ) : (
             <ul className="space-y-4">
               {response.results.map((dataset) => (
-                <ResultRow key={dataset.id} dataset={dataset} />
+                <ResultRow key={dataset.id} dataset={dataset} returnTo={returnTo} />
               ))}
             </ul>
           )}

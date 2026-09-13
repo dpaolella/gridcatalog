@@ -1,4 +1,8 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import { CatalogReturnLink } from "@/components/CatalogReturnLink";
+import { ReferenceModelSuitability } from "@/components/ReferenceModelSuitability";
+import { MAPPED_MODELS } from "@/lib/reference-models";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import {
@@ -62,6 +66,7 @@ export default async function DatasetPage({ params }: { params: Params }) {
   const { id } = await params;
   const t = await getTranslations("dataset");
   const empty = await getTranslations("empty");
+  const modelText = await getTranslations("referenceModel");
 
   let dataset;
   try {
@@ -90,9 +95,9 @@ export default async function DatasetPage({ params }: { params: Params }) {
   return (
     <article className="space-y-6">
       <nav className="text-sm text-[color:var(--muted)]">
-        <Link href="/datasets" className="hover:text-[color:var(--foreground)]">
-          ← {empty("backToSearch")}
-        </Link>
+        <Suspense fallback={<Link href="/datasets">← {empty("backToSearch")}</Link>}>
+          <CatalogReturnLink />
+        </Suspense>
       </nav>
 
       <header className="space-y-3">
@@ -177,7 +182,19 @@ export default async function DatasetPage({ params }: { params: Params }) {
         <Lineage dataset={dataset} />
       </header>
 
+      {dataset.record_type === "reference_model" && !dataset.redacted ? (
+        <div className="space-y-3">
+          <ReferenceModelSuitability model={dataset} />
+          {MAPPED_MODELS[dataset.id] ? (
+            <Link href={`/reference-models#model-${dataset.id}`} className="og-cta">
+              {modelText("viewMap")}
+            </Link>
+          ) : null}
+        </div>
+      ) : null}
+
       <DatasetTabs
+        canReport={!IS_SNAPSHOT}
         dataset={dataset}
         schema={schema}
         quality={quality}

@@ -1,0 +1,759 @@
+{
+  "title": "Grid modeling starter inventory",
+  "source_checked": "2026-09-08",
+  "scope": "Practical first choices across the US, Europe and global sources. This is a starting shortlist, not an exhaustive ranking or a validated study-input package.",
+  "domains": [
+    {
+      "id": "DD1",
+      "name": "Network topology & parameters"
+    },
+    {
+      "id": "DD2",
+      "name": "Generator fleet"
+    },
+    {
+      "id": "DD3",
+      "name": "IC queue & project pipeline"
+    },
+    {
+      "id": "DD4",
+      "name": "Load & demand"
+    },
+    {
+      "id": "DD5",
+      "name": "Renewable resource & weather"
+    },
+    {
+      "id": "DD6",
+      "name": "Emerging technology parameters"
+    },
+    {
+      "id": "DD7",
+      "name": "Fuel & commodity"
+    },
+    {
+      "id": "DD8",
+      "name": "Policy & regulatory"
+    },
+    {
+      "id": "DD9",
+      "name": "Cost & financial"
+    },
+    {
+      "id": "DD10",
+      "name": "Geospatial & siting"
+    }
+  ],
+  "datasets": [
+    {
+      "slug": "pypsa-eur-grid",
+      "domains": [
+        "DD1"
+      ],
+      "name": "PyPSA-Eur grid dataset",
+      "geography": "Europe",
+      "kind": "Model inputs",
+      "source_url": "https://pypsa-eur.readthedocs.io/en/stable/data_sources.html",
+      "use": "Start an open European transmission model with assembled network inputs.",
+      "caveat": "An OSM-derived representation; validate electrical parameters and release-specific inputs."
+    },
+    {
+      "slug": "pypsa-earth-global-grid-dataset",
+      "domains": [
+        "DD1"
+      ],
+      "name": "PyPSA-Earth grid dataset",
+      "geography": "Global",
+      "kind": "Model inputs",
+      "source_url": "https://github.com/pypsa-meets-earth/pypsa-earth",
+      "use": "Build open regional networks where utility models are unavailable.",
+      "caveat": "Coverage and inferred parameters vary; this is not an operator's validated network."
+    },
+    {
+      "slug": "powergridlib-pglib-opf",
+      "domains": [
+        "DD1"
+      ],
+      "name": "PGLib-OPF",
+      "geography": "Global / synthetic",
+      "kind": "Benchmark cases",
+      "source_url": "https://github.com/power-grid-lib/pglib-opf",
+      "use": "Benchmark AC optimal power flow across standardized cases.",
+      "caveat": "Benchmark cases do not establish current real-world grid conditions."
+    },
+    {
+      "slug": "matpower-case-archive",
+      "domains": [
+        "DD1"
+      ],
+      "name": "MATPOWER case archive",
+      "geography": "Global / synthetic",
+      "kind": "Benchmark cases",
+      "source_url": "https://matpower.org/docs/ref/matpower7.0/lib/caseformat.html",
+      "use": "Start power-flow and OPF experiments in a widely supported case format.",
+      "caveat": "Check each case's origin and terms; the software BSD license does not cover all case data."
+    },
+    {
+      "slug": "tamu-synthetic-grid-data",
+      "domains": [
+        "DD1"
+      ],
+      "name": "Texas A&M synthetic grids",
+      "geography": "US / synthetic",
+      "kind": "Benchmark cases",
+      "source_url": "https://electricgrids.engr.tamu.edu/electric-grid-test-cases/",
+      "use": "Study realistic-scale networks with openly shared synthetic cases.",
+      "caveat": "Geographic realism does not make these actual utility networks."
+    },
+    {
+      "slug": "simbench",
+      "domains": [
+        "DD1"
+      ],
+      "name": "SimBench",
+      "geography": "Germany / synthetic",
+      "kind": "Benchmark cases",
+      "source_url": "https://simbench.de/en/datasets/",
+      "use": "Test distribution-grid methods with network cases and time series.",
+      "caveat": "Representative benchmark networks; adapt assumptions to the local utility."
+    },
+    {
+      "slug": "eia-860-annual-electric-generator-report",
+      "domains": [
+        "DD2"
+      ],
+      "name": "EIA-860",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.eia.gov/electricity/data/eia860/",
+      "use": "Build a US generator inventory with capacity, technology and status.",
+      "caveat": "Annual and preliminary releases differ; join using plant and generator identifiers."
+    },
+    {
+      "slug": "eia-923-power-plant-operations-report",
+      "domains": [
+        "DD2"
+      ],
+      "name": "EIA-923",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.eia.gov/electricity/data/eia923/",
+      "use": "Calibrate generation, fuel use and delivered fuel costs.",
+      "caveat": "Reporting aggregation and reporting frequency vary; it is not hourly unit dispatch."
+    },
+    {
+      "slug": "gem-global-integrated-power-tracker",
+      "domains": [
+        "DD2"
+      ],
+      "name": "GEM Global Integrated Power Tracker",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://globalenergymonitor.org/projects/global-integrated-power-tracker/",
+      "use": "Assemble a global power-asset inventory across technologies.",
+      "caveat": "Coverage thresholds and update cycles differ by underlying tracker."
+    },
+    {
+      "slug": "wri-global-power-plant-database",
+      "domains": [
+        "DD2"
+      ],
+      "name": "WRI Global Power Plant Database",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://github.com/wri/global-power-plant-database",
+      "use": "Use a reproducible historical global plant baseline.",
+      "caveat": "Legacy release: check vintage and supplement recent additions and retirements."
+    },
+    {
+      "slug": "epa-egrid",
+      "domains": [
+        "DD2"
+      ],
+      "name": "EPA eGRID",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.epa.gov/egrid",
+      "use": "Attach plant-level generation and emissions context to fleet studies.",
+      "caveat": "Annual emissions accounting data do not directly provide marginal emissions."
+    },
+    {
+      "slug": "pudl-catalyst-cooperative",
+      "domains": [
+        "DD2",
+        "DD9"
+      ],
+      "name": "PUDL",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://data.catalyst.coop/",
+      "use": "Use cleaned, linked EIA and FERC tables for fleet and utility cost analysis.",
+      "caveat": "Record the release and table: normalized outputs inherit source reporting limitations."
+    },
+    {
+      "slug": "lbnl-queued-up",
+      "domains": [
+        "DD3"
+      ],
+      "name": "LBNL Queued Up",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://emp.lbl.gov/queues",
+      "use": "Compare generation and storage interconnection pipelines across operators.",
+      "caveat": "Queue capacity is proposed capacity; withdrawals and coverage matter."
+    },
+    {
+      "slug": "caiso-interconnection-queue",
+      "domains": [
+        "DD3"
+      ],
+      "name": "CAISO interconnection queue",
+      "geography": "US / California",
+      "kind": "Dataset",
+      "source_url": "https://www.caiso.com/library/interconnection-queue-reports",
+      "use": "Inspect CAISO project status and queue details at the source.",
+      "caveat": "Statuses change; a queue position is not a completion forecast."
+    },
+    {
+      "slug": "pjm-serial-service-requests-cycle-queue",
+      "domains": [
+        "DD3"
+      ],
+      "name": "PJM service requests",
+      "geography": "US / PJM",
+      "kind": "Dataset",
+      "source_url": "https://www.pjm.com/planning/service-requests",
+      "use": "Inspect PJM serial and cycle interconnection requests.",
+      "caveat": "Account for queue-process changes and distinguish active, withdrawn and completed projects."
+    },
+    {
+      "slug": "miso-generator-interconnection-queue",
+      "domains": [
+        "DD3"
+      ],
+      "name": "MISO generator interconnection queue",
+      "geography": "US / MISO",
+      "kind": "Dataset",
+      "source_url": "https://www.misoenergy.org/planning/resource-utilization/generator-interconnection/",
+      "use": "Inspect MISO project pipeline and interconnection study information.",
+      "caveat": "Some study-cycle information appears separately; avoid assuming one export is complete."
+    },
+    {
+      "slug": "ercot-generation-interconnection-status-gis-report",
+      "domains": [
+        "DD3"
+      ],
+      "name": "ERCOT generator interconnection status",
+      "geography": "US / Texas",
+      "kind": "Dataset",
+      "source_url": "https://www.ercot.com/gridinfo/resource",
+      "use": "Track planned generation using ERCOT's monthly GIS reports.",
+      "caveat": "Monthly status reports are snapshots of proposals, not committed additions."
+    },
+    {
+      "slug": "entso-e-tyndp-projects",
+      "domains": [
+        "DD3"
+      ],
+      "name": "ENTSO-E TYNDP projects",
+      "geography": "Europe",
+      "kind": "Dataset",
+      "source_url": "https://tyndp.entsoe.eu/projects",
+      "use": "Review cross-border transmission and storage development projects.",
+      "caveat": "This is a transmission planning pipeline, not a generator interconnection queue."
+    },
+    {
+      "slug": "eia-930",
+      "domains": [
+        "DD4"
+      ],
+      "name": "EIA-930 Hourly Electric Grid Monitor",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.eia.gov/electricity/gridmonitor/",
+      "use": "Build hourly balancing-authority demand and interchange series.",
+      "caveat": "Check time conventions, missing values and balancing-authority boundary changes."
+    },
+    {
+      "slug": "entso-e-transparency-platform-actual-total-load-forecast-load",
+      "domains": [
+        "DD4"
+      ],
+      "name": "ENTSO-E actual total load",
+      "geography": "Europe",
+      "kind": "Dataset",
+      "source_url": "https://transparency.entsoe.eu/",
+      "use": "Obtain actual and forecast load across European bidding zones.",
+      "caveat": "Resolve local time, daylight saving and zone definitions; API access has registration requirements."
+    },
+    {
+      "slug": "open-power-system-data-time-series",
+      "domains": [
+        "DD4"
+      ],
+      "name": "Open Power System Data time series",
+      "geography": "Europe",
+      "kind": "Dataset",
+      "source_url": "https://data.open-power-system-data.org/time_series/",
+      "use": "Start with harmonized load, wind and solar time series.",
+      "caveat": "The listed time-series package is a historical release (2020-10-06), not a live feed."
+    },
+    {
+      "slug": "neso-historic-demand",
+      "domains": [
+        "DD4"
+      ],
+      "name": "NESO Historic Demand Data",
+      "geography": "Great Britain",
+      "kind": "Dataset",
+      "source_url": "https://www.neso.energy/data-portal/historic-demand-data",
+      "use": "Analyze GB demand alongside embedded generation and interconnector flows.",
+      "caveat": "Understand the published demand definition and revisions before comparing with other load series."
+    },
+    {
+      "slug": "nrel-resstock-comstock-end-use-load-profiles",
+      "domains": [
+        "DD4"
+      ],
+      "name": "ResStock / ComStock End-Use Load Profiles",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://data.openei.org/submissions/4520",
+      "use": "Model building end-use demand shapes and electrification scenarios.",
+      "caveat": "Simulated representative building profiles are not individual customer meter readings."
+    },
+    {
+      "slug": "ferc-form-714-hourly-load-by-planning-area",
+      "domains": [
+        "DD4"
+      ],
+      "name": "FERC Form 714",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.ferc.gov/industries-data/electric/general-information/electric-industry-forms/form-no-714-annual-electric/data",
+      "use": "Assemble hourly demand reported by planning areas and balancing authorities.",
+      "caveat": "Reporting formats and respondent boundaries change; reconcile identifiers before joining years."
+    },
+    {
+      "slug": "ecmwf-era5",
+      "domains": [
+        "DD5"
+      ],
+      "name": "ERA5",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://cds.climate.copernicus.eu/datasets/reanalysis-era5-single-levels",
+      "use": "Create consistent multiyear weather inputs for wind, solar and demand modeling.",
+      "caveat": "Reanalysis is modeled weather; convert heights, accumulations and units explicitly."
+    },
+    {
+      "slug": "nrel-nsrdb",
+      "domains": [
+        "DD5"
+      ],
+      "name": "National Solar Radiation Database (NSRDB)",
+      "geography": "Americas / selected global products",
+      "kind": "Dataset",
+      "source_url": "https://nsrdb.nrel.gov/",
+      "use": "Build solar resource and PV production profiles.",
+      "caveat": "Coverage, resolution and years depend on the product; API access may require a key."
+    },
+    {
+      "slug": "nrel-wind-toolkit",
+      "domains": [
+        "DD5"
+      ],
+      "name": "WIND Toolkit",
+      "geography": "US / selected regional products",
+      "kind": "Dataset",
+      "source_url": "https://developer.nlr.gov/docs/wind/wind-toolkit/wtk-download/",
+      "use": "Build wind generation profiles from gridded meteorology at multiple heights.",
+      "caveat": "Specify the product and weather years; modeled wind speed needs a turbine conversion."
+    },
+    {
+      "slug": "nasa-power",
+      "domains": [
+        "DD5"
+      ],
+      "name": "NASA POWER",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://power.larc.nasa.gov/",
+      "use": "Quickly obtain solar and meteorological inputs through an accessible API.",
+      "caveat": "Coarse gridded inputs suit screening; assess suitability for local extremes and terrain."
+    },
+    {
+      "slug": "renewables-ninja",
+      "domains": [
+        "DD5"
+      ],
+      "name": "Renewables.ninja",
+      "geography": "Global",
+      "kind": "Dataset / service",
+      "source_url": "https://www.renewables.ninja/documentation",
+      "use": "Generate or obtain modeled wind and PV output profiles.",
+      "caveat": "Respect request limits and dataset-specific terms; default data terms restrict commercial use."
+    },
+    {
+      "slug": "global-wind-atlas",
+      "domains": [
+        "DD5"
+      ],
+      "name": "Global Wind Atlas",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://globalwindatlas.info/",
+      "use": "Screen wind-resource quality and candidate areas with spatial resource layers.",
+      "caveat": "Long-term resource maps do not supply chronological dispatch profiles."
+    },
+    {
+      "slug": "global-solar-atlas",
+      "domains": [
+        "DD5"
+      ],
+      "name": "Global Solar Atlas",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://globalsolaratlas.info/",
+      "use": "Screen solar resource and photovoltaic potential with downloadable maps.",
+      "caveat": "Long-term averages do not replace hourly weather or site measurements."
+    },
+    {
+      "slug": "nrel-atb",
+      "domains": [
+        "DD6",
+        "DD9"
+      ],
+      "name": "Annual Technology Baseline (ATB)",
+      "geography": "US assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://atb.nrel.gov/electricity/",
+      "use": "Start technology cost, performance and financing assumptions with explicit scenarios.",
+      "caveat": "Freeze the release, cost year and scenario; these are assumptions, not project quotes."
+    },
+    {
+      "slug": "dea-energy-storage",
+      "domains": [
+        "DD6"
+      ],
+      "name": "Danish Energy Agency: energy storage",
+      "geography": "Denmark / European assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://ens.dk/en/analyses-and-statistics/technology-data-energy-storage",
+      "use": "Compare storage efficiency, lifetime and cost assumptions.",
+      "caveat": "Technology and regional assumptions need adaptation; read uncertainty ranges."
+    },
+    {
+      "slug": "dea-renewable-fuels",
+      "domains": [
+        "DD6"
+      ],
+      "name": "Danish Energy Agency: renewable fuels",
+      "geography": "Denmark / European assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://ens.dk/en/analyses-and-statistics/technology-data-renewable-fuels",
+      "use": "Parameterize hydrogen, electrolysis and fuel-conversion pathways.",
+      "caveat": "Keep process boundaries and input/output energy conventions consistent."
+    },
+    {
+      "slug": "pnnl-energy-storage-cost-and-performance-database",
+      "domains": [
+        "DD6"
+      ],
+      "name": "PNNL storage cost and performance",
+      "geography": "US assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://www.pnnl.gov/ESGC-cost-performance",
+      "use": "Compare storage technologies by duration, efficiency, lifetime and cost.",
+      "caveat": "Check duration and system boundaries; cost estimates are not vendor bids."
+    },
+    {
+      "slug": "doe-h2a",
+      "domains": [
+        "DD6"
+      ],
+      "name": "DOE H2A production models",
+      "geography": "US assumptions",
+      "kind": "Model inputs",
+      "source_url": "https://www.nrel.gov/hydrogen/h2a-production-models",
+      "use": "Examine transparent hydrogen-production technoeconomic assumptions.",
+      "caveat": "Spreadsheet models require scenario choices; headline hydrogen cost is a model result."
+    },
+    {
+      "slug": "battery-archive",
+      "domains": [
+        "DD6"
+      ],
+      "name": "Battery Archive",
+      "geography": "Multiple experimental studies",
+      "kind": "Dataset",
+      "source_url": "https://batteryarchive.org/",
+      "use": "Explore cell cycling, degradation and test-condition data.",
+      "caveat": "Cell experiments do not directly describe grid-scale projects; complete CSVs may require a request."
+    },
+    {
+      "slug": "eia-natural-gas-prices",
+      "domains": [
+        "DD7"
+      ],
+      "name": "EIA natural gas prices",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.eia.gov/naturalgas/",
+      "use": "Set historical natural-gas price inputs and compare market trends.",
+      "caveat": "Spot benchmarks differ from plant-delivered gas and firm transport costs."
+    },
+    {
+      "slug": "eia-coal-data",
+      "domains": [
+        "DD7"
+      ],
+      "name": "EIA coal data",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.eia.gov/coal/data.php",
+      "use": "Find coal prices, production and consumption for fuel assumptions.",
+      "caveat": "Match coal quality, geography and delivered-versus-mine price definitions."
+    },
+    {
+      "slug": "world-bank-pink-sheet",
+      "domains": [
+        "DD7"
+      ],
+      "name": "World Bank Pink Sheet",
+      "geography": "Global benchmarks",
+      "kind": "Dataset",
+      "source_url": "https://www.worldbank.org/en/research/commodity-markets",
+      "use": "Compare long-run energy and commodity benchmark prices.",
+      "caveat": "Monthly global benchmarks are not locational forward curves or plant fuel contracts."
+    },
+    {
+      "slug": "imf-commodity-prices",
+      "domains": [
+        "DD7"
+      ],
+      "name": "IMF primary commodity prices",
+      "geography": "Global benchmarks",
+      "kind": "Dataset",
+      "source_url": "https://www.imf.org/en/research/commodity-prices",
+      "use": "Cross-check commodity price series and aggregate indices.",
+      "caveat": "Read series definitions and units; index values and absolute prices are different inputs."
+    },
+    {
+      "slug": "entsog-transparency-platform-gas-pipeline-capacity-and-flows",
+      "domains": [
+        "DD7"
+      ],
+      "name": "ENTSOG Transparency Platform",
+      "geography": "Europe",
+      "kind": "Dataset",
+      "source_url": "https://transparency.entsog.eu/",
+      "use": "Assess gas-system capacity and physical flows for fuel-security studies.",
+      "caveat": "Physical gas flows do not provide a traded gas forward price curve."
+    },
+    {
+      "slug": "ice-dutch-ttf",
+      "domains": [
+        "DD7"
+      ],
+      "name": "ICE Dutch TTF futures",
+      "geography": "Europe benchmark",
+      "kind": "Commercial reference",
+      "source_url": "https://www.ice.com/products/27996665/Dutch-TTF-Natural-Gas-Futures",
+      "use": "Identify the relevant traded gas contract for forward-price procurement.",
+      "caveat": "Contract information is public; usable historical and forward market data require appropriate rights."
+    },
+    {
+      "slug": "dsire",
+      "domains": [
+        "DD8"
+      ],
+      "name": "DSIRE",
+      "geography": "US",
+      "kind": "Policy database",
+      "source_url": "https://www.dsireusa.org/",
+      "use": "Find state and federal renewable-energy and efficiency policies and incentives.",
+      "caveat": "Read the underlying law and current program rules before encoding a constraint."
+    },
+    {
+      "slug": "iea-policies-and-measures-database-pams",
+      "domains": [
+        "DD8"
+      ],
+      "name": "IEA Policies database",
+      "geography": "Global",
+      "kind": "Policy database",
+      "source_url": "https://www.iea.org/policies",
+      "use": "Find energy policy measures by country, sector and technology.",
+      "caveat": "Descriptions summarize policies; verify dates, legal force and data reuse terms."
+    },
+    {
+      "slug": "world-bank-rise",
+      "domains": [
+        "DD8"
+      ],
+      "name": "World Bank RISE",
+      "geography": "Global",
+      "kind": "Policy database",
+      "source_url": "https://rise.esmap.org/",
+      "use": "Compare national regulatory frameworks for sustainable energy.",
+      "caveat": "Scored indicators are policy assessments, not executable model constraints."
+    },
+    {
+      "slug": "world-bank-carbon-pricing",
+      "domains": [
+        "DD8"
+      ],
+      "name": "World Bank Carbon Pricing Dashboard",
+      "geography": "Global",
+      "kind": "Policy database",
+      "source_url": "https://carbonpricingdashboard.worldbank.org/",
+      "use": "Locate carbon taxes, emissions-trading systems and coverage information.",
+      "caveat": "Instrument coverage and nominal rates differ from a project's effective carbon cost."
+    },
+    {
+      "slug": "ferc-orders-1920-2023-881-2222-1000-2000",
+      "domains": [
+        "DD8"
+      ],
+      "name": "FERC orders",
+      "geography": "US",
+      "kind": "Reference collection",
+      "source_url": "https://www.ferc.gov/media/orders",
+      "use": "Trace federal electricity-rule requirements to primary orders.",
+      "caveat": "A document collection needs interpretation before it becomes a model input."
+    },
+    {
+      "slug": "eu-ets-eea-eutl",
+      "domains": [
+        "DD8"
+      ],
+      "name": "EEA EU ETS data",
+      "geography": "Europe",
+      "kind": "Dataset",
+      "source_url": "https://www.eea.europa.eu/en/datahub",
+      "use": "Find reported emissions, allowances and compliance information for EU ETS analysis.",
+      "caveat": "Locate the specific EU ETS release in the portal; this is not a live allowance price feed."
+    },
+    {
+      "slug": "pypsa-technology-data",
+      "domains": [
+        "DD9"
+      ],
+      "name": "PyPSA technology-data",
+      "geography": "Primarily Europe assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://github.com/PyPSA/technology-data",
+      "use": "Use compiled cost, efficiency and lifetime tables with source references.",
+      "caveat": "Check currency, cost year, scenario and upstream source assumptions."
+    },
+    {
+      "slug": "lazard-lcoe",
+      "domains": [
+        "DD9"
+      ],
+      "name": "Lazard LCOE+",
+      "geography": "Primarily US assumptions",
+      "kind": "Reference collection",
+      "source_url": "https://www.lazard.com/research-insights/levelized-cost-of-energyplus-lcoeplus/",
+      "use": "Sanity-check technology cost ranges and published financing assumptions.",
+      "caveat": "LCOE is not total system cost; headline ranges do not replace model input tables."
+    },
+    {
+      "slug": "irena-renewable-cost-data",
+      "domains": [
+        "DD9"
+      ],
+      "name": "IRENA renewable generation costs",
+      "geography": "Global",
+      "kind": "Dataset / report",
+      "source_url": "https://www.irena.org/Data",
+      "use": "Benchmark observed renewable project costs and country trends.",
+      "caveat": "Project-year averages differ from future marginal build costs; follow the report's boundaries."
+    },
+    {
+      "slug": "eia-annual-energy-outlook-aeo",
+      "domains": [
+        "DD9"
+      ],
+      "name": "EIA Annual Energy Outlook assumptions",
+      "geography": "US assumptions",
+      "kind": "Assumption tables",
+      "source_url": "https://www.eia.gov/outlooks/aeo/assumptions/",
+      "use": "Use documented US technology, fuel and economic scenario assumptions.",
+      "caveat": "Record the edition and scenario; projected outcomes are not observations."
+    },
+    {
+      "slug": "openstreetmap-land-use-infrastructure-boundaries",
+      "domains": [
+        "DD10"
+      ],
+      "name": "OpenStreetMap infrastructure and land use",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://download.geofabrik.de/",
+      "use": "Extract power infrastructure, roads and land-use context for siting.",
+      "caveat": "Volunteer coverage varies; ODbL obligations apply and map presence does not establish electrical capacity."
+    },
+    {
+      "slug": "esa-worldcover",
+      "domains": [
+        "DD10"
+      ],
+      "name": "ESA WorldCover",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://esa-worldcover.org/en/data-access",
+      "use": "Apply global 10 m land-cover classes to siting screens.",
+      "caveat": "Map classification and vintage matter; land cover does not establish parcel availability."
+    },
+    {
+      "slug": "copernicus-glo-30-dem",
+      "domains": [
+        "DD10"
+      ],
+      "name": "Copernicus DEM GLO-30",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM",
+      "use": "Calculate terrain and slope constraints for screening.",
+      "caveat": "A surface-elevation model is not a parcel survey; inspect product terms and void handling."
+    },
+    {
+      "slug": "usgs-pad-us-protected-areas-database-of-the-us",
+      "domains": [
+        "DD10"
+      ],
+      "name": "USGS PAD-US",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.usgs.gov/programs/gap-analysis-project/science/pad-us-data-download",
+      "use": "Screen protected lands and public land management categories.",
+      "caveat": "Protection and access categories require interpretation; absence is not development permission."
+    },
+    {
+      "slug": "protected-planet-world-database-on-protected-areas-wdpa",
+      "domains": [
+        "DD10"
+      ],
+      "name": "Protected Planet / WDPA",
+      "geography": "Global",
+      "kind": "Dataset",
+      "source_url": "https://www.protectedplanet.net/en/thematic-areas/wdpa",
+      "use": "Screen globally designated protected areas.",
+      "caveat": "Commercial use is restricted under publisher terms; designation does not capture every siting constraint."
+    },
+    {
+      "slug": "usgs-national-land-cover-database-nlcd",
+      "domains": [
+        "DD10"
+      ],
+      "name": "USGS National Land Cover Database",
+      "geography": "US",
+      "kind": "Dataset",
+      "source_url": "https://www.usgs.gov/centers/eros/science/national-land-cover-database",
+      "use": "Use US land cover and imperviousness for siting and demand geography.",
+      "caveat": "Choose a consistent product vintage and resolution; classification has uncertainty."
+    }
+  ]
+}
