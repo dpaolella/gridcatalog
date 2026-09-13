@@ -58,6 +58,11 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
+      # The filtering, catalog-validation and session-forwarding helpers under
+      # `src/lib` are exercised by `tests/*.test.cjs`, which execute the shipped
+      # TypeScript rather than a copy of it. They were added without a step to
+      # run them, which is a suite that cannot go red.
+      - run: npm test
       - run: npm run build
 
   e2e:
@@ -102,11 +107,25 @@ jobs:
              tests/fixtures/registry/gb-osm-reference-model.jsonld \
              var/e2e/registry/
           .venv/bin/datahub record load var/e2e/registry
+          # The allow-list grants the entitled-browser flow signs in against.
+          # Before the reindex, not after: membership is not resolved per
+          # request, it is projected onto each document as
+          # `entitled_principals` (ADR-0006), so a grant made after the index
+          # is built is a grant no search can see.
+          .venv/bin/python tests/e2e/support.py grant
+
           .venv/bin/datahub semantic run
           .venv/bin/datahub links run
           .venv/bin/datahub index reindex
       - name: Build the UI
-        run: npm run build --prefix web
+        # The registered models' bytes first: the viewer fetches them from its
+        # own origin, so a build without them serves a reference-model page
+        # that renders "the network could not be loaded". They were staged
+        # only for the static export further down, which runs after the
+        # browser suite that drives the viewer.
+        run: |
+          make model-assets
+          npm run build --prefix web
       - name: Run
         env:
           DATAHUB_GRAPH_STORE_PATH: var/e2e/graph.nq
@@ -154,19 +173,9 @@ jobs:
           .venv/bin/pytest -q tests/snapshot
           .venv/bin/datahub snapshot export var/e2e/snapshot
 
-          # The registered models' bytes, the same ones the Pages workflow
-          # serves. Without this the preview artefact builds a site whose every
-          # reference-model viewer 404s and renders "the network could not be
-          # loaded" — which is the artefact promising the same bytes as the
-          # deploy and shipping something visibly worse.
-          mkdir -p web/public/reference-models/cascade-interconnect \
-                   web/public/reference-models/gb-osm
-          cp data/reference-models/cascade-interconnect/system.json \
-             data/reference-models/cascade-interconnect/basemap.json \
-             web/public/reference-models/cascade-interconnect/
-          cp data/reference-models/gb-osm/system.view.json \
-             data/reference-models/gb-osm/basemap.json \
-             web/public/reference-models/gb-osm/
+          # Already staged before the UI build above; re-run because this
+          # step must also hold on its own if that one ever moves.
+          make model-assets
 
           DATAHUB_SNAPSHOT="$PWD/var/e2e/snapshot" \
             NEXT_PUBLIC_BASE_PATH=/gridcatalog \

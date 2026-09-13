@@ -33,14 +33,18 @@ def main() -> None:
         elif command == "report":
             row = repos.reports.get(args[0])
             assert row is not None
-            print(json.dumps({
-                "dataset_id": row.dataset_id,
-                "target_kind": row.target_kind,
-                "target_id": row.target_id,
-                "issue_type": row.issue_type,
-                "reporter_contact": row.reporter_contact,
-                "comment": row.comment,
-            }))
+            print(
+                json.dumps(
+                    {
+                        "dataset_id": row.dataset_id,
+                        "target_kind": row.target_kind,
+                        "target_id": row.target_id,
+                        "issue_type": row.issue_type,
+                        "reporter_contact": row.reporter_contact,
+                        "comment": row.comment,
+                    }
+                )
+            )
         else:
             raise ValueError(command)
 

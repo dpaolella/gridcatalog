@@ -808,7 +808,7 @@ def absolutise(document: Any, context: dict[str, Any]) -> Any:
 
 def _is_dataset_node(node: dict[str, Any]) -> bool:
     types = node.get("type")
-    return types == "Dataset" or isinstance(types, list) and "Dataset" in types
+    return types == "Dataset" or (isinstance(types, list) and "Dataset" in types)
 
 
 def dataset_node(document: dict[str, Any]) -> dict[str, Any]:

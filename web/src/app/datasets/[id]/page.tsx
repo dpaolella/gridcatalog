@@ -21,6 +21,7 @@ import { DatasetTabs } from "@/components/DatasetTabs";
 import { Lineage } from "@/components/Lineage";
 import { ReportIssue } from "@/components/ReportIssue";
 import { iriTail } from "@/lib/format";
+import { perRequest } from "@/lib/rendering";
 
 /**
  * One record, seven tabs (PRD §F3).
@@ -45,15 +46,31 @@ type Params = Promise<{ id: string }>;
  * a check that could be got wrong. An allowlisted record has no page here at
  * all; a restricted-metadata one has the stub the API itself would serve.
  *
- * Empty in live mode, where pages are rendered on demand and pre-rendering a
+ * Absent in live mode, where pages are rendered on demand and pre-rendering a
  * fixed set would only make the catalog stale.
+ *
+ * `undefined` rather than a function returning `[]`, and the difference is the
+ * whole route. Next decides at build time whether a segment is static or
+ * dynamic, and *any* `generateStaticParams` export makes it static — with an
+ * empty list that means zero pre-rendered paths and every request served by an
+ * on-demand render that is still in the static store. `cookies()` is illegal
+ * there, so once the reads below started carrying the session (#91) every
+ * record page 500'd with DYNAMIC_SERVER_USAGE, anonymous ones included.
+ * `perRequest()` cannot rescue it: with nothing to pre-render, `connection()`
+ * is never reached at build time and the classification is already made.
+ *
+ * So the export exists in exactly the build that has a use for it. This is a
+ * conditional *value*, not a conditional route-segment literal — Next parses
+ * `export const dynamic` without evaluating it and rejects an expression, but
+ * reads `generateStaticParams` off the loaded module.
  */
-export async function generateStaticParams() {
-  return (await snapshotDatasetIds()).map((id) => ({ id }));
-}
+export const generateStaticParams = IS_SNAPSHOT
+  ? async () => (await snapshotDatasetIds()).map((id) => ({ id }))
+  : undefined;
 
 export async function generateMetadata({ params }: { params: Params }) {
   const { id } = await params;
+  await perRequest();
   try {
     const dataset = await getDataset(id);
     return { title: dataset.title, description: dataset.summary ?? undefined };
@@ -64,6 +81,14 @@ export async function generateMetadata({ params }: { params: Params }) {
 
 export default async function DatasetPage({ params }: { params: Params }) {
   const { id } = await params;
+  // Reading a record now depends on who is asking (#91): every call below
+  // forwards the session cookie when there is one. `cookies()` is illegal
+  // during a static render, and this route has `generateStaticParams`, so on
+  // the live build Next rendered it in the static store and every detail page
+  // failed with DYNAMIC_SERVER_USAGE. `perRequest()` says out loud what the
+  // reads already assume, and stays a no-op in the deliberately anonymous
+  // static export, where `generateStaticParams` still writes a file per record.
+  await perRequest();
   const t = await getTranslations("dataset");
   const empty = await getTranslations("empty");
   const modelText = await getTranslations("referenceModel");

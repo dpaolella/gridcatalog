@@ -7,7 +7,7 @@ PIP := uv pip install --python .venv/bin/python
 .DEFAULT_GOAL := help
 .PHONY: help venv install lint fmt types test test-all conformance graph-suite \
         seed reindex serve web clean up down check \
-        snapshot site site-serve
+        snapshot site site-serve model-assets
 
 help: ## Show this help
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -63,7 +63,7 @@ links: ## Compute inter-dataset links
 demo: seed semantic links reindex ## A populated local catalog, from nothing
 	@echo "Catalog ready. 'make serve' then 'make web'."
 
-web-build: ## Production build of the UI
+web-build: model-assets ## Production build of the UI
 	cd web && npm run build
 
 snapshot: ## Export the anonymous catalog as static JSON
@@ -72,7 +72,7 @@ snapshot: ## Export the anonymous catalog as static JSON
 	@# before the upload because a published file cannot be recalled.
 	$(PY) -m datahub.cli snapshot export var/site/snapshot
 
-site: snapshot ## Build the static site into web/out
+site: model-assets snapshot ## Build the static site into web/out
 	@# BASE_PATH is the repository name for a project site
 	@# (<owner>.github.io/<repo>) and empty for a user site or a custom
 	@# domain. Wrong here means the HTML loads and every asset 404s.
@@ -83,6 +83,28 @@ site-serve: ## Serve web/out exactly as GitHub Pages would
 	@# Not `serve -s`: an SPA fallback renders the home page for every miss,
 	@# which hides precisely the broken links this is here to find.
 	cd web && node scripts/serve-export.mjs out --port 4321 --prefix "$(BASE_PATH)"
+
+model-assets: ## Stage registered model bytes under web/public
+	@# The viewer fetches these from its own origin, so they have to be in
+	@# the build. Which files, per model, is a size decision: Cascade has no
+	@# route geometry and its whole document is 281 KB, so the viewer reads
+	@# the model itself; GB carries a surveyed corridor per circuit and is
+	@# 2.9 MB — a download, not a page asset — so the site serves its
+	@# display-resolution copy and the record's distribution still points at
+	@# the full one.
+	@#
+	@# Here rather than inline in a workflow because there are three callers
+	@# — this Makefile, the CI job that drives a browser over the live build,
+	@# and the Pages deploy — and a copy that only two of them run is how the
+	@# e2e suite came to drive a viewer whose bytes 404.
+	mkdir -p web/public/reference-models/cascade-interconnect \
+	         web/public/reference-models/gb-osm
+	cp data/reference-models/cascade-interconnect/system.json \
+	   data/reference-models/cascade-interconnect/basemap.json \
+	   web/public/reference-models/cascade-interconnect/
+	cp data/reference-models/gb-osm/system.view.json \
+	   data/reference-models/gb-osm/basemap.json \
+	   web/public/reference-models/gb-osm/
 
 e2e: ## Playwright over the M9 done-criterion flows
 	@# Both servers, torn down on the way out. The suite drives a real API and

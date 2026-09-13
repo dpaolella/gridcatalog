@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from datahub.api import deps
 from datahub.graph.records import dataset_node
 from datahub.projector import reindex
@@ -51,7 +50,9 @@ def test_reference_model_survives_graph_api_and_snapshot(
     assert json.loads((part / "distributions.json").read_text()) == paths.json()
 
 
-@pytest.mark.parametrize("types", ["Dataset", ["Dataset"], ["Dataset", "ReferenceModel"], ["ReferenceModel", "Dataset"]])
+@pytest.mark.parametrize(
+    "types", ["Dataset", ["Dataset"], ["Dataset", "ReferenceModel"], ["ReferenceModel", "Dataset"]]
+)
 def test_dataset_membership_accepts_scalar_and_multiple_types(types):
     node = {"id": "https://example.org/model", "type": types}
     assert dataset_node(node) is node

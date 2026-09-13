@@ -162,14 +162,7 @@ jobs:
           # surveyed corridor per circuit and is 2.9 MB — a download, not a page
           # asset — so the site serves its display-resolution copy and the
           # record's distribution still points at the full one.
-          mkdir -p web/public/reference-models/cascade-interconnect
-          cp data/reference-models/cascade-interconnect/system.json \
-             data/reference-models/cascade-interconnect/basemap.json \
-             web/public/reference-models/cascade-interconnect/
-          mkdir -p web/public/reference-models/gb-osm
-          cp data/reference-models/gb-osm/system.view.json \
-             data/reference-models/gb-osm/basemap.json \
-             web/public/reference-models/gb-osm/
+          make model-assets
           printf 'catalog.json: %s KB\n' \
             "$(( ($(wc -c < web/public/catalog.json) + 1023) / 1024 ))" >> "$GITHUB_STEP_SUMMARY"
 
