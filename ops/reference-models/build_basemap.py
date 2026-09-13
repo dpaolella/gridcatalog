@@ -289,14 +289,18 @@ def build(name: str, bbox: tuple[float, float, float, float]) -> dict[str, Any]:
 
 
 EXTENTS = {
-    # A margin around the Cascade Interconnect's own bounds, so the network
-    # sits in a place rather than filling the frame edge to edge.
-    "cascade-interconnect": (-125.6, 44.4, -118.2, 49.2),
     # Great Britain, with enough west of it for the Irish coast to appear.
     # Ireland is context rather than decoration here: the GB model stops at the
     # Irish Sea and a reader should be able to see that the blank water to the
     # west is a boundary of the *model*, not the edge of the map.
     "gb-osm": (-8.4, 49.6, 2.6, 59.3),
+    # Germany, with a degree of margin on each side of the network's own bounds
+    # (6.04-14.60 E, 47.50-54.82 N). The margin is doing the same job as GB's
+    # water: the model stops at the national border and the neighbours have to
+    # be visible for that to read as a boundary of the *model* rather than the
+    # edge of the world. Germany borders nine countries, so this matters more
+    # here than it did for an island.
+    "de-osm": (4.9, 46.5, 15.7, 55.9),
 }
 
 

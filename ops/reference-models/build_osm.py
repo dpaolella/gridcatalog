@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
-"""The Great Britain transmission network, from real OSM topology.
+"""Reference transmission networks, from real OSM topology, one per geography.
 
-The Cascade Interconnect is invented end to end, which is the right way to show
-the registry's shape and the wrong way to show that a reference model is
-something a modeller would actually start from. This one is the other half of
-that argument: the topology is real — real substations at real coordinates,
-real circuits following real corridors — and the electrical parameters are
-estimated, because the source has none.
+The topology is real — real substations at real coordinates, real circuits
+following real corridors — and every electrical parameter is estimated, because
+the source contains none.
 
-That gap is the interesting part, and it is the reason this model is in the
+That gap is the interesting part, and it is the reason these models are in the
 demo at all. A reference model whose every number is measured needs no
 registry: you would read its README. A model that is real in one dimension and
 estimated in another needs somewhere to say *which is which, per value*, which
@@ -16,6 +13,16 @@ is the whole claim the Hub makes. So every estimated number here is written
 down in `parameters.json` beside the document, with the rule that produced it
 and the inputs it read — not a footnote in a description that a loader will
 never see.
+
+## One builder, several countries
+
+The source extract is continental, so the marginal cost of another geography is
+a row in `GEOGRAPHIES` and a run of this script — provided the row is honest.
+A country's build is correct because of things that are true of *that country*,
+and a builder that runs anywhere while quietly keeping another country's answers
+produces a document that conforms, renders, and is wrong with nothing to say so.
+Everything of that kind lives on `Geography`, and a voltage class with no
+declared line type stops the build rather than defaulting.
 
 ## Source
 
@@ -29,7 +36,13 @@ Fetch it yourself; this script does not download:
       curl -L -o var/osm/$f.csv \\
         "https://zenodo.org/api/records/13358976/files/$f.csv/content"
     done
-    python ops/reference-models/build_gb_osm.py --source var/osm
+    python ops/reference-models/build_osm.py GB --source var/osm
+
+Zenodo is occasionally unavailable — measured at a 504 and a bare timeout one
+afternoon, and fine twenty minutes later. That is a reason to keep the files
+around while you work, not a reason to change source: `parameters.json` records
+the SHA-256 of each one, so a rebuild is checkable against the archive rather
+than trusted.
 
 The digests of the three files it read are recorded in `parameters.json`, so a
 document's provenance can be checked against the archive rather than trusted.
@@ -54,16 +67,12 @@ import hashlib
 import json
 import math
 from collections import defaultdict
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-OUT = ROOT / "data" / "reference-models" / "gb-osm" / "system.json"
-PROVENANCE = OUT.parent / "parameters.json"
-VIEW = OUT.parent / "system.view.json"
 
-COUNTRY = "GB"
-FREQUENCY = 50.0
 BASE_POWER = 100.0
 UNITS = "NATURAL_UNITS"
 
@@ -100,6 +109,14 @@ LINE_TYPES: dict[float, dict[str, Any]] = {
         "i_nom_ka": 1.935,
         "nominal_kv": 300.0,
     },
+    380.0: {
+        "type": "Al/St 240/40 4-bundle 380.0",
+        "r_per_km": 0.03,
+        "x_per_km": 0.246,
+        "c_nf_per_km": 13.8,
+        "i_nom_ka": 2.58,
+        "nominal_kv": 380.0,
+    },
     400.0: {
         "type": "Al/St 240/40 4-bundle 380.0",
         "r_per_km": 0.03,
@@ -110,31 +127,126 @@ LINE_TYPES: dict[float, dict[str, Any]] = {
     },
 }
 
-#: Transformer ratings and impedance by voltage pair.
+#: Transformer impedance rule, shared by every geography.
 #:
-#: Weaker evidence than the line types, and labelled accordingly. These are
-#: typical values for a GB supergrid autotransformer — 750 MVA at 400/275,
-#: 240 MVA at the 220 kV pairs — with 13% reactance on rating and an X/R of 50.
-#: No public per-unit register of GB transformer impedances exists to check
-#: them against, so they are a plausible class value and nothing more.
-TRANSFORMER_RATING_MVA = {(275.0, 400.0): 750.0, (220.0, 400.0): 500.0}
-TRANSFORMER_DEFAULT_MVA = 240.0
+#: Weaker evidence than the line types and labelled accordingly everywhere it
+#: is used: 13% reactance on rating with an X/R of 50 is a class value for a
+#: supergrid autotransformer, and no country in this source publishes a
+#: per-unit register to check it against.
+#:
+#: The *ratings* it is applied to are per geography, because 750 MVA at 400/275
+#: is a statement about the GB supergrid and not about anywhere else. See
+#: `Geography.transformer_rating_mva`.
 TRANSFORMER_X_PU = 0.13
 TRANSFORMER_X_OVER_R = 50.0
 
-#: Douglas-Peucker tolerance for the viewer's copy of the line corridors, in
-#: degrees.
-#:
-#: The whole island is about ten degrees of longitude and a page renders it
-#: around a thousand pixels wide, so a pixel is roughly 0.01 degrees. At 0.003
-#: the error is a third of a pixel un-zoomed and still sub-pixel at three times
-#: zoom, and it keeps 4,191 of 33,090 vertices — an eighth of the data for a
-#: difference nobody can see until they are looking at one valley.
-#:
-#: `system.json` keeps every vertex. The viewer's copy is a *rendering*
-#: decision and the download is the model; conflating the two would mean
-#: shipping a simplified corridor to somebody running a study on it.
-VIEW_TOLERANCE = 0.003
+
+@dataclass(frozen=True)
+class Geography:
+    """One country's worth of the extract, and the facts that are its own.
+
+    The GB build was correct because of things that are true of GB — that
+    275 kV borrows the 300 kV standard type, that Northern Ireland is a
+    separate island under the same country code, that the transformers rather
+    than the lines are what make the network connected. A builder that runs
+    anywhere while quietly keeping GB's answers would produce a document for
+    Germany that conforms, renders, and is wrong with nothing to say so.
+
+    So everything that is a claim about one country lives here, and anything
+    this table cannot answer for a new one stops the build (see `check`).
+    """
+
+    #: `country` in the source CSVs, and the bus-name prefix.
+    code: str
+    #: Directory under `data/reference-models/`, and the record's model id.
+    slug: str
+    #: How the network is named to a reader.
+    name: str
+    frequency: float
+    #: Rated MVA by (lower kV, upper kV). Every pair the kept network actually
+    #: contains must be answered by this table or by `transformer_default_mva`.
+    transformer_rating_mva: dict[tuple[float, float], float]
+    #: The rating for pairs the table does not name — a handful of one-off
+    #: couplings next to converter stations in every country. Declared per
+    #: geography rather than defaulted globally, so it is a choice somebody
+    #: made rather than a number that arrived.
+    transformer_default_mva: float
+    #: Why the ratings above are what they are, carried into every
+    #: transformer's provenance record.
+    transformer_basis_note: str
+    #: What the largest-component filter drops, named rather than described as
+    #: tidying. Keyed for the record's `excluded` block.
+    excluded: dict[str, str]
+    #: Douglas-Peucker tolerance for the viewer's copy, in degrees.
+    #:
+    #: These networks span roughly ten degrees of longitude and a page renders
+    #: one about a thousand pixels wide, so a pixel is roughly 0.01 degrees. At
+    #: 0.003 the error is a third of a pixel un-zoomed and still sub-pixel at
+    #: three times zoom, for about an eighth of the vertices.
+    #:
+    #: `system.json` keeps every vertex. The viewer's copy is a *rendering*
+    #: decision and the download is the model; conflating the two would mean
+    #: shipping a simplified corridor to somebody running a study on it.
+    view_tolerance: float
+    #: One line on what this network is, for the document description.
+    summary: str
+
+
+GEOGRAPHIES: dict[str, Geography] = {
+    "GB": Geography(
+        code="GB",
+        slug="gb-osm",
+        name="Great Britain",
+        frequency=50.0,
+        transformer_rating_mva={(275.0, 400.0): 750.0, (220.0, 400.0): 500.0},
+        transformer_default_mva=240.0,
+        transformer_basis_note=(
+            "A class value, not a nameplate. No public register of GB "
+            "transformer impedances exists to check it against, so this is the "
+            "weakest estimate in the model."
+        ),
+        excluded={
+            "northern_ireland": "A separate 13-bus AC island under the same "
+            "country code, and not part of Great Britain.",
+            "hvdc": "Converter stations and their links are not modelled. The "
+            "GB interconnectors and the internal HVDC bootstraps are absent, so "
+            "north-south transfer capability is understated.",
+        },
+        view_tolerance=0.003,
+        summary="The Great Britain transmission network as mapped in OpenStreetMap",
+    ),
+    "DE": Geography(
+        code="DE",
+        slug="de-osm",
+        name="Germany",
+        frequency=50.0,
+        # Germany's network is 380/220, and the 184 couplings between those two
+        # levels are the interface a study would care about. 600 MVA is the
+        # class value for a German 380/220 kV coupling transformer and carries
+        # exactly the caveat GB's does — see `transformer_basis_note`.
+        transformer_rating_mva={(220.0, 380.0): 600.0},
+        transformer_default_mva=240.0,
+        transformer_basis_note=(
+            "A class value, not a nameplate. No public register of German "
+            "transformer impedances exists to check it against, so this is the "
+            "weakest estimate in the model. PyPSA-Eur itself declines to pick "
+            "one: its configuration rates every transformer at 2,000 MVA, "
+            "which is a placeholder that removes the 380/220 kV interface as a "
+            "constraint altogether. A plausible rating that can bind is more "
+            "useful to a reader than one that cannot, and both are estimates."
+        ),
+        excluded={
+            "islands": "Five buses in four fragments, each a converter station "
+            "or a stub that no AC circuit in the extract connects to the "
+            "synchronous network.",
+            "hvdc": "Converter stations and their links are not modelled. The "
+            "north-south corridors under construction and the interconnectors "
+            "to Scandinavia are absent, so transfer capability is understated.",
+        },
+        view_tolerance=0.003,
+        summary="The German transmission network as mapped in OpenStreetMap",
+    ),
+}
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:
@@ -195,7 +307,9 @@ def simplify(points: list[list[float]], tolerance: float) -> list[list[float]]:
     return [p for p, k in zip(points, keep, strict=True) if k]
 
 
-def line_parameters(voltage: float, circuits: float, length_km: float) -> dict[str, Any]:
+def line_parameters(
+    geo: Geography, voltage: float, circuits: float, length_km: float
+) -> dict[str, Any]:
     """Series impedance, shunt susceptance and thermal rating for one line.
 
     Returned with the inputs and the rule alongside the numbers, because the
@@ -208,7 +322,7 @@ def line_parameters(voltage: float, circuits: float, length_km: float) -> dict[s
     # Total line charging: capacitance is per circuit and circuits are in
     # parallel, so it *adds* where the series impedance divides. Split half to
     # each end, which is what the pi model means by `b.from` and `b.to`.
-    b_total = 2 * math.pi * FREQUENCY * (spec["c_nf_per_km"] * 1e-9) * length_km * n
+    b_total = 2 * math.pi * geo.frequency * (spec["c_nf_per_km"] * 1e-9) * length_km * n
     # The per-end half is the stored quantity and the total is derived from it,
     # not the other way round. Rounding the total and then halving it gives two
     # ends that do not sum back to the total the provenance states — by 1e-8,
@@ -250,8 +364,8 @@ def line_parameters(voltage: float, circuits: float, length_km: float) -> dict[s
     }
 
 
-def transformer_parameters(v_low: float, v_high: float) -> dict[str, Any]:
-    rating = TRANSFORMER_RATING_MVA.get((v_low, v_high), TRANSFORMER_DEFAULT_MVA)
+def transformer_parameters(geo: Geography, v_low: float, v_high: float) -> dict[str, Any]:
+    rating = geo.transformer_rating_mva.get((v_low, v_high), geo.transformer_default_mva)
     x = TRANSFORMER_X_PU * v_high**2 / rating
     r = x / TRANSFORMER_X_OVER_R
     return {
@@ -266,11 +380,7 @@ def transformer_parameters(v_low: float, v_high: float) -> dict[str, Any]:
             "x_pu_on_rating": TRANSFORMER_X_PU,
             "x_over_r": TRANSFORMER_X_OVER_R,
         },
-        "approximations": [
-            "A class value, not a nameplate. No public register of GB "
-            "transformer impedances exists to check it against, so this is the "
-            "weakest estimate in the model."
-        ],
+        "approximations": [geo.transformer_basis_note],
     }
 
 
@@ -297,13 +407,13 @@ def largest_component(bus_ids: set[str], edges: list[tuple[str, str]]) -> set[st
     return best
 
 
-def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+def build(source: Path, geo: Geography) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     buses_csv, lines_csv, trafos_csv = (
         source / "buses.csv",
         source / "lines.csv",
         source / "transformers.csv",
     )
-    buses_all = {row["bus_id"]: row for row in read_rows(buses_csv) if row["country"] == COUNTRY}
+    buses_all = {row["bus_id"]: row for row in read_rows(buses_csv) if row["country"] == geo.code}
     lines_all = [
         row for row in read_rows(lines_csv) if row["bus0"] in buses_all and row["bus1"] in buses_all
     ]
@@ -333,12 +443,28 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     lines = [row for row in lines_all if row["bus0"] in keep and row["bus1"] in keep]
     trafos = [row for row in trafos_all if row["bus0"] in keep and row["bus1"] in keep]
 
+    # Stop here rather than deep inside the loop, and say what is missing.
+    #
+    # A voltage with no standard line type used to surface as a `KeyError: 380.0`
+    # from `line_parameters`, which is the right outcome reached the wrong way:
+    # it names a number and not a decision. The decision is that somebody has to
+    # choose which published type a new voltage class borrows, and record it as a
+    # substitution — which is exactly what GB's 275 kV entry is.
+    unknown = sorted({float(row["voltage"]) for row in lines} - set(LINE_TYPES))
+    if unknown:
+        raise SystemExit(
+            f"{geo.code}: no standard line type for "
+            + ", ".join(f"{v:.0f} kV" for v in unknown)
+            + ". Add an entry to LINE_TYPES naming the published type it borrows, "
+            "or the model would carry impedances with no rule behind them."
+        )
+
     next_id = iter(range(1, 1_000_000))
 
     def nid() -> int:
         return next(next_id)
 
-    geo: list[dict[str, Any]] = []
+    shapes: list[dict[str, Any]] = []
     assoc: list[dict[str, Any]] = []
     provenance_lines: list[dict[str, Any]] = []
     provenance_trafos: list[dict[str, Any]] = []
@@ -346,7 +472,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     area_id = nid()
     area = {
         "id": area_id,
-        "name": "Great Britain",
+        "name": geo.name,
         "base_power": BASE_POWER,
         "power_units": UNITS,
     }
@@ -362,7 +488,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
             {
                 "id": bus_id,
                 "number": bus_id,
-                "name": f"GB-{osm_id}",
+                "name": f"{geo.code}-{osm_id}",
                 "available": True,
                 "bustype": "PQ",
                 "angle": 0.0,
@@ -373,7 +499,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
             }
         )
         geo_id = nid()
-        geo.append(
+        shapes.append(
             {
                 "id": geo_id,
                 "geo_json": {
@@ -409,7 +535,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
         voltage = float(row["voltage"])
         circuits = float(row["circuits"])
         length_km = float(row["length"]) / 1000.0
-        estimate = line_parameters(voltage, circuits, length_km)
+        estimate = line_parameters(geo, voltage, circuits, length_km)
 
         arc_id = nid()
         arcs.append({"id": arc_id, "from_id": bus_key[row["bus0"]], "to_id": bus_key[row["bus1"]]})
@@ -438,7 +564,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
 
         vertices = parse_linestring(row["geometry"])
         geo_id = nid()
-        geo.append({"id": geo_id, "geo_json": {"type": "LineString", "coordinates": vertices}})
+        shapes.append({"id": geo_id, "geo_json": {"type": "LineString", "coordinates": vertices}})
         assoc.append(
             {
                 "component_id": line_id,
@@ -447,7 +573,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
                 "attribute_type": "GeographicInfo",
             }
         )
-        view = simplify(vertices, VIEW_TOLERANCE)
+        view = simplify(vertices, geo.view_tolerance)
 
         record = {"component": f"LN-{row['line_id']}", "source_id": row["line_id"], **estimate}
         if row["underground"] == "t":
@@ -465,7 +591,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     for row in sorted(trafos, key=lambda r: r["transformer_id"]):
         v0, v1 = float(row["voltage_bus0"]), float(row["voltage_bus1"])
         low, high = min(v0, v1), max(v0, v1)
-        estimate = transformer_parameters(low, high)
+        estimate = transformer_parameters(geo, low, high)
 
         arc_id = nid()
         arcs.append({"id": arc_id, "from_id": bus_key[row["bus0"]], "to_id": bus_key[row["bus1"]]})
@@ -512,9 +638,9 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     }
 
     document = {
-        "name": "OpenGrid Reference: Great Britain (OSM)",
+        "name": f"OpenGrid Reference: {geo.name} (OSM)",
         "description": (
-            "The Great Britain transmission network as mapped in OpenStreetMap, "
+            f"{geo.summary}, "
             "via the PyPSA-Eur prebuilt extract (Zenodo 10.5281/zenodo.13358976 "
             "v0.3, ODbL). Topology, coordinates, voltages, circuit counts and "
             "line routes are from the source. Every electrical parameter — r, x, "
@@ -523,19 +649,19 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
             "inputs behind each value. No demand and no generation: this is a "
             "network, not a system, and it cannot be dispatched as it stands."
         ),
-        "frequency": FREQUENCY,
+        "frequency": geo.frequency,
         "components": {k: components[k] for k in sorted(components)},
         # A flat, untyped array — the schema is explicit that it is not
         # bucketed by type, and that `attribute_type` on the association row
         # is the only per-row discriminator a consumer gets.
-        "supplemental_attributes": geo,
+        "supplemental_attributes": shapes,
         "supplemental_attribute_associations": assoc,
         "plant_associations": [],
         "combined_cycle_associations": [],
         "service_associations": [],
         "trading_hub_associations": [],
         "time_series_associations": [],
-        "time_series_storage_file": "gb-osm-timeseries.h5",
+        "time_series_storage_file": f"{geo.slug}-timeseries.h5",
         "ext": {
             "opengrid": {
                 "parameter_basis": "estimated",
@@ -549,7 +675,7 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     }
 
     provenance = {
-        "model": "gb-osm",
+        "model": geo.slug,
         "source": {
             "doi": SOURCE_DOI,
             "version": SOURCE_VERSION,
@@ -578,19 +704,13 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
             "transformer rating",
         ],
         "conventions": [
-            f"Slack bus: GB-{slack_osm}, the highest-voltage bus with the most "
+            f"Slack bus: {geo.code}-{slack_osm}, the highest-voltage bus with the most "
             "line connections. The source says nothing about where the reference "
             "angle sits; this is a convention, not a fact about the network.",
             "Voltage limits of 0.95-1.05 pu on every bus, and angle limits of "
             "+/-0.6 rad on every line, are placeholders of the same kind.",
         ],
-        "excluded": {
-            "northern_ireland": "A separate 13-bus AC island under the same "
-            "country code, and not part of Great Britain.",
-            "hvdc": "Converter stations and their links are not modelled. The "
-            "GB interconnectors and the internal HVDC bootstraps are absent, so "
-            "north-south transfer capability is understated.",
-        },
+        "excluded": dict(geo.excluded),
         "lines": provenance_lines,
         "transformers": provenance_trafos,
     }
@@ -605,19 +725,24 @@ def build(source: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]
     view = json.loads(json.dumps(document))
     view["description"] = (
         "Rendering copy. Line corridors are simplified to "
-        f"{VIEW_TOLERANCE} degrees for display; system.json holds every vertex "
+        f"{geo.view_tolerance} degrees for display; system.json holds every vertex "
         "and is the model. Do not run a study on this file."
     )
     for attribute in view["supplemental_attributes"]:
-        geo = attribute["geo_json"]
-        if geo["type"] == "LineString":
-            geo["coordinates"] = simplify(geo["coordinates"], VIEW_TOLERANCE)
+        shape = attribute["geo_json"]
+        if shape["type"] == "LineString":
+            shape["coordinates"] = simplify(shape["coordinates"], geo.view_tolerance)
 
     return document, provenance, view
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "country",
+        choices=sorted(GEOGRAPHIES),
+        help="which geography to build",
+    )
     parser.add_argument(
         "--source",
         type=Path,
@@ -626,18 +751,23 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    document, provenance, view = build(args.source)
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(document, indent=2) + "\n")
-    PROVENANCE.write_text(json.dumps(provenance, indent=2) + "\n")
-    VIEW.write_text(json.dumps(view, separators=(",", ":")) + "\n")
+    geo = GEOGRAPHIES[args.country]
+    out = ROOT / "data" / "reference-models" / geo.slug / "system.json"
+    provenance_path = out.parent / "parameters.json"
+    view_path = out.parent / "system.view.json"
+
+    document, provenance, view = build(args.source, geo)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(document, indent=2) + "\n")
+    provenance_path.write_text(json.dumps(provenance, indent=2) + "\n")
+    view_path.write_text(json.dumps(view, separators=(",", ":")) + "\n")
 
     counts = {k: len(v) for k, v in document["components"].items()}
-    print(f"wrote {OUT.relative_to(ROOT)}")
+    print(f"wrote {out.relative_to(ROOT)}")
     for key, value in counts.items():
         print(f"  {key:24} {value:4d}")
     print(f"  {'TOTAL':24} {sum(counts.values()):4d}")
-    for path in (OUT, PROVENANCE, VIEW):
+    for path in (out, provenance_path, view_path):
         print(f"  {path.name:24} {path.stat().st_size:>9,} bytes")
 
 
