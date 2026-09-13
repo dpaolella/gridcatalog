@@ -28,8 +28,15 @@ test("filters narrow results, including concept links and combined facets", asyn
   await page.goto(path("/datasets?record_type=reference_model"));
   await expect(page.getByRole("link", { name: "OpenGrid Reference: Great Britain (OSM)", exact: true })).toBeVisible();
   await expect(page.locator("main li.og-card")).toHaveCount(2);
+  // Both published models are built the same way and so declare the same
+  // fidelity, which means "indicative returns one of two" is no longer
+  // available as proof the filter runs. Narrowing is shown the other way
+  // round: a class nothing carries must return nothing, where a filter that
+  // is never evaluated returns everything.
   await page.goto(path("/datasets?record_type=reference_model&fidelity_class=indicative"));
-  await expect(page.locator("main li.og-card")).toHaveCount(1);
+  await expect(page.locator("main li.og-card")).toHaveCount(2);
+  await page.goto(path("/datasets?record_type=reference_model&fidelity_class=authoritative"));
+  await expect(page.getByText("No datasets match this search.", { exact: true })).toBeVisible();
   await page.goto(path("/datasets?concept=nonexistent-review-concept"));
   await expect(page.getByText("No datasets match this search.", { exact: true })).toBeVisible();
   await page.goto(path("/datasets/ecmwf-era5#schema"));
@@ -38,7 +45,7 @@ test("filters narrow results, including concept links and combined facets", asyn
   await concept.click();
   await expect(page).toHaveURL(/concept=/);
   await expect(page.getByRole("link", { name: /ERA5/i }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "OpenGrid Reference: Cascade Interconnect", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "OpenGrid Reference: Germany (OSM)", exact: true })).toHaveCount(0);
 });
 
 test("evidence links survive refresh and history and return to the filtered search", async ({ page }) => {

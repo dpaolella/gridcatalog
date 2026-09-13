@@ -57,6 +57,7 @@ from datahub.api.models.operational import (
 from datahub.logging import get_logger
 from sqlalchemy import Select, delete, func, or_, select, update
 from sqlalchemy.engine import CursorResult, Result
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 log = get_logger(__name__)
@@ -1225,13 +1226,49 @@ class RateLimitRepository(Repository[RateLimitBucket]):
         """
         now = utcnow()
         start = datetime.fromtimestamp((int(now.timestamp()) // window_s) * window_s, tz=UTC)
-        bucket = self.session.get(RateLimitBucket, (key, start))
-        if bucket is None:
-            bucket = RateLimitBucket(key=key, window_start=start, count=0)
-            self.session.add(bucket)
-        bucket.count += 1
-        self.session.flush()
-        return bucket.count <= limit, bucket.count
+        where = (RateLimitBucket.key == key, RateLimitBucket.window_start == start)
+
+        # Update first, insert only if there was nothing to update, and do the
+        # insert inside a savepoint.
+        #
+        # The obvious order — get, insert if absent, increment — is a
+        # get-or-create race, and it fails in the worst available way. Two
+        # concurrent requests from one caller both see no row, both INSERT, and
+        # one gets `UNIQUE constraint failed`. That happens during *this
+        # request's* flush, so the session is left needing a rollback and the
+        # work the request actually came to do fails with `PendingRollbackError`
+        # several frames later. The caller gets a 500 from the component whose
+        # entire job is to answer 429 instead.
+        #
+        # Caught in the browser suite: five reports posted at once, one 500,
+        # traced back here. The limiter has to be the one part of a request that
+        # cannot take the request down with it.
+        self.session.execute(
+            update(RateLimitBucket).where(*where).values(count=RateLimitBucket.count + 1)
+        )
+
+        count = self.session.execute(
+            select(RateLimitBucket.count).where(*where)
+        ).scalar_one_or_none()
+        if count is None:
+            try:
+                # A savepoint, so losing this race costs the insert and not the
+                # transaction around it.
+                with self.session.begin_nested():
+                    self.session.add(RateLimitBucket(key=key, window_start=start, count=1))
+                count = 1
+            except IntegrityError:
+                # Somebody else created the window between the update and the
+                # insert. Their row exists now, so the increment that found
+                # nothing a moment ago will find it.
+                self.session.execute(
+                    update(RateLimitBucket).where(*where).values(count=RateLimitBucket.count + 1)
+                )
+                count = self.session.execute(
+                    select(RateLimitBucket.count).where(*where)
+                ).scalar_one()
+
+        return count <= limit, count
 
     def prune(self, *, older_than: timedelta = timedelta(days=1)) -> int:
         cutoff = utcnow() - older_than

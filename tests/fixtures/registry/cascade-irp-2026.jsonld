@@ -6,7 +6,7 @@
       "type": "Study",
       "title": "Cascade Power & Light 2026 Integrated Resource Plan",
       "summary": "A fictional utility's IRP filing. Every value in this record is invented.",
-      "description": "Cascade Power & Light is not a real utility and UE-26-0142 is not a real docket. The record exists so the registry's shapes have something complete to validate against, and so the demo can show a filing whose every number is traceable without attributing an invented assessment to a real company.",
+      "description": "Cascade Power & Light is not a real utility and UE-26-0142 is not a real docket. The record exists so the registry's shapes have something complete to validate against, and so the demo can show a filing whose every number is traceable without attributing an invented assessment to a real company. The network it binds is not invented: it is the published Great Britain reference model, which is the arrangement worth showing — a study is a set of choices laid over a network somebody else can download and check, and only the choices here are fictional.",
       "studyKind": "filing",
       "publisher": "https://catalog.opengrid.org/agent/cascade-power-and-light",
       "jurisdiction": "Cascadia Utilities Commission (fictional)",
@@ -19,7 +19,7 @@
       "frozenAt": "2026-04-02T00:00:00Z",
       "citationId": "opengrid:study/cascade-pl-irp-2026@1.0",
       "hasAssumptionSet": ["https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1"],
-      "boundReferenceModel": ["https://catalog.opengrid.org/ds/cascade-interconnect-reference"],
+      "boundReferenceModel": ["https://catalog.opengrid.org/ds/gb-osm-reference"],
       "hasRunRecord": ["https://catalog.opengrid.org/run/R-0412"],
       "issued": "2026-04-02T00:00:00Z"
     },
@@ -39,7 +39,7 @@
       "frozenAt": "2026-05-19T00:00:00Z",
       "citationId": "opengrid:study/coalition-intervention-ue-26-0142@1.0",
       "hasAssumptionSet": ["https://catalog.opengrid.org/assumptions/coalition-fork-v1"],
-      "boundReferenceModel": ["https://catalog.opengrid.org/ds/cascade-interconnect-reference"],
+      "boundReferenceModel": ["https://catalog.opengrid.org/ds/gb-osm-reference"],
       "issued": "2026-05-19T00:00:00Z"
     }
   ]

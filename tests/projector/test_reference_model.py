@@ -11,11 +11,19 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
 from datahub.projector.build import build_document
 
 from tests.fixtures.loader import load_graph
 
-REFERENCE_MODEL = "https://catalog.opengrid.org/ds/cascade-interconnect-reference"
+#: Every reference model in the corpus, so a second one cannot be added
+#: without the projector being asked about it. `tests/reference_models/`
+#: is the other half: it checks the record against the bytes, where this
+#: checks the projection against the record.
+MODELS = {
+    "gb-osm-reference-model": ("https://catalog.opengrid.org/ds/gb-osm-reference", "indicative"),
+    "de-osm-reference-model": ("https://catalog.opengrid.org/ds/de-osm-reference", "indicative"),
+}
 DATASET = "https://catalog.opengrid.org/ds/ecmwf-era5"
 
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "registry"
@@ -34,19 +42,21 @@ def declared(fixture: str, field: str) -> object:
     construct, so "the record says 444 and the projection says 444" is a real
     claim about several hundred lines of code. What it does *not* establish is
     that the record is true of the bytes, and
-    `tests/reference_models/test_cascade_system.py` asserts exactly that
-    against `system.json`. The pair is what makes each half honest.
+    the per-model suite under `tests/reference_models/` asserts exactly
+    that against `system.json`. The pair is what makes each half honest.
     """
     graph = json.loads((FIXTURE / f"{fixture}.jsonld").read_text())["@graph"]
     return next(node[field] for node in graph if field in node)
 
 
-def test_a_reference_model_carries_its_declared_fidelity() -> None:
-    doc = build_document(load_graph("cascade-reference-model"), REFERENCE_MODEL)
+@pytest.mark.parametrize("fixture", sorted(MODELS))
+def test_a_reference_model_carries_its_declared_fidelity(fixture: str) -> None:
+    iri, fidelity = MODELS[fixture]
+    doc = build_document(load_graph(fixture), iri)
 
     assert doc.record_type == "reference_model"
-    assert doc.fidelity_class == "screening"
-    assert doc.network_element_count == declared("cascade-reference-model", "networkElementCount")
+    assert doc.fidelity_class == fidelity
+    assert doc.network_element_count == declared(fixture, "networkElementCount")
 
 
 def test_an_ordinary_dataset_is_unchanged_by_the_discriminator() -> None:
@@ -61,34 +71,42 @@ def test_an_ordinary_dataset_is_unchanged_by_the_discriminator() -> None:
     assert doc.question_classes == []
 
 
-def test_the_partition_leads_with_what_the_network_can_do() -> None:
+@pytest.mark.parametrize("fixture", sorted(MODELS))
+def test_the_partition_leads_with_what_the_network_can_do(fixture: str) -> None:
     """Robust, then fragile, then unknown — and alphabetical within each.
 
     Ordered because it is a reading order, not a set: a partition that led with
     what the network cannot do would be honest and unusable. Sorted because
     rdflib's object order is not stable, so an unsorted projection churns the
     index on every rebuild and makes every diff unreadable.
+
+    Asserted as the rule rather than as one model's list. The list was the
+    shape of the record that happened to be here, and a second model with a
+    fifth question class would have gone red for being longer rather than for
+    being out of order.
     """
-    doc = build_document(load_graph("cascade-reference-model"), REFERENCE_MODEL)
+    rank = {"robust": 0, "fragile": 1, "unknown": 2}
+    doc = build_document(load_graph(fixture), MODELS[fixture][0])
 
-    assert [q.robustness for q in doc.question_classes] == [
-        "robust",
-        "robust",
-        "fragile",
-        "unknown",
-    ]
-    robust = [q.question_class for q in doc.question_classes if q.robustness == "robust"]
-    assert robust == sorted(robust)
+    order = [rank[q.robustness] for q in doc.question_classes]
+    assert order == sorted(order), [q.robustness for q in doc.question_classes]
+    assert set(order) == {0, 1, 2}, "a partition with only good news is not a partition"
+    for band in rank:
+        within = [q.question_class for q in doc.question_classes if q.robustness == band]
+        assert within == sorted(within)
 
 
-def test_a_claimed_strength_carries_its_basis_and_an_admitted_limit_need_not() -> None:
+@pytest.mark.parametrize("fixture", sorted(MODELS))
+def test_a_claimed_strength_carries_its_basis_and_an_admitted_limit_need_not(
+    fixture: str,
+) -> None:
     """The shapes enforce this on the record; the projection must not lose it.
 
     A partition rendered without its basis is a list of adjectives, and the
     whole argument for declaring fidelity rather than writing it in a README is
     that a reader can see what the claim rests on.
     """
-    doc = build_document(load_graph("cascade-reference-model"), REFERENCE_MODEL)
+    doc = build_document(load_graph(fixture), MODELS[fixture][0])
     by_robustness = {q.robustness: q for q in doc.question_classes}
 
     assert by_robustness["robust"].basis

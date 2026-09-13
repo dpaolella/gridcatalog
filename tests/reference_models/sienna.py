@@ -1,6 +1,6 @@
 """Validating a Sienna `SystemDocument` against the vendored schemas.
 
-Extracted from `test_cascade_system.py`, which validated every component row
+Extracted from the first model's own suite, which validated every component row
 against its own schema and never validated the *document* against
 `SystemDocument`. `supplemental_attributes` shipped as a map keyed by type
 where the schema says a flat, untyped array, and it shipped for weeks under a

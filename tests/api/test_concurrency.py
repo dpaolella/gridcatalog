@@ -256,3 +256,60 @@ def test_the_anonymous_budget_fits_more_than_a_handful_of_page_views(api_env):
     assert settings.rate_limit_agent_per_min >= 4 * settings.rate_limit_human_per_min, (
         "PRD §F9 sizes agent traffic at several times human; the budgets should say so"
     )
+
+
+def test_a_burst_from_one_caller_is_throttled_and_never_500s(api_env):
+    """The durable limiter's get-or-create was a race, and it failed loudly.
+
+    `hit()` read the window's row, inserted it when absent, then incremented.
+    Two concurrent requests from one caller both saw nothing and both INSERTed;
+    one hit `UNIQUE constraint failed: rate_limit_buckets.key, window_start`.
+
+    The unique index is the easy half to reason about and the wrong half to
+    worry about. That IntegrityError fires during the *request's* flush, so the
+    session is left needing a rollback, and the work the request actually came
+    to do — writing the issue report — dies several frames later with
+    `PendingRollbackError`. The caller receives a 500 from the one component
+    whose entire job is to answer 429 instead. Found by posting five reports at
+    once in the browser suite, one of which came back 500.
+
+    Asserted two ways, because either alone passes for the wrong reason: no
+    request may raise, and every request must be counted. A `hit()` that
+    swallowed its own IntegrityError and returned without incrementing would
+    satisfy the first and let a caller straight past the budget.
+    """
+    import threading
+
+    from datahub.api.models.base import session_scope
+    from datahub.api.models.repositories import Repositories
+
+    callers, limit = 12, 5
+    start = threading.Barrier(callers)
+    counts: list[int] = []
+    failures: list[BaseException] = []
+    lock = threading.Lock()
+
+    def post() -> None:
+        start.wait()
+        try:
+            with session_scope() as session:
+                _, count = Repositories(session).limits.hit(
+                    "intake:report:ip:203.0.113.7", window_s=60, limit=limit
+                )
+            with lock:
+                counts.append(count)
+        except BaseException as exc:
+            with lock:
+                failures.append(exc)
+
+    workers = [threading.Thread(target=post) for _ in range(callers)]
+    for worker in workers:
+        worker.start()
+    for worker in workers:
+        worker.join()
+
+    assert not failures, f"{len(failures)} of {callers} raised: {failures[0]!r}"
+    assert sorted(counts) == list(range(1, callers + 1)), (
+        f"counted {sorted(counts)}: a caller's burst was miscounted, so the "
+        "budget is not the budget"
+    )

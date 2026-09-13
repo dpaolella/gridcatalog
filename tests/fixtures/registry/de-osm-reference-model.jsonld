@@ -1,0 +1,231 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/de-osm-reference",
+      "type": [
+        "Dataset",
+        "ReferenceModel"
+      ],
+      "title": "OpenGrid Reference: Germany (OSM)",
+      "summary": "The German transmission network as mapped in OpenStreetMap — real substations, real corridors — with every electrical parameter estimated, because the source has none.",
+      "description": "743 substations, 855 circuits and 192 transformers across 20,072 km of route, derived from the PyPSA-Eur prebuilt OSM extract (Zenodo 10.5281/zenodo.13358976 v0.3) by the same builder as the Great Britain model. Topology, coordinates, nominal voltage, circuit count and route geometry come from the source and are real. Series impedance, shunt susceptance and thermal rating do not exist anywhere in the source and are estimated here from voltage class and route length using PyPSA's standard overhead line types; parameters.json records the rule and the inputs behind every one of them, per branch. There is no demand and no generation: this is a network, not a system, and it cannot be dispatched as it stands. One difference from the GB model is worth stating because it makes this one marginally better evidenced: Germany's network is 380 kV, and PyPSA's standard line type for that class is natively 380 kV, so 543 of the 855 circuits carry no voltage-class substitution at all. GB's 400 kV circuits all borrow the 380 kV type. Five buses in four fragments — converter stations and stubs no AC circuit connects — are excluded, as are the HVDC corridors and the interconnectors to Scandinavia, so transfer capability is understated.",
+      "fidelityClass": "indicative",
+      "networkElementCount": 1790,
+      "hasTopology": true,
+      "hasImpedance": true,
+      "voltageClass": [
+        "transmission"
+      ],
+      "spatialGranularity": "nodal",
+      "hasField": [
+        "https://catalog.opengrid.org/field/de-osm/geometry",
+        "https://catalog.opengrid.org/field/de-osm/base-voltage",
+        "https://catalog.opengrid.org/field/de-osm/line-r",
+        "https://catalog.opengrid.org/field/de-osm/line-x",
+        "https://catalog.opengrid.org/field/de-osm/line-rating",
+        "https://catalog.opengrid.org/field/de-osm/transformer-x"
+      ],
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/dcPowerFlow"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/acPowerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "exclusionRationale": "The same two independent reasons as the GB model, and either alone is sufficient. There is no generation and no demand, so nothing that dispatches or expands a fleet can run at all. And the impedances are estimated from voltage class rather than measured, with reactive parameters absent — which a DC solution tolerates and an AC solution does not. DC power flow is listed as supported on the understanding that the modeller brings their own injections: what this model supplies is the network, and it cannot be solved as it stands.",
+      "questionClassPartition": [
+        "https://catalog.opengrid.org/question-class/de-osm-corridor-existence",
+        "https://catalog.opengrid.org/question-class/de-osm-topological-exposure",
+        "https://catalog.opengrid.org/question-class/de-osm-flow-magnitude",
+        "https://catalog.opengrid.org/question-class/de-osm-north-south-transfer",
+        "https://catalog.opengrid.org/question-class/de-osm-contingency-severity"
+      ],
+      "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "upstreamSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "publisher": "https://catalog.opengrid.org/agent/opengrid-reference-models",
+      "license": "https://spdx.org/licenses/ODbL-1.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": true,
+      "licenseNote": "ODbL 1.0. Share-alike attaches at the database level, so a derived database that joins this model to other data may inherit the obligation.",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "issued": "2026-09-13T00:00:00Z",
+      "spatialCoverage": "Germany",
+      "distribution": [
+        "https://catalog.opengrid.org/dist/de-osm-reference--sienna",
+        "https://catalog.opengrid.org/dist/de-osm-reference--parameters"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/de-osm-reference--sienna",
+      "type": "Distribution",
+      "title": "Sienna SystemDocument, JSON",
+      "accessURL": "https://github.com/dpaolella/gridcatalog/blob/claude/opengrid-hub-demo/data/reference-models/de-osm/system.json",
+      "downloadURL": "https://raw.githubusercontent.com/dpaolella/gridcatalog/claude/opengrid-hub-demo/data/reference-models/de-osm/system.json",
+      "mediaType": "application/json",
+      "format": "JSON",
+      "byteSize": 4716345,
+      "hostedByOpenGrid": true,
+      "hostingReason": "registered",
+      "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models",
+      "conformsTo": "https://github.com/Sienna-Platform/SiennaSchemas/tree/3325d27c8c626a375c7492f1341af139d5686e53"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/de-osm-reference--parameters",
+      "type": "Distribution",
+      "title": "Parameter provenance, JSON",
+      "description": "One record per branch: the rule that produced its impedance and rating, the inputs that rule read, and the approximations it is known to make. Also the SHA-256 of each source file the build read, so the derivation can be checked against the Zenodo archive rather than trusted.",
+      "accessURL": "https://github.com/dpaolella/gridcatalog/blob/claude/opengrid-hub-demo/data/reference-models/de-osm/parameters.json",
+      "downloadURL": "https://raw.githubusercontent.com/dpaolella/gridcatalog/claude/opengrid-hub-demo/data/reference-models/de-osm/parameters.json",
+      "mediaType": "application/json",
+      "format": "JSON",
+      "byteSize": 685200,
+      "hostedByOpenGrid": true,
+      "hostingReason": "registered",
+      "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models"
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/de-osm-corridor-existence",
+      "type": "QuestionClass",
+      "questionClass": "Where transmission corridors run, and which substations they connect",
+      "robustness": "robust",
+      "robustnessBasis": "This is the part that is measured rather than derived. Routes, terminals, nominal voltage and circuit counts are OSM survey data carried through unchanged; the coordinates are the mapped substation locations, not synthesised positions. German transmission infrastructure is among the more completely surveyed in OpenStreetMap, which is a statement about this extract's coverage and not a guarantee about any one corridor."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/de-osm-topological-exposure",
+      "type": "QuestionClass",
+      "questionClass": "Which locations are topologically peripheral or singly fed",
+      "robustness": "robust",
+      "robustnessBasis": "A property of the graph, and the graph is the measured part. Reading it does require the transformers: over lines alone this network falls into 37 pieces, the largest holding 441 of its 743 buses, because OSM models a substation as one bus per voltage level and it is the 380/220 kV couplings that tie those levels together. A reader who cut the network on lines alone would find isolation everywhere and believe it."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/de-osm-flow-magnitude",
+      "type": "QuestionClass",
+      "questionClass": "Power flow magnitudes and line loadings",
+      "robustness": "fragile",
+      "robustnessBasis": "Flow divides in inverse proportion to impedance, and every impedance here is a class average from a per-kilometre table. Two parallel corridors of the same voltage and length get identical values whatever their real conductors are, so the split between them is an artefact of the estimator. The nine underground circuits are worse: they carry an overhead type, whose capacitance is an order of magnitude too low and whose reactance is too high."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/de-osm-north-south-transfer",
+      "type": "QuestionClass",
+      "questionClass": "North-south transfer capability and the congestion that drives redispatch",
+      "robustness": "fragile",
+      "robustnessBasis": "The question most often asked of a German network model, and this one answers it pessimistically for a reason it can name. The HVDC corridors built precisely to move northern wind south — SuedLink, SuedOstLink, Ultranet — are not modelled, so AC transfer is all there is. The 184 380/220 kV transformers are rated at a class value of 600 MVA rather than a nameplate, and that interface is where a redispatch study binds. The direction of the error is known and the magnitude is not."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/de-osm-contingency-severity",
+      "type": "QuestionClass",
+      "questionClass": "Contingency severity and reserve requirements",
+      "robustness": "unknown"
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/geometry",
+      "type": "Field",
+      "localName": "geo_json",
+      "fieldId": "supplemental_attributes[].geo_json",
+      "label": "Substation location and line route",
+      "definition": "Point coordinates for each bus and the full-resolution LineString for each circuit, as GeographicInfo supplemental attributes.",
+      "dataType": "object",
+      "valueBasis": "measured",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/base-voltage",
+      "type": "Field",
+      "localName": "base_voltage",
+      "fieldId": "components.ACBus[].base_voltage",
+      "label": "Bus nominal voltage",
+      "definition": "Nominal voltage of the substation busbar in kV, as tagged in OpenStreetMap. Germany's two transmission levels are 380 kV and 220 kV.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/kilovolt",
+      "valueBasis": "measured",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/line-r",
+      "type": "Field",
+      "localName": "r",
+      "fieldId": "components.Line[].r",
+      "label": "Line series resistance",
+      "definition": "Series resistance in ohms, estimated as the per-kilometre resistance of the standard overhead line type for the circuit's voltage class, multiplied by route length and divided by the number of parallel circuits.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true,
+      "completenessCaveats": "The source contains no resistance at any voltage. Every value in this column is derived, and parameters.json names the line type and inputs used for each branch. Unlike the GB model, almost nothing here is a voltage-class substitution: 543 circuits at 380 kV take the 380 kV standard type and 311 at 220 kV take the 220 kV one. The single 400 kV circuit borrows the 380 kV type and says so. The nine underground circuits take an overhead type, which is wrong for a cable in a known direction."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/line-x",
+      "type": "Field",
+      "localName": "x",
+      "fieldId": "components.Line[].x",
+      "label": "Line series reactance",
+      "definition": "Series reactance in ohms, estimated the same way as resistance: per-kilometre reactance of the standard type for the voltage class, times route length, divided by parallel circuits.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true,
+      "completenessCaveats": "This is the column flow results are most sensitive to, and it is the one with the least evidence behind it: it distinguishes two corridors only by their voltage, length and circuit count. Taking the native 380 kV type removes one source of error that the GB model carries; it does not make these measurements."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/line-rating",
+      "type": "Field",
+      "localName": "rating",
+      "fieldId": "components.Line[].rating",
+      "label": "Line thermal rating",
+      "definition": "Thermal rating in MVA, estimated as sqrt(3) times nominal voltage times the standard type's nominal current times the number of circuits.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/megavolt-ampere",
+      "valueBasis": "modeled",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true,
+      "completenessCaveats": "A static rating from a conductor table. German TSOs operate seasonal and, on several corridors, weather-dependent dynamic ratings, and none of that is represented here."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/de-osm/transformer-x",
+      "type": "Field",
+      "localName": "x",
+      "fieldId": "components.TransformerCircuit[].x",
+      "label": "Transformer reactance",
+      "definition": "Series reactance in ohms on the primary base, from a typical supergrid autotransformer: 13% on rating, with rating taken by voltage pair — 600 MVA for the 184 couplings between 380 kV and 220 kV.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "valueBasis": "estimated",
+      "fieldSource": [
+        "https://catalog.opengrid.org/ds/pypsa-eur-grid"
+      ],
+      "required": true,
+      "completenessCaveats": "The weakest values in the model, and recorded as estimated rather than modeled because there is no per-kilometre table behind them — only a class value. No public register of German transformer impedances exists to check them against. PyPSA-Eur itself declines to choose, rating every transformer at 2,000 MVA, which removes this interface as a constraint; a plausible rating that can bind is more useful than one that cannot, and both are estimates."
+    }
+  ]
+}

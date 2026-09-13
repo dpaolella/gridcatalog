@@ -13,8 +13,8 @@ from datahub.snapshot import export
 @pytest.mark.parametrize(
     ("fixture", "slug", "fields", "distributions"),
     [
-        ("cascade-reference-model", "cascade-interconnect-reference", 0, 1),
         ("gb-osm-reference-model", "gb-osm-reference", 6, 2),
+        ("de-osm-reference-model", "de-osm-reference", 6, 2),
     ],
 )
 def test_reference_model_survives_graph_api_and_snapshot(

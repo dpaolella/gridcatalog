@@ -86,25 +86,26 @@ site-serve: ## Serve web/out exactly as GitHub Pages would
 
 model-assets: ## Stage registered model bytes under web/public
 	@# The viewer fetches these from its own origin, so they have to be in
-	@# the build. Which files, per model, is a size decision: Cascade has no
-	@# route geometry and its whole document is 281 KB, so the viewer reads
-	@# the model itself; GB carries a surveyed corridor per circuit and is
-	@# 2.9 MB — a download, not a page asset — so the site serves its
-	@# display-resolution copy and the record's distribution still points at
-	@# the full one.
+	@# the build — and before it, because Next serves only what was in
+	@# `public/` when it built.
+	@#
+	@# The display copy rather than the model: both models carry a surveyed
+	@# corridor per circuit and run to 2.9 MB and 4.7 MB, which is a download
+	@# and not a page asset. The record's distribution still points at the
+	@# full one, so what a reader gets is never what the page drew.
 	@#
 	@# Here rather than inline in a workflow because there are three callers
 	@# — this Makefile, the CI job that drives a browser over the live build,
 	@# and the Pages deploy — and a copy that only two of them run is how the
 	@# e2e suite came to drive a viewer whose bytes 404.
-	mkdir -p web/public/reference-models/cascade-interconnect \
-	         web/public/reference-models/gb-osm
-	cp data/reference-models/cascade-interconnect/system.json \
-	   data/reference-models/cascade-interconnect/basemap.json \
-	   web/public/reference-models/cascade-interconnect/
+	mkdir -p web/public/reference-models/gb-osm \
+	         web/public/reference-models/de-osm
 	cp data/reference-models/gb-osm/system.view.json \
 	   data/reference-models/gb-osm/basemap.json \
 	   web/public/reference-models/gb-osm/
+	cp data/reference-models/de-osm/system.view.json \
+	   data/reference-models/de-osm/basemap.json \
+	   web/public/reference-models/de-osm/
 
 e2e: ## Playwright over the M9 done-criterion flows
 	@# Both servers, torn down on the way out. The suite drives a real API and

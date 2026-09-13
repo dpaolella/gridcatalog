@@ -103,8 +103,8 @@ jobs:
           # rather than inventing an identity for it — correctly, and it exits
           # non-zero. They land when #82 teaches the store about them.
           mkdir -p var/e2e/registry
-          cp tests/fixtures/registry/cascade-reference-model.jsonld \
-             tests/fixtures/registry/gb-osm-reference-model.jsonld \
+          cp tests/fixtures/registry/gb-osm-reference-model.jsonld \
+             tests/fixtures/registry/de-osm-reference-model.jsonld \
              var/e2e/registry/
           .venv/bin/datahub record load var/e2e/registry
           # The allow-list grants the entitled-browser flow signs in against.

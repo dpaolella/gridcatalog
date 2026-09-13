@@ -1,15 +1,19 @@
-"""The GB model is real where it says it is and estimated where it says it is.
+"""Each OSM model is real where it says it is and estimated where it says it is.
 
-Everything `test_cascade_system.py` asserts holds here too, through the shared
-helpers. What is specific to this model is the claim that makes it worth having
-at all: its topology is measured and its electrical parameters are not, and the
-registry's whole argument is that a reader can tell which is which *per value*
-rather than being asked to trust a sentence in a description.
+The claim that makes these models worth having: the topology is measured and
+the electrical parameters are not, and the registry's whole argument is that a
+reader can tell which is which *per value* rather than being asked to trust a
+sentence in a description.
 
-So these tests are mostly about `parameters.json`. An estimate with no
-recorded method is a number that looks exactly like a measurement, and the
-failure that matters here is not a wrong impedance — it is a right-looking one
-that nothing marks as invented.
+So these tests are mostly about `parameters.json`. An estimate with no recorded
+method is a number that looks exactly like a measurement, and the failure that
+matters here is not a wrong impedance — it is a right-looking one that nothing
+marks as invented.
+
+**Every test runs against every model.** One builder now serves several
+countries, and the risk that introduces is not a build that fails — that is
+loud — but one that succeeds by quietly applying the first country's answers to
+the second. A suite written against one model would not see it.
 """
 
 from __future__ import annotations
@@ -23,8 +27,11 @@ from referencing import Registry
 
 from tests.reference_models import sienna
 
-MODEL = "gb-osm"
-FIXTURE = "gb-osm-reference-model"
+#: Slug to record fixture. Adding a geography adds it to every test below.
+MODELS = {
+    "gb-osm": "gb-osm-reference-model",
+    "de-osm": "de-osm-reference-model",
+}
 
 
 @pytest.fixture(scope="module")
@@ -32,14 +39,19 @@ def registry() -> Registry:
     return sienna.schema_registry()
 
 
-@pytest.fixture(scope="module")
-def document() -> dict[str, Any]:
-    return sienna.load_system(MODEL)
+@pytest.fixture(scope="module", params=sorted(MODELS))
+def model(request: pytest.FixtureRequest) -> str:
+    return str(request.param)
 
 
 @pytest.fixture(scope="module")
-def provenance() -> dict[str, Any]:
-    return json.loads((sienna.MODELS / MODEL / "parameters.json").read_text())
+def document(model: str) -> dict[str, Any]:
+    return sienna.load_system(model)
+
+
+@pytest.fixture(scope="module")
+def provenance(model: str) -> dict[str, Any]:
+    return json.loads((sienna.MODELS / model / "parameters.json").read_text())
 
 
 def test_the_document_and_every_row_in_it_validate(
@@ -64,11 +76,12 @@ def test_every_bus_has_a_location(document: dict[str, Any]) -> None:
 def test_the_network_is_connected(document: dict[str, Any]) -> None:
     """The assertion that shaped the whole subset.
 
-    Over lines alone this extract falls into 48 pieces, because OSM models a
-    substation as one bus per voltage level and the *transformers* are what tie
-    400 kV to 275 kV at the same site. A subset cut on lines alone would be a
-    pile of fragments that still looked like a map of Britain, and every flow
-    result computed on it would be wrong with nothing to say so.
+    Over lines alone every one of these extracts falls into pieces — 48 for
+    Great Britain, 37 for Germany — because OSM models a substation as one bus
+    per voltage level and the *transformers* are what tie the levels together
+    at the same site. A subset cut on lines alone would be a pile of fragments
+    that still looked like a map of the country, and every flow result computed
+    on it would be wrong with nothing to say so.
     """
     sienna.assert_connected(document)
 
@@ -80,12 +93,13 @@ def test_referential_integrity(document: dict[str, Any]) -> None:
 def test_the_transformers_are_what_connect_the_voltage_levels(
     document: dict[str, Any],
 ) -> None:
-    """Not incidental: without them there is no connected GB network.
+    """Not incidental: without them there is no connected network, anywhere.
 
     Asserted rather than assumed, because a future change that drops
-    transformers would leave a document that still validates, still has 412
-    buses, and is silently four dozen separate networks. This pins the
-    mechanism, not just the outcome.
+    transformers would leave a document that still validates, still has every
+    bus it had, and is silently dozens of separate networks. This pins the
+    mechanism, not just the outcome — and pins it per model, since "the
+    transformers are load-bearing" is a claim about each country's mapping.
     """
     buses = {row["id"]: row for row in document["components"]["ACBus"]}
     arcs = {row["id"]: row for row in document["components"]["Arc"]}
@@ -171,11 +185,12 @@ def test_an_underground_circuit_says_the_overhead_type_is_wrong_for_it(
 ) -> None:
     """The known error, named rather than averaged away.
 
-    45 of these circuits are underground and all of them get an overhead line
-    type, because that is what the standard tables provide. A cable's
-    capacitance is an order of magnitude higher and its reactance far lower, so
-    these values are wrong in a known direction — which is a different and much
-    more useful thing to tell a reader than "uncertain".
+    Some circuits in each extract are underground — 45 in Great Britain, nine
+    in Germany — and all of them get an overhead line type, because that is
+    what the standard tables provide. A cable's capacitance is an order of
+    magnitude higher and its reactance far lower, so these values are wrong in
+    a known direction, which is a different and much more useful thing to tell
+    a reader than "uncertain".
     """
     underground = [
         row
@@ -213,9 +228,9 @@ def test_the_share_alike_obligation_is_recorded_in_both_places(
 
 
 def test_the_record_counts_the_elements_the_document_actually_has(
-    document: dict[str, Any],
+    document: dict[str, Any], model: str
 ) -> None:
-    record = sienna.load_record(FIXTURE)
+    record = sienna.load_record(MODELS[model])
     actual = sienna.network_element_count(document)
     assert record["networkElementCount"] == actual, (
         f"the record claims {record['networkElementCount']} network elements; "
@@ -223,12 +238,48 @@ def test_the_record_counts_the_elements_the_document_actually_has(
     )
 
 
-def test_the_distribution_states_the_size_of_the_file_it_points_at() -> None:
-    distribution = sienna.load_distribution(FIXTURE, "sienna")
-    assert distribution["byteSize"] == sienna.system_path(MODEL).stat().st_size
+def test_the_distribution_states_the_size_of_the_file_it_points_at(model: str) -> None:
+    distribution = sienna.load_distribution(MODELS[model], "sienna")
+    assert distribution["byteSize"] == sienna.system_path(model).stat().st_size
 
 
-def test_the_record_declares_the_share_alike_obligation() -> None:
+def test_the_record_declares_the_share_alike_obligation(model: str) -> None:
     """On the record, where a reader meets it before downloading anything."""
-    record = sienna.load_record(FIXTURE)
+    record = sienna.load_record(MODELS[model])
     assert record["shareAlike"] is True
+
+
+#: Which standard line type each country's circuits are entitled to, and where
+#: that is a substitution rather than a match.
+#:
+#: This is the check that the generalised builder did not quietly carry one
+#: country's answers into another. GB has no 380 kV class and its 400 kV
+#: circuits borrow the 380 kV type, which every one of them records; Germany's
+#: network *is* 380 kV and takes that type natively, so a substitution note on
+#: a German 380 kV circuit would mean the wrong table was consulted.
+SUBSTITUTIONS = {
+    "gb-osm": {220.0: False, 275.0: True, 400.0: True},
+    "de-osm": {220.0: False, 380.0: False, 400.0: True},
+}
+
+
+def test_a_borrowed_line_type_says_so_and_a_native_one_does_not(
+    provenance: dict[str, Any], model: str
+) -> None:
+    expected = SUBSTITUTIONS[model]
+    seen: dict[float, bool] = {}
+    for row in provenance["lines"]:
+        voltage = row["inputs"]["voltage_kv"]
+        borrowed = any("no standard type" in note for note in row["approximations"])
+        if voltage in seen:
+            assert seen[voltage] == borrowed, (
+                f"{model}: {voltage:.0f} kV circuits disagree about whether their "
+                "line type is a substitution"
+            )
+        seen[voltage] = borrowed
+
+    assert seen == expected, (
+        f"{model}: voltage classes and their substitution status are {seen}, "
+        f"expected {expected}. A class that silently changed status means the "
+        "line-type table moved under a model that had already been published."
+    )
