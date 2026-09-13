@@ -348,6 +348,13 @@ FACET_FIELDS: dict[str, str] = {
     "format": "formats",
     "completeness_level": "completeness_level",
     "spatial_granularity": "spatial.granularity",
+    # Where a record is *about*, as a stable key rather than a label match.
+    # `spatial.place_labels` has been indexed since M2 and is free text: three
+    # records saying "Great Britain", "GB" and "Britain" are three facets. The
+    # IRI is one, and it resolves into `vocab/og-place.ttl`, which is what lets
+    # a reader ask "is there a network for here" and get an answer rather than
+    # a search.
+    "place": "spatial.place_iris",
     # Indexed and projected since it was written, and absent from this map, so
     # nothing could ask for it (#53). Sub-hourly is the single most repeated
     # requirement in the domain assessment — "15-min temporal resolution is

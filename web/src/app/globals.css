@@ -380,6 +380,27 @@ a {
   white-space: nowrap;
 }
 
+/* A tag that is also a choice, and is currently the one taken. Border and
+   weight rather than colour alone: the selected geography has to be legible
+   to a reader who cannot distinguish the accent from the border, and
+   `aria-pressed` carries it to anyone not looking at all. */
+button.og-tag {
+  cursor: pointer;
+  color: var(--foreground);
+}
+button.og-tag:hover {
+  border-color: var(--accent-text);
+}
+.og-tag-active {
+  /* An inset ring rather than a thicker border: a 2px border on the selected
+     chip reflows the row every time the selection moves. */
+  border-color: var(--accent-text);
+  box-shadow: inset 0 0 0 1px var(--accent-text);
+  background: color-mix(in srgb, var(--accent-text) 18%, var(--surface));
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
 input,
 select,
 textarea {

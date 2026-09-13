@@ -1,0 +1,73 @@
+# OpenGrid places — the value space of dct:spatial on a record.
+#
+# Small on purpose. This is not a gazetteer and must never grow into one: it
+# holds the places the Hub's own records actually name, so that "is there a
+# reference network for here" is a question with a stable key rather than a
+# string match on a label. Everything else about a place — its borders, its
+# population, its alternative names — belongs to the authority each concept
+# points at, and this scheme's job is to point rather than to restate.
+#
+# ## The authority is Wikidata, and ISO is carried only where it is true
+#
+# Every concept carries skos:exactMatch to a Wikidata entity. That is the
+# external identifier, and it is what makes these concepts joinable to anything
+# outside this repository.
+#
+# skos:notation carries an ISO 3166-1 alpha-2 code **only where the place is
+# that country**. This matters more than it sounds. The obvious thing to do
+# with the Great Britain reference model is to file it under ISO "GB", and ISO
+# "GB" is the United Kingdom of Great Britain and Northern Ireland — which
+# includes the one thing that model explicitly excludes. A picker offering
+# "United Kingdom" and returning a network with no Northern Ireland in it is
+# an over-claim of exactly the kind this branch exists not to make, and it is
+# invisible to a reader who does not already know the model's exclusions.
+#
+# So Great Britain carries no ISO notation. It is the island, Wikidata says so,
+# and the scheme declines to equate it with the state.
+#
+# ## Adding a place
+#
+# A concept here is a claim that the Hub has something to say about somewhere.
+# Add one when a record names it, not in anticipation: a scheme listing every
+# country the Hub *could* cover reads as a survey of what exists, which is a far
+# stronger claim than this catalog is entitled to make. What the Hub has not
+# built is said in the interface, in those words, and is not encoded here as an
+# absence.
+#
+# IRIs follow docs/conventions.md: scheme
+# https://schema.opengrid.org/concept/place, concept tokens lowerCamelCase.
+
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix pl:   <https://schema.opengrid.org/concept/place/> .
+@prefix wd:   <http://www.wikidata.org/entity/> .
+
+<https://schema.opengrid.org/concept/place>
+  a skos:ConceptScheme ;
+  dct:title "OpenGrid Places"@en ;
+  dct:description """Places the Hub's records name, used as the value space of dct:spatial. Each concept is identified by a Wikidata entity, which is the authority; skos:notation carries an ISO 3166-1 alpha-2 code only where the concept is that country, so that a sub-national or cross-border area is never filed under a state it is not. The scheme holds what the catalog describes and nothing in anticipation of it."""@en ;
+  dct:issued "2026-09-13"^^xsd:date ;
+  owl:versionInfo "1.0.0" ;
+  skos:hasTopConcept pl:greatBritain, pl:germany .
+
+pl:greatBritain
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/place> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/place> ;
+  skos:prefLabel "Great Britain"@en ;
+  skos:altLabel "GB mainland"@en ;
+  skos:exactMatch wd:Q23666 ;
+  skos:definition "The island comprising England, Scotland and Wales, together with the transmission network synchronised across it."@en ;
+  skos:scopeNote """Deliberately not ISO 3166-1 "GB", which is the United Kingdom of Great Britain and Northern Ireland. Northern Ireland is a separate synchronous area operating with Ireland, and the reference network filed here excludes it. Filing this under the state's code would tell a reader they were getting a UK network and hand them one with a nation missing."""@en .
+
+pl:germany
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/place> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/place> ;
+  skos:prefLabel "Germany"@en ;
+  skos:notation "DE" ;
+  skos:exactMatch wd:Q183 ;
+  skos:definition "The Federal Republic of Germany, whose transmission network is operated by four TSOs within one synchronous area."@en ;
+  skos:scopeNote """ISO 3166-1 "DE" is exact here: the network filed for this place is the country's, with no sub-national exclusion. The interconnectors to its nine neighbours are outside it, which is a statement about the model and not about the place."""@en .

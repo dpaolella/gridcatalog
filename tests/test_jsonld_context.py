@@ -321,3 +321,47 @@ def test_single_and_multi_valued_records_produce_the_same_shape(context: dict) -
 
     one = "https://schema.opengrid.org/concept/data-domain/DD5"
     assert triples(one) == triples([one])
+
+
+def test_no_record_declares_a_term_the_context_does_not_define(context: dict) -> None:
+    """A term the context has never heard of is dropped, silently, by design.
+
+    JSON-LD's rule is that an unmapped key is not data. That is the correct
+    rule and it makes a typo indistinguishable from a decision: the record
+    still parses, still validates — the shapes cannot require what never
+    arrived — and still reads, to a human opening the file, as though it says
+    the thing.
+
+    Both reference models declared `spatialCoverage` for a fortnight. It is not
+    a term; `dct:spatial` and `og:spatialLabel` are. So neither model carried a
+    place, every one of them projected with `place_labels: []`, and the records
+    looked complete the whole time. It was found by trying to build a geography
+    picker on top of a field that did not exist.
+
+    Checked over the committed corpus rather than over one record, because the
+    failure is silent per record and the cost of finding it is a feature that
+    cannot be built.
+    """
+    terms = {key for key in context if not key.startswith("@")}
+    found: dict[str, list[str]] = {}
+
+    def walk(node: object, source: str) -> None:
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if not key.startswith("@") and key not in terms:
+                    found.setdefault(key, []).append(source)
+                walk(value, source)
+        elif isinstance(node, list):
+            for value in node:
+                walk(value, source)
+
+    root = Path(__file__).resolve().parent / "fixtures"
+    records = sorted(root.glob("records/*.jsonld")) + sorted(root.glob("registry/*.jsonld"))
+    assert records, "no records to check"
+    for path in records:
+        walk(json.loads(path.read_text()), path.name)
+
+    assert not found, "\n".join(
+        f"{term!r} is not in the context, so it is dropped from {sorted(set(where))}"
+        for term, where in sorted(found.items())
+    )

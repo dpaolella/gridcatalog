@@ -31,7 +31,13 @@
     },
     "referenceModels": {
       "title": "Reference Models",
-      "blurb": "Networks to start from when you have none, each declaring what class of question it is good for and what it is not."
+      "blurb": "Networks to start from when you have none. Pick a geography; each model declares what class of question it is good for and what it is not.",
+      "pickerLabel": "Geography",
+      "allPlaces": "All {count, plural, one {# geography} other {# geographies}}",
+      "notBuiltHere": "These are the geographies the Hub has built a reference network for. A place that is not listed is one nobody has built here — not a finding that no such network exists. That claim belongs to the gap register, which records who observed it and when.",
+      "unknownPlace": "No geography called “{place}” is published here, so every geography is shown.",
+      "unplaced": "No geography recorded",
+      "unplacedHelp": "These models do not name a place, so the picker cannot file them. Listed rather than hidden: a record the catalog cannot place is a gap in the record, not a network that is nowhere."
     },
     "datasets": {
       "title": "Data Catalog",

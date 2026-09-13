@@ -254,6 +254,10 @@ export interface QualityFacet {
 export interface SpatialCoverage {
   bbox?: number[] | null;
   place_labels?: string[];
+  /** Place concept IRIs from `vocab/og-place.ttl`. The stable key behind the
+   *  labels: three records saying "Great Britain", "GB" and "Britain" are one
+   *  place, and only this says so. */
+  place_iris?: string[];
   native_crs?: string | null;
   geometry_types?: string[];
   granularity?: string | null;

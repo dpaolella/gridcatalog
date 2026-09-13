@@ -114,6 +114,17 @@ def search_datasets(
         list[str] | None, Query(description="Concept IRI carried by a field of the dataset.")
     ] = None,
     spatial_granularity: Annotated[list[str] | None, Query()] = None,
+    place: Annotated[
+        list[str] | None,
+        Query(
+            description=(
+                "Place concept IRI the record is about, from "
+                "`vocab/og-place.ttl`. A stable key rather than a label match: "
+                "'Great Britain', 'GB' and 'Britain' are three strings and one "
+                "place, and only the IRI says which."
+            )
+        ),
+    ] = None,
     format: Annotated[list[str] | None, Query(description="Distribution format label.")] = None,
     completeness_level: Annotated[list[int] | None, Query()] = None,
     anonymous_access: Annotated[bool | None, Query()] = None,
@@ -217,6 +228,7 @@ def search_datasets(
             license=license,
             concept=concept,
             spatial_granularity=spatial_granularity,
+            place=place,
             format=format,
             completeness_level=completeness_level,
             anonymous_access=anonymous_access,

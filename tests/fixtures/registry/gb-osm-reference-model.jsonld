@@ -8,8 +8,8 @@
         "ReferenceModel"
       ],
       "title": "OpenGrid Reference: Great Britain (OSM)",
-      "summary": "The GB transmission network as mapped in OpenStreetMap \u2014 real substations, real corridors \u2014 with every electrical parameter estimated, because the source has none.",
-      "description": "412 substations, 455 circuits and 98 transformers, derived from the PyPSA-Eur prebuilt OSM extract (Zenodo 10.5281/zenodo.13358976 v0.3). Topology, coordinates, nominal voltage, circuit count and route geometry come from the source and are real. Series impedance, shunt susceptance and thermal rating do not exist anywhere in the source and are estimated here from voltage class and route length using PyPSA's standard overhead line types; parameters.json records the rule and the inputs behind every one of them, per branch. There is no demand and no generation: this is a network, not a system, and it cannot be dispatched as it stands. Great Britain only \u2014 the Northern Ireland island under the same country code is a separate network and is excluded, as are the HVDC interconnectors and internal bootstraps, so north-south transfer capability is understated.",
+      "summary": "The GB transmission network as mapped in OpenStreetMap — real substations, real corridors — with every electrical parameter estimated, because the source has none.",
+      "description": "412 substations, 455 circuits and 98 transformers, derived from the PyPSA-Eur prebuilt OSM extract (Zenodo 10.5281/zenodo.13358976 v0.3). Topology, coordinates, nominal voltage, circuit count and route geometry come from the source and are real. Series impedance, shunt susceptance and thermal rating do not exist anywhere in the source and are estimated here from voltage class and route length using PyPSA's standard overhead line types; parameters.json records the rule and the inputs behind every one of them, per branch. There is no demand and no generation: this is a network, not a system, and it cannot be dispatched as it stands. Great Britain only — the Northern Ireland island under the same country code is a separate network and is excluded, as are the HVDC interconnectors and internal bootstraps, so north-south transfer capability is understated.",
       "fidelityClass": "indicative",
       "networkElementCount": 965,
       "hasTopology": true,
@@ -35,7 +35,7 @@
         "https://schema.opengrid.org/concept/analysis-type/productionCost",
         "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
       ],
-      "exclusionRationale": "Two independent reasons, and either alone is sufficient. There is no generation and no demand, so nothing that dispatches or expands a fleet can run at all. And the impedances are estimated from voltage class rather than measured, with reactive parameters absent \u2014 which a DC solution tolerates and an AC solution does not. DC power flow is listed as supported on the understanding that the modeller brings their own injections: what this model supplies is the network, and it cannot be solved as it stands.",
+      "exclusionRationale": "Two independent reasons, and either alone is sufficient. There is no generation and no demand, so nothing that dispatches or expands a fleet can run at all. And the impedances are estimated from voltage class rather than measured, with reactive parameters absent — which a DC solution tolerates and an AC solution does not. DC power flow is listed as supported on the understanding that the modeller brings their own injections: what this model supplies is the network, and it cannot be solved as it stands.",
       "questionClassPartition": [
         "https://catalog.opengrid.org/question-class/gb-osm-corridor-existence",
         "https://catalog.opengrid.org/question-class/gb-osm-topological-exposure",
@@ -65,10 +65,15 @@
       "visibility": "public",
       "tier": 1,
       "issued": "2026-09-12T00:00:00Z",
-      "spatialCoverage": "Great Britain",
       "distribution": [
         "https://catalog.opengrid.org/dist/gb-osm-reference--sienna",
         "https://catalog.opengrid.org/dist/gb-osm-reference--parameters"
+      ],
+      "spatial": [
+        "https://schema.opengrid.org/concept/place/greatBritain"
+      ],
+      "spatialLabel": [
+        "Great Britain"
       ]
     },
     {
@@ -217,7 +222,7 @@
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"
       ],
       "required": true,
-      "completenessCaveats": "The weakest values in the model, and recorded as estimated rather than modeled because there is no per-kilometre table behind them \u2014 only a class value. No public register of GB transformer impedances exists to check them against."
+      "completenessCaveats": "The weakest values in the model, and recorded as estimated rather than modeled because there is no per-kilometre table behind them — only a class value. No public register of GB transformer impedances exists to check them against."
     },
     {
       "id": "https://catalog.opengrid.org/agent/opengrid-reference-models",

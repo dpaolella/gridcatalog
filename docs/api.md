@@ -241,6 +241,7 @@ Search the catalog.
 | `license` | query | no | SPDX id or LicenseRef. |
 | `concept` | query | no | Concept IRI carried by a field of the dataset. |
 | `spatial_granularity` | query | no |  |
+| `place` | query | no | Place concept IRI the record is about, from `vocab/og-place.ttl`. A stable key rather than a label match: 'Great Britain', 'GB' and 'Britain' are three strings and one place, and only the IRI says which. |
 | `format` | query | no | Distribution format label. |
 | `completeness_level` | query | no |  |
 | `anonymous_access` | query | no |  |

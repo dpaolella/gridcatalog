@@ -1,12 +1,12 @@
-import Link from "next/link";
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import { HexWash, Rule } from "@/components/Brand";
 import { EmptyState } from "@/components/EmptyState";
-import { NetworkMap } from "@/components/NetworkMap";
+import { GeographyPicker } from "@/components/GeographyPicker";
+import { ReferenceModelCard } from "@/components/ReferenceModelCard";
 import { type DatasetSummary, listReferenceModels } from "@/lib/api";
+import { groupByPlace } from "@/lib/places";
 import { perRequest } from "@/lib/rendering";
-import { ModelFidelity, ModelLicenseNotice, ModelPartition } from "@/components/ReferenceModelSuitability";
-import { MAPPED_MODELS } from "@/lib/reference-models";
 
 export async function generateMetadata() {
   const t = await getTranslations("hub");
@@ -14,7 +14,7 @@ export async function generateMetadata() {
 }
 
 /**
- * Networks to start from, each leading with what it is good for.
+ * Networks to start from, entered by geography (#97).
  *
  * A card leads with the declared fidelity class and the robust / fragile /
  * unknown counts, not with a description. That ordering is the argument: the
@@ -26,9 +26,14 @@ export async function generateMetadata() {
  * These stay in `/datasets` too. A reference model is a dataset — licence,
  * access path, publisher — and a modeller searching for a network should find
  * one. This section is a view over the catalog, not a second corpus.
+ *
+ * Every geography's section is rendered here, by the server, in both builds.
+ * The picker is a small client component beside them that hides the ones the
+ * reader did not ask for — not a wrapper around them, because a wrapper that
+ * reads the URL is client-only in a static export and publishes a page with no
+ * models in it. `GeographyPicker` carries that story and the rest of what the
+ * picker may and may not claim.
  */
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export default async function ReferenceModelsPage() {
   // This is a view over the live index — records land in it as they are
@@ -70,54 +75,63 @@ export default async function ReferenceModelsPage() {
           <p>{empty("noReferenceModelsHelp")}</p>
         </EmptyState>
       ) : (
-        <ul className="space-y-4">
-          {models.map((model) => (
-            <li key={model.id}>
-              <ModelCard model={model} />
-            </li>
-          ))}
-        </ul>
+        <Inventory models={models} />
       )}
     </div>
   );
 }
 
-async function ModelCard({ model }: { model: DatasetSummary }) {
-  const mapped = MAPPED_MODELS[model.id];
+function Inventory({ models }: { models: DatasetSummary[] }) {
+  const { places, unplaced } = groupByPlace(models);
+
   return (
-    <article id={`model-${model.id}`} className="og-card scroll-mt-5 px-6 py-5">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-        <Link
-          href={`/datasets/${model.id}`}
-          className="text-lg font-semibold hover:text-[color:var(--accent-text)]"
+    <div className="space-y-6">
+      <Suspense fallback={null}>
+        <GeographyPicker
+          places={places.map(({ token, label, models: held }) => ({
+            token,
+            label,
+            count: held.length,
+          }))}
+        />
+      </Suspense>
+
+      {places.map((place) => (
+        <section
+          key={place.token}
+          data-place={place.token}
+          aria-label={place.label}
+          className="space-y-4"
         >
-          {model.title}
-        </Link>
-        <ModelFidelity model={model} />
-      </div>
+          {/* Named even when one place is selected: a shared link should say
+              where it landed, and a reader arriving at a filtered view should
+              not have to infer it from the model's title. */}
+          <h2 className="og-eyebrow">{place.label}</h2>
+          {place.models.map((model) => (
+            <ReferenceModelCard key={model.id} model={model} />
+          ))}
+        </section>
+      ))}
 
-      {model.summary ? (
-        <p className="mt-2 text-sm text-[color:var(--muted)]">{model.summary}</p>
+      {unplaced.length > 0 ? (
+        <UnplacedSection models={unplaced} />
       ) : null}
-
-      <ModelLicenseNotice model={model} />
-
-      {/* The map, where a model ships one. Between the summary and the
-          partition on purpose: a reader recognises the place first, then reads
-          what it is rated for. The other order asks them to weigh a fitness
-          claim about somewhere they have not seen. */}
-      {mapped ? (
-        <div className="mt-4">
-          <NetworkMap
-            basemapUrl={`${BASE_PATH}/reference-models/${mapped.dir}/basemap.json`}
-            systemUrl={`${BASE_PATH}/reference-models/${mapped.dir}/${mapped.document}`}
-            synthetic={model.provenance_class === "synthetic"}
-          />
-        </div>
-      ) : null}
-
-      <ModelPartition model={model} />
-    </article>
+    </div>
   );
 }
 
+async function UnplacedSection({ models }: { models: DatasetSummary[] }) {
+  const t = await getTranslations("hub.referenceModels");
+  return (
+    /* No `data-place`, so the picker never hides it: a model the catalog
+       cannot place is not evidence about any geography, and filtering it away
+       under one would be filing it under a guess. */
+    <section aria-label={t("unplaced")} className="space-y-4">
+      <h2 className="og-eyebrow">{t("unplaced")}</h2>
+      <p className="text-sm text-[color:var(--muted)]">{t("unplacedHelp")}</p>
+      {models.map((model) => (
+        <ReferenceModelCard key={model.id} model={model} />
+      ))}
+    </section>
+  );
+}

@@ -24,6 +24,42 @@ test("reference-model detail retains fields, downloads and suitability", async (
   await expect(page.locator("#model-gb-osm-reference")).toBeVisible();
 });
 
+test("the reference inventory is entered by geography, and a stale place widens it", async ({ page }) => {
+  const germany = page.locator("#model-de-osm-reference");
+  const britain = page.locator("#model-gb-osm-reference");
+
+  await page.goto(path("/reference-models"));
+  const picker = page.getByRole("group", { name: "Geography" });
+  await expect(picker.getByRole("button", { name: "Germany", exact: true })).toBeVisible();
+  await expect(picker.getByRole("button", { name: "Great Britain", exact: true })).toBeVisible();
+  // Both models are in the HTML whatever is selected — the server renders
+  // every geography and the picker hides the rest, so that a build with no
+  // request to read the selection from still publishes the inventory. Hence
+  // visibility rather than count: a count assertion would pass on a page that
+  // shipped nothing and filtered nothing.
+  await expect(germany).toBeVisible();
+  await expect(britain).toBeVisible();
+
+  await picker.getByRole("button", { name: "Germany", exact: true }).click();
+  await expect(page).toHaveURL(/place=germany/);
+  await expect(germany).toBeVisible();
+  await expect(britain).toBeHidden();
+  await expect(picker.getByRole("button", { name: "Germany", exact: true })).toHaveAttribute(
+    "aria-pressed", "true");
+
+  // A link somebody pasted lands where it says it does.
+  await page.goto(path("/reference-models?place=greatBritain"));
+  await expect(britain).toBeVisible();
+  await expect(germany).toBeHidden();
+
+  // And a stale one widens the view rather than rendering an empty shelf,
+  // which would read as "there is no network for this place".
+  await page.goto(path("/reference-models?place=atlantis"));
+  await expect(page.getByRole("status")).toContainText("atlantis");
+  await expect(germany).toBeVisible();
+  await expect(britain).toBeVisible();
+});
+
 test("filters narrow results, including concept links and combined facets", async ({ page }) => {
   await page.goto(path("/datasets?record_type=reference_model"));
   await expect(page.getByRole("link", { name: "OpenGrid Reference: Great Britain (OSM)", exact: true })).toBeVisible();

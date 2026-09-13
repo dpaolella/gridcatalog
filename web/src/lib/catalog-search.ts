@@ -5,7 +5,7 @@ import type { DatasetSummary } from "./api";
 export const STATIC_FILTERS = [
   "record_type", "fidelity_class", "data_domain", "provenance_class", "license",
   "format", "completeness_level", "field_count_bucket", "spatial_granularity",
-  "anonymous_access", "link_health", "has_usage_evidence", "concept",
+  "anonymous_access", "link_health", "has_usage_evidence", "concept", "place",
 ] as const;
 const CONTROLS = new Set(["q", "sort", "offset"]);
 
@@ -27,6 +27,7 @@ export function matches(dataset: DatasetSummary, field: string, value: string): 
     case "fidelity_class": return dataset.fidelity_class === value;
     case "field_count_bucket": return dataset.field_count_bucket === value;
     case "concept": return (dataset.concepts ?? []).some((c) => c.iri === value);
+    case "place": return (dataset.spatial?.place_iris ?? []).includes(value);
     case "data_domain": return dataset.data_domains.some((d) => d.iri === value);
     case "provenance_class": return dataset.provenance_class === value;
     case "license": return dataset.license_id === value;
