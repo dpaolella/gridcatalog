@@ -45,6 +45,7 @@ export function ReferenceModelCard({ model }: { model: DatasetSummary }) {
             basemapUrl={`${BASE_PATH}/reference-models/${mapped.dir}/basemap.json`}
             systemUrl={`${BASE_PATH}/reference-models/${mapped.dir}/${mapped.document}`}
             synthetic={model.provenance_class === "synthetic"}
+            modelHref={`/reference-models/${model.id}`}
           />
         </div>
       ) : null}

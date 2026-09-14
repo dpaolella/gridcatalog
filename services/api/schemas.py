@@ -276,6 +276,17 @@ class DatasetSummary(ApiModel):
 class FieldDetail(ApiModel):
     id: str
     local_name: str
+    #: Where in the distribution's own structure this field lives —
+    #: ``components.Line[].x`` for a Sienna document, a column name for a CSV.
+    #:
+    #: Carried because ``local_name`` is not an address. The GB reference model
+    #: declares ``x`` twice, on ``components.Line[]`` and on
+    #: ``components.TransformerCircuit[]``, and the two have *different* value
+    #: bases — modeled and estimated. A consumer joining a value to its basis by
+    #: local name attributes the wrong one silently, which is the failure mode
+    #: a value basis exists to prevent. The records have carried ``og:fieldId``
+    #: since M6 and this layer did not pass it on.
+    field_id: str | None = None
     label: str | None = None
     definition: str | None = None
     data_type: str | None = None
@@ -390,6 +401,7 @@ def _field_kwargs(node: dict[str, Any], labels: dict[str, dict[str, str]]) -> di
     return {
         "id": str(node.get("id", "")),
         "local_name": str(node.get("localName") or node.get("fieldId") or ""),
+        "field_id": node.get("fieldId"),
         "label": node.get("label"),
         "definition": node.get("definition"),
         "data_type": node.get("dataType"),

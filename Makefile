@@ -98,10 +98,16 @@ model-assets: ## Stage registered model bytes under web/public
 	@# — this Makefile, the CI job that drives a browser over the live build,
 	@# and the Pages deploy — and a copy that only two of them run is how the
 	@# e2e suite came to drive a viewer whose bytes 404.
+	@#
+	@# `parameters.json` joins them because the model page reads it: it is
+	@# where the per-branch estimation rule and its inputs live, and without
+	@# it that page can say a value is modelled and not what it was modelled
+	@# from. 382 KB for GB, fetched by the one page that needs it.
 	for model in gb-osm de-osm kpg-193; do \
 	  mkdir -p web/public/reference-models/$$model; \
 	  cp data/reference-models/$$model/system.view.json \
 	     data/reference-models/$$model/basemap.json \
+	     data/reference-models/$$model/parameters.json \
 	     web/public/reference-models/$$model/; \
 	done
 

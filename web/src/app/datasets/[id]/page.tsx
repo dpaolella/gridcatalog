@@ -211,9 +211,19 @@ export default async function DatasetPage({ params }: { params: Params }) {
         <div className="space-y-3">
           <ReferenceModelSuitability model={dataset} />
           {MAPPED_MODELS[dataset.id] ? (
-            <Link href={`/reference-models#model-${dataset.id}`} className="og-cta">
-              {modelText("viewMap")}
-            </Link>
+            <div className="flex flex-wrap gap-3">
+              <Link href={`/reference-models#model-${dataset.id}`} className="og-cta">
+                {modelText("viewMap")}
+              </Link>
+              {/* The values, not the file. The Downloads tab still offers the
+                  document and this is the reading of it — #98's point being
+                  that a 2.9 MB download is a thing readers do not open, so
+                  everything the catalog knows about how the model was made was
+                  reachable only by people who already trusted it. */}
+              <Link href={`/reference-models/${dataset.id}`} className="og-cta">
+                {modelText("viewComponents")}
+              </Link>
+            </div>
           ) : null}
         </div>
       ) : null}

@@ -99,7 +99,9 @@ test("the reference inventory is entered by geography, and a stale place widens 
   // And a stale one widens the view rather than rendering an empty shelf,
   // which would read as "there is no network for this place".
   await page.goto(path("/reference-models?place=atlantis"));
-  await expect(page.getByRole("status")).toContainText("atlantis");
+  // The picker's own notice, which is the unnamed one: each map also carries a
+  // named live region for the component it has identified (#98).
+  await expect(page.getByRole("status").filter({ hasText: "atlantis" })).toBeVisible();
   await expect(germany).toBeVisible();
   await expect(britain).toBeVisible();
 });
@@ -317,4 +319,97 @@ test("the front page is the catalog: real facets, real rows, and every count lan
   await facet.click();
   await expect(page).toHaveURL(/data_domain=/);
   await expect(rows).toHaveCount(counted);
+});
+
+test("the map names what you point at, and the name leads to the model", async ({ page }) => {
+  /* #98. The viewer drew 412 buses and 455 circuits and identified none of
+     them, so the picture could say "this is shaped like Britain" and could not
+     say "this is the substation you meant". Only the second makes a reference
+     model usable rather than decorative.
+
+     The identification is a live region rather than a `title` tooltip, which is
+     what makes the same answer reachable by pointer, by key and by tap. All
+     three are exercised: a tooltip would pass a hover test and fail every
+     reader on a phone or a keyboard. */
+  await page.goto(path("/reference-models?place=greatBritain"));
+  const model = page.locator("#model-gb-osm-reference");
+  const svg = model.locator("figure svg");
+  const status = model.getByRole("status", { name: /Identified component/ });
+  await expect(svg).toBeVisible();
+  await expect(status).toContainText("Point at a bus or a circuit");
+
+  // Keyboard: the camera keys stay on the bare arrows (#92), so traversal takes
+  // the modifier, and each step names what it landed on.
+  await svg.focus();
+  await page.keyboard.press("Shift+ArrowRight");
+  await expect(status).toContainText(/^Bus/);
+  const first = await status.innerText();
+  await page.keyboard.press("PageDown");
+  expect(await status.innerText()).not.toBe(first);
+
+  // The identifier is the one that joins back to the document, and the link
+  // carries it. A display index would look exactly as durable and join to
+  // nothing.
+  const link = status.getByRole("link").first();
+  const href = await link.getAttribute("href");
+  // Trailing slash optional: the static export writes directory-style URLs,
+  // and a base path is prepended when the site is published under one.
+  expect(href).toMatch(/\/reference-models\/gb-osm-reference\/?\?component=/);
+
+  // Pointer: the elements are hit-tested by distance rather than by SVG pointer
+  // events, because a 400 kV circuit is two pixels wide and a reader cannot be
+  // asked to land inside two pixels.
+  const spot = await svg.evaluate((el: SVGSVGElement) => {
+    const group = el.querySelector("g")!;
+    const matrix = group.getScreenCTM()!;
+    const marker = el.querySelector("circle")!;
+    const point = new DOMPoint(
+      Number(marker.getAttribute("cx")),
+      Number(marker.getAttribute("cy")),
+    ).matrixTransform(matrix);
+    return { x: point.x, y: point.y };
+  });
+  await page.mouse.move(spot.x, spot.y);
+  await expect(status).toContainText(/(Bus|Circuit)/);
+
+  await link.click();
+  await expect(page).toHaveURL(/\/reference-models\/gb-osm-reference/);
+});
+
+test("the model page renders the document's values and says how each was set", async ({ page }) => {
+  /* The values were reachable only as a 2.9 MB file on the Downloads tab, so
+     the per-field `og:valueBasis` work was invisible at the moment it would
+     have changed a decision. */
+  await page.goto(path("/reference-models/gb-osm-reference?component=LN-100861731"));
+  const table = page.locator("table");
+  await expect(table).toBeVisible();
+
+  // Both identities, named as what they are. Where a component carries no
+  // upstream id the cell says so rather than falling back to the internal
+  // index, which would look exactly like a stable identity.
+  const row = table.locator("tbody tr").first();
+  await expect(row).toContainText("LN-100861731");
+  await expect(row).toContainText("100861731");
+
+  // The basis is the record's own word, on the column it belongs to.
+  await expect(table.locator("thead")).toContainText(/modeled/i);
+
+  // And an estimated value shows the rule and the inputs behind it, which is
+  // the thing `parameters.json` carries and a file download buries.
+  await expect(page.getByText("pypsa-standard-line-type")).toBeVisible();
+  await expect(page.getByText("400 kV has no standard type")).toBeVisible();
+
+  // The definitions are readable, not only hoverable: two of these columns
+  // carry no unit at all, and the definition is the only thing that says the
+  // values are per unit on a 100 MVA base.
+  await page.getByText("What these columns mean").click();
+  await expect(page.locator("details dl")).toContainText("components.Line[].x");
+
+  // A page that grows with the model is the mistake `StaticSearch` already made
+  // once (#34), so the table is paged.
+  await page.getByRole("searchbox").fill("");
+  await expect(page.getByRole("button", { name: "Next" })).toBeVisible();
+  // Counted by row header rather than by `tr`: an expanded derivation adds a
+  // row of its own, so `tr` counts the disclosure as a component.
+  await expect(table.locator("tbody th[scope=row]")).toHaveCount(25);
 });

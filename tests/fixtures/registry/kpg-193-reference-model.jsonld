@@ -159,7 +159,7 @@
       "label": "Bus nominal voltage",
       "definition": "Nominal voltage of the bus in kV. Korea's transmission levels are 154, 345 and 765 kV.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/kilovolt",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
       "valueBasis": "measured",
       "required": true
     },

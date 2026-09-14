@@ -401,6 +401,14 @@ export interface SearchResponse {
 export interface FieldDetail {
   id: string;
   local_name: string;
+  /** Where this field lives in the distribution's own structure —
+   *  `components.Line[].x` for a Sienna document, a column name for a CSV.
+   *
+   *  The address, where `local_name` is only a label. The GB model declares
+   *  `x` on both `components.Line[]` and `components.TransformerCircuit[]`
+   *  with different value bases, so joining a value to its basis by local name
+   *  picks the wrong one without saying so. */
+  field_id?: string | null;
   label?: string | null;
   definition?: string | null;
   data_type?: string | null;

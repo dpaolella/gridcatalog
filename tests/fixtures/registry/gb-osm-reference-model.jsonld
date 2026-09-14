@@ -154,7 +154,7 @@
       "label": "Bus nominal voltage",
       "definition": "Nominal voltage of the substation busbar in kV, as tagged in OpenStreetMap.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/kilovolt",
+      "unit": "http://qudt.org/vocab/unit/KiloV",
       "valueBasis": "measured",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"
@@ -169,7 +169,7 @@
       "label": "Line series resistance",
       "definition": "Series resistance in ohms, estimated as the per-kilometre resistance of the standard overhead line type for the circuit's voltage class, multiplied by route length and divided by the number of parallel circuits.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "unit": "http://qudt.org/vocab/unit/OHM",
       "valueBasis": "modeled",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"
@@ -185,7 +185,7 @@
       "label": "Line series reactance",
       "definition": "Series reactance in ohms, estimated the same way as resistance: per-kilometre reactance of the standard type for the voltage class, times route length, divided by parallel circuits.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "unit": "http://qudt.org/vocab/unit/OHM",
       "valueBasis": "modeled",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"
@@ -201,7 +201,7 @@
       "label": "Line thermal rating",
       "definition": "Thermal rating in MVA, estimated as sqrt(3) times nominal voltage times the standard type's nominal current times the number of circuits.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/megavolt-ampere",
+      "unit": "http://qudt.org/vocab/unit/MegaV-A",
       "valueBasis": "modeled",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"
@@ -217,7 +217,7 @@
       "label": "Transformer reactance",
       "definition": "Series reactance in ohms on the primary base, from a typical supergrid autotransformer: 13% on rating, with rating taken by voltage pair.",
       "dataType": "float64",
-      "unit": "https://schema.opengrid.org/concept/unit/ohm",
+      "unit": "http://qudt.org/vocab/unit/OHM",
       "valueBasis": "estimated",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/pypsa-eur-grid"

@@ -643,7 +643,7 @@ def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, 
 
     rows = records.store.select(
         f"""
-        SELECT ?iri ?label ?definition WHERE {{
+        SELECT ?iri ?p ?label ?definition WHERE {{
           GRAPH ??vocab {{
             ?iri ?p ?label .
             OPTIONAL {{ ?iri skos:definition ?definition }}
@@ -655,12 +655,36 @@ def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, 
         {"vocab": NamedGraph.VOCAB.uri()},
     )
     terms: dict[str, dict[str, str]] = {}
+    ranked: dict[str, int] = {}
     for row in rows:
-        entry = terms.setdefault(str(row["iri"]), {})
-        entry["label"] = str(row["label"])
+        iri = str(row["iri"])
+        entry = terms.setdefault(iri, {})
+        rank = _LABEL_RANK.get(str(row["p"]), len(_LABEL_RANK))
+        # Ranked rather than last-write-wins. Three predicates match and the
+        # store returns them in no stated order, so a unit rendered as its
+        # symbol or its name depending on which row arrived last: the GB model's
+        # schema showed "kilovolt", "Ω" and "MVA" in the same column, from three
+        # registry entries written identically. Same record, same query, three
+        # conventions.
+        if "label" not in entry or rank < ranked.get(iri, len(_LABEL_RANK)):
+            entry["label"] = str(row["label"])
+            ranked[iri] = rank
         if row.get("definition") is not None:
             entry["definition"] = str(row["definition"])
     return terms
+
+
+#: Which label to show when a term carries several, best first.
+#:
+#: The symbol wins where there is one, and only units have one: "kV" is what
+#: belongs beside a number in a table, and "kilovolt" is what belongs in prose.
+#: Concepts have no symbol, so for them this is prefLabel over rdfs:label — the
+#: SKOS-preferred name over an incidental one.
+_LABEL_RANK = {
+    "http://qudt.org/schema/qudt/symbol": 0,
+    "http://www.w3.org/2004/02/skos/core#prefLabel": 1,
+    "http://www.w3.org/2000/01/rdf-schema#label": 2,
+}
 
 
 # ---------------------------------------------------------------------------

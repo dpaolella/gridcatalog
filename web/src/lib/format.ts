@@ -40,6 +40,25 @@ export function formatNumber(value?: number | null): string | null {
 }
 
 /**
+ * A number to a fixed number of *significant* digits.
+ *
+ * `formatNumber` is right for quantities a reader counts — records, megawatts,
+ * kilovolts — and wrong for one that spans orders of magnitude, because
+ * `Intl.NumberFormat`'s default stops at three decimal places. A line reactance
+ * of 0.017794 per unit renders as "0.018" through it, and 0.001954 as "0.002":
+ * a 1% error on one and a 2% error on the other, presented as the value the
+ * document holds. Impedances are exactly that kind of quantity, and they are
+ * the ones a power flow is most sensitive to.
+ *
+ * Four digits by default, which distinguishes every impedance in the corpus
+ * without implying a precision the estimates do not have.
+ */
+export function formatSignificant(value?: number | null, digits = 4): string | null {
+  if (value === null || value === undefined || !Number.isFinite(value)) return null;
+  return new Intl.NumberFormat(LOCALE, { maximumSignificantDigits: digits }).format(value);
+}
+
+/**
  * Bytes, in the units a person reads.
  *
  * Binary prefixes (KiB, MiB) rather than decimal, because that is what object

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -12,6 +13,10 @@ from rdflib.namespace import RDFS
 REPO_ROOT = Path(__file__).resolve().parents[2]
 QUDT_UNIT = "http://qudt.org/vocab/unit/"
 OG_UNIT = "https://schema.opengrid.org/unit/"
+#: The two namespaces this registry is the authority for. A record citing a
+#: unit under either has to find it here; anything else is somebody else's
+#: vocabulary and not this file's to adjudicate.
+GOVERNED = (QUDT_UNIT, OG_UNIT)
 
 
 @pytest.fixture(scope="module")
@@ -37,10 +42,30 @@ def test_every_unit_used_is_declared(units: Graph, concepts: Graph) -> None:
 
 
 def test_no_declared_unit_is_unused(units: Graph, concepts: Graph) -> None:
-    """Dead entries rot. If a unit is no longer used, remove it."""
+    """Dead entries rot. If a unit is no longer used, remove it.
+
+    "Used" is a concept's default unit *or* a unit a record cites. It was only
+    the first, which is too narrow in the direction that does damage: a unit
+    that fifty records name and no concept defaults to read as dead here, and
+    acting on that reading would dangle fifty fields. The megatonne is exactly
+    that case — a carbon cap in an assumption set, no concept's default.
+    """
     declared = {str(s) for s in units.subjects(OG.conversionMultiplier, None)}
-    used = {str(o) for o in concepts.objects(None, OG.defaultUnit)}
+    used = {str(o) for o in concepts.objects(None, OG.defaultUnit)} | units_cited_by_records()
     assert not (declared - used), f"declared but unused: {sorted(declared - used)}"
+
+
+def units_cited_by_records() -> set[str]:
+    """Every ``og:unit`` named by a fixture record, on a field or an assumption."""
+    root = REPO_ROOT / "tests" / "fixtures"
+    cited: set[str] = set()
+    for path in sorted(root.glob("records/*.jsonld")) + sorted(root.glob("registry/*.jsonld")):
+        document = json.loads(path.read_text())
+        for node in document.get("@graph", [document]):
+            unit = node.get("unit")
+            for iri in unit if isinstance(unit, list) else [unit] if unit else []:
+                cited.add(str(iri))
+    return cited
 
 
 def test_every_unit_is_fully_described(units: Graph) -> None:
@@ -120,3 +145,33 @@ def test_qudt_reconciliation_pending(units: Graph) -> None:
         f"{len(unverified)} unit IRIs are believed present in QUDT but unchecked. "
         "Reconcile against a pinned QUDT release; see vocab/README.md."
     )
+
+
+def test_no_record_cites_a_unit_the_registry_does_not_define(units: Graph) -> None:
+    """A field's ``og:unit`` has to resolve, or it says nothing.
+
+    Every reference model in the corpus minted its own unit IRIs under
+    ``https://schema.opengrid.org/concept/unit/`` — ``kilovolt``, ``ohm``,
+    ``megavolt-ampere`` — while this registry, and every dataset record in the
+    corpus, names units by their QUDT IRI. All three were therefore dangling,
+    and nothing complained: an unresolvable unit is served as a null label and
+    a null label renders as no unit at all. The Schema tab showed a bare column of
+    numbers for every value in all three models, and a machine reading the
+    record for a conversion factor got nothing to convert with.
+
+    The failure mode is the quiet one this project's fourth principle is about:
+    the record *looked* like it carried a unit. Checked here rather than in a
+    shape, because a SHACL shape can require a unit to be an IRI and cannot know
+    which IRIs this registry mints.
+    """
+    declared = {str(s) for s in units.subjects(RDFS.label, None)}
+    assert declared, "the registry parsed to nothing"
+
+    cited = units_cited_by_records()
+    assert cited, "no records to check"
+
+    # Only units under a namespace this registry is the authority for. A record
+    # is free to cite a vocabulary this file knows nothing about, and this test
+    # is not the adjudicator of whether that one resolves.
+    dangling = sorted(iri for iri in cited if iri.startswith(GOVERNED) and iri not in declared)
+    assert not dangling, "units cited by a record and not defined:\n" + "\n".join(dangling)

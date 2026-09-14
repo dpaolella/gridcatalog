@@ -129,6 +129,12 @@ unit:USD a qudt:Unit ; rdfs:label "US dollar"@en ; qudt:symbol "$" ;
   rdfs:comment "Currency is not convertible by a fixed factor. A dataset must carry the price year separately; comparing a 2015$ and a 2024$ figure is a deflator question, not a unit question."@en .
 unit:TON_Metric a qudt:Unit ; rdfs:label "tonne"@en ; qudt:symbol "t" ;
   qudt:hasQuantityKind qk:Mass ; og:conversionMultiplier 1e3 ; og:qudtStatus "unverified" .
+# Carbon caps are written in megatonnes, and an assumption set in the corpus has
+# been citing this IRI since it was authored while this registry did not define
+# it — so the one number in a filing that decides what the model is allowed to
+# emit resolved to no unit at all.
+unit:MegaTON_Metric a qudt:Unit ; rdfs:label "megatonne"@en ; qudt:symbol "Mt" ;
+  qudt:hasQuantityKind qk:Mass ; og:conversionMultiplier 1e9 ; og:qudtStatus "unverified" .
 
 # =======================================================================
 # Locally minted. QUDT does not define these, so asserting a QUDT IRI for
