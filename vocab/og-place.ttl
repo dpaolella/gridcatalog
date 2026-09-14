@@ -50,7 +50,7 @@
   dct:description """Places the Hub's records name, used as the value space of dct:spatial. Each concept is identified by a Wikidata entity, which is the authority; skos:notation carries an ISO 3166-1 alpha-2 code only where the concept is that country, so that a sub-national or cross-border area is never filed under a state it is not. The scheme holds what the catalog describes and nothing in anticipation of it."""@en ;
   dct:issued "2026-09-13"^^xsd:date ;
   owl:versionInfo "1.0.0" ;
-  skos:hasTopConcept pl:greatBritain, pl:germany .
+  skos:hasTopConcept pl:greatBritain, pl:germany, pl:southKorea .
 
 pl:greatBritain
   a skos:Concept ;
@@ -71,3 +71,14 @@ pl:germany
   skos:exactMatch wd:Q183 ;
   skos:definition "The Federal Republic of Germany, whose transmission network is operated by four TSOs within one synchronous area."@en ;
   skos:scopeNote """ISO 3166-1 "DE" is exact here: the network filed for this place is the country's, with no sub-national exclusion. The interconnectors to its nine neighbours are outside it, which is a statement about the model and not about the place."""@en .
+
+pl:southKorea
+  a skos:Concept ;
+  skos:inScheme <https://schema.opengrid.org/concept/place> ;
+  skos:topConceptOf <https://schema.opengrid.org/concept/place> ;
+  skos:prefLabel "South Korea"@en ;
+  skos:altLabel "Republic of Korea"@en, "Korea, Republic of"@en ;
+  skos:notation "KR" ;
+  skos:exactMatch wd:Q884 ;
+  skos:definition "The Republic of Korea, whose transmission network is operated by KEPCO as a single synchronous island with no AC interconnection to any neighbour."@en ;
+  skos:scopeNote """ISO 3166-1 "KR" is exact here: the network filed for this place is the country's. The isolation is a fact about the system rather than a limit of the model — Korea has no AC tie to China, Japan or the DPRK, so a model that stops at the coast is not missing anything a neighbour would supply."""@en .

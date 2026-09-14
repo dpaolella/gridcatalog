@@ -98,14 +98,12 @@ model-assets: ## Stage registered model bytes under web/public
 	@# — this Makefile, the CI job that drives a browser over the live build,
 	@# and the Pages deploy — and a copy that only two of them run is how the
 	@# e2e suite came to drive a viewer whose bytes 404.
-	mkdir -p web/public/reference-models/gb-osm \
-	         web/public/reference-models/de-osm
-	cp data/reference-models/gb-osm/system.view.json \
-	   data/reference-models/gb-osm/basemap.json \
-	   web/public/reference-models/gb-osm/
-	cp data/reference-models/de-osm/system.view.json \
-	   data/reference-models/de-osm/basemap.json \
-	   web/public/reference-models/de-osm/
+	for model in gb-osm de-osm kpg-193; do \
+	  mkdir -p web/public/reference-models/$$model; \
+	  cp data/reference-models/$$model/system.view.json \
+	     data/reference-models/$$model/basemap.json \
+	     web/public/reference-models/$$model/; \
+	done
 
 e2e: ## Playwright over the M9 done-criterion flows
 	@# Both servers, torn down on the way out. The suite drives a real API and

@@ -1,0 +1,73 @@
+{
+  "model": "kpg-193",
+  "source": {
+    "repository": "https://github.com/agm-center/kpg-testgrid",
+    "commit": "5ab3e25d6d1a84e27d7de6d11169cb6f9a7dd29b",
+    "version": "v2.0.0",
+    "paper": "arXiv:2411.14756",
+    "licence": "ODbL 1.0",
+    "share_alike": true,
+    "files": {
+      "KPG193_ver2_0.m": {
+        "sha256": "5e8b44b35524d8fd3dea77d63abbc57b4929c16617bafc6c166afdb387a93a2c",
+        "bytes": 116531
+      },
+      "bus_metadata_2025.csv": {
+        "sha256": "805013b612ed67f8d6cf529d9d4723dff7082b6efe07aee0938a3231b96c274b",
+        "bytes": 8679
+      },
+      "generator_metadata_2025.csv": {
+        "sha256": "e19a0add45b2d86bec7c7129f0ab778664f1536ea654a4c091e4afe97d66efe3",
+        "bytes": 52944
+      }
+    }
+  },
+  "operating_point": {
+    "case": "KPG193_ver2_0_2025_12_31_24",
+    "note": "One hour's ACOPF solution, carried through as initial conditions. Bus voltage magnitudes and angles, unit commitment and dispatch all describe that hour and are not a neutral starting point.",
+    "demand_mw": 66135.1,
+    "dispatch_mw": 66967.1,
+    "fleet_capacity_mw": 113218.3,
+    "units_online": 100,
+    "units_total": 201
+  },
+  "measured": [
+    "transmission line terminals, from OpenStreetMap via the Overpass API",
+    "bus nominal voltage",
+    "generator nameplate capacity, fuel and plant identity",
+    "generator cost curves, from the source's fuel-price and heat-rate data"
+  ],
+  "estimated": [
+    "line r, x and b — computed upstream from published conductor tables by voltage class and conductor type, not measured per circuit",
+    "nodal reactive demand, fixed upstream at 90% of real power demand"
+  ],
+  "conventions": [
+    "Per unit on a 100 MVA base throughout (COMPONENT_BASE). 184 of 385 branches join different nominal voltages with ratio 0, so there is no single base voltage to express them in ohms against.",
+    "Bus coordinates are KEPCO regional office locations. A bus is a cluster, not a substation, and its coordinate is the office's.",
+    "MATPOWER generator `status` becomes Sienna `status` (ONLINE/OFFLINE) and never `available`: a unit the ACOPF left off is not on outage.",
+    "Every LNG unit takes prime mover CC. The metadata does not distinguish combined cycle from simple cycle, and CC is right for most of Korea's LNG capacity and wrong for some of it."
+  ],
+  "excluded": {
+    "renewables": "Wind, solar and hydro capacity is published per bus upstream and is not in the MATPOWER case, so the fleet here is conventional only: 115 LNG, 60 coal, 26 nuclear.",
+    "time_series": "The 8,760-hour demand and renewable profiles are upstream. Sienna carries time series in a separate HDF5 file, which this builder does not write, so the document holds one hour rather than a year.",
+    "compensation_devices": "Shunt capacitors, static synchronous compensators and tap-changing transformers are in the real Korean grid and are stated by the authors to be absent from the test system.",
+    "hvdc_converter_detail": "The two HVDC links are emitted as generic two terminal lines. Sienna's LCC type wants bridge counts, delay and extinction angle limits and commutating reactances, none of which the source publishes; generic carries the limits and losses it does publish and invents nothing."
+  },
+  "upstream_inconsistencies": [
+    {
+      "unit": "삼척그린 #1",
+      "case_bus": 75,
+      "case_bus_name": "Samcheok",
+      "metadata_bus": 82,
+      "metadata_bus_name": "Uljin"
+    },
+    {
+      "unit": "삼척그린 #2",
+      "case_bus": 75,
+      "case_bus_name": "Samcheok",
+      "metadata_bus": 82,
+      "metadata_bus_name": "Uljin"
+    }
+  ],
+  "unlocated_buses": []
+}

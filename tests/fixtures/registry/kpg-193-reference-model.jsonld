@@ -1,0 +1,229 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/ds/kpg-193-reference",
+      "type": [
+        "Dataset",
+        "ReferenceModel"
+      ],
+      "title": "KPG 193: Korean Power Grid test system",
+      "summary": "A 193-bus system for Korea — demand, a committed thermal fleet with cost curves, and a solved operating point. The first model here that can be run rather than only drawn.",
+      "description": "The 193-bus synthetic Korean power grid (KPG 193 v2.0.0) from the AGM Center at KENTECH, by Geonho Song and Jip Kim (arXiv:2411.14756), registered here as a Sienna system. Unlike the Hub's other reference models this is a system and not a bare network: 193 buses carrying 66,135 MW of demand, 201 thermal units totalling 113 GW of capacity with quadratic cost curves and commitment state, 385 AC branches and two HVDC links. Transmission-line topology comes from OpenStreetMap via the Overpass API, the same upstream as the Great Britain and Germany models. What differs is the buses: they are clusters on the locations of KEPCO's regional offices rather than individual substations, which is what the authors mean by synthetic and why this record is filed at zonal rather than nodal spatial granularity. Impedances are per unit on a 100 MVA base, because 184 of the 385 branches join different voltage levels with no transformer ratio and so have no single base voltage to convert against. The case is one solved hour — 2025-12-31, hour 24 — and not a generic starting point: the unit commitment, dispatch and bus voltage state are an AC OPF result, which is why 101 of the 201 units are offline. The hourly demand and renewable profiles and the renewable fleet are published upstream and are not carried here, so the generators in this document are the conventional fleet only: 115 LNG, 60 coal, 26 nuclear.",
+      "fidelityClass": "screening",
+      "networkElementCount": 974,
+      "hasTopology": true,
+      "hasImpedance": true,
+      "voltageClass": [
+        "transmission"
+      ],
+      "spatialGranularity": "zonal",
+      "hasField": [
+        "https://catalog.opengrid.org/field/kpg-193/geometry",
+        "https://catalog.opengrid.org/field/kpg-193/base-voltage",
+        "https://catalog.opengrid.org/field/kpg-193/line-x",
+        "https://catalog.opengrid.org/field/kpg-193/load-active-power",
+        "https://catalog.opengrid.org/field/kpg-193/gen-status",
+        "https://catalog.opengrid.org/field/kpg-193/gen-cost"
+      ],
+      "supportedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/dcPowerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/acPowerFlow",
+        "https://schema.opengrid.org/concept/analysis-type/productionCost"
+      ],
+      "excludedAnalysis": [
+        "https://schema.opengrid.org/concept/analysis-type/resourceAdequacy",
+        "https://schema.opengrid.org/concept/analysis-type/capacityExpansion"
+      ],
+      "exclusionRationale": "The opposite situation from the Hub's other two reference models, and worth stating as such: this one can be solved. The authors validated daily unit commitment and hourly AC OPF across a full year, and the registered snapshot is feasible — no bus outside its voltage limits, no branch over its rating, no unit outside its dispatch limits, 1.26% losses. What it cannot do is anything requiring a year of chronology or a fleet that is allowed to change. Resource adequacy needs the 8,760-hour demand and renewable profiles, which are upstream and not carried in this document. Capacity expansion needs a candidate fleet and the renewable capacity per bus, likewise upstream. Both become available to somebody who fetches the profiles from the source repository; neither is available from this file alone.",
+      "questionClassPartition": [
+        "https://catalog.opengrid.org/question-class/kpg-193-dispatch-feasibility",
+        "https://catalog.opengrid.org/question-class/kpg-193-regional-balance",
+        "https://catalog.opengrid.org/question-class/kpg-193-substation-siting",
+        "https://catalog.opengrid.org/question-class/kpg-193-voltage-support",
+        "https://catalog.opengrid.org/question-class/kpg-193-topology-currency"
+      ],
+      "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",
+      "dataDomain": [
+        "https://schema.opengrid.org/concept/data-domain/DD1",
+        "https://schema.opengrid.org/concept/data-domain/DD2"
+      ],
+      "provenanceClass": "https://schema.opengrid.org/concept/provenance-class/osmDerived",
+      "publisher": "https://catalog.opengrid.org/agent/kentech-agm-center",
+      "license": "https://spdx.org/licenses/ODbL-1.0",
+      "redistributionAllowed": true,
+      "commercialUseAllowed": true,
+      "shareAlike": true,
+      "licenseNote": "ODbL 1.0. Share-alike attaches at the database level, so a derived database that joins this model to other data may inherit the obligation.",
+      "accessRestriction": "https://schema.opengrid.org/concept/access-restriction/none",
+      "anonymousAccess": true,
+      "documentationStatus": "fully-documented",
+      "completenessLevel": 2,
+      "reviewState": "confirmed",
+      "harvestSource": "curated",
+      "visibility": "public",
+      "tier": 1,
+      "issued": "2026-09-14T00:00:00Z",
+      "spatial": [
+        "https://schema.opengrid.org/concept/place/southKorea"
+      ],
+      "spatialLabel": [
+        "South Korea"
+      ],
+      "distribution": [
+        "https://catalog.opengrid.org/dist/kpg-193-reference--sienna",
+        "https://catalog.opengrid.org/dist/kpg-193-reference--parameters"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/kpg-193-reference--sienna",
+      "type": "Distribution",
+      "title": "Sienna SystemDocument, JSON",
+      "accessURL": "https://github.com/dpaolella/gridcatalog/blob/claude/opengrid-hub-demo/data/reference-models/kpg-193/system.json",
+      "downloadURL": "https://raw.githubusercontent.com/dpaolella/gridcatalog/claude/opengrid-hub-demo/data/reference-models/kpg-193/system.json",
+      "mediaType": "application/json",
+      "format": "JSON",
+      "byteSize": 746828,
+      "hostedByOpenGrid": true,
+      "hostingReason": "registered",
+      "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models",
+      "conformsTo": "https://github.com/Sienna-Platform/SiennaSchemas/tree/3325d27c8c626a375c7492f1341af139d5686e53"
+    },
+    {
+      "id": "https://catalog.opengrid.org/dist/kpg-193-reference--parameters",
+      "type": "Distribution",
+      "title": "Conversion provenance, JSON",
+      "description": "What this conversion read, what it assumed and what it left behind: the SHA-256 of each upstream file at the pinned v2.0.0 commit, the operating point the case describes, the unit and commitment conventions, and the two upstream inconsistencies found while joining the MATPOWER case to the generator metadata.",
+      "accessURL": "https://github.com/dpaolella/gridcatalog/blob/claude/opengrid-hub-demo/data/reference-models/kpg-193/parameters.json",
+      "downloadURL": "https://raw.githubusercontent.com/dpaolella/gridcatalog/claude/opengrid-hub-demo/data/reference-models/kpg-193/parameters.json",
+      "mediaType": "application/json",
+      "format": "JSON",
+      "byteSize": 3665,
+      "hostedByOpenGrid": true,
+      "hostingReason": "registered",
+      "refreshOwner": "https://catalog.opengrid.org/agent/opengrid-reference-models"
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/kpg-193-dispatch-feasibility",
+      "type": "QuestionClass",
+      "questionClass": "Whether a dispatch is feasible, and what it costs",
+      "robustness": "robust",
+      "robustnessBasis": "The thing this model is for, and the only reference model here that answers it at all. Demand, a committed fleet, quadratic cost curves and branch ratings are all present, and the authors validated the system by solving daily unit commitment and hourly AC OPF over a full year. The registered snapshot was checked independently on load: every bus inside its voltage limits, every branch inside its rating, every online unit inside its dispatch limits, 1.26% losses across 66 GW. Costs are in thousands of Korean won and derive from the source's own fuel prices and heat rates."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/kpg-193-regional-balance",
+      "type": "QuestionClass",
+      "questionClass": "Where generation sits relative to demand, and the transfer between regions",
+      "robustness": "robust",
+      "robustnessBasis": "What a clustered model is good at, and the reason to cluster. Korea's structure — nuclear and coal on the coasts, demand concentrated around Seoul — survives aggregation onto regional offices, and the two 1,500 MW HVDC links that carry it are in the model and running near their limit in the registered hour. The bus that a plant sits at is a region and that is the right resolution for this question."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/kpg-193-substation-siting",
+      "type": "QuestionClass",
+      "questionClass": "Which substation a circuit terminates at, or where equipment physically is",
+      "robustness": "fragile",
+      "robustnessBasis": "The cost of clustering, and the one thing this model should not be mistaken for. A bus is a KEPCO regional office and its coordinate is that office's, not a substation's. The circuits are real and surveyed, but they have been collapsed onto 193 representative nodes, so a line here joins two regions rather than two switchyards. The Hub's Great Britain and Germany models answer this question and this one does not, which is why it is filed at zonal granularity while they are nodal."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/kpg-193-voltage-support",
+      "type": "QuestionClass",
+      "questionClass": "Voltage support, reactive margin and compensation",
+      "robustness": "fragile",
+      "robustnessBasis": "Stated by the authors rather than inferred here: \"Various compensation devices, such as shunt capacitors, static synchronous compensators, and tap-changing transformers, are installed in the actual Korean power grid to mitigate voltage issues. However, these devices were not included in the test system.\" They also fix nodal reactive demand at 90% of real power demand. So the voltage profile solves, and it solves on a system missing the equipment that holds voltage up in the real one."
+    },
+    {
+      "id": "https://catalog.opengrid.org/question-class/kpg-193-topology-currency",
+      "type": "QuestionClass",
+      "questionClass": "Whether the network reflects the grid as it stands today",
+      "robustness": "unknown",
+      "robustnessBasis": "The authors' own caveat, carried verbatim: \"Data sourced from OSM has uncertain update schedules, which may lead to inaccuracies in the power grid topology represented in the KPG 193 test system.\" Unknown rather than fragile, because neither they nor this catalog can say how far the extract lags the built system, and a guess at the size of an error is worse than naming the error."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/geometry",
+      "type": "Field",
+      "localName": "geo_json",
+      "fieldId": "supplemental_attributes[].geo_json",
+      "label": "Bus location",
+      "definition": "Point coordinates for each bus, in WGS 84, from the source's bus metadata.",
+      "dataType": "object",
+      "valueBasis": "measured",
+      "required": true,
+      "completenessCaveats": "A real coordinate for a real place, and not a substation. These are the locations of KEPCO's regional offices, onto which the network was clustered. Circuits carry no route geometry in this source, so a map draws them as straight lines between regions rather than along corridors."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/base-voltage",
+      "type": "Field",
+      "localName": "base_voltage",
+      "fieldId": "components.ACBus[].base_voltage",
+      "label": "Bus nominal voltage",
+      "definition": "Nominal voltage of the bus in kV. Korea's transmission levels are 154, 345 and 765 kV.",
+      "dataType": "float64",
+      "unit": "https://schema.opengrid.org/concept/unit/kilovolt",
+      "valueBasis": "measured",
+      "required": true
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/line-x",
+      "type": "Field",
+      "localName": "x",
+      "fieldId": "components.Line[].x",
+      "label": "Line series reactance",
+      "definition": "Series reactance in per unit on a 100 MVA base, as published in the source's MATPOWER case.",
+      "dataType": "float64",
+      "valueBasis": "modeled",
+      "required": true,
+      "completenessCaveats": "Computed upstream from published conductor tables by voltage level and conductor type, not measured per circuit — the same class of estimate the Hub's other two models carry, from a different table. Kept in per unit rather than converted to ohms: 184 of the 385 branches join different nominal voltages with no transformer ratio, so there is no single base voltage to convert them against and picking one would fabricate the answer.",
+      "fieldSource": [
+        "https://github.com/agm-center/kpg-testgrid/tree/5ab3e25d6d1a84e27d7de6d11169cb6f9a7dd29b"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/load-active-power",
+      "type": "Field",
+      "localName": "active_power",
+      "fieldId": "components.PowerLoad[].active_power",
+      "label": "Nodal demand",
+      "definition": "Active power demand at the bus, per unit on a 100 MVA base, for the hour the case describes.",
+      "dataType": "float64",
+      "valueBasis": "measured",
+      "required": true,
+      "completenessCaveats": "One hour, not a profile: 2025-12-31 hour 24, totalling 66,135 MW. `max_active_power` is set equal to it because this document carries no other hour to take a maximum over — the 8,760-hour profile is upstream. Reactive demand is fixed by the authors at 90% of active demand rather than measured."
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/gen-status",
+      "type": "Field",
+      "localName": "status",
+      "fieldId": "components.ThermalStandard[].status",
+      "label": "Unit commitment state",
+      "definition": "Whether the unit is synchronised in the hour the case describes. ONLINE for 100 units, OFFLINE for 101.",
+      "dataType": "string",
+      "valueBasis": "modeled",
+      "required": true,
+      "completenessCaveats": "The output of somebody's optimisation, not a property of the plant. Half the fleet being off is the commitment that hour's AC OPF chose and says nothing about availability — every unit here is `available`, and a study that re-commits should expect to turn them back on.",
+      "fieldSource": [
+        "https://github.com/agm-center/kpg-testgrid/tree/5ab3e25d6d1a84e27d7de6d11169cb6f9a7dd29b"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/field/kpg-193/gen-cost",
+      "type": "Field",
+      "localName": "operation_cost",
+      "fieldId": "components.ThermalStandard[].operation_cost",
+      "label": "Generation cost curve",
+      "definition": "Quadratic input-output cost curve in thousands of Korean won per hour against MW, plus start-up and shut-down costs, from the source's gencost block.",
+      "dataType": "object",
+      "valueBasis": "modeled",
+      "required": true,
+      "completenessCaveats": "Derived upstream from fuel prices and unit heat rates, both recorded per unit in the source's generator metadata, so the curve is checkable against its inputs rather than asserted. The variable O&M term is zero because the source states none; a plausible figure would ride into every dispatch as real money.",
+      "fieldSource": [
+        "https://github.com/agm-center/kpg-testgrid/tree/5ab3e25d6d1a84e27d7de6d11169cb6f9a7dd29b"
+      ]
+    },
+    {
+      "id": "https://catalog.opengrid.org/agent/kentech-agm-center",
+      "type": "Agent",
+      "name": "AGM Center, Korea Institute of Energy Technology",
+      "pointerRationale": "The authors and maintainers of KPG 193. Named as publisher because the model is theirs; the Hub holds a converted copy and is the refresh owner of that copy, not of the model."
+    }
+  ]
+}

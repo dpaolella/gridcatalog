@@ -33,6 +33,15 @@ MODELS = {
     "de-osm": "de-osm-reference-model",
 }
 
+#: KPG 193 is deliberately not in `MODELS`. It is a registered model and it
+#: gets the same structural checks, in `test_kpg_system.py` — but it is a
+#: conversion of somebody else's published case rather than a build from the
+#: PyPSA-Eur extract, and almost everything below is about *this builder's*
+#: provenance discipline: `parameters.json` shaped per branch, standard line
+#: types, substitution notes. Running those against a document that was never
+#: built that way would either fail for the wrong reason or be quietly
+#: weakened until it passed, and the second is worse.
+
 
 @pytest.fixture(scope="module")
 def registry() -> Registry:

@@ -301,6 +301,13 @@ EXTENTS = {
     # edge of the world. Germany borders nine countries, so this matters more
     # here than it did for an island.
     "de-osm": (4.9, 46.5, 15.7, 55.9),
+    # South Korea, around a network spanning 126.13-129.39 E, 34.32-38.21 N.
+    # The margin is asymmetric on purpose: a degree of sea on three sides, and
+    # enough north of the DMZ for the peninsula to read as a peninsula. Korea
+    # is a synchronous island with no AC tie to anywhere, so unlike Germany
+    # there is no neighbour whose absence needs explaining — the water is the
+    # explanation.
+    "kpg-193": (124.9, 33.2, 130.6, 39.3),
 }
 
 

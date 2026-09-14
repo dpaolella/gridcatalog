@@ -98,6 +98,7 @@ jobs:
           # non-dataset records.
           cp tests/fixtures/registry/gb-osm-reference-model.jsonld \
              tests/fixtures/registry/de-osm-reference-model.jsonld \
+             tests/fixtures/registry/kpg-193-reference-model.jsonld \
              var/site/curated/
 
           .venv/bin/datahub db upgrade

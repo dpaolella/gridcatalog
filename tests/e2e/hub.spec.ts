@@ -34,12 +34,22 @@ test("the catalog crosses domain with completeness, and every cell counts its ow
   // The register is no longer a section of its own.
   await expect(page.locator("header nav").getByRole("link", { name: "Gaps" })).toHaveCount(0);
 
+  // Every row's total is its three level cells, whatever the corpus holds.
+  // Asserted as the invariant rather than as a number: a literal here is a
+  // fact about a corpus this test never opened, and it went stale the first
+  // time a record was added — which is the failure `533e59d` is about.
+  for (const row of await coverage.locator("tbody tr").all()) {
+    // The domain name is a `th scope="row"`, so the cells are the three
+    // levels, then the total, then the register.
+    const cells = row.getByRole("cell");
+    const value = async (n: number) => Number((await cells.nth(n).innerText()).replace("—", "0"));
+    const [l1, l2, l3, total] = await Promise.all([0, 1, 2, 3].map(value));
+    expect(l1 + l2 + l3, await row.innerText()).toBe(total);
+  }
+
   // A domain the catalog serves thinly, with entries saying so, is the whole
   // reason the two facts are crossed rather than listed apart.
   const thin = coverage.locator("tbody tr").filter({ hasText: "DD2" });
-  // The domain name is a `th scope="row"`, so the cells are the three levels,
-  // then the total, then the register.
-  await expect(thin.getByRole("cell").nth(3)).toHaveText("2");
   const register = thin.locator("details summary");
   await expect(register).toHaveText(/entries/);
   await register.click();
@@ -95,16 +105,23 @@ test("the reference inventory is entered by geography, and a stale place widens 
 });
 
 test("filters narrow results, including concept links and combined facets", async ({ page }) => {
+  const rows = page.locator("main li.og-card");
+
   await page.goto(path("/datasets?record_type=reference_model"));
   await expect(page.getByRole("link", { name: "OpenGrid Reference: Great Britain (OSM)", exact: true })).toBeVisible();
-  await expect(page.locator("main li.og-card")).toHaveCount(2);
-  // Both published models are built the same way and so declare the same
-  // fidelity, which means "indicative returns one of two" is no longer
-  // available as proof the filter runs. Narrowing is shown the other way
-  // round: a class nothing carries must return nothing, where a filter that
-  // is never evaluated returns everything.
+  const models = await rows.count();
+  expect(models).toBeGreaterThan(1);
+
+  // Narrowing asserted as a relation, not as two literals. The counts move
+  // whenever the corpus does — the same two numbers have now gone stale twice
+  // — and what this test is actually about is that adding a filter removes
+  // records, which a filter that is never evaluated cannot do.
   await page.goto(path("/datasets?record_type=reference_model&fidelity_class=indicative"));
-  await expect(page.locator("main li.og-card")).toHaveCount(2);
+  const indicative = await rows.count();
+  expect(indicative).toBeGreaterThan(0);
+  expect(indicative).toBeLessThan(models);
+
+  // And a class nothing carries returns nothing rather than everything.
   await page.goto(path("/datasets?record_type=reference_model&fidelity_class=authoritative"));
   await expect(page.getByText("No datasets match this search.", { exact: true })).toBeVisible();
   await page.goto(path("/datasets?concept=nonexistent-review-concept"));
@@ -120,6 +137,11 @@ test("filters narrow results, including concept links and combined facets", asyn
 
 test("evidence links survive refresh and history and return to the filtered search", async ({ page }) => {
   await page.goto(path("/datasets?record_type=reference_model&sort=title"));
+  // Read what the filter returns rather than asserting how many models the
+  // corpus happens to hold: the claim is that coming back lands on the same
+  // search, not that the search has a particular size.
+  const models = await page.locator("main li.og-card").count();
+  expect(models).toBeGreaterThan(1);
   await page.getByRole("link", { name: "OpenGrid Reference: Great Britain (OSM)", exact: true }).click();
   await page.getByRole("tab", { name: "Schema", exact: true }).click();
   await expect(page).toHaveURL(/#schema$/);
@@ -133,7 +155,7 @@ test("evidence links survive refresh and history and return to the filtered sear
   await page.goto(href);
   await page.getByRole("link", { name: /Back to the data catalog/ }).click();
   await expect(page).toHaveURL(/datasets\/?\?record_type=reference_model&sort=title$/);
-  await expect(page.locator("main li.og-card")).toHaveCount(2);
+  await expect(page.locator("main li.og-card")).toHaveCount(models);
 });
 
 test("map controls work after delayed data, with wheel, keyboard and reset", async ({ page }) => {
