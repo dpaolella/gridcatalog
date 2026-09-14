@@ -24,6 +24,40 @@ test("reference-model detail retains fields, downloads and suitability", async (
   await expect(page.locator("#model-gb-osm-reference")).toBeVisible();
 });
 
+test("the catalog crosses domain with completeness, and every cell counts its own list", async ({
+  page,
+}) => {
+  await page.goto(path("/datasets"));
+  const coverage = page.locator("section[aria-labelledby=coverage-heading]");
+  await expect(coverage).toBeVisible();
+
+  // The register is no longer a section of its own.
+  await expect(page.locator("header nav").getByRole("link", { name: "Gaps" })).toHaveCount(0);
+
+  // A domain the catalog serves thinly, with entries saying so, is the whole
+  // reason the two facts are crossed rather than listed apart.
+  const thin = coverage.locator("tbody tr").filter({ hasText: "DD2" });
+  // The domain name is a `th scope="row"`, so the cells are the three levels,
+  // then the total, then the register.
+  await expect(thin.getByRole("cell").nth(3)).toHaveText("2");
+  const register = thin.locator("details summary");
+  await expect(register).toHaveText(/entries/);
+  await register.click();
+  // Attribution is on the entry, not on a tooltip: a gap is a far stronger
+  // claim than a record and a reader has to be able to weigh who made it.
+  await expect(thin.locator("details li").first()).toContainText("Observed by");
+
+  // A cell counts exactly the list it links to. The counts come from the same
+  // aggregation as the results, so this cannot drift — which is what #87, #89
+  // and the fourteen-facet commit were each an instance of it doing.
+  const cell = coverage.locator("tbody tr").filter({ hasText: "DD5" }).locator("td a").last();
+  const counted = Number(await cell.innerText());
+  expect(counted).toBeGreaterThan(0);
+  await cell.click();
+  await expect(page).toHaveURL(/domain_coverage=/);
+  await expect(page.locator("main li.og-card")).toHaveCount(counted);
+});
+
 test("the reference inventory is entered by geography, and a stale place widens it", async ({ page }) => {
   const germany = page.locator("#model-de-osm-reference");
   const britain = page.locator("#model-gb-osm-reference");

@@ -313,6 +313,37 @@ class SearchDocument(BaseModel):
     indexed_at: datetime | None = None
     last_computed_at: dict[str, datetime] = Field(default_factory=dict)
 
+    @property
+    def domain_coverage(self) -> list[str]:
+        """`{domain IRI}|{completeness level}`, one per domain this record has.
+
+        The crossing the catalog is read by (#99). "DD8 holds four records" and
+        "seven records are level 1" are each true and neither answers the
+        question a modeller actually has, which is whether the domain they need
+        is *well* served. Only the pair does.
+
+        A derived value rather than a stored one, and that is the point. The
+        two halves already live on this document; a projected copy of their
+        product is a third place for the same fact to be, and the bug this
+        repository keeps re-finding is a name kept identical by hand in two
+        places until it is not. Nothing to reindex, nothing to migrate, and no
+        way for the crossing to disagree with the facets either side of it.
+
+        Counted over the same filtered set as every other facet, so the numbers
+        agree with the list they describe by construction — which is the whole
+        of what #87, #89 and the fourteen-facet commit were each about.
+
+        A plain property and not a `computed_field`, which was the first
+        attempt. A computed field serialises, the file backend writes the
+        document to disk as JSONL, and `extra="forbid"` then refuses to read
+        its own index back: every restart died on `domain_coverage / Extra
+        inputs are not permitted`. A derived value has no business being
+        persisted. The OpenSearch backend, which needs it in `_source` to
+        aggregate on, adds it in `to_source` beside the geo envelope it already
+        derives there.
+        """
+        return [f"{domain.iri}|{self.completeness_level}" for domain in self.data_domains]
+
     def full_text(self) -> str:
         """The concatenation the free-text index is built from."""
         parts: list[Any] = [
@@ -347,6 +378,11 @@ FACET_FIELDS: dict[str, str] = {
     "access_restriction": "access_restriction",
     "format": "formats",
     "completeness_level": "completeness_level",
+    # Domain crossed with completeness — see `SearchDocument.domain_coverage`.
+    # A facet rather than a second endpoint, so it is aggregated over the same
+    # filtered set as the results and cannot report a total the list disagrees
+    # with.
+    "domain_coverage": "domain_coverage",
     "spatial_granularity": "spatial.granularity",
     # Where a record is *about*, as a stable key rather than a label match.
     # `spatial.place_labels` has been indexed since M2 and is free text: three

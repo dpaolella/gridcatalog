@@ -6,7 +6,26 @@ export const STATIC_FILTERS = [
   "record_type", "fidelity_class", "data_domain", "provenance_class", "license",
   "format", "completeness_level", "field_count_bucket", "spatial_granularity",
   "anonymous_access", "link_health", "has_usage_evidence", "concept", "place",
+  "domain_coverage",
 ] as const;
+
+/** Facets the filter panel does not render as a checkbox list.
+ *
+ * `domain_coverage` is a real facet and a real filter — the coverage view
+ * reads it and links cells to it — but its values are `{IRI}|{level}` pairs,
+ * which is a key and not a label. Rendered in the panel it would be twenty
+ * unreadable checkboxes duplicating the two groups either side of it.
+ *
+ * Excluded by name here rather than by a shape heuristic: a panel that hid
+ * whatever looked unreadable would hide the next facet somebody adds badly,
+ * quietly, which is how a filter comes to exist and never be offered. */
+export const PANEL_HIDDEN = new Set<string>(["domain_coverage"]);
+
+export function panelFacets<T>(facets: Record<string, T[]>): [string, T[]][] {
+  return Object.entries(facets).filter(
+    ([field, buckets]) => buckets.length > 0 && !PANEL_HIDDEN.has(field),
+  );
+}
 const CONTROLS = new Set(["q", "sort", "offset"]);
 
 export function selectedFilters(params: URLSearchParams): Record<string, string[]> {
@@ -28,6 +47,18 @@ export function matches(dataset: DatasetSummary, field: string, value: string): 
     case "field_count_bucket": return dataset.field_count_bucket === value;
     case "concept": return (dataset.concepts ?? []).some((c) => c.iri === value);
     case "place": return (dataset.spatial?.place_iris ?? []).includes(value);
+    case "domain_coverage": {
+      // The crossing, recomputed from the row rather than read off it: the
+      // static site filters rows in the browser and the summary is a derived
+      // value the server computes, so this is the one place the two builds
+      // could drift. Deriving it the same way the document does keeps them
+      // the same answer.
+      const [domain, level] = value.split("|");
+      return (
+        String(dataset.completeness_level) === level &&
+        dataset.data_domains.some((d) => d.iri === domain)
+      );
+    }
     case "data_domain": return dataset.data_domains.some((d) => d.iri === value);
     case "provenance_class": return dataset.provenance_class === value;
     case "license": return dataset.license_id === value;

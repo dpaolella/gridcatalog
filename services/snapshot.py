@@ -62,6 +62,7 @@ FACETS = (
     "anonymous_access",
     "link_health",
     "has_usage_evidence",
+    "domain_coverage",
 )
 
 

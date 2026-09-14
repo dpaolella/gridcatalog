@@ -75,14 +75,20 @@ def test_every_projected_field_is_declared_in_the_mapping() -> None:
     That has now happened twice. `og:usageEvidence` added `usage_evidence`,
     `usage_evidence_count` and `has_usage_evidence` to the projected document
     and not to the mapping, and CI's Integration job was red across five runs.
-    Checked against `SearchDocument.model_fields` rather than a list, so the
-    next field is caught by this assertion at unit-test speed and with no
-    Docker.
+    Checked against what `to_source` actually emits rather than against a
+    list, so the next field is caught by this assertion at unit-test speed and
+    with no Docker.
     """
     from datahub.api.search.document import SearchDocument
+    from datahub.api.search.opensearch_backend import to_source
 
     declared = set(INDEX_MAPPING["mappings"]["properties"])  # type: ignore[index]
-    projected = set(SearchDocument.model_fields)
+    # What the write path actually sends, not what the model declares. The two
+    # differ by design: `to_source` derives fields the document does not store,
+    # and checking `model_fields` would call one of them dead weight while
+    # missing the day a derived field is added without a mapping — which is the
+    # failure this test exists for, in the direction it actually arrives from.
+    projected = set(to_source(SearchDocument(id="probe", iri="urn:probe", title="Probe")))
 
     assert not (projected - declared), (
         "projected but not declared, so `dynamic: strict` rejects every bulk write: "

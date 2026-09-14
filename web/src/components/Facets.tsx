@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { FacetBucket } from "@/lib/api";
 import { FacetGroup } from "@/components/FacetGroup";
+import { panelFacets } from "@/lib/catalog-search";
 
 /**
  * Filters, over whatever facets the API returned.
@@ -35,7 +36,7 @@ export function Facets({ facets }: { facets: Record<string, FacetBucket[]> }) {
     router.replace(`${pathname}?${query}`, { scroll: false });
   }
 
-  const entries = Object.entries(facets).filter(([, buckets]) => buckets.length > 0);
+  const entries = panelFacets(facets);
   if (!entries.length) return null;
 
   const hasFilters = [...params.keys()].some((key) => key !== "q" && key !== "offset");

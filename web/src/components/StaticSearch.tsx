@@ -9,7 +9,13 @@ import { ResultRow } from "@/components/ResultRow";
 import { FacetGroup } from "@/components/FacetGroup";
 import { SortSelect, compareBySort } from "@/components/SortSelect";
 import { Pagination } from "@/components/Pagination";
-import { filterCatalog, isCatalog, selectedFilters, unsupportedFilters } from "@/lib/catalog-search";
+import {
+  filterCatalog,
+  isCatalog,
+  panelFacets,
+  selectedFilters,
+  unsupportedFilters,
+} from "@/lib/catalog-search";
 import { catalogUrl, pageOffset } from "@/lib/navigation";
 
 /** Results per page.
@@ -133,7 +139,7 @@ export function StaticSearch({
   }
 
   const hasFilters = Object.values(selected).some((v) => v.length > 0);
-  const entries = Object.entries(facets).filter(([, buckets]) => buckets.length > 0);
+  const entries = panelFacets(facets);
 
   return (
     <div className="space-y-8">

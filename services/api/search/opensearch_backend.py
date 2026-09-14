@@ -232,6 +232,9 @@ INDEX_MAPPING: dict[str, Any] = {
             # the projector emits and this omits fails the whole index write.
             "pointer_rationale": {"type": "text", "index": False},
             "completeness_level": {"type": "integer"},
+            # Derived on the document, serialised by `computed_field`, indexed
+            # here so both backends facet the crossing identically.
+            "domain_coverage": {"type": "keyword"},
             "review_state": {"type": "keyword"},
             "harvest_source": {"type": "keyword"},
             "documentation_status": {"type": "keyword"},
@@ -482,8 +485,17 @@ def _bbox_clause(box: BBoxFilter) -> dict[str, Any]:
 
 
 def to_source(doc: SearchDocument) -> dict[str, Any]:
-    """Serialise a document, adding the geo_shape envelope OpenSearch needs."""
+    """Serialise a document, adding what the index derives and the model does not.
+
+    Two such fields now. `spatial.envelope` is the geo_shape OpenSearch needs
+    to answer a bbox query, and `domain_coverage` is the domain-by-completeness
+    crossing the catalog is read by. Both are functions of fields already on
+    the document, and neither is stored on it: the file backend round-trips its
+    index through the model, and a derived value written into that file comes
+    back as an input the model refuses.
+    """
     source = doc.model_dump(mode="json")
+    source["domain_coverage"] = doc.domain_coverage
     bbox = doc.spatial.bbox
     if bbox and len(bbox) == 4:
         min_lon, min_lat, max_lon, max_lat = bbox

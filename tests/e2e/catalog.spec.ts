@@ -260,7 +260,10 @@ test("each section's heading is about that section", async ({ page }) => {
      make every wording change a test change, and the defect was never that a
      particular sentence was wrong — it was that two pages said the same one. */
   const headings = new Map<string, string>();
-  for (const path of ["/", "/datasets", "/studies", "/reference-models", "/gaps"]) {
+  // `/gaps` is not here because it is no longer a section: the register moved
+  // into the catalog (#99) and the URL redirects there, so it shares that
+  // page's heading by design rather than by the copy-paste this guards.
+  for (const path of ["/", "/datasets", "/studies", "/reference-models"]) {
     await page.goto(path);
     headings.set(path, (await page.getByRole("heading", { level: 1 }).first().textContent()) ?? "");
   }

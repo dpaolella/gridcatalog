@@ -20,8 +20,7 @@
     "signOutFailed": "Sign-out failed — you are still signed in. Try again.",
     "studies": "Studies & Assumptions",
     "referenceModels": "Reference Models",
-    "datasets": "Data Catalog",
-    "gaps": "Gaps"
+    "datasets": "Data Catalog"
   },
   "hub": {
     "sectionsLabel": "Sections of the Hub",
@@ -43,13 +42,14 @@
       "title": "Data Catalog",
       "blurb": "Datasets for power-system modelling, graded on provenance, documentation and currency, with the studies that used them."
     },
-    "gaps": {
-      "title": "Gaps",
-      "blurb": "Data somebody needed and nobody publishes. Recorded so it can be funded rather than rediscovered."
-    },
     "custody": {
       "eyebrow": "What the Hub holds, and what it points at",
       "body": "An object registered here — a model, an assumption set, a study, a reference network — is one the Hub promises will not move, so the Hub holds the bytes. A catalogued dataset is a description of something somebody else promises, so the Hub points at it and never proxies it. Custody, not size, decides which: a four-terabyte reanalysis archive is free to describe."
+    },
+    "gapsMoved": {
+      "title": "The gap register moved",
+      "blurb": "It is in the catalog now, beside the domain each entry concerns — where a reader meets it while deciding whether this catalog can answer their question, rather than in a section they would have had to go looking for. Every entry still carries who observed it and when.",
+      "link": "Open the data catalog"
     }
   },
   "referenceModel": {
@@ -468,5 +468,25 @@
     "irregular": "irregular",
     "onDemand": "on demand",
     "discontinued": "discontinued"
+  },
+  "catalogCoverage": {
+    "title": "What the catalog holds",
+    "help": "Records by domain and by how well described they are. A thin row means this catalog holds little for that domain — not that little exists. What nobody publishes is a separate claim, and the register entries beside each row are the ones somebody actually made, with their name and the date on them.",
+    "caption": "Catalog records by data domain and completeness level, with gap-register entries per domain.",
+    "domain": "Domain",
+    "total": "Records",
+    "register": "Gap register",
+    "none": "none",
+    "noEntries": "No entry recorded",
+    "observed": "Observed by",
+    "stale": "due for review",
+    "orphanTitle": "Entries in domains the catalog holds nothing for",
+    "orphanHelp": "The register's strongest findings, and the ones a table of what the catalog has cannot show.",
+    "level": {
+      "1": "L1 · discoverable",
+      "2": "L2 · interpretable",
+      "3": "L3 · linked"
+    },
+    "entries": "{count, plural, one {1 entry} other {# entries}}"
   }
 }

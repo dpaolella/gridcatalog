@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import { IS_SNAPSHOT, search, searchGaps } from "@/lib/api";
+import { IS_SNAPSHOT, listGaps, search, searchGaps } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { Facets } from "@/components/Facets";
 import { GapNotice } from "@/components/GapNotice";
@@ -8,6 +8,7 @@ import { ResultRow } from "@/components/ResultRow";
 import { SearchBar } from "@/components/SearchBar";
 import { StaticSearch } from "@/components/StaticSearch";
 import { HexWash, Rule } from "@/components/Brand";
+import { CatalogCoverage } from "@/components/CatalogCoverage";
 import { Pagination } from "@/components/Pagination";
 import { SortSelect } from "@/components/SortSelect";
 import { perRequest } from "@/lib/rendering";
@@ -52,6 +53,11 @@ const FACETS = [
   // Found by diffing this list against `services/snapshot.py`, which claimed
   // to be a copy of it; `tests/snapshot/test_facet_parity.py` now checks that.
   "has_usage_evidence",
+  // Not a filter panel entry — the coverage view reads it. Requested here so
+  // the crossing is aggregated over the same query as the results, which is
+  // what makes its counts and the list they link to the same set by
+  // construction rather than by agreement.
+  "domain_coverage",
 ];
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -133,12 +139,21 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
   // unfiltered landing page would be answering a question nobody asked.
   const asked = Array.isArray(params.q) ? params.q[0] : params.q;
   const gaps = response.results.length === 0 && asked ? await searchGaps(asked) : [];
+  // The whole register, for the coverage table. `null` on failure rather than
+  // `[]`, which the table renders as "no entry recorded" — a claim the
+  // register did not make.
+  const register = await listGaps();
 
   return (
     <>
       <Suspense>
         <SearchBar />
       </Suspense>
+
+      {/* From `response.facets`, so the table is aggregated over exactly the
+          query that produced the list below it. A second request would be a
+          second answer, and the two would disagree while it was in flight. */}
+      <CatalogCoverage facets={response.facets} gaps={register} />
 
       <div className="grid gap-10 md:grid-cols-[13rem_1fr]">
         <Suspense>
@@ -248,12 +263,19 @@ const PRERENDERED = 20;
 
 async function SnapshotResults() {
   const response = await search({});
+  const register = await listGaps();
   return (
     // `useSearchParams` needs a boundary: the shell prerenders without a query
     // string and the filter applies on hydration, which is the most a static
     // page can honestly do.
-    <Suspense>
-      <StaticSearch initial={response.results.slice(0, PRERENDERED)} facets={response.facets} />
-    </Suspense>
+    <>
+      {/* Server-rendered, unlike the results below it. The table is a summary
+          of the whole catalog and does not move with the query on this build,
+          so it is real HTML on a page whose list is not. */}
+      <CatalogCoverage facets={response.facets} gaps={register} />
+      <Suspense>
+        <StaticSearch initial={response.results.slice(0, PRERENDERED)} facets={response.facets} />
+      </Suspense>
+    </>
   );
 }

@@ -32,7 +32,6 @@ const SECTIONS = [
   },
   { href: "/reference-models", key: "referenceModels" },
   { href: "/datasets", key: "datasets" },
-  { href: "/gaps", key: "gaps" },
 ] as const;
 
 export default async function HubPage() {

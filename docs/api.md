@@ -241,6 +241,7 @@ Search the catalog.
 | `license` | query | no | SPDX id or LicenseRef. |
 | `concept` | query | no | Concept IRI carried by a field of the dataset. |
 | `spatial_granularity` | query | no |  |
+| `domain_coverage` | query | no | One cell of the domain-by-completeness crossing, as `{domain IRI}\|{level}`. Selecting a cell and counting it are the same key, so the count on a coverage view and the list it links to cannot disagree. |
 | `place` | query | no | Place concept IRI the record is about, from `vocab/og-place.ttl`. A stable key rather than a label match: 'Great Britain', 'GB' and 'Britain' are three strings and one place, and only the IRI says which. |
 | `format` | query | no | Distribution format label. |
 | `completeness_level` | query | no |  |

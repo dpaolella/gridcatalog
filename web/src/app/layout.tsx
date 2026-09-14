@@ -75,7 +75,7 @@ async function Header() {
   /* Four peers, and the order is the argument: what is new first, the
      catalog third. A reader who knows the old catalog has to see in the nav
      that this is not that, and a reader who does not has to see that the
-     catalog is one of four things rather than the whole product.
+     catalog is one of three things rather than the whole product.
 
      Submit, Connect and Developers moved to the footer. They are things you
      do *to* the Hub or *with* it, not parts of it, and keeping them level
@@ -84,7 +84,6 @@ async function Header() {
     { href: "/studies", label: t("studies") },
     { href: "/reference-models", label: t("referenceModels") },
     { href: "/datasets", label: t("datasets") },
-    { href: "/gaps", label: t("gaps") },
   ];
 
   return (

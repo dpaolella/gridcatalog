@@ -114,6 +114,17 @@ def search_datasets(
         list[str] | None, Query(description="Concept IRI carried by a field of the dataset.")
     ] = None,
     spatial_granularity: Annotated[list[str] | None, Query()] = None,
+    domain_coverage: Annotated[
+        list[str] | None,
+        Query(
+            description=(
+                "One cell of the domain-by-completeness crossing, as "
+                "`{domain IRI}|{level}`. Selecting a cell and counting it are "
+                "the same key, so the count on a coverage view and the list it "
+                "links to cannot disagree."
+            )
+        ),
+    ] = None,
     place: Annotated[
         list[str] | None,
         Query(
@@ -228,6 +239,7 @@ def search_datasets(
             license=license,
             concept=concept,
             spatial_granularity=spatial_granularity,
+            domain_coverage=domain_coverage,
             place=place,
             format=format,
             completeness_level=completeness_level,
