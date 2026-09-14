@@ -272,3 +272,49 @@ test.describe("static catalog loading", () => {
     await expect(page.getByRole("button", { name: "Retry loading catalog" })).toBeVisible();
   });
 });
+
+test("the front page is the catalog: real facets, real rows, and every count lands", async ({
+  page,
+}) => {
+  /* #100. The front page was three cards and two paragraphs — a table of
+     contents for a registry whose whole claim is that its records are
+     *described*, which is the one thing a table of contents cannot show.
+
+     What this guards is the property that made the old shape tempting and the
+     new shape risky: there is one search behind both columns, so a count in
+     the panel and the list it links to are the same aggregation. A second
+     implementation here would drift, quietly, in the direction of flattering
+     numbers. */
+  await page.goto(path("/"));
+
+  const panel = page.getByRole("complementary", { name: "Browse the registry" });
+  await expect(panel).toBeVisible();
+
+  // Server-rendered in both builds. `Facets` reads `useSearchParams` and would
+  // prerender as its fallback, publishing a front page with no facets on it —
+  // the trap `GeographyPicker` documents, which is why this panel is anchors.
+  const rows = page.locator("main li.og-card");
+  expect(await rows.count()).toBeGreaterThan(0);
+
+  // The four registry kinds are peers here, including the one with nothing in
+  // it: a first screen that silently drops the empty section misdescribes what
+  // the Hub holds.
+  await expect(panel.getByRole("link", { name: /Studies & Assumptions/ })).toContainText("none yet");
+  await expect(panel.getByRole("link", { name: /Reference Models/ })).toBeVisible();
+
+  // A row carries what a modeller rejects on without opening it — domain,
+  // provenance, completeness, licence — and the last of the five, which the
+  // list could not show at all until `DatasetSummary` declared `modified`.
+  await expect(rows.first()).toContainText(/Updated \w+ \d+, \d{4}/);
+  await expect(rows.first()).toContainText(/Completeness level \d/);
+
+  // And the count beside a facet is the count of what arrives. Read off the
+  // page rather than written down: a literal here is a fact about a corpus
+  // this test never opened, and it goes stale the next time a record lands.
+  const facet = panel.locator('a[href*="data_domain="]').first();
+  const counted = Number((await facet.innerText()).trim().split(/\s+/).pop());
+  expect(counted).toBeGreaterThan(0);
+  await facet.click();
+  await expect(page).toHaveURL(/data_domain=/);
+  await expect(rows).toHaveCount(counted);
+});

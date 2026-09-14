@@ -64,6 +64,7 @@
       "visibility": "public",
       "tier": 1,
       "issued": "2026-09-14T00:00:00Z",
+      "modified": "2026-09-14T00:00:00Z",
       "spatial": [
         "https://schema.opengrid.org/concept/place/southKorea"
       ],

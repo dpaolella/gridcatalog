@@ -99,3 +99,71 @@ export function isCatalog(value: unknown): value is { total: number; results: Da
       ) && Array.isArray(row.quality) && typeof row.completeness_level === "number",
   );
 }
+
+/**
+ * The sort orders the UI offers, and the comparator that applies one.
+ *
+ * Here rather than beside the `<select>` that renders them because both builds
+ * now need the comparator on the *server*: `search()` sorts the snapshot index
+ * before slicing a page out of it, and a `"use client"` module's exports reach
+ * a server component as client references rather than as callable functions.
+ *
+ * Together, though, and that is the property `tests/sort.test.cjs` keeps: an
+ * option the comparator does not understand is a control that silently does
+ * nothing, which is indistinguishable from a catalog that happens to already be
+ * in that order.
+ *
+ * Relevance is the absence of a `sort` parameter — the server ranks, and
+ * nothing here invents a score.
+ */
+export const SORT_OPTIONS = [
+  { value: "", labelKey: "sortRelevance" },
+  { value: "-modified", labelKey: "sortRecent" },
+  { value: "title", labelKey: "sortTitle" },
+  { value: "-temporal_start", labelKey: "sortCoverage" },
+] as const;
+
+/** Only the fields a sort reads — so this stays usable without importing the
+ *  whole `DatasetSummary`, and so adding a sortable field is a compile error
+ *  here rather than a silent no-op. */
+export interface Sortable {
+  title?: string | null;
+  modified?: string | null;
+  completeness_level?: number | null;
+  temporal?: { start?: string | null } | null;
+}
+
+/** Whether `sort` names a field this comparator reads. An unknown value orders
+ *  nothing, so a caller that cares can decline to claim an order it did not
+ *  apply rather than presenting the input sequence as one. */
+export function isSortable(sort: string): boolean {
+  return ["title", "modified", "temporal_start", "completeness_level"].includes(
+    sort.startsWith("-") ? sort.slice(1) : sort,
+  );
+}
+
+export function compareBySort<T extends Sortable>(sort: string) {
+  const descending = sort.startsWith("-");
+  const field = descending ? sort.slice(1) : sort;
+
+  const read = (row: T): string | number | null => {
+    if (field === "title") return row.title ?? null;
+    if (field === "modified") return row.modified ?? null;
+    if (field === "temporal_start") return row.temporal?.start ?? null;
+    if (field === "completeness_level") return row.completeness_level ?? null;
+    return null;
+  };
+
+  return (a: T, b: T): number => {
+    const left = read(a);
+    const right = read(b);
+    // Missing values sort last whichever way the order runs. A record with no
+    // coverage window is not "earliest"; it is unknown, and putting it first
+    // under "Coverage start" would read as a claim about the data.
+    if (left === null && right === null) return 0;
+    if (left === null) return 1;
+    if (right === null) return -1;
+    const order = left < right ? -1 : left > right ? 1 : 0;
+    return descending ? -order : order;
+  };
+}

@@ -11,6 +11,8 @@
  * the data rather than a spinner.
  */
 
+import { compareBySort, isSortable } from "./catalog-search";
+
 /**
  * Read per call, not captured at module load and never inlined at build time.
  *
@@ -304,6 +306,15 @@ export interface DatasetSummary {
   distribution_count?: number;
   reference_only?: boolean;
   worst_link_health?: string | null;
+  /** When the publisher last changed the dataset, as the record has it.
+   *
+   *  On `SearchDocument` and on the API's list row since M4, declared here
+   *  never — so the list row could not show it, and `compareBySort`'s
+   *  "Recently updated" read `undefined` off every record and left the order
+   *  it was given. The same shape of omission as the six fields the note on
+   *  `services/api/schemas.py`'s `DatasetSummary` records: the data was
+   *  carried, and one layer declined to say so. */
+  modified?: string | null;
   has_usage_evidence?: boolean | null;
   usage_evidence_count?: number | null;
   field_count_bucket?: string | null;
@@ -534,6 +545,12 @@ export async function listReferenceModels(): Promise<DatasetSummary[] | null> {
   }
 }
 
+/** A search parameter that may have arrived repeated. The first wins, which
+ *  is what the API does with a duplicated `sort` or `limit`. */
+function single(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export async function search(
   params: Record<string, string | string[] | undefined>,
 ): Promise<SearchResponse> {
@@ -541,9 +558,31 @@ export async function search(
     // The snapshot holds the whole public catalog in one file, and the static
     // site filters it in the browser. Server-side here would mean pre-rendering
     // a page per query, which is not a finite set.
+    //
+    // `sort`, `limit` and `offset` are the exception, and they are honoured
+    // because they are answerable without a query: an ordering by a field is
+    // deterministic and a page of it is a slice. A caller asking for "the ten
+    // most recently updated" gets the same ten from both builds, which is what
+    // lets one page ask one question. Everything else — `q`, the filters — is
+    // still the browser's job, and a caller that needs those reads the whole
+    // index and filters it with `catalog-search`.
     const index = await request<{ total: number; results: DatasetSummary[] }>("/v1/datasets");
     const facets = await snapshotFacets();
-    return { ...index, offset: 0, limit: index.results.length, facets, took_ms: 0 };
+    const sort = single(params.sort);
+    // Left alone when the field is not one the comparator reads, rather than
+    // sorted by nothing and presented as ordered. Relevance is that case and
+    // is the common one: the server ranks, and a file cannot.
+    const ordered =
+      sort && isSortable(sort) ? [...index.results].sort(compareBySort(sort)) : index.results;
+    const offset = Math.max(0, Number(single(params.offset) ?? 0) || 0);
+    const size = Number(single(params.limit) ?? NaN);
+    const results = Number.isSafeInteger(size) && size >= 0
+      ? ordered.slice(offset, offset + size)
+      : ordered.slice(offset);
+    // `total` stays the catalog's, not the page's: it is what "showing 1–8 of
+    // 19" counts, and a page that reported its own length would say the
+    // catalog is exactly as big as what fits on it.
+    return { total: index.total, results, offset, limit: results.length, facets, took_ms: 0 };
   }
 
   const query = new URLSearchParams();

@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
-# Fail a static build whose catalog page has outgrown being one file.
+# Fail a static build whose record-carrying pages have outgrown being one file.
 #
-# Point this at the page that carries the catalog, which since the nav became
-# four peers is `/datasets`, not `/`. The Hub landing page is a menu and will
-# never grow; checking it would be a green tick that measures nothing, which is
-# worse than no check because it reads like one.
+# Point this at a page that carries records. Two do: `/datasets`, which ships a
+# page of the catalog and the filter that reads the rest, and `/` — which
+# became a browse surface in #100 and now ships the facet panel, the domain ×
+# completeness crossing and eight rows.
+#
+# `/` was exempt on the reasoning that "the Hub landing page is a menu and will
+# never grow". It stopped being a menu, and an exemption written as a fact
+# about a page rather than about what the page contains is one nobody revisits
+# when the page changes. Both are checked, and the caller names which.
 #
 # The static site has no server, so `StaticSearch` filters the whole catalog in
 # the browser and the whole catalog ships inside `index.html`. That is the right
@@ -32,7 +37,7 @@ if [ ! -f "$PAGE" ]; then
 fi
 
 SIZE_KB=$(( ($(wc -c < "$PAGE") + 1023) / 1024 ))
-printf 'static catalog page: %s KB (limit %s KB)\n' "$SIZE_KB" "$LIMIT_KB"
+printf '%s: %s KB (limit %s KB)\n' "$PAGE" "$SIZE_KB" "$LIMIT_KB"
 
 if [ "$SIZE_KB" -gt "$LIMIT_KB" ]; then
   cat >&2 <<EOF

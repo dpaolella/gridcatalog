@@ -189,6 +189,10 @@ jobs:
           test ! -e web/out/datasets/utility-load-shapes-allowlisted
           # Here as well as in the Pages workflow, so the run that crosses the
           # line is the one that added the records rather than the deploy.
+          # Both record-carrying pages: `/` ships rows and the facet panel
+          # since #100, and an exemption written when it was a menu is one
+          # nobody revisits when it stops being one.
+          ops/check-page-weight.sh web/out/index.html
           ops/check-page-weight.sh web/out/datasets/index.html
 
           mkdir -p var/preview

@@ -23,7 +23,18 @@ module.exports = function load(file, globals = {}) {
     compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
   }).outputText;
 
-  const scope = { require, process: { env: {} }, ...globals };
+  // A module under `src/lib` may import a sibling, and a test that stubs
+  // `require` is stubbing the *boundary* — `next/headers`, `fetch` — not the
+  // library's own internals. So a relative specifier is resolved here, by
+  // loading that TypeScript the same way, and everything else falls through to
+  // whatever the caller provided. Without this, `api.ts` importing the
+  // comparator out of `catalog-search.ts` made every stubbed-require test fail
+  // on an import that has nothing to do with what it is testing.
+  const outer = globals.require ?? require;
+  const resolve = (name) =>
+    name.startsWith(".") ? load(`${path.basename(name)}.ts`) : outer(name);
+
+  const scope = { process: { env: {} }, ...globals, require: resolve };
   const names = ["exports", "module", ...Object.keys(scope)];
   const values = [{}, { exports: {} }, ...Object.values(scope)];
   values[1].exports = values[0];

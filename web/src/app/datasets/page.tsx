@@ -25,6 +25,16 @@ import { catalogUrl, pageOffset } from "@/lib/navigation";
  *
  * The cost is one click for the modeller who only ever wanted the catalog.
  * `/datasets` is a stable, linkable, bookmarkable address, so they pay it once.
+ *
+ * #100 took back half of what that cost bought: `/` browses again — a facet
+ * panel, the domain × completeness crossing and eight rows across every record
+ * type — because a front page that only *describes* a catalog cannot show the
+ * thing this one is claiming. What it deliberately is not is this page. There
+ * is no query box there, no paging and no filter that applies in place; every
+ * control on it is a link that lands here. Searching the datasets is what
+ * `/datasets` is, and the front page points at it rather than reimplementing
+ * it — one search behind both, which is what #87 and #89 were each an instance
+ * of losing.
  */
 
 const FACETS = [

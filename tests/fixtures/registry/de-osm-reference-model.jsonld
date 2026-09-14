@@ -66,6 +66,7 @@
       "visibility": "public",
       "tier": 1,
       "issued": "2026-09-13T00:00:00Z",
+      "modified": "2026-09-13T00:00:00Z",
       "distribution": [
         "https://catalog.opengrid.org/dist/de-osm-reference--sienna",
         "https://catalog.opengrid.org/dist/de-osm-reference--parameters"

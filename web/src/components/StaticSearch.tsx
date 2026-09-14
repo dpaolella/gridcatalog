@@ -7,9 +7,10 @@ import type { DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
 import { ResultRow } from "@/components/ResultRow";
 import { FacetGroup } from "@/components/FacetGroup";
-import { SortSelect, compareBySort } from "@/components/SortSelect";
+import { SortSelect } from "@/components/SortSelect";
 import { Pagination } from "@/components/Pagination";
 import {
+  compareBySort,
   filterCatalog,
   isCatalog,
   panelFacets,

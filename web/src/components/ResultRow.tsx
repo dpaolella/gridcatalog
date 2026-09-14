@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { DatasetSummary } from "@/lib/api";
-import { cadenceText, formatCadence, formatSpan, iriTail } from "@/lib/format";
+import { cadenceText, formatCadence, formatDate, formatSpan, iriTail } from "@/lib/format";
 import { CoverageMap, CoverageTimeline } from "@/components/Coverage";
 import { QualityBadges } from "@/components/QualityBadges";
 import { catalogReturn } from "@/lib/navigation";
@@ -47,6 +47,7 @@ export function ResultRow({ dataset, returnTo }: { dataset: DatasetSummary; retu
     cadenceMessages,
   );
   const levelKey = String(dataset.completeness_level) as "1" | "2" | "3";
+  const modified = formatDate(dataset.modified);
 
   return (
     <li className="og-card p-5">
@@ -91,6 +92,28 @@ export function ResultRow({ dataset, returnTo }: { dataset: DatasetSummary; retu
               {t(`levelNames.${levelKey}`)}
             </Tag>
           </ul>
+
+          {/* When the publisher last changed it, on the row rather than only on
+              the record. It is the fifth thing a modeller rejects on — a
+              network model last touched in 2019 is a different proposition
+              from the same model touched last month — and it was the one
+              sortable field the list could not show, because `DatasetSummary`
+              here never declared it.
+
+              Absent renders as "not recorded" rather than as nothing: a blank
+              where the rows around it carry a date reads as "never updated",
+              which is a claim about the dataset and not about the record.
+
+              Except on a stub, where the catalog knows and is not saying.
+              "Not recorded" there would be false in the reader's favour and in
+              the wrong direction — it describes the record as thin when the
+              record is restricted. A stub's blanks are all withholdings and
+              this one says nothing, like the rest of them. */}
+          {dataset.redacted ? null : (
+            <p className="mt-2 text-xs text-[color:var(--muted)]">
+              {modified ? t("updated", { date: modified }) : t("updatedUnknown")}
+            </p>
+          )}
 
           <div className="mt-3">
             <QualityBadges facets={dataset.quality} />

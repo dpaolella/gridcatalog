@@ -43,7 +43,6 @@
       "blurb": "Datasets for power-system modelling, graded on provenance, documentation and currency, with the studies that used them."
     },
     "custody": {
-      "eyebrow": "What the Hub holds, and what it points at",
       "body": "An object registered here — a model, an assumption set, a study, a reference network — is one the Hub promises will not move, so the Hub holds the bytes. A catalogued dataset is a description of something somebody else promises, so the Hub points at it and never proxies it. Custody, not size, decides which: a four-terabyte reanalysis archive is free to describe."
     },
     "gapsMoved": {
@@ -51,6 +50,14 @@
       "blurb": "It is in the catalog now, beside the domain each entry concerns — where a reader meets it while deciding whether this catalog can answer their question, rather than in a section they would have had to go looking for. Every entry still carries who observed it and when.",
       "link": "Open the data catalog"
     }
+  },
+  "home": {
+    "browseLabel": "Browse the registry",
+    "sections": "Sections",
+    "noneYet": "none yet",
+    "moreValues": "+{count} more in the catalog",
+    "recent": "Recently updated",
+    "browseAll": "Browse all {total, plural, one {# record} other {# records}} →"
   },
   "referenceModel": {
     "fidelity": {
@@ -135,7 +142,9 @@
     "currency_grade": "Currency grade",
     "link_health": "Link health",
     "has_usage_evidence": "Has recorded usage",
-    "field_count_bucket": "Fields described"
+    "field_count_bucket": "Fields described",
+    "record_type": "Record type",
+    "fidelity_class": "Fidelity class"
   },
   "empty": {
     "noResults": "No datasets match this search.",
@@ -160,7 +169,9 @@
     "noGaps": "No gaps recorded.",
     "noGapsHelp": "A gap is a data requirement with no open supplier. An empty register means none has been recorded, not that none exists.",
     "gapsUnavailable": "The gap register could not be loaded.",
-    "gapsUnavailableHelp": "This is a failure to read the register, not a statement that there are no gaps. Nothing here has been withdrawn."
+    "gapsUnavailableHelp": "This is a failure to read the register, not a statement that there are no gaps. Nothing here has been withdrawn.",
+    "catalogUnavailable": "No records came back.",
+    "catalogUnavailableHelp": "This build returned no records at all. That is a catalog that could not be read, or one with nothing in it, and this page cannot tell the two apart — so it claims neither. The catalog page reports which."
   },
   "dataset": {
     "level": "Completeness level {level}",
@@ -200,7 +211,9 @@
       "linkToTab": "Link to {tab}"
     },
     "fieldsDescribed": "{count, plural, one {# field described} other {# fields described}}",
-    "fieldsDescribedHelp": "How many of this dataset's fields the catalog can describe. Separate from the completeness level: level 1 means no field metadata by definition, and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply."
+    "fieldsDescribedHelp": "How many of this dataset's fields the catalog can describe. Separate from the completeness level: level 1 means no field metadata by definition, and level 2 additionally requires a definition and a value basis on every field, which a schema probe cannot supply.",
+    "updated": "Updated {date}",
+    "updatedUnknown": "Last update not recorded"
   },
   "overview": {
     "fitness": "Fitness for purpose",
