@@ -22,7 +22,7 @@ why a record has no schema tab.
 
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from typing import Any
 
 from datahub.api.search.document import (
@@ -128,6 +128,12 @@ def build_document(
         completeness_level=level,
         review_state=_str(graph.value(iri, OG.reviewState)) or "draft",
         harvest_source=_str(graph.value(iri, OG.harvestSource)),
+        # How this record got here (#85). Never defaulted: a record with no
+        # stated basis must read as "nobody said", not as staff-assessed.
+        curation_basis=_str(graph.value(iri, OG.curationBasis)),
+        assessed_at=_date(graph.value(iri, OG.assessedAt)),
+        rubric_version=_str(graph.value(iri, OG.rubricVersion)),
+        demonstration=bool(_bool(graph.value(iri, OG.demonstration))),
         documentation_status=_str(graph.value(iri, OG.documentationStatus)),
         quality=quality,
         quality_assessed=assessed,
@@ -520,6 +526,25 @@ def _dt(term: Any) -> datetime | None:
     if isinstance(value, datetime):
         return value if value.tzinfo else value.replace(tzinfo=UTC)
     return None
+
+
+def _date(term: Any) -> date | None:
+    """A plain date, which `_dt` deliberately refuses.
+
+    `og:assessedAt` is `xsd:date` — the day somebody assessed the record, not
+    an instant — and `_dt` returns None for anything that is not a datetime, so
+    routing it through there would silently drop every assessment date and the
+    chip would show a basis with no date beside it on records that have one.
+    """
+    if term is None:
+        return None
+    try:
+        value = term.toPython()
+    except AttributeError:
+        return None
+    if isinstance(value, datetime):
+        return value.date()
+    return value if isinstance(value, date) else None
 
 
 def _local(term: Any) -> str | None:

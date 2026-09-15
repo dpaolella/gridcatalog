@@ -90,9 +90,33 @@ def load_record(name: str) -> dict[str, Any]:
 
 @functools.lru_cache(maxsize=64)
 def load_graph(name: str) -> Graph:
+    """A fixture as a graph. **Cached and shared — do not mutate it.**
+
+    Use :func:`mutable_graph` for a test that edits one. The same trap
+    :func:`load_record` documents applies here and is worse, because a graph
+    has no obvious copy: a test that removed one triple to assert a shape
+    rejects the record left it removed for every later test in the session, and
+    the failure landed two tests further on with no visible cause.
+    """
     graph = Graph()
     graph.parse(data=json.dumps(load_record(name)), format="json-ld")
     return graph
+
+
+def mutable_graph(name: str) -> Graph:
+    """A fixture as a graph this caller owns.
+
+    For the tests that break a record on purpose — removing a required field to
+    check the shapes reject it, or adding a contradictory one. Copied from the
+    cache rather than re-parsed, so it costs a triple walk and not a JSON-LD
+    parse.
+    """
+    out = Graph()
+    for triple in load_graph(name):
+        out.add(triple)
+    for prefix, namespace in load_graph(name).namespaces():
+        out.bind(prefix, namespace)
+    return out
 
 
 def dataset_node(name: str) -> dict[str, Any]:

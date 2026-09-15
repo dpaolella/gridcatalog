@@ -209,6 +209,18 @@ class DatasetSummary(ApiModel):
     fidelity_class: str | None = None
     question_classes: list[QuestionClassRef] = Field(default_factory=list)
     network_element_count: int | None = None
+    #: How this record got here (#85), on the list row because that is where a
+    #: reader forms the impression that curation is free. A catalog where every
+    #: row is sourced and graded, and no row says who did that work, argues by
+    #: omission that none was needed.
+    curation_basis: str | None = None
+    assessed_at: date | None = None
+    rubric_version: str | None = None
+    #: Invented to illustrate the demo. Never folded into `provenance_class`:
+    #: `synthetic` is a real, published thing generated to stand in for a
+    #: restricted system, and one badge for both lets "we made this up" borrow
+    #: the credibility of "somebody published this".
+    demonstration: bool = False
     #: A study's own axes (#82), on the list row because that is where the
     #: grouping happens: `/studies` reads a filing and the interventions
     #: contesting it as one thread, and a thread is `docket` plus
@@ -266,6 +278,10 @@ class DatasetSummary(ApiModel):
             fidelity_class=doc.fidelity_class,
             question_classes=doc.question_classes,
             network_element_count=doc.network_element_count,
+            curation_basis=doc.curation_basis,
+            assessed_at=doc.assessed_at,
+            rubric_version=doc.rubric_version,
+            demonstration=doc.demonstration,
             study_kind=doc.study_kind,
             docket=doc.docket,
             jurisdiction=doc.jurisdiction,
@@ -294,6 +310,14 @@ class DatasetSummary(ApiModel):
             title=doc.title,
             data_domains=doc.data_domains,
             completeness_level=doc.completeness_level,
+            # Carried onto the stub deliberately. Neither discloses anything
+            # about the record — one says who assessed it and one says it was
+            # invented for the demo — and both are exactly what a reader needs
+            # in order to read the stub correctly. A demonstration record whose
+            # marker vanished behind a restriction would be the one row on the
+            # page the reader takes at face value.
+            curation_basis=doc.curation_basis,
+            demonstration=doc.demonstration,
             redacted=True,
         )
 
@@ -769,6 +793,12 @@ class StudyDetail(ApiModel):
     frozen_at: datetime | None = None
     issued: datetime | None = None
     review_state: str = "confirmed"
+    #: How this record got here, and whether it is real (#85). A filing is the
+    #: most convincing-looking thing in this catalog — a docket number, a
+    #: frozen date, a citation id, an assumption set with sources on every row
+    #: — which is exactly why an invented one has to say so on its own page.
+    curation_basis: str | None = None
+    demonstration: bool = False
     analysis_types: list[ConceptRef] = Field(default_factory=list)
     parent_study: str | None = None
     parent_study_id: str | None = None

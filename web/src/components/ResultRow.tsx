@@ -36,6 +36,7 @@ import { catalogReturn, recordHref } from "@/lib/navigation";
 export function ResultRow({ dataset, returnTo }: { dataset: DatasetSummary; returnTo?: string }) {
   const t = useTranslations("dataset");
   const c = useTranslations("coverage");
+  const curation = useTranslations("curation");
   // Hoisted rather than called inline: a hook inside an argument list reads as
   // conditional even where it is not, and the rules-of-hooks lint is right to
   // dislike it.
@@ -60,6 +61,25 @@ export function ResultRow({ dataset, returnTo }: { dataset: DatasetSummary; retu
             >
               {dataset.title}
             </Link>
+            {/* On the row, not only on the record (#85). A reader scanning a
+                list forms their impression of what this catalog holds here,
+                and a record they have to open to discover was invented is one
+                they will have already counted. Distinct from the provenance
+                tags below: `synthetic` there is a real published dataset
+                standing in for a restricted system. */}
+            {dataset.demonstration ? (
+              <span
+                className="px-1.5 py-0.5 text-[11px] font-semibold"
+                style={{
+                  borderRadius: "var(--radius)",
+                  background: "color-mix(in srgb, var(--og-clay, #b4553a) 16%, transparent)",
+                  color: "var(--accent-text)",
+                }}
+                title={curation("demonstrationHelp")}
+              >
+                {curation("demonstration")}
+              </span>
+            ) : null}
             {dataset.reference_only ? (
               <span
                 className="px-1.5 py-0.5 text-[11px] font-semibold"

@@ -251,6 +251,15 @@ class SeedLoader:
             # The load-bearing line. An unverified row cannot be confirmed,
             # whatever else it carries.
             "reviewState": "confirmed" if verified else "draft",
+            # Who did the assessing, which is not the same question as which
+            # pipeline produced the record (#85). `verified: true` in the seed
+            # file means a person traced the licence and the access path to a
+            # named document; `verified: false` means the row was assembled
+            # from a workbook and nobody has. Reading both as "curated" — which
+            # `harvestSource` does, correctly, since both are read from a
+            # committed input — would publish fifty-odd transcribed rows
+            # wearing the same badge as a hand-traced one.
+            "curationBasis": "staff-assessed" if verified else "machine-extracted",
             "harvestSource": CURATED_SOURCE,
             "sourceRecordId": harvested.source_id,
             "visibility": "public",

@@ -237,6 +237,12 @@
     "geoJoinKey": { "@id": "og:geoJoinKey", "@type": "@id", "@container": "@set" },
     "sameConceptAsField": { "@id": "og:sameConceptAsField", "@type": "@id", "@container": "@set" },
 
+    "__comment_curation": "#85 — how this record got here, as a field rather than an impression. A catalog that shows every record sourced and graded invites the conclusion that curation is free, which is exactly the staffing question the vision leaves open. og:curationBasis says who did the work on THIS record: staff-assessed (a person traced the facts to a document), self-reported (the publisher's own metadata, taken as given), machine-extracted (transcribed by a pipeline, nobody checked). og:assessedAt and og:rubricVersion are shown when present and absent otherwise — inventing a rubric version to fill the chip would be the same over-claim in miniature. og:demonstration marks content invented to illustrate the demo, and is deliberately NOT og:provenanceClass pc:synthetic: synthetic is a real, published thing generated to stand in for a restricted system, and a record nobody published is not that.",
+    "curationBasis": "og:curationBasis",
+    "assessedAt": { "@id": "og:assessedAt", "@type": "xsd:date" },
+    "rubricVersion": "og:rubricVersion",
+    "demonstration": { "@id": "og:demonstration", "@type": "xsd:boolean" },
+
     "__comment_build": "Fields this build adds beyond the Notion spec (PRD §4.1).",
     "completenessLevel": { "@id": "og:completenessLevel", "@type": "xsd:integer" },
     "harvestSource": "og:harvestSource",

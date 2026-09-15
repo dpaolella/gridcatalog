@@ -118,6 +118,8 @@ def get_study(
         frozen_at=document.frozen_at,
         issued=document.issued,
         review_state=document.review_state,
+        curation_basis=document.curation_basis,
+        demonstration=document.demonstration,
         analysis_types=document.analysis_types,
         parent_study=parent,
         parent_study_id=slug_of(parent) if parent and parent in held else None,

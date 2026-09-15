@@ -630,5 +630,27 @@
     "rolePaths": "{count, plural, one {# value} other {# values}}: {paths}",
     "onDataset": "This record is a study",
     "onDatasetHelp": "A study has no distributions, no licence and no link health, so it is not shown as a dataset. Its assumptions and runs are on its own page."
+  },
+  "provenanceStrip": {
+    "badge": "Demonstration catalog.",
+    "body": "Most records here describe real, published datasets. A few were invented to show what a complete registry entry looks like, and each of those is marked on its own row. Every record says who assessed it — curation here is people's work, not something the catalog does by itself."
+  },
+  "curation": {
+    "label": "How this record got here",
+    "basis": {
+      "staffAssessed": "Assessed by OpenGrid staff",
+      "selfReported": "Self-reported by publisher",
+      "machineExtracted": "Machine-extracted, unreviewed",
+      "unstated": "Assessment not stated"
+    },
+    "help": {
+      "staffAssessed": "A person read the source and traced every field in this record to a document. This is the expensive kind, and the reason the catalog can grade anything.",
+      "selfReported": "The publisher's own metadata, taken as given. Nobody here has checked it against the data.",
+      "machineExtracted": "Transcribed by a pipeline from an inventory or a catalog feed. Nobody has reviewed it, and the completeness level says how far that got.",
+      "unstated": "This record does not say who assessed it. Absent means not captured — it is not a claim that nobody did."
+    },
+    "rubric": "rubric {version}",
+    "demonstration": "Demonstration record",
+    "demonstrationHelp": "Invented to illustrate the registry. Not a real dataset, and not the same thing as a synthetic one: a synthetic dataset is really published, generated to be representative of a system it does not contain."
   }
 }

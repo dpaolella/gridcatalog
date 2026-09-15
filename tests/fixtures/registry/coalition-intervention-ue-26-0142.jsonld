@@ -5,6 +5,8 @@
       "id": "https://catalog.opengrid.org/study/coalition-intervention-ue-26-0142",
       "type": "Study",
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "title": "Ratepayer Coalition intervention in UE-26-0142",
       "summary": "A fictional intervention testing one assumption from the Cascade filing.",
       "description": "Changes the authorised return on equity and nothing else, so that any difference in the result is attributable to that one number. The point of a single-factor intervention is that it is cheap to check and hard to argue with.",

@@ -5,6 +5,7 @@ import { getMessages, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { HexWash, Logo, Mark, Rule } from "@/components/Brand";
 import { AccountMenu } from "@/components/AccountMenu";
+import { DemoStrip } from "@/components/DemoStrip";
 import { WorldOutlineDefs } from "@/components/WorldOutline";
 import { IS_SNAPSHOT } from "@/lib/api";
 import "./globals.css";
@@ -59,6 +60,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <a href="#main" className="skip-link">
             {t("skipToContent")}
           </a>
+          {/* Above the header, on every route, permanently. A splash would be
+              dismissed once and then cropped out of every screenshot anybody
+              takes — what circulates is the part without the caveat. */}
+          <DemoStrip />
           <Header />
           <main id="main" className="mx-auto w-full max-w-6xl px-5 py-10">
             {children}

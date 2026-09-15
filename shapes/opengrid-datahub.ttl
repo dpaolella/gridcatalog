@@ -366,6 +366,54 @@ og:DatasetShape a sh:NodeShape ;
     og:appliesAtLevel 1 ;
     sh:message "Every record says where it came from — a harvester id, or 'curated'. Without it a per-source recall audit is impossible (PRD §M3)." ;
   ] ;
+
+  # ---- #85 how this record got here ----
+  #
+  # Distinct from og:harvestSource, which says which pipeline produced the
+  # record. This says who did the *assessing*, and it is required for the same
+  # reason a licence is: a catalog where every record is sourced and graded,
+  # and none of them says who did that work, reads as a catalog where curation
+  # happens by itself. That is the open staffing question in the vision, and a
+  # demo that answers it by implication answers it wrongly.
+  sh:property [
+    sh:path og:curationBasis ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( "staff-assessed" "self-reported" "machine-extracted" ) ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:curationBasis is one of staff-assessed (a person traced the facts to a document), self-reported (the publisher's own metadata, taken as given), machine-extracted (transcribed by a pipeline, unreviewed). Every record carries one: an unattributed assessment is the claim that curation is free." ;
+  ] ;
+  sh:property [
+    sh:path og:assessedAt ; sh:maxCount 1 ; sh:datatype xsd:date ; og:appliesAtLevel 1 ;
+    sh:message "og:assessedAt is the date a person assessed this record. Absent where nobody recorded one — never backfilled from the build clock, which would be a fact about the pipeline wearing the clothes of a fact about the assessment." ;
+  ] ;
+  sh:property [
+    sh:path og:rubricVersion ; sh:maxCount 1 ; sh:datatype xsd:string ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:rubricVersion names the rubric an assessment was made against." ;
+  ] ;
+  sh:property [
+    sh:path og:demonstration ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:demonstration marks a record invented to illustrate the demo. It is not og:provenanceClass pc:synthetic: a synthetic dataset is a real, published thing generated to stand in for a restricted system, and conflating the two lets 'we made this up' borrow the credibility of 'somebody published this'." ;
+  ] ;
+
+  # An assessment date or a rubric version without staff assessment is a claim
+  # with nobody behind it. The pipeline does not assess; it transcribes.
+  sh:sparql [
+    a sh:SPARQLConstraint ;
+    og:appliesAtLevel 1 ;
+    sh:message "og:assessedAt and og:rubricVersion describe a person's assessment, so og:curationBasis must be staff-assessed. A machine-extracted record carrying an assessment date claims a review that did not happen." ;
+    sh:prefixes og: ;
+    sh:select """
+      SELECT $this WHERE {
+        { $this <https://schema.opengrid.org/ns#assessedAt> ?when }
+        UNION
+        { $this <https://schema.opengrid.org/ns#rubricVersion> ?rubric }
+        FILTER NOT EXISTS {
+          $this <https://schema.opengrid.org/ns#curationBasis> "staff-assessed"
+        }
+      }
+    """ ;
+  ] ;
   sh:property [
     sh:path og:visibility ; sh:maxCount 1 ;
     sh:in ( "public" "restricted-metadata" "allowlisted-existence" ) ; og:appliesAtLevel 1 ;

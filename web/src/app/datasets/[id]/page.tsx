@@ -17,6 +17,7 @@ import {
   snapshotDatasetIds,
 } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
+import { CurationBasis } from "@/components/CurationBasis";
 import { QualityBadges } from "@/components/QualityBadges";
 import { StudyUsage } from "@/components/StudyUsage";
 import { Rule } from "@/components/Brand";
@@ -222,6 +223,12 @@ export default async function DatasetPage({ params }: { params: Params }) {
             </span>
           ))}
         </div>
+
+        {/* Above the grades, not below them: the grades are the claim and this
+            says who made it. A reader who meets three A grades before learning
+            that nobody assessed the record has already formed the impression
+            the line exists to correct. */}
+        <CurationBasis record={dataset} />
 
         <QualityBadges facets={quality?.facets ?? dataset.quality} size="lg" />
 

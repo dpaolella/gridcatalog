@@ -70,6 +70,7 @@ export default async function StudyPage({ params }: { params: Params }) {
   await perRequest();
   const s = await getTranslations("study");
   const hub = await getTranslations("hub");
+  const demo = await getTranslations("curation");
 
   let study: StudyDetail;
   try {
@@ -128,6 +129,27 @@ export default async function StudyPage({ params }: { params: Params }) {
               </span>
             ))}
           </div>
+
+          {/* A filing is the most convincing-looking object in this catalog: a
+              docket number, a frozen date, a citation id, an assumption set
+              with a source on every row. That is exactly why an invented one
+              has to say so here, next to the title, rather than only in the
+              prose of its description (#85). */}
+          {study.demonstration ? (
+            <p className="mt-4">
+              <span
+                className="px-1.5 py-0.5 text-[11px] font-semibold"
+                style={{
+                  borderRadius: "var(--radius)",
+                  background: "color-mix(in srgb, var(--og-clay, #b4553a) 16%, transparent)",
+                  color: "var(--accent-text)",
+                }}
+                title={demo("demonstrationHelp")}
+              >
+                {demo("demonstration")}
+              </span>
+            </p>
+          ) : null}
 
           {study.publisher ? (
             <p className="mt-4 text-sm text-[color:var(--muted)]">{study.publisher}</p>

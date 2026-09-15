@@ -16,6 +16,7 @@
       "documentationStatus": "partial",
       "completenessLevel": 4,
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
       "harvestSource": "curated",
       "distribution": [
         "https://catalog.opengrid.org/dist/broken--d1"

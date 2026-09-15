@@ -259,7 +259,9 @@ Search the catalog.
 | `field_count_bucket` | query | no | How much of the schema is described: none, 1-9, 10-49, 50+. |
 | `access_restriction` | query | no |  |
 | `review_state` | query | no |  |
-| `harvest_source` | query | no | How the record got here — see #85. |
+| `harvest_source` | query | no | Which pipeline produced the record. |
+| `curation_basis` | query | no | Who assessed the record: `staff-assessed`, `self-reported` or `machine-extracted`. Distinct from `harvest_source`, which names the pipeline rather than the person. |
+| `demonstration` | query | no | Records invented to illustrate the demo. `false` is the filter for a reader who wants only the real catalog. |
 | `supported_analysis` | query | no | Analysis-type concept IRI the dataset supports. |
 | `analysis_type` | query | no | Analysis-type concept IRI a *study* answers. Distinct from `supported_analysis`, which says what a dataset is fit to feed: a study is not an input to an analysis, it is one. |
 | `voltage_class` | query | no |  |

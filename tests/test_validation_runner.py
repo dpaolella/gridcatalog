@@ -27,6 +27,7 @@ MINIMAL = """
   og:anonymousAccess true ;
   og:documentationStatus "partial" ;
   og:completenessLevel 1 ; og:reviewState "confirmed" ; og:harvestSource "curated" ;
+  og:curationBasis "staff-assessed" ;
   dcat:distribution <https://catalog.opengrid.org/dist/t--d> .
 <https://catalog.opengrid.org/dist/t--d> a dcat:Distribution ;
   dcat:accessURL <https://example.org/t.csv> .

@@ -5,6 +5,8 @@
       "id": "https://catalog.opengrid.org/assumptions/coalition-fork-v1",
       "type": "AssumptionSet",
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "title": "Ratepayer Coalition fork of UE-26-0142 assumptions, v1.0",
       "description": "One value changed from the parent set. Everything else is inherited and says so, which is what makes the difference in the result attributable to a single number.",
       "forkedFrom": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",

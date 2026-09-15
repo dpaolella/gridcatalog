@@ -260,6 +260,10 @@ INDEX_MAPPING: dict[str, Any] = {
             # A study's axes (#82). Keywords rather than text: a docket number
             # is an identifier to match exactly, and analysing it would let
             # "UE-26-0142" be found by "26".
+            "curation_basis": {"type": "keyword"},
+            "assessed_at": {"type": "date"},
+            "rubric_version": {"type": "keyword"},
+            "demonstration": {"type": "boolean"},
             "study_kind": {"type": "keyword"},
             "analysis_types": {
                 "type": "object",

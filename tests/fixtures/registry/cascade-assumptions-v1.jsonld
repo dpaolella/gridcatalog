@@ -5,6 +5,8 @@
       "id": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",
       "type": "AssumptionSet",
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "title": "Cascade Power & Light 2026 IRP assumptions, v1.0",
       "description": "Financial and policy parameters for the 2026 IRP, keyed to Sienna Investments field paths. Invented values on an invented utility.",
       "schemaPin": "3325d27c8c626a375c7492f1341af139d5686e53",

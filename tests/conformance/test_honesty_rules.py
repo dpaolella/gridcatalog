@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from datahub.namespaces import OG
 from datahub.validate import ValidationRunner
-from fixtures.loader import corpus_graph, load_graph, record_names
+from fixtures.loader import corpus_graph, load_graph, mutable_graph, record_names
 
 GC = "https://schema.opengrid.org/concept/grid-concept/"
 
@@ -160,3 +160,51 @@ def test_no_fixture_invents_a_licence(corpus: Graph) -> None:
             assert text.startswith("https://spdx.org/licenses/"), (
                 f"{dataset} carries a licence IRI that is neither SPDX nor a LicenseRef: {text}"
             )
+
+
+# ---- how this record got here (#85) ---------------------------------------
+
+
+def test_a_record_with_no_curation_basis_is_rejected(runner: ValidationRunner) -> None:
+    """Required, for the same reason a licence is.
+
+    A catalog where every record is sourced and graded, and none of them says
+    who did that work, reads as a catalog where curation happens by itself.
+    That is the open staffing question in the vision, answered by implication
+    and answered wrongly.
+    """
+    graph = mutable_graph("ecmwf-era5")
+    subject = next(graph.subjects(OG.curationBasis, None))
+    graph.remove((subject, OG.curationBasis, None))
+
+    assert not runner.validate(graph, 1).conforms
+
+
+def test_an_assessment_date_without_an_assessor_is_rejected(runner: ValidationRunner) -> None:
+    """`og:assessedAt` describes a person's work. On a machine-extracted record
+    it claims a review that did not happen, which is the same over-claim as an
+    unattributed grade one layer down."""
+    from rdflib import Literal
+    from rdflib.namespace import XSD
+
+    graph = mutable_graph("ecmwf-era5")
+    subject = next(graph.subjects(OG.curationBasis, None))
+    graph.remove((subject, OG.curationBasis, None))
+    graph.add((subject, OG.curationBasis, Literal("machine-extracted")))
+    graph.add((subject, OG.assessedAt, Literal("2026-03-14", datatype=XSD.date)))
+
+    assert not runner.validate(graph, 1).conforms
+
+
+def test_the_same_record_passes_once_a_person_is_named(runner: ValidationRunner) -> None:
+    """The other half, so the test above is failing on the rule rather than on
+    the edit."""
+    from rdflib import Literal
+    from rdflib.namespace import XSD
+
+    graph = mutable_graph("ecmwf-era5")
+    subject = next(graph.subjects(OG.curationBasis, None))
+    graph.add((subject, OG.assessedAt, Literal("2026-03-14", datatype=XSD.date)))
+    graph.add((subject, OG.rubricVersion, Literal("v2")))
+
+    assert runner.validate(graph, 1).conforms

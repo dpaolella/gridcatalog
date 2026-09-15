@@ -66,6 +66,10 @@ Added by this build:
 | `completenessLevel` | 1 \| 2 \| 3 | Makes harvested-vs-curated quality visible (PRD §6) |
 | `harvestSource` | string | Which harvester produced this, or `curated`. Without it a per-source recall audit is impossible |
 | `reviewState` | enum | `draft`, `in-review`, `confirmed`, `flagged`. Decides which named graph the record lives in |
+| `curationBasis` | enum | `staff-assessed`, `self-reported`, `machine-extracted`. Who did the assessing — **not** the same question as `harvestSource`, which names the pipeline |
+| `assessedAt` | date | When a person assessed it. Absent where nobody recorded one; never backfilled from the build clock |
+| `rubricVersion` | string | Which rubric the assessment was made against |
+| `demonstration` | boolean | Invented to illustrate the demo. Never `provenanceClass: synthetic`, which is a real published dataset standing in for a restricted system |
 | `lastComputedAt` | signal → timestamp | Makes the semantic layer's freshness lag visible rather than hidden |
 | `enrichmentBasis` | enum | X3. With model id and prompt version, or validation fails |
 | `conceptGap` | object | X4. An explicit gap with a stated reason, never a silent omission |

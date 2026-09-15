@@ -35,6 +35,7 @@
       "documentationStatus": "fully-documented",
       "completenessLevel": 3,
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
       "harvestSource": "curated",
       "visibility": "public",
       "tier": 2,

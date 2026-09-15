@@ -27,6 +27,7 @@
       "documentationStatus": "external-standard-only",
       "completenessLevel": 1,
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
       "harvestSource": "curated",
       "visibility": "public",
       "tier": 3,

@@ -298,3 +298,31 @@ test("each section's heading is about that section", async ({ page }) => {
     seen.set(heading, path);
   }
 });
+
+test("the catalog says what it is on every page, not once", async ({ page }) => {
+  /* #85. A splash is dismissed once and then cropped out of every screenshot
+     anybody takes afterwards, so what circulates is the part without the
+     caveat. The strip is above the header on every route and cannot be
+     separated from what it qualifies. */
+  for (const route of ["/", "/datasets", "/studies", "/reference-models"]) {
+    await page.goto(path(route));
+    await expect(page.getByText(/Demonstration catalog\./)).toBeVisible();
+  }
+});
+
+test("a record says who assessed it, and an invented one says it is invented", async ({ page }) => {
+  /* Two claims a viewer would otherwise read wrongly: that curation happens by
+     itself, and that an invented record is a real dataset. */
+  await page.goto(path("/datasets/ecmwf-era5"));
+  await expect(page.getByText("Assessed by OpenGrid staff")).toBeVisible();
+  await expect(page.getByText("Demonstration record")).toHaveCount(0);
+
+  await page.goto(path("/studies/cascade-pl-irp-2026"));
+  // A longer timeout than the suite's 5s default, and only here. On the live
+  // build this route has no `generateStaticParams`, so it renders on demand —
+  // and this is the first test in the suite to ask for it, so it pays the
+  // route's first compile with four workers competing for the server. It
+  // failed once and passed on a re-run, which is the shape of a deadline that
+  // is too tight rather than of a marker that is missing.
+  await expect(page.getByText(/Demonstration record/).first()).toBeVisible({ timeout: 20_000 });
+});

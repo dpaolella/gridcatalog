@@ -5,6 +5,8 @@
       "id": "https://catalog.opengrid.org/run/R-0412",
       "type": "RunRecord",
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "ranAssumptionSet": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",
       "onReferenceModel": "https://catalog.opengrid.org/ds/gb-osm-reference",
       "executedBy": "Cascade Power & Light planning group (fictional)",

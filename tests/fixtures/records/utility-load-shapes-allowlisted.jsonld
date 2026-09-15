@@ -30,6 +30,8 @@
       "documentationStatus": "partial",
       "completenessLevel": 1,
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "harvestSource": "curated",
       "visibility": "allowlisted-existence",
       "tier": 2,

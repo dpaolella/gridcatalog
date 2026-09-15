@@ -324,6 +324,18 @@ export interface DatasetSummary {
   usage_evidence_count?: number | null;
   field_count_bucket?: string | null;
   concepts?: ConceptRef[];
+  /** How this record got here (#85): `staff-assessed`, `self-reported` or
+   *  `machine-extracted`. On the list row because that is where a reader forms
+   *  the impression that curation is free — a catalog where every row is
+   *  sourced and graded, and no row says who did that work, argues by omission
+   *  that none was needed. */
+  curation_basis?: string | null;
+  assessed_at?: string | null;
+  rubric_version?: string | null;
+  /** Invented to illustrate the demo. Never the same badge as a `synthetic`
+   *  provenance class: that is a real, published dataset generated to stand in
+   *  for a restricted system, and this is a record nobody published. */
+  demonstration?: boolean;
   /** Reference models only. Absent on a dataset — never "unrated", since the
    *  shapes require a fidelity class on every reference model. */
   fidelity_class?: string | null;
@@ -798,6 +810,8 @@ export interface StudyDetail {
   frozen_at?: string | null;
   issued?: string | null;
   review_state?: string;
+  curation_basis?: string | null;
+  demonstration?: boolean;
   analysis_types: ConceptRef[];
   parent_study?: string | null;
   parent_study_id?: string | null;

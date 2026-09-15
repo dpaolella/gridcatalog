@@ -168,7 +168,26 @@ def search_datasets(
     access_restriction: Annotated[list[str] | None, Query()] = None,
     review_state: Annotated[list[str] | None, Query()] = None,
     harvest_source: Annotated[
-        list[str] | None, Query(description="How the record got here — see #85.")
+        list[str] | None, Query(description="Which pipeline produced the record.")
+    ] = None,
+    curation_basis: Annotated[
+        list[str] | None,
+        Query(
+            description=(
+                "Who assessed the record: `staff-assessed`, `self-reported` or "
+                "`machine-extracted`. Distinct from `harvest_source`, which names the "
+                "pipeline rather than the person."
+            )
+        ),
+    ] = None,
+    demonstration: Annotated[
+        bool | None,
+        Query(
+            description=(
+                "Records invented to illustrate the demo. `false` is the filter for "
+                "a reader who wants only the real catalog."
+            )
+        ),
     ] = None,
     supported_analysis: Annotated[
         list[str] | None, Query(description="Analysis-type concept IRI the dataset supports.")
@@ -276,6 +295,8 @@ def search_datasets(
             access_restriction=access_restriction,
             review_state=review_state,
             harvest_source=harvest_source,
+            curation_basis=curation_basis,
+            demonstration=demonstration,
             supported_analysis=supported_analysis,
             analysis_type=analysis_type,
             voltage_class=voltage_class,

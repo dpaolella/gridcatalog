@@ -10,7 +10,7 @@ reconstructible from the graph by a full reindex (PRD principle 8).
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Annotated, Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -255,6 +255,19 @@ class SearchDocument(BaseModel):
     completeness_level: CompletenessLevel = 1
     review_state: str = "draft"
     harvest_source: str | None = None
+    #: Who did the assessing (#85). Distinct from `harvest_source`, which names
+    #: the pipeline: a catalog where every record is sourced and graded, and
+    #: none says who did that work, reads as one where curation happens by
+    #: itself — which is the open staffing question answered by implication,
+    #: and answered wrongly.
+    curation_basis: str | None = None
+    assessed_at: date | None = None
+    rubric_version: str | None = None
+    #: Invented to illustrate the demo. Deliberately not `provenance_class`
+    #: `synthetic`: a synthetic dataset is a real, published thing generated to
+    #: stand in for a restricted system, and one badge for both lets "we made
+    #: this up" borrow the credibility of "somebody published this".
+    demonstration: bool = False
     documentation_status: str | None = None
     quality: QualityBadges = Field(default_factory=QualityBadges)
     quality_assessed: bool = False
@@ -444,6 +457,8 @@ FACET_FIELDS: dict[str, str] = {
     "analysis_type": "analysis_types.iri",
     "concept": "concepts.iri",
     "harvest_source": "harvest_source",
+    "curation_basis": "curation_basis",
+    "demonstration": "demonstration",
     "field_count_bucket": "field_count_bucket",
     "review_state": "review_state",
     "voltage_class": "voltage_classes",

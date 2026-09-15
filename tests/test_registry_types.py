@@ -188,6 +188,7 @@ REFERENCE_MODEL = {
     "completenessLevel": 1,
     "reviewState": "confirmed",
     "harvestSource": "curated",
+    "curationBasis": "staff-assessed",
     "distribution": ["https://catalog.opengrid.org/dist/t-net--d"],
 }
 DISTRIBUTION = {

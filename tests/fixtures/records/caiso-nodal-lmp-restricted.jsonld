@@ -31,6 +31,8 @@
       "documentationStatus": "external-standard-only",
       "completenessLevel": 1,
       "reviewState": "confirmed",
+      "curationBasis": "staff-assessed",
+      "demonstration": true,
       "harvestSource": "curated",
       "visibility": "restricted-metadata",
       "tier": 2,

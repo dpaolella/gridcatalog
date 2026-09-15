@@ -222,6 +222,7 @@ def records(settings):
                     "reviewState": "draft",
                     "visibility": "public",
                     "harvestSource": "curated",
+                    "curationBasis": "staff-assessed",
                     "distribution": [
                         {
                             "id": DIST,
