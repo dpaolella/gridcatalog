@@ -21,9 +21,11 @@ from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version as package_version
 from typing import Any, Literal
 
-from datahub.api.deps import RecordsDep, SearchDep, SessionDep, SettingsDep, StoreDep
+from datahub.api import deps
+from datahub.api.deps import SessionDep, SettingsDep
 from datahub.api.schemas import HealthResponse
 from datahub.graph.graphs import NamedGraph
+from datahub.graph.records import RecordStore
 from datahub.logging import get_logger
 from fastapi import APIRouter
 from sqlalchemy import text
@@ -59,8 +61,6 @@ def health(settings: SettingsDep) -> HealthResponse:
 @router.get("/health/ready", response_model=HealthResponse, summary="Readiness")
 def ready(
     settings: SettingsDep,
-    store: StoreDep,
-    backend: SearchDep,
     session: SessionDep,
 ) -> HealthResponse:
     """Can this instance serve requests, and how well.
@@ -70,26 +70,46 @@ def ready(
     search falls back, writes fail, reads still work — and a deployment removed
     from rotation for a degraded dependency turns a partial outage into a total
     one.
+
+    **No ``StoreDep``, deliberately** (#77). Declaring it would have FastAPI
+    resolve the store before this function runs, and resolving it on a cold
+    process *builds* it — parsing the whole catalog. A readiness endpoint that
+    loads the catalog in order to report whether the catalog is loaded is one
+    that cannot answer during the only window where the answer is interesting.
+    The state is read instead, and a store still warming says so.
     """
     checks: dict[str, str] = {}
     state: Literal["ok", "degraded", "unhealthy"] = "ok"
 
-    try:
-        store.count(NamedGraph.CATALOG)
-        checks["graph"] = "ok"
-    except Exception as exc:
-        checks["graph"] = f"unreachable: {type(exc).__name__}"
-        state = "unhealthy"
+    store = deps.store_if_built()
+    if store is None:
+        # Not an error and not readiness either: the process is fine and the
+        # catalog is still loading. `degraded` keeps it out of rotation while
+        # that is true, which is exactly what a readiness probe is for.
+        checks["graph"] = "warming: catalog still loading"
+        state = "degraded"
+    else:
+        try:
+            store.count(NamedGraph.CATALOG)
+            checks["graph"] = "ok"
+        except Exception as exc:
+            checks["graph"] = f"unreachable: {type(exc).__name__}"
+            state = "unhealthy"
 
-    try:
-        indexed = backend.count()
-        checks["search"] = "ok"
-        if indexed == 0:
-            checks["search"] = "empty: nothing indexed; run `datahub index reindex`"
-            state = "degraded" if state == "ok" else state
-    except Exception as exc:
-        checks["search"] = f"unreachable: {type(exc).__name__}"
+    backend = deps.backend_if_built()
+    if backend is None:
+        checks["search"] = "warming: index still loading"
         state = "degraded" if state == "ok" else state
+    else:
+        try:
+            indexed = backend.count()
+            checks["search"] = "ok"
+            if indexed == 0:
+                checks["search"] = "empty: nothing indexed; run `datahub index reindex`"
+                state = "degraded" if state == "ok" else state
+        except Exception as exc:
+            checks["search"] = f"unreachable: {type(exc).__name__}"
+            state = "degraded" if state == "ok" else state
 
     if session is None:
         checks["database"] = "unreachable"
@@ -120,8 +140,6 @@ def ready(
 @router.get("/health/status", response_model=HealthResponse, summary="Data state")
 def status(
     settings: SettingsDep,
-    records: RecordsDep,
-    backend: SearchDep,
     session: SessionDep,
 ) -> HealthResponse:
     """What is loaded, what is indexed, how far behind the index is.
@@ -130,18 +148,32 @@ def status(
     state, and a lag that grows without bound means a confirmed record change
     is not reaching search — which looks to a user exactly like the change
     never happened.
+
+    **That number must never be behind the catalog's size** (#77). It comes
+    from the operational database and costs a primary-key read; the record
+    counts come from the graph. Taking `RecordsDep` made the graph a
+    precondition of the whole response, so on a cold process this endpoint
+    parsed 29 MB of N-Quads before it would say anything — and the one signal
+    nothing else reports was the one signal unavailable. Dependencies are
+    resolved here, in order, and a graph that is still warming costs the counts
+    rather than the answer.
     """
     checks: dict[str, str] = {}
     catalog = drafts = None
     lag = healthy = None
 
-    try:
-        catalog = records.count(graph=NamedGraph.CATALOG)
-        drafts = records.count(graph=NamedGraph.DRAFT)
-        checks["catalog_records"] = str(catalog)
-        checks["draft_records"] = str(drafts)
-    except Exception as exc:
-        checks["graph"] = f"unreachable: {type(exc).__name__}"
+    store = deps.store_if_built()
+    if store is None:
+        checks["graph"] = "warming: catalog still loading"
+    else:
+        try:
+            records = RecordStore(store)
+            catalog = records.count(graph=NamedGraph.CATALOG)
+            drafts = records.count(graph=NamedGraph.DRAFT)
+            checks["catalog_records"] = str(catalog)
+            checks["draft_records"] = str(drafts)
+        except Exception as exc:
+            checks["graph"] = f"unreachable: {type(exc).__name__}"
 
     # PRD §F3 asks for a CAPTCHA on the intake path, and "we thought it was on"
     # is the failure mode a config-driven control has. Reported here so the
@@ -150,10 +182,14 @@ def status(
 
     checks["intake_challenge"] = "configured" if captcha.is_configured(settings) else "off"
 
-    try:
-        checks["indexed_documents"] = str(backend.count())
-    except Exception as exc:
-        checks["search"] = f"unreachable: {type(exc).__name__}"
+    backend = deps.backend_if_built()
+    if backend is None:
+        checks["search"] = "warming: index still loading"
+    else:
+        try:
+            checks["indexed_documents"] = str(backend.count())
+        except Exception as exc:
+            checks["search"] = f"unreachable: {type(exc).__name__}"
 
     if session is not None:
         try:
@@ -167,9 +203,13 @@ def status(
             checks["database"] = f"error: {type(exc).__name__}"
 
     state: Any = "ok"
-    if catalog is None:
-        state = "unhealthy"
-    elif healthy is False or "unreachable" in " ".join(checks.values()):
+    reported = " ".join(checks.values())
+    if "unreachable" in reported:
+        # A store that answers "unreachable" is a catalog that is not there.
+        # A store that answers "warming" is one that is not there *yet*, which
+        # is a different claim and must not read as the same failure.
+        state = "unhealthy" if checks.get("graph", "").startswith("unreachable") else "degraded"
+    elif healthy is False or "warming" in reported:
         state = "degraded"
 
     return HealthResponse(

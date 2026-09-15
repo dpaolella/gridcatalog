@@ -70,6 +70,94 @@ def test_status_reports_the_data_state(client) -> None:
     assert "review_queue" in body["checks"]
 
 
+# ---- what a health endpoint may not do (#77) ------------------------------
+
+
+def test_no_health_endpoint_builds_the_catalog(api_env) -> None:
+    """The invariant the whole bug reduces to.
+
+    The rdflib store parses its entire N-Quads file in its constructor, and the
+    process-wide singleton runs that inside whichever request first asks for a
+    store. `/v1/health/status` asked — via `RecordsDep`, resolved by FastAPI
+    before the handler body runs — so the endpoint whose job is to report that
+    the deployment is unwell was the endpoint that could not answer while it
+    was. At 1,117 records that was over 40 seconds on one shared vCPU and the
+    projector-lag signal, which nothing else reports, was simply unavailable.
+
+    Asserted as "the store is still unbuilt afterwards" rather than by timing
+    it: a duration threshold is a flake on a loaded runner, and the property is
+    not "fast" but "does not cause the thing it is reporting on".
+    """
+    from datahub.api import deps
+    from datahub.api.app import create_app
+    from fastapi.testclient import TestClient
+
+    deps.reset()
+    # Not `with TestClient(...)`: entering it runs the lifespan, whose whole job
+    # now is to warm the store — which would build exactly what this asserts is
+    # not built. A request through a client that never started is still a full
+    # trip through routing and dependency resolution, which is where the build
+    # was happening.
+    client = TestClient(create_app())
+
+    for route in ("/v1/health", "/v1/health/ready", "/v1/health/status"):
+        assert client.get(route).status_code == 200, route
+        assert deps.store_if_built() is None, f"{route} built the graph store"
+
+
+def test_a_warming_catalog_is_degraded_and_still_reports_projector_lag(api_env) -> None:
+    """Warming is not unreachable, and the difference is the point.
+
+    "Unreachable" says the catalog is not there; "warming" says it is not there
+    *yet*. Reporting the second as the first would page somebody every deploy.
+    And the number that matters — how far behind the index is — comes from the
+    operational database, so it answers either way: it is not allowed to be
+    gated on the catalog's size.
+    """
+    from datahub.api import deps
+    from datahub.api.app import create_app
+    from fastapi.testclient import TestClient
+
+    deps.reset()
+    client = TestClient(create_app())
+
+    body = client.get("/v1/health/status").json()
+    assert body["status"] == "degraded"
+    assert body["checks"]["graph"].startswith("warming")
+    assert body["catalog_records"] is None
+    # Present, and answered without the graph.
+    assert "projector_healthy" in body
+
+    ready = client.get("/v1/health/ready").json()
+    assert ready["status"] == "degraded"
+    assert ready["checks"]["graph"].startswith("warming")
+
+
+def test_the_app_warms_the_catalog_at_boot(api_env) -> None:
+    """The other half: nobody should pay for the parse on a request path, so
+    the process does it at startup instead."""
+    import time
+
+    from datahub.api import deps
+    from datahub.api.app import create_app
+    from fastapi.testclient import TestClient
+
+    deps.reset()
+    assert deps.store_if_built() is None
+
+    with TestClient(create_app()):
+        # A background thread, so the server can answer `/v1/health` while the
+        # catalog loads — Fly starts health-checking 30s in, and a catalog big
+        # enough to need warming would otherwise fail its own liveness probe.
+        deadline = time.monotonic() + 30
+        while deps.store_if_built() is None and time.monotonic() < deadline:
+            time.sleep(0.02)
+        # Inside the block: leaving it runs the shutdown hook, which drops the
+        # process-wide store on purpose, so asserting afterwards would test the
+        # teardown rather than the warm-up.
+        assert deps.store_if_built() is not None, "startup did not warm the catalog"
+
+
 # ---- the OpenAPI contract ------------------------------------------------
 
 

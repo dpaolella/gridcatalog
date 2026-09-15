@@ -230,6 +230,31 @@ them safe to drop.
 falls back and reads still work, and pulling an instance for a degraded
 dependency turns a partial outage into a total one.
 
+### Warming
+
+With the rdflib backend the whole catalog is parsed from N-Quads into memory,
+which takes seconds per tens of megabytes. A freshly started process does that
+on a background thread, so:
+
+- `/health` answers immediately and stays `ok`. It touches no dependency by
+  design, which is what lets it be the liveness probe while the data loads.
+- `/health/ready` and `/health/status` report `degraded` with
+  `graph: warming: catalog still loading` until the parse finishes. That is
+  **not** `unreachable`: warming says the catalog is not there *yet*, and an
+  alert that cannot tell the two apart pages somebody on every deploy.
+- `projector_lag_seconds` answers throughout. It comes from the operational
+  database, and it is the signal that must never be gated on the catalog's
+  size — an index that has silently stopped tracking the graph looks, from
+  outside, exactly like a catalog where nothing changed.
+
+Neither health endpoint will *build* the store. Before this was true,
+`/health/status` resolved a `RecordStore` as a dependency, so the endpoint that
+reports a deployment is unwell was the one that could not answer while it was:
+at 1,117 records it took over 40 seconds on a single shared vCPU and timed out
+(#77). If `graph: warming` persists for longer than a start-up should take,
+look for a warm-up failure in the logs rather than for a slow query — the
+record counts themselves are well under a second at this size.
+
 **There is no `/metrics` endpoint yet.** This section previously documented one,
 along with `/healthz` and `/readyz`, none of which exist; an operator reaching
 for them mid-incident would have lost time. The signals below are what the

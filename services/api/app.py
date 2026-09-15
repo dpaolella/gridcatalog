@@ -21,6 +21,7 @@ the internals.
 
 from __future__ import annotations
 
+import threading
 import time
 import uuid
 from collections.abc import AsyncIterator
@@ -103,11 +104,49 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:  # noqa: ARG001
         graph=str(settings.graph_backend),
         search=str(settings.search_backend),
     )
+    _start_warmup()
     yield
     # Flush the store on the way out: the rdflib backend writes N-Quads on
     # flush, and a dev server killed without one loses the session's writes.
     deps.reset()
     log.info("api stopped")
+
+
+def _start_warmup() -> None:
+    """Load the catalog into memory on a background thread, at boot (#77).
+
+    The rdflib store parses its whole N-Quads file in its constructor and the
+    process-wide singleton runs that inside whichever request first needs a
+    store — so the catalog's size was charged to one arbitrary request, under a
+    lock every other graph request then queued behind. At 1,117 records that
+    was over 40 seconds on the deployment's single shared vCPU, and
+    `/v1/health/status` — the only endpoint that touches the graph, and the
+    only reporter of projector lag — never answered at all.
+
+    A thread rather than an inline await, because the alternative fails worse.
+    Loading before the server accepts connections would keep `/v1/health` from
+    answering until it finished, and Fly begins health-checking 30 seconds in:
+    a catalog large enough to need warming would fail its own liveness probe
+    and be restarted, forever. Liveness touches no dependency by design, so it
+    keeps answering while this runs.
+
+    Daemon, so a process that is asked to stop does not wait for a parse it is
+    about to throw away. Failures are logged and swallowed: a store that cannot
+    be built will fail again on the first request that needs it, where the
+    error belongs, and taking the whole API down at boot for it would turn a
+    degraded catalog into an outage.
+    """
+
+    def run() -> None:
+        started = time.perf_counter()
+        try:
+            deps.warm()
+        except Exception as exc:  # pragma: no cover - reported, never fatal
+            log.warning("warm-up failed", error=str(exc), kind=type(exc).__name__)
+            return
+        log.info("warmed", seconds=round(time.perf_counter() - started, 2))
+
+    threading.Thread(target=run, name="datahub-warmup", daemon=True).start()
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:

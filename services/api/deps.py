@@ -88,6 +88,46 @@ def search_backend() -> SearchBackend:
     return _backend()
 
 
+def warm() -> None:
+    """Build the process-wide store and index now, off the request path.
+
+    The rdflib backend parses its whole N-Quads file in its constructor, and
+    `once()` runs that constructor inside whichever request first asks for a
+    store. So the cost of the catalog's size was charged to one unlucky
+    request — measured at 6.2s for 1,117 records on a fast machine, and the
+    deployment runs on one shared vCPU, where it was over 40 seconds and
+    `/v1/health/status` simply never answered (#77).
+
+    Worse than slow, it was slow *under a lock*: every other request needing
+    the graph queued behind that one build, so the first record page after a
+    deploy paid for it too.
+
+    Called from the app's lifespan on a background thread rather than inline.
+    Inline would be simpler and would stop the machine answering `/v1/health`
+    until the parse finished — and Fly starts health-checking 30 seconds in,
+    so a catalog big enough to need this would fail its own liveness probe and
+    be restarted, forever. Liveness deliberately touches no dependency; this
+    lets it keep saying so while the data loads behind it.
+    """
+    _store()
+    _backend()
+
+
+def store_if_built() -> GraphStore | None:
+    """The store if it exists, without building one.
+
+    For the health endpoints, which must report what is up rather than cause
+    it. Taking `StoreDep` there would build the store to answer the question
+    "is the store built" — and on a cold process that is the 40-second hang
+    itself, in the one endpoint whose job is to say the deployment is unwell.
+    """
+    return _store.peek()
+
+
+def backend_if_built() -> SearchBackend | None:
+    return _backend.peek()
+
+
 def records(store: Annotated[GraphStore, Depends(graph_store)]) -> RecordStore:
     return RecordStore(store)
 
