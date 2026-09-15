@@ -495,15 +495,41 @@ def to_source(doc: SearchDocument) -> dict[str, Any]:
     back as an input the model refuses.
     """
     source = doc.model_dump(mode="json")
-    source["domain_coverage"] = doc.domain_coverage
+    source[_DERIVED] = doc.domain_coverage
     bbox = doc.spatial.bbox
     if bbox and len(bbox) == 4:
         min_lon, min_lat, max_lon, max_lat = bbox
-        source["spatial"]["envelope"] = {
+        source["spatial"][_DERIVED_SPATIAL] = {
             "type": "envelope",
             "coordinates": [[min_lon, max_lat], [max_lon, min_lat]],
         }
     return source
+
+
+#: Fields `to_source` adds and `SearchDocument` does not have. Named once so
+#: that `from_source` cannot fall behind it, which is exactly what happened:
+#: the envelope was stripped on read because it was stripped when it was added,
+#: and `domain_coverage` arrived later with only the write half written. The
+#: model forbids extras, so every read from OpenSearch raised — on a backend no
+#: suite outside the integration job exercises.
+_DERIVED = "domain_coverage"
+_DERIVED_SPATIAL = "envelope"
+
+
+def from_source(source: dict[str, Any]) -> SearchDocument:
+    """The inverse of `to_source`: an indexed document back into the model.
+
+    The only way a document is reconstructed here, so that adding a derived
+    field to the write path and forgetting the read path is a test failure
+    rather than a 500 from every query. `tests/search/test_opensearch_query.py`
+    round-trips it.
+    """
+    source = dict(source)
+    source.pop(_DERIVED, None)
+    spatial = source.get("spatial")
+    if isinstance(spatial, dict):
+        source["spatial"] = {k: v for k, v in spatial.items() if k != _DERIVED_SPATIAL}
+    return SearchDocument.model_validate(source)
 
 
 class OpenSearchBackend(SearchBackend):
@@ -550,9 +576,7 @@ class OpenSearchBackend(SearchBackend):
         response = self.client.get(index=self.index_name, id=doc_id, ignore=[404])
         if not response.get("found"):
             return None
-        source = dict(response["_source"])
-        source.get("spatial", {}).pop("envelope", None)
-        return SearchDocument.model_validate(source)
+        return from_source(response["_source"])
 
     def search(self, request: SearchRequest) -> SearchResponse:
         started = time.perf_counter()
@@ -560,9 +584,7 @@ class OpenSearchBackend(SearchBackend):
         response = self.client.search(index=self.index_name, body=body)
         hits: list[Hit] = []
         for raw in response["hits"]["hits"]:
-            source = dict(raw["_source"])
-            source.get("spatial", {}).pop("envelope", None)
-            doc = SearchDocument.model_validate(source)
+            doc = from_source(raw["_source"])
             hits.append(
                 Hit(
                     document=doc,

@@ -98,3 +98,107 @@ def test_every_projected_field_is_declared_in_the_mapping() -> None:
         "declared in the mapping and never projected, which is dead weight in the "
         f"index and usually a rename that only landed on one side: {sorted(declared - projected)}"
     )
+
+
+def test_an_indexed_document_reads_back_as_the_document_that_was_written() -> None:
+    """`from_source` undoes `to_source`, including the fields it derives.
+
+    The index carries values the model does not have — `spatial.envelope` for
+    geo queries, `domain_coverage` for the catalog's crossing — and
+    `SearchDocument` forbids extras, so anything the write path adds and the
+    read path does not remove makes *every* read from OpenSearch raise.
+
+    That is not hypothetical. The envelope was stripped on read because it was
+    written and stripped in the same change; `domain_coverage` was added later
+    with only the write half, and six integration tests failed on
+    `ValidationError: domain_coverage — Extra inputs are not permitted` for four
+    commits. Nothing else caught it: the in-memory backend round-trips through
+    JSONL and never sees `to_source`, so the entire non-integration suite, the
+    browser suite and the static export were green throughout.
+
+    Round-tripped here rather than asserted against a list of field names, so
+    the check is the property itself and the next derived field is covered
+    without anyone remembering to add it.
+    """
+    from datahub.api.search.document import SearchDocument, SpatialCoverage
+    from datahub.api.search.opensearch_backend import from_source, to_source
+
+    document = SearchDocument(
+        id="probe",
+        iri="urn:probe",
+        title="Probe",
+        completeness_level=2,
+        spatial=SpatialCoverage(bbox=[-8.0, 49.9, 1.8, 58.7]),
+    )
+
+    source = to_source(document)
+    assert "domain_coverage" in source, "the crossing is what the catalog aggregates on"
+    assert "envelope" in source["spatial"], "the envelope is what a bbox query matches"
+
+    assert from_source(source) == document
+    # And the inverse must not mutate what it was handed: the search path reads
+    # every hit out of one response body, and popping from it in place would
+    # corrupt the rest of the page.
+    assert "domain_coverage" in source
+
+
+def test_the_opensearch_backend_reads_back_what_it_wrote() -> None:
+    """`get` and `search` reconstruct a document from what `index` stored.
+
+    The round-trip above covers the two functions; this covers the two callers,
+    which is where it actually broke. Both read paths stripped the geo envelope
+    by hand and neither knew about `domain_coverage`, so every query against a
+    real index raised — and the only thing exercising those lines needed three
+    containers, so it stayed broken across four commits while everything a
+    developer runs locally stayed green.
+
+    A stub client rather than a container: what is being checked here is this
+    module's own translation between the model and the index, which is
+    deterministic and needs no server. What genuinely needs OpenSearch — that
+    the query bodies mean what we think, that the mapping accepts the writes —
+    stays in the integration job.
+    """
+    from datahub.api.search.document import SearchDocument, SpatialCoverage
+    from datahub.api.search.opensearch_backend import OpenSearchBackend
+
+    class StubClient:
+        """Enough of the client to store a `_source` and hand it back."""
+
+        def __init__(self) -> None:
+            self.stored: dict[str, dict] = {}
+
+        # `index()` goes through `opensearchpy.helpers.bulk`, which is not
+        # installed as a stub here; the backend's own `_source` construction is
+        # what this exercises, so the action list is replayed directly.
+        def get(self, index: str, id: str, ignore: list[int] | None = None) -> dict:
+            source = self.stored.get(id)
+            return {"found": source is not None, "_source": source or {}}
+
+        def search(self, index: str, body: dict) -> dict:
+            hits = [{"_source": source, "_score": 1.0} for source in self.stored.values()]
+            return {
+                "hits": {"total": {"value": len(hits)}, "hits": hits},
+                "aggregations": {},
+            }
+
+    from datahub.api.search.opensearch_backend import to_source
+
+    document = SearchDocument(
+        id="probe",
+        iri="urn:probe",
+        title="Probe",
+        completeness_level=3,
+        spatial=SpatialCoverage(bbox=[-8.0, 49.9, 1.8, 58.7]),
+    )
+    client = StubClient()
+    client.stored[document.id] = to_source(document)
+
+    backend = OpenSearchBackend("http://stub", "probe-index", client=client)
+
+    assert backend.get("probe") == document
+    assert backend.get("absent") is None
+
+    from datahub.api.search.backend import Entitlement, SearchRequest
+
+    response = backend.search(SearchRequest(entitlement=Entitlement.anonymous()))
+    assert [hit.document for hit in response.hits] == [document]
