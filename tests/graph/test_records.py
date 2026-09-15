@@ -474,3 +474,24 @@ def test_an_assumption_belongs_to_its_set(registry) -> None:
     for assumption in root["hasAssumption"]:
         assert isinstance(assumption, dict), "an assumption came back as a bare IRI"
         assert assumption["assumptionPath"], "the contained node is empty"
+
+
+def test_held_answers_for_records_and_not_for_their_parts(registry) -> None:
+    """The check a page uses to decide whether a reference is a link.
+
+    Two failures it has to avoid at once. An IRI nobody catalogued must come
+    back false, or the UI links a study's cited exhibit to a 404 — a promise
+    the catalog cannot keep about a document it does not have. And a *contained*
+    node must come back false too, which is the half a naive "does this appear
+    in the graph" check gets wrong: a distribution or an assumption is in the
+    graph and has no page, so the same slug would be linked to nothing.
+    """
+    model = "https://catalog.opengrid.org/ds/gb-osm-reference"
+    assumption_set = "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1"
+    assumption = "https://catalog.opengrid.org/assumption/cascade-v1-roe"
+    uncatalogued = "https://catalog.opengrid.org/ds/cascade-rate-case-exhibits"
+
+    held = registry.held([model, assumption_set, assumption, uncatalogued])
+
+    assert held == {model, assumption_set}
+    assert registry.held([]) == set()

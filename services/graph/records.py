@@ -27,7 +27,7 @@ from datahub.config import Settings, get_settings
 from datahub.errors import NotFound, ValidationFailed
 from datahub.graph.graphs import NamedGraph, record_graph
 from datahub.graph.skolem import skolemize
-from datahub.graph.sparql import parsing
+from datahub.graph.sparql import parsing, values_clause
 from datahub.graph.store import GraphStore
 from datahub.logging import get_logger
 from datahub.namespaces import DATASET_BASE, OG
@@ -285,6 +285,37 @@ class RecordStore:
             query += f"\nLIMIT {int(limit)} OFFSET {int(offset)}"
         rows = self.store.select(query, {"g": URIRef(str(graph))})
         return [str(r["s"]) for r in rows]
+
+    def held(
+        self, iris: Iterable[str | URIRef], *, graph: NamedGraph = NamedGraph.CATALOG
+    ) -> set[str]:
+        """Which of these IRIs this store holds a *record* for.
+
+        Asked by any page that renders a reference the catalog may or may not
+        be able to resolve — a study's cited exhibits, the network it bound —
+        so it can link what resolves and say so about what does not. A record
+        cites what it was built from whether or not anybody catalogued it, and
+        that is the honest state: dropping the citation loses the trace, and
+        linking it promises a page that 404s.
+
+        A record root specifically, and not merely a subject appearing in the
+        graph. Any triple would match a *contained* node — a distribution, a
+        field — whose slug has no page of its own, so the check would come back
+        true for exactly the references it most needs to come back false for.
+        """
+        wanted = sorted({str(iri) for iri in iris if iri})
+        if not wanted:
+            return set()
+        rows = self.store.select(
+            f"""
+            SELECT DISTINCT ?s WHERE {{
+              GRAPH ??g {{ {_root_type_clause("?s")} }}
+              {values_clause("s", [URIRef(i) for i in wanted])}
+            }}
+            """,
+            {"g": URIRef(str(graph))},
+        )
+        return {str(row["s"]) for row in rows}
 
     def count(self, *, graph: NamedGraph = NamedGraph.CATALOG) -> int:
         rows = self.store.select(
@@ -930,6 +961,23 @@ def dataset_node(document: dict[str, Any]) -> dict[str, Any]:
         if _is_dataset_node(node):
             return node
     raise NotFound("document contains no dataset node")
+
+
+def record_node(document: dict[str, Any]) -> dict[str, Any]:
+    """The node a JSON-LD record document is *about*, whichever kind it is.
+
+    The widening of :func:`dataset_node`, and a separate function rather than a
+    flag on it. The callers that read a distribution or probe a link mean a
+    dataset specifically; handing one of those a study would let it fail
+    somewhere further down instead of at the point where the wrong kind of
+    record was asked for.
+    """
+    if _is_record_node(document):
+        return document
+    for node in document.get("@graph", []):
+        if _is_record_node(node):
+            return node
+    raise NotFound("document contains no record node")
 
 
 def normalise_literals(graph: Graph) -> Graph:

@@ -261,6 +261,15 @@ INDEX_MAPPING: dict[str, Any] = {
             # is an identifier to match exactly, and analysing it would let
             # "UE-26-0142" be found by "26".
             "study_kind": {"type": "keyword"},
+            "analysis_types": {
+                "type": "object",
+                "properties": {
+                    "iri": {"type": "keyword"},
+                    "label": {"type": "text", "analyzer": "og_text"},
+                    "notation": {"type": "keyword"},
+                },
+            },
+            "citation_id": {"type": "keyword"},
             "docket": {"type": "keyword"},
             "jurisdiction": {"type": "keyword"},
             "parent_study": {"type": "keyword"},

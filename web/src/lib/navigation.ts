@@ -21,3 +21,15 @@ export function pageOffset(value: string | null): number {
   const number = Number(value);
   return Number.isSafeInteger(number) && number >= 0 ? number : 0;
 }
+
+/** Where a search result actually lives.
+ *
+ * A study is in the same index as the datasets and is found by the same search
+ * — which is right, because somebody looking for "Cascade IRP" should find it
+ * from the catalog's one search box. It is not a dataset, though, and its page
+ * is not the record page: it has no distributions, no licence and no link
+ * health, and the seven tabs would render as seven empty ones. So the row knows
+ * where to send the reader. */
+export function recordHref(record: { id: string; record_type?: string | null }): string {
+  return record.record_type === "study" ? `/studies/${record.id}` : `/datasets/${record.id}`;
+}

@@ -173,6 +173,16 @@ def search_datasets(
     supported_analysis: Annotated[
         list[str] | None, Query(description="Analysis-type concept IRI the dataset supports.")
     ] = None,
+    analysis_type: Annotated[
+        list[str] | None,
+        Query(
+            description=(
+                "Analysis-type concept IRI a *study* answers. Distinct from "
+                "`supported_analysis`, which says what a dataset is fit to feed: a study "
+                "is not an input to an analysis, it is one."
+            )
+        ),
+    ] = None,
     voltage_class: Annotated[list[str] | None, Query()] = None,
     time_resolution: Annotated[list[str] | None, Query()] = None,
     update_cadence: Annotated[list[str] | None, Query()] = None,
@@ -267,6 +277,7 @@ def search_datasets(
             review_state=review_state,
             harvest_source=harvest_source,
             supported_analysis=supported_analysis,
+            analysis_type=analysis_type,
             voltage_class=voltage_class,
             time_resolution=time_resolution,
             update_cadence=update_cadence,
@@ -625,17 +636,12 @@ def _rationales(iri: str, records: RecordsDep) -> dict[str, str]:
 def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, str]]:
     """Display label and definition for every concept and unit the record names.
 
-    One query for all of them rather than one per field: a record with ninety
-    fields would otherwise be ninety round trips to render one page, and the
-    labels all live in the same graph.
-
-    The definition is fetched here and nowhere else. PRD §F4.2 asks that a
-    plain-language definition sit beside every resolved concept, so that a
-    field documented only through CIM or CGMES is intelligible to somebody who
-    does not own the standard — and this is the endpoint where a user is asking
-    what a field means.
+    The IRIs are gathered here and resolved by `datahub.api.vocabulary`, which
+    is also where `routers/studies.py` resolves an assumption's unit — one
+    ranking, so the same term is written the same way whichever endpoint a
+    reader arrived through.
     """
-    from datahub.graph.graphs import NamedGraph
+    from datahub.api.vocabulary import terms
     from datahub.graph.records import dataset_node
 
     try:
@@ -653,56 +659,7 @@ def _labels(record: dict[str, Any], records: RecordsDep) -> dict[str, dict[str, 
         for key in ("concept", "unit")
         if isinstance(value := field.get(key), str)
     }
-    if not iris:
-        return {}
-
-    from datahub.graph.sparql import values_clause
-    from rdflib import URIRef
-
-    rows = records.store.select(
-        f"""
-        SELECT ?iri ?p ?label ?definition WHERE {{
-          GRAPH ??vocab {{
-            ?iri ?p ?label .
-            OPTIONAL {{ ?iri skos:definition ?definition }}
-          }}
-          {values_clause("iri", [URIRef(i) for i in sorted(iris)])}
-          VALUES ?p {{ skos:prefLabel rdfs:label qudt:symbol }}
-        }}
-        """,
-        {"vocab": NamedGraph.VOCAB.uri()},
-    )
-    terms: dict[str, dict[str, str]] = {}
-    ranked: dict[str, int] = {}
-    for row in rows:
-        iri = str(row["iri"])
-        entry = terms.setdefault(iri, {})
-        rank = _LABEL_RANK.get(str(row["p"]), len(_LABEL_RANK))
-        # Ranked rather than last-write-wins. Three predicates match and the
-        # store returns them in no stated order, so a unit rendered as its
-        # symbol or its name depending on which row arrived last: the GB model's
-        # schema showed "kilovolt", "Ω" and "MVA" in the same column, from three
-        # registry entries written identically. Same record, same query, three
-        # conventions.
-        if "label" not in entry or rank < ranked.get(iri, len(_LABEL_RANK)):
-            entry["label"] = str(row["label"])
-            ranked[iri] = rank
-        if row.get("definition") is not None:
-            entry["definition"] = str(row["definition"])
-    return terms
-
-
-#: Which label to show when a term carries several, best first.
-#:
-#: The symbol wins where there is one, and only units have one: "kV" is what
-#: belongs beside a number in a table, and "kilovolt" is what belongs in prose.
-#: Concepts have no symbol, so for them this is prefLabel over rdfs:label — the
-#: SKOS-preferred name over an incidental one.
-_LABEL_RANK = {
-    "http://qudt.org/schema/qudt/symbol": 0,
-    "http://www.w3.org/2004/02/skos/core#prefLabel": 1,
-    "http://www.w3.org/2000/01/rdf-schema#label": 2,
-}
+    return terms(records, sorted(iris))
 
 
 # ---------------------------------------------------------------------------

@@ -142,6 +142,8 @@ def build_document(
         study_kind=_str(graph.value(iri, OG.studyKind)),
         docket=_str(graph.value(iri, OG.docket)),
         jurisdiction=_str(graph.value(iri, OG.jurisdiction)),
+        analysis_types=_concept_refs(graph, iri, OG.analysisType),
+        citation_id=_str(graph.value(iri, OG.citationId)),
         parent_study=_str(graph.value(iri, OG.parentStudy)),
         frozen_at=_dt(graph.value(iri, OG.frozenAt)),
         has_topology=_bool(graph.value(iri, OG.hasTopology)),

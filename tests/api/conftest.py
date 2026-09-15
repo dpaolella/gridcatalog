@@ -110,3 +110,26 @@ def empty_client(api_env) -> Iterator[TestClient]:
     bootstrap(deps.graph_store())
     with TestClient(create_app()) as test_client:
         yield test_client
+
+
+@pytest.fixture
+def registry_client(loaded) -> Iterator[TestClient]:
+    """The app with the registry fixtures loaded as well as the dataset corpus.
+
+    Separate from `client` rather than folded into the shared corpus: a great
+    many tests in this suite assert over "every record in the catalog", and
+    quietly adding two studies, two assumption sets and two run records to that
+    corpus would change what a dozen unrelated assertions are counting. The
+    tests that want the registry ask for it.
+    """
+    from datahub.api import deps
+    from datahub.api.app import create_app
+    from datahub.api.models.base import session_scope
+    from datahub.projector import reindex
+    from fixtures.loader import load_record, registry_names
+
+    for name in registry_names():
+        loaded.put(load_record(name))
+    reindex(loaded, deps.search_backend(), session_factory=session_scope)
+    with TestClient(create_app()) as test_client:
+        yield test_client

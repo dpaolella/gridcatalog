@@ -209,6 +209,24 @@ class DatasetSummary(ApiModel):
     fidelity_class: str | None = None
     question_classes: list[QuestionClassRef] = Field(default_factory=list)
     network_element_count: int | None = None
+    #: A study's own axes (#82), on the list row because that is where the
+    #: grouping happens: `/studies` reads a filing and the interventions
+    #: contesting it as one thread, and a thread is `docket` plus
+    #: `parent_study`. Fetching the detail of every row to find out which
+    #: rows belong together would make the list a function of its own length.
+    #:
+    #: Null on a dataset, always — which is what makes a null here mean "not a
+    #: study" rather than "a study that did not say".
+    study_kind: str | None = None
+    docket: str | None = None
+    jurisdiction: str | None = None
+    #: What question the study answers. Distinct from `supported_analysis`,
+    #: which says what a *dataset* is fit to feed: a study is not an input to
+    #: an analysis, it is one.
+    analysis_types: list[ConceptRef] = Field(default_factory=list)
+    citation_id: str | None = None
+    parent_study: str | None = None
+    frozen_at: datetime | None = None
     #: True when the caller sees a stub rather than the record.
     redacted: bool = False
 
@@ -248,6 +266,13 @@ class DatasetSummary(ApiModel):
             fidelity_class=doc.fidelity_class,
             question_classes=doc.question_classes,
             network_element_count=doc.network_element_count,
+            study_kind=doc.study_kind,
+            docket=doc.docket,
+            jurisdiction=doc.jurisdiction,
+            analysis_types=doc.analysis_types,
+            citation_id=doc.citation_id,
+            parent_study=doc.parent_study,
+            frozen_at=doc.frozen_at,
         )
 
     @classmethod
@@ -632,6 +657,164 @@ class DatasetDetail(DatasetSummary):
             last_computed_at=doc.last_computed_at,
             issued=doc.issued,
         )
+
+
+# ---------------------------------------------------------------------------
+# Studies, assumption sets and run records
+# ---------------------------------------------------------------------------
+#
+# A study is not a dataset and these models deliberately do not inherit from
+# `DatasetDetail`. A filing has no distributions, no licence and no link health;
+# giving it those fields as nulls would put a Downloads tab on a document that
+# has nothing to download, and the reader would read the emptiness as a broken
+# record rather than as a category difference.
+#
+# What a study does have is the thing the dataset catalog cannot express: a set
+# of parameter values, each keyed to a field path in the model it ran on, each
+# with a stated basis and a stated source. That is the tree below, and it is why
+# these are read out of the graph rather than out of the index — the index
+# carries a study's *axes*, which is what a list view needs, and this is where
+# somebody is asking what the study actually assumed.
+
+
+class AssumptionDetail(ApiModel):
+    """One parameter value, addressed by where it lands in the model."""
+
+    id: str
+    #: The Sienna field path — `Investments/Financials/TechnologyFinancialData`
+    #: `#return_on_equity`. An address, not a name: the same parameter name
+    #: appears under several components, and a reader joining a value to a
+    #: component by name alone joins the wrong one.
+    path: str | None = None
+    value: str | None = None
+    unit: str | None = None
+    unit_label: str | None = None
+    #: measured / estimated / modeled. The single most load-bearing field on
+    #: this object: 0.098 asserted and 0.098 measured are different claims, and
+    #: a filing that does not distinguish them cannot be argued with.
+    value_basis: str | None = None
+    #: The records this value is drawn from, by IRI.
+    field_sources: list[str] = Field(default_factory=list)
+    #: Of those, the ones the catalog actually holds, by slug — so the UI links
+    #: what it can resolve and says "not in this catalog" for what it cannot,
+    #: rather than rendering a link that 404s.
+    field_source_ids: list[str] = Field(default_factory=list)
+    #: Set when this value came from the set this one forked, unchanged. An
+    #: inherited value needs no defence; a changed one always does, which is
+    #: why `justification` sits beside it.
+    inherited_from: str | None = None
+    justification: str | None = None
+
+
+class AssumptionSetDetail(ApiModel):
+    id: str
+    iri: str
+    title: str | None = None
+    description: str | None = None
+    #: The schema revision the set validated against. Two sets pinned to
+    #: different revisions are not comparable value by value, however alike
+    #: their paths look.
+    schema_pin: str | None = None
+    forked_from: str | None = None
+    forked_from_id: str | None = None
+    receipt_errors: int | None = None
+    receipt_warnings: int | None = None
+    assumptions: list[AssumptionDetail] = Field(default_factory=list)
+
+
+class RunRecordDetail(ApiModel):
+    """A claim that a named party executed a named case with a named tool.
+
+    The Hub registers runs; it does not execute them, so `executed_by` is never
+    the Hub.
+    """
+
+    id: str
+    iri: str
+    tool: str | None = None
+    tool_version: str | None = None
+    solver: str | None = None
+    executed_by: str | None = None
+    executed_at: datetime | None = None
+    #: Identifies the document actually solved, rather than the study it belongs
+    #: to. Two runs of "the same" study on an edited case are not the same run.
+    case_hash: str | None = None
+    wall_time_seconds: float | None = None
+    objective_value: float | None = None
+    objective_unit: str | None = None
+    objective_unit_label: str | None = None
+    ran_assumption_set: str | None = None
+    on_reference_model: str | None = None
+    on_reference_model_id: str | None = None
+
+
+class StudyDetail(ApiModel):
+    id: str
+    iri: str
+    record_type: str = "study"
+    title: str
+    summary: str | None = None
+    description: str | None = None
+    #: filing / intervention / paper / analysis. Not a decoration: an
+    #: intervention read as a filing is a contested claim read as the record.
+    study_kind: str | None = None
+    publisher: str | None = None
+    jurisdiction: str | None = None
+    docket: str | None = None
+    version: str | None = None
+    citation_id: str | None = None
+    #: When the study's inputs stopped moving. A filing is a claim about a
+    #: moment, and without this a reader cannot tell whether it predates the
+    #: data it appears to contradict.
+    frozen_at: datetime | None = None
+    issued: datetime | None = None
+    review_state: str = "confirmed"
+    analysis_types: list[ConceptRef] = Field(default_factory=list)
+    parent_study: str | None = None
+    parent_study_id: str | None = None
+    #: The networks it ran on, by IRI and — where the catalog holds them — by
+    #: slug. This is the arrangement the registry exists to make visible: a
+    #: study is a set of choices laid over a network somebody else can download
+    #: and check.
+    bound_reference_models: list[str] = Field(default_factory=list)
+    bound_reference_model_ids: list[str] = Field(default_factory=list)
+    assumption_sets: list[AssumptionSetDetail] = Field(default_factory=list)
+    run_records: list[RunRecordDetail] = Field(default_factory=list)
+
+
+class StudyUse(ApiModel):
+    """A study that stands on a given dataset, and how."""
+
+    id: str
+    iri: str
+    title: str
+    study_kind: str | None = None
+    docket: str | None = None
+    jurisdiction: str | None = None
+    publisher: str | None = None
+    frozen_at: datetime | None = None
+    #: `reference-model` when the study bound this record as the network it ran
+    #: on; `assumption-source` when one of its assumption values cites this
+    #: record as where the number came from. Both, where both are true.
+    roles: list[str] = Field(default_factory=list)
+    #: The field paths whose values cite this record. Empty for a study that
+    #: only bound the network.
+    assumption_paths: list[str] = Field(default_factory=list)
+
+
+class StudyUsageResponse(ApiModel):
+    """Registered studies standing on one record.
+
+    Distinct from `usage_evidence`, which is a citation a harvest found in a
+    source's own metadata — a string, unverifiable, and often absent because
+    most sources have no field that could carry it. Every entry here is an
+    object in this catalog with an assumption set behind it, so "used by 2
+    studies" is a statement somebody can go and check.
+    """
+
+    dataset_id: str
+    total: int = 0
+    studies: list[StudyUse] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

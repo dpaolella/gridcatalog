@@ -30,7 +30,17 @@ from typing import Any
 from datahub.api import deps
 from datahub.api.deps import CallerDep
 from datahub.api.ratelimit import WINDOW_S, RateLimiter, enabled, exempt
-from datahub.api.routers import allowlists, auth, concepts, datasets, gaps, health, intake, review
+from datahub.api.routers import (
+    allowlists,
+    auth,
+    concepts,
+    datasets,
+    gaps,
+    health,
+    intake,
+    review,
+    studies,
+)
 from datahub.config import Settings, get_settings
 from datahub.errors import DataHubError, RateLimited
 from datahub.logging import configure_logging, get_logger
@@ -141,6 +151,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     for router in (
         datasets.router,
+        studies.router,
         concepts.router,
         gaps.router,
         intake.router,

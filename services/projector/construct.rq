@@ -66,7 +66,14 @@ WHERE {
     OPTIONAL { ?domain skos:notation ?domainNotation }
   }
   UNION {
-    ??root (og:supportedAnalysis | og:excludedAnalysis | og:outputOfAnalysis) ?analysis .
+    # `og:analysisType` belongs here and not with the three above only in the
+    # sense that it points the other way: those say what a dataset is fit to
+    # feed, this says what a study *is*. Same scheme, same labels, and leaving
+    # it out published a study tagged `integratedResourcePlan` instead of
+    # "Integrated Resource Plan" — the IRI tail, which is what the projector
+    # falls back to when no label joined.
+    ??root (og:supportedAnalysis | og:excludedAnalysis | og:outputOfAnalysis | og:analysisType)
+           ?analysis .
     ?analysis skos:prefLabel ?analysisLabel .
   }
 }

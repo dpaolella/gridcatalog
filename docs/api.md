@@ -100,6 +100,13 @@ The steward queue. Highest-leverage records first: most inbound links, then most
 | `GET` | `/v1/review` | Records awaiting review |
 | `POST` | `/v1/review/{dataset_id}/confirm` | Confirm a record, and the fields you checked |
 
+### studies
+
+| Method | Path | Summary |
+|---|---|---|
+| `GET` | `/v1/datasets/{dataset_id}/studies` | Registered studies standing on this record |
+| `GET` | `/v1/studies/{study_id}` | One study, with its assumptions and runs |
+
 ### service
 
 Health and readiness.
@@ -236,6 +243,9 @@ Search the catalog.
 | `q` | query | no | Free text. Prefix-matched on the last token. |
 | `record_type` | query | no | dataset or reference_model. |
 | `fidelity_class` | query | no | Reference models only: indicative, screening or authoritative. |
+| `study_kind` | query | no | Studies only: filing, intervention, academic or reanalysis. |
+| `docket` | query | no | Studies only: the proceeding a filing belongs to. |
+| `jurisdiction` | query | no | Studies only: the body the proceeding is before. |
 | `data_domain` | query | no | DD1-DD10, or the concept IRI. |
 | `provenance_class` | query | no |  |
 | `license` | query | no | SPDX id or LicenseRef. |
@@ -251,6 +261,7 @@ Search the catalog.
 | `review_state` | query | no |  |
 | `harvest_source` | query | no | How the record got here — see #85. |
 | `supported_analysis` | query | no | Analysis-type concept IRI the dataset supports. |
+| `analysis_type` | query | no | Analysis-type concept IRI a *study* answers. Distinct from `supported_analysis`, which says what a dataset is fit to feed: a study is not an input to an analysis, it is one. |
 | `voltage_class` | query | no |  |
 | `time_resolution` | query | no |  |
 | `update_cadence` | query | no |  |
@@ -407,6 +418,24 @@ What is loaded, what is indexed, how far behind the index is.
 
 | Name | In | Required | Description |
 |---|---|---|---|
+| `authorization` | header | no |  |
+
+### `GET /v1/datasets/{dataset_id}/studies`
+
+Which registered studies use this record, and how.
+
+| Name | In | Required | Description |
+|---|---|---|---|
+| `dataset_id` | path | yes |  |
+| `authorization` | header | no |  |
+
+### `GET /v1/studies/{study_id}`
+
+A study, the parameter values behind it, and the runs that produced it.
+
+| Name | In | Required | Description |
+|---|---|---|---|
+| `study_id` | path | yes | The study's slug, which is the last segment of its IRI — `cascade-pl-irp-2026` for `https://catalog.opengrid.org/study/cascade-pl-irp-2026`. |
 | `authorization` | header | no |  |
 
 ## Errors

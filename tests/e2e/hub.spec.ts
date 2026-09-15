@@ -298,11 +298,16 @@ test("the front page is the catalog: real facets, real rows, and every count lan
   const rows = page.locator("main li.og-card");
   expect(await rows.count()).toBeGreaterThan(0);
 
-  // The four registry kinds are peers here, including the one with nothing in
-  // it: a first screen that silently drops the empty section misdescribes what
-  // the Hub holds.
-  await expect(panel.getByRole("link", { name: /Studies & Assumptions/ })).toContainText("none yet");
-  await expect(panel.getByRole("link", { name: /Reference Models/ })).toBeVisible();
+  // Every registry kind is a peer here, whatever is in it: a first screen that
+  // silently drops a section misdescribes what the Hub holds. Studies said
+  // "none yet" until #82 gave the store a way to hold one; asserting the count
+  // rather than the word is what keeps this a test of the panel and not of how
+  // many fixtures happen to be loaded.
+  for (const kind of [/Studies & Assumptions/, /Reference Models/, /Data Catalog/]) {
+    const link = panel.getByRole("link", { name: kind });
+    await expect(link).toBeVisible();
+    await expect(link).toContainText(/none yet|\d+/);
+  }
 
   // A row carries what a modeller rejects on without opening it — domain,
   // provenance, completeness, licence — and the last of the five, which the

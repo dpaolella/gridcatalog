@@ -290,6 +290,16 @@ class SearchDocument(BaseModel):
     #: thread `/studies` groups on.
     docket: str | None = None
     jurisdiction: str | None = None
+    #: What question the study answers, from the analysis-type scheme. An IRP,
+    #: a production-cost run and a power-flow study are different objects, and
+    #: `og:supportedAnalysis` cannot carry this: that field says what a
+    #: *dataset* is fit to feed, and a study is not an input to an analysis, it
+    #: is one.
+    analysis_types: list[ConceptRef] = Field(default_factory=list)
+    #: How to cite the frozen version. On the document because a reader who
+    #: found the study through search should be able to quote it without
+    #: opening the record.
+    citation_id: str | None = None
     #: The study this one contests or extends, by IRI.
     parent_study: str | None = None
     #: When the study's inputs were frozen. Distinct from `issued`: a filing is
@@ -379,6 +389,7 @@ class SearchDocument(BaseModel):
             *(c.label for c in self.data_domains),
             *(c.label for c in self.concepts),
             *(c.label for c in self.supported_analysis),
+            *(c.label for c in self.analysis_types),
             *self.spatial.place_labels,
             self.license_id,
             self.provenance_class,
@@ -430,6 +441,7 @@ FACET_FIELDS: dict[str, str] = {
     "anonymous_access": "anonymous_access",
     "bulk_download": "bulk_download",
     "supported_analysis": "supported_analysis.iri",
+    "analysis_type": "analysis_types.iri",
     "concept": "concepts.iri",
     "harvest_source": "harvest_source",
     "field_count_bucket": "field_count_bucket",

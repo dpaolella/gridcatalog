@@ -221,13 +221,18 @@ function snapshotFile(path: string): string | null {
   if (route === "/v1/gaps") return "gaps.json";
   if (route === "/v1/datasets") return "index.json";
 
-  const detail = /^\/v1\/datasets\/([^/]+)(?:\/(schema|quality|distributions|links))?$/.exec(
-    route,
-  );
+  const detail =
+    /^\/v1\/datasets\/([^/]+)(?:\/(schema|quality|distributions|links|studies))?$/.exec(route);
   if (detail) {
     const [, id, part] = detail;
     return `datasets/${id}/${part ?? "record"}.json`;
   }
+
+  // A study's own detail, under `studies/` rather than `datasets/`, because a
+  // study is not a dataset and the exporter writes it where the site routes it.
+  const study = /^\/v1\/studies\/([^/]+)$/.exec(route);
+  if (study) return `studies/${study[1]}.json`;
+
   return null;
 }
 
@@ -324,6 +329,17 @@ export interface DatasetSummary {
   fidelity_class?: string | null;
   question_classes?: QuestionClass[];
   network_element_count?: number | null;
+  /** A study's own axes. Absent on a dataset, always — which is what lets
+   *  `/studies` group a filing with the interventions contesting it from list
+   *  rows alone, without fetching the detail of every row to find out which
+   *  rows belong together. */
+  study_kind?: string | null;
+  docket?: string | null;
+  jurisdiction?: string | null;
+  analysis_types?: ConceptRef[];
+  citation_id?: string | null;
+  parent_study?: string | null;
+  frozen_at?: string | null;
 }
 
 export interface UsageEvidence {
@@ -707,6 +723,154 @@ export const getDistributions = (id: string) =>
 
 export const getLinks = (id: string) =>
   request<LinksResponse>(`/v1/datasets/${id}/links`, { personalized: true, revalidate: RECORD_REVALIDATE });
+
+// ---------------------------------------------------------------------------
+// Studies (#82)
+// ---------------------------------------------------------------------------
+
+export interface Assumption {
+  id: string;
+  /** The Sienna field path — an address, not a name. The same parameter name
+   *  appears under several components, so a reader joining a value to a
+   *  component by name alone joins the wrong one. */
+  path?: string | null;
+  value?: string | null;
+  unit?: string | null;
+  unit_label?: string | null;
+  /** measured / estimated / modeled. 0.098 asserted and 0.098 measured are
+   *  different claims. */
+  value_basis?: string | null;
+  /** Where the value came from, by IRI — present whether or not this catalog
+   *  holds a record for it. */
+  field_sources: string[];
+  /** Of those, the ones that resolve to a record here. Anything in
+   *  `field_sources` and not here is a real document this catalog has no copy
+   *  of, and is named rather than linked. */
+  field_source_ids: string[];
+  inherited_from?: string | null;
+  justification?: string | null;
+}
+
+export interface AssumptionSet {
+  id: string;
+  iri: string;
+  title?: string | null;
+  description?: string | null;
+  schema_pin?: string | null;
+  forked_from?: string | null;
+  forked_from_id?: string | null;
+  receipt_errors?: number | null;
+  receipt_warnings?: number | null;
+  assumptions: Assumption[];
+}
+
+export interface RunRecord {
+  id: string;
+  iri: string;
+  tool?: string | null;
+  tool_version?: string | null;
+  solver?: string | null;
+  executed_by?: string | null;
+  executed_at?: string | null;
+  case_hash?: string | null;
+  wall_time_seconds?: number | null;
+  objective_value?: number | null;
+  objective_unit?: string | null;
+  objective_unit_label?: string | null;
+  ran_assumption_set?: string | null;
+  on_reference_model?: string | null;
+  on_reference_model_id?: string | null;
+}
+
+export interface StudyDetail {
+  id: string;
+  iri: string;
+  record_type?: string;
+  title: string;
+  summary?: string | null;
+  description?: string | null;
+  study_kind?: string | null;
+  publisher?: string | null;
+  jurisdiction?: string | null;
+  docket?: string | null;
+  version?: string | null;
+  citation_id?: string | null;
+  frozen_at?: string | null;
+  issued?: string | null;
+  review_state?: string;
+  analysis_types: ConceptRef[];
+  parent_study?: string | null;
+  parent_study_id?: string | null;
+  bound_reference_models: string[];
+  bound_reference_model_ids: string[];
+  assumption_sets: AssumptionSet[];
+  run_records: RunRecord[];
+}
+
+export interface StudyUse {
+  id: string;
+  iri: string;
+  title: string;
+  study_kind?: string | null;
+  docket?: string | null;
+  jurisdiction?: string | null;
+  publisher?: string | null;
+  frozen_at?: string | null;
+  /** `reference-model`, `assumption-source`, or both. */
+  roles: string[];
+  assumption_paths: string[];
+}
+
+export interface StudyUsage {
+  dataset_id: string;
+  total: number;
+  studies: StudyUse[];
+}
+
+/** Every study in the catalog.
+ *
+ * Filtered here as well as asked for, because the two builds answer a filter
+ * differently: the live API applies `record_type`, and the snapshot arm of
+ * `search` serves the whole index and leaves filtering to the browser. Without
+ * the second pass the static `/studies` page would list the entire catalog
+ * under a studies heading — an information architecture telling a lie, which
+ * is the exact failure the section's original empty state was written to
+ * avoid. `listReferenceModels` carries the same pair for the same reason. */
+export async function listStudies(): Promise<DatasetSummary[] | null> {
+  try {
+    const response = await search({ record_type: "study", limit: "200" });
+    return response.results.filter((r) => r.record_type === "study");
+  } catch {
+    return null;
+  }
+}
+
+/** Every study id in the snapshot, for `generateStaticParams`. */
+export async function snapshotStudyIds(): Promise<string[]> {
+  if (!IS_SNAPSHOT) return [];
+  const index = await request<{ results: DatasetSummary[] }>("/v1/datasets");
+  return index.results.filter((d) => d.record_type === "study").map((d) => d.id);
+}
+
+export const getStudy = (id: string) =>
+  request<StudyDetail>(`/v1/studies/${id}`, { revalidate: RECORD_REVALIDATE });
+
+/** Registered studies standing on a record.
+ *
+ * Never fatal, and null rather than an empty list when it cannot be read: a
+ * record page that failed because a *supplementary* count could not be
+ * fetched would be worse than one that omits the count. Null means "not
+ * known"; `{total: 0}` means "nothing registered", and the page says different
+ * things for the two. */
+export async function getStudyUsage(id: string): Promise<StudyUsage | null> {
+  try {
+    return await request<StudyUsage>(`/v1/datasets/${id}/studies`, {
+      revalidate: RECORD_REVALIDATE,
+    });
+  } catch {
+    return null;
+  }
+}
 
 /** Returns a bare array. Typed as one rather than assumed to be an envelope:
  * the two shapes are one refactor apart, and the failure is a 500 on a page

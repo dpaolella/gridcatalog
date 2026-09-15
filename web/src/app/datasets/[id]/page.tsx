@@ -13,9 +13,12 @@ import {
   getLinks,
   getQuality,
   getSchema,
+  getStudyUsage,
   snapshotDatasetIds,
 } from "@/lib/api";
+import { EmptyState } from "@/components/EmptyState";
 import { QualityBadges } from "@/components/QualityBadges";
+import { StudyUsage } from "@/components/StudyUsage";
 import { Rule } from "@/components/Brand";
 import { DatasetTabs } from "@/components/DatasetTabs";
 import { Lineage } from "@/components/Lineage";
@@ -106,13 +109,34 @@ export default async function DatasetPage({ params }: { params: Params }) {
     throw error;
   }
 
+  // A study reached through `/datasets/...`. The list rows send studies to
+  // `/studies/[id]`, so nobody arrives here by clicking — but a link written
+  // before the section existed, or a reader editing a URL, still lands on a
+  // real record, and rendering it with seven empty tabs would read as a broken
+  // record rather than as a different kind of thing. Before the fetches below,
+  // which would every one of them come back empty.
+  if (dataset.record_type === "study") {
+    const study = await getTranslations("study");
+    return (
+      <article className="space-y-6">
+        <EmptyState
+          title={study("onDataset")}
+          action={{ href: `/studies/${dataset.id}`, label: dataset.title }}
+        >
+          <p>{study("onDatasetHelp")}</p>
+        </EmptyState>
+      </article>
+    );
+  }
+
   // Fetched together, and each allowed to fail on its own: a broken link
   // prober should not take the whole record page down with it.
-  const [schema, quality, distributions, links] = await Promise.all([
+  const [schema, quality, distributions, links, studies] = await Promise.all([
     getSchema(id).catch(() => null),
     getQuality(id).catch(() => null),
     getDistributions(id).catch(() => []),
     getLinks(id).catch(() => null),
+    getStudyUsage(id),
   ]);
 
   const levelKey = String(dataset.completeness_level) as "1" | "2" | "3";
@@ -205,6 +229,16 @@ export default async function DatasetPage({ params }: { params: Params }) {
             the grade says "modeled" and this says how far from an observation
             that leaves you (#52). */}
         <Lineage dataset={dataset} />
+
+        {/* Distinct from the citations on the Connections tab, and the
+            distinction is the whole point of #82. `usage_evidence` is a string
+            a harvest found in a source's own metadata: unverifiable, and absent
+            for most records because most sources have no field that could carry
+            one. Every study here is an object in this catalog with an
+            assumption set behind it, so "used by 2 studies" is a claim a reader
+            can go and check rather than one the catalog is asking to be trusted
+            on. */}
+        <StudyUsage usage={studies} isReferenceModel={dataset.record_type === "reference_model"} />
       </header>
 
       {dataset.record_type === "reference_model" && !dataset.redacted ? (

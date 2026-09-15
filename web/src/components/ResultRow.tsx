@@ -6,7 +6,7 @@ import type { DatasetSummary } from "@/lib/api";
 import { cadenceText, formatCadence, formatDate, formatSpan, iriTail } from "@/lib/format";
 import { CoverageMap, CoverageTimeline } from "@/components/Coverage";
 import { QualityBadges } from "@/components/QualityBadges";
-import { catalogReturn } from "@/lib/navigation";
+import { catalogReturn, recordHref } from "@/lib/navigation";
 
 /**
  * One list row (PRD §F3): title, creator, summary, domain, provenance and
@@ -55,7 +55,7 @@ export function ResultRow({ dataset, returnTo }: { dataset: DatasetSummary; retu
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <Link
-              href={{ pathname: `/datasets/${dataset.id}`, query: returnTo ? { returnTo: catalogReturn(returnTo) } : undefined }}
+              href={{ pathname: recordHref(dataset), query: returnTo ? { returnTo: catalogReturn(returnTo) } : undefined }}
               className="text-lg font-semibold hover:underline"
             >
               {dataset.title}

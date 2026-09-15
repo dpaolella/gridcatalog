@@ -152,6 +152,8 @@ class Snapshot:
 
             for summary in summaries:
                 self._export_record(client, summary["id"])
+                if summary.get("record_type") == "study":
+                    self._export_study(client, summary["id"])
         finally:
             object.__setattr__(settings, "rate_limit_enabled", was_enabled)
 
@@ -215,6 +217,11 @@ class Snapshot:
             ("quality", f"/v1/datasets/{dataset_id}/quality"),
             ("distributions", f"/v1/datasets/{dataset_id}/distributions"),
             ("links", f"/v1/datasets/{dataset_id}/links"),
+            # Never first in this tuple: a record with no registered study
+            # answers 200 with a total of 0, so a 404 here would be a genuine
+            # fault rather than the restricted-metadata stub the index check
+            # below is reading.
+            ("studies", f"/v1/datasets/{dataset_id}/studies"),
         )
         for index, (name, path) in enumerate(parts):
             body = self._try(client, path, dataset_id, name, quiet=True)
@@ -227,6 +234,19 @@ class Snapshot:
                     return
                 continue
             self._write(f"datasets/{dataset_id}/{name}.json", body)
+
+    def _export_study(self, client: Any, study_id: str) -> None:
+        """A study's assumption sets and run records.
+
+        Under `studies/` rather than `datasets/`, because a study is not a
+        dataset and the published site routes it as its own kind. The list row
+        still comes from `index.json` like every other record — a study is in
+        the catalog and searchable alongside the datasets, it just does not
+        have a Downloads tab.
+        """
+        body = self._try(client, f"/v1/studies/{study_id}", study_id, "study")
+        if body is not None:
+            self._write(f"studies/{study_id}.json", body)
 
     def _try(
         self, client: Any, path: str, dataset_id: str, part: str, *, quiet: bool = False

@@ -25,6 +25,9 @@
       "boundReferenceModel": [
         "https://catalog.opengrid.org/ds/gb-osm-reference"
       ],
+      "hasRunRecord": [
+        "https://catalog.opengrid.org/run/R-0537"
+      ],
       "issued": "2026-05-19T00:00:00Z"
     }
   ]
