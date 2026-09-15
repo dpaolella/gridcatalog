@@ -89,17 +89,12 @@ jobs:
           # The registry fixtures. Invented, and each says so in its own
           # description — invented richness attaches only to invented entities,
           # never to a real publisher's name (#85).
-          # Only the reference model, which is also a `dcat:Dataset` and so is
-          # something `record load` can write. The study, its assumption sets
-          # and its run records are not datasets, and the loader refuses a
-          # record with no `dcat:Dataset` node rather than inventing an
-          # identity for it — correctly, and it exits non-zero, which would
-          # take the build down. They land when #82 teaches the store about
-          # non-dataset records.
-          cp tests/fixtures/registry/gb-osm-reference-model.jsonld \
-             tests/fixtures/registry/de-osm-reference-model.jsonld \
-             tests/fixtures/registry/kpg-193-reference-model.jsonld \
-             var/site/curated/
+          # The whole registry, not a hand-picked three. The loader used to
+          # refuse anything without a `dcat:Dataset` node, so the study, its
+          # assumption sets and its run records had to be excluded by name —
+          # a list that silently stopped covering whatever was added next.
+          # #82 gave the other three kinds an identity of their own.
+          cp tests/fixtures/registry/*.jsonld var/site/curated/
 
           .venv/bin/datahub db upgrade
           .venv/bin/datahub graph bootstrap

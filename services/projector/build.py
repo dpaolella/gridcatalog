@@ -136,6 +136,14 @@ def build_document(
         fidelity_class=_str(graph.value(iri, OG.fidelityClass)),  # type: ignore[arg-type]
         question_classes=_question_classes(graph, iri),
         network_element_count=_int(graph.value(iri, OG.networkElementCount)),
+        # A study's own axes (#82). Every one is absent on a dataset, so a
+        # missing value means "not a study" rather than "a study that did not
+        # say" — which is what makes them safe to facet on.
+        study_kind=_str(graph.value(iri, OG.studyKind)),
+        docket=_str(graph.value(iri, OG.docket)),
+        jurisdiction=_str(graph.value(iri, OG.jurisdiction)),
+        parent_study=_str(graph.value(iri, OG.parentStudy)),
+        frozen_at=_dt(graph.value(iri, OG.frozenAt)),
         has_topology=_bool(graph.value(iri, OG.hasTopology)),
         has_impedance=_bool(graph.value(iri, OG.hasImpedance)),
         voltage_classes=sorted(_strs(graph, iri, OG.voltageClass)),
@@ -175,9 +183,15 @@ def _record_type(graph: Graph, iri: URIRef) -> str:
     path and a publisher like any other, and the catalog's constraints are
     exactly the ones it should satisfy. So the check is for the narrower type
     and the broader one is the fallback, not the other way round.
+
+    A study is not a dataset at all — no distribution, no licence, no
+    completeness level — so it is checked for by its own type and the dataset
+    fallback never reaches it (#82).
     """
     if (iri, RDF.type, OG.ReferenceModel) in graph:
         return "reference_model"
+    if (iri, RDF.type, OG.Study) in graph:
+        return "study"
     return "dataset"
 
 

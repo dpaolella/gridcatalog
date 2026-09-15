@@ -96,18 +96,13 @@ jobs:
           .venv/bin/datahub graph bootstrap
           .venv/bin/datahub record load tests/fixtures/records
 
-          # Staged into a directory because `record load` takes one. Only the
-          # reference model: it is also a `dcat:Dataset` and so is something the
-          # loader can write. The study, its assumption sets and its run records
-          # are not, and the loader refuses a record with no `dcat:Dataset` node
-          # rather than inventing an identity for it — correctly, and it exits
-          # non-zero. They land when #82 teaches the store about them.
-          mkdir -p var/e2e/registry
-          cp tests/fixtures/registry/gb-osm-reference-model.jsonld \
-             tests/fixtures/registry/de-osm-reference-model.jsonld \
-             tests/fixtures/registry/kpg-193-reference-model.jsonld \
-             var/e2e/registry/
-          .venv/bin/datahub record load var/e2e/registry
+          # The whole registry now, not a hand-picked three. The loader used to
+          # refuse anything without a `dcat:Dataset` node, so the study, its
+          # assumption sets and its run records could not be written and had to
+          # be left out by name — which meant a list that silently stopped
+          # covering whatever was added next. #82 gave the other three kinds an
+          # identity of their own, so the directory loads whole.
+          .venv/bin/datahub record load tests/fixtures/registry
           # The allow-list grants the entitled-browser flow signs in against.
           # Before the reindex, not after: membership is not resolved per
           # request, it is projected onto each document as

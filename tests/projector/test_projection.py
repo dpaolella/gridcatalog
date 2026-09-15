@@ -277,3 +277,55 @@ def test_a_concept_filter_matches_through_the_hierarchy(loaded) -> None:
     assert {"ecmwf-era5", "global-wind-atlas", "pypsa-eur-weather-cutouts"} <= {
         h.document.id for h in response.hits
     }
+
+
+def test_a_study_projects_its_own_axes_and_a_dataset_carries_none_of_them() -> None:
+    """A study is the one indexed kind that is not a dataset (#82).
+
+    It has no distribution, no licence and no completeness level, so the fields
+    a reader chooses one on are its own: what kind of filing it is, the docket
+    it belongs to, the study it contests, and when its inputs were frozen.
+
+    The second half of the assertion is the one that makes them safe to facet.
+    Every study field is absent on every dataset, so `study_kind is None` means
+    "not a study" and never "a study that did not say" — and a facet over the
+    catalog therefore counts studies and nothing else.
+    """
+    from datahub.graph.loader import bootstrap
+    from datahub.graph.records import RecordStore
+    from datahub.graph.store import RdflibStore
+    from datahub.projector.build import build_document
+    from fixtures.loader import load_record
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    for name in ("cascade-irp-2026", "coalition-intervention-ue-26-0142", "ecmwf-era5"):
+        records.put(load_record(name))
+
+    graph = records.get_graph(
+        "https://catalog.opengrid.org/study/coalition-intervention-ue-26-0142"
+    )
+    study = build_document(
+        graph, "https://catalog.opengrid.org/study/coalition-intervention-ue-26-0142"
+    )
+
+    assert study.record_type == "study"
+    assert study.study_kind == "intervention"
+    assert study.docket == "UE-26-0142"
+    assert study.jurisdiction
+    # The pointer that makes a filing and the case against it one thread.
+    assert study.parent_study == "https://catalog.opengrid.org/study/cascade-pl-irp-2026"
+    assert study.frozen_at is not None
+
+    dataset = build_document(
+        records.get_graph("https://catalog.opengrid.org/ds/ecmwf-era5"),
+        "https://catalog.opengrid.org/ds/ecmwf-era5",
+    )
+    assert dataset.record_type == "dataset"
+    assert (dataset.study_kind, dataset.docket, dataset.parent_study, dataset.frozen_at) == (
+        None,
+        None,
+        None,
+        None,
+    )

@@ -45,9 +45,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN set -eux; \
     mkdir -p var/site/curated; \
     cp tests/fixtures/records/*.jsonld var/site/curated/; \
-    cp tests/fixtures/registry/gb-osm-reference-model.jsonld \
-       tests/fixtures/registry/de-osm-reference-model.jsonld \
-       tests/fixtures/registry/kpg-193-reference-model.jsonld var/site/curated/; \
+    cp tests/fixtures/registry/*.jsonld var/site/curated/; \
     rm -f var/site/curated/caiso-nodal-lmp-restricted.jsonld \
           var/site/curated/utility-load-shapes-allowlisted.jsonld; \
     datahub db upgrade; \

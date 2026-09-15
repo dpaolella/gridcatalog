@@ -17,7 +17,7 @@ from datahub.api.search.backend import SearchBackend
 from datahub.api.search.document import SearchDocument
 from datahub.config import Settings, get_settings
 from datahub.graph.graphs import PUBLISHED_STATES, NamedGraph
-from datahub.graph.records import RecordStore, slug_of
+from datahub.graph.records import PROJECTED_ROOT_TYPES, RecordStore, slug_of
 from datahub.logging import get_logger
 from datahub.projector.index import Projector
 
@@ -64,7 +64,11 @@ def reindex(
     if clear:
         backend.clear()
 
-    ids = records.list_ids(graph=NamedGraph.CATALOG)
+    # Only the kinds that become search rows. An assumption set and a run
+    # record are records with their own identity and their own shape, and
+    # neither is something a modeller searches for — they are read from the
+    # study that binds them. See `PROJECTED_ROOT_TYPES`.
+    ids = records.list_ids(graph=NamedGraph.CATALOG, kinds=PROJECTED_ROOT_TYPES)
     pending: list[SearchDocument] = []
     indexed = skipped = 0
     errors: list[str] = []

@@ -257,6 +257,14 @@ INDEX_MAPPING: dict[str, Any] = {
             "record_type": {"type": "keyword"},
             "fidelity_class": {"type": "keyword"},
             "network_element_count": {"type": "integer"},
+            # A study's axes (#82). Keywords rather than text: a docket number
+            # is an identifier to match exactly, and analysing it would let
+            # "UE-26-0142" be found by "26".
+            "study_kind": {"type": "keyword"},
+            "docket": {"type": "keyword"},
+            "jurisdiction": {"type": "keyword"},
+            "parent_study": {"type": "keyword"},
+            "frozen_at": {"type": "date"},
             # Nested rather than object: a question class only means anything
             # as a whole row. Flattened, a model rated robust for cost and
             # unknown for adequacy would match a query for "robust adequacy",

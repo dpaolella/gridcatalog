@@ -377,3 +377,100 @@ def test_a_description_containing_a_placeholder_sequence_still_writes() -> None:
 
     read_back = dataset_node(records.get("global-wind-atlas"))
     assert "world'??s" in read_back["description"]
+
+
+# ---- the registry's other three kinds (#82) --------------------------------
+
+
+def _registry_names() -> tuple[str, ...]:
+    from fixtures.loader import registry_names
+
+    return registry_names()
+
+
+@pytest.fixture(scope="module")
+def registry():
+    """Every registry fixture written to a store: models, studies, sets, runs."""
+    from fixtures.loader import registry_names
+
+    store = RdflibStore()
+    bootstrap(store)
+    records = RecordStore(store)
+    for name in registry_names():
+        records.put(load_record(name))
+    return records
+
+
+@pytest.mark.parametrize("name", _registry_names())
+def test_every_registry_kind_can_be_written_and_read_back(registry, name: str) -> None:
+    """A record's identity is its own IRI, whatever kind it is.
+
+    The store used to key every record on a `dcat:Dataset` node, which is a
+    reference model but is not a study, an assumption set or a run record. All
+    three were refused at the door — `record contains no dcat:Dataset node with
+    an IRI` — so three of the registry's four kinds had shapes, fixtures and a
+    validator, and no way into the store. Both CI workflows and the MCP image
+    worked around it by naming the three loadable files.
+    """
+    written = load_record(name)
+    root = written["@graph"][0]["id"]
+    assert registry.exists(root), f"{name} was written and cannot be found"
+
+    read = registry.get(root)
+    assert dataset_node(read) if "Dataset" in str(written["@graph"][0]["type"]) else read
+
+
+def test_a_document_describing_two_records_is_refused(registry) -> None:
+    """One record per document, whatever the kind.
+
+    The rule predates studies and is the reason the fixtures were split: a
+    document holding a filing *and* the intervention against it has no single
+    review state and no single subgraph boundary, so there is no honest way to
+    write it as one thing. Widening identity to four kinds must not quietly
+    widen this too.
+    """
+    filing = load_record("cascade-irp-2026")
+    intervention = load_record("coalition-intervention-ue-26-0142")
+    both = {**filing, "@graph": filing["@graph"] + intervention["@graph"]}
+
+    with pytest.raises(ValidationFailed, match="2 record nodes"):
+        registry.put(both)
+
+
+def test_a_study_does_not_absorb_the_model_it_ran_on(registry) -> None:
+    """A record's subgraph stops at another record's boundary.
+
+    A run record points at its assumption set and at the reference model it
+    ran on; a study points at the model too. If the subgraph walk followed
+    those the way it follows `og:hasField`, writing one record would rewrite
+    another — and deleting the study would delete the model.
+    """
+    run = registry.get("https://catalog.opengrid.org/run/R-0412")
+    # A record with one node and nothing contained comes back flat rather than
+    # wrapped in a `@graph`, which is what "nothing was dragged in" looks like.
+    nodes = run.get("@graph", [run])
+    ids = {n["id"] for n in nodes if isinstance(n, dict) and "id" in n}
+    assert ids == {"https://catalog.opengrid.org/run/R-0412"}, (
+        f"the run record dragged another record into its own subgraph: {sorted(ids)}"
+    )
+    # The pointers are still there; it is the *contents* that must not be.
+    root = next(n for n in nodes if n["id"].endswith("R-0412"))
+    assert root["onReferenceModel"] == "https://catalog.opengrid.org/ds/gb-osm-reference"
+    assert root["ranAssumptionSet"].endswith("cascade-irp-2026-v1")
+
+
+def test_an_assumption_belongs_to_its_set(registry) -> None:
+    """Contained, the way a field belongs to a dataset.
+
+    An assumption is one row of one filing's parameters; it is never shared,
+    and a fork restates the value it changed rather than pointing at the
+    original. Absent from `CONTAINMENT_PREDICATES` the set would come back
+    carrying three IRIs that resolve to nothing — the failure
+    `og:questionClassPartition` already records.
+    """
+    document = registry.get("https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1")
+    root = document.get("@graph", [document])[0]
+    assert len(root["hasAssumption"]) == 3
+    for assumption in root["hasAssumption"]:
+        assert isinstance(assumption, dict), "an assumption came back as a bare IRI"
+        assert assumption["assumptionPath"], "the contained node is empty"

@@ -96,6 +96,21 @@ def search_datasets(
         list[str] | None,
         Query(description="Reference models only: indicative, screening or authoritative."),
     ] = None,
+    # Studies only (#82). Absent on every other kind, so filtering on one of
+    # these returns studies and nothing else — which is what makes them usable
+    # as the axes `/studies` groups on.
+    study_kind: Annotated[
+        list[str] | None,
+        Query(description="Studies only: filing, intervention, academic or reanalysis."),
+    ] = None,
+    docket: Annotated[
+        list[str] | None,
+        Query(description="Studies only: the proceeding a filing belongs to."),
+    ] = None,
+    jurisdiction: Annotated[
+        list[str] | None,
+        Query(description="Studies only: the body the proceeding is before."),
+    ] = None,
     data_domain: Annotated[
         list[str] | None, Query(description="DD1-DD10, or the concept IRI.")
     ] = None,
@@ -234,6 +249,9 @@ def search_datasets(
         filters=_filters(
             record_type=record_type,
             fidelity_class=fidelity_class,
+            study_kind=study_kind,
+            docket=docket,
+            jurisdiction=jurisdiction,
             data_domain=data_domain,
             provenance_class=provenance_class,
             license=license,

@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.opengrid.org/context/opengrid-datahub.jsonld",
+  "@graph": [
+    {
+      "id": "https://catalog.opengrid.org/run/R-0412",
+      "type": "RunRecord",
+      "reviewState": "confirmed",
+      "ranAssumptionSet": "https://catalog.opengrid.org/assumptions/cascade-irp-2026-v1",
+      "onReferenceModel": "https://catalog.opengrid.org/ds/gb-osm-reference",
+      "executedBy": "Cascade Power & Light planning group (fictional)",
+      "caseHash": "9f2c4a17b8e35d6042cf91ae7b3d8c5019e6f4a2b7c8d093e15f2a6b4c7d8e90",
+      "tool": "PyPSA",
+      "toolVersion": "0.31.2",
+      "solver": "HiGHS 1.7.2",
+      "executedAt": "2026-03-28T11:42:06Z",
+      "wallTimeSeconds": 4180.0,
+      "objectiveValue": 18420000000.0,
+      "objectiveUnit": "http://qudt.org/vocab/unit/USD"
+    }
+  ]
+}

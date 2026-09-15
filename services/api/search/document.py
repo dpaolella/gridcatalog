@@ -30,7 +30,7 @@ Visibility = Literal["public", "restricted-metadata", "allowlisted-existence"]
 #: Defaulted to "dataset" on purpose. Every record written before this field
 #: existed is a dataset, and a default means a reindex does not have to
 #: rewrite them to stay correct.
-RecordType = Literal["dataset", "reference_model"]
+RecordType = Literal["dataset", "reference_model", "study"]
 
 #: Declared fidelity of a reference model, from `og:ReferenceModelShape`.
 #: Closed, because the Hub vision's escalation path from indicative to
@@ -273,6 +273,29 @@ class SearchDocument(BaseModel):
     fidelity_class: FidelityClass | None = None
     question_classes: list[QuestionClassRef] = Field(default_factory=list)
     network_element_count: int | None = None
+
+    # -- study (#82) --
+    #
+    # A study is the one indexed kind that is not a dataset: no distribution,
+    # no licence, no completeness level. The fields below are what a reader
+    # chooses one on, and each is `None` on every other kind — which is what
+    # makes them safe to facet, because an absent value is "not a study"
+    # rather than "a study that did not say".
+    #:
+    #: filing / intervention / academic / reanalysis. The axis that separates a
+    #: utility's own plan from the case made against it, which is the whole
+    #: reason this section exists.
+    study_kind: str | None = None
+    #: The proceeding a filing belongs to. Two studies sharing one are the
+    #: thread `/studies` groups on.
+    docket: str | None = None
+    jurisdiction: str | None = None
+    #: The study this one contests or extends, by IRI.
+    parent_study: str | None = None
+    #: When the study's inputs were frozen. Distinct from `issued`: a filing is
+    #: published after the numbers behind it stopped moving, and it is the
+    #: freeze a reader needs to reproduce it.
+    frozen_at: datetime | None = None
     voltage_classes: list[str] = Field(default_factory=list)
     field_count: int = 0
     field_count_bucket: str = "none"
@@ -372,6 +395,9 @@ SEARCH_DOCUMENT_FIELDS: frozenset[str] = frozenset(SearchDocument.model_fields)
 FACET_FIELDS: dict[str, str] = {
     "record_type": "record_type",
     "fidelity_class": "fidelity_class",
+    "study_kind": "study_kind",
+    "docket": "docket",
+    "jurisdiction": "jurisdiction",
     "data_domain": "data_domains.iri",
     "provenance_class": "provenance_class",
     "license": "license_id",

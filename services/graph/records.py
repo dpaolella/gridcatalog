@@ -78,11 +78,52 @@ CONTAINMENT_PREDICATES: tuple[URIRef, ...] = (
     # projects a fixture graph directly, because that graph has never been
     # through the store.
     OG.questionClassPartition,
+    # An assumption belongs to its set for the same reason: it is one row of
+    # one filing's parameters, it is never shared between two sets — a fork
+    # restates the value it changed rather than pointing at the original — and
+    # deleting the set must take it with it. Without this the set would be
+    # written and read back carrying three `og:hasAssumption` IRIs resolving to
+    # nothing, which is the failure `og:questionClassPartition` above records.
+    OG.hasAssumption,
     OG.sharedOriginWarning,
     DCTERMS.temporal,
     RDF.first,
     RDF.rest,
 )
+
+#: The types a record can have at its root — the registry's four kinds.
+#:
+#: A record is one thing the catalog holds, identified by one IRI, written and
+#: replaced as a unit. For most of this project's life that meant a
+#: `dcat:Dataset`, because it was the only kind there was: a reference model is
+#: also a dataset, so it needed no new identity.
+#:
+#: A study is not a dataset and neither is an assumption set or a run record.
+#: They have no distribution, no licence and no completeness level, and forcing
+#: them to declare one so the store would accept them would be inventing
+#: metadata to satisfy a type check. So the store's notion of identity widens
+#: instead, and every place that meant "a record" rather than "a dataset" reads
+#: from here (#82).
+RECORD_ROOT_TYPES: tuple[URIRef, ...] = (
+    DCAT.Dataset,
+    OG.Study,
+    OG.AssumptionSet,
+    OG.RunRecord,
+)
+
+#: The kinds that become rows in the search index.
+#:
+#: Not all of them, and the omission is a judgement rather than an oversight. An
+#: assumption set is one filing's parameters and a run record is one execution
+#: of them; neither is a thing a modeller searches the catalog *for*, and both
+#: are read from the study that binds them. Indexed anyway they would be catalog
+#: rows carrying no licence, no coverage and no completeness level — four fields
+#: of a result card empty on every one of them — which reads as a badly
+#: described dataset rather than as a different kind of object.
+#:
+#: They are still records: stored under their own IRI, validated by their own
+#: shape, retrievable and linkable. What they are not is search results.
+PROJECTED_ROOT_TYPES: tuple[URIRef, ...] = (DCAT.Dataset, OG.Study)
 
 
 @dataclass(slots=True)
@@ -148,7 +189,7 @@ class RecordStore:
         graphs = (graph,) if graph else (NamedGraph.CATALOG, NamedGraph.DRAFT)
         for name in graphs:
             if self.store.ask(
-                "ASK { GRAPH ??g { ??s a dcat:Dataset } }",
+                f"ASK {{ GRAPH ??g {{ {_root_type_clause('??s')} }} }}",
                 {"g": URIRef(str(name)), "s": self._iri(dataset_id)},
             ):
                 return True
@@ -229,9 +270,16 @@ class RecordStore:
         graph: NamedGraph = NamedGraph.CATALOG,
         limit: int | None = None,
         offset: int = 0,
+        kinds: tuple[URIRef, ...] = RECORD_ROOT_TYPES,
     ) -> list[str]:
-        query = """
-        SELECT ?s WHERE { GRAPH ??g { ?s a dcat:Dataset } } ORDER BY ?s
+        """Every record in a graph, or every record of the given kinds.
+
+        The caller says which, because "every record" and "everything that
+        belongs in the search index" are different questions and the reindex
+        asks the second one.
+        """
+        query = f"""
+        SELECT DISTINCT ?s WHERE {{ GRAPH ??g {{ {_root_type_clause(kinds=kinds)} }} }} ORDER BY ?s
         """
         if limit is not None:
             query += f"\nLIMIT {int(limit)} OFFSET {int(offset)}"
@@ -240,7 +288,7 @@ class RecordStore:
 
     def count(self, *, graph: NamedGraph = NamedGraph.CATALOG) -> int:
         rows = self.store.select(
-            "SELECT (COUNT(DISTINCT ?s) AS ?n) WHERE { GRAPH ??g { ?s a dcat:Dataset } }",
+            f"SELECT (COUNT(DISTINCT ?s) AS ?n) WHERE {{ GRAPH ??g {{ {_root_type_clause()} }} }}",
             {"g": URIRef(str(graph))},
         )
         return int(rows[0]["n"]) if rows else 0
@@ -478,7 +526,7 @@ class RecordStore:
                 ?s ?link ?node .
                 ?node ?p ?o .
                 FILTER (?node != ??root)
-                FILTER NOT EXISTS {{ ?node a <{DCAT.Dataset}> }}
+                {_not_a_record_clause("?node")}
               }}
             }}
             """,
@@ -586,19 +634,34 @@ class RecordStore:
 
     @staticmethod
     def _dataset_iri_of(graph: Graph) -> URIRef:
-        datasets = [s for s in graph.subjects(RDF.type, DCAT.Dataset) if isinstance(s, URIRef)]
-        if not datasets:
+        """The IRI this record is written and read back under.
+
+        Any of the registry's four kinds, not only a dataset. The rule that
+        there must be exactly *one* is unchanged and is the important half: a
+        document describing two records has no single review state and no
+        single subgraph boundary, so it is refused rather than half-written.
+        """
+        roots = sorted(
+            {
+                s
+                for kind in RECORD_ROOT_TYPES
+                for s in graph.subjects(RDF.type, kind)
+                if isinstance(s, URIRef)
+            }
+        )
+        if not roots:
+            kinds = ", ".join(t.split("#")[-1].split("/")[-1] for t in map(str, RECORD_ROOT_TYPES))
             raise ValidationFailed(
-                "record contains no dcat:Dataset node with an IRI. A record without an "
-                "identity cannot be written, read back or linked to."
+                f"record contains no node with an IRI typed as one of: {kinds}. A record "
+                "without an identity cannot be written, read back or linked to."
             )
-        if len(datasets) > 1:
+        if len(roots) > 1:
             raise ValidationFailed(
-                f"record contains {len(datasets)} dataset nodes: {sorted(map(str, datasets))}. "
+                f"record contains {len(roots)} record nodes: {sorted(map(str, roots))}. "
                 "Write them one at a time; a multi-record document has no single "
                 "review state and no single subgraph boundary."
             )
-        return datasets[0]
+        return roots[0]
 
     @staticmethod
     def _literal(graph: Graph, subject: URIRef, predicate: URIRef) -> str | None:
@@ -716,7 +779,7 @@ def frame(document: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
     def nest(node: dict[str, Any]) -> dict[str, Any]:
         return {key: inline(value) if key in terms else value for key, value in node.items()}
 
-    roots = [n for n in nodes if _is_dataset_node(n)]
+    roots = [n for n in nodes if _is_record_node(n)]
     framed = [nest(root) for root in roots]
     # Anything not reached from a dataset stays at the top level rather than
     # being dropped. A node the framing does not understand is a bug to see,
@@ -806,9 +869,57 @@ def absolutise(document: Any, context: dict[str, Any]) -> Any:
     return walk(document)
 
 
+#: The `@type` values, as the context compacts them, of a record's root node.
+_ROOT_TYPE_NAMES = frozenset({"Dataset", "Study", "AssumptionSet", "RunRecord"})
+
+
 def _is_dataset_node(node: dict[str, Any]) -> bool:
     types = node.get("type")
     return types == "Dataset" or (isinstance(types, list) and "Dataset" in types)
+
+
+def _is_record_node(node: dict[str, Any]) -> bool:
+    """Whether this node is what its document is *about*.
+
+    Used for framing, where the question is which nodes are roots and which are
+    parts. `_is_dataset_node` stays beside it and stays narrow: the code that
+    reads a distribution or probes a link means a dataset specifically, and
+    widening that would hand it a study and let it fail somewhere further down
+    instead of here.
+    """
+    types = node.get("type")
+    declared = {types} if isinstance(types, str) else set(types or ())
+    return bool(declared & _ROOT_TYPE_NAMES)
+
+
+def _root_type_clause(
+    variable: str = "?s",
+    *,
+    kind: str = "?rootKind",
+    kinds: tuple[URIRef, ...] = RECORD_ROOT_TYPES,
+) -> str:
+    """A graph pattern matching `variable` if it is any record root.
+
+    `VALUES` rather than an alternation, because `|` in SPARQL is a *property
+    path* operator and binds to the predicate: `?s a <A>|<B>` asks for the
+    predicate `a` with the object `<A>|<B>`, which is not a term, and rdflib
+    rejects it twenty lines into a prologue with "Expected SelectQuery, found
+    'GRAPH'". The type is bound to a variable and the variable is constrained.
+    """
+    types = " ".join(f"<{root}>" for root in kinds)
+    return f"{variable} a {kind} . VALUES {kind} {{ {types} }}"
+
+
+def _not_a_record_clause(variable: str) -> str:
+    """Exclude nodes that are records in their own right.
+
+    A record must never absorb another one: a study points at the reference
+    model it ran on and a run record points at its assumption set, and a
+    subgraph walk that followed those would write one record's triples into
+    another's boundary. Its own `kind` variable, so the exclusion inside a
+    `NOT EXISTS` cannot collide with the binding outside it.
+    """
+    return f"FILTER NOT EXISTS {{ {_root_type_clause(variable, kind='?excludedKind')} }}"
 
 
 def dataset_node(document: dict[str, Any]) -> dict[str, Any]:
