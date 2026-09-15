@@ -1,7 +1,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const load = require("./load-ts.cjs");
-const { filterCatalog, selectedFilters, unsupportedFilters, isCatalog, STATIC_FILTERS } = load("catalog-search.ts");
+const { filterCatalog, matchGaps, selectedFilters, unsupportedFilters, isCatalog, STATIC_FILTERS } = load("catalog-search.ts");
 const { catalogReturn, pageOffset } = load("navigation.ts");
 const rows = [
   { id: "model", title: "Network", record_type: "reference_model", fidelity_class: "indicative", field_count_bucket: "1-9", concepts: [{ iri: "voltage" }], data_domains: [{ iri: "DD1" }], completeness_level: 2, quality: [] },
@@ -42,4 +42,28 @@ test("return links preserve catalog state and reject other destinations", () => 
   assert.equal(catalogReturn("/datasets/?q=wind&sort=title&offset=20"), "/datasets?q=wind&sort=title&offset=20");
   for (const value of ["https://example.org/datasets", "//example.org/datasets", "/signin", "/datasets/../account", "/\\evil.org/datasets", null]) assert.equal(catalogReturn(value), "/datasets");
   for (const value of ["-1", "1.5", "Infinity", "bad"]) assert.equal(pageOffset(value), 0);
+});
+
+const GAPS = [
+  { id: "g1", title: "Max upward ramp", category: "Generator fleet",
+    reason: "Not published on a per-plant or per-unit basis." },
+  { id: "g2", title: "Line flow limits", category: "Network topology",
+    reason: "Ratings are commercially sensitive." },
+];
+
+test("the gap register answers the same query on both builds", () => {
+  /* The live catalog called `searchGaps` on an empty result and the published
+     site did not, so the strongest thing the Hub has to say — that nothing open
+     supplies this, with who found that and when — was missing from exactly the
+     deployment most people read. One rule now, and this is it. */
+  assert.deepEqual(matchGaps(GAPS, "max upward ramp").map((g) => g.id), ["g1"]);
+  // Every token has to appear, across title, category and reason together.
+  assert.deepEqual(matchGaps(GAPS, "ramp generator").map((g) => g.id), ["g1"]);
+  assert.equal(matchGaps(GAPS, "ramp nuclear").length, 0);
+  // A blank query is not a match-everything: the notice belongs to a reader who
+  // asked for something and got nothing, not to an empty catalog page.
+  assert.equal(matchGaps(GAPS, "   ").length, 0);
+  // And a register that could not be read is an absence, not an empty register.
+  assert.equal(matchGaps(null, "ramp").length, 0);
+  assert.equal(matchGaps(GAPS, "limits", 0).length, 0);
 });

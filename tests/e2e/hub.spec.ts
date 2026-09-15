@@ -1,14 +1,7 @@
 import { expect, test } from "@playwright/test";
-import { execFileSync } from "node:child_process";
+import { isStatic, path, support } from "./site";
 
-const isStatic = process.env.E2E_MODE === "static";
-const prefix = process.env.E2E_BASE_PATH ?? "";
-const path = (route: string) => `${prefix}${route}`;
 const hidden = "utility-load-shapes-allowlisted";
-const support = (...args: string[]) => JSON.parse(execFileSync(
-  process.env.E2E_PYTHON ?? ".venv/bin/python",
-  ["tests/e2e/support.py", ...args], { encoding: "utf8" },
-));
 
 test("reference-model detail retains fields, downloads and suitability", async ({ page }) => {
   await page.goto(path("/datasets/gb-osm-reference"));
@@ -139,6 +132,12 @@ test("filters narrow results, including concept links and combined facets", asyn
 
 test("evidence links survive refresh and history and return to the filtered search", async ({ page }) => {
   await page.goto(path("/datasets?record_type=reference_model&sort=title"));
+  // Wait for a row before counting. The static build cannot filter until
+  // `catalog.json` lands and shows no rows at all until it does, so counting
+  // straight after navigation counted the moment before the answer existed —
+  // which is the state #93 is about, and reading it as the answer is the
+  // mistake a reader would make too.
+  await expect(page.locator("main li.og-card").first()).toBeVisible();
   // Read what the filter returns rather than asserting how many models the
   // corpus happens to hold: the claim is that coming back lands on the same
   // search, not that the search has a particular size.
@@ -157,6 +156,7 @@ test("evidence links survive refresh and history and return to the filtered sear
   await page.goto(href);
   await page.getByRole("link", { name: /Back to the data catalog/ }).click();
   await expect(page).toHaveURL(/datasets\/?\?record_type=reference_model&sort=title$/);
+  await expect(page.locator("main li.og-card").first()).toBeVisible();
   await expect(page.locator("main li.og-card")).toHaveCount(models);
 });
 

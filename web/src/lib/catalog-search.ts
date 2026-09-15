@@ -167,3 +167,33 @@ export function compareBySort<T extends Sortable>(sort: string) {
     return descending ? -order : order;
   };
 }
+
+/** The gap-register entries a query names.
+ *
+ * PRD §5: saying what does not exist is a feature. "No datasets match this
+ * search" tells a reader the catalog is small; "nothing open supplies this,
+ * here is who found that and when" tells them something true about the field.
+ *
+ * Here rather than inside the API client because both builds owe the reader
+ * that answer and only one of them had it: the live catalog called
+ * `searchGaps` on an empty result and the published site did not, so the
+ * strongest thing the Hub has to say was missing from exactly the deployment
+ * most people will read. One matching rule, two callers — the live path fetches
+ * the register and the static path is handed the copy its coverage table
+ * already has.
+ */
+export function matchGaps<T extends { title: string; category: string; reason: string }>(
+  gaps: readonly T[] | null | undefined,
+  query: string,
+  limit = 3,
+): T[] {
+  const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if (tokens.length === 0) return [];
+  return (gaps ?? [])
+    .filter((gap) =>
+      tokens.every((token) =>
+        `${gap.title} ${gap.category} ${gap.reason}`.toLowerCase().includes(token),
+      ),
+    )
+    .slice(0, limit);
+}

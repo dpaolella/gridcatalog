@@ -11,7 +11,7 @@
  * the data rather than a spinner.
  */
 
-import { compareBySort, isSortable } from "./catalog-search";
+import { compareBySort, isSortable, matchGaps } from "./catalog-search";
 
 /**
  * Read per call, not captured at module load and never inlined at build time.
@@ -668,19 +668,15 @@ export async function listGaps(): Promise<DataGap[] | null> {
 }
 
 export async function searchGaps(query: string, limit = 3): Promise<DataGap[]> {
-  const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if (tokens.length === 0) return [];
+  if (!query.trim()) return [];
   try {
     const { gaps } = await request<{ gaps: DataGap[] }>("/v1/gaps?limit=100", {
       revalidate: LIST_REVALIDATE,
     });
-    return (gaps ?? [])
-      .filter((gap) =>
-        tokens.every((token) =>
-          `${gap.title} ${gap.category} ${gap.reason}`.toLowerCase().includes(token),
-        ),
-      )
-      .slice(0, limit);
+    // The matching rule lives in `catalog-search` because the static build owes
+    // the reader the same answer and reads the register it already has rather
+    // than fetching one.
+    return matchGaps(gaps, query, limit);
   } catch {
     // An empty result set is already the unhappy path. Failing to enrich it
     // must not turn "no datasets match" into an error page.

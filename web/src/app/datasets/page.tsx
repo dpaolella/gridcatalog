@@ -212,7 +212,7 @@ async function LiveResults({ searchParams }: { searchParams: SearchParams }) {
                   small. Told that nothing open supplies it, with who found
                   that and when, they have learned something true about the
                   field — PRD §5, saying what does not exist is a feature. */}
-              <GapNotice gaps={gaps} />
+              <GapNotice gaps={gaps} t={empty} />
             </EmptyState>
           ) : (
             <ul className="space-y-4">
@@ -284,7 +284,15 @@ async function SnapshotResults() {
           so it is real HTML on a page whose list is not. */}
       <CatalogCoverage facets={response.facets} gaps={register} />
       <Suspense>
-        <StaticSearch initial={response.results.slice(0, PRERENDERED)} facets={response.facets} />
+        {/* The same register the table above reads. It is already on this page
+            for the coverage column, and handing it down is what lets an empty
+            search on the published site say what the live one says: that
+            nothing open supplies this, and who found that. */}
+        <StaticSearch
+          initial={response.results.slice(0, PRERENDERED)}
+          facets={response.facets}
+          gaps={register}
+        />
       </Suspense>
     </>
   );

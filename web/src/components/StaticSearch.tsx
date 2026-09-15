@@ -3,8 +3,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { DatasetSummary, FacetBucket } from "@/lib/api";
+import type { DataGap, DatasetSummary, FacetBucket } from "@/lib/api";
 import { EmptyState } from "@/components/EmptyState";
+import { GapNotice } from "@/components/GapNotice";
 import { ResultRow } from "@/components/ResultRow";
 import { FacetGroup } from "@/components/FacetGroup";
 import { SortSelect } from "@/components/SortSelect";
@@ -13,6 +14,7 @@ import {
   compareBySort,
   filterCatalog,
   isCatalog,
+  matchGaps,
   panelFacets,
   selectedFilters,
   unsupportedFilters,
@@ -51,9 +53,17 @@ const PAGE_SIZE = 20;
 export function StaticSearch({
   initial,
   facets,
+  gaps,
 }: {
   initial: DatasetSummary[];
   facets: Record<string, FacetBucket[]>;
+  /** The gap register, as the coverage table above already has it.
+   *
+   *  Passed down rather than fetched, because the page has it server-side in
+   *  both builds and a second copy over the wire buys nothing. `null` is a
+   *  register that could not be read, which renders as no notice rather than as
+   *  "no gap recorded" — a claim the register did not make. */
+  gaps: DataGap[] | null;
 }) {
   const t = useTranslations("search");
   const empty = useTranslations("empty");
@@ -119,6 +129,25 @@ export function StaticSearch({
     return sort ? [...matched].sort(compareBySort(sort)) : matched;
   }, [datasets, initial, query, selected, sort, state]);
   const offset = state === "ready" ? pageOffset(params.get("offset")) : 0;
+
+  /** Whether the reader has asked for something narrower than "the catalog". */
+  const narrowed = Boolean(query) || Object.values(selected).some((v) => v.length > 0);
+
+  /**
+   * Whether the prerendered rows are worth showing yet.
+   *
+   * The first page of the catalog is a fair preview *of the catalog*. It is not
+   * a preview of an answer to a filter, and it was being shown as one: opening
+   * `?record_type=reference_model` listed all nineteen records, most of them
+   * datasets, under a "Preview" label, and then swapped them for the three
+   * matches when `catalog.json` landed. A caption does not make a list of
+   * non-matches an answer, and a reader who looked once saw a filter that had
+   * not worked.
+   *
+   * So a narrowed view waits. The status card below still says what is
+   * happening, which is the honest thing to show while there is no answer yet.
+   */
+  const previewable = state === "ready" || !narrowed;
   const returnTo = catalogUrl(new URLSearchParams(params.toString()));
 
   function toggle(field: string, value: string) {
@@ -190,7 +219,9 @@ export function StaticSearch({
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="og-eyebrow" aria-live="polite">
               {state !== "ready"
-                ? t("previewCount", { count: initial.length })
+                ? narrowed
+                  ? t("searchingCount")
+                  : t("previewCount", { count: initial.length })
                 : unsupported.length ? t("unsupportedTitle") : t("resultsCount", { count: results.length })}
             </p>
             <SortSelect />
@@ -199,7 +230,7 @@ export function StaticSearch({
           {state !== "ready" ? (
             <div role="status" className="og-card space-y-2 p-3 text-sm text-[color:var(--muted)]">
               <p>{state === "loading" ? t("loadingCatalog") : t("catalogUnavailable")}</p>
-              <p>{t("previewHelp")}</p>
+              <p>{narrowed ? t("searchingHelp") : t("previewHelp")}</p>
               {state === "failed" ? (
                 <button type="button" className="og-cta" onClick={() => {
                   setState("loading");
@@ -215,14 +246,26 @@ export function StaticSearch({
               <button type="button" className="og-cta mt-3" onClick={clearFilters}>{t("clearFilters")}</button>
             </EmptyState>
           ) : state === "ready" && results.length === 0 ? (
-            <EmptyState title={empty("noResults")}>
+            <EmptyState
+              title={empty("noResults")}
+              // The same way out the live build offers. It had none here, so
+              // the one page where a reader is most stuck was the one with no
+              // control on it.
+              action={narrowed ? { href: "/datasets", label: empty("noResultsAction") } : undefined}
+            >
               <p>{empty("noResultsHelp", {
                 total: datasets.length,
                 column: "ssrd",
                 concept: "globalHorizontalIrradiance",
               })}</p>
+              {/* The answer this catalog can give that a search engine cannot,
+                  and until now only the live build gave it. A reader who typed
+                  "max upward ramp" and got nothing has learned the catalog is
+                  small; told that nothing open supplies it, with who found that
+                  and when, they have learned something true about the field. */}
+              <GapNotice gaps={matchGaps(gaps, query)} t={empty} />
             </EmptyState>
-          ) : (
+          ) : previewable ? (
             <>
               <ul className="space-y-4">
                 {results.slice(offset, offset + PAGE_SIZE).map((dataset) => (
@@ -231,7 +274,7 @@ export function StaticSearch({
               </ul>
               {state === "ready" ? <Pagination total={results.length} offset={offset} limit={PAGE_SIZE} /> : null}
             </>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

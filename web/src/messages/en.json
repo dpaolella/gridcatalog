@@ -182,7 +182,9 @@
     "previewHelp": "These are the initial catalog entries. Search results and the full count will appear once the catalog loads.",
     "retry": "Retry loading catalog",
     "unsupportedTitle": "This filter is not available in the static catalog",
-    "unsupportedHelp": "Unsupported filters: {filters}. Clear them to search this catalog."
+    "unsupportedHelp": "Unsupported filters: {filters}. Clear them to search this catalog.",
+    "searchingCount": "Searching…",
+    "searchingHelp": "Results for a search or a filter need the whole catalog, so none are shown until it loads. The entries that shipped with this page are the first page of the catalog, not an answer to this query."
   },
   "facets": {
     "data_domain": "Domain",

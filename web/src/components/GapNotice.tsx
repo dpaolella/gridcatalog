@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import type { DataGap } from "@/lib/api";
 
 /**
@@ -16,9 +15,25 @@ import type { DataGap } from "@/lib/api";
  * weigh it. `stale` says the register's own review date has passed — shown
  * rather than hidden, because losing the finding is worse than showing an
  * ageing one.
+ *
+ * **Takes its translator rather than importing one**, the same way
+ * `cadenceText` does and for a sharper reason: both builds owe the reader this
+ * notice, and the two render it from different sides of the client boundary.
+ * It was an async server component, so importing it into `StaticSearch` — the
+ * client component that *is* the published catalog's search — threw
+ * "`getTranslations` is not supported in Client Components" and took the whole
+ * page down with it. A component that needs a locale but has no opinion about
+ * where it came from can be rendered by either side.
  */
-export async function GapNotice({ gaps }: { gaps: DataGap[] }) {
-  const t = await getTranslations("empty");
+export function GapNotice({
+  gaps,
+  t,
+}: {
+  gaps: DataGap[];
+  /** `getTranslations("empty")` on the server, `useTranslations("empty")` in
+   *  the browser. Both satisfy this. */
+  t: (key: string, values?: Record<string, string | number>) => string;
+}) {
   if (gaps.length === 0) return null;
 
   return (

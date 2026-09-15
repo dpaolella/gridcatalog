@@ -178,6 +178,14 @@ jobs:
           # step must also hold on its own if that one ever moves.
           make model-assets
 
+          # The catalog the published site's search fetches. The Pages workflow
+          # copies it and this job did not, so CI built an export whose search
+          # could never load — and every filter, every empty state and the gap
+          # notice behaved differently here from the site that actually ships.
+          # An export that differs from the deployed one in the one file its
+          # search depends on cannot catch a search bug.
+          cp var/e2e/snapshot/index.json web/public/catalog.json
+
           DATAHUB_SNAPSHOT="$PWD/var/e2e/snapshot" \
             NEXT_PUBLIC_BASE_PATH=/gridcatalog \
             npm run build --prefix web
@@ -211,6 +219,38 @@ jobs:
             echo "this build sets a basePath of \`/gridcatalog\`, so served at the root"
             echo "every asset 404s."
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # The same suite, against the site that actually ships.
+      #
+      # It existed and was never run here, so the published build's search was
+      # only ever exercised by hand: the export filters a catalog it fetches in
+      # the browser, which is a different implementation of the same promise
+      # from the API's, and #89 and #93 are both cases of the two disagreeing
+      # without anything noticing. Eighteen of the suite's tests also navigated
+      # to unprefixed URLs and 404'd against a base-path build, which is why
+      # this pass was too noisy to wire up before now.
+      #
+      # `E2E_MODE=static` is how a test says a feature is absent from this
+      # deployment rather than broken in it — a site made of files has no
+      # session and no write endpoints, and those tests skip with a reason
+      # instead of failing.
+      - name: E2E — the published static site
+        env:
+          E2E_MODE: static
+          E2E_BASE_URL: http://127.0.0.1:4321
+          E2E_BASE_PATH: /gridcatalog
+        run: |
+          node web/scripts/serve-export.mjs web/out --port 4321 --prefix /gridcatalog &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:4321/gridcatalog/ >/dev/null && break
+            sleep 2
+          done
+          npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report-static
+          path: playwright-report/
 
       # A downloadable copy of exactly what a Pages deploy would publish.
       #

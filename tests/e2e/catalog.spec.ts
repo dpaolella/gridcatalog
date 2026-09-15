@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { isStatic, path } from "./site";
 
 /**
  * The M9 done-criterion, as two tests:
@@ -22,7 +23,7 @@ test("a modeller reaches a DD5 access path from the catalog", async ({
   // budget now starts one click later than it did. Measured from the catalog
   // rather than from the Hub landing page because the landing page is a menu:
   // timing a reader's reading speed would make this a test of the copy.
-  await page.goto("/datasets");
+  await page.goto(path("/datasets"));
   await page.getByLabel("Search the catalog").fill("wind");
   // The search is debounced and pushed into the URL. Waiting for the URL is
   // what makes this deterministic: asserting on the results before the
@@ -52,7 +53,7 @@ test("a modeller reaches a DD5 access path from the catalog", async ({
 test("an unauthenticated evaluator reads all three quality grades", async ({
   page,
 }) => {
-  await page.goto("/datasets/ecmwf-era5");
+  await page.goto(path("/datasets/ecmwf-era5"));
   await page.getByRole("tab", { name: "Data quality" }).click();
 
   const panel = page.getByRole("tabpanel", { name: "Data quality" });
@@ -71,7 +72,7 @@ test("an unauthenticated evaluator reads all three quality grades", async ({
 });
 
 test("a correlated pair is flagged and still shown", async ({ page }) => {
-  await page.goto("/datasets/global-wind-atlas");
+  await page.goto(path("/datasets/global-wind-atlas"));
   await page.getByRole("tab", { name: "Connections" }).click();
 
   const flag = page.getByRole("button", { name: /Not independent/i }).first();
@@ -95,9 +96,13 @@ test("a restricted record answers exactly as an absent one does", async ({
   // Waited for rather than filtered out: the assertion is that these two pages
   // are textually identical, and excluding a region from the comparison is how
   // a leak in that region stops being caught.
-  async function settledBody(path: string) {
-    const response = await page.goto(path);
-    await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
+  async function settledBody(route: string) {
+    const response = await page.goto(path(route));
+    // Only where there is one to settle. The static export omits the account
+    // control entirely — there is no session endpoint behind a site made of
+    // files — so waiting for it there would be waiting for something the build
+    // deliberately does not ship.
+    if (!isStatic) await expect(page.getByRole("link", { name: "Sign in" })).toBeVisible();
     return {
       status: response?.status(),
       text: await page.locator("body").innerText(),
@@ -115,16 +120,21 @@ test("a restricted record answers exactly as an absent one does", async ({
 });
 
 test("an empty search explains itself", async ({ page }) => {
-  await page.goto("/datasets?q=zzzznothingmatchesthis");
+  await page.goto(path("/datasets?q=zzzznothingmatchesthis"));
 
   await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
+  // A link on the live build, which navigates to the unfiltered catalog, and a
+  // button on the static one, which rewrites the query in place. The claim is
+  // that there is a way out, not which element it is.
   await expect(
-    page.getByRole("link", { name: /Clear all filters/i }),
+    page
+      .getByRole("link", { name: /Clear all filters/i })
+      .or(page.getByRole("button", { name: /Clear all/i })),
   ).toBeVisible();
 });
 
 test("a level 1 record says why its schema tab is empty", async ({ page }) => {
-  await page.goto("/datasets/eia-natural-gas-prices");
+  await page.goto(path("/datasets/eia-natural-gas-prices"));
   await page.getByRole("tab", { name: "Schema" }).click();
 
   await expect(page.getByText(/completeness level/i).first()).toBeVisible();
@@ -132,7 +142,7 @@ test("a level 1 record says why its schema tab is empty", async ({ page }) => {
 });
 
 test("a field the catalog could not map says why", async ({ page }) => {
-  await page.goto("/datasets/global-transmission-database");
+  await page.goto(path("/datasets/global-transmission-database"));
   await page.getByRole("tab", { name: "Schema" }).click();
 
   const gap = page.getByTitle(
@@ -144,7 +154,7 @@ test("a field the catalog could not map says why", async ({ page }) => {
 test("the connections list is capped with a way to see more", async ({
   page,
 }) => {
-  await page.goto("/datasets/pypsa-eur-grid");
+  await page.goto(path("/datasets/pypsa-eur-grid"));
   await page.getByRole("tab", { name: "Connections" }).click();
 
   // By test id, not by role: each connection row contains its own list of
@@ -162,7 +172,7 @@ test("a concept on a schema row links to every dataset that carries it", async (
   // render concept names as plain text, which is the one thing a modeller wants
   // to pull on — the useful question at that cell is "what else has this
   // quantity", and the answer is a filter the search backend already compiles.
-  await page.goto("/datasets/ecmwf-era5");
+  await page.goto(path("/datasets/ecmwf-era5"));
   await page.getByRole("tab", { name: "Schema" }).click();
 
   const concept = page.locator("table a[href*='concept=']").first();
@@ -176,12 +186,17 @@ test("a concept on a schema row links to every dataset that carries it", async (
 test("an issue can be reported against one field and one distribution", async ({
   page,
 }) => {
+  // A site made of files has nowhere to send a report, so the export omits the
+  // control entirely and `hub.spec.ts` asserts that absence. Skipped rather
+  // than red: this is not a feature failing there, it is one that deployment
+  // does not have.
+  test.skip(isStatic, "A static export has no endpoint to receive a report");
   // §F3 asks for a report on any record, *field* or distribution, with the
   // reference captured automatically. The API has taken `field_id` and
   // `distribution_id` since it was written; the UI passed neither, so a wrong
   // unit on one column and a dead URL on one of several paths both had to be
   // filed against the whole record.
-  await page.goto("/datasets/ecmwf-era5");
+  await page.goto(path("/datasets/ecmwf-era5"));
 
   await page.getByRole("tab", { name: "Schema" }).click();
   await page
@@ -203,7 +218,7 @@ test("an issue can be reported against one field and one distribution", async ({
 test("field-level provenance reaches the schema table", async ({ page }) => {
   // It was fetched, exported, shipped to the browser and dropped at render
   // time. It is the evidence behind the Provenance grade.
-  await page.goto("/datasets/global-wind-atlas");
+  await page.goto(path("/datasets/global-wind-atlas"));
   await page.getByRole("tab", { name: "Schema" }).click();
 
   await expect(
@@ -218,7 +233,7 @@ test("the caveats a steward wrote are on the page", async ({ page }) => {
   // golden record — reached no API caller and no page. A caveat is the one
   // thing on a record that comes from somebody having *used* the dataset, so
   // this asserts it is above the fold rather than behind a tab.
-  await page.goto("/datasets/ecmwf-era5");
+  await page.goto(path("/datasets/ecmwf-era5"));
 
   const caveats = page.getByRole("heading", { name: /Before you use this/i });
   await expect(caveats).toBeVisible();
@@ -237,15 +252,22 @@ test("an empty search names the gap when there is one", async ({ page }) => {
   // gap entries whose wording finds *no* datasets in the seeded catalog. The
   // notice only renders on an empty result set, so a query matching both would
   // test nothing — "nodal demand" reads better and returns three datasets.
-  await page.goto("/datasets?q=max+upward+ramp");
+  await page.goto(path("/datasets?q=max+upward+ramp"));
 
   await expect(page.getByText(/No datasets match this search/i)).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: /Nothing open supplies this/i }),
-  ).toBeVisible();
-  await expect(page.getByText(/per-plant or per-unit basis/i)).toBeVisible();
+
+  // Scoped to the notice rather than to the page. The coverage table also
+  // lists register entries, each with its observer, so a bare text match for
+  // the attribution finds twenty elements on the published build and one on
+  // the live one — and what this test is about is that the attribution is *on
+  // the notice*, which a page-wide match never checked.
+  const notice = page
+    .locator("section")
+    .filter({ has: page.getByRole("heading", { name: /Nothing open supplies this/i }) });
+  await expect(notice).toBeVisible();
+  await expect(notice).toContainText(/per-plant or per-unit basis/i);
   // The attribution, which is what makes the claim weighable at all.
-  await expect(page.getByText(/Open Energy Data Inventory/i)).toBeVisible();
+  await expect(notice).toContainText(/Open Energy Data Inventory/i);
 });
 
 test("each section's heading is about that section", async ({ page }) => {
@@ -263,9 +285,9 @@ test("each section's heading is about that section", async ({ page }) => {
   // `/gaps` is not here because it is no longer a section: the register moved
   // into the catalog (#99) and the URL redirects there, so it shares that
   // page's heading by design rather than by the copy-paste this guards.
-  for (const path of ["/", "/datasets", "/studies", "/reference-models"]) {
-    await page.goto(path);
-    headings.set(path, (await page.getByRole("heading", { level: 1 }).first().textContent()) ?? "");
+  for (const route of ["/", "/datasets", "/studies", "/reference-models"]) {
+    await page.goto(path(route));
+    headings.set(route, (await page.getByRole("heading", { level: 1 }).first().textContent()) ?? "");
   }
 
   const seen = new Map<string, string>();
