@@ -112,6 +112,14 @@ test("filters narrow results, including concept links and combined facets", asyn
   // — and what this test is actually about is that adding a filter removes
   // records, which a filter that is never evaluated cannot do.
   await page.goto(path("/datasets?record_type=reference_model&fidelity_class=indicative"));
+  // Wait for a row before counting, the way the next test already does. The
+  // static build cannot filter until `catalog.json` lands and a *narrowed*
+  // view deliberately shows nothing until it has — that is #93's whole point,
+  // and counting straight after navigation counts the moment before the answer
+  // exists. It read zero here as soon as the catalog grew enough for the fetch
+  // to outlast the navigation, which is a fact about this assertion and not
+  // about the filter.
+  await expect(rows.first()).toBeVisible();
   const indicative = await rows.count();
   expect(indicative).toBeGreaterThan(0);
   expect(indicative).toBeLessThan(models);
