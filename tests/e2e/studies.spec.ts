@@ -117,3 +117,65 @@ test("a study asked for as a dataset says what it is instead of showing empty ta
   await page.getByRole("link", { name: /Integrated Resource Plan/ }).click();
   await expect(page).toHaveURL(new RegExp(`/studies/${CASCADE}`));
 });
+
+test("two studies diff to the one number that changed, and the verdict moves", async ({
+  page,
+}) => {
+  /* #83. The screen the registry argues towards. A filing and the intervention
+     against it are two documents of a few hundred parameters, and the only
+     question anybody has is which number changed and whether it mattered. */
+  await page.goto(path(`/studies/${CASCADE}/compare/${COALITION}`));
+
+  await expect(page.getByText("1 assumption differs of 3.")).toBeVisible();
+
+  // The unit registry doing real work: 4.2 Mt against 4,200,000 t is one value
+  // spelled two ways, and as bare numbers it would be the largest finding here.
+  const cap = page.locator("tr").filter({ hasText: "max_mtons" });
+  await expect(cap).toContainText("Same value");
+  await expect(cap).toContainText("Mt");
+  await expect(cap).toContainText("t");
+
+  // A value can change its standing as well as its size.
+  const roe = page.locator("tr").filter({ hasText: "return_on_equity" });
+  await expect(roe).toContainText("-24.49%");
+  await expect(roe).toContainText("estimated → measured");
+});
+
+test("the materiality verdict is a line the reader draws, and it flips", async ({ page }) => {
+  /* Watching the verdict change as the threshold moves is what tells an
+     audience the machinery is real. Nothing is re-solved — the deltas were
+     computed once and the slider re-partitions them. */
+  await page.goto(path(`/studies/${CASCADE}/compare/${COALITION}`));
+
+  const verdict = page.locator("#materiality-verdict");
+  const slider = page.getByRole("slider");
+
+  await slider.fill("5");
+  await expect(verdict).toContainText("1 assumption is material");
+  await expect(verdict).toContainText("below this threshold");
+
+  // Above the one change, nothing is material any more.
+  await slider.fill("30");
+  await expect(verdict).toContainText("No assumption differs");
+
+  // And low enough that the result itself counts.
+  await slider.fill("1");
+  await expect(verdict).toContainText("above this threshold");
+});
+
+test("a stored result is never offered beside a Run button", async ({ page }) => {
+  /* Solving is out of scope and two of the vision's open questions ask whether
+     the Hub ever hosts compute. A green Run answers both in the affirmative
+     and commits the product to the most expensive possible scope. */
+  await page.goto(path(`/studies/${CASCADE}/compare/${COALITION}`));
+
+  await expect(page.getByRole("button", { name: /^Run$/ })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /^Run$/ })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Export runnable case" })).toBeVisible();
+  await expect(page.locator("main")).toContainText(/registers runs\. It does not execute them/);
+
+  // And the box the value proposition implies.
+  await expect(
+    page.getByText("This is a result about the reference network, not about the real system."),
+  ).toBeVisible();
+});

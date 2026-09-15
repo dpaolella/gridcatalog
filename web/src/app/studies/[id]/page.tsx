@@ -71,6 +71,7 @@ export default async function StudyPage({ params }: { params: Params }) {
   const s = await getTranslations("study");
   const hub = await getTranslations("hub");
   const demo = await getTranslations("curation");
+  const compare = await getTranslations("compare");
 
   let study: StudyDetail;
   try {
@@ -173,12 +174,25 @@ export default async function StudyPage({ params }: { params: Params }) {
             <p className="mt-4 text-sm">
               {s("contests")}:{" "}
               {study.parent_study_id ? (
-                <Link
-                  href={`/studies/${study.parent_study_id}`}
-                  className="font-medium text-[color:var(--accent-text)] hover:underline"
-                >
-                  {parent?.title ?? study.parent_study_id}
-                </Link>
+                <>
+                  <Link
+                    href={`/studies/${study.parent_study_id}`}
+                    className="font-medium text-[color:var(--accent-text)] hover:underline"
+                  >
+                    {parent?.title ?? study.parent_study_id}
+                  </Link>
+                  {/* The diff, from the side that contests. An intervention
+                      exists to be set against the filing, and making a reader
+                      assemble that comparison by opening two pages is making
+                      them do the work the registry is for (#83). */}
+                  {" · "}
+                  <Link
+                    href={`/studies/${study.parent_study_id}/compare/${study.id}`}
+                    className="font-medium text-[color:var(--accent-text)] hover:underline"
+                  >
+                    {compare("short")}
+                  </Link>
+                </>
               ) : (
                 <span className="text-[color:var(--muted)]">{iriTail(study.parent_study)}</span>
               )}

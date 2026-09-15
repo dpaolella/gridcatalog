@@ -9,6 +9,8 @@ reachable by nobody.
 
 from __future__ import annotations
 
+import pytest
+
 CASCADE = "cascade-pl-irp-2026"
 COALITION = "coalition-intervention-ue-26-0142"
 ROE = "Investments/Financials/TechnologyFinancialData#return_on_equity"
@@ -230,3 +232,122 @@ def test_a_dataset_carries_no_study_axes(registry_client) -> None:
     # And the reverse: `supported_analysis` is a dataset's fitness to feed an
     # analysis, which is not the same field and must not have been reused.
     assert row["supported_analysis"], "ERA5 supports analyses; that axis is unaffected"
+
+
+# ---------------------------------------------------------------------------
+# The diff (#83)
+# ---------------------------------------------------------------------------
+
+
+def test_the_diff_finds_the_one_changed_value(registry_client) -> None:
+    """The whole claim of a single-factor intervention, as a number.
+
+    Three parameters, one of them different. If the diff reported two the
+    intervention would not be single-factor, and if it reported none the
+    comparison would have nothing to say.
+    """
+    body = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()
+
+    assert body["comparable"] is True
+    assert body["changed"] == 1
+    changed = [r for r in body["rows"] if r["relation"] == "different"]
+    assert [r["parameter"] for r in changed] == ["return_on_equity"]
+    assert changed[0]["relative_delta"] == pytest.approx(-0.2449, abs=1e-4)
+
+
+def test_a_value_written_in_another_unit_is_not_reported_as_a_disagreement(
+    registry_client,
+) -> None:
+    """The five seconds that prove the vocabulary is doing work.
+
+    The filing caps carbon at 4.2 Mt; the intervention writes the same cap as
+    4,200,000 t, because the statute states it in tonnes. Compared as bare
+    numbers that is a 999,999x discrepancy and the single largest finding on
+    the page. Compared through the unit registry it is one value spelled two
+    ways.
+    """
+    body = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()
+    cap = next(r for r in body["rows"] if r["parameter"] == "max_mtons")
+
+    assert cap["relation"] == "equivalent"
+    assert cap["delta"] == 0
+    assert (cap["left_unit_label"], cap["right_unit_label"]) == ("Mt", "t")
+    assert "different units" in cap["note"]
+
+
+def test_a_value_can_be_unchanged_and_still_change_its_standing(registry_client) -> None:
+    """The finding a numeric diff cannot make.
+
+    The filing's return on equity is *estimated*; the intervention's is
+    *measured*, drawn from an order. That is a different argument, and a
+    comparison that reported only the delta would lose the half that decides
+    how much weight the number carries.
+    """
+    body = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()
+    roe = next(r for r in body["rows"] if r["parameter"] == "return_on_equity")
+
+    assert roe["basis_changed"] is True
+    assert (roe["left_basis"], roe["right_basis"]) == ("estimated", "measured")
+    assert "Order 08-441" in roe["justification"]
+
+
+def test_the_two_results_are_set_side_by_side_only_because_the_runs_match(
+    registry_client,
+) -> None:
+    """A controlled comparison, asserted as one.
+
+    Same network, same tool, same version, same solver — so the difference in
+    the objective is attributable to the assumption change. If any of those
+    differed the delta would carry the tool change as well, with nothing on the
+    page to say which was which.
+    """
+    body = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()
+    runs = body["runs"]
+
+    assert runs["comparable"] is True
+    assert runs["reason"] is None
+    assert runs["objective_delta"] == pytest.approx(-352_000_000)
+    assert runs["objective_relative"] == pytest.approx(-0.0191, abs=1e-4)
+
+
+def test_runs_that_differ_in_their_tooling_are_refused_rather_than_subtracted(
+    loaded, registry_client
+) -> None:
+    """The single easiest way for a comparison like this to mislead.
+
+    Two runs on different solvers produce different objectives whatever the
+    assumptions do. Subtracting them and labelling the result as the effect of
+    one changed number is a claim the catalog cannot support, and it would look
+    exactly as clean as the honest one.
+    """
+    from fixtures.loader import load_record
+
+    document = load_record("coalition-run-r0537")
+    document["@graph"][0]["solver"] = "Gurobi 11.0.1"
+    loaded.put(document)
+
+    runs = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()["runs"]
+
+    assert runs["comparable"] is False
+    assert "solver" in runs["reason"]
+    assert runs["objective_delta"] is None
+
+
+def test_sets_pinned_to_different_schemas_are_not_diffed_at_all(loaded, registry_client) -> None:
+    """Identical paths can mean different things across schema revisions, and a
+    row-by-row diff across them would look exactly as authoritative while
+    meaning nothing."""
+    from fixtures.loader import load_record
+
+    document = load_record("coalition-assumptions-v1")
+    document["@graph"][0]["schemaPin"] = "0000000000000000000000000000000000000000"
+    loaded.put(document)
+
+    body = registry_client.get(f"/v1/studies/{CASCADE}/compare/{COALITION}").json()
+
+    assert body["comparable"] is False
+    assert "schema revisions" in body["reason"]
+    assert body["rows"] == []
+    # The run comparison is unaffected: it does not depend on the assumptions
+    # being diffable, only on the runs being controlled.
+    assert body["runs"]["comparable"] is True

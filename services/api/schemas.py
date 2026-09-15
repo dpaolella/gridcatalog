@@ -812,6 +812,84 @@ class StudyDetail(ApiModel):
     run_records: list[RunRecordDetail] = Field(default_factory=list)
 
 
+class AssumptionDelta(ApiModel):
+    """One row of a diff between two assumption sets."""
+
+    path: str | None = None
+    #: The component the value lands on, and the parameter on it. Split because
+    #: a diff is read down the parameter column and grouped by component.
+    component: str | None = None
+    parameter: str | None = None
+
+    left_value: str | None = None
+    right_value: str | None = None
+    left_unit_label: str | None = None
+    right_unit_label: str | None = None
+    left_basis: str | None = None
+    right_basis: str | None = None
+
+    #: `identical`, `equivalent` (same value, different unit), `different`,
+    #: `incomparable`, `unknown`, `added`, `removed`. Not a boolean, because
+    #: "these disagree" and "these cannot be compared" are different findings
+    #: and a reader acts on them differently.
+    relation: str = "unknown"
+    #: In SI where a conversion was possible, in the stated unit where both
+    #: sides used the same one.
+    delta: float | None = None
+    relative_delta: float | None = None
+    note: str | None = None
+
+    #: A value can be unchanged and still differ in standing. The filing's
+    #: return on equity is *estimated*; the intervention's is *measured*. That
+    #: is a different argument from a different number and is shown separately.
+    basis_changed: bool = False
+    justification: str | None = None
+    inherited: bool = False
+
+
+class RunComparison(ApiModel):
+    """Two registered runs, and whether their results can be set side by side."""
+
+    left: RunRecordDetail | None = None
+    right: RunRecordDetail | None = None
+    comparable: bool = False
+    #: Why not, when not. Two runs on different networks, tools or solvers are
+    #: not a controlled comparison, and a delta between them would attribute to
+    #: the assumption change whatever the tool change did.
+    reason: str | None = None
+    objective_delta: float | None = None
+    objective_relative: float | None = None
+    objective_unit_label: str | None = None
+
+
+class StudyComparison(ApiModel):
+    """Two studies, diffed (#83).
+
+    The screen the registry argues towards, and the one where honesty is
+    hardest. Everything here is derived live from two schema-validated
+    documents — the structural diff, the unit normalisation, the per-row
+    relation. Nothing is a stored verdict, because a stored verdict is an
+    opinion with no working shown.
+    """
+
+    left_id: str
+    right_id: str
+    left_title: str
+    right_title: str
+    #: Whether the two sets can be compared value by value at all. Two sets
+    #: pinned to different schema revisions cannot: identical paths may mean
+    #: different things, and a row-by-row diff across them would look exactly
+    #: as authoritative while meaning nothing.
+    comparable: bool = True
+    reason: str | None = None
+    left_schema_pin: str | None = None
+    right_schema_pin: str | None = None
+    rows: list[AssumptionDelta] = Field(default_factory=list)
+    #: How many rows are anything other than identical or equivalent.
+    changed: int = 0
+    runs: RunComparison | None = None
+
+
 class StudyUse(ApiModel):
     """A study that stands on a given dataset, and how."""
 

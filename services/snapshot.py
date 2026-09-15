@@ -150,10 +150,11 @@ class Snapshot:
             self._write("gaps.json", self._get(client, "/v1/gaps?limit=100"))
             self._write("facets.json", self._facets(client))
 
+            studies = [s["id"] for s in summaries if s.get("record_type") == "study"]
             for summary in summaries:
                 self._export_record(client, summary["id"])
-                if summary.get("record_type") == "study":
-                    self._export_study(client, summary["id"])
+                if summary["id"] in studies:
+                    self._export_study(client, summary["id"], studies)
         finally:
             object.__setattr__(settings, "rate_limit_enabled", was_enabled)
 
@@ -235,18 +236,38 @@ class Snapshot:
                 continue
             self._write(f"datasets/{dataset_id}/{name}.json", body)
 
-    def _export_study(self, client: Any, study_id: str) -> None:
-        """A study's assumption sets and run records.
+    def _export_study(self, client: Any, study_id: str, studies: list[str]) -> None:
+        """A study's assumption sets and run records, and its comparisons.
 
         Under `studies/` rather than `datasets/`, because a study is not a
         dataset and the published site routes it as its own kind. The list row
         still comes from `index.json` like every other record — a study is in
         the catalog and searchable alongside the datasets, it just does not
         have a Downloads tab.
+
+        Every ordered pair is written, because a comparison is between two
+        records the catalog holds and the set of pairs is therefore finite and
+        known. Quadratic in the number of studies, which is the right trade at
+        this size and the first thing to revisit if the registry grows: at two
+        studies it is two files, and the alternative is a published site where
+        the one screen the registry argues towards does not exist.
         """
         body = self._try(client, f"/v1/studies/{study_id}", study_id, "study")
         if body is not None:
             self._write(f"studies/{study_id}.json", body)
+
+        for other in studies:
+            if other == study_id:
+                continue
+            comparison = self._try(
+                client,
+                f"/v1/studies/{study_id}/compare/{other}",
+                study_id,
+                f"compare/{other}",
+                quiet=True,
+            )
+            if comparison is not None:
+                self._write(f"studies/{study_id}/compare/{other}.json", comparison)
 
     def _try(
         self, client: Any, path: str, dataset_id: str, part: str, *, quiet: bool = False

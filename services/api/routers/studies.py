@@ -31,15 +31,21 @@ from __future__ import annotations
 from typing import Annotated, Any
 
 from datahub.api.deps import CallerDep, RecordsDep, SearchDep
+from datahub.api.entitlement import Caller
 from datahub.api.entitlement.visibility import absent, entitled_document
 from datahub.api.schemas import (
+    AssumptionDelta,
     AssumptionDetail,
     AssumptionSetDetail,
+    RunComparison,
     RunRecordDetail,
+    StudyComparison,
     StudyDetail,
     StudyUsageResponse,
     StudyUse,
 )
+from datahub.api.search.backend import SearchBackend
+from datahub.api.units import Unit, compare, resolve
 from datahub.api.vocabulary import labels
 from datahub.graph.graphs import NamedGraph
 from datahub.graph.records import slug_of
@@ -83,6 +89,18 @@ def get_study(
     assumption set is a record, which URL serves it, and that the assumptions
     inside it are nested — three facts about this catalog's internals standing
     between them and a table of numbers.
+    """
+    return _study(study_id, caller, backend, records)
+
+
+def _study(
+    study_id: str, caller: Caller, backend: SearchBackend, records: RecordsDep
+) -> StudyDetail:
+    """The study, resolved. Shared with the comparison route, which needs two.
+
+    A function rather than a second copy: the comparison is only as honest as
+    the two sides agreeing about what a study *is*, and two readers of the same
+    graph drift.
     """
     document, full = entitled_document(study_id, caller, backend)
     if not full or document.record_type != "study":
@@ -128,6 +146,84 @@ def get_study(
         assumption_sets=sets,
         run_records=runs,
     )
+
+
+@router.get(
+    "/studies/{study_id}/compare/{other_id}",
+    response_model=StudyComparison,
+    summary="Two studies, diffed",
+)
+def compare_studies(
+    study_id: StudyId,
+    other_id: StudyId,
+    caller: CallerDep,
+    backend: SearchDep,
+    records: RecordsDep,
+) -> StudyComparison:
+    """Diff two studies' assumption sets, and set their results side by side.
+
+    The screen the registry argues towards (#83). A regulator reading a filing
+    and an intervention against it wants one question answered — *which number
+    changed, and did it matter* — and answering it by hand means diffing two
+    documents of a few hundred parameters by eye.
+
+    **Computed live, from two schema-validated documents.** Nothing here is a
+    stored verdict. The structural diff, the unit normalisation and the
+    per-row relation are all derived on the request, which is what makes them
+    checkable: a reader can fetch both sets and redo it.
+
+    **Three things it refuses to do.**
+
+    Two sets pinned to different schema revisions are reported as not
+    comparable rather than diffed anyway. Identical paths can mean different
+    things across revisions, and a row-by-row diff would look exactly as
+    authoritative while meaning nothing.
+
+    Two values in different quantity kinds get no delta — a price and a mass do
+    not differ by a number. Two different currencies get none either: the unit
+    registry's own note says a fixed factor cannot relate 2015 dollars to 2024
+    dollars, so that is a deflator question, and converting on the registry's
+    1.0 would flatter every cost comparison in the catalog.
+
+    Two runs on different networks, tools or solvers are reported as an
+    uncontrolled pair. The objective delta between them would attribute to the
+    assumption change whatever the tool change did, which is the single
+    easiest way for a comparison like this to mislead.
+    """
+    left = _study(study_id, caller, backend, records)
+    right = _study(other_id, caller, backend, records)
+
+    left_set = left.assumption_sets[0] if left.assumption_sets else None
+    right_set = right.assumption_sets[0] if right.assumption_sets else None
+
+    comparison = StudyComparison(
+        left_id=left.id,
+        right_id=right.id,
+        left_title=left.title,
+        right_title=right.title,
+        left_schema_pin=left_set.schema_pin if left_set else None,
+        right_schema_pin=right_set.schema_pin if right_set else None,
+        runs=_compare_runs(left, right),
+    )
+
+    if left_set is None or right_set is None:
+        comparison.comparable = False
+        comparison.reason = "one of these studies registers no assumption set"
+        return comparison
+
+    if left_set.schema_pin != right_set.schema_pin:
+        comparison.comparable = False
+        comparison.reason = (
+            "these sets are pinned to different schema revisions, so the same path "
+            "may not mean the same thing on both sides"
+        )
+        return comparison
+
+    comparison.rows = _diff(left_set.assumptions, right_set.assumptions, records)
+    comparison.changed = sum(
+        1 for row in comparison.rows if row.relation not in ("identical", "equivalent")
+    )
+    return comparison
 
 
 @router.get(
@@ -247,6 +343,130 @@ def _node(records: RecordsDep, iri: str) -> dict[str, Any]:
     except Exception as exc:  # pragma: no cover - a record the index just named
         log.warning("could not read record", iri=iri, error=str(exc))
         return {}
+
+
+def _diff(
+    left: list[AssumptionDetail], right: list[AssumptionDetail], records: RecordsDep
+) -> list[AssumptionDelta]:
+    """Match two sets of assumptions by field path and compare each pair.
+
+    By path, because the path is the address. Matching by parameter name alone
+    would join `TechnologyFinancialData#debt_fraction` to any other
+    `debt_fraction` in the model, and the whole reason the catalog carries a
+    path is that the same name appears under several components.
+    """
+    units = resolve(records, [a.unit for a in [*left, *right] if a.unit])
+    by_path_left = {a.path: a for a in left if a.path}
+    by_path_right = {a.path: a for a in right if a.path}
+
+    rows: list[AssumptionDelta] = []
+    for path in sorted(set(by_path_left) | set(by_path_right)):
+        rows.append(_row(path, by_path_left.get(path), by_path_right.get(path), units))
+    return rows
+
+
+def _row(
+    path: str,
+    left: AssumptionDetail | None,
+    right: AssumptionDetail | None,
+    units: dict[str, Unit],
+) -> AssumptionDelta:
+    component, _, parameter = path.partition("#")
+    unit_of = lambda a: units.get(a.unit or "") if a and a.unit else None  # noqa: E731
+
+    row = AssumptionDelta(
+        path=path,
+        component=component or None,
+        parameter=parameter or None,
+        left_value=left.value if left else None,
+        right_value=right.value if right else None,
+        left_unit_label=(u.display if (u := unit_of(left)) else None),
+        right_unit_label=(u.display if (u := unit_of(right)) else None),
+        left_basis=left.value_basis if left else None,
+        right_basis=right.value_basis if right else None,
+        justification=right.justification if right else None,
+        inherited=bool(right and right.inherited_from),
+    )
+
+    if left is None or right is None:
+        # A parameter one side sets and the other does not. Not a delta: an
+        # assumption the other study never made, which is a different finding
+        # and the one a reader is most likely to miss.
+        row.relation = "added" if left is None else "removed"
+        return row
+
+    # A value can be unchanged and still differ in standing. The filing's
+    # return on equity is estimated; the intervention's is measured, drawn from
+    # an order. That is a different argument, not a different number.
+    row.basis_changed = bool(
+        left.value_basis and right.value_basis and left.value_basis != right.value_basis
+    )
+
+    result = compare(_float(left.value), unit_of(left), _float(right.value), unit_of(right))
+    row.relation = result.relation
+    row.delta = result.delta
+    row.relative_delta = result.relative
+    row.note = result.note
+
+    # The values are not numbers at all — a scenario name, a switch. String
+    # equality is the only comparison available and is the right one.
+    if result.relation == "unknown" and not unit_of(left) and not unit_of(right):
+        row.relation = "identical" if left.value == right.value else "different"
+        row.note = None if left.value == right.value else "not a numeric value"
+    return row
+
+
+def _compare_runs(left: StudyDetail, right: StudyDetail) -> RunComparison | None:
+    """The two results, and whether setting them side by side is honest.
+
+    A controlled comparison needs the same network, the same tool and the same
+    solver. Anything else and the objective delta carries the tool change as
+    well as the assumption change, with nothing to say which is which — and
+    the number would look exactly as clean either way.
+    """
+    first = left.run_records[0] if left.run_records else None
+    second = right.run_records[0] if right.run_records else None
+    if first is None or second is None:
+        return RunComparison(
+            left=first,
+            right=second,
+            comparable=False,
+            reason="only a registered run has a result; one of these has none",
+        )
+
+    mismatched = [
+        name
+        for name, a, b in (
+            ("network", first.on_reference_model, second.on_reference_model),
+            ("tool", first.tool, second.tool),
+            ("tool version", first.tool_version, second.tool_version),
+            ("solver", first.solver, second.solver),
+            ("objective unit", first.objective_unit, second.objective_unit),
+        )
+        if a != b
+    ]
+    if mismatched:
+        return RunComparison(
+            left=first,
+            right=second,
+            comparable=False,
+            reason=(
+                f"these runs differ in {', '.join(mismatched)}, so the difference in "
+                "their results is not attributable to the assumptions alone"
+            ),
+        )
+
+    out = RunComparison(
+        left=first,
+        right=second,
+        comparable=True,
+        objective_unit_label=first.objective_unit_label,
+    )
+    if first.objective_value is not None and second.objective_value is not None:
+        out.objective_delta = second.objective_value - first.objective_value
+        if first.objective_value:
+            out.objective_relative = out.objective_delta / first.objective_value
+    return out
 
 
 def _run_iris(records: RecordsDep, record: dict[str, Any], sets: list[str]) -> list[str]:

@@ -106,6 +106,7 @@ The steward queue. Highest-leverage records first: most inbound links, then most
 |---|---|---|
 | `GET` | `/v1/datasets/{dataset_id}/studies` | Registered studies standing on this record |
 | `GET` | `/v1/studies/{study_id}` | One study, with its assumptions and runs |
+| `GET` | `/v1/studies/{study_id}/compare/{other_id}` | Two studies, diffed |
 
 ### service
 
@@ -438,6 +439,16 @@ A study, the parameter values behind it, and the runs that produced it.
 | Name | In | Required | Description |
 |---|---|---|---|
 | `study_id` | path | yes | The study's slug, which is the last segment of its IRI — `cascade-pl-irp-2026` for `https://catalog.opengrid.org/study/cascade-pl-irp-2026`. |
+| `authorization` | header | no |  |
+
+### `GET /v1/studies/{study_id}/compare/{other_id}`
+
+Diff two studies' assumption sets, and set their results side by side.
+
+| Name | In | Required | Description |
+|---|---|---|---|
+| `study_id` | path | yes | The study's slug, which is the last segment of its IRI — `cascade-pl-irp-2026` for `https://catalog.opengrid.org/study/cascade-pl-irp-2026`. |
+| `other_id` | path | yes | The study's slug, which is the last segment of its IRI — `cascade-pl-irp-2026` for `https://catalog.opengrid.org/study/cascade-pl-irp-2026`. |
 | `authorization` | header | no |  |
 
 ## Errors

@@ -46,8 +46,8 @@
       "id": "https://catalog.opengrid.org/assumption/coalition-v1-carbon-cap",
       "type": "Assumption",
       "assumptionPath": "Investments/Requirements/CarbonCaps#max_mtons",
-      "assumptionValue": "4.2",
-      "unit": "http://qudt.org/vocab/unit/MegaTON_Metric",
+      "assumptionValue": "4200000",
+      "unit": "http://qudt.org/vocab/unit/TON_Metric",
       "valueBasis": "measured",
       "fieldSource": [
         "https://catalog.opengrid.org/ds/cascadia-clean-energy-act"

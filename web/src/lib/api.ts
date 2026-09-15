@@ -233,6 +233,9 @@ function snapshotFile(path: string): string | null {
   const study = /^\/v1\/studies\/([^/]+)$/.exec(route);
   if (study) return `studies/${study[1]}.json`;
 
+  const comparison = /^\/v1\/studies\/([^/]+)\/compare\/([^/]+)$/.exec(route);
+  if (comparison) return `studies/${comparison[1]}/compare/${comparison[2]}.json`;
+
   return null;
 }
 
@@ -820,6 +823,59 @@ export interface StudyDetail {
   assumption_sets: AssumptionSet[];
   run_records: RunRecord[];
 }
+
+export interface AssumptionDelta {
+  path?: string | null;
+  component?: string | null;
+  parameter?: string | null;
+  left_value?: string | null;
+  right_value?: string | null;
+  left_unit_label?: string | null;
+  right_unit_label?: string | null;
+  left_basis?: string | null;
+  right_basis?: string | null;
+  /** `identical`, `equivalent` (same value, different unit), `different`,
+   *  `incomparable`, `unknown`, `added`, `removed`. Not a boolean: "these
+   *  disagree" and "these cannot be compared" are different findings. */
+  relation: string;
+  delta?: number | null;
+  relative_delta?: number | null;
+  note?: string | null;
+  /** A value can be unchanged and still differ in standing — estimated on one
+   *  side, measured on the other. */
+  basis_changed?: boolean;
+  justification?: string | null;
+  inherited?: boolean;
+}
+
+export interface RunComparison {
+  left?: RunRecord | null;
+  right?: RunRecord | null;
+  comparable: boolean;
+  reason?: string | null;
+  objective_delta?: number | null;
+  objective_relative?: number | null;
+  objective_unit_label?: string | null;
+}
+
+export interface StudyComparison {
+  left_id: string;
+  right_id: string;
+  left_title: string;
+  right_title: string;
+  comparable: boolean;
+  reason?: string | null;
+  left_schema_pin?: string | null;
+  right_schema_pin?: string | null;
+  rows: AssumptionDelta[];
+  changed: number;
+  runs?: RunComparison | null;
+}
+
+export const compareStudies = (id: string, other: string) =>
+  request<StudyComparison>(`/v1/studies/${id}/compare/${other}`, {
+    revalidate: RECORD_REVALIDATE,
+  });
 
 export interface StudyUse {
   id: string;
